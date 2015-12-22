@@ -1,3 +1,10 @@
-# robocon-2016
+# HKUST Robocon 2016 Code Repository
 
 Download the tutorial files from [here](http://bit.ly/swadvanced)
+
+Let the master branch only contain the library and important files
+
+Branch off the master to make your own code for the robot. 
+In case you want to make a change, add a file or fix a bug to the main library, do it on a separate branch and then submit a Pull Request when you're ready to merge. If you do this, I'll try to review the code and then add it to the library if suitable.
+
+Feel free to propose changes or report issues in the issues section with a clear explanation of what's wrong, even if you've told me in person. 
