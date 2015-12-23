@@ -1,4 +1,5 @@
 #include "ticks.h"
+#include "racket.h"
 
 volatile u16 ticks = 0;
 volatile u16 seconds = 0;
@@ -8,7 +9,7 @@ volatile u16 seconds = 0;
   * @param  None
   * @retval ticks passed
   */
-u16 get_ticks() {
+u16 get_ticks(void) {
 	return ticks;
 }
 
@@ -17,8 +18,13 @@ u16 get_ticks() {
   * @param  seconds
   * @retval ticks passed
   */
-u16 get_seconds() {
+u16 get_seconds(void) {
 	return seconds;
+}
+
+u32 get_full_ticks(void)
+{
+	return seconds * 1000 + ticks;
 }
 
 /**
@@ -65,17 +71,20 @@ void ticks_init(void) {
   */
 TICKS_IRQHandler
 {
-	TIM_ClearFlag(TICKS_TIM, TIM_FLAG_Update);
-	TIM_ClearITPendingBit(TICKS_TIM, TIM_IT_Update);
+  if (TIM_GetITStatus(TICKS_TIM, TIM_IT_Update) != RESET) {
+    TIM_ClearFlag(TICKS_TIM, TIM_FLAG_Update);
+    //TIM_ClearITPendingBit(TICKS_TIM, TIM_IT_Update);
 
-	if (ticks >= 999) {
-		ticks = 0;
-		seconds++;
-	} else {
-		ticks++;
-	}
+    if (ticks >= 999) {
+      ticks = 0;
+      seconds++;
+    } else {
+      ticks++;
+    }
 
-	buzzer_check();
+    buzzer_check();
+		racket_update();
+  }
 	
 }
 

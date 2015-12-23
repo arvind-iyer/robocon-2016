@@ -1,37 +1,32 @@
+/**
+  ******************************************************************************
+  * @file    battery.c
+  * @author  Kenneth Au
+  * @version V1.0.0
+  * @date    01-February-2015
+  * @brief   This file provides battery ADC functions, including initialization, 
+  *          battery ADC value getter, battery ADC voltage value getter, battery
+  *          ADC value average getter. 
+	*
+  ******************************************************************************
+  * @attention
+  *
+  * This source is designed for application use. Unless necessary, try NOT to
+	* modify the function definition. The constants which are more likely to 
+	* vary among different schematics have been placed as pre-defined constant
+	* (i.e., "#define") in the header file.
+	*
+  ******************************************************************************
+  */
+  
 #include "battery.h"
 
-#define VOLTAGE_RATIO (u16)(100* (float)(ADC_OUTPUT_2 - ADC_OUTPUT_1)/(BATTERY_VOLTAGE_2 - BATTERY_VOLTAGE_1)) 
-//Following values are use to convert the Voltage vs ADC relationship 
-//to a Voltage vs temperature in celsius linear relationship
-#define V25   (u16)(ADC_OUTPUT_1 * (0.1*V25_TYP/BATTERY_VOLTAGE_1))
-#define Avg_Slope  (u16)( ADC_OUTPUT_1 * (0.0001*AVG_SLOPE_TYP/BATTERY_VOLTAGE_1))
-u16 adc_value;
-
-/**
-  * @brief  Inintialization of DMA for voltage calculation
-  * @param  None
-  * @retval None
-  */
-void battery_dma_init(void)
-{
-    DMA_InitTypeDef DMA_InitStructure;    
-		RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE); 
-		adc_value=0;					 
-    DMA_DeInit(DMA1_Channel1);
-    DMA_InitStructure.DMA_PeripheralBaseAddr = (u32)0x4001244C;			// address of ADC1 data register	
-    DMA_InitStructure.DMA_MemoryBaseAddr = (u32)&adc_value; //result would be assigned to battery_sample_value
-    DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
-    DMA_InitStructure.DMA_BufferSize = 1;
-    DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
-    DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
-    DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
-    DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
-    DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
-    DMA_InitStructure.DMA_Priority = DMA_Priority_High;
-    DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-    DMA_Init(DMA1_Channel1, &DMA_InitStructure);
-    DMA_Cmd(DMA1_Channel1, ENABLE);
-}
+#define DVDAx100 ((SAMPLE_BATTERY_VOLTAGE_2-SAMPLE_BATTERY_VOLTAGE_1)*100/(SAMPLE_BATTERY_ADC_2-SAMPLE_BATTERY_ADC_1))
+	
+static u16 adc_value = 0;
+static u16 battery_values[BATTERY_VALUE_COUNT] = {0};
+static u16 battery_value_taken = 0;
+static u16 battery_value_id = 0;
 
 /**
   * @brief  Inintialization of ADC for voltage calculation
@@ -41,9 +36,9 @@ void battery_dma_init(void)
 void battery_adc_gpio_init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;	
-  	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE); 
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE); 
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;			   
-  	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0; 
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
 }
@@ -53,12 +48,14 @@ void battery_adc_gpio_init(void)
   * @param  None
   * @retval None
   */
-void adc_init(void)
+void battery_adc_init(void)
 {
+	battery_adc_gpio_init();
+	adc_value = 0;
+	
 	ADC_InitTypeDef ADC_InitStructure;					 
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
-	battery_adc_gpio_init();
-	battery_dma_init();	
+
 	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
 	ADC_InitStructure.ADC_ScanConvMode = DISABLE;
 	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
@@ -75,6 +72,28 @@ void adc_init(void)
 	ADC_StartCalibration(ADC1);
 	while(ADC_GetCalibrationStatus(ADC1));
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+		
+}
+
+void battery_adc_update(void)
+{
+	adc_value = ADC1->DR;
+	
+	battery_values[battery_value_id] = get_voltage();
+	battery_value_id = (battery_value_id + 1) % BATTERY_VALUE_COUNT;
+	if (battery_value_taken < BATTERY_VALUE_COUNT) {
+		++battery_value_taken;
+	}
+}
+
+/**
+  * @brief  Get the adc value of the voltage
+  * @param  None
+  * @retval ADC value
+  */
+u16 get_battery_adc(void)
+{
+	return adc_value;
 }
 
 /**
@@ -84,19 +103,39 @@ void adc_init(void)
   */
 u16 get_voltage(void)
 { 
-	//To calculate voltage based on supplied data
-	
-	//Using equation for voltage V = ((adc_value+ADC_OFFSET)/VOLTAGE_RATIO)
-	u16 ADC_OFFSET = BATTERY_VOLTAGE_1 * VOLTAGE_RATIO / 100 - ADC_OUTPUT_1;
-	return (u16)(100 * (adc_value + ADC_OFFSET) / VOLTAGE_RATIO);  
+	return (u16)(DVDAx100 * (adc_value - SAMPLE_BATTERY_ADC_1) / 100 + SAMPLE_BATTERY_VOLTAGE_1);
 }
-/**
-  * @brief  Calculating the temperature of semiconductor surface using the ADC
-  * @param  None
-  * @retval Temperature in Celsius
-  */
-u16 get_temp(void)
+
+u16 get_voltage_avg(void)
 {
-	
-	return  (uint16_t)((u16)((V25-adc_value)/Avg_Slope)/25);
+	u32 voltage_sum = 0;
+	if (battery_value_taken == 0) {
+		return get_voltage();
+	} else {
+		for (u8 i = 0; i < BATTERY_VALUE_COUNT && i < battery_value_taken; ++i) {
+			voltage_sum += battery_values[i];
+		}
+		
+		return voltage_sum / battery_value_taken;
+	}
+}
+
+
+
+/**
+	* @brief Check the battery level and return the result enumator
+	* @param None.
+	* @retval The enum of battery check result.
+	*/
+BATTERY_CHECK_RESULT battery_check(void)
+{
+	if (get_voltage() <= BATTERY_USB_LEVEL) {
+		return BATTERY_USB;
+	} else if (get_voltage() <= BATTERY_SUPER_LOW_LEVEL) {
+		return BATTERY_SUPER_LOW;
+	} else if (get_voltage() <= BATTERY_LOW_LEVEL) {
+		return BATTERY_LOW;
+	} else {
+		return BATTERY_OKAY;
+	}
 }
