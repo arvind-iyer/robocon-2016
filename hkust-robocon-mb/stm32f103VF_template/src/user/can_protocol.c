@@ -189,8 +189,7 @@ void can_rx_init(void)
 	* @example can_rx_add_filter(0x0A0, 0x7F0) will receive CAN message with ID from 0xA0 to 0xAF
 	* @example can_rx_add_filter(0x000, 0x7FA) will receive CAN message with ID from 0x00 to 0x03
 	*/
-void can_rx_add_filter(u16 id, u16 mask, void (*handler)(CanRxMsg msg))
-{
+void can_rx_add_filter(u16 id, u16 mask, void (*handler)(CanRxMsg msg)){
 	CAN_FilterInitTypeDef CAN_FilterInitStructure;
 	mask = ((mask << 5) | 0x001F) & 0xFFFF;
 	

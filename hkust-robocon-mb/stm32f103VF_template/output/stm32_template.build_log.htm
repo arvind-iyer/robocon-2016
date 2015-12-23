@@ -3,43 +3,57 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.14.0.0
+IDE-Version: µVision V5.16a
 Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Arvind Iyer, HKUST, LIC=47GSB-2UFST-UGF7Q-NADQ7-KZDP2-12WLJ
+License Information: Rex Cheng, HKUST, LIC=8VRKP-M50WX-45FT5-G7R8Y-EZBPK-K7WBI
  
 Tool Versions:
-Toolchain:       MDK-ARM Standard  Version: 5.14.0.0
-Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.05 update 1 (build 106)
-Assembler:       Armasm.exe V5.05 update 1 (build 106)
-Linker/Locator:  ArmLink.exe V5.05 update 1 (build 106)
-Library Manager: ArmAr.exe V5.05 update 1 (build 106)
-Hex Converter:   FromElf.exe V5.05 update 1 (build 106)
-CPU DLL:         SARMCM3.DLL V5.14.0.0
-Dialog DLL:      DCM.DLL V1.13.1.0
-Target DLL:      UL2CM3.DLL V1.155.0.0
-Dialog DLL:      TCM.DLL V1.14.4.0
+Toolchain:       MDK-ARM Standard  Version: 5.16a
+Toolchain Path:  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 (build 20)
+Assembler:       Armasm.exe V5.06 (build 20)
+Linker/Locator:  ArmLink.exe V5.06 (build 20)
+Library Manager: ArmAr.exe V5.06 (build 20)
+Hex Converter:   FromElf.exe V5.06 (build 20)
+CPU DLL:         SARMCM3.DLL V5.16a
+Dialog DLL:      DCM.DLL V1.13.2.0
+Target DLL:      UL2CM3.DLL V1.155.12.0
+Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
-C:\Coding\Robocon2015\mb\hkust-robocon-mb\stm32f103VF_template\Project.uvprojx
+C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\stm32f103VF_template\Project.uvprojx
 Project File Date:  12/23/2015
 
 <h2>Output:</h2>
+*** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
+compiling bluetooth.c...
+src\user\bluetooth.c(4): warning:  #177-D: variable "rx_data_length" was declared but never referenced
+  static u8 rx_data_length = 0;
+src\user\bluetooth.c(5): warning:  #550-D: variable "rx_data_id" was set but never used
+  static u8 rx_data_id = 0;		// The data ID
+src\user\bluetooth.c(6): warning:  #550-D: variable "rx_check_byte" was set but never used
+  static u8 rx_check_byte[2] = {0};
+src\user\bluetooth.c(7): warning:  #550-D: variable "rx_successful_data" was set but never used
+  static u8 rx_successful_data[BLUETOOTH_PACKAGE_DATA_LENGTH] = {0};
+src\user\bluetooth.c: 4 warnings, 0 errors
 compiling main.c...
-src\user\main.c(29): warning:  #1-D: last line of file ends without a newline
+src\user\main.c(30): warning:  #186-D: pointless comparison of unsigned integer with zero
+  				if (x<0){
+src\user\main.c(38): warning:  #1-D: last line of file ends without a newline
   }
-src\user\main.c: 1 warning, 0 errors
+src\user\main.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=21444 RO-data=456 RW-data=2144 ZI-data=35608  
+Program Size: Code=21416 RO-data=456 RW-data=2140 ZI-data=35604  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 1 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  C:\Coding\Robocon2015\mb\hkust-robocon-mb\stm32f103VF_template\RTE
-  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
+  C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE
+  C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

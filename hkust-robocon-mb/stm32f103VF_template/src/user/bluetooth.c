@@ -22,7 +22,7 @@ void bluetooth_init(void)
 }
 
 void bluetooth_tx_byte(uc8 byte)
-{
+{ 
 	uart_tx_byte(BLUETOOTH_COM, byte);
 }
 
@@ -42,7 +42,7 @@ void bluetooth_tx(uc8* tx_buf, ...)
 
 
 void rx_data_reset(void)
-{
+{ 
 	u8 i = BLUETOOTH_PACKAGE_DATA_LENGTH;
 	rx_state = 0;
 	
@@ -89,8 +89,7 @@ BLUETOOTH_COM_IRQHandler
 	rx_last_update = get_seconds() * 1000 + get_ticks();	
 }
 
-void bluetooth_data_handler(u8 id, u8 length, u8* data)
-{
+void bluetooth_data_handler(u8 id, u8 length, u8* data){
 	u8 i = 0;
 	for (i = 0; i < rx_filter_count; ++i) {
 		// Check whether the filtered data0 fits any data[0]
