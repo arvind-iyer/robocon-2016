@@ -43,3 +43,4 @@
 .\output\main.o: .\src\ustrobo_min_system\inc\gyro.h
 .\output\main.o: src\user\bluetooth.h
 .\output\main.o: src\user\crc.h
+.\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

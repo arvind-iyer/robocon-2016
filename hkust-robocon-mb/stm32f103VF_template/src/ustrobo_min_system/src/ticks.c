@@ -1,6 +1,6 @@
 #include "ticks.h"
 
-volatile u16 ticks = 0;
+volatile u32 ticks = 0;
 volatile u16 seconds = 0;
 
 /**
@@ -8,7 +8,7 @@ volatile u16 seconds = 0;
   * @param  None
   * @retval ticks passed
   */
-u16 get_ticks() {
+u32 get_ticks() {
 	return ticks;
 }
 
@@ -68,8 +68,7 @@ TICKS_IRQHandler
 	TIM_ClearFlag(TICKS_TIM, TIM_FLAG_Update);
 	TIM_ClearITPendingBit(TICKS_TIM, TIM_IT_Update);
 
-	if (ticks >= 999) {
-		ticks = 0;
+	if (ticks % 1000 == 0) {
 		seconds++;
 	} else {
 		ticks++;
