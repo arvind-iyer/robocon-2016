@@ -67,6 +67,7 @@ TICKS_IRQHandler
 	TIM_ClearFlag(TICKS_TIM, TIM_FLAG_Update);
 	TIM_ClearITPendingBit(TICKS_TIM, TIM_IT_Update);
 
+	ticks++;
 	buzzer_check();
 	
 }
