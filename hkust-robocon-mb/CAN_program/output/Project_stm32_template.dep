@@ -1,5 +1,5 @@
 Dependencies for Project 'Project', Target 'stm32_template': (DO NOT MODIFY !)
-F (.\src\user\main.c)(0x56822686)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\CAN_program\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
+F (.\src\user\main.c)(0x56824E39)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\CAN_program\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
 I (src\user\main.h)(0x5680E318)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (.\src\stm32f10x_std\inc\stm32f10x.h)(0x5680D197)
@@ -37,7 +37,7 @@ I (src\user\can.h)(0x5680D197)
 I (.\src\stm32f10x_std\inc\stm32f10x_can.h)(0x5680E772)
 I (src\user\can_protocol.h)(0x5680D197)
 I (.\src\ustrobo_min_system\inc\uart.h)(0x5680D197)
-I (src\user\can_chat.h)(0x568107BC)
+I (src\user\can_chat.h)(0x568247E3)
 I (.\src\ustrobo_min_system\inc\tft_160x128.h)(0x5680D197)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\inttypes.h)(0x55AEF5F2)
 I (.\src\ustrobo_min_system\inc\approx_math.h)(0x5680D197)
@@ -89,7 +89,7 @@ I (.\src\stm32f10x_std\inc\stm32f10x_spi.h)(0x5680D197)
 I (.\src\stm32f10x_std\inc\stm32f10x_usart.h)(0x5680D197)
 I (.\src\stm32f10x_std\inc\misc.h)(0x5680D197)
 I (.\src\stm32f10x_std\inc\stm32f10x_can.h)(0x5680E772)
-F (.\src\user\can_motor.c)(0x5680E4AC)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\CAN_program\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\can_motor.o --omf_browse .\output\can_motor.crf --depend .\output\can_motor.d)
+F (.\src\user\can_motor.c)(0x56823C37)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\CAN_program\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\can_motor.o --omf_browse .\output\can_motor.crf --depend .\output\can_motor.d)
 I (src\user\can_motor.h)(0x5680D197)
 I (src\user\can.h)(0x5680D197)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
@@ -153,8 +153,8 @@ I (.\src\stm32f10x_std\inc\stm32f10x_rcc.h)(0x5680D197)
 I (.\src\stm32f10x_std\inc\stm32f10x_spi.h)(0x5680D197)
 I (.\src\stm32f10x_std\inc\stm32f10x_usart.h)(0x5680D197)
 I (.\src\stm32f10x_std\inc\misc.h)(0x5680D197)
-F (.\src\user\can_chat.c)(0x56822694)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\CAN_program\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\can_chat.o --omf_browse .\output\can_chat.crf --depend .\output\can_chat.d)
-I (src\user\can_chat.h)(0x568107BC)
+F (.\src\user\can_chat.c)(0x5682511F)(-c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\CAN_program\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\can_chat.o --omf_browse .\output\can_chat.crf --depend .\output\can_chat.d)
+I (src\user\can_chat.h)(0x568247E3)
 I (src\user\can_protocol.h)(0x5680D197)
 I (.\src\ustrobo_min_system\inc\ticks.h)(0x5680D7A8)
 I (.\src\stm32f10x_std\inc\stm32f10x_tim.h)(0x5680D197)

@@ -34,7 +34,7 @@ void USART1_IRQHandler(void){
 	
 	if (data==13){
 		//Enter
-		SendChatMessage(0x0B1, input_string, string_pointer+1);
+		SendChatMessage(0x0B0, input_string, string_pointer);
 		string_pointer = 0;
 		tft_clear();
 		tft_update();
@@ -49,8 +49,6 @@ void USART1_IRQHandler(void){
 		tft_update();
 		
 		input_string[string_pointer++] = data;
-		
-		uart_tx_byte(COM1, data);	
 	}
 	
 	led_control(LED_D1_Pin, 0);
