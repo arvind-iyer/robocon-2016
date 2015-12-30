@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
 C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\Brushless_pwm\ROBOTICs_Hw.uvprojx
-Project File Date:  12/29/2015
+Project File Date:  12/30/2015
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
@@ -30,13 +30,15 @@ Build target 'STM32f103CBT_TEMPLATE'
 compiling main.c...
 pneumatic_control.h(4): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
   void pneumatic_init();
-main.c(39): warning:  #1-D: last line of file ends without a newline
+main.c(120): warning:  #1-D: last line of file ends without a newline
   }
-main.c: 2 warnings, 0 errors
+main.c(10): warning:  #177-D: variable "myticks" was declared but never referenced
+  	u32 myticks = 0;
+main.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=21612 RO-data=876 RW-data=4240 ZI-data=3864  
+Program Size: Code=22084 RO-data=876 RW-data=4240 ZI-data=3864  
 FromELF: creating hex file...
-".\Objects\ROBOTICs_Hw.axf" - 0 Error(s), 2 Warning(s).
+".\Objects\ROBOTICs_Hw.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\Brushless_pwm\RTE
