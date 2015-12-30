@@ -10,8 +10,6 @@
 #define TICKS_IRQHandler			void TIM2_IRQHandler(void)
 
 //#define	TICKS_IRQHandler				void SysTick_Handler(void)
-extern volatile u32 ticks;
-extern volatile u16 seconds;
 
 u32 get_ticks(void);
 u16 get_seconds(void);

@@ -37,6 +37,7 @@
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_can.h
 .\output\main.o: src\user\can_protocol.h
 .\output\main.o: .\src\ustrobo_min_system\inc\uart.h
+.\output\main.o: src\user\can_motor.h
 .\output\main.o: .\src\ustrobo_min_system\inc\approx_math.h
 .\output\main.o: .\src\ustrobo_min_system\inc\motor_pwm.h
 .\output\main.o: .\src\ustrobo_min_system\inc\servo.h

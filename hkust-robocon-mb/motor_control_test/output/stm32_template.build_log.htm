@@ -21,39 +21,31 @@ Target DLL:      UL2CM3.DLL V1.155.12.0
 Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
-C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\stm32f103VF_template\Project.uvprojx
-Project File Date:  12/27/2015
+C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\motor_control_test\Project.uvprojx
+Project File Date:  12/30/2015
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
 compiling main.c...
-src\user\main.c(77): warning:  #188-D: enumerated type mixed with another type
-  	led_control(
-ED_D1_Pin, 1);
-src\user\main.c(77): warning:  #188-D: enumerated type mixed with another type
-  	led_control(
-ED_D1_Pin, 1);
-src\user\main.c(84): warning:  #188-D: enumerated type mixed with another type
-  	led_control(
-ED_D1_Pin, 0);
-src\user\main.c(84): warning:  #188-D: enumerated type mixed with another type
-  	led_control(
-ED_D1_Pin, 0);
-src\user\main.c(86): warning:  #1-D: last line of file ends without a newline
-  }
-src\user\main.c: 5 warnings, 0 errors
+src\user\main.c(11): warning:  #223-D: function "can_motor_init" declared implicitly
+  	can_motor_init();
+src\user\main.c(16): warning:  #188-D: enumerated type mixed with another type
+  			led_control(LED_D1, clock_ticks%300);
+src\user\main.c(18): warning:  #223-D: function "motor_set_vel" declared implicitly
+  		motor_set_vel(MOTOR1, 50, OPEN_LOOP);
+src\user\main.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=24080 RO-data=768 RW-data=2172 ZI-data=35604  
+Program Size: Code=21776 RO-data=480 RW-data=2152 ZI-data=35672  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 5 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE
+  C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\motor_control_test\RTE
   C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
