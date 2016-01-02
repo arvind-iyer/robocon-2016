@@ -168,10 +168,11 @@ void can_rx_init(void)
 	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   
 	#endif
 	*/
+	
+	CAN_ITConfig(CANn, CAN_IT_FMP0, ENABLE);
 
 	/* enabling interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel= CAN_Rx_IRQn; 
-
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 4;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
@@ -189,7 +190,8 @@ void can_rx_init(void)
 	* @example can_rx_add_filter(0x0A0, 0x7F0) will receive CAN message with ID from 0xA0 to 0xAF
 	* @example can_rx_add_filter(0x000, 0x7FA) will receive CAN message with ID from 0x00 to 0x03
 	*/
-void can_rx_add_filter(u16 id, u16 mask, void (*handler)(CanRxMsg msg)){
+void can_rx_add_filter(u16 id, u16 mask, void (*handler)(CanRxMsg msg))
+{
 	CAN_FilterInitTypeDef CAN_FilterInitStructure;
 	mask = ((mask << 5) | 0x001F) & 0xFFFF;
 	
@@ -218,17 +220,18 @@ void can_rx_add_filter(u16 id, u16 mask, void (*handler)(CanRxMsg msg)){
 	*/
 CAN_Rx_IRQHandler
 {
-	//
-	CanRxMsg RxMessage;
-	CAN_ClearITPendingBit(CANn, CAN_IT_FMP0);
-	CAN_Receive(CANn, CAN_FIFO0, &RxMessage);
-	
-	if(RxMessage.IDE == CAN_ID_STD) {
-		u8 filter_id = RxMessage.FMI;
-		if (filter_id < CAN_FilterCount && filter_id < CAN_RX_FILTER_LIMIT && CAN_Rx_Handlers[filter_id] != 0) {
-			CAN_Rx_Handlers[filter_id](RxMessage);
-		}
+	if (CAN_GetITStatus(CANn, CAN_IT_FMP0) != RESET) {
+		CanRxMsg RxMessage;
+		CAN_ClearITPendingBit(CANn, CAN_IT_FMP0);
+		CAN_Receive(CANn, CAN_FIFO0, &RxMessage);
+		if(RxMessage.IDE == CAN_ID_STD) {
+			u8 filter_id = RxMessage.FMI;
+			if (filter_id < CAN_FilterCount && filter_id < CAN_RX_FILTER_LIMIT && CAN_Rx_Handlers[filter_id] != 0) {
+				CAN_Rx_Handlers[filter_id](RxMessage);
+			}
+		}		
 	}
+
 }
 
 /*** Protocol Encoding / Decoding function ***/

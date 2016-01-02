@@ -25,8 +25,10 @@
 .\output\main.o: .\src\ustrobo_min_system\inc\delay.h
 .\output\main.o: .\src\ustrobo_min_system\inc\led.h
 .\output\main.o: .\src\ustrobo_min_system\inc\gpio.h
-.\output\main.o: .\src\ustrobo_min_system\inc\lcd_red.h
+.\output\main.o: .\src\ustrobo_min_system\inc\tft_160x128.h
+.\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
 .\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\main.o: .\src\ustrobo_min_system\inc\lcd_red.h
 .\output\main.o: .\src\ustrobo_min_system\inc\system.h
 .\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\output\main.o: .\src\user\main.h
@@ -38,7 +40,10 @@
 .\output\main.o: src\user\can_protocol.h
 .\output\main.o: .\src\ustrobo_min_system\inc\uart.h
 .\output\main.o: src\user\can_motor.h
+.\output\main.o: src\user\velocity.h
 .\output\main.o: .\src\ustrobo_min_system\inc\approx_math.h
+.\output\main.o: src\user\motor.h
+.\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\output\main.o: .\src\ustrobo_min_system\inc\motor_pwm.h
 .\output\main.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\main.o: .\src\ustrobo_min_system\inc\gyro.h
