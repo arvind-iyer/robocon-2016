@@ -5,7 +5,7 @@
 #include "stm32f10x_gpio.h"
 #include "gpio.h"
 #include "stm32f10x_tim.h"
-#include "tft.h"
+#include "tft_160x128.h"
 #include "xbc_mb.h"
 
 #ifdef MAINBOARD_V4

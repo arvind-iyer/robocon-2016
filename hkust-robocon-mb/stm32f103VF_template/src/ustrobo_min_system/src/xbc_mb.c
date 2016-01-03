@@ -1,6 +1,4 @@
 #include "xbc_mb.h"
-#include "bluetooth_xbc_mb.h"
-#include "can_xbc_mb.h"
 
 static XBC_PRIORITY xbc_priority = XBC_BLUETOOTH_FIRST;
 

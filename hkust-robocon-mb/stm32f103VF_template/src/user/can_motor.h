@@ -15,11 +15,11 @@
 
 typedef enum {
 	MOTOR1 = 0,
-	MOTOR2,
-	MOTOR3,
-	MOTOR4,
-	MOTOR5,
-	MOTOR6,
+	MOTOR2 = 1,
+	MOTOR3 = 2,
+	MOTOR4 = 3,
+	MOTOR5 = 4,
+	MOTOR6 = 5,
 	MOTOR7,
 	MOTOR8,
 	MOTOR9,
@@ -37,4 +37,8 @@ typedef enum {
 	OPEN_LOOP = 0,
 	CLOSE_LOOP = 1
 } CLOSE_LOOP_FLAG;
+
+void can_motor_init(void);
+void motor_set_vel(MOTOR_ID motor_id, s32 vel, CLOSE_LOOP_FLAG close_loop_flag);
+s32 get_encoder_value(MOTOR_ID motor_id);
 

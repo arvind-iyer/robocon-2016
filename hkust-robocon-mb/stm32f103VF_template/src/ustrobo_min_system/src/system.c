@@ -71,7 +71,7 @@ void menu(u8 index0)
 				page = menu_index/index_per_max;
 				menu_index = menu_index % index_per_max;
 			}
-			index_per = (page == page_max-1) ? (((index_max-1) % index_per_max)+1) : index_per_max;
+			index_per = (page == page_max-1) ? (((index_max	-1) % index_per_max)+1) : index_per_max;
 			
 			for (i = index_per_max*page; i < index_per_max*page+index_per; i++) {
 				if (i % index_per_max == menu_index) {

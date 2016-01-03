@@ -13,32 +13,30 @@ void hello(u8 id, u8 length, u8* data)
 
 int main(void)
 {
+	tft_init(2, BLACK, WHITE, RED);
 	ticks_init();
 	buzzer_init();
-	tft_init(2, BLACK, WHITE, RED);
 	gyro_init();
-	//xbc_init(0);
-	//xbc_test_program();
-	bluetooth_init();
-	bluetooth_rx_add_filter(0x00, 0xFF, hello);
-	
-	buzzer_play_song(START_UP, 120, 0);
-	
-	bluetooth_tx("Hello world\r\n");
 
+	can_init();
+	can_rx_init();
+	can_motor_init();
+	
+	motor_set_vel(MOTOR1, 1000, CLOSE_LOOP);
+	motor_set_vel(MOTOR2, 1000, CLOSE_LOOP);
+	motor_set_vel(MOTOR3, 1000, CLOSE_LOOP);
+	
 	
 	while (1) {
-		if (ticks_img != get_ticks()) {
-			ticks_img = get_ticks();
-			if (ticks_img % 20 == 0) {
-				bluetooth_update();
 				tft_clear();
-				tft_prints(0,0,"time: %d", get_seconds());
-				tft_prints(0,1,"Bluetooth: %d", bluetooth_rx_state());
-				tft_prints(0,2,"Position: %d", get_angle());
+				tft_prints(0,0,"X: %d", get_X());
+				tft_prints(0,1,"Y: %d", get_Y());
+				tft_prints(0,2,"Angle: %d", get_angle());
+				tft_prints(0, 3, "Init: %d", gyro_available);
+				tft_prints(0, 4, "En. 1: %d", get_encoder_value(MOTOR1));
+				tft_prints(0, 5, "En. 2: %d", get_encoder_value(MOTOR2));
+				tft_prints(0, 6, "En. 3: %d", get_encoder_value(MOTOR3));
 				tft_update();
-			}
-		}
 	}
 }
 

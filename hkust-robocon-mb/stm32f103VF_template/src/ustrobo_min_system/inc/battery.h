@@ -1,7 +1,6 @@
 #ifndef __BATTERY_H
 #define __BATTERY_H
 
-/*
 #include "stm32f10x.h"
 #include "stm32f10x_adc.h"
 #include <string.h>
@@ -15,6 +14,7 @@
 #define	BATTERY_USB_LEVEL						600		// <= 6.00V will be treated as USB Power
 #define	BATTERY_LOW_LEVEL						1160	// <= 11.50V will generate warning sound
 #define	BATTERY_SUPER_LOW_LEVEL			1120	// <= 11.10V will stop the program (while loop)
+#define BATTERY_VALUE_COUNT				128
 
 
 typedef enum {
@@ -32,7 +32,5 @@ u16 get_voltage_avg(void);
 u16 get_battery_adc(void);
 char* get_voltage_string(void);
 BATTERY_CHECK_RESULT battery_check(void);
-
-*/
 
 #endif /* __BATTERY_H */

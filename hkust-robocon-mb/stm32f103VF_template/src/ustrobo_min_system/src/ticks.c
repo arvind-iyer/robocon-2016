@@ -1,5 +1,4 @@
 #include "ticks.h"
-#include "racket.h"
 
 volatile u16 ticks = 0;
 volatile u16 seconds = 0;
@@ -83,7 +82,6 @@ TICKS_IRQHandler
     }
 
     buzzer_check();
-		racket_update();
   }
 	
 }

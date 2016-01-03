@@ -1,51 +1,21 @@
 #include "gyro.h"
 #include "approx_math.h"
 
+s16 angle = 0, real_x = 0, real_y = 0;
+s16 angle_offset = 0, x_offset = 0, y_offset = 0;
 
-s32 SHIFT_X = (ROBOT == 'C' ? 31 : -204);
-s32 SHIFT_Y = (ROBOT == 'C' ? 980 : 413);
+u8 rx_state = 0; 
+u8 rx_command = 0;
+u8 buf_rec = 0;
+u8 buf_data[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-static POSITION gyro_pos = {0, 0, 0};
-static POSITION gyro_pos_raw = {0, 0, 0};
-static u8 rx_state = 0; 
-static u8 rx_command = 0;
-static u8 buf_rec = 0;
-static u8 buf_data[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-static u8 rx_command_arr[GYRO_COMMAND_LENGTH] = {GYRO_UPDATED, GYRO_REPLY};
-static u8 buf_len[GYRO_COMMAND_LENGTH] = {0x06, 0x01};		//data size, for confirm data
+u8 rx_command_arr[GYRO_COMMAND_LENGTH] = {GYRO_UPDATED, GYRO_REPLY};
+u8 buf_len[GYRO_COMMAND_LENGTH] = {0x06, 0x01};		//data size, for confirm data
 
 volatile u8 reply_flag = 0;
 
 volatile u8 gyro_available = 0;
 
-
-void plus_x(void)
-{
-	SHIFT_X++;
-}
-void minus_x(void)
-{
-	SHIFT_X--;
-}
-void plus_y(void)
-{
-	SHIFT_Y++;
-}
-void minus_y(void)
-{
-	SHIFT_Y--;
-}
-
-s32 gyro_get_shift_x(void)
-{
-		return SHIFT_X;
-}
-
-s32 gyro_get_shift_y(void)
-{
-	return SHIFT_Y;
-}
 /**
   * @brief  Initialization of Gyro
   * @param  None
@@ -54,23 +24,35 @@ s32 gyro_get_shift_y(void)
 void gyro_init(void)
 {
 	uart_init(GYRO_UART, 115200);
-	uart_rx_init(GYRO_UART,gyro_rx_handler);
+	uart_interrupt(GYRO_UART);
 }
 
+s16    SHIFT_X = 92;	//53//	193//  -163	//	98		//79
+s16    SHIFT_Y = -280;	//40// 	-50// 	-41	//	170		//336
 
 /**
-	* @brief Get the position object
-	* @param None
-	* @retval The position object
-	*/
-const POSITION* get_pos(void)
+  * @brief  Get the X coordinate
+  * @param  None
+  * @retval X coordinate
+  */
+s16 get_X(void)
 {
-	return &gyro_pos;
+   s32 pos_x = (real_x*10000-SHIFT_X*10000+SHIFT_X*int_cos(angle)+SHIFT_Y*int_sin(angle))/10000;
+	//return real_x;
+	return pos_x;//real_x;
 }
 
-const POSITION* get_pos_raw(void)
+/**
+  * @brief  Get the Y coordinate
+  * @param  None
+  * @retval Y coordinate
+  */
+s16 get_Y(void)
 {
-  return &gyro_pos_raw;
+	
+	s32 pos_y = (real_y*10000-SHIFT_Y*10000+SHIFT_Y*int_cos(angle)-SHIFT_X*int_sin(angle))/10000;
+	//return real_y;
+	return pos_y;//real_y;
 }
 
 /**
@@ -80,7 +62,7 @@ const POSITION* get_pos_raw(void)
   */
 s16 get_angle(void)
 {
-	return gyro_pos.angle;
+	return angle;
 }
 
 /**
@@ -123,11 +105,12 @@ u8 gyro_cal(void)
   * @param  a: angle to be set
   * @retval 1 = successful, 0 = failed
   */
-u8 gyro_pos_set(s16 x, s16 y, s16 a)
-{
+u8 gyro_pos_set(s16 x, s16 y, s16 a){
 	u16 ticks_last = get_ticks();
 	reply_flag &= ~GYRO_FLAG_SET_POS;
 	// Shift
+	x = (x*10000+SHIFT_X*10000-SHIFT_X*int_cos(a)-SHIFT_Y*int_sin(a))/10000;
+	y = (y*10000+SHIFT_Y*10000-SHIFT_Y*int_cos(a)+SHIFT_X*int_sin(a))/10000;
 	
 	
 	uart_tx_byte(GYRO_UART, GYRO_WAKEUP);
@@ -140,11 +123,9 @@ u8 gyro_pos_set(s16 x, s16 y, s16 a)
 	uart_tx_byte(GYRO_UART, a >> 8);
 	uart_tx_byte(GYRO_UART, a & 0xFF);
 	
-	u16 timeout = 100;
 	while (!(reply_flag & GYRO_FLAG_SET_POS)) {
-		if (!(--timeout)) {
+		if ((get_ticks()+1000-ticks_last) % 1000 >= 20)			// 20 ms timeout
 			return 0;
-		}
 	}
 
 	return 1;
@@ -155,11 +136,15 @@ u8 gyro_pos_set(s16 x, s16 y, s16 a)
   * @param  None
   * @retval None
   */
-void gyro_rx_handler(u8 rx_data)
+
+
+void USART3_IRQHandler(void)
 {
-	u8 i;
+	u8 rx_data, i;
 	u16 x, y, a;
-	
+	if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
+	{
+		rx_data = (u8)USART_ReceiveData(USART3);
 		switch (rx_state) {
 			case 0:	// wakeup
 				if (rx_data == GYRO_WAKEUP) {
@@ -215,22 +200,9 @@ void gyro_rx_handler(u8 rx_data)
 						if (a < 3600) {
 							gyro_available = 1;
 							
-							gyro_pos_raw.x = (s16) x;
-							gyro_pos_raw.y = (s16) y;
-							gyro_pos_raw.angle = (s16) a;
-              
-							s32 tmp_x = (ROBOT == 'C' ? -y : -y);
-							s32 tmp_y = (ROBOT == 'C' ?  x : x);
-              // Calculate the corrected position
-							
-              gyro_pos.x = (X_FLIP*tmp_x*10000-SHIFT_X*10000+SHIFT_X*int_cos(gyro_pos_raw.angle)+SHIFT_Y*int_sin(gyro_pos_raw.angle))/10000;
-              gyro_pos.y = (Y_FLIP*tmp_y*10000-SHIFT_Y*10000+SHIFT_Y*int_cos(gyro_pos_raw.angle)-SHIFT_X*int_sin(gyro_pos_raw.angle))/10000;
-              gyro_pos.angle = gyro_pos_raw.angle;
-							//if(ROBOT == 'C')
-								//gyro_pos.angle += 900;
-              
-							//gyro_pos.x = ROBOT == 'C' ? -gyro_pos.x : gyro_pos.x;
-							
+							real_x = (s16) x;
+							real_y = (s16) y;
+							angle = (s16) a;
 						} else {
 							gyro_available = 0;
 						}
@@ -244,6 +216,9 @@ void gyro_rx_handler(u8 rx_data)
 				break;
 		}
 		
+	}
+	
+	//USART_ClearFlag(USART3,USART_FLAG_RXNE);
+	//USART_ClearITPendingBit(USART3,USART_IT_RXNE);
 }
-
 
