@@ -49,6 +49,19 @@ void motor_set_vel(MOTOR_ID motor_id, s32 vel, CLOSE_LOOP_FLAG close_loop_flag)
 	can_tx_enqueue(msg);
 }
 
+void motor_lock(MOTOR_ID motor_id)
+{
+	CAN_MESSAGE msg;
+	
+	assert_param((u8)motor_id < CAN_MOTOR_COUNT);
+	
+	msg.id = get_can_motor_id(motor_id);
+	msg.length = CAN_MOTOR_LOCK_LENGTH;
+	msg.data[0] = CAN_MOTOR_LOCK_CMD;
+
+	can_tx_enqueue(msg);
+}
+
 /*** RX ***/
 
 s32 get_encoder_value(MOTOR_ID motor_id)

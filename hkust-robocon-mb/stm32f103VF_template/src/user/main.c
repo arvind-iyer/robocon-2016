@@ -22,9 +22,11 @@ int main(void)
 	can_rx_init();
 	can_motor_init();
 	
-	motor_set_vel(MOTOR1, 1000, CLOSE_LOOP);
-	motor_set_vel(MOTOR2, 1000, CLOSE_LOOP);
-	motor_set_vel(MOTOR3, 1000, CLOSE_LOOP);
+	motor_set_vel(MOTOR1, 50, CLOSE_LOOP);
+	motor_set_vel(MOTOR2, 50, CLOSE_LOOP);
+	motor_set_vel(MOTOR3, 50, CLOSE_LOOP);
+	
+	s32 lastTick = get_seconds();
 	
 	
 	while (1) {
@@ -37,6 +39,12 @@ int main(void)
 				tft_prints(0, 5, "En. 2: %d", get_encoder_value(MOTOR2));
 				tft_prints(0, 6, "En. 3: %d", get_encoder_value(MOTOR3));
 				tft_update();
+		
+		if (get_seconds() - lastTick >= 5) {
+			motor_lock(MOTOR1);
+			motor_lock(MOTOR2);
+			motor_lock(MOTOR3);
+		}
 	}
 }
 

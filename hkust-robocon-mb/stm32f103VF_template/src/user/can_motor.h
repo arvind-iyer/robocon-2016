@@ -8,6 +8,9 @@
 #define	CAN_MOTOR_VEL_LENGTH							6
 #define CAN_MOTOR_VEL_CMD									0xAA
 
+#define CAN_MOTOR_LOCK_LENGTH	 		  	1
+#define CAN_MOTOR_LOCK_CMD						0xEE	
+
 /*** RX ***/
 #define CAN_ENCODER_FEEDBACK_LENGTH				5
 #define CAN_ENCODER_FEEDBACK							0x22
