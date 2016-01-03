@@ -42,9 +42,9 @@ int main(void)
 	led_init();
 	encoder_init();
 	motor_init();
-	can_init();
-	can_rx_init();
-	can_motor_init();
+	//can_init();
+	//can_rx_init();
+	//can_motor_init();
 	uart_init(COM1, 115200);
 	uart_printf_enable(COM1);
 	/** end of init **/

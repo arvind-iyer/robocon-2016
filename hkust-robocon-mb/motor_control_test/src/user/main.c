@@ -18,18 +18,8 @@ int main(void)
 			tft_prints(0,0,"%d", clock_ticks);
 			tft_update();
 		}
-		motor_set_vel(MOTOR1, 5, CLOSE_LOOP);
+		motor_set_vel(MOTOR1, , CLOSE_LOOP);
 		motor_set_vel(MOTOR2, 5, CLOSE_LOOP);
 		motor_set_vel(MOTOR3, 5, CLOSE_LOOP);
-		motor_set_vel(MOTOR4, 5, CLOSE_LOOP);
-		motor_set_vel(MOTOR5, 5, CLOSE_LOOP);
-		motor_set_vel(MOTOR6, 5, CLOSE_LOOP);
-		motor_set_vel(MOTOR7, 5, CLOSE_LOOP);
-		motor_set_vel(MOTOR8, 5, CLOSE_LOOP);
-		motor_set_vel(MOTOR9, 5, CLOSE_LOOP);
-		motor_set_vel(MOTOR10, 5, CLOSE_LOOP);
-		motor_set_vel(MOTOR11, 5, CLOSE_LOOP);
-		motor_set_vel(MOTOR12, 5, CLOSE_LOOP);
-		motor_set_vel(MOTOR13, 5, CLOSE_LOOP);
 	}
 }
