@@ -22,10 +22,6 @@
 .\output\can_motor.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\can_motor.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\can_motor.o: .\src\ustrobo_min_system\inc\buzzer.h
+.\output\can_motor.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\can_motor.o: .\src\ustrobo_min_system\inc\uart.h
 .\output\can_motor.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\output\can_motor.o: src\user\velocity.h
-.\output\can_motor.o: .\src\ustrobo_min_system\inc\approx_math.h
-.\output\can_motor.o: src\user\motor.h
-.\output\can_motor.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\output\can_motor.o: .\src\ustrobo_min_system\inc\encoder.h

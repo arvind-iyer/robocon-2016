@@ -5,7 +5,7 @@
 #include "can.h"
 #include "uart.h"
 
-#define CAN_TX_QUEUE_MAX_SIZE				1000
+#define CAN_TX_QUEUE_MAX_SIZE				2000
 #define CAN_TX_IRQHander						void USB_HP_CAN1_TX_IRQHandler(void)
 	
 #define CAN_Rx_IRQn									USB_LP_CAN1_RX0_IRQn
@@ -48,7 +48,7 @@ void can_tx_queue_clear(void);
 /*** CAN Rx ***/
 void can_rx_init(void);
 void can_rx_add_filter(u16 id, u16 mask, void (*handler)(CanRxMsg msg));
-void motor_cmd_decoding(CanRxMsg msg);
+
 /*** Protocol Encoding / Decoding ***/
 u8 one_to_n_bytes(s32 num, u8 n);			// Encode
 s32 n_bytes_to_one(u8* array, u8 n);	// Decode

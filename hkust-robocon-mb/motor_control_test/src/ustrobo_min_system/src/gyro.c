@@ -38,8 +38,8 @@ s16    SHIFT_Y = -280;	//40// 	-50// 	-41	//	170		//336
 s16 get_X(void)
 {
    s32 pos_x = (real_x*10000-SHIFT_X*10000+SHIFT_X*int_cos(angle)+SHIFT_Y*int_sin(angle))/10000;
-	//return real_x;
-	return pos_x;//real_x;
+	return real_x;
+	//return pos_x;//real_x;
 }
 
 /**
@@ -51,8 +51,8 @@ s16 get_Y(void)
 {
 	
 	s32 pos_y = (real_y*10000-SHIFT_Y*10000+SHIFT_Y*int_cos(angle)-SHIFT_X*int_sin(angle))/10000;
-	//return real_y;
-	return pos_y;//real_y;
+	return real_y;
+	//return pos_y;//real_y;
 }
 
 /**
@@ -221,5 +221,4 @@ void USART3_IRQHandler(void)
 	//USART_ClearFlag(USART3,USART_FLAG_RXNE);
 	//USART_ClearITPendingBit(USART3,USART_IT_RXNE);
 }
-
 
