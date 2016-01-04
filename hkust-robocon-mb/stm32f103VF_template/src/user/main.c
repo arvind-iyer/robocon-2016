@@ -55,6 +55,7 @@ void setTarget(int x, int y)
 
 int main(void)
 {
+	button_init();
 	tft_init(2, BLACK, WHITE, RED);
 	ticks_init();
 	gyro_init();
@@ -63,7 +64,8 @@ int main(void)
 	can_motor_init();
 	button_init();
 	setTarget(34, 37);
-	//can_motor_set_angle(200);
+	
+	int target_direction = (int_arc_tan2(targetY - getY(), targetX - getX()) - get_angle()/10) %360;
 	
 	bool button=false;
 	
@@ -76,12 +78,13 @@ int main(void)
 		tft_prints(0, 4, "En. 1: %d", get_encoder_value(MOTOR1));
 		tft_prints(0, 5, "En. 2: %d", get_encoder_value(MOTOR2));
 		tft_prints(0, 6, "En. 3: %d", get_encoder_value(MOTOR3));
+		tft_prints(0, 7, "T: %d", target_direction);
 		tft_update();
-		if (button_pressed(BUTTON_1) == 0)
+		if (button_pressed(BUTTON_1)>5)
 		{
 			button=true;
 		}
-		while (button)
+		if (button)
 		{
 		if (getX()>=targetX && getY()>=targetY)
 		{
@@ -98,7 +101,8 @@ int main(void)
 			Dx=-(getY()-targetX+getX()/m+targetY*m)/(m+1/m);
 			Dy=m*Dx+c;
 			*/
-			int target_direction = (int_arc_tan2(targetY - getY(), targetX - getX()) - get_angle()/10) %360;
+			
+			
 			can_motor_set_angle(target_direction);
 		}
 		}
