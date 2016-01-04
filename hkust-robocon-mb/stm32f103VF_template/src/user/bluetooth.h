@@ -5,9 +5,9 @@
 #include "ticks.h"
 #include "crc.h"
 
-#define	BLUETOOTH_COM										COM5			/* UART Port */
+#define	BLUETOOTH_COM										COM2			/* UART Port */
 #define	BLUETOOTH_COM_BR								115200		/* Baudrate */
-#define	BLUETOOTH_COM_IRQHandler				void USART5_IRQHandler(void)
+#define	BLUETOOTH_COM_IRQHandler				void USART2_IRQHandler(void)
 
 
 /*** BLUETOOTH PROTOCOL ***/
