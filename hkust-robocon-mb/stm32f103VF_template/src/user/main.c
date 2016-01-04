@@ -18,6 +18,7 @@ int main(void)
 	tft_init(2, BLACK, WHITE, RED);
 	ticks_init();
 	buzzer_init();
+	button_init();
 	gyro_init();
 	
 	uart_init(COM2, 115200);
