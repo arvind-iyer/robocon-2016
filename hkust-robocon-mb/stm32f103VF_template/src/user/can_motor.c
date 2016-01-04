@@ -50,9 +50,20 @@ void can_motor_feedback_encoder(CanRxMsg msg)
 	}
 }
 
+void motor_lock(MOTOR_ID motor_id)
+{
+	CAN_MESSAGE msg;
+	
+	assert_param((u8)motor_id < CAN_MOTOR_COUNT);
+	
+	msg.id = get_can_motor_id(motor_id);
+	msg.length = CAN_MOTOR_LOCK_LENGTH;
+	msg.data[0] = CAN_MOTOR_LOCK_CMD;
+
+	can_tx_enqueue(msg);
+}
+
 s32 get_encoder_value(MOTOR_ID motor_id)
 {
 	return can_motor_encoder_value[motor_id];
 }
-
-
