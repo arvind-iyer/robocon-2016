@@ -18,6 +18,7 @@
 .\output\can_protocol.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\can_protocol.o: .\src\stm32f10x_std\inc\misc.h
 .\output\can_protocol.o: .\src\ustrobo_min_system\inc\buzzer.h
+.\output\can_protocol.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\can_protocol.o: src\user\can.h
 .\output\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\can_protocol.o: .\src\stm32f10x_std\inc\stm32f10x_can.h

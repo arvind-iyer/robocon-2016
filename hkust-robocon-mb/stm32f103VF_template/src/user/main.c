@@ -67,8 +67,6 @@ int main(void)
 	
 	int target_direction = (int_arc_tan2(targetY - getY(), targetX - getX()) - get_angle()/10) %360;
 	
-	bool button=false;
-	
 	while (1)
 	{
 		tft_clear();
@@ -80,12 +78,6 @@ int main(void)
 		tft_prints(0, 6, "En. 3: %d", get_encoder_value(MOTOR3));
 		tft_prints(0, 7, "T: %d", target_direction);
 		tft_update();
-		if (button_pressed(BUTTON_1)>5)
-		{
-			button=true;
-		}
-		if (button)
-		{
 		if (getX()>=targetX && getY()>=targetY)
 		{
 			can_motor_stop();
@@ -104,7 +96,6 @@ int main(void)
 			
 			
 			can_motor_set_angle(target_direction);
-		}
 		}
 	}
 }
