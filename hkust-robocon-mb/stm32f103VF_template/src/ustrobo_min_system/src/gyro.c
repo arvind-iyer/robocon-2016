@@ -52,7 +52,7 @@ s16 get_Y(void)
 	
 	s32 pos_y = (real_y*10000-SHIFT_Y*10000+SHIFT_Y*int_cos(angle)-SHIFT_X*int_sin(angle))/10000;
 	//return real_y;
-	return pos_y;//real_y;
+	return -pos_y;//real_y;
 }
 
 /**
