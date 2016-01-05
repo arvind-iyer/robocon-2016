@@ -27,8 +27,8 @@ void gyro_init(void)
 	uart_interrupt(GYRO_UART);
 }
 
-s16    SHIFT_X = 92;	//53//	193//  -163	//	98		//79
-s16    SHIFT_Y = -280;	//40// 	-50// 	-41	//	170		//336
+s16    SHIFT_X = 0;	//92 //53//	193//  -163	//	98		//79
+s16    SHIFT_Y = 0;	//-280 //40// 	-50// 	-41	//	170		//336
 
 /**
   * @brief  Get the X coordinate

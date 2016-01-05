@@ -1,22 +1,24 @@
+#include "approx_math.h"
+#include "gyro.h"
+#include "ticks.h"
+
 #define MAX_VELOCITY 50
 
-#define X_KP 0.54
-#define X_KI 0.015
-#define X_KD 0.86
+#define KP 0.86
+#define KI 0.35
+#define KD 1.24
 
-#define Y_KP 0.54
-#define Y_KI 0.015
-#define Y_KD 0.86
 
 #define ROBOT_VELOCITY 50
 
-extern int TARGET_X;
-extern int TARGET_Y;
+extern s32 TARGET_X;
+extern s32 TARGET_Y;
 
-extern int TARGET_DIRECTION;
+extern s32 TARGET_DIRECTION;
+extern s32 TARGET_TICKS;
 
-extern int ROBOT_POS_X;
-extern int ROBOT_POS_Y;
+extern s32 ROBOT_POS_X;
+extern s32 ROBOT_POS_Y;
 extern int ROBOT_MOVING;
 
 void pursueTarget();

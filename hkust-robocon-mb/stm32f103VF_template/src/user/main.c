@@ -32,9 +32,10 @@ int main(void) {
 		tft_prints(0,2,"Angle: %d", get_angle());
 		tft_prints(0, 3, "E1: %d", get_encoder_value(MOTOR1));
 		tft_prints(0, 4, "Dst: %d", Sqrt(Sqr(get_Y() - TARGET_Y) + Sqr(get_X() - TARGET_X)));
-		tft_prints(0, 5, "TA: %d", TARGET_DIRECTION);
-		tft_prints(0, 6, "PIDX: %d", ROBOT_POS_X);
-		tft_prints(0, 7, "PIDY: %d", ROBOT_POS_Y);
+		tft_prints(0, 5, "TA: %d", (int) TARGET_DIRECTION);
+		tft_prints(0, 6, "PIDX: %d", (int) ROBOT_POS_X);
+		tft_prints(0, 7, "PIDY: %d", (int) ROBOT_POS_Y);
+		tft_prints(0, 8, "Time: %u", (unsigned int) (get_full_ticks() - TARGET_TICKS) / (uint16_t) 1000);
 		tft_update();
 	}
 }
@@ -63,10 +64,10 @@ void handleCommand(char * command) {
 				break;
 				case 1: // Testing
 					if (ROBOT_MOVING == 0) {
-						setTargetLocation((int)contents[0], (int)contents[1]);
+						setTargetLocation(contents[0], contents[1]);
 					} else {
 						lockAllMotors();
-						ROBOT_MOVING = 1;
+						ROBOT_MOVING = 0;
 					}
         break;
     }
