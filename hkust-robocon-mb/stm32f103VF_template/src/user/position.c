@@ -1,3 +1,7 @@
+// PID-controlled Positioning System
+// Created by: Kenta Iwasaki & Kristian Suhartono
+// Jan 06, 2016
+
 #include "position.h"
 #include "can_motor.h"
 
@@ -30,10 +34,15 @@ void lockAllMotors() {
 }
 
 int calculateAngleFromPos(int x, int y) {
-	int angle = int_arc_tan2(y - get_Y(), x - get_X());
-	if (angle < 0) angle += 3600;
-	angle = (900 - angle);
-	return (angle < 0 ? 3600 + angle : angle);
+	int angle = int_arc_tan2(y - get_Y(), x - get_X()) + get_angle();
+	return angle;
+}
+
+int calculateBearingFromPos(int x, int y) {
+	int angle = (900 - (int_arc_tan2(y - get_Y(), x - get_X()) * 10)) - get_angle();
+	while (angle < 0) angle += 3600;
+	angle = angle % 3600;
+	return angle;
 }
 
 void setTargetLocation(int x, int y) {
@@ -41,7 +50,7 @@ void setTargetLocation(int x, int y) {
 	TARGET_Y = y;
 	
 	LINE_DISTANCE = Sqrt(Sqr(get_Y() - y) + Sqr(get_X() - x));
-	TARGET_DIRECTION = LINE_DIRECTION = calculateAngleFromPos(TARGET_X, TARGET_Y);
+	TARGET_DIRECTION = LINE_DIRECTION = calculateBearingFromPos(TARGET_X, TARGET_Y);
 	TARGET_TICKS = get_full_ticks();
 	ROBOT_MOVING = 1;
 }
@@ -81,18 +90,21 @@ void updateRobotPosition() {
 }
 
 void sendDebugInfo() {
-	uart_tx(COM2, "DISTANCE|%d|d\n", Sqrt(Sqr(ROBOT_POS_Y - TARGET_Y) + Sqr(ROBOT_POS_X - TARGET_X)), calculateAngleFromPos(ROBOT_POS_X, ROBOT_POS_Y));
+	uart_tx(COM2, "DISTANCE|%d|%d|%d|%d|%d\n", Sqrt(Sqr(ROBOT_POS_Y - TARGET_Y) + Sqr(ROBOT_POS_X - TARGET_X)), TARGET_DIRECTION, LINE_DIRECTION, calculateAngleFromPos(ROBOT_POS_X, ROBOT_POS_Y), get_angle());
 }
 
 void pursueTarget() {
+	TARGET_DIRECTION = (LINE_DIRECTION - calculateAngleFromPos(ROBOT_POS_X, ROBOT_POS_Y));
+	while (TARGET_DIRECTION < 0) TARGET_DIRECTION += 3600;
+	TARGET_DIRECTION = TARGET_DIRECTION % 3600;
+	
 	if (ROBOT_MOVING == 1) {
 		updateRobotPosition();
 		sendDebugInfo();
-		int pidAngle = calculateAngleFromPos(ROBOT_POS_X, ROBOT_POS_Y);
 		if (Sqrt(Sqr(get_Y() - TARGET_Y) + Sqr(get_X() - TARGET_X)) <= 400) {
-			setRobotVelocity(TARGET_DIRECTION, 0);
+			lockAllMotors();
 		} else {
-			setRobotVelocity((LINE_DIRECTION + get_angle() + pidAngle) % 3600, MAX_VELOCITY);
+			setRobotVelocity(TARGET_DIRECTION, MAX_VELOCITY);
 		}
 	}
 }
