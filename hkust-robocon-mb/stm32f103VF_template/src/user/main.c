@@ -78,7 +78,7 @@ int main(void)
 		tft_prints(0, 6, "En. 3: %d", get_encoder_value(MOTOR3));
 		tft_prints(0, 7, "T: %d", target_direction);
 		tft_update();
-		if (getX()>=targetX && getY()>=targetY)
+		if (pow(getX()-targetX, 2)+pow(getY()-targetY, 2)<=100)
 		{
 			can_motor_stop();
 		}
