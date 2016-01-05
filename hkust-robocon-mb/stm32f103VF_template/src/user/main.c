@@ -41,6 +41,7 @@ int main(void)
 		tft_prints(0, 5, "En. 2: %d", get_encoder_value(MOTOR2));
 		tft_prints(0, 6, "En. 3: %d", get_encoder_value(MOTOR3));
 		tft_update();
+		motor_set_vel(MOTOR3,50,CLOSE_LOOP);
 	}
 }
 
