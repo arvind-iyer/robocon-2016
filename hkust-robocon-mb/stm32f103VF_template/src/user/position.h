@@ -24,5 +24,5 @@ extern int ROBOT_MOVING;
 void pursueTarget();
 
 void lockAllMotors();
-void setRobotVelocity(int direction, int velocity);
+void setRobotVelocity(int direction, int velocity, int flag);
 void setTargetLocation(int x, int y);
