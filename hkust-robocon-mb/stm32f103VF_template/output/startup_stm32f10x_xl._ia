@@ -1,0 +1,6 @@
+--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"
+-I D:\OneDrive\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE
+-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include
+-I C:\Keil_v5\ARM\CMSIS\Include
+--pd "__UVISION_VERSION SETA 517" --pd "STM32F10X_XL SETA 1"
+-o .\output\startup_stm32f10x_xl.o --depend .\output\startup_stm32f10x_xl.d "src\stm32f10x_startup\startup_stm32f10x_xl.s"

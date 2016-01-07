@@ -55,24 +55,25 @@ void setTarget(int x, int y)
 
 int main(void)
 {
-	button_init();
+	//button_init();
 	tft_init(2, BLACK, WHITE, RED);
 	ticks_init();
 	gyro_init();
 	can_init();
 	can_rx_init();
 	can_motor_init();
-	button_init();
-	setTarget(34, 37);
+	setTarget(0, 100);
+	
+	
 	
 	int target_direction = (int_arc_tan2(targetY - getY(), targetX - getX()) - get_angle()/10) %360;
 	
 	while (1)
 	{
 		tft_clear();
-		tft_prints(0,0,"X: %d", get_X());
-		tft_prints(0,1,"Y: %d", get_Y());
-		tft_prints(0,2,"Angle: %d", get_angle());
+		tft_prints(0, 0,"X: %d", getX());
+		tft_prints(0, 1,"Y: %d", getY());
+		tft_prints(0, 2,"Angle: %d", get_angle());
 		tft_prints(0, 4, "En. 1: %d", get_encoder_value(MOTOR1));
 		tft_prints(0, 5, "En. 2: %d", get_encoder_value(MOTOR2));
 		tft_prints(0, 6, "En. 3: %d", get_encoder_value(MOTOR3));
