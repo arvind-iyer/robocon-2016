@@ -3,19 +3,26 @@
 #include <stdbool.h>
 
 #define THRESHOLD 50
+#define KP 0.25
 
-int tar_x, tar_y, cur_x, cur_y, cur_deg;
+int tar_x, tar_y, tar_deg, cur_x, cur_y, cur_deg;
 int cor_x, cor_y;
 int v1, v2, v3;
-int degree, dist, speed;
+int degree, degree_diff, dist, speed;
 bool stopped;
 
-void can_motor_set_angle(int angle, int maxvel)
+void can_motor_set_angle(int angle, int rotate, int maxvel)
 {
-	angle = angle * 10;
+	rotate = (int)(rotate/5);
+	
+	angle *= 10;
 	v1 = int_sin(angle)*maxvel/(-10000);
 	v2 = int_sin(angle+1200)*maxvel/(-10000);
 	v3 = int_sin(angle+2400)*maxvel/(-10000);
+	
+	v1 -= rotate;
+	v2 -= rotate;
+	v3 -= rotate;	
 	motor_set_vel(MOTOR1, v1, CLOSE_LOOP);
 	motor_set_vel(MOTOR2, v2, CLOSE_LOOP);
 	motor_set_vel(MOTOR3, v3, CLOSE_LOOP);
@@ -51,11 +58,12 @@ int main(void)
 	
 	tar_x = 0;
 	tar_y = 0;
-	_delay_ms(2000);
+	tar_deg = 0;
+	_delay_ms(4000);
 	//set initial target pos
 	tar_x = 0;
-	tar_y = 1500;
-	stopped = false;
+	tar_y = 3000;
+	tar_deg = 45;
 	
 	while (1) {
 		if (get_ticks() % 50 == 0) {
@@ -65,7 +73,14 @@ int main(void)
 			xy_rotate(&cor_x, &cor_y, (-1)*cur_deg);
 			cur_x = get_X() + cor_x;
 			cur_y = get_Y() + cor_y;
+			
 			degree = 90 - int_arc_tan2(tar_y - cur_y, tar_x - cur_x) - (int)(cur_deg/10);
+			degree = (degree+1080)%360;
+			degree_diff = tar_deg - (int)(cur_deg/10);
+			degree_diff = (degree_diff+1080)%360;
+			if (degree_diff > 180)
+				degree_diff -= 360;
+			
 			dist = Sqrt(Sqr(tar_x - cur_x) + Sqr(tar_y - cur_y));
 			
 			/*
@@ -79,28 +94,27 @@ int main(void)
 			}
 			*/
 			
-			if ((Abs(tar_x - cur_x) < THRESHOLD) && (Abs(tar_y - cur_y) < THRESHOLD)) {
+			if ((Abs(tar_x - cur_x) < THRESHOLD) && (Abs(tar_y - cur_y) < THRESHOLD) && (Abs(tar_deg - cur_deg) < 10)) {
 				can_motor_stop();
 			} else {
 				//decelerate
-				if (dist < 300) {
-					speed = (int)(dist/6);
+				if (dist < 600) {
+					speed = (int)(dist/12);
 				} else {
 					speed = 50;
 				}
-				can_motor_set_angle(degree, speed);
+				can_motor_set_angle(degree, degree_diff, speed);
 			}
 						
 			tft_clear();
-			tft_prints(0,0,"CUR X: %d",cur_x);
-			tft_prints(0,1,"CUR Y: %d",cur_y);
-			tft_prints(0,2,"ANGLE: %d",cur_deg);
-			tft_prints(0,3,"DEGREE: %d",degree);
-			tft_prints(0,4,"DIST: %d",dist);
-			tft_prints(0,5,"V1: %d",v1);
-			tft_prints(0,6,"V2: %d",v2);
-			tft_prints(0,7,"V3: %d",v3);
-			tft_prints(0,8,"TIMER: %d",get_seconds());
+			tft_prints(0,0,"X:%5d Y:%5d",cur_x,cur_y);
+			tft_prints(0,1,"ANGLE %d",cur_deg);
+			tft_prints(0,3,"X:%5d Y:%5d",tar_x,tar_y);
+			tft_prints(0,4,"%5dmm  %3dd",dist,degree);
+			tft_prints(0,5,"ROTATE %3dd",degree_diff);
+			tft_prints(0,7,"VEL %3d %3d %3d",v1,v2,v3);
+			tft_prints(0,8,"MAX %3d",speed);
+			tft_prints(0,9,"TIM %3d",get_seconds());
 			tft_update();
 		}
 	}
