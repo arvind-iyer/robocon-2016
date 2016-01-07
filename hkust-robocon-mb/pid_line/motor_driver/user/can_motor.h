@@ -4,6 +4,7 @@
 #include "can.h"
 #include "can_protocol.h"
 #include "velocity.h"
+#include "led.h"
 
 #define CAN_MOTOR_COUNT								16
 #define	CAN_MOTOR_BASE								0x0B0
@@ -45,7 +46,7 @@ typedef enum {
 	MOTOR16
 } MOTOR_ID;
 
-#define this_motor MOTOR3
+#define this_motor MOTOR1
 
 /*** TX ***/
 void can_motor_init(void);

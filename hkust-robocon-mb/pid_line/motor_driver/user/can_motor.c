@@ -125,6 +125,7 @@ void motor_lock(MOTOR_ID motor_id)
 /*** motor command decoding ***/
 void motor_cmd_decoding(CanRxMsg msg)
 {
+	led_control(LED_2, LED_ON);
 	switch (msg.Data[0]) {
 		case CAN_MOTOR_VEL_CMD:
 			if (msg.DLC == CAN_MOTOR_VEL_LENGTH) {
@@ -163,6 +164,7 @@ void motor_cmd_decoding(CanRxMsg msg)
 		default:
 			return;
 	}
+	led_control(LED_2, LED_OFF);
 }
 
 /*** User interface ***/
