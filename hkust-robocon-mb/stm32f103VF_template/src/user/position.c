@@ -94,8 +94,6 @@ void sendDebugInfo() {
 }
 
 void pursueTarget() {
-	static uint32_t lastDst = 0;
-	
 	LINE_DIRECTION = calculateBearingFromPos(TARGET_X, TARGET_Y);
 	TARGET_DIRECTION = (LINE_DIRECTION - calculateAngleFromPos(ROBOT_POS_X, ROBOT_POS_Y));
 	while (TARGET_DIRECTION < 0) TARGET_DIRECTION += 3600;
@@ -105,23 +103,16 @@ void pursueTarget() {
 		updateRobotPosition();
 		
 		uint32_t dst = Sqrt(Sqr(get_pos()->y - TARGET_Y) + Sqr(get_pos()->x - TARGET_X));
-		if (lastDst == 0) lastDst = dst;
-		
-		if (lastDst < dst) {
-			setRobotVelocity(TARGET_DIRECTION, 0, OPEN_LOOP);
-			lastDst = 999999;
+		if (dst <= 100) {
+			lockAllMotors();
 			_delay_ms(100);
+			setRobotVelocity(TARGET_DIRECTION, 0, OPEN_LOOP);
 		} else {
-			if (dst <= 500) {
-				lockAllMotors();
-				setRobotVelocity(TARGET_DIRECTION, 0, OPEN_LOOP);
-			} else {
-				//setRobotVelocity(TARGET_DIRECTION, (dst / (float) LINE_DISTANCE) * MAX_VELOCITY, CLOSE_LOOP);
-				setRobotVelocity(TARGET_DIRECTION, MAX_VELOCITY, CLOSE_LOOP);
-			}
+			float vel = dst / (float) LINE_DISTANCE;
+			vel = vel > 1 ? 1 : vel;
+			setRobotVelocity(TARGET_DIRECTION, (vel * MAX_VELOCITY) + 15, CLOSE_LOOP);
+			//setRobotVelocity(TARGET_DIRECTION, MAX_VELOCITY, CLOSE_LOOP);
 		}
-		
-		lastDst = dst;
 		sendDebugInfo();
 	}
 }

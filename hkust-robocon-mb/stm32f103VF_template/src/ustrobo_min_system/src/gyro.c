@@ -2,8 +2,8 @@
 #include "approx_math.h"
 
 
-s32 SHIFT_X = -204;
-s32 SHIFT_Y = 413;
+s32 SHIFT_X = 75; // 75 // 92
+s32 SHIFT_Y = -73; // -73 //-280
 
 static POSITION gyro_pos = {0, 0, 0};
 static POSITION gyro_pos_raw = {0, 0, 0};
@@ -54,6 +54,7 @@ s32 gyro_get_shift_y(void)
 void gyro_init(void)
 {
 	uart_init(GYRO_UART, 115200);
+	uart_interrupt(GYRO_UART);
 }
 
 
@@ -201,13 +202,13 @@ void USART3_IRQHandler(void)
 				}
 			case 4:
 				switch (rx_command) {
-					case 0:		// GYRO_UPDATED
-						x = buf_data[0];
-						x <<= 8;
-						x |= buf_data[1];
-						y = buf_data[2];
+					case 0:		// GYRO_UPDATED // X and Y are flipped.
+						y = buf_data[0];
 						y <<= 8;
-						y |= buf_data[3];
+						y |= buf_data[1];
+						x = buf_data[2];
+						x <<= 8;
+						x |= buf_data[3];
 						a = buf_data[4];
 						a <<= 8;
 						a |= buf_data[5];
