@@ -3,17 +3,24 @@
 #include <stdbool.h>
 
 #define THRESHOLD 50
-#define KP 0.25
+#define KP 0.3
 
 int tar_x, tar_y, tar_deg, cur_x, cur_y, cur_deg;
 int cor_x, cor_y;
 int v1, v2, v3;
 int degree, degree_diff, dist, speed;
-bool stopped;
+int start, passed;
 
-void can_motor_set_angle(int angle, int rotate, int maxvel)
+void can_motor_set_angle(int angle, int rotate, int maxvel, int time)
 {
-	rotate = (int)(rotate/5);
+	double accvel = 1.0;
+	if (time < 2000)
+		accvel = time/2000.0;
+	rotate = (int)(rotate*KP);
+	if ((rotate < 10) && (rotate > 0))
+		rotate = 10;
+	if ((rotate > -10) && (rotate < 0))
+		rotate = -10;
 	
 	angle *= 10;
 	v1 = int_sin(angle)*maxvel/(-10000);
@@ -23,9 +30,9 @@ void can_motor_set_angle(int angle, int rotate, int maxvel)
 	v1 -= rotate;
 	v2 -= rotate;
 	v3 -= rotate;	
-	motor_set_vel(MOTOR1, v1, CLOSE_LOOP);
-	motor_set_vel(MOTOR2, v2, CLOSE_LOOP);
-	motor_set_vel(MOTOR3, v3, CLOSE_LOOP);
+	motor_set_vel(MOTOR1, v1*accvel, CLOSE_LOOP);
+	motor_set_vel(MOTOR2, v2*accvel, CLOSE_LOOP);
+	motor_set_vel(MOTOR3, v3*accvel, CLOSE_LOOP);
 }
 
 void can_motor_stop(){
@@ -47,6 +54,7 @@ int main(void)
 	ticks_init();
 	encoder_init();
 	gyro_init();
+	buzzer_init();
 	
 	uart_init(COM1, 115200);
 	uart_interrupt(COM1);
@@ -62,11 +70,14 @@ int main(void)
 	_delay_ms(4000);
 	//set initial target pos
 	tar_x = 0;
-	tar_y = 3000;
-	tar_deg = 45;
+	tar_y = 1500;
+	tar_deg = 120;
+	start = get_ticks();
 	
 	while (1) {
 		if (get_ticks() % 50 == 0) {
+			passed = get_ticks() - start;
+			
 			cur_deg = get_angle();
 			cor_x = 0;
 			cor_y = 375;
@@ -98,12 +109,12 @@ int main(void)
 				can_motor_stop();
 			} else {
 				//decelerate
-				if (dist < 600) {
-					speed = (int)(dist/12);
+				if (dist < 450) {
+					speed = (int)(dist/6);
 				} else {
-					speed = 50;
+					speed = 75;
 				}
-				can_motor_set_angle(degree, degree_diff, speed);
+				can_motor_set_angle(degree, degree_diff, speed, passed);
 			}
 						
 			tft_clear();

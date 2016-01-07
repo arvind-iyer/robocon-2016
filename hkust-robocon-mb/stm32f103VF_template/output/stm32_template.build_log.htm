@@ -50,36 +50,36 @@ compiling main.c...
   #define YELLOW         0x07FF
 src\user\can_chat.h(13): warning:  #1-D: last line of file ends without a newline
   #endif
-src\user\main.c(26): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(33): warning:  #188-D: enumerated type mixed with another type
   	motor_set_vel(
-OTOR1, v1, CLOSE_LOOP);
-src\user\main.c(27): warning:  #188-D: enumerated type mixed with another type
+OTOR1, v1*accvel, CLOSE_LOOP);
+src\user\main.c(34): warning:  #188-D: enumerated type mixed with another type
   	motor_set_vel(
-OTOR2, v2, CLOSE_LOOP);
-src\user\main.c(28): warning:  #188-D: enumerated type mixed with another type
-  	motor_set_vel(
-OTOR3, v3, CLOSE_LOOP);
+OTOR2, v2*accvel, CLOSE_LOOP);
 src\user\main.c(35): warning:  #188-D: enumerated type mixed with another type
   	motor_set_vel(
+OTOR3, v3*accvel, CLOSE_LOOP);
+src\user\main.c(42): warning:  #188-D: enumerated type mixed with another type
+  	motor_set_vel(
 OTOR1, v1, CLOSE_LOOP);
-src\user\main.c(36): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(43): warning:  #188-D: enumerated type mixed with another type
   	motor_set_vel(
 OTOR2, v2, CLOSE_LOOP);
-src\user\main.c(37): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(44): warning:  #188-D: enumerated type mixed with another type
   	motor_set_vel(
 OTOR3, v3, CLOSE_LOOP);
-src\user\main.c(38): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(45): warning:  #188-D: enumerated type mixed with another type
   	motor_lock(
 OTOR1);
-src\user\main.c(39): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(46): warning:  #188-D: enumerated type mixed with another type
   	motor_lock(
 OTOR2);
-src\user\main.c(40): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(47): warning:  #188-D: enumerated type mixed with another type
   	motor_lock(
 OTOR3);
 src\user\main.c: 20 warnings, 0 errors
 linking...
-Program Size: Code=22628 RO-data=480 RW-data=2252 ZI-data=35668  
+Program Size: Code=22880 RO-data=480 RW-data=2260 ZI-data=35668  
 FromELF: creating hex file...
 ".\output\stm32_template.axf" - 0 Error(s), 20 Warning(s).
 
@@ -88,7 +88,7 @@ FromELF: creating hex file...
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
