@@ -25,25 +25,29 @@ void _move(float X, float Y, float W)
 
 void _move(int magnitude, int bearing)
 {
-	_move(magnitude*sin(bearing*PI/180), magnitude*cos(bearing*PI/180), 0);
+	if (magnitude>100)
+	{
+		magnitude=100;
+	}
+	_move(magnitude*sin(bearing*PI/180)*MAXVEL/100, magnitude*cos(bearing*PI/180)*MAXVEL/100, 0);
 }
 
 int main()
 {
 	while (1)
 	{
-		
+		/*
 		int x;
 		int y;
 		int w;
 		scanf("%d %d %d", &x, &y, &w);
 		_move(x, y, w);
+		*/
 		
-		/*
 		int m;
 		int b;
 		scanf("%d %d", &m, &b);
 		_move(m, b);
-		*/
+		
 	}
 }
