@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 #define THRESHOLD 50
-#define KP 0.3
+#define KP 0.5
 
 int tar_x, tar_y, tar_deg, cur_x, cur_y, cur_deg;
 int cor_x, cor_y;
@@ -17,10 +17,7 @@ void can_motor_set_angle(int angle, int rotate, int maxvel, int time)
 	if (time < 2000)
 		accvel = time/2000.0;
 	rotate = (int)(rotate*KP);
-	if ((rotate < 10) && (rotate > 0))
-		rotate = 10;
-	if ((rotate > -10) && (rotate < 0))
-		rotate = -10;
+	
 	
 	angle *= 10;
 	v1 = int_sin(angle)*maxvel/(-10000);
@@ -69,9 +66,9 @@ int main(void)
 	tar_deg = 0;
 	_delay_ms(4000);
 	//set initial target pos
-	tar_x = 0;
-	tar_y = 1500;
-	tar_deg = 120;
+	tar_x = 1200;
+	tar_y = 1200;
+	tar_deg = 90;
 	start = get_ticks();
 	
 	while (1) {
@@ -83,7 +80,7 @@ int main(void)
 			cor_y = 375;
 			xy_rotate(&cor_x, &cor_y, (-1)*cur_deg);
 			cur_x = get_X() + cor_x;
-			cur_y = get_Y() + cor_y;
+			cur_y = get_Y() + cor_y - 375;
 			
 			degree = 90 - int_arc_tan2(tar_y - cur_y, tar_x - cur_x) - (int)(cur_deg/10);
 			degree = (degree+1080)%360;
@@ -109,8 +106,8 @@ int main(void)
 				can_motor_stop();
 			} else {
 				//decelerate
-				if (dist < 450) {
-					speed = (int)(dist/6);
+				if (dist < 600) {
+					speed = (int)(dist/8);
 				} else {
 					speed = 75;
 				}
