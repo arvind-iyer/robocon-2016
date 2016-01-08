@@ -44,7 +44,7 @@ int main(void) {
 void handleCommand(char * command) {
     int dataIndex = 0, contentIndex = 0, header = -1;
     
-    int contents[16];
+    int32_t contents[16];
     
     for (char * data = strtok(command, "|"); data != NULL; data = strtok(NULL, "|")) {
         if (dataIndex == 0) {
