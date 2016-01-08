@@ -30,9 +30,9 @@ int main()
 	can_init();
 	can_rx_init();
 	can_motor_init();
-	_path(250, 250, 0);
 	while (1)
 	{
+		_path(250, 250, 0);
 		_updateScreen();
 	}
 }
@@ -54,7 +54,7 @@ void _updateScreen()
 
 void _path(int x, int y, int angle)
 {
-	do
+	while (dist>100 || Abs(target_angle-angle)>15)
 	{
 		target_direction = (int_arc_tan2(target_y - _getY(), target_x - _getX()) - get_angle()/10) %360;
 		target_direction = target_direction < 0 ? target_direction + 360 : target_direction;
@@ -67,7 +67,7 @@ void _path(int x, int y, int angle)
 		{
 			W=target_angle-angle;
 		}
-		if (dist/10+10>100)
+		if (dist/10+10>100)ii
 		{
 			M=100;
 		}
@@ -78,7 +78,6 @@ void _path(int x, int y, int angle)
 		_move(M, target_direction, W);
 		_updateScreen();
 	}
-	while (dist>100 || Abs(target_angle-angle)>15);
 	motor_lock(MOTOR1);
 	motor_lock(MOTOR2);
 	motor_lock(MOTOR3);
