@@ -62,18 +62,18 @@ void setTargetLocation(int x, int y) {
 	TARGET_TICKS = get_full_ticks();
 	ROBOT_MOVING = 1;
 	
-	// Initialize PID.
-	velXPid = (PID) {.Kp = 87, .Ki = 0, .Kd = 999, .threshold = 20, .scale = 100,
+	// Initialize PID. // 87
+	velXPid = (PID) {.Kp = 100, .Ki = 0, .Kd = 1250, .threshold = 20, .scale = 100,
 	.error = TARGET_X - get_pos()->x, .min = -Abs(TARGET_X), .max = Abs(TARGET_X)};
 	
-	velYPid = (PID) {.Kp = 87, .Ki = 0, .Kd = 999, .threshold = 20, .scale = 100,
+	velYPid = (PID) {.Kp = 100, .Ki = 0, .Kd = 1250, .threshold = 20, .scale = 100,
 	.error = TARGET_Y - get_pos()->y, .min = -Abs(TARGET_Y), .max = Abs(TARGET_Y)};
 
 	s32 dw = LINE_DIRECTION - get_pos()->angle;
 	while (dw < -1800) dw += 3600;
 	while (dw > 1800) dw -= 3600;
 	
-	velWPid = (PID) {.Kp = 91, .Ki = 0, .Kd = 999, .threshold = 40, .scale = 100,
+	velWPid = (PID) {.Kp = 50, .Ki = 0, .Kd = 2500, .threshold = 40, .scale = 100,
 	.error = dw, .min = -3600, .max = 3600};
 }
 
