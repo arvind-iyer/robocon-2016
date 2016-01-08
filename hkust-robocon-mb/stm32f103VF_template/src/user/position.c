@@ -100,22 +100,19 @@ void pursueTarget() {
 	if (ROBOT_MOVING == 1) {
 		updateRobotPosition();
 		
-		if (Abs(velXPid.output) <= velXPid.threshold && Abs(velYPid.output) <= velYPid.threshold) {
-			if (Abs(velWPid.output) <= velWPid.threshold) {
+		if (Abs(velXPid.output) <= velXPid.threshold && Abs(velYPid.output) <= velYPid.threshold && Abs(velWPid.output) <= velWPid.threshold) {
 				lockAllMotors();
+			_delay_ms(100);
 				setRobotVelocity(0, 0, 0, OPEN_LOOP);
-			} else {
-				s32 angleMag = velWPid.output;
-				angleMag = angleMag * MAX_MAGNITUDE / 3600;
-			
-			setRobotVelocity(0, TARGET_DIRECTION, angleMag, CLOSE_LOOP);
-			}
 				
 		} else {
 			s32 magnitude = Sqrt(Sqr(velXPid.output) + Sqr(velYPid.output));
 			magnitude = magnitude * (MAX_MAGNITUDE) / LINE_DISTANCE;
 			
-			setRobotVelocity(magnitude, TARGET_DIRECTION, 0, CLOSE_LOOP);
+			s32 angleMag = velWPid.output;
+				angleMag = angleMag * (MAX_MAGNITUDE - magnitude) / 3600;
+			
+			setRobotVelocity(magnitude, TARGET_DIRECTION, angleMag, CLOSE_LOOP);
 			
 		}
 		//sendDebugInfo();
