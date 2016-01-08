@@ -1,7 +1,6 @@
 // PID-controlled Positioning System
 // Created by: Kenta Iwasaki & Kristian Suhartono
 // Jan 06, 2016
-
 #include "position.h"
 #include "can_motor.h"
 
@@ -9,22 +8,32 @@ s32 TARGET_X = 0;
 s32 TARGET_Y = 0;
 s32 TARGET_TICKS = 0;
 
-s32 ACC_X_ERROR = 0;
-s32 ACC_Y_ERROR = 0;
-
-s32 ROBOT_POS_X = 0;
-s32 ROBOT_POS_Y = 0;
-
 s32 TARGET_DIRECTION = 0;
-s32 LINE_DIRECTION = 0;
 s32 LINE_DISTANCE = 0;
+s32 LINE_DIRECTION = 0;
+
+PID velXPid;
+PID velYPid;
+PID velWPid;
 
 int ROBOT_MOVING = 0;
 
-void setRobotVelocity(int angle, int velocity, int flag) {
-	motor_set_vel(MOTOR1, int_sin(angle) / (float)10000 * velocity * -1, flag);
-	motor_set_vel(MOTOR2, int_sin(angle + 1200) / (float)10000 * velocity * -1, flag);
-	motor_set_vel(MOTOR3, int_sin(angle + 2400) / (float)10000 * velocity * -1, flag);
+void setRobotVelocity(s32 vel, s32 angle, s32 vw, int flag) {
+	int32_t velocities[3] = { int_sin(angle) / (float)10000 * vel, int_sin(angle + 1200) / (float)10000 * vel,
+		int_sin(angle + 2400) / (float)10000 * vel };
+
+	for (int i = 0; i < 3; i++) {
+		velocities[i] += vw
+		;
+		velocities[i] *= -1;
+
+		if (velocities[i] > MAX_MAGNITUDE) velocities[i] = MAX_MAGNITUDE;
+		if (velocities[i] < -MAX_MAGNITUDE) velocities[i] = -MAX_MAGNITUDE;
+	}
+	
+	motor_set_vel(MOTOR1, velocities[0], flag);
+	motor_set_vel(MOTOR2, velocities[1], flag);
+	motor_set_vel(MOTOR3, velocities[2], flag);
 }
 
 void lockAllMotors() {
@@ -35,7 +44,7 @@ void lockAllMotors() {
 
 int calculateAngleFromPos(int x, int y) {
 	int angle = int_arc_tan2(y - get_pos()->y, x - get_pos()->x);
-	return angle;
+	return angle * 10;
 }
 
 int calculateBearingFromPos(int x, int y) {
@@ -50,69 +59,67 @@ void setTargetLocation(int x, int y) {
 	TARGET_Y = y;
 	
 	LINE_DISTANCE = Sqrt(Sqr(get_pos()->y - y) + Sqr(get_pos()->x - x));
-	TARGET_DIRECTION = LINE_DIRECTION = calculateBearingFromPos(TARGET_X, TARGET_Y);
+	LINE_DIRECTION = TARGET_DIRECTION = calculateBearingFromPos(TARGET_X, TARGET_Y);
 	TARGET_TICKS = get_full_ticks();
 	ROBOT_MOVING = 1;
-}
+	
+	// Initialize PID.
+	velXPid = (PID) {.Kp = 87, .Ki = 0, .Kd = 867, .threshold = 40, .scale = 100,
+	.error = TARGET_X - get_pos()->x, .min = -TARGET_X, .max = TARGET_X};
+	
+	velYPid = (PID) {.Kp = 87, .Ki = 0, .Kd = 867, .threshold = 40, .scale = 100,
+	.error = TARGET_Y - get_pos()->y, .min = -TARGET_Y, .max = TARGET_Y};
 
-s32 getXError() {
-	s32 xVelocity = (int_cos(LINE_DIRECTION) / (s32) 10000) * ROBOT_VELOCITY;
-	return (xVelocity * ((get_full_ticks() - TARGET_TICKS) / (s16) 1000))  - (s32) get_pos()->x;
-}
-
-s32 getYError() {
-	s32 yVelocity = (int_sin(LINE_DIRECTION) / (s32) 10000) * ROBOT_VELOCITY;
-	return (yVelocity * ((get_full_ticks() - TARGET_TICKS) / (s16) 1000))  - (s32) get_pos()->y;
+	s32 dw = LINE_DIRECTION - get_pos()->angle;
+	while (dw < -1800) dw += 3600;
+	while (dw > 1800) dw -= 3600;
+	
+	velWPid = (PID) {.Kp = 91, .Ki = 0, .Kd = 624, .threshold = 40, .scale = 100,
+	.error = dw, .min = -3600, .max = 3600};
 }
 
 void updateRobotPosition() {
-	static s32 X_ERROR = 0;
-	static s32 Y_ERROR = 0;
-	static s32 PREV_X_ERROR = 0;
-	static s32 PREV_X_2_ERROR = 0;
-	static s32 PREV_Y_ERROR = 0;
-	static s32 PREV_Y_2_ERROR = 0;
+	updatePid(&velXPid, TARGET_X - get_pos()->x);
+	updatePid(&velYPid, TARGET_Y - get_pos()->y);
 	
-	X_ERROR = getXError();
-	Y_ERROR = getYError();
+	s32 dw = LINE_DIRECTION - get_pos()->angle;
+	while (dw < -1800) dw += 3600;
+	while (dw > 1800) dw -= 3600;
 	
-	s32 pidX = (KP * (X_ERROR - PREV_X_ERROR)) + (KI * X_ERROR) + (KD * (X_ERROR + PREV_X_2_ERROR - 2 * PREV_X_ERROR));
-	s32 pidY = (KP * (Y_ERROR - PREV_Y_ERROR)) + (KI * Y_ERROR) + (KD * (Y_ERROR + PREV_Y_2_ERROR - 2 * PREV_Y_ERROR));
-	
-	PREV_X_2_ERROR = PREV_X_ERROR;
-	PREV_X_ERROR = X_ERROR;
-	
-	PREV_Y_2_ERROR = PREV_Y_ERROR;
-	PREV_Y_ERROR = Y_ERROR;
-	
-	ROBOT_POS_X = get_pos()->x + (pidX / 10);
-	ROBOT_POS_Y = get_pos()->y + (pidY / 10);
+	updatePid(&velWPid, dw);
 }
 
-void sendDebugInfo() {
-	uart_tx(COM2, "DISTANCE|%d|%d|%d|%d|%d|%d|%f\n", get_pos()->x, get_pos()->y, ROBOT_POS_X, ROBOT_POS_Y, get_pos()->angle / 10, TARGET_DIRECTION / 10, (Sqrt(Sqr(get_pos()->y - TARGET_Y) + Sqr(get_pos()->x - TARGET_X))) / (float) (LINE_DISTANCE));
-}
+//void sendDebugInfo() {
+//	uart_tx(COM2, "DISTANCE|%d|%d|%d\n", velXPid.output, velYPid.output, velWPid.output);
+//}
 
 void pursueTarget() {
-	LINE_DIRECTION = calculateBearingFromPos(TARGET_X, TARGET_Y);
-	TARGET_DIRECTION = (LINE_DIRECTION - calculateAngleFromPos(ROBOT_POS_X, ROBOT_POS_Y));
+	TARGET_DIRECTION = calculateBearingFromPos(TARGET_X, TARGET_Y);
 	while (TARGET_DIRECTION < 0) TARGET_DIRECTION += 3600;
 	TARGET_DIRECTION = TARGET_DIRECTION % 3600;
 	
 	if (ROBOT_MOVING == 1) {
 		updateRobotPosition();
 		
-		uint32_t dst = Sqrt(Sqr(get_pos()->y - TARGET_Y) + Sqr(get_pos()->x - TARGET_X));
-		if (dst <= 100) {
-			lockAllMotors();
-			_delay_ms(100);
-			setRobotVelocity(TARGET_DIRECTION, 0, OPEN_LOOP);
+		if (Abs(velXPid.output) <= velXPid.threshold && Abs(velYPid.output) <= velYPid.threshold) {
+			if (Abs(velWPid.output) <= velWPid.threshold) {
+				lockAllMotors();
+				_delay_ms(100);
+				setRobotVelocity(0, 0, 0, OPEN_LOOP);
+			} else {
+				s32 angleMag = velWPid.output;
+				angleMag = angleMag * MAX_MAGNITUDE / 3600;
+			
+			setRobotVelocity(0, TARGET_DIRECTION, angleMag, CLOSE_LOOP);
+			}
+				
 		} else {
-			float vel = dst / (float) LINE_DISTANCE;
-			vel = vel > 1 ? 1 : vel;
-			setRobotVelocity(TARGET_DIRECTION, (vel * MAX_VELOCITY) + 15, CLOSE_LOOP);
-			//setRobotVelocity(TARGET_DIRECTION, MAX_VELOCITY, CLOSE_LOOP);
+			s32 magnitude = Sqrt(Sqr(velXPid.output) + Sqr(velYPid.output));
+			magnitude = magnitude * (MAX_MAGNITUDE) / LINE_DISTANCE;
+			
+			setRobotVelocity(magnitude, TARGET_DIRECTION, 0, CLOSE_LOOP);
+			uart_tx(COM2, "DISTANCE|%d|%d|%d|%d\n", velXPid.output, velYPid.output, velWPid.output, magnitude);
 		}
-		sendDebugInfo();
+		//sendDebugInfo();
 	}
 }
