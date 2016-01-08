@@ -67,7 +67,7 @@ void _path(int x, int y, int angle)
 		{
 			W=target_angle-angle;
 		}
-		if (dist/10+10>100)ii
+		if (dist/10+10>100)
 		{
 			M=100;
 		}
