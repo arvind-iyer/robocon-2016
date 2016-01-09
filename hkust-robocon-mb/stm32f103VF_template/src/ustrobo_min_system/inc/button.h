@@ -6,7 +6,7 @@
 #include "gpio.h"
 #include "stm32f10x_tim.h"
 #include "tft_160x128.h"
-#include "xbc_mb.h"
+#include "lcd_red.h"
 
 #ifdef MAINBOARD_V4
 

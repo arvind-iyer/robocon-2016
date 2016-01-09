@@ -20,7 +20,6 @@
   */
   
 #include "button.h"
-#include "lcd_red.h"
 
 
 static const GPIO* buttons[BUTTON_COUNT] = { 
@@ -79,7 +78,7 @@ void button_update(void)
     if (i < XBC_BUTTON_START_ID) {
       const GPIO* button = buttons[i];
       button_pressed_flag = (gpio_read_input(button) == BUTTON_PRESSED);
-    }
+    } 
     
 		if (button_pressed_flag) {
 			++button_pressed_count[i];
@@ -104,7 +103,7 @@ void button_update(void)
   * @retval The button after rotation (non-joystick button will remain the same)
   */
 static BUTTON rotate_js_button(BUTTON b) {
-	u8 o = tft_orientation;
+	u8 o = tft_get_orientation();
 	
 	
 	#ifdef MAINBOARD_V4
