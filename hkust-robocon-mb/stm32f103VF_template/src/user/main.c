@@ -54,7 +54,8 @@ void _updateScreen()
 
 void _path(int x, int y, int angle)
 {
-	while (dist>100 || Abs(target_angle-angle)>15)
+	_setTarget(x, y, angle);
+	while (dist>100 || Abs(target_angle-get_angle())>15)
 	{
 		target_direction = (int_arc_tan2(target_y - _getY(), target_x - _getX()) - get_angle()/10) %360;
 		target_direction = target_direction < 0 ? target_direction + 360 : target_direction;

@@ -60,27 +60,27 @@ src\user\main.c(22): warning:  #1295-D: Deprecated declaration _getX - give arg 
   int _getX();
 src\user\main.c(23): warning:  #1295-D: Deprecated declaration _getY - give arg types
   int _getY();
-src\user\main.c(81): warning:  #188-D: enumerated type mixed with another type
-  	motor_lock(
-OTOR1);
 src\user\main.c(82): warning:  #188-D: enumerated type mixed with another type
   	motor_lock(
-OTOR2);
+OTOR1);
 src\user\main.c(83): warning:  #188-D: enumerated type mixed with another type
   	motor_lock(
+OTOR2);
+src\user\main.c(84): warning:  #188-D: enumerated type mixed with another type
+  	motor_lock(
 OTOR3);
-src\user\main.c(105): warning:  #188-D: enumerated type mixed with another type
-  	motor_set_vel(
-OTOR1, M1, CLOSE_LOOP);
 src\user\main.c(106): warning:  #188-D: enumerated type mixed with another type
   	motor_set_vel(
-OTOR2, M2, CLOSE_LOOP);
+OTOR1, M1, CLOSE_LOOP);
 src\user\main.c(107): warning:  #188-D: enumerated type mixed with another type
+  	motor_set_vel(
+OTOR2, M2, CLOSE_LOOP);
+src\user\main.c(108): warning:  #188-D: enumerated type mixed with another type
   	motor_set_vel(
 OTOR3, M3, CLOSE_LOOP);
 src\user\main.c: 22 warnings, 0 errors
 linking...
-Program Size: Code=20820 RO-data=436 RW-data=2136 ZI-data=35440  
+Program Size: Code=20824 RO-data=436 RW-data=2136 ZI-data=35440  
 FromELF: creating hex file...
 ".\output\stm32_template.axf" - 0 Error(s), 22 Warning(s).
 
