@@ -22,7 +22,7 @@ int main(void) {
 	s32 lastTick = get_seconds();
 	
 	while (1) {
-		if (ROBOT_MOVING == 1) {
+	/*if (ROBOT_MOVING == 1) {
 			pursueTarget();
 		}
 		
@@ -37,7 +37,7 @@ int main(void) {
 		tft_prints(0, 7, "VY: %d", velYPid.output);
 		tft_prints(0, 8, "VW: %d", velWPid.output);
 		tft_prints(0, 9, "Time: %u", (unsigned int) (get_full_ticks() - TARGET_TICKS) / (uint16_t) 1000);
-		tft_update();
+		tft_update();*/
 	}
 }
 
