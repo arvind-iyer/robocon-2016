@@ -14,7 +14,7 @@ int main(void) {
 	led_init();
 	
 	uart_init(COM2, 115200);
-  uart_interrupt(COM2);
+  	uart_interrupt(COM2);
 
 	can_init();
 	can_rx_init();
@@ -25,7 +25,7 @@ int main(void) {
 	while (1) {
 		if (get_seconds()>3){
 			if (setted == 0){
-				setTargetPos(450, 800);
+				setTargetPos(10, 450, 0);
 				setted = 1;
 			}
 

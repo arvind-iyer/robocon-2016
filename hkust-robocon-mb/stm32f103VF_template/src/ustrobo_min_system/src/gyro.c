@@ -54,7 +54,7 @@ s32 gyro_get_shift_y(void)
 void gyro_init(void)
 {
 	uart_init(GYRO_UART, 115200);
-	uart_rx_init(GYRO_UART,gyro_rx_handler);
+	//uart_rx_init(GYRO_UART,gyro_rx_handler);
 }
 
 

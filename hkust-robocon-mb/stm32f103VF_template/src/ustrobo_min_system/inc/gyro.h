@@ -1,7 +1,8 @@
 #ifndef __GYRO_H
 #define __GYRO_H
 
-#include "usart.h"
+//#include "usart.h"
+#include "uart.h"
 #include "ticks.h"
 #include "delay.h"
 //#include "debug.h"
@@ -37,7 +38,6 @@ typedef struct {
 #define	Y_FLIP						(ROBOT == 'C' ? 1: -1)   /*** 1 or -1 **/
 /** Varies along robots (depends on the encoder position) **/
 
-#include "robocon.h"
 //#define SHIFT_X           (ROBOT == 'C' ? 0 : 190)
 //#define SHIFT_Y           (ROBOT == 'C' ? -420 : 190)
 

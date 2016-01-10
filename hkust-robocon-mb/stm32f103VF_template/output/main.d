@@ -41,3 +41,5 @@
 .\output\main.o: .\src\ustrobo_min_system\inc\motor_pwm.h
 .\output\main.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\main.o: .\src\ustrobo_min_system\inc\gyro.h
+.\output\main.o: src\user\bluetooth.h
+.\output\main.o: src\user\crc.h

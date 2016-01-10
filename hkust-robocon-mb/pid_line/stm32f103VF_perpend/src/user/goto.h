@@ -6,7 +6,7 @@
 #include "math.h"
 #include "ticks.h"
 
-void setTargetPos(int16_t x, int16_t y);
-void setRobotVelocity(int16_t bearing, int16_t magnitude);
+void setTargetPos(int16_t x, int16_t y, int16_t theta);
+void setRobotVelocity(int16_t bearing, int16_t magnitude, int16_t w);
 void chase();
 uint8_t isRunning();
