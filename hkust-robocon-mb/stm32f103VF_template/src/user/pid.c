@@ -12,8 +12,8 @@ void updatePid(PID *pid, int32_t error) {
 	pid->error = error;
 	
 	if (Abs(pid->error) > pid->threshold)
-		pid->output = ((pid->error * pid->Kp) + (pid->totalError * pid->Ki) + (pid->errorRate * pid->Kp)) / pid->scale;
+		pid->output = ((pid->error * pid->Kp) + (pid->totalError * pid->Ki) + (pid->errorRate * pid->Kd)) / pid->scale;
 	
-	if (pid->output >= pid->max) pid->output = pid->max;
-	if (pid->output <= pid->min) pid->output = pid->min;
+	if (pid->output > pid->max) pid->output = pid->max;
+	if (pid->output < pid->min) pid->output = pid->min;
 }
