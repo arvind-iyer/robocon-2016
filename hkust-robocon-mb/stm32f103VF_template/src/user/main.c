@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 #define THRESHOLD 50
-#define KP 0.5
+#define KP 0.6
 
 struct target {
 	int x;
@@ -17,7 +17,7 @@ int tar_head, tar_end;
 int tar_x, tar_y, tar_deg, cur_x, cur_y, cur_deg;
 int cor_x, cor_y;
 int v1, v2, v3;
-int degree, degree_diff, dist, speed;
+int degree, degree_diff, dist, dist_tar, speed;
 int start, passed;
 
 void tar_enqueue(int x, int y, int deg) {
@@ -89,6 +89,7 @@ void can_motor_update(){
 		degree_diff -= 360;
 	
 	dist = Sqrt(Sqr(tar_x - cur_x) + Sqr(tar_y - cur_y));
+	dist_tar = Sqrt(Sqr(tar_queue[tar_head-1].x - cur_x) + Sqr(tar_queue[tar_head-1].y - cur_y));
 	
 	/*
 	//Self-rotation to measure correction vector
@@ -101,17 +102,17 @@ void can_motor_update(){
 	}
 	*/
 	
-	if ((dist < 150) && (Abs(tar_deg - (cur_deg/10)) < 10)) {
+	if (dist < 100) {
 		if (tar_queue_length()) {
 			tar_dequeue();
 		} else {
-			if ((dist < THRESHOLD) && (Abs(tar_deg - (cur_deg/10)) < 5))
-				can_motor_stop();
+			if ((dist < THRESHOLD) && (Abs(degree_diff) < 5))
+			can_motor_stop();
 		}
 	} else {
 		//decelerate at end of sequence
-		if ((dist < 600) && (tar_queue_length() == 0)) { //in last segment
-			speed = (int)(dist/8);
+		if (dist_tar < 750) {
+			speed = (int)(dist_tar/10);
 		} else {
 			speed = 75;
 		}
@@ -121,6 +122,7 @@ void can_motor_update(){
 	tft_clear();
 	tft_prints(0,0,"X:%5d Y:%5d",cur_x,cur_y);
 	tft_prints(0,1,"ANGLE %d",cur_deg);
+	tft_prints(0,2,"TEST %d",speed);
 	tft_prints(0,3,"X:%5d Y:%5d",tar_x,tar_y);
 	tft_prints(0,4,"%5dmm  %3dd",dist,degree);
 	tft_prints(0,5,"ROTATE %3dd",degree_diff);
@@ -158,13 +160,23 @@ int main(void)
 	//set initial target pos	
 	ticks_init();
 	start = 0;
-	tar_enqueue(0, 1000, 0);
-	tar_enqueue(0, 2000, 0);
+	tar_enqueue(18, 235, 9);
+	tar_enqueue(73, 464, 18);
+	tar_enqueue(163, 681, 27);
+	tar_enqueue(286, 882, 36);
+	tar_enqueue(439, 1061, 45);
+	tar_enqueue(618, 1214, 54);
+	tar_enqueue(819, 1337, 63);
+	tar_enqueue(1036, 1427, 72);
+	tar_enqueue(1265, 1482, 81);
+	tar_enqueue(1500, 1500, 90);
 		
 	while (1) {
 		if (get_ticks() % 50 == 0) {
 			can_motor_update();
 		}
 		
+		//if (get_seconds() < 2)
+		//	tar_x = get_ticks()*0.5;
 	}
 }
