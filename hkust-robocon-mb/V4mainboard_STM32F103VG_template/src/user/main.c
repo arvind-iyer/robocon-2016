@@ -3,7 +3,6 @@
 #define SERVO_MIN 500
 #define SERVO_MAX 2450
 
-uint8_t y_index;
 uint16_t servo_val = SERVO_MIN;
 
 int main(void) {
@@ -17,17 +16,20 @@ int main(void) {
 	button_init();
 	servo_init();
 	
-	//led_control(LED_D2, 1);
-
-	//xbc_init(0);
-	
-	//xbc_test_program();
-	led_control(LED_D3, 1);
+	tft_clear();
+	led_control(LED_D1, LED_OFF);
 	
 	while(1){
-		y_index = 0;
-
 		button_update();
+
+		if (get_ticks()%2000 == 0){
+			tft_append_line(BYTETOBINARYPATTERN, BYTETOBINARY(get_led_state()));
+			led_blink(LED_D1 | LED_D2);
+			tft_update();
+			while(1);
+		}
+
+		/*
 		
 		tft_clear();
 		
@@ -75,5 +77,6 @@ int main(void) {
 		tft_update();
 		
 		led_control(LED_D1, get_seconds()%2);
+		*/
 	}
 }

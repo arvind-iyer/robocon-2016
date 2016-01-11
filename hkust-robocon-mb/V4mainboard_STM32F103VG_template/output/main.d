@@ -21,14 +21,13 @@
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\main.o: .\src\ustrobo_min_system\inc\buzzer.h
 .\output\main.o: .\src\ustrobo_min_system\inc\gpio.h
-.\output\main.o: .\src\ustrobo_min_system\inc\battery.h
-.\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_adc.h
-.\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\output\main.o: .\src\ustrobo_min_system\inc\delay.h
 .\output\main.o: .\src\ustrobo_min_system\inc\led.h
 .\output\main.o: .\src\ustrobo_min_system\inc\lcd_red.h
 .\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\main.o: .\src\ustrobo_min_system\inc\system.h
+.\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_adc.h
+.\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\output\main.o: .\src\user\main.h
 .\output\main.o: .\src\ustrobo_min_system\inc\xbc_mb.h
 .\output\main.o: src\user\button.h

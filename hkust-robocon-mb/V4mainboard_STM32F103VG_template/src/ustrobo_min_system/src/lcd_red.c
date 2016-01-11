@@ -8,7 +8,7 @@ u16 curr_text_color_sp = BLACK;
 
 u8 tft_orientation = 0, tft_enabled = 1;
 u8 tft_width = 0, tft_height = 0;
-
+s8 tft_y_index = -1;
 
 char text[CHAR_MAX_X][CHAR_MAX_Y];
 char text_prev[CHAR_MAX_X][CHAR_MAX_Y];
@@ -247,6 +247,7 @@ void tft_config(void)
   */
 void tft_reset(void)
 {
+	tft_y_index = -1;
  	GPIO_ResetBits(TFT_RST_PORT, TFT_RST_PIN);
 	_delay_ms(100);
 	GPIO_SetBits(TFT_RST_PORT, TFT_RST_PIN);
@@ -422,10 +423,9 @@ void tft_clear_line(u8 line)
   * @param  None
   * @retval None
   */
-void tft_clear(void)
-{
-	u8 y;
-	for(y = 0; y < CHAR_MAX_Y; y++)
+void tft_clear(void){
+	tft_y_index = -1;
+	for(u8 y = 0; y < CHAR_MAX_Y; y++)
 		tft_clear_line(y);
 }
 
@@ -434,8 +434,7 @@ void tft_clear(void)
   * @param  None
   * @retval None
   */
-void tft_toggle(void)
-{
+void tft_toggle(void){
 	tft_force_clear();
 	tft_clear();
 	tft_orientation = (tft_orientation+1) % 4;
@@ -510,16 +509,16 @@ u8 tft_char_is_changed(u8 x, u8 y)
 }
 
 /**
-  * @brief  Print a string at certain position
+  * @brief  Print a string at certain position, use [] to indicate special words
   * @param  x: starting x-coordinate
   * @param  y: starting y-coordinate
   * @param  pstr: string to be printed
-  * @retval None
   */
 void tft_prints(u8 x, u8 y, const char * pstr, ...)
 {
 	u8 buf[256], is_special = 0;
 	u8* fp = NULL;
+	tft_y_index = y;
 	
 	va_list arglist;
 	va_start(arglist, pstr);
@@ -548,11 +547,55 @@ void tft_prints(u8 x, u8 y, const char * pstr, ...)
 			if (x >= CHAR_MAX_X) {
 				x = 0;
 				y++;
+				tft_y_index++;
 			} else {
 				x++;
 			}
 			if (y >= CHAR_MAX_Y)
 				y = 0;
+				tft_y_index = 0;
+		}
+	}
+}
+
+void tft_append_line(const char * pstr, ...){
+	u8 buf[256], is_special = 0;
+	u8* fp = NULL;
+	u8 x = 0;
+	tft_y_index++;
+	
+	va_list arglist;
+	va_start(arglist, pstr);
+	vsprintf((char*)buf, (const char*)pstr, arglist);
+	va_end(arglist);
+	
+	
+	fp = buf;
+	while (*fp)	{
+		if (*fp == '[') {
+			is_special = 1;
+			fp++;
+		} else if (*fp == ']') {
+			is_special = 0;
+			fp++;
+		} else if (*fp == '\r' || *fp == '\n') {		  				 
+			fp++;
+		} else {
+			if (x > CHAR_MAX_X || tft_y_index > CHAR_MAX_Y) {
+				*fp++;
+				continue;
+			}
+			text[x][tft_y_index] = *fp++;
+			text_color[x][tft_y_index] = is_special ? curr_text_color_sp : curr_text_color;
+			bg_color[x][tft_y_index] = curr_bg_color;			
+			if (x >= CHAR_MAX_X) {
+				x = 0;
+				tft_y_index++;
+			} else {
+				x++;
+			}
+			if (tft_y_index >= CHAR_MAX_Y)
+				tft_y_index = -1;
 		}
 	}
 }

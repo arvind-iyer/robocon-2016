@@ -17,3 +17,7 @@
 .\output\led.o: .\src\stm32f10x_std\inc\misc.h
 .\output\led.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\led.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
+.\output\led.o: .\src\ustrobo_min_system\inc\lcd_red.h
+.\output\led.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\led.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\led.o: .\src\ustrobo_min_system\inc\delay.h
