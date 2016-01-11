@@ -308,7 +308,6 @@ int main() {
 			
             for (int i = 0; i < 128; i++) {
 				Point point = points.array[i];
-				tft_put_pixel(point.x, point.y, BLACK);
 			}
 
 			
@@ -336,8 +335,6 @@ int main() {
 				Point point = points.array[i];
 				tft_put_pixel(point.x, point.y/100, GREEN);
 			}
-
-			tft_prints(0, 0, "%s", stringBuffer);
             tft_update();
             
             //FREE THE ALLOCATED MEMORY
