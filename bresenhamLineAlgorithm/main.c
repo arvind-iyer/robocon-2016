@@ -131,6 +131,8 @@ struct Coor * bresenham(struct Coor buffer[],int size){
 		  }
 
 		  if ((lastX == currentX) && (lastY==currentY)) {
+			  result[indexNum].x = lastX;
+			  result[indexNum].y = lastY;
 			  break;
 		  }
 
