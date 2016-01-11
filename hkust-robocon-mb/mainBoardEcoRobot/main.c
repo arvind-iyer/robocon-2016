@@ -6,7 +6,7 @@
 #include <string.h>
 
 typedef struct Point {
-	int32_t x, y;
+	uint32_t x, y;
 } Point;
 
 typedef struct {
@@ -27,39 +27,6 @@ void insertArray(Array *a, Point element) {
 		a->array = (Point *) realloc(a->array, a->size * sizeof(Point));
 	}
 	a->array[a->used++] = element;
-}
-
-void quickSort(uint32_t *a, int n) {
-	int i, j, p, t;
-	if (n < 2)
-		return;
-	p = a[n / 2];
-	for (i = 0, j = n - 1;; i++, j--) {
-		while (a[i] < p)
-			i++;
-		while (p < a[j])
-			j--;
-		if (i >= j)
-			break;
-		t = a[i];
-		a[i] = a[j];
-		a[j] = t;
-	}
-	quickSort(a, i);
-	quickSort(a + i, n - i);
-}
-
-uint32_t * medianFilter(uint32_t * signal, int windowLen) {
-	static uint32_t result[128];
-	for (int i = windowLen; i < 128 - (windowLen / 2); i++) {
-		uint32_t window[windowLen];
-		for (int j = 0; j < windowLen; ++j) {
-			window[j] = signal[i - (windowLen / 2) + j];
-		}
-		quickSort(window, sizeof(window) / sizeof(window[0]));
-		result[i - (windowLen / 2)] = window[windowLen / 2];
-	}
-	return result;
 }
 
 uint32_t pointDistanceToLine(int x, int y, int x1, int y1, int x2, int y2) {
@@ -93,7 +60,7 @@ void douglasPeuckerRecursion(uint32_t signal[], uint32_t list[], int e,
 	}
 }
 
-Array douglasPeucker(uint32_t buff[], int32_t e) {
+Array douglasPeucker(uint32_t buff[], uint32_t e) {
 	uint32_t list[128];
 	douglasPeuckerRecursion(buff, list, e, 0, 127);
 
@@ -102,20 +69,130 @@ Array douglasPeucker(uint32_t buff[], int32_t e) {
 
 	for (int i = 0; i < 128; i++) {
 		if (list[i] == 0) {
-			insertArray(&points, (Point ) { i, list[i] });
+			insertArray(&points, (Point ) { i, buff[i] });
 		}
 	}
 	return points;
 }
-uint32_t *Iterator(uint32_t array[], uint32_t targetArray[]){
-	int indexCount = 0;
-	for (uint32_t i = 0; i<128;i++){
-		if(array[i] == 0){
-			targetArray[indexCount] = 0;
-			indexCount +=1;
+
+Array bresenham(Array buffer, int bufferSize){
+	int i,j;
+	int size = bufferSize; //get the size
+	int indexNum = -1;
+	int newSize; //the new size
+	int newBufferState = 0;
+
+
+	//4 POSSIBILITIES
+	if(buffer.array[0].x == 0 && buffer.array[size-1].x == 127){
+		newSize = size;
+		newBufferState = 0;
+	}
+	if(buffer.array[size-1].x != 127 && buffer.array[0].x == 0){
+		newSize = size+1;
+		newBufferState = 1;
+	}
+	if(buffer.array[size-1].x == 127 && buffer.array[0].x != 0){
+		newSize = size+1;
+		newBufferState = 2;
+	}
+	if(buffer.array[0].x != 0 && buffer.array[size-1].x != 127){
+		newSize = size+2;
+		newBufferState = 3;
+	}
+
+	//struct Coor newBuffer[newSize];
+	Array newBuffer;
+	initArray(&newBuffer, 128);
+
+	//INITIALIZATION OF THE 4 NEW BUFFER ARRAYS
+	if(newBufferState == 0){
+		int c;
+			for(c = 0 ; c < newSize ;c++){
+				newBuffer.array[c].x = buffer.array[c].x;
+				newBuffer.array[c].y = buffer.array[c].y;
+			}
+	}
+	if(newBufferState == 1){
+		int a;
+		newBuffer.array[newSize-1].x = 127;
+		newBuffer.array[newSize-1].y = 127;
+		for(a = 0; a < size; a++){
+			newBuffer.array[a].x = buffer.array[a].x;
+			newBuffer.array[a].y = buffer.array[a].y;
 		}
 	}
+	if(newBufferState == 2){
+		int b;
+			newBuffer.array[0].x = 0;
+			newBuffer.array[0].y = 0;
+			for(b = 1; b< newSize; b++){
+				newBuffer.array[b].x = buffer.array[b-1].x;
+				newBuffer.array[b].y = buffer.array[b-1].y;
+			}
+	}
+
+	if(newBufferState == 3){
+		int d;
+			newBuffer.array[0].x = 0;
+			newBuffer.array[0].y = 0;
+			newBuffer.array[newSize - 1].x = 127;
+			newBuffer.array[newSize - 1].y = 0;
+			for(d = 1 ; d < newSize - 1 ; d++){
+				newBuffer.array[d].x  = buffer.array[d-1].x;
+				newBuffer.array[d].y  = buffer.array[d-1].y;
+			}
+
+	}
+
+	//struct Coor result[128];
+	//INITIALIZE THE RESULT ARRAY
+	Array result;
+	initArray(&result, 128);
+
+
+	for(i  = 1; i < newSize ; i++){
+		int currentX = newBuffer.array[i].x;
+		int currentY = newBuffer.array[i].y;
+		int lastX = newBuffer.array[i-1].x;
+		int lastY = newBuffer.array[i-1].y;
+
+		//the bresenham side
+		int dx = abs(currentX-lastX), sx = lastX < currentX ? 1 : -1;
+		int dy = abs(currentY-lastY), sy = lastY < currentY ? 1 : -1;
+		int err = (dx>dy ? dx : -dy)/2, e2;
+
+
+		for(;;){
+		  if(lastX != indexNum){
+			  indexNum++;
+			  result.array[indexNum].x = lastX;
+			  result.array[indexNum].y = lastY;
+		  }
+
+		  if ((lastX == currentX) && (lastY==currentY)) {
+			  result.array[indexNum].x = lastX;
+			  result.array[indexNum].y = lastY;
+			  break;
+		  }
+
+		  e2 = err;
+		  if (e2 >-dx) { err -= dy; lastX += sx; }
+		  if (e2 < dy) { err += dx; lastY += sy; }
+		}
+
+	}
+	//USE THIS FOR DEBUGGING
+	/*for(j = 0;j<128;j++){
+		printf("X: %d Y:%d\n",result[j].x,result[j].y);
+	}*/
+    
+    //FREE THE ALLOCATED MEMORY
+    free(newBuffer.array);
+    free(buffer.array);
+	return result;
 }
+
 int interpolationCircle(int a){
 	if (a <= 50){
 		a*=2;
@@ -125,13 +202,18 @@ int interpolationCircle(int a){
 	a *= 2;
 	return(Sqrt(10000 - a * a)+ 100)/2;
 }
-int lerp(uint32_t target, uint32_t lastData, uint32_t a){
+Array lerp(Array target, Array lastData, uint32_t a){
 	int invA = 100 - a;
-	uint32_t interpolatedTarget =  (lastData * invA) + (target * a);
-	return interpolatedTarget;
+	Array points;
+	initArray (&points,128);
+	for (int i=0;i<128;i++){
+		insertArray(&points, (Point) {(target.array[i].x * invA) + (lastData.array[i].x * a),
+		(target.array[i].y * invA) + (lastData.array[i].y * a)});
+	}
+	return points;
 }
-int Interpolation (uint32_t target, uint32_t lastData, uint32_t a){
-	return lerp (target, lastData, a);
+Array Interpolation (Array targetData, Array lastData, uint32_t a){
+	return lerp (targetData, lastData, interpolationCircle(a));
 }
 double calculateAreas(uint32_t signal[]) {
 	uint32_t leftPartition[64];
@@ -207,10 +289,6 @@ void thing(const uint8_t header) {
 int main() {
 	stringBuffer[0] = 'T';
 	
-	uart_init(COM3, 9600);
-	uart_interrupt_init(COM3, &thing);
-	
-	uart_tx_byte(COM3, 'x');
 	
 	tft_init(0, BLACK, SKY_BLUE, GREEN);
 	button_init();
@@ -218,59 +296,56 @@ int main() {
 	linear_ccd_init();
 	adc_init();
 
-	long lastTick = get_ms_ticks();
-	uint32_t * buffer;
-	uint32_t doubleArray[128][1];
-	uint32_t lastFilteredData[128];
-	uint32_t dataFinishFilter[128];
+	int lastTick = get_real_ticks();
 	
-
+	Array points;
+	Array lastPoints;
+	
 	while (1) {
 
-		if (get_ms_ticks() - lastTick >= 20) {
-			for (int i = 0; i < 128; i++) {
-				if (dataFinishFilter[i] == -1)
-					continue;
-				tft_put_pixel(i, dataFinishFilter[i], BLACK);
+		if (get_real_ticks() - lastTick >= 20) {
+            linear_ccd_read();
+			
+            for (int i = 0; i < 128; i++) {
+				Point point = points.array[i];
+				tft_put_pixel(point.x, point.y, BLACK);
 			}
 
-			linear_ccd_read();
-			buffer = linear_ccd_buffer1;
-			for (int i =0;i<128;i++){
-				buffer[i] = buffer[i]*100;
+			
+			for (int i = 0; i < 128; i++){
+				linear_ccd_buffer1[i] = linear_ccd_buffer1[i] * 100;
 			}
-			buffer = medianFilter(buffer, 5);
+            tft_prints(0,0,"Y: %d",linear_ccd_buffer1[64]);
+            tft_prints(0,1,"Count: %d",lastTick);
+			points = douglasPeucker(linear_ccd_buffer1, 10);
 			
-			Array points = douglasPeucker(buffer, 10);
+			// Do Bresenham Here
+			points = bresenham(points, points.used);
 			
-			/*for (int i = 0; i<128; i++) {
-				doubleArray[i][0] = buffer[i];
-			}*/
-			//int thing = douglasPeucker(buffer, 20);
-			
-			if (sizeof(lastFilteredData) / sizeof(lastFilteredData[0]) >0){
-					for (int i = 0; i<sizeof(lastFilteredData)/sizeof(lastFilteredData[0]); i++){
-						dataFinishFilter[i] = Interpolation(buffer[i],lastFilteredData[i], interpolationCircle(55));
-						dataFinishFilter[i] = dataFinishFilter[i]/10000;
-					}
-				}
-			for (int i = 0; i<128; i++) {
-				lastFilteredData[i] = buffer[i];
+			if (lastPoints.used > 0) {
+				points = Interpolation(points, lastPoints, 55);
 			}
-			//double count = calculateAreas(buffer);
+			
+			lastPoints  = points;
+			for (int i = 0; i < points.used; i++) {
+					points.array[i].x /= 100;
+					points.array[i].y /= 100;
+			}
 
 			for (int i = 0; i < 128; i++) {
-				//buffer[i] = buffer[i]/100;
-				if (dataFinishFilter[i] == -1)
-					continue;
-				tft_put_pixel(i, dataFinishFilter[i], GREEN);
+				Point point = points.array[i];
+				tft_put_pixel(point.x, point.y/100, GREEN);
 			}
 
 			tft_prints(0, 0, "%s", stringBuffer);
-			//tft_prints(0, 1, "%f", count);
-			tft_update();
+            tft_update();
+            
+            //FREE THE ALLOCATED MEMORY
+			free(points.array);
+            free(lastPoints.array);
 			
-			lastTick = get_ms_ticks();
+            
+            lastTick = get_real_ticks();
 		}
 	}
 
