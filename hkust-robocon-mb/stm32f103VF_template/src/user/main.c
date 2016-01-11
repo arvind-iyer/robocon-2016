@@ -30,8 +30,8 @@ int main(void) {
 		tft_prints(0, 0, "X: %d", get_pos()->x);
 		tft_prints(0, 1, "Y: %d", get_pos()->y);
 		tft_prints(0, 2, "Angle: %d", get_pos_raw()->angle);
-		tft_prints(0, 3, "E1: %d", get_encoder_value(MOTOR1));
-		tft_prints(0, 4, "E2: %d", get_encoder_value(MOTOR2));
+		tft_prints(0, 3, "E1: %d", gyro_get_shift_x());
+		tft_prints(0, 4, "E2: %d", gyro_get_shift_y());
 		tft_prints(0, 5, "E3: %d", get_encoder_value(MOTOR3));
 		tft_prints(0, 6, "VX: %d", velXPid.output);
 		tft_prints(0, 7, "VY: %d", velYPid.output);
@@ -67,7 +67,12 @@ void handleCommand(char * command) {
 				break;
 				case 1: // Testing
 					if (ROBOT_MOVING == 0) {
-						setTargetLocation(contents[0], contents[1]);
+						initTargetQueue(32);
+						queueTarget((Target) {.x = 0, .y = 1000, .angle = 0, .curveFactor = 900});
+						queueTarget((Target) {.x = 1000, .y = 1000, .angle = 0, .curveFactor = NO_CURVE});
+						queueTarget((Target) {.x = 0, .y = 0, .angle = 0, .curveFactor = NO_CURVE});
+						
+						dequeueTarget();
 					} else {
 						lockAllMotors();
 						ROBOT_MOVING = 0;

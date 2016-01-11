@@ -45,7 +45,7 @@ typedef enum {
 	MOTOR16
 } MOTOR_ID;
 
-#define this_motor MOTOR3
+#define this_motor MOTOR2
 
 /*** TX ***/
 void can_motor_init(void);
