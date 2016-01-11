@@ -47,20 +47,12 @@ int main()
 	can_motor_init();
 	_delay();
 	
-	/*
-	_checkpoint(-385, 1039, 0, 100, 360);
-	_checkpoint(-13, 1549, 0, 100, 360);
-	_checkpoint(498, 2699, 0, 100, 360);
-	_checkpoint(-13, 1549, 0, 100, 360);
-	_checkpoint(823, 1923, 0, 100, 360);
-	_checkpoint(773, 1275, 0, 100, 360);
-	*/
-	
 	while (1)
 	{
-		motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
-		motor_set_vel(MOTOR2, 0, CLOSE_LOOP);
-		motor_set_vel(MOTOR3, 0, CLOSE_LOOP);
+		//motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
+		//motor_set_vel(MOTOR2, 0, CLOSE_LOOP);
+		//motor_set_vel(MOTOR3, 0, CLOSE_LOOP);
+		_checkpoint(0, 0, 0, 1, 1);
 		_updateScreen();
 	}
 }
@@ -110,6 +102,18 @@ void _path()
 		{
 			M=dist/10;
 		}
+		if (dist>0 && M==0)
+		{
+			M=1;
+		}
+		if (_angleDiff(get_angle()/10, target_angle)>0 && W==0)
+		{
+			W=1;
+		}
+		if (_angleDiff(get_angle()/10, target_angle)<0 && W==0)
+		{
+			W=-1;
+		}
 		_updateScreen();
 		_move(M, target_direction*10, W);
 	}
@@ -131,14 +135,14 @@ void _move(float magnitude, float bearing, float W)
 		Y=Sqrt(MAXVEL*MAXVEL/(1+X*X/Y/Y));
 		X=Sqrt(MAXVEL*MAXVEL-Y*Y);
 	}
-	_M1=(-W-X*2)/3;
-	_M2=(-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3);
-	_M3=-W-M1-M2;
+	_M1=(-W-X*2)/3+0.4999;
+	_M2=(-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3)+0.4999;
+	_M3=-W-M1-M2+0.4999;
 	if ((magnitude!=0 || W!=0) && _x==_getX() && _y==_getY() && _angle==get_angle())
 	{
-		if (_M1*(err+0.2)<=140 || _M2*(err+0.2)<=140 || _M3*(err+0.2)<=140)
+		if (_M1*(err+0.03)<=140 && _M2*(err+0.03)<=140 && _M3*(err+0.03)<=140)
 		{
-			err=err+0.2;
+			err=err+0.03;
 		}
 	}
 	else
@@ -149,9 +153,9 @@ void _move(float magnitude, float bearing, float W)
 			err=1;
 		}
 	}
-	M1=_M1*err;
-	M2=_M2*err;
-	M3=_M3*err;
+	M1=((-W-X*2)/3)*err;
+	M2=((-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3))*err;
+	M3=(-W-M1-M2)*err;
 	//motor control
 	motor_set_vel(MOTOR1, M1, CLOSE_LOOP);
 	motor_set_vel(MOTOR2, M2, CLOSE_LOOP);
