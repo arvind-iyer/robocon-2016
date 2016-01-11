@@ -1,7 +1,33 @@
 #include "main.h"
 #include <math.h>
 #include <stdio.h>
-#include <cstring>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Point {
+	int32_t x, y;
+} Point;
+
+typedef struct {
+	Point *array;
+	size_t used;
+	size_t size;
+} Array;
+
+void initArray(Array *a, size_t initialSize) {
+	a->array = (Point *) malloc(initialSize * sizeof(Point));
+	a->used = 0;
+	a->size = initialSize;
+}
+
+void insertArray(Array *a, Point element) {
+	if (a->used == a->size) {
+		a->size *= 2;
+		a->array = (Point *) realloc(a->array, a->size * sizeof(Point));
+	}
+	a->array[a->used++] = element;
+}
 
 void quickSort(uint32_t *a, int n) {
 	int i, j, p, t;
@@ -41,14 +67,14 @@ uint32_t pointDistanceToLine(int x, int y, int x1, int y1, int x2, int y2) {
 	uint32_t b = y - y1;
 	uint32_t c = x2 - x1;
 	uint32_t d = y2 - y1;
-	return abs(a * d - c * b) / pow(c * c + d * d, 0.5);
+	return abs(a * d - c * b) / Sqrt(c * c + d * d);
 }
 
-void douglasPeuckerRecursion(uint32_t signal[], uint32_t list[], float e,
+void douglasPeuckerRecursion(uint32_t signal[], uint32_t list[], int e,
 		int start, int end) {
 	int index = -1;
 	int count = start + 1;
-	float distance = 0;
+	int distance = 0;
 	while (count != end) {
 		if (pointDistanceToLine(count, signal[count], start, signal[start], end,
 				signal[end]) > distance) {
@@ -60,36 +86,52 @@ void douglasPeuckerRecursion(uint32_t signal[], uint32_t list[], float e,
 	}
 	if (index != -1) {
 		if (distance > e) {
-			list[index] = 1;
+			list[index] = 100;
 			douglasPeuckerRecursion(signal, list, e, start, index);
 			douglasPeuckerRecursion(signal, list, e, index, end);
 		}
 	}
 }
 
-int douglasPeucker(uint32_t buff[], float e) {
+Array douglasPeucker(uint32_t buff[], int32_t e) {
 	uint32_t list[128];
 	douglasPeuckerRecursion(buff, list, e, 0, 127);
-	int count = 0;
+
+	Array points;
+	initArray(&points, 128);
+
 	for (int i = 0; i < 128; i++) {
 		if (list[i] == 0) {
-			buff[i] = -1;
-			count++;
+			insertArray(&points, (Point ) { i, list[i] });
 		}
 	}
-	return count;
+	return points;
 }
-int interpolationCircle(float a){
-	if (a <= 0.5f){
-		a*=2;
-		return(1 - (float)Sqrt(1 - a * a))/2;
+uint32_t *Iterator(uint32_t array[], uint32_t targetArray[]){
+	int indexCount = 0;
+	for (uint32_t i = 0; i<128;i++){
+		if(array[i] == 0){
+			targetArray[indexCount] = 0;
+			indexCount +=1;
+		}
 	}
-	a--;
-	a *= 2;
-	return((float)Sqrt(1 - a * a)+ 1)/2;
 }
-int Interpolation (uint32_t start, uint32_t end, float a){
-
+int interpolationCircle(int a){
+	if (a <= 50){
+		a*=2;
+		return(100 - Sqrt(10000 - a * a))/2;
+	}
+	a= a-100;
+	a *= 2;
+	return(Sqrt(10000 - a * a)+ 100)/2;
+}
+int lerp(uint32_t target, uint32_t lastData, uint32_t a){
+	int invA = 100 - a;
+	uint32_t interpolatedTarget =  (lastData * invA) + (target * a);
+	return interpolatedTarget;
+}
+int Interpolation (uint32_t target, uint32_t lastData, uint32_t a){
+	return lerp (target, lastData, a);
 }
 double calculateAreas(uint32_t signal[]) {
 	uint32_t leftPartition[64];
@@ -178,38 +220,54 @@ int main() {
 
 	long lastTick = get_ms_ticks();
 	uint32_t * buffer;
+	uint32_t doubleArray[128][1];
 	uint32_t lastFilteredData[128];
+	uint32_t dataFinishFilter[128];
 	
 
 	while (1) {
 
 		if (get_ms_ticks() - lastTick >= 20) {
 			for (int i = 0; i < 128; i++) {
-				if (buffer[i] == -1)
+				if (dataFinishFilter[i] == -1)
 					continue;
-				tft_put_pixel(i, buffer[i], BLACK);
+				tft_put_pixel(i, dataFinishFilter[i], BLACK);
 			}
 
 			linear_ccd_read();
 			buffer = linear_ccd_buffer1;
-			buffer = medianFilter(buffer, 5);
-			int thing = douglasPeucker(buffer, 20);
-			
-			if(sizeof(lastFilteredData) >0){
-					for (int i = 0; i<128; i++){
-						
-					}
+			for (int i =0;i<128;i++){
+				buffer[i] = buffer[i]*100;
 			}
-			double count = calculateAreas(buffer);
+			buffer = medianFilter(buffer, 5);
+			
+			Array points = douglasPeucker(buffer, 10);
+			
+			/*for (int i = 0; i<128; i++) {
+				doubleArray[i][0] = buffer[i];
+			}*/
+			//int thing = douglasPeucker(buffer, 20);
+			
+			if (sizeof(lastFilteredData) / sizeof(lastFilteredData[0]) >0){
+					for (int i = 0; i<sizeof(lastFilteredData)/sizeof(lastFilteredData[0]); i++){
+						dataFinishFilter[i] = Interpolation(buffer[i],lastFilteredData[i], interpolationCircle(55));
+						dataFinishFilter[i] = dataFinishFilter[i]/10000;
+					}
+				}
+			for (int i = 0; i<128; i++) {
+				lastFilteredData[i] = buffer[i];
+			}
+			//double count = calculateAreas(buffer);
 
 			for (int i = 0; i < 128; i++) {
-				if (buffer[i] == -1)
+				//buffer[i] = buffer[i]/100;
+				if (dataFinishFilter[i] == -1)
 					continue;
-				tft_put_pixel(i, buffer[i], GREEN);
+				tft_put_pixel(i, dataFinishFilter[i], GREEN);
 			}
 
 			tft_prints(0, 0, "%s", stringBuffer);
-			tft_prints(0, 1, "%f", count);
+			//tft_prints(0, 1, "%f", count);
 			tft_update();
 			
 			lastTick = get_ms_ticks();
