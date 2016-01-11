@@ -52,7 +52,7 @@ void motor_init(void)
 
 	/* PWM1 Mode configuration: Channel3 */
 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;  
-	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
+	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;//TIM_OCPolarity_High;
 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
 	TIM_OCInitStructure.TIM_Pulse = 0;
 	TIM_OC3Init(MOTOR_TIM, &TIM_OCInitStructure);
@@ -75,11 +75,15 @@ void motor_init(void)
 static void set_dir(DIRECTION dir)
 {
 	if (dir == ANTI_CKW) {
-		GPIO_SetBits(MOTOR_DIR_GPIOx, MOTOR_DIR1_Pin);
-		GPIO_ResetBits(MOTOR_DIR_GPIOx, MOTOR_DIR2_Pin);
+		GPIO_ResetBits(MOTOR_DIR_GPIOx, MOTOR_DIR1_Pin);
+		GPIO_SetBits(MOTOR_DIR_GPIOx, MOTOR_DIR2_Pin);
+		//GPIO_SetBits(MOTOR_DIR_GPIOx, MOTOR_DIR1_Pin);
+		//GPIO_ResetBits(MOTOR_DIR_GPIOx, MOTOR_DIR2_Pin);
 	} else if (dir == CKW) {
-		GPIO_SetBits(MOTOR_DIR_GPIOx,MOTOR_DIR2_Pin);
-		GPIO_ResetBits(MOTOR_DIR_GPIOx,MOTOR_DIR1_Pin);
+		GPIO_ResetBits(MOTOR_DIR_GPIOx,MOTOR_DIR2_Pin);
+		GPIO_SetBits(MOTOR_DIR_GPIOx,MOTOR_DIR1_Pin);
+		//GPIO_SetBits(MOTOR_DIR_GPIOx,MOTOR_DIR2_Pin);
+		//GPIO_ResetBits(MOTOR_DIR_GPIOx,MOTOR_DIR1_Pin);
 	}
 }
 

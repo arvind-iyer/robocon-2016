@@ -8,15 +8,16 @@ u16 curr_text_color_sp = BLACK;
 
 u8 tft_orientation = 0, tft_enabled = 1;
 u8 tft_width = 0, tft_height = 0;
-s8 tft_y_index = -1;
+u8 tft_y_index = 0;
+u8 char_max_x, char_max_y;
 
-char text[CHAR_MAX_X][CHAR_MAX_Y];
-char text_prev[CHAR_MAX_X][CHAR_MAX_Y];
-u16 text_color[CHAR_MAX_X][CHAR_MAX_Y];
-u16 text_color_prev[CHAR_MAX_X][CHAR_MAX_Y];
-u16 bg_color[CHAR_MAX_X][CHAR_MAX_Y];
-u16 bg_color_prev[CHAR_MAX_X][CHAR_MAX_Y];
-u8 text_bg_color_prev[CHAR_MAX_X][CHAR_MAX_Y];/*for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color*/
+char text							[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
+char text_prev				[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
+u16 text_color				[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
+u16 text_color_prev		[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
+u16 bg_color					[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
+u16 bg_color_prev			[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
+u8 text_bg_color_prev	[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];/*for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color*/
 
 u16 print_pos = 0;
 
@@ -69,14 +70,7 @@ void tft_spi_init(void)
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	 GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
    GPIO_Init(GPIO_CS, &GPIO_InitStructure);
-	 
-	 /* Configure TFT_SPI Pin: CS */
-//   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5;
-//   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-//	 GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-//   GPIO_Init(GPIOD, &GPIO_InitStructure);
-	 
-  
+
 		//GPIO_PinRemapConfig(GPIO_Remap_SPI3, ENABLE);
    /* TFT_SPI configuration */
    SPI_InitStructure.SPI_Direction = SPI_Direction_2Lines_FullDuplex;
@@ -247,7 +241,7 @@ void tft_config(void)
   */
 void tft_reset(void)
 {
-	tft_y_index = -1;
+	tft_y_index = 0;
  	GPIO_ResetBits(TFT_RST_PORT, TFT_RST_PIN);
 	_delay_ms(100);
 	GPIO_SetBits(TFT_RST_PORT, TFT_RST_PIN);
@@ -256,30 +250,44 @@ void tft_reset(void)
 
 /**
   * @brief  Initialization of TFT
-  * @param  orientation: default orientation (0, 1, 2, 3)
+  * @param  orientation: default orientation (0, 1, 2, 3) 
+  	(PIN_ON_TOP = 0,
+	PIN_ON_LEFT = 1,
+	PIN_ON_BOTTOM = 2,
+	PIN_ON_RIGHT = 3)
   * @param  in_bg_color: default background color
   * @param  in_text_color: default text color
   * @param  in_text_color_sp: default special text color
   * @retval None
   */
-void tft_init(u8 orientation, u16 in_bg_color, u16 in_text_color, u16 in_text_color_sp)
+void tft_init(TFT_ORIENTATION orientation, u16 in_bg_color, u16 in_text_color, u16 in_text_color_sp)
 {
 	u8 x, y;
+	tft_y_index = 0;
 	tft_spi_init();
 	tft_reset();
 	tft_config();
-    tft_write_command(0x2C);
+  	tft_write_command(0x2C);
 	tft_set_bg_color(in_bg_color);
 	tft_set_text_color(in_text_color);
 	tft_set_special_color(in_text_color_sp);
 	tft_fill_color(in_bg_color);
 	tft_orientation = orientation;
 	
-	tft_width = (orientation % 2) ? CHAR_MAX_X_HORIZONTAL : CHAR_MAX_X_VERTICAL;
-	tft_height = (orientation % 2) ? CHAR_MAX_Y_HORIZONTAL : CHAR_MAX_Y_VERTICAL;
+	if (orientation % 2){
+		tft_width = MAX_HEIGHT;
+		tft_height = MAX_WIDTH;
+		char_max_x = CHAR_MAX_X_HORIZONTAL;
+		char_max_y = CHAR_MAX_Y_HORIZONTAL;
+	}else{
+		tft_height = MAX_HEIGHT;
+		tft_width = MAX_WIDTH;
+		char_max_x = CHAR_MAX_X_VERTICAL;
+		char_max_y = CHAR_MAX_Y_VERTICAL;
+	}
 
-	for (x = 0; x < CHAR_MAX_X; x++) {
-		for (y = 0; y < CHAR_MAX_Y; y++) {
+	for (x = 0; x <= CHAR_MAX_X_ANY; x++) {
+		for (y = 0; y <= CHAR_MAX_Y_ANY; y++) {
 			text[x][y] = ' ';
 			text_color[x][y] = in_text_color;
 			bg_color[x][y] = in_bg_color;
@@ -289,6 +297,14 @@ void tft_init(u8 orientation, u16 in_bg_color, u16 in_text_color, u16 in_text_co
 			bg_color_prev[x][y] = in_bg_color;
 		}
 	}
+}
+
+/**
+  * @brief  Easy init for easy reading
+  */
+void tft_easy_init()
+{
+	tft_init(PIN_ON_RIGHT, WHITE, BLACK, RED);
 }
 
 /**
@@ -393,8 +409,8 @@ void tft_set_char_pos(u8 x1, u8 y1, u8 x2, u8 y2)
 void tft_force_clear(void)
 {
 	u8 x, y;
-	for (x = 0; x < CHAR_MAX_X; x++) {
-		for (y = 0; y < CHAR_MAX_Y; y++) {
+	for (x = 0; x <= CHAR_MAX_X_ANY; x++) {
+		for (y = 0; y <= CHAR_MAX_Y_ANY; y++) {
 			text_prev[x][y] = ' ';
 			text_color_prev[x][y] = curr_text_color;
 			bg_color_prev[x][y] = curr_bg_color;
@@ -411,7 +427,7 @@ void tft_force_clear(void)
 void tft_clear_line(u8 line)
 {
 	u8 x;
-	for (x = 0; x < CHAR_MAX_X; x++) {
+	for (x = 0; x <= char_max_x; x++) {
 		text[x][line] = ' ';
 		text_color[x][line] = curr_text_color;
 		bg_color[x][line] = curr_bg_color;
@@ -424,23 +440,9 @@ void tft_clear_line(u8 line)
   * @retval None
   */
 void tft_clear(void){
-	tft_y_index = -1;
-	for(u8 y = 0; y < CHAR_MAX_Y; y++)
+	tft_y_index = 0;
+	for(u8 y = 0; y <= char_max_y; y++)
 		tft_clear_line(y);
-}
-
-/**
-  * @brief  Switch the orientation of screen
-  * @param  None
-  * @retval None
-  */
-void tft_toggle(void){
-	tft_force_clear();
-	tft_clear();
-	tft_orientation = (tft_orientation+1) % 4;
-	
-	tft_width = (tft_orientation % 2) ? CHAR_MAX_X_HORIZONTAL : CHAR_MAX_X_VERTICAL;
-	tft_height = (tft_orientation % 2) ? CHAR_MAX_Y_HORIZONTAL : CHAR_MAX_Y_VERTICAL;
 }
 
 /**
@@ -514,17 +516,14 @@ u8 tft_char_is_changed(u8 x, u8 y)
   * @param  y: starting y-coordinate
   * @param  pstr: string to be printed
   */
-void tft_prints(u8 x, u8 y, const char * pstr, ...)
-{
+void tft_prints(u8 x, u8 y, const char * pstr, ...){
 	u8 buf[256], is_special = 0;
 	u8* fp = NULL;
-	tft_y_index = y;
 	
 	va_list arglist;
 	va_start(arglist, pstr);
 	vsprintf((char*)buf, (const char*)pstr, arglist);
 	va_end(arglist);
-	
 	
 	fp = buf;
 	while (*fp)	{
@@ -537,39 +536,37 @@ void tft_prints(u8 x, u8 y, const char * pstr, ...)
 		} else if (*fp == '\r' || *fp == '\n') {		  				 
 			fp++;
 		} else {
-			if (x > CHAR_MAX_X || y > CHAR_MAX_Y) {
-				*fp++;
-				continue;
+			if (x > char_max_x || y > (char_max_y-1)) {
+				break;
 			}
+
 			text[x][y] = *fp++;
 			text_color[x][y] = is_special ? curr_text_color_sp : curr_text_color;
-			bg_color[x][y] = curr_bg_color;			
-			if (x >= CHAR_MAX_X) {
-				x = 0;
-				y++;
-				tft_y_index++;
-			} else {
-				x++;
-			}
-			if (y >= CHAR_MAX_Y)
-				y = 0;
-				tft_y_index = 0;
+			bg_color[x][y] = curr_bg_color;	
+			x++;
 		}
 	}
 }
+
+/**
+* Append a line to the tft screen. Not affected by tft_prints
+* @param pstr: Stuff to be printed
+**/
 
 void tft_append_line(const char * pstr, ...){
 	u8 buf[256], is_special = 0;
 	u8* fp = NULL;
 	u8 x = 0;
-	tft_y_index++;
 	
 	va_list arglist;
 	va_start(arglist, pstr);
 	vsprintf((char*)buf, (const char*)pstr, arglist);
 	va_end(arglist);
 	
-	
+	if (tft_y_index<0 || tft_y_index>(char_max_y-1)){
+		tft_y_index = 0;
+	}
+
 	fp = buf;
 	while (*fp)	{
 		if (*fp == '[') {
@@ -581,23 +578,21 @@ void tft_append_line(const char * pstr, ...){
 		} else if (*fp == '\r' || *fp == '\n') {		  				 
 			fp++;
 		} else {
-			if (x > CHAR_MAX_X || tft_y_index > CHAR_MAX_Y) {
-				*fp++;
-				continue;
+			if (x > char_max_x || tft_y_index > (char_max_y)) {
+				break;
 			}
+
 			text[x][tft_y_index] = *fp++;
 			text_color[x][tft_y_index] = is_special ? curr_text_color_sp : curr_text_color;
-			bg_color[x][tft_y_index] = curr_bg_color;			
-			if (x >= CHAR_MAX_X) {
-				x = 0;
-				tft_y_index++;
-			} else {
-				x++;
-			}
-			if (tft_y_index >= CHAR_MAX_Y)
-				tft_y_index = -1;
+			bg_color[x][tft_y_index] = curr_bg_color;	
+			x++;
 		}
 	}
+	tft_y_index = tft_y_index > (char_max_y-1) ? 0 : tft_y_index+1;
+}
+
+void tft_stream(const char * pstr, ...){
+	//Implementing
 }
 
 /**
@@ -623,8 +618,8 @@ void tft_update(void)
 
 	switch (tft_orientation) {
 		case 0:
-			for (y = 0; y < CHAR_MAX_Y_VERTICAL; y++) {
-				for (x = 0; x < CHAR_MAX_X_VERTICAL; x++) {
+			for (y = 0; y <= CHAR_MAX_Y_VERTICAL; y++) {
+				for (x = 0; x <= CHAR_MAX_X_VERTICAL; x++) {
 					if (tft_char_is_changed(x, y)) {
 						char_n = 1;
 						while (x+char_n < CHAR_MAX_X_VERTICAL && tft_char_is_changed(x+char_n, y)) {
@@ -650,8 +645,8 @@ void tft_update(void)
 			}
 			break;
 		case 1:
-			for (x = 0; x < CHAR_MAX_X_HORIZONTAL; x++) {
-				for (y = CHAR_MAX_Y_HORIZONTAL-1; y >= 0; y--) {
+			for (x = 0; x <= CHAR_MAX_X_HORIZONTAL; x++) {
+				for (y = CHAR_MAX_Y_HORIZONTAL; y >= 0; y--) {
 					if (tft_char_is_changed(x, y)) {
 						char_n = 1;
 						while (y-char_n > -1 && tft_char_is_changed(x, y-char_n)) {
@@ -661,7 +656,7 @@ void tft_update(void)
 								char_n++;
 							}
 						}
-						tft_set_char_pos((CHAR_MAX_Y_HORIZONTAL-y-1)*CHAR_HEIGHT, x*CHAR_WIDTH, (CHAR_MAX_Y_HORIZONTAL-y-1+char_n)*CHAR_HEIGHT-1, (x+1)*CHAR_WIDTH-1);
+						tft_set_char_pos((CHAR_MAX_Y_HORIZONTAL-y)*CHAR_HEIGHT, x*CHAR_WIDTH, (CHAR_MAX_Y_HORIZONTAL-y+char_n)*CHAR_HEIGHT-1, (x+1)*CHAR_WIDTH-1);
 						x2 = x;
 						for (px = 0; px < CHAR_WIDTH; px++) {
 							for (py = 0; py < char_n*CHAR_HEIGHT; py++) {
@@ -677,8 +672,8 @@ void tft_update(void)
 			}
 			break;
 		case 2:
-			for (y = CHAR_MAX_Y_VERTICAL-1; y >= 0; y--) {
-				for (x = CHAR_MAX_X_VERTICAL-1; x >= 0; x--) {
+			for (y = CHAR_MAX_Y_VERTICAL; y >= 0; y--) {
+				for (x = CHAR_MAX_X_VERTICAL; x >= 0; x--) {
 					if (tft_char_is_changed(x, y)) {
 						char_n = 1;
 						while (x-char_n > -1 && tft_char_is_changed(x-char_n, y)) {
@@ -688,10 +683,10 @@ void tft_update(void)
 								char_n++;
 							}
 						}
-						tft_set_char_pos((CHAR_MAX_X_VERTICAL-x-1)*CHAR_WIDTH, (CHAR_MAX_Y_VERTICAL-y-1)*CHAR_HEIGHT, (CHAR_MAX_X_VERTICAL-x-1+char_n)*CHAR_WIDTH-1, (CHAR_MAX_Y_VERTICAL-y)*CHAR_HEIGHT-1);
+						tft_set_char_pos((CHAR_MAX_X_VERTICAL-x)*CHAR_WIDTH, (CHAR_MAX_Y_VERTICAL-y)*CHAR_HEIGHT, (CHAR_MAX_X_VERTICAL-x+char_n)*CHAR_WIDTH-1, (CHAR_MAX_Y_VERTICAL-y)*CHAR_HEIGHT-1);
 						y2 = y;
-						for (py = 0; py < CHAR_HEIGHT; py++) {
-							for (px = 0; px < char_n*CHAR_WIDTH; px++) {
+						for (py = 0; py <= CHAR_HEIGHT; py++) {
+							for (px = 0; px <= char_n*CHAR_WIDTH; px++) {
 								x2 = x-px/CHAR_WIDTH;
 								clr = ascii_8x16[((text[x2][y2] - 32) * CHAR_HEIGHT) + (CHAR_HEIGHT-py-1)] & (0x80 >> (CHAR_WIDTH-(px % CHAR_WIDTH)-1)) ? text_color[x2][y2] : bg_color[x2][y2];
 								tft_write_data(clr >> 8);
@@ -704,18 +699,18 @@ void tft_update(void)
 			}
 			break;
 		case 3:
-			for (x = CHAR_MAX_X_HORIZONTAL-1; x >= 0; x--) {
-				for (y = 0; y < CHAR_MAX_Y_HORIZONTAL; y++) {
+			for (x = CHAR_MAX_X_HORIZONTAL; x >= 0; x--) {
+				for (y = 0; y <= CHAR_MAX_Y_HORIZONTAL; y++) {
 					if (tft_char_is_changed(x, y)) {
 						char_n = 1;
-						while (y+char_n < CHAR_MAX_Y_HORIZONTAL && tft_char_is_changed(x, y+char_n)) {
+						while (y+char_n <= CHAR_MAX_Y_HORIZONTAL && tft_char_is_changed(x, y+char_n)) {
 							if (y+char_n >= CHAR_MAX_Y_HORIZONTAL) {
 								break;
 							} else {
 								char_n++;
 							}
 						}
-						tft_set_char_pos(y*CHAR_HEIGHT, (CHAR_MAX_X_HORIZONTAL-x-1)*CHAR_WIDTH, (y+char_n)*CHAR_HEIGHT-1, (CHAR_MAX_X_HORIZONTAL-x)*CHAR_WIDTH-1);
+						tft_set_char_pos(y*CHAR_HEIGHT, (CHAR_MAX_X_HORIZONTAL-x)*CHAR_WIDTH, (y+char_n)*CHAR_HEIGHT-1, (CHAR_MAX_X_HORIZONTAL-x)*CHAR_WIDTH-1);
 						x2 = x;
 						for (px = 0; px < CHAR_WIDTH; px++) {
 							for (py = 0; py < char_n*CHAR_HEIGHT; py++) {
