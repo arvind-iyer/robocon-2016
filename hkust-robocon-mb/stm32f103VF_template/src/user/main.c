@@ -4,6 +4,16 @@
 #define PI 3.1415926535897932
 #define MAXVEL 140
 
+int _M1;
+int _M2;
+int _M3;
+int _x;
+int _y;
+int _angle;
+
+int dist_e;
+int angle_e;
+
 int M1;
 int M2;
 int M3;
@@ -14,13 +24,14 @@ int target_direction=0;
 int dist=0;
 int W;
 int M;
+float err=1;
 
 void _updateScreen();
 void _updateStatus();
-void _checkpoint(int x, int y, int angle);
+void _checkpoint(int x, int y, int angle, int d_e, int a_e);
 void _path();
 void _move(float magnitude, float bearing, float W);
-void _setTarget(int x, int y, int angle);
+void _setTarget(int x, int y, int angle, int d_e, int a_e);
 int _getX();
 int _getY();
 void _delay();
@@ -35,32 +46,37 @@ int main()
 	can_rx_init();
 	can_motor_init();
 	_delay();
-	//start
 	
-	_checkpoint(0, 1000, 90);
-	//_checkpoint(-1000, 1000, 180);
-	//_checkpoint(-1000, 0, 270);
-	//_checkpoint(0, 0, 0);
+	/*
+	_checkpoint(-385, 1039, 0, 100, 360);
+	_checkpoint(-13, 1549, 0, 100, 360);
+	_checkpoint(498, 2699, 0, 100, 360);
+	_checkpoint(-13, 1549, 0, 100, 360);
+	_checkpoint(823, 1923, 0, 100, 360);
+	_checkpoint(773, 1275, 0, 100, 360);
+	*/
 	
 	while (1)
 	{
-		_updateStatus();
+		motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
+		motor_set_vel(MOTOR2, 0, CLOSE_LOOP);
+		motor_set_vel(MOTOR3, 0, CLOSE_LOOP);
 		_updateScreen();
-		_path();
 	}
 }
 
 void _updateScreen()
 {
 	tft_clear();
-	tft_prints(0,0,"X: %d", _getX());
-	tft_prints(0,1,"Y: %d", _getY());
-	tft_prints(0,2,"Angle: %d", get_angle());
-	tft_prints(0, 3, "_move(%d, %d, %d)", M, target_direction, W);
-	tft_prints(0, 4, "MOTOR: %d %d %d", M1, M2, M3);
-	tft_prints(0, 5, "Target: %d %d %d", target_x, target_y, target_angle);
-	tft_prints(0, 6, "t_dir: %d", target_direction);
-	tft_prints(0, 7, "dis: %d", dist);
+	tft_prints(0, 0, "X: %d", _getX());
+	tft_prints(0, 1, "Y: %d", _getY());
+	tft_prints(0, 2, "Angle: %d", get_angle());
+	tft_prints(0, 3, "_m(%d, %d, %d)", M, target_direction, W);
+	tft_prints(0, 4, "M: %d %d %d", M1, M2, M3);
+	tft_prints(0, 5, "err: %.2f", err); 
+	tft_prints(0, 6, "T: %d %d %d", target_x, target_y, target_angle);
+	tft_prints(0, 7, "t_dir: %d", target_direction);
+	tft_prints(0, 8, "dis: %d", dist);
 	tft_prints(0, 9, "timer: %d", get_ticks());
 	tft_update();
 }
@@ -72,9 +88,9 @@ void _updateStatus()
 	target_direction = target_direction < 0 ? target_direction + 360 : target_direction;
 }
 
-void _checkpoint(int x, int y, int angle)
+void _checkpoint(int x, int y, int angle, int d_e, int a_e)
 {
-	_setTarget(x, y, angle);
+	_setTarget(x, y, angle, d_e, a_e);
 	_updateStatus();
 	_updateScreen();
 	_path();
@@ -82,10 +98,10 @@ void _checkpoint(int x, int y, int angle)
 
 void _path()
 {
-	while (dist>15 || Abs(target_angle-get_angle()/10)>5)
+	while (dist>dist_e || Abs(target_angle-get_angle()/10)>angle_e)
 	{
 		_updateStatus();
-		W=_angleDiff(get_angle()/10, target_angle)*140/180;
+		W=_angleDiff(get_angle()/10, target_angle)*100/360;
 		if (dist/10>100)
 		{
 			M=100;
@@ -115,17 +131,40 @@ void _move(float magnitude, float bearing, float W)
 		Y=Sqrt(MAXVEL*MAXVEL/(1+X*X/Y/Y));
 		X=Sqrt(MAXVEL*MAXVEL-Y*Y);
 	}
-	M1=(-W-X*2)/3;
-	M2=(-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3);
-	M3=-W-M1-M2;
+	_M1=(-W-X*2)/3;
+	_M2=(-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3);
+	_M3=-W-M1-M2;
+	if ((magnitude!=0 || W!=0) && _x==_getX() && _y==_getY() && _angle==get_angle())
+	{
+		if (_M1*(err+0.2)<=140 || _M2*(err+0.2)<=140 || _M3*(err+0.2)<=140)
+		{
+			err=err+0.2;
+		}
+	}
+	else
+	{
+		err=err/2;
+		if (err<1)
+		{
+			err=1;
+		}
+	}
+	M1=_M1*err;
+	M2=_M2*err;
+	M3=_M3*err;
 	//motor control
 	motor_set_vel(MOTOR1, M1, CLOSE_LOOP);
 	motor_set_vel(MOTOR2, M2, CLOSE_LOOP);
 	motor_set_vel(MOTOR3, M3, CLOSE_LOOP);
+	_x=_getX();
+	_y=_getY();
+	_angle=get_angle();
 }
 
-void _setTarget(int x, int y, int angle)
+void _setTarget(int x, int y, int angle, int d_e, int a_e)
 {
+	dist_e=d_e;
+	angle_e=a_e;
 	target_x=x;
 	target_y=y;
 	target_angle=angle;

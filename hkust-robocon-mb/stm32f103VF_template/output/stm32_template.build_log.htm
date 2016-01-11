@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.14.6.0
  
 <h2>Project:</h2>
 D:\OneDrive\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\Project.uvprojx
-Project File Date:  01/07/2016
+Project File Date:  01/11/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
@@ -54,50 +54,59 @@ src\user\position.h(26): warning:  #1295-D: Deprecated declaration lockAllMotors
   void lockAllMotors();
 src\user\position.h(28): warning:  #1-D: last line of file ends without a newline
   void setTargetLocation(int x, int y);
-src\user\main.c(18): warning:  #1295-D: Deprecated declaration _updateScreen - give arg types
+src\user\main.c(29): warning:  #1295-D: Deprecated declaration _updateScreen - give arg types
   void _updateScreen();
-src\user\main.c(19): warning:  #1295-D: Deprecated declaration _updateStatus - give arg types
+src\user\main.c(30): warning:  #1295-D: Deprecated declaration _updateStatus - give arg types
   void _updateStatus();
-src\user\main.c(21): warning:  #1295-D: Deprecated declaration _path - give arg types
+src\user\main.c(32): warning:  #1295-D: Deprecated declaration _path - give arg types
   void _path();
-src\user\main.c(24): warning:  #1295-D: Deprecated declaration _getX - give arg types
+src\user\main.c(35): warning:  #1295-D: Deprecated declaration _getX - give arg types
   int _getX();
-src\user\main.c(25): warning:  #1295-D: Deprecated declaration _getY - give arg types
+src\user\main.c(36): warning:  #1295-D: Deprecated declaration _getY - give arg types
   int _getY();
-src\user\main.c(26): warning:  #1295-D: Deprecated declaration _delay - give arg types
+src\user\main.c(37): warning:  #1295-D: Deprecated declaration _delay - give arg types
   void _delay();
-src\user\main.c(122): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(61): warning:  #188-D: enumerated type mixed with another type
+  		motor_set_vel(
+OTOR1, 0, CLOSE_LOOP);
+src\user\main.c(62): warning:  #188-D: enumerated type mixed with another type
+  		motor_set_vel(
+OTOR2, 0, CLOSE_LOOP);
+src\user\main.c(63): warning:  #188-D: enumerated type mixed with another type
+  		motor_set_vel(
+OTOR3, 0, CLOSE_LOOP);
+src\user\main.c(156): warning:  #188-D: enumerated type mixed with another type
   	motor_set_vel(
 OTOR1, M1, CLOSE_LOOP);
-src\user\main.c(123): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(157): warning:  #188-D: enumerated type mixed with another type
   	motor_set_vel(
 OTOR2, M2, CLOSE_LOOP);
-src\user\main.c(124): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(158): warning:  #188-D: enumerated type mixed with another type
   	motor_set_vel(
 OTOR3, M3, CLOSE_LOOP);
-src\user\main.c(150): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(189): warning:  #188-D: enumerated type mixed with another type
   		motor_lock(
 OTOR1);
-src\user\main.c(151): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(190): warning:  #188-D: enumerated type mixed with another type
   		motor_lock(
 OTOR2);
-src\user\main.c(152): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(191): warning:  #188-D: enumerated type mixed with another type
   		motor_lock(
 OTOR3);
-src\user\main.c(164): warning:  #1-D: last line of file ends without a newline
+src\user\main.c(203): warning:  #1-D: last line of file ends without a newline
   }
-src\user\main.c: 26 warnings, 0 errors
+src\user\main.c: 29 warnings, 0 errors
 linking...
-Program Size: Code=20940 RO-data=436 RW-data=2136 ZI-data=35440  
+Program Size: Code=21476 RO-data=436 RW-data=2172 ZI-data=35436  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 26 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 29 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   D:\OneDrive\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
