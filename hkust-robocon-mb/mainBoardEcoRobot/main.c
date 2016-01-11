@@ -296,14 +296,14 @@ int main() {
 	linear_ccd_init();
 	adc_init();
 
-	int lastTick = get_real_ticks();
+	int lastTick = get_ms_ticks();
 	
 	Array points;
 	Array lastPoints;
 	
 	while (1) {
 
-		if (get_real_ticks() - lastTick >= 20) {
+		if (get_ms_ticks() - lastTick >= 20) {
             linear_ccd_read();
 			
             for (int i = 0; i < 128; i++) {
@@ -342,7 +342,7 @@ int main() {
             free(lastPoints.array);
 			
             
-            lastTick = get_real_ticks();
+            lastTick = get_ms_ticks();
 		}
 	}
 
