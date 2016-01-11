@@ -22,7 +22,7 @@
 
 #include "buzzer.h"
 #include "led.h"
-#include "lcd_red.h"
+#include "lcd_main.h"
 #include "system.h"
 #include "xbc_mb.h"
 #include "button.h"

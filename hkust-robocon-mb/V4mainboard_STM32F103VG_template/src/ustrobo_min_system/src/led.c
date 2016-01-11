@@ -26,7 +26,7 @@ void led_init(void){
 * @param state:	LED_ON / LED_OFF
 **/
 void led_control(LED led, LED_STATE state){
-	led_state = state ? led_state | led : ~(led_state ^ (~led));
+	led_state = state ? led_state | led : ~(~led_state | led);
 
 	if (led & LED_D1) {
 		gpio_write(LED_D1_GPIO, (BitAction)state);
@@ -46,16 +46,12 @@ void led_control(LED led, LED_STATE state){
 void led_blink(LED led){
 
 	if (led & LED_D1) {
-		tft_append_line(BYTETOBINARYPATTERN, BYTETOBINARY(led_state));
-		tft_append_line(BYTETOBINARYPATTERN, BYTETOBINARY(LED_D1));
-		led_control(LED_D1, ~(led_state&LED_D1));
+		led_control(LED_D1, !(led_state&LED_D1));
 	}
 	if (led & LED_D2) {
-		tft_append_line(BYTETOBINARYPATTERN, BYTETOBINARY(~(led_state^LED_D2)));
-		led_control(LED_D2, ~(led_state^LED_D2));
+		led_control(LED_D2, !(led_state&LED_D2));
 	}
 	if (led & LED_D3) {
-		tft_append_line(BYTETOBINARYPATTERN, BYTETOBINARY(~(led_state^LED_D3)));
-		led_control(LED_D3, ~(led_state^LED_D3));
+		led_control(LED_D3, !(led_state&LED_D3));
 	}
 }

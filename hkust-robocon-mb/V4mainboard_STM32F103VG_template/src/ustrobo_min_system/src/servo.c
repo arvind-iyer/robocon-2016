@@ -76,14 +76,15 @@ void servo_init(void){
 }
 
 /**
-  * @brief  Controlling the PWM for servos
+  * @brief  Controlling servos
   * @param  servo_id: Port of Servo to be used (SERVO1, SERVO2, SERVO3, SERVO4)
-  * @param  val:Value from 0 to 20000
-  * @retval None
+  * @param  val:Value from @SERVO_MIN to @SERVO_MAX
   */
+
 void servo_control(SERVO_ID servo_id , u16 val) {
 	 
 	u16 ccr_val = val;
+	val = (val<SERVO_MIN ? SERVO_MIN : (val>SERVO_MAX ? SERVO_MAX : val));
 	
   if (((u8) servo_id) < SERVO_COUNT) {
     servo_pwm[servo_id].TIM_SetCompare(SERVO_TIM, ccr_val);

@@ -1,8 +1,5 @@
 #include "main.h"
 
-#define SERVO_MIN 500
-#define SERVO_MAX 2450
-
 uint16_t servo_val = SERVO_MIN;
 
 int main(void) {
@@ -16,17 +13,13 @@ int main(void) {
 	button_init();
 	servo_init();
 	
-	tft_clear();
-	led_control(LED_D1, LED_OFF);
+	led_control(LED_D1, LED_ON);
 	
 	while(1){
 		button_update();
 
 		if (get_ticks()%2000 == 0){
-			tft_append_line(BYTETOBINARYPATTERN, BYTETOBINARY(get_led_state()));
-			led_blink(LED_D1 | LED_D2);
-			tft_update();
-			while(1);
+			led_blink(LED_D1 | LED_D2 | LED_D3);		
 		}
 
 		/*

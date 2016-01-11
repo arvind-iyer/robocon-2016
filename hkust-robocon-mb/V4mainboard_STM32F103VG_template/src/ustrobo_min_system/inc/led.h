@@ -16,7 +16,6 @@
 #include "stm32f10x_gpio.h"
 #include "gpio.h"
 #include "stm32f10x_tim.h"
-#include "lcd_red.h"
 
 #define	LED_D1_GPIO				((GPIO*) &PB12)
 #define	LED_D2_GPIO				((GPIO*) &PB13)

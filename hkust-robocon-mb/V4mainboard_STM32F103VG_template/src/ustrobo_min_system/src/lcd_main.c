@@ -1,4 +1,4 @@
-#include "lcd_red.h"
+#include "lcd_main.h"
 #include "lcd_font.h"
 
 //private data

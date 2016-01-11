@@ -5,7 +5,7 @@
 #include "stm32f10x_spi.h"
 #include "stm32f10x_tim.h"
 #include "delay.h"
-#include "lcd_red.h"
+#include "lcd_main.h"
 #include "ticks.h"
 #include "led.h"
 
