@@ -43,5 +43,10 @@ int main(void) {
 		
 		tft_prints(0, 0, "%d", servo_val);
 		tft_update();
+		
+		servo_control(SERVO1, servo_val);
+		servo_control(SERVO2, servo_val);
+		servo_control(SERVO3, servo_val);
+		servo_control(SERVO4, servo_val);
 	}
 }

@@ -41,7 +41,11 @@ void encoder_init(void){
 		TIM_TimeBaseInit(encoder[encoder_id].timer, &TIM_TimeBaseStructure);
 		
 		// Setting to Rising edge mode
-		TIM_EncoderInterfaceConfig(encoder[encoder_id].timer, TIM_EncoderMode_TI12,
+				
+		// Use TIM_EncoderMode_TI1 to count only B pin reading
+		// TI2 to count only A pin
+		// TI12 = TI3 to count both
+		TIM_EncoderInterfaceConfig(encoder[encoder_id].timer, TIM_EncoderMode_TI2,
 														 TIM_ICPolarity_Rising, TIM_ICPolarity_Rising);
 		
 		TIM_SetCounter(encoder[encoder_id].timer, 0);																													// Reset Count as 0
