@@ -14,6 +14,9 @@ int _angle;
 int dist_e;
 int angle_e;
 
+int x_f;
+int y_f;
+
 int M1;
 int M2;
 int M3;
@@ -32,10 +35,12 @@ void _checkpoint(int x, int y, int angle, int d_e, int a_e);
 void _path();
 void _move(float magnitude, float bearing, float W);
 void _setTarget(int x, int y, int angle, int d_e, int a_e);
+void _setFinal(int x, int y);
 int _getX();
 int _getY();
 void _delay();
 int _angleDiff(int o, int t);
+void _curve(int x1, int y1, int x2, int y2);
 
 int main()
 {
@@ -47,12 +52,11 @@ int main()
 	can_motor_init();
 	_delay();
 	
+	_setFinal(1000, 1000);
+	_curve(0, 1000, 1000, 1000);
 	while (1)
 	{
-		//motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
-		//motor_set_vel(MOTOR2, 0, CLOSE_LOOP);
-		//motor_set_vel(MOTOR3, 0, CLOSE_LOOP);
-		_checkpoint(0, 0, 0, 1, 1);
+		_checkpoint(1000, 1000, 0, 20, 5);
 		_updateScreen();
 	}
 }
@@ -92,15 +96,17 @@ void _path()
 {
 	while (dist>dist_e || Abs(target_angle-get_angle()/10)>angle_e)
 	{
+		int dist_f;
+		dist_f=Sqrt(Sqr(y_f-_getY())+Sqr(x_f-_getX()));
 		_updateStatus();
 		W=_angleDiff(get_angle()/10, target_angle)*100/360;
-		if (dist/10>100)
+		if (dist_f/20>100)
 		{
 			M=100;
 		}
 		else
 		{
-			M=dist/10;
+			M=dist_f/20;
 		}
 		if (dist>0 && M==0)
 		{
@@ -117,7 +123,9 @@ void _path()
 		_updateScreen();
 		_move(M, target_direction*10, W);
 	}
-	_move(0, 0, 0);
+	M=0;
+	W=0;
+	_move(M, target_direction*10, W);
 }
 
 void _move(float magnitude, float bearing, float W)
@@ -135,9 +143,9 @@ void _move(float magnitude, float bearing, float W)
 		Y=Sqrt(MAXVEL*MAXVEL/(1+X*X/Y/Y));
 		X=Sqrt(MAXVEL*MAXVEL-Y*Y);
 	}
-	_M1=(-W-X*2)/3+0.4999;
-	_M2=(-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3)+0.4999;
-	_M3=-W-M1-M2+0.4999;
+	_M1=(-W-X*2)/3;
+	_M2=(-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3);
+	_M3=-W-M1-M2;
 	if ((magnitude!=0 || W!=0) && _x==_getX() && _y==_getY() && _angle==get_angle())
 	{
 		if (_M1*(err+0.03)<=140 && _M2*(err+0.03)<=140 && _M3*(err+0.03)<=140)
@@ -147,7 +155,7 @@ void _move(float magnitude, float bearing, float W)
 	}
 	else
 	{
-		err=err/2;
+		err=err-0.13;
 		if (err<1)
 		{
 			err=1;
@@ -172,6 +180,12 @@ void _setTarget(int x, int y, int angle, int d_e, int a_e)
 	target_x=x;
 	target_y=y;
 	target_angle=angle;
+}
+
+void _setFinal(int x, int y)
+{
+	x_f=x;
+	y_f=y;
 }
 
 int _getX()
@@ -204,4 +218,20 @@ int _angleDiff(int o, int t)
 		a=a+360;
 	}
 	return a;
+}
+
+void _curve(int x1, int y1, int x2, int y2)
+{
+	int x0;
+	int y0;
+	x0=_getX();
+	y0=_getY();
+	for (float t=0; t<=1; t=t+0.1)
+	{
+		int x;
+		int y;
+		x=(1-t)*(1-t)*x0+2*(1-t)*t*x1+t*t*x2;
+		y=(1-t)*(1-t)*y0+2*(1-t)*t*y1+t*t*y2;
+		_checkpoint(x, y, 0, 100, 360);
+	}
 }
