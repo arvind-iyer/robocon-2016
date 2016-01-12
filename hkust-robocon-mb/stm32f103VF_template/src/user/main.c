@@ -51,12 +51,20 @@ int main()
 	can_rx_init();
 	can_motor_init();
 	_delay();
-	
-	_setFinal(1000, 1000);
-	_curve(0, 1000, 1000, 1000);
 	while (1)
 	{
-		_checkpoint(1000, 1000, 0, 20, 5);
+		_setFinal(1000, 1000);
+		_curve(0, 1000, 1000, 1000);
+		_setFinal(2000, 2000);
+		_curve(2000, 1000, 2000, 2000);
+		_setFinal(0, 2000);
+		_checkpoint(0, 2000, 0, 100, 360);
+		_setFinal(1000, 1000);
+		_curve(0, 1000, 1000, 1000);
+		_setFinal(2000, 0);
+		_curve(2000, 1000, 2000, 0);
+		_setFinal(0, 0);
+		_checkpoint(0, 0, 0, 1, 1);
 		_updateScreen();
 	}
 }
@@ -190,11 +198,13 @@ void _setFinal(int x, int y)
 
 int _getX()
 {
+	//return get_pos()->x;
 	return -get_pos()->y;
 }
 
 int _getY()
 {
+	//return get_pos()->y;
 	return get_pos()->x;
 }
 
@@ -226,7 +236,7 @@ void _curve(int x1, int y1, int x2, int y2)
 	int y0;
 	x0=_getX();
 	y0=_getY();
-	for (float t=0; t<=1; t=t+0.1)
+	for (float t=0; t<1; t=t+0.1)
 	{
 		int x;
 		int y;
@@ -234,4 +244,5 @@ void _curve(int x1, int y1, int x2, int y2)
 		y=(1-t)*(1-t)*y0+2*(1-t)*t*y1+t*t*y2;
 		_checkpoint(x, y, 0, 100, 360);
 	}
+	_checkpoint(x2, y2, 0, 100, 360);
 }
