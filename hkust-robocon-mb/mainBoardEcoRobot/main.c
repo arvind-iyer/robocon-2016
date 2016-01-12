@@ -29,6 +29,12 @@ void insertArray(Array *a, Point element) {
 	a->array[a->used++] = element;
 }
 
+void freeArray(Array *a) {
+  free(a->array);
+  a->array = NULL;
+  a->used = a->size = 0;
+}
+
 uint32_t pointDistanceToLine(int x, int y, int x1, int y1, int x2, int y2) {
 	uint32_t a = x - x1;
 	uint32_t b = y - y1;
@@ -137,7 +143,7 @@ Array bresenham(Array buffer, int bufferSize){
 			newBuffer.array[0].x = 0;
 			newBuffer.array[0].y = 0;
 			newBuffer.array[newSize - 1].x = 127;
-			newBuffer.array[newSize - 1].y = 0;
+			newBuffer.array[newSize - 1].y = 30;
 			for(d = 1 ; d < newSize - 1 ; d++){
 				newBuffer.array[d].x  = buffer.array[d-1].x;
 				newBuffer.array[d].y  = buffer.array[d-1].y;
@@ -162,7 +168,7 @@ Array bresenham(Array buffer, int bufferSize){
 		int dy = abs(currentY-lastY), sy = lastY < currentY ? 1 : -1;
 		int err = (dx>dy ? dx : -dy)/2, e2;
 
-
+        //Make a line for 2 different points
 		for(;;){
 		  if(lastX != indexNum){
 			  indexNum++;
@@ -188,8 +194,8 @@ Array bresenham(Array buffer, int bufferSize){
 	}*/
     
     //FREE THE ALLOCATED MEMORY
-    free(newBuffer.array);
-    free(buffer.array);
+    freeArray(&newBuffer);
+    freeArray(&buffer);
 	return result;
 }
 
@@ -212,54 +218,12 @@ Array lerp(Array target, Array lastData, uint32_t a){
 	}
 	return points;
 }
+
 Array Interpolation (Array targetData, Array lastData, uint32_t a){
 	return lerp (targetData, lastData, interpolationCircle(a));
 }
-double calculateAreas(uint32_t signal[]) {
-	uint32_t leftPartition[64];
-	uint32_t rightPartition[64];
-	double leftAreaSum = 0;
-	double rightAreaSum = 0;
-	int lastPossibleIndex = -1;
 
-	memcpy(leftPartition, signal, 64 * sizeof(int));
-	memcpy(rightPartition, signal + 64, 64 * sizeof(int));
 
-	for (int i = 0; i < 63; i++) {
-		if (leftPartition[i] == -1)
-			continue;
-		else {
-			if (lastPossibleIndex == -1) {
-				lastPossibleIndex = i;
-				continue;
-			}
-			int trpHeight = (i + 1) - lastPossibleIndex;
-			double area = (leftPartition[i] + leftPartition[lastPossibleIndex])
-					/ 2 * trpHeight;
-			leftAreaSum += area;
-			lastPossibleIndex = i;
-		}
-	}
-
-	lastPossibleIndex = -1;
-	for (int i = 0; i < 63; i++) {
-		if (rightPartition[i] == -1)
-			continue;
-		else {
-			if (lastPossibleIndex == -1) {
-				lastPossibleIndex = i;
-				continue;
-			}
-			int trpHeight = (i + 1) - lastPossibleIndex;
-			double area =
-					(rightPartition[i] + rightPartition[lastPossibleIndex]) / 2
-							* trpHeight;
-			rightAreaSum += area;
-			lastPossibleIndex = i;
-		}
-	}
-	return leftAreaSum / rightAreaSum;
-}
 
 char stringBuffer[128];
 
@@ -286,63 +250,200 @@ void thing(const uint8_t header) {
 	}
 }
 
+int32_t * calculateAreas(int32_t signal[]) {
+	int32_t leftPartition[43];
+    int32_t midPartition[42];
+	int32_t rightPartition[43];
+	int32_t leftAreaSum = 0;
+    int32_t midAreaSum = 0;
+	int32_t rightAreaSum = 0;
+	int lastPossibleIndex = -1;
+
+	//memcpy(leftPartition, signal, 43 * sizeof(int));
+    for(int i = 0 ; i < 43 ; i++){
+        leftPartition[i] = signal[i];
+    }
+	//memcpy(midPartition, signal + 43, 42 * sizeof(int));
+     for(int i = 0 ; i < 42 ; i++){
+        midPartition[i] = signal[i+43];
+     }
+    //memcpy(rightPartition, signal + 85, 43 * sizeof(int));
+     for(int i = 0;i < 43 ; i++){
+        rightPartition[i] = signal[i+85];
+     }
+
+	for (int i = 0; i < 43; i++) {
+		if (leftPartition[i] == -1)
+			continue;
+		else {
+			if (lastPossibleIndex == -1) {
+				lastPossibleIndex = i;
+				continue;
+			}
+			int trpHeight = (i + 1) - lastPossibleIndex;
+			int32_t area = (leftPartition[i] + leftPartition[lastPossibleIndex])
+					/ 2 * trpHeight;
+			leftAreaSum += area;
+			lastPossibleIndex = i;
+		}
+	}
+	lastPossibleIndex = -1;
+	for (int i = 0; i < 42; i++) {
+		if (midPartition[i] == -1)
+			continue;
+		else {
+			if (lastPossibleIndex == -1) {
+				lastPossibleIndex = i;
+				continue;
+			}
+			int trpHeight = (i + 1) - lastPossibleIndex;
+			int32_t area =
+					(midPartition[i] + midPartition[lastPossibleIndex]) / 2
+							* trpHeight;
+			midAreaSum += area;
+			lastPossibleIndex = i;
+		}
+	}
+    lastPossibleIndex = -1;
+	for (int i = 0; i < 43; i++) {
+		if (rightPartition[i] == -1)
+			continue;
+		else {
+			if (lastPossibleIndex == -1) {
+				lastPossibleIndex = i;
+				continue;
+			}
+			int trpHeight = (i + 1) - lastPossibleIndex;
+			int32_t area =
+					(rightPartition[i] + rightPartition[lastPossibleIndex]) / 2
+							* trpHeight;
+			rightAreaSum += area;
+			lastPossibleIndex = i;
+		}
+	}
+    static int32_t result[3];
+    result[0] = leftAreaSum/10;
+    result[1] = midAreaSum/10;
+    result[2] = rightAreaSum/10;
+	return result;
+}
+
+
+
 int main() {
 	stringBuffer[0] = 'T';
 	
 	
-	tft_init(0, BLACK, SKY_BLUE, GREEN);
+	tft_init(2, BLACK, SKY_BLUE, GREEN);
 	button_init();
 	ticks_init();
+    servo_init();
 	linear_ccd_init();
 	adc_init();
+    LED_INIT();
 
-	int lastTick = get_ms_ticks();
+	long lastTick = get_ms_ticks();
+    
 	
 	Array points;
 	Array lastPoints;
+    int32_t leftArea;
+    int32_t middleArea;
+    int32_t rightArea;
+    
+    int32_t * addressArea;
 	
 	while (1) {
-
-		if (get_ms_ticks() - lastTick >= 20) {
-            linear_ccd_read();
-			
+		if (get_ms_ticks() % 40 == 20) {
+            
             for (int i = 0; i < 128; i++) {
 				Point point = points.array[i];
+                tft_put_pixel(i, linear_ccd_buffer1[i], BLACK);
+                
 			}
+            linear_ccd_read();
 
 			
+            uint32_t buffer[128];
+            
 			for (int i = 0; i < 128; i++){
 				linear_ccd_buffer1[i] = linear_ccd_buffer1[i] * 100;
-			}
-            tft_prints(0,0,"Y: %d",linear_ccd_buffer1[64]);
-            tft_prints(0,1,"Count: %d",lastTick);
+		    }
+ 
+            tft_prints(0,0,"Count: %d",get_ms_ticks());
 			points = douglasPeucker(linear_ccd_buffer1, 10);
 			
 			// Do Bresenham Here
 			points = bresenham(points, points.used);
 			
-			if (lastPoints.used > 0) {
-				points = Interpolation(points, lastPoints, 55);
-			}
+            
+            // Interpolation Heret
+//			if (lastPoints.used > 0) {
+//				points = Interpolation(points, lastPoints, 55);
+//			}
 			
 			lastPoints  = points;
 			for (int i = 0; i < points.used; i++) {
-					points.array[i].x /= 100;
+					//points.array[i].x /= 100;
 					points.array[i].y /= 100;
 			}
 
 			for (int i = 0; i < 128; i++) {
-				Point point = points.array[i];
-				tft_put_pixel(point.x, point.y/100, GREEN);
+				linear_ccd_buffer1[i] = points.array[i].y/100;
+                
+				tft_put_pixel(i, linear_ccd_buffer1[i], YELLOW);
 			}
+           
+            //memcpy(area,calculateAreas(linear_ccd_buffer1),3);
+            
+            addressArea = calculateAreas(linear_ccd_buffer1);
+            leftArea = *(addressArea + 0);
+            middleArea  = *(addressArea +1);
+            rightArea = *(addressArea + 2);
+            
+            //tft_prints(0,1,"Left: %d",leftArea);
+            //tft_prints(0,2,"Middle: %d", middleArea);
+            //tft_prints(0,3,"Right: %d", rightArea);
+            
+            int32_t midToLeftRatio = (middleArea*1000)/leftArea;
+            
+            int32_t midToRightRatio = (middleArea * 1000)/rightArea;
+            
+            
+            //tft_prints(0,4,"Ratio1: %d", leftArea);
+            //tft_prints(0,5,"Ratio2: %d", rightArea);
+            
             tft_update();
             
-            //FREE THE ALLOCATED MEMORY
-			free(points.array);
-            free(lastPoints.array);
-			
             
-            lastTick = get_ms_ticks();
+            if(midToLeftRatio - midToRightRatio <=1000 &&
+                (middleArea*1000/leftArea) - (middleArea*1000/rightArea) >= -1000 ){
+                servo_control(3000);
+            }
+            else if (midToLeftRatio - midToRightRatio > 1000) {
+                servo_control(3000 - (midToLeftRatio - midToRightRatio)*800/1000);
+                //servo_control(2200);
+            }
+            else if (midToLeftRatio - midToRightRatio < -1000) {
+                servo_control(3000 - (midToLeftRatio - midToRightRatio)*800/1000);
+                //servo_control(3800);
+            }
+            //Control the servo's movement
+            if(!GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13)){
+                servo_control(1800); //Turn right
+            }
+            if(!GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_14)){
+                servo_control(3000); //Go straight
+            }
+            if(!GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_15)){
+                servo_control(4200); //Turn left
+            }
+            
+            //FREE THE ALLOCATED MEMORY
+			freeArray(&points);
+            freeArray(&lastPoints);
+            
+            //lastTick = get_ms_ticks();
 		}
 	}
 
