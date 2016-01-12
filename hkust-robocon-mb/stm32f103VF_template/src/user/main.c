@@ -132,7 +132,39 @@ void can_motor_update(){
 	tft_prints(0,9,"TIM %3d",get_seconds());
 	tft_update();
 }
+
+void move_line(int x, int y, int deg, int segment) {
+	double ratio;
+	for (int i = 0; i < segment; i++) {
+		ratio = (i+1)/(double)segment;
+		tar_enqueue((x - cur_x)*ratio, (y - cur_y)*ratio, (deg - cur_deg/10)*ratio);
+	}
+}
+
+//A = point that curve passes through
+//B = destination point
+//M = midpt between origin and B
+//N = pt extended from M through A to generate curve
+void move_bezier(int ax, int ay, int bx, int by, int segment) {
+	int mx, my, nx, ny;
+	int px, py, qx, qy;
+	double ratio;
 	
+	mx = (bx + cur_x)/2;
+	my = (by + cur_y)/2;
+	nx = ax*2 - mx;
+	ny = ay*2 - my;
+	
+	for (int i = 0; i < segment; i++) {
+		ratio = (i+1)/(double)segment;
+		px = (nx - cur_x)*ratio + cur_x;
+		py = (ny - cur_y)*ratio + cur_y;
+		qx = (bx - nx)*ratio + nx;
+		qy = (by - ny)*ratio + ny;
+		tar_enqueue(((qx - px)*ratio + px), ((qy - py)*ratio + py), 0);
+	}
+}
+
 int main(void)
 {
 	led_init();
@@ -160,16 +192,7 @@ int main(void)
 	//set initial target pos	
 	ticks_init();
 	start = 0;
-	tar_enqueue(18, 235, 9);
-	tar_enqueue(73, 464, 18);
-	tar_enqueue(163, 681, 27);
-	tar_enqueue(286, 882, 36);
-	tar_enqueue(439, 1061, 45);
-	tar_enqueue(618, 1214, 54);
-	tar_enqueue(819, 1337, 63);
-	tar_enqueue(1036, 1427, 72);
-	tar_enqueue(1265, 1482, 81);
-	tar_enqueue(1500, 1500, 90);
+	move_bezier(439, 1061, 1500, 1500, 10);
 		
 	while (1) {
 		if (get_ticks() % 50 == 0) {
