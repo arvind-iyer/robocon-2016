@@ -111,10 +111,10 @@ void can_motor_update(){
 		}
 	} else {
 		//decelerate at end of sequence
-		if (dist_tar < 750) {
-			speed = (int)(dist_tar/10);
+		if (dist_tar < 600) {
+			speed = (int)(dist_tar/12);
 		} else {
-			speed = 75;
+			speed = 50;
 		}
 		can_motor_set_angle(degree, degree_diff, speed, passed);
 	}
@@ -192,7 +192,8 @@ int main(void)
 	//set initial target pos	
 	ticks_init();
 	start = 0;
-	move_bezier(439, 1061, 1500, 1500, 10);
+	//move_bezier(439, 1061, 1500, 1500, 15);
+	move_bezier(0, 2500, 1200, 2500, 15);
 		
 	while (1) {
 		if (get_ticks() % 50 == 0) {
