@@ -25,7 +25,9 @@ void encoder_init(void){
 		
 		// GPIO init
 		GPIO_StructInit(&GPIO_InitStructure);																														// Set to default
-		GPIO_InitStructure.GPIO_Pin = encoder[encoder_id].port1 | encoder[encoder_id].port2;						// Set Timer Pin 
+		GPIO_InitStructure.GPIO_Pin = encoder[encoder_id].port1 | encoder[encoder_id].port2;	
+		//Enable port 2 only
+		//GPIO_InitStructure.GPIO_Pin = encoder[encoder_id].port2;
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;																						// Set Pin mode to floating
 		GPIO_Init(encoder[encoder_id].GPIOx, &GPIO_InitStructure);																			// Activate
 		if (encoder_id == 0) {

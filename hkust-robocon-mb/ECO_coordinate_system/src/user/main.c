@@ -20,10 +20,10 @@ int main(void) {
 	while(1){
 		button_update();
 
-		if (get_ticks()%200 == 0){
+		if (get_full_ticks()%200 == 0){
 			led_blink(LED_D1 | LED_D2);
 		}
-		
+		 
 		tft_clear();
 		if (last[0]!=get_count(ENCODER1)) count[0]++;
 		if (last[1]!=get_count(ENCODER2)) count[1]++;
