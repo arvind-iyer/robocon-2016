@@ -4,6 +4,7 @@
 
 #define THRESHOLD 50
 #define KP 0.6
+#define CONST_VEL 50
 
 struct target {
 	int x;
@@ -39,13 +40,8 @@ int tar_queue_length() {
 	return tar_head - tar_end;
 }
 
-void can_motor_set_angle(int angle, int rotate, int maxvel, int time)
+void can_motor_set_angle(int angle, int rotate, int maxvel, double vel_coeff)
 {
-	double accvel = 1.0;
-	if (time < 2000)
-		accvel = time/2000.0;
-	rotate = (int)(rotate*KP);
-	
 	angle *= 10;
 	v1 = int_sin(angle)*maxvel/(-10000);
 	v2 = int_sin(angle+1200)*maxvel/(-10000);
@@ -54,9 +50,9 @@ void can_motor_set_angle(int angle, int rotate, int maxvel, int time)
 	v1 -= rotate;
 	v2 -= rotate;
 	v3 -= rotate;	
-	motor_set_vel(MOTOR1, v1*accvel, CLOSE_LOOP);
-	motor_set_vel(MOTOR2, v2*accvel, CLOSE_LOOP);
-	motor_set_vel(MOTOR3, v3*accvel, CLOSE_LOOP);
+	motor_set_vel(MOTOR1, v1*vel_coeff, CLOSE_LOOP);
+	motor_set_vel(MOTOR2, v2*vel_coeff, CLOSE_LOOP);
+	motor_set_vel(MOTOR3, v3*vel_coeff, CLOSE_LOOP);
 }
 
 void can_motor_stop(){
@@ -102,6 +98,14 @@ void can_motor_update(){
 	}
 	*/
 	
+	//determine velocity coefficient
+	double acc = passed / 2000.0;
+	double dec = dist_tar / 600.0;
+	double vel = acc < dec ? acc : dec;
+	if (vel > 1.0)
+		vel = 1.0;
+	
+	//determine action taken
 	if (dist < 100) {
 		if (tar_queue_length()) {
 			tar_dequeue();
@@ -110,15 +114,13 @@ void can_motor_update(){
 			can_motor_stop();
 		}
 	} else {
-		//decelerate at end of sequence
-		if (dist_tar < 600) {
-			speed = (int)(dist_tar/12);
-		} else {
-			speed = 50;
-		}
-		can_motor_set_angle(degree, degree_diff, speed, passed);
+		//if (dist_tar < 600) {
+		//	speed = (int)(dist_tar/12);
+		//} else {
+		can_motor_set_angle(degree, degree_diff, CONST_VEL, vel);
 	}
-				
+	
+	//print debug info
 	tft_clear();
 	tft_prints(0,0,"X:%5d Y:%5d",cur_x,cur_y);
 	tft_prints(0,1,"ANGLE %d",cur_deg);
@@ -192,15 +194,11 @@ int main(void)
 	//set initial target pos	
 	ticks_init();
 	start = 0;
-	//move_bezier(439, 1061, 1500, 1500, 15);
-	move_bezier(0, 2500, 1200, 2500, 15);
+	move_line(0, 2000, 0, 1);
 		
 	while (1) {
 		if (get_ticks() % 50 == 0) {
 			can_motor_update();
 		}
-		
-		//if (get_seconds() < 2)
-		//	tar_x = get_ticks()*0.5;
 	}
 }
