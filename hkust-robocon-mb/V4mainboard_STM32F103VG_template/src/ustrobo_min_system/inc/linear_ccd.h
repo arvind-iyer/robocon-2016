@@ -6,7 +6,7 @@
 #include "ticks.h"
 #include "lcd_main.h"
 
-extern u32 linear_ccd_buffer1[128];
+extern u32 linear_ccd_buffer[128];
 
 #define SI_PORT GPIOB
 #define SI_PIN GPIO_Pin_0

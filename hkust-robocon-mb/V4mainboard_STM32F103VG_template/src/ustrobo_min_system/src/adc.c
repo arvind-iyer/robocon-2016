@@ -25,6 +25,12 @@ void adc_init(void)
  GPIO_InitTypeDef GPIO_InitStructure;
  ADC_InitTypeDef ADC_InitStructure;
  
+// RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+// 
+// GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
+// GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
+// GPIO_Init(GPIOA, &GPIO_InitStructure);
+
 RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
  
  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;
@@ -38,12 +44,12 @@ RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
  ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;//连续转换
  ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;//软件启动转换
  ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;//转换结果右对齐
- ADC_InitStructure.ADC_NbrOfChannel = 1;//通道数目
+ ADC_InitStructure.ADC_NbrOfChannel = 2;//通道数目
  ADC_Init(ADC1, &ADC_InitStructure); 
 // ADC_TempSensorVrefintCmd(ENABLE);//使能片内温度传感器
  
  RCC_ADCCLKConfig(RCC_PCLK2_Div8); //PCLK 6分频
- //ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_239Cycles5);//通道，转换次序，转换时间PA1
+//ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_239Cycles5);//通道，转换次序，转换时间PA1
  ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 2, ADC_SampleTime_239Cycles5);//PB1
  //ADC_RegularChannelConfig(ADC1, ADC_Channel_12, 3, ADC_SampleTime_55Cycles5);
  //ADC_RegularChannelConfig(ADC1, ADC_Channel_13, 4, ADC_SampleTime_55Cycles5);
