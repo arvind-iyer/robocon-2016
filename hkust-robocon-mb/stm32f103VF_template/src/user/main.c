@@ -5,16 +5,15 @@
 #define THRESHOLD 50
 #define CONST_VEL 50
 
-/*
 struct target {
 	int x;
 	int y;
 	int deg;
+	bool stop;
 };
 
 struct target tar_queue[50];
 int tar_head, tar_end;
-*/
 
 int tar_x, tar_y, tar_deg, tar_dir;
 int cur_x, cur_y, cur_deg;
@@ -24,27 +23,29 @@ int vel[3];
 int degree, degree_diff, dist, speed;
 int start, passed;
 
-
-/*
-void tar_enqueue(int x, int y, int deg) {
+void tar_enqueue(int x, int y, int deg, bool stop) {
 	tar_queue[tar_head].x = x;
 	tar_queue[tar_head].y = y;
 	tar_queue[tar_head].deg = deg;
+	tar_queue[tar_head].stop = stop;
 	tar_head++;
 }
 
 void tar_dequeue() {
-	//start = get_ticks();
+	if (tar_end && tar_queue[tar_end-1].stop)
+		start = get_ticks();	
+	ori_x = cur_x;
+	ori_y = cur_y;
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
 	tar_deg = tar_queue[tar_end].deg;
+	tar_dir = 90 - int_arc_tan2(tar_y - cur_y, tar_x - cur_x);
 	tar_end++;
 }
 
 int tar_queue_length() {
 	return tar_head - tar_end;
 }
-*/
 
 void can_track_path(int angle, int rotate, int maxvel)
 {
@@ -54,9 +55,11 @@ void can_track_path(int angle, int rotate, int maxvel)
 	
 	//determine velocity coefficient
 	double acc = passed / 2000.0;
+	double dec = dist / 600.0;
 	if (acc > 1.0)
 		acc = 1.0;
-	double dec = dist / 600.0;
+	if (!tar_queue[tar_end-1].stop)
+		dec = 1.0;
 	double vel_coeff = acc < dec ? acc : dec;
 	if (vel_coeff > 1.0)
 		vel_coeff = 1.0;
@@ -108,11 +111,11 @@ void can_motor_stop(){
 
 void can_motor_update(){
 	if ((dist < THRESHOLD) && (Abs(degree_diff) < 5)) {
-		can_motor_stop();
+		if (tar_queue_length())
+			tar_dequeue();
+		else
+			can_motor_stop();
 	} else {
-		//if (dist_tar < 600) {
-		//	speed = (int)(dist_tar/12);
-		//} else {
 		can_track_path(degree, degree_diff, CONST_VEL);
 	}
 	
@@ -202,20 +205,15 @@ int main(void)
 	
 	_delay_ms(4000);
 	
-	//tar_head = 0;
-	//tar_end = 0;
+	tar_head = 0;
+	tar_end = 0;
 	
 	//set initial target pos	
 	ticks_init();
 	start = 0;
 	
-	ori_x = 0;
-	ori_y = 0;
-	tar_x = -1500;
-	tar_y = 1500;
-	tar_deg = -90;
-	tar_dir = 90 - int_arc_tan2(tar_y - cur_y, tar_x - cur_x);
-	
+	tar_enqueue(-750, 750, 0, true);
+	tar_enqueue(-1500, 1500, 0, true);
 	
 	while (1) {
 		if (get_ticks() % 50 == 0) {
@@ -236,7 +234,6 @@ int main(void)
 				degree_diff -= 360;
 			
 			dist = Sqrt(Sqr(tar_x - cur_x) + Sqr(tar_y - cur_y));
-			//dist_tar = Sqrt(Sqr(tar_queue[tar_head-1].x - cur_x) + Sqr(tar_queue[tar_head-1].y - cur_y));
 			
 			can_motor_update();
 			//can_calibrate();
