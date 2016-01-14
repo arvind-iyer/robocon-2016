@@ -244,5 +244,5 @@ void _curve(int x1, int y1, int x2, int y2)
 		y=(1-t)*(1-t)*y0+2*(1-t)*t*y1+t*t*y2;
 		_checkpoint(x, y, 0, 100, 360);
 	}
-	_checkpoint(x2, y2, 0, 100, 360);
+	_checkpoint(x2, y2, 0, 200, 360);
 }
