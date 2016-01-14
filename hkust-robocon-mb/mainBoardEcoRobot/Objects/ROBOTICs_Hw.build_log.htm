@@ -74,33 +74,33 @@ pneumatic_control.h(6): warning:  #1-D: last line of file ends without a newline
   void pneumatic_control(GPIO_TypeDef* PORT,u16 gpio_pin,u8 state);
 main.c(85): warning:  #177-D: variable "j" was declared but never referenced
   	int i,j;
-main.c(376): warning:  #177-D: variable "point" was declared but never referenced
+main.c(374): warning:  #177-D: variable "point" was declared but never referenced
   				Point point = points.array[i];
-main.c(408): warning:  #167-D: argument of type "u32 *" is incompatible with parameter of type "int32_t *"
-  				memcpy(linear_ccd_buffer1,Interpolation(linear_ccd_buffer1, prev_linear_ccd_buffer1, 55),128*sizeof(int));
-main.c(408): warning:  #167-D: argument of type "u32 *" is incompatible with parameter of type "int32_t *"
-  				memcpy(linear_ccd_buffer1,Interpolation(linear_ccd_buffer1, prev_linear_ccd_buffer1, 55),128*sizeof(int));
-main.c(429): warning:  #167-D: argument of type "u32 *" is incompatible with parameter of type "int32_t *"
+main.c(411): warning:  #167-D: argument of type "u32 *" is incompatible with parameter of type "int32_t *"
+                  int32_t* interpolationResult = Interpolation(linear_ccd_buffer1,prev_linear_ccd_buffer1,55);
+main.c(411): warning:  #167-D: argument of type "u32 *" is incompatible with parameter of type "int32_t *"
+                  int32_t* interpolationResult = Interpolation(linear_ccd_buffer1,prev_linear_ccd_buffer1,55);
+main.c(435): warning:  #167-D: argument of type "u32 *" is incompatible with parameter of type "int32_t *"
               addressArea = calculateAreas(linear_ccd_buffer1);
-main.c(383): warning:  #177-D: variable "buffer" was declared but never referenced
+main.c(381): warning:  #177-D: variable "buffer" was declared but never referenced
               uint32_t buffer[128];
-main.c(525): warning:  #111-D: statement is unreachable
+main.c(530): warning:  #111-D: statement is unreachable
   	return 0;
-main.c(526): warning:  #1-D: last line of file ends without a newline
+main.c(531): warning:  #1-D: last line of file ends without a newline
   }
-main.c(340): warning:  #177-D: variable "prev_linear_ccd1" was declared but never referenced
+main.c(339): warning:  #177-D: variable "prev_linear_ccd1" was declared but never referenced
   	u32 prev_linear_ccd1[128];
-main.c(352): warning:  #550-D: variable "prevLeftArea" was set but never used
+main.c(351): warning:  #550-D: variable "prevLeftArea" was set but never used
       int32_t prevLeftArea;
-main.c(353): warning:  #550-D: variable "prevMiddleArea" was set but never used
+main.c(352): warning:  #550-D: variable "prevMiddleArea" was set but never used
       int32_t prevMiddleArea;
-main.c(354): warning:  #550-D: variable "prevRightArea" was set but never used
+main.c(353): warning:  #550-D: variable "prevRightArea" was set but never used
       int32_t prevRightArea;
-main.c(359): warning:  #177-D: variable "flag" was declared but never referenced
+main.c(358): warning:  #177-D: variable "flag" was declared but never referenced
       int flag = 0; //0 or 1 or 2
 main.c: 35 warnings, 0 errors
 linking...
-Program Size: Code=28480 RO-data=1688 RW-data=4616 ZI-data=12360  
+Program Size: Code=28492 RO-data=1688 RW-data=4616 ZI-data=12360  
 FromELF: creating hex file...
 ".\Objects\ROBOTICs_Hw.axf" - 0 Error(s), 35 Warning(s).
 

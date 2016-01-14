@@ -323,7 +323,6 @@ void ccdLed_init(){
 }
 
 int main() {
-
 	tft_init(2, BLACK, RED, GREEN);
 	button_init();
 	ticks_init();
@@ -364,9 +363,8 @@ int main() {
     u32 prev_linear_ccd_buffer1[128];
     
     //Auto State
-    s32 autoState = 0;
-    
-    s32 index = 0;
+    s32 autoState = 0; //Press button 14 to change between states
+    s32 interpolationIndex = 0;//Dont use interpolation for the first loop iteration
 	
 	while (1) {
         //GPIO_SetBits(GPIOA,GPIO_Pin_9);
@@ -386,7 +384,7 @@ int main() {
 				linear_ccd_buffer1[i] = linear_ccd_buffer1[i] * 100;
 		    }
  
-            tft_prints(0,0,"Count: %d",get_ms_ticks());
+            //tft_prints(0,0,"Count: %d",get_ms_ticks());
 			points = douglasPeucker(linear_ccd_buffer1, 10);
 			
 			// Do Bresenham Here
@@ -394,7 +392,7 @@ int main() {
             
             
             //Transfer the data into a static array
-            for(int i = 0;i<128;i++){
+            for(int i = 0;i < 128;i++){
                 linear_ccd_buffer1[i] = points.array[i].y;
             }
             
@@ -403,9 +401,22 @@ int main() {
 			freeArray(&points);
             
             
+            //Scale down the value of linear_ccd_buffer1
+			for (int i = 0; i < 128; i++) {
+                linear_ccd_buffer1[i] /= 100;
+			}
+            
             // Interpolation Here
-			if (index > 0) {
-				memcpy(linear_ccd_buffer1,Interpolation(linear_ccd_buffer1, prev_linear_ccd_buffer1, 55),128*sizeof(int));
+			if (interpolationIndex > 0) {
+                int32_t* interpolationResult = Interpolation(linear_ccd_buffer1,prev_linear_ccd_buffer1,55);
+                for(int i = 0 ; i < 128 ;i++){
+                    linear_ccd_buffer1[i] = *(interpolationResult + i);
+                }
+			}
+            
+            //Scale down the value of linear_ccd_buffer1
+			for (int i = 0; i < 128; i++) {
+                linear_ccd_buffer1[i] /= 100;
 			}
 			
 			//lastPoints = points;
@@ -413,16 +424,11 @@ int main() {
                 prev_linear_ccd_buffer1[i] = linear_ccd_buffer1[i];
             }
             
-            //Scale down the value of linear_ccd_buffer1
-			for (int i = 0; i < 128; i++) {
-                //points.array[i].x /= 100;
-                linear_ccd_buffer1[i] /= 100;
-			}
-
+        
 			for (int i = 0; i < 128; i++) {
 				//linear_ccd_buffer1[i] = points.array[i].y/100;
-				tft_put_pixel(i, linear_ccd_buffer1[i], YELLOW);
                 //Draw the graph
+				tft_put_pixel(i, linear_ccd_buffer1[i], YELLOW);
 			}
            
             
@@ -506,9 +512,9 @@ int main() {
 //            tft_prints(0,8,"DiffNow : %d",midToLeftRatio - midToRightRatio);
 //            tft_prints(0,9,"DiffPrev: %d",prevMidToLeftRatio - prevMidToRightRatio);
             
-              index++;
-              if(index > 60000){
-                  index = 1;
+              interpolationIndex++;
+              if(interpolationIndex > 60000){
+                  interpolationIndex = 1;
               }
 		}
         
