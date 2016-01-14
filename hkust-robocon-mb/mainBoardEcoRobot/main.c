@@ -193,10 +193,12 @@ Array bresenham(Array buffer, int bufferSize){
 		printf("X: %d Y:%d\n",result[j].x,result[j].y);
 	}*/
     
+    
     //FREE THE ALLOCATED MEMORY
     freeArray(&newBuffer);
     freeArray(&buffer);
-	return result;
+	
+    return result;
 }
 
 int interpolationCircle(int a){
@@ -204,51 +206,28 @@ int interpolationCircle(int a){
 		a*=2;
 		return(100 - Sqrt(10000 - a * a))/2;
 	}
-	a= a-100;
+	a = a-100;
 	a *= 2;
 	return(Sqrt(10000 - a * a)+ 100)/2;
 }
-Array lerp(Array target, Array lastData, uint32_t a){
+
+int32_t * lerp(int32_t *target, int32_t * lastData, uint32_t a){
 	int invA = 100 - a;
-	Array points;
-	initArray (&points,128);
-	for (int i=0;i<128;i++){
-		insertArray(&points, (Point) {(target.array[i].x * invA) + (lastData.array[i].x * a),
-		(target.array[i].y * invA) + (lastData.array[i].y * a)});
+	static int32_t points[128];
+	//initArray (&points,128);
+	
+    for (int i = 0; i < 128; i++){
+		/*insertArray(&points, (Point) {(target.array[i].x * invA) + (lastData.array[i].x * a),
+		(target.array[i].y * invA) + (lastData.array[i].y * a)});*/
+        points[i] = (target[i] * invA) + (lastData[i] * a);
 	}
-	return points;
+    return points;
 }
 
-Array Interpolation (Array targetData, Array lastData, uint32_t a){
+int32_t * Interpolation (int32_t* targetData, int32_t* lastData, uint32_t a){
 	return lerp (targetData, lastData, interpolationCircle(a));
 }
 
-
-
-char stringBuffer[128];
-
-char *uint8tob( uint8_t value ) {
-  static uint8_t base = 2;
-  static char buffer[8] = {0};
-
-  int i = 8;
-  for( ; i ; --i, value /= base ) {
-    buffer[i] = "01"[value % base];
-  }
-
-  return &buffer[i+1];
-}
-
-int x = 1;
-
-void thing(const uint8_t header) {
-	switch (header) {
-		case 'a':
-			stringBuffer[x] = 'A';
-			x++;
-			break;
-	}
-}
 
 int32_t * calculateAreas(int32_t signal[]) {
 	int32_t leftPartition[43];
@@ -329,32 +308,69 @@ int32_t * calculateAreas(int32_t signal[]) {
 }
 
 
+//Initialize GPIO for CCD LED
+void ccdLed_init(){
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB|RCC_APB2Periph_AFIO|RCC_APB2Periph_GPIOA,ENABLE);
+	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
+	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	
+    GPIO_ResetBits(GPIOA, GPIO_Pin_9);
+}
 
 int main() {
-	stringBuffer[0] = 'T';
-	
-	
-	tft_init(2, BLACK, SKY_BLUE, GREEN);
+
+	tft_init(2, BLACK, RED, GREEN);
 	button_init();
 	ticks_init();
     servo_init();
 	linear_ccd_init();
 	adc_init();
     LED_INIT();
+    //ccdLed_init();
 
 	long lastTick = get_ms_ticks();
     
-	
+	//Data initialization
 	Array points;
-	Array lastPoints;
+	u32 prev_linear_ccd1[128];
+
+    
+    //Present Data
     int32_t leftArea;
     int32_t middleArea;
     int32_t rightArea;
+    int32_t midToLeftRatio;
+    int32_t midToRightRatio;
+    
+    
+    //Prev Data
+    int32_t prevLeftArea;
+    int32_t prevMiddleArea;
+    int32_t prevRightArea;
+    int32_t prevMidToLeftRatio;
+    int32_t prevMidToRightRatio;
+    
+    
+    int flag = 0; //0 or 1 or 2
+    int prevState = 0; // 0 to 15;
     
     int32_t * addressArea;
+    
+    u32 prev_linear_ccd_buffer1[128];
+    
+    //Auto State
+    s32 autoState = 0;
+    
+    s32 index = 0;
 	
 	while (1) {
-		if (get_ms_ticks() % 40 == 20) {
+        //GPIO_SetBits(GPIOA,GPIO_Pin_9);
+        if (get_ms_ticks() % 40 == 20 && autoState == 1) {
             
             for (int i = 0; i < 128; i++) {
 				Point point = points.array[i];
@@ -375,76 +391,134 @@ int main() {
 			
 			// Do Bresenham Here
 			points = bresenham(points, points.used);
-			
             
-            // Interpolation Heret
-//			if (lastPoints.used > 0) {
-//				points = Interpolation(points, lastPoints, 55);
-//			}
+            
+            //Transfer the data into a static array
+            for(int i = 0;i<128;i++){
+                linear_ccd_buffer1[i] = points.array[i].y;
+            }
+            
+            
+            //FREE THE ALLOCATED MEMORY
+			freeArray(&points);
+            
+            
+            // Interpolation Here
+			if (index > 0) {
+				memcpy(linear_ccd_buffer1,Interpolation(linear_ccd_buffer1, prev_linear_ccd_buffer1, 55),128*sizeof(int));
+			}
 			
-			lastPoints  = points;
-			for (int i = 0; i < points.used; i++) {
-					//points.array[i].x /= 100;
-					points.array[i].y /= 100;
+			//lastPoints = points;
+            for(int i = 0; i < 128; i++){
+                prev_linear_ccd_buffer1[i] = linear_ccd_buffer1[i];
+            }
+            
+            //Scale down the value of linear_ccd_buffer1
+			for (int i = 0; i < 128; i++) {
+                //points.array[i].x /= 100;
+                linear_ccd_buffer1[i] /= 100;
 			}
 
 			for (int i = 0; i < 128; i++) {
-				linear_ccd_buffer1[i] = points.array[i].y/100;
-                
+				//linear_ccd_buffer1[i] = points.array[i].y/100;
 				tft_put_pixel(i, linear_ccd_buffer1[i], YELLOW);
+                //Draw the graph
 			}
            
-            //memcpy(area,calculateAreas(linear_ccd_buffer1),3);
             
             addressArea = calculateAreas(linear_ccd_buffer1);
             leftArea = *(addressArea + 0);
             middleArea  = *(addressArea +1);
             rightArea = *(addressArea + 2);
             
-            //tft_prints(0,1,"Left: %d",leftArea);
-            //tft_prints(0,2,"Middle: %d", middleArea);
-            //tft_prints(0,3,"Right: %d", rightArea);
-            
-            int32_t midToLeftRatio = (middleArea*1000)/leftArea;
-            
-            int32_t midToRightRatio = (middleArea * 1000)/rightArea;
             
             
-            //tft_prints(0,4,"Ratio1: %d", leftArea);
-            //tft_prints(0,5,"Ratio2: %d", rightArea);
+            midToLeftRatio = (middleArea*1000)/leftArea;
+            
+            midToRightRatio = (middleArea * 1000)/rightArea;
+            
             
             tft_update();
             
             
-            if(midToLeftRatio - midToRightRatio <=1000 &&
-                (middleArea*1000/leftArea) - (middleArea*1000/rightArea) >= -1000 ){
-                servo_control(3000);
+            if(midToLeftRatio - midToRightRatio <= 500 &&
+                midToLeftRatio - midToRightRatio >= -500  ){
+                if (prevMidToLeftRatio - prevMidToRightRatio > 500) {
+                    //servo_control(3000 - (midToLeftRatio - midToRightRatio)*800/1000); //Turn left
+                    servo_control(2000);
+                }
+                if (prevMidToLeftRatio - prevMidToRightRatio < -500) {
+                    //servo_control(3000 - (midToLeftRatio - midToRightRatio)*800/1000); //Turn right
+                    servo_control(4000);
+                }
+                else servo_control(3000);
             }
-            else if (midToLeftRatio - midToRightRatio > 1000) {
-                servo_control(3000 - (midToLeftRatio - midToRightRatio)*800/1000);
-                //servo_control(2200);
+            if (midToLeftRatio - midToRightRatio > 500) {
+                //servo_control(3000 - (midToLeftRatio - midToRightRatio)*800/1000); //Turn left
+                servo_control(2000);
             }
-            else if (midToLeftRatio - midToRightRatio < -1000) {
-                servo_control(3000 - (midToLeftRatio - midToRightRatio)*800/1000);
-                //servo_control(3800);
+            if (midToLeftRatio - midToRightRatio < -500) {
+                //servo_control(3000 - (midToLeftRatio - midToRightRatio)*800/1000); //Turn right
+                servo_control(4000);
             }
+            
             //Control the servo's movement
             if(!GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_13)){
-                servo_control(1800); //Turn right
+                servo_control(1800); //Turn right -->left
             }
-            if(!GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_14)){
-                servo_control(3000); //Go straight
+            
+            if(!GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_14)){ //Lock the servo and stop automation mode
+                while(!GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_14));
+                autoState = 0;
             }
+            
             if(!GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_15)){
-                servo_control(4200); //Turn left
+                servo_control(4200); //Turn left --> right
             }
             
-            //FREE THE ALLOCATED MEMORY
-			freeArray(&points);
-            freeArray(&lastPoints);
             
-            //lastTick = get_ms_ticks();
+             //Record the last ccd data
+            for(int i = 0 ;i < 128;i++){
+                prev_linear_ccd_buffer1[i] = linear_ccd_buffer1[i];
+            }
+            
+            if(prevState == 30){ //update the previous value for every 800ms
+                prevLeftArea = leftArea;
+                prevMiddleArea = middleArea;
+                prevRightArea = rightArea;
+                prevMidToLeftRatio = midToLeftRatio;
+                prevMidToRightRatio = midToRightRatio;
+                prevState = 0;
+            }
+               
+            prevState++; //State for previous values
+            
+           
+            
+            //Display all the shit
+//            tft_prints(0,1,"Left: %d",leftArea);
+//            tft_prints(0,2,"Middle: %d", middleArea);
+//            tft_prints(0,3,"Right: %d", rightArea);
+//            tft_prints(0,4,"Ratio1: %d", midToLeftRatio);
+//            tft_prints(0,5,"Ratio2: %d", midToRightRatio);
+//            tft_prints(0,6,"PrevRatio1: %d", prevMidToLeftRatio);
+//            tft_prints(0,7,"PrevRatio2: %d", prevMidToRightRatio);
+//            tft_prints(0,8,"DiffNow : %d",midToLeftRatio - midToRightRatio);
+//            tft_prints(0,9,"DiffPrev: %d",prevMidToLeftRatio - prevMidToRightRatio);
+            
+              index++;
+              if(index > 60000){
+                  index = 1;
+              }
 		}
+        
+        else if(autoState == 0){ 
+            if(!GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_14)){ //Close lock mode and reactivate automation mode
+                while(!GPIO_ReadInputDataBit(GPIOC,GPIO_Pin_14));
+                autoState = 1;
+            }
+            servo_control(3000);
+        }
 	}
 
 	return 0;
