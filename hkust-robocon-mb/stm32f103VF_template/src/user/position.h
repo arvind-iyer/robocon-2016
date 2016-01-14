@@ -3,12 +3,12 @@
 #include "gyro.h"
 #include "ticks.h"
 
-#define MAX_MAGNITUDE 140
+#define MAX_VELOCITY 140
+#define MAX_MAGNITUDE 100
 #define NO_CURVE 99999
-#define ROBOT_VELOCITY 50
 
 typedef struct Target {
-	int32_t x, y, angle, curveFactor;
+	float x, y, angle, curveFactor;
 } Target;
 
 typedef struct TargetQueue {
@@ -17,21 +17,25 @@ typedef struct TargetQueue {
   uint32_t size;
 } TargetQueue;
 
-extern s32 TARGET_X;
-extern s32 TARGET_Y;
+extern float TARGET_X;
+extern float TARGET_Y;
 
-extern s32 TARGET_DIRECTION;
+extern int TARGET_DIRECTION;
 extern s32 TARGET_TICKS;
 
 extern int ROBOT_MOVING;
 
-extern PID velXPid;
-extern PID velYPid;
-extern PID velWPid;
+extern Target curvePoint;
+
+extern float velocities[3];
+extern float err;
+
+extern PID curvePid;
+
 void pursueTarget();
 
 void lockAllMotors();
-void setRobotVelocity(int direction, int vel, int velW, int flag);
+void setRobotVelocity(float magnitude, float translationAngle, float angularVelocity);
 void setTargetLocation(int x, int y, int angle);
 
 void initTargetQueue(uint32_t initialSize);

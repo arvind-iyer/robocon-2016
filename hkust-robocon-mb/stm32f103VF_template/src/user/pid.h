@@ -1,9 +1,9 @@
 #include <stdint.h>
 
 typedef struct PID {
-	int32_t Kp, Ki, Kd, threshold, scale, min, max;
-	int32_t	error, totalError, errorRate, output;
+	float Kp, Ki, Kd, threshold, scale, min, max;
+	float	error, totalError, errorRate, output;
 } PID;
 
 // Time in milliseconds.
-void updatePid(PID *pid, int32_t error);
+void updatePid(PID *pid, float error);

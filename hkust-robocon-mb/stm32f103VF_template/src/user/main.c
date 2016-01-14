@@ -29,13 +29,13 @@ int main(void) {
 		tft_clear();
 		tft_prints(0, 0, "X: %d", get_pos()->x);
 		tft_prints(0, 1, "Y: %d", get_pos()->y);
-		tft_prints(0, 2, "Angle: %d", get_pos_raw()->angle);
-		tft_prints(0, 3, "E1: %d", gyro_get_shift_x());
-		tft_prints(0, 4, "E2: %d", gyro_get_shift_y());
-		tft_prints(0, 5, "E3: %d", get_encoder_value(MOTOR3));
-		tft_prints(0, 6, "VX: %d", velXPid.output);
-		tft_prints(0, 7, "VY: %d", velYPid.output);
-		tft_prints(0, 8, "VW: %d", velWPid.output);
+		tft_prints(0, 2, "Angle: %d", get_pos()->angle);
+		tft_prints(0, 3, "PID: %d", 0);
+		tft_prints(0, 4, "Tar A: %d", TARGET_DIRECTION);
+		tft_prints(0, 5, "Err: %.2f", err);
+		tft_prints(0, 6, "W1: %f", velocities[0]);
+		tft_prints(0, 7, "W2: %f", velocities[1]);
+		tft_prints(0, 8, "W3: %f", velocities[2]); 
 		tft_prints(0, 9, "Time: %u", (unsigned int) (get_full_ticks() - TARGET_TICKS) / (uint16_t) 1000);
 		tft_update();
 	}
@@ -62,13 +62,13 @@ void handleCommand(char * command) {
 				} else {
 					s32 angle = (contents[0] * 10);
 					s32 vel = contents[1];
-					setRobotVelocity(vel, angle, 0, CLOSE_LOOP);
+					setRobotVelocity(vel, angle, 0);
 				}
 				break;
 				case 1: // Testing
 					if (ROBOT_MOVING == 0) {
 						initTargetQueue(32);
-						queueTarget((Target) {.x = 0, .y = 1000, .angle = 0, .curveFactor = 900});
+						queueTarget((Target) {.x = 0, .y = 1000, .angle = 0, .curveFactor = NO_CURVE});
 						queueTarget((Target) {.x = 1000, .y = 1000, .angle = 0, .curveFactor = NO_CURVE});
 						queueTarget((Target) {.x = 0, .y = 0, .angle = 0, .curveFactor = NO_CURVE});
 						
