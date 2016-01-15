@@ -11,8 +11,9 @@
 #define SERVO_TIM_RCC		RCC_APB2Periph_TIM8
 #define SERVO_GPIO_RCC	RCC_APB2Periph_GPIOC
 
-#define SERVO_MIN 500
-#define SERVO_MAX 2450
+#define SERVO_MIN 0
+#define SERVO_MED 1200
+#define SERVO_MAX 4000
 
 typedef struct {
 	u16 servo_tim_ch;
@@ -23,10 +24,10 @@ typedef struct {
 } SERVO_PWM_STRUCT[];
 
 typedef enum {
-  SERVO1,
-  SERVO2,
-  SERVO3,
-  SERVO4
+  SERVO1 = 0,
+  SERVO2 = 1,
+  SERVO3 = 2,
+  SERVO4 = 3
 } SERVO_ID;
 
 

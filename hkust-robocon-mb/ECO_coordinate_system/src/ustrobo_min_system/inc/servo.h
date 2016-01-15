@@ -11,8 +11,9 @@
 #define SERVO_TIM_RCC		RCC_APB2Periph_TIM8
 #define SERVO_GPIO_RCC	RCC_APB2Periph_GPIOC
 
-#define SERVO_MIN 500
-#define SERVO_MAX 2450
+#define SERVO_MIN 600
+#define SERVO_MED 1550
+#define SERVO_MAX 2400
 
 typedef struct {
 	u16 servo_tim_ch;

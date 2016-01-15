@@ -5,6 +5,10 @@ static Encoder_Typedef encoder = {{ENCODER_TIMER1,ENCODER_TIMER1_CLOCK_SOURCE,EN
 																	{ENCODER_TIMER2,ENCODER_TIMER2_CLOCK_SOURCE,ENCODER_TIMER2_GPIO_CLOCK_SOURCE,
 																	 ENCODER_TIMER2_PORT1,ENCODER_TIMER2_PORT2,ENCODER_TIMER2_GPIOx}};
 
+u16 encoder_count[2][2] = {0};
+u32 last_ticks = 0;
+u16 encoder_vel[2] = {0};
+
 /**
   * @brief  Initialization of encoder
   * @param  None
@@ -35,24 +39,26 @@ void encoder_init(void){
 		}
 		
 		// Timer init
-		TIM_DeInit(encoder[encoder_id].timer);																													// clear
-		TIM_TimeBaseStructure.TIM_Prescaler = 0x00; 																										// No prescaling
-		TIM_TimeBaseStructure.TIM_Period = 0xffff;																											// Max Count
+		TIM_DeInit(encoder[encoder_id].timer);																										// clear
+		TIM_TimeBaseStructure.TIM_Prescaler = 0x00; 																							// No prescaling
+		TIM_TimeBaseStructure.TIM_Period = 0xffff;																								// Max Count
 		TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
 		TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
 		TIM_TimeBaseInit(encoder[encoder_id].timer, &TIM_TimeBaseStructure);
 		
 		// Setting to Rising edge mode
 				
-		// Use TIM_EncoderMode_TI1 to count only B pin reading
-		// TI2 to count only A pin
+		// Use TIM_EncoderMode_TI2 to count only B pin reading
+		// TI1 to count only A pin
 		// TI12 = TI3 to count both
-		TIM_EncoderInterfaceConfig(encoder[encoder_id].timer, TIM_EncoderMode_TI2,
+		TIM_EncoderInterfaceConfig(encoder[encoder_id].timer, TIM_EncoderMode_TI1,
 														 TIM_ICPolarity_Rising, TIM_ICPolarity_Rising);
 		
-		TIM_SetCounter(encoder[encoder_id].timer, 0);																													// Reset Count as 0
-		TIM_Cmd(encoder[encoder_id].timer, ENABLE);																														// Enable counter timer
-
+		TIM_SetCounter(encoder[encoder_id].timer, 65535);																							// Reset Count as 0
+		TIM_Cmd(encoder[encoder_id].timer, ENABLE);																									// Enable counter timer
+		last_ticks = get_full_ticks();
+		encoder_count[0][1] = 0;
+		encoder_count[1][1] = 0;
 	}
 }
 
@@ -61,6 +67,25 @@ void encoder_init(void){
 	* @param  ENCODERx: where x can be 1 to 2
   * @retval The reading of the encoder
   */
-u32 get_count(ENCODER ENCODERx){
-	return TIM_GetCounter(encoder[ENCODERx].timer);
+u16 get_count(ENCODER ENCODERx){
+	return encoder_count[ENCODERx][0];
+}
+
+void encoder_update(){
+	u32 this_ticks = get_full_ticks();
+	if (this_ticks==last_ticks) return;
+	encoder_count[0][0] = 65535 - TIM_GetCounter(encoder[ENCODER1].timer);
+	encoder_count[1][0] = 65535 - TIM_GetCounter(encoder[ENCODER2].timer);
+	
+	if (this_ticks-last_ticks>200){
+		encoder_vel[0] = (encoder_count[0][0] - encoder_count[0][1])*100/(this_ticks - last_ticks);
+		encoder_vel[1] = (encoder_count[1][0] - encoder_count[1][1])*100/(this_ticks - last_ticks);
+		last_ticks = this_ticks;
+		encoder_count[0][1] = encoder_count[0][0];
+		encoder_count[1][1] = encoder_count[1][0];
+	}
+}
+
+u16 get_vel(ENCODER ENCODERx){
+	return encoder_vel[ENCODERx];
 }

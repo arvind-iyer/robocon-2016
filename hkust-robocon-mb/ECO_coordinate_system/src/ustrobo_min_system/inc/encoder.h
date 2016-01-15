@@ -4,6 +4,7 @@
 // include ic library
 #include "stm32f10x.h"
 #include "stm32f10x_tim.h"
+#include "ticks.h"
 
 typedef struct {
 	TIM_TypeDef* timer;
@@ -40,6 +41,8 @@ typedef enum {
 
 // function declaration
 void encoder_init(void);
-u32 get_count(ENCODER ENCODERx);
+void encoder_update(void);
+u16 get_count(ENCODER ENCODERx);
+u16 get_vel(ENCODER ENCODERx);
 
 #endif

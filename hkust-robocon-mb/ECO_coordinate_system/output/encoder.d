@@ -16,3 +16,6 @@
 .\output\encoder.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\encoder.o: .\src\stm32f10x_std\inc\misc.h
 .\output\encoder.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
+.\output\encoder.o: .\src\ustrobo_min_system\inc\ticks.h
+.\output\encoder.o: .\src\ustrobo_min_system\inc\buzzer.h
+.\output\encoder.o: .\src\ustrobo_min_system\inc\gpio.h
