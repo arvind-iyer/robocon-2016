@@ -26,6 +26,7 @@ extern s32 TARGET_TICKS;
 extern int ROBOT_MOVING;
 
 extern Target curvePoint;
+extern Target nextCurvePoint;
 
 extern float velocities[3];
 extern float err;

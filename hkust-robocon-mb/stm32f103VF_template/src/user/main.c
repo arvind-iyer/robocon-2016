@@ -29,8 +29,8 @@ int main(void) {
 		tft_clear();
 		tft_prints(0, 0, "X: %d", get_pos()->x);
 		tft_prints(0, 1, "Y: %d", get_pos()->y);
-		tft_prints(0, 2, "Angle: %d", get_pos()->angle);
-		tft_prints(0, 3, "PID: %d", 0);
+		tft_prints(0, 2, "{%.2f, %.2f}", curvePoint.x, curvePoint.y);
+		tft_prints(0, 3, "{%.2f, %.2f}", nextCurvePoint.x, nextCurvePoint.y);
 		tft_prints(0, 4, "Tar A: %d", TARGET_DIRECTION);
 		tft_prints(0, 5, "Err: %.2f", err);
 		tft_prints(0, 6, "W1: %f", velocities[0]);
@@ -68,7 +68,7 @@ void handleCommand(char * command) {
 				case 1: // Testing
 					if (ROBOT_MOVING == 0) {
 						initTargetQueue(32);
-						queueTarget((Target) {.x = 0, .y = 1000, .angle = 0, .curveFactor = NO_CURVE});
+						queueTarget((Target) {.x = 0, .y = 1000, .angle = 0, .curveFactor = 0});
 						queueTarget((Target) {.x = 1000, .y = 1000, .angle = 0, .curveFactor = NO_CURVE});
 						queueTarget((Target) {.x = 0, .y = 0, .angle = 0, .curveFactor = NO_CURVE});
 						
