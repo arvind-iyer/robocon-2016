@@ -1,6 +1,7 @@
 #include "main.h"
 #include <math.h>
 #include <stdbool.h>
+#include <string.h>
 
 #define THRESHOLD 50
 #define CONST_VEL 50
@@ -22,6 +23,9 @@ int ori_x, ori_y;
 int vel[3];
 int degree, degree_diff, dist, speed;
 int start, passed;
+int err_d, temp;
+
+char err_msg[100];
 
 void tar_enqueue(int x, int y, int deg, bool stop) {
 	tar_queue[tar_head].x = x;
@@ -33,13 +37,18 @@ void tar_enqueue(int x, int y, int deg, bool stop) {
 
 void tar_dequeue() {
 	if (tar_end && tar_queue[tar_end-1].stop)
-		start = get_ticks();	
-	ori_x = cur_x;
-	ori_y = cur_y;
+		start = get_ticks();
+	if (tar_end) {
+		ori_x = tar_queue[tar_end-1].x;
+		ori_y = tar_queue[tar_end-1].y;
+	} else {
+		ori_x = 0;
+		ori_y = 0;
+	}
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
 	tar_deg = tar_queue[tar_end].deg;
-	tar_dir = 90 - int_arc_tan2(tar_y - cur_y, tar_x - cur_x);
+	tar_dir = 90 - int_arc_tan2(tar_y - ori_y, tar_x - ori_x);
 	tar_end++;
 }
 
@@ -50,8 +59,19 @@ int tar_queue_length() {
 void can_track_path(int angle, int rotate, int maxvel)
 {
 	int p, q;
-	int err;
+	int err, err_pid;
 	double dotcheck;
+	
+	//determine if overflow
+	dotcheck = (cur_x-tar_x)*(ori_x-tar_x) + (cur_y-tar_y)*(ori_y-tar_y);
+	dotcheck /= Sqrt(Sqr(ori_x-tar_x)+Sqr(ori_y-tar_y));
+	dotcheck /= Sqrt(Sqr(cur_x-tar_x)+Sqr(cur_y-tar_y));
+	if (dotcheck <= 0.0) {
+		if (tar_queue_length() && !tar_queue[tar_end-1].stop)
+			tar_dequeue();
+		else
+			angle = 90 - int_arc_tan2(tar_y - cur_y, tar_x - cur_x) - (int)(cur_deg/10);
+	}
 	
 	//determine velocity coefficient
 	double acc = passed / 2000.0;
@@ -70,24 +90,18 @@ void can_track_path(int angle, int rotate, int maxvel)
 	err = p*(tar_y - cur_y) - q*(tar_x - cur_x);
 	err /= Sqrt(Sqr(p)+Sqr(q));
 	
-	//determine if overflow
-	dotcheck = (cur_x-tar_x)*(ori_x-tar_x) + (cur_y-tar_y)*(ori_y-tar_y);
-	dotcheck /= Sqrt(Sqr(ori_x-tar_x)+Sqr(ori_y-tar_y));
-	dotcheck /= Sqrt(Sqr(cur_x-tar_x)+Sqr(cur_y-tar_y));
-	if (dotcheck <= 0.0)
-		angle = 90 - int_arc_tan2(tar_y - cur_y, tar_x - cur_x) - (int)(cur_deg/10);
+	//perpendicular PD
+	temp = err-err_d;
+	err_pid = err * 0.2 + (err-err_d) * 0.0;
 	
-	//perpendicular KP
-	err *= 0.2;
-	
-	//rotational KP
+	//rotational P
 	rotate *= 0.5;
 	
 	angle *= 10;
 	for (int i = 0; i < 3; i++) {
 		vel[i] = int_sin(angle+i*1200)*maxvel/(-10000);	//calculate parallel distance
 		if (dotcheck > 0.0)
-			vel[i] -= int_sin(angle+i*1200+900)*err/(-10000);	//subtract perpendicular negative feedback
+			vel[i] -= int_sin(angle+i*1200+900)*err_pid/(-10000);	//subtract perpendicular negative feedback
 		vel[i] *= vel_coeff;
 		vel[i] -= rotate*acc;	//subtract rotational negative feedback
 	}
@@ -95,6 +109,8 @@ void can_track_path(int angle, int rotate, int maxvel)
 	motor_set_vel(MOTOR1, vel[0], CLOSE_LOOP);
 	motor_set_vel(MOTOR2, vel[1], CLOSE_LOOP);
 	motor_set_vel(MOTOR3, vel[2], CLOSE_LOOP);
+	
+	err_d = err;
 }
 
 void can_motor_stop(){
@@ -123,6 +139,8 @@ void can_motor_update(){
 	tft_clear();
 	tft_prints(0,0,"X:%5d Y:%5d",cur_x,cur_y);
 	tft_prints(0,1,"ANGLE %d",cur_deg);
+	tft_prints(0,2,"%d",err_d);
+	tft_prints(0,3,"%d",temp);
 	//tft_prints(0,3,"X:%5d Y:%5d",tar_x,tar_y);
 	//tft_prints(0,4,"%5dmm  %3dd",dist,degree);
 	//tft_prints(0,5,"ROTATE %3dd",degree_diff);
@@ -207,13 +225,13 @@ int main(void)
 	
 	tar_head = 0;
 	tar_end = 0;
-	
-	//set initial target pos	
+	err_d = 0;
+	temp = 0;
 	ticks_init();
 	start = 0;
 	
-	tar_enqueue(-750, 750, 0, true);
-	tar_enqueue(-1500, 1500, 0, true);
+	tar_enqueue(0, 1000, 0, false);
+	tar_enqueue(0, 2000, 0, true);
 	
 	while (1) {
 		if (get_ticks() % 50 == 0) {
