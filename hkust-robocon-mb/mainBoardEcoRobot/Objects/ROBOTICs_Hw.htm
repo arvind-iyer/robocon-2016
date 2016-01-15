@@ -3,9 +3,9 @@
 <title>Static Call Graph - [.\Objects\ROBOTICs_Hw.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\ROBOTICs_Hw.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Thu Jan 14 23:36:33 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri Jan 15 21:35:43 2016
 <BR><P>
-<H3>Maximum Stack Usage =       1232 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =       1240 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
 __rt_entry_main &rArr; main &rArr; douglasPeucker &rArr; douglasPeuckerRecursion &rArr;  douglasPeuckerRecursion (Cycle)
 <P>
@@ -378,7 +378,7 @@ Global Symbols
 <P><STRONG><a name="[187]"></a>__rt_entry_postsh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000009))
 
 <P><STRONG><a name="[74]"></a>__rt_entry_main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$0000000D))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1232 + Unknown Stack Size
+<BR><BR>[Stack]<UL><LI>Max Depth = 1240 + Unknown Stack Size
 <LI>Call Chain = __rt_entry_main &rArr; main &rArr; douglasPeucker &rArr; douglasPeuckerRecursion &rArr;  douglasPeuckerRecursion (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1603,10 +1603,15 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 </UL>
 
-<P><STRONG><a name="[c9]"></a>tft_prints</STRONG> (Thumb, 268 bytes, Stack size 296 bytes, tft_display.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
+<P><STRONG><a name="[c9]"></a>tft_prints</STRONG> (Thumb, 268 bytes, Stack size 296 bytes, tft_display.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 416 + Unknown Stack Size
+<LI>Call Chain = tft_prints &rArr; vsprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear_row
+<BR>[Calls]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bresenham
+<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear_row
 </UL>
 
 <P><STRONG><a name="[cb]"></a>tft_clear_row</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, tft_display.o(.text), UNUSED)
@@ -2014,11 +2019,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[124]"></a>bresenham</STRONG> (Thumb, 654 bytes, Stack size 88 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = bresenham &rArr; initArray &rArr; malloc &rArr; __Heap_Full &rArr; __Heap_ProvideMemory &rArr; free
+<P><STRONG><a name="[124]"></a>bresenham</STRONG> (Thumb, 706 bytes, Stack size 88 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 504 + Unknown Stack Size
+<LI>Call Chain = bresenham &rArr; tft_prints &rArr; vsprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;freeArray
 <LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initArray
+<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
 </UL>
 <BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -2059,8 +2066,9 @@ Global Symbols
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 
-<P><STRONG><a name="[75]"></a>main</STRONG> (Thumb, 726 bytes, Stack size 560 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1232<LI>Call Chain = main &rArr; douglasPeucker &rArr; douglasPeuckerRecursion &rArr;  douglasPeuckerRecursion (Cycle)
+<P><STRONG><a name="[75]"></a>main</STRONG> (Thumb, 750 bytes, Stack size 568 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 1240 + Unknown Stack Size
+<LI>Call Chain = main &rArr; douglasPeucker &rArr; douglasPeuckerRecursion &rArr;  douglasPeuckerRecursion (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calculateAreas
@@ -2075,6 +2083,7 @@ Global Symbols
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linear_ccd_init
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linear_ccd_read
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
+<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_pixel
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 <LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ticks_init
@@ -2115,8 +2124,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;insertArray
 </UL>
 
-<P><STRONG><a name="[ca]"></a>vsprintf</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, vsprintf.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sputc
+<P><STRONG><a name="[ca]"></a>vsprintf</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, vsprintf.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 120 + Unknown Stack Size
+<LI>Call Chain = vsprintf &rArr; _printf_char_common &rArr; __printf
+</UL>
+<BR>[Calls]<UL><LI><a href="#[40]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sputc
 <LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_common
 </UL>
 <BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx
@@ -2239,8 +2251,11 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_n
 </UL>
 
-<P><STRONG><a name="[12e]"></a>_printf_char_common</STRONG> (Thumb, 32 bytes, Stack size 64 bytes, _printf_char_common.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
+<P><STRONG><a name="[12e]"></a>_printf_char_common</STRONG> (Thumb, 32 bytes, Stack size 64 bytes, _printf_char_common.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104 + Unknown Stack Size
+<LI>Call Chain = _printf_char_common &rArr; __printf
+</UL>
+<BR>[Calls]<UL><LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
 </UL>
@@ -2332,8 +2347,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_p
 </UL>
 
-<P><STRONG><a name="[13b]"></a>__printf</STRONG> (Thumb, 388 bytes, Stack size 40 bytes, __printf_flags_ss_wp.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_percent
+<P><STRONG><a name="[13b]"></a>__printf</STRONG> (Thumb, 388 bytes, Stack size 40 bytes, __printf_flags_ss_wp.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40 + Unknown Stack Size
+<LI>Call Chain = __printf
+</UL>
+<BR>[Calls]<UL><LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_percent
 <LI><a href="#[141]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_is_digit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_common
@@ -2668,7 +2686,7 @@ Global Symbols
 <LI><a href="#[14a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_fp_dec_real
 </UL>
 
-<P><STRONG><a name="[141]"></a>_is_digit</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, __printf_wp.o(i._is_digit), UNUSED)
+<P><STRONG><a name="[141]"></a>_is_digit</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, __printf_wp.o(i._is_digit))
 <BR><BR>[Called By]<UL><LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__printf
 </UL>
 
