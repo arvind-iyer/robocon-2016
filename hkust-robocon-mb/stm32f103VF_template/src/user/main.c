@@ -10,32 +10,38 @@ struct target {
 	int x;
 	int y;
 	int deg;
+	double curve; //curvature scaled up by 1000
 	bool stop;
 };
 
+//path target queue
 struct target tar_queue[50];
 int tar_head, tar_end;
 
+//path target variables
 int tar_x, tar_y, tar_deg, tar_dir;
+int tar_rad, tar_cen_x, tar_cen_y;
+int ori_x, ori_y;
+
+//robot properties
 int cur_x, cur_y, cur_deg;
 int cor_x, cor_y;
-int ori_x, ori_y;
 int vel[3];
 int degree, degree_diff, dist, speed;
 int start, passed;
 int err_d, temp;
 
-char err_msg[100];
-
-void tar_enqueue(int x, int y, int deg, bool stop) {
+void tar_enqueue(int x, int y, int deg, int curve, bool stop) {
 	tar_queue[tar_head].x = x;
 	tar_queue[tar_head].y = y;
 	tar_queue[tar_head].deg = deg;
+	tar_queue[tar_head].curve = curve;
 	tar_queue[tar_head].stop = stop;
 	tar_head++;
 }
 
 void tar_dequeue() {
+	int mid_length;
 	if (tar_end && tar_queue[tar_end-1].stop)
 		start = get_ticks();
 	if (tar_end) {
@@ -49,6 +55,17 @@ void tar_dequeue() {
 	tar_y = tar_queue[tar_end].y;
 	tar_deg = tar_queue[tar_end].deg;
 	tar_dir = 90 - int_arc_tan2(tar_y - ori_y, tar_x - ori_x);
+	
+	tar_rad = 0;
+	if (tar_queue[tar_end].curve)
+		tar_rad = 1000/tar_queue[tar_end].curve;
+	
+	mid_length = Sqr(tar_x - ori_x) + Sqr(tar_y - ori_y);
+	mid_length = Sqrt(Sqr(tar_rad) - mid_length/4);
+	mid_length *= (tar_rad / Abs(tar_rad));
+	tar_cen_x = (ori_x + tar_x)/2 + mid_length * int_cos(tar_dir * 10) / 10000;
+	tar_cen_y = (ori_y + tar_y)/2 - mid_length * int_sin(tar_dir * 10) / 10000;
+	
 	tar_end++;
 }
 
@@ -56,7 +73,7 @@ int tar_queue_length() {
 	return tar_head - tar_end;
 }
 
-void can_track_path(int angle, int rotate, int maxvel)
+void can_track_path(int angle, int rotate, int maxvel, bool curved)
 {
 	int p, q;
 	int err, err_pid;
@@ -85,10 +102,16 @@ void can_track_path(int angle, int rotate, int maxvel)
 		vel_coeff = 1.0;
 	
 	//find perpendicular dist
-	p = tar_x - ori_x;
-	q = tar_y - ori_y;
-	err = p*(tar_y - cur_y) - q*(tar_x - cur_x);
-	err /= Sqrt(Sqr(p)+Sqr(q));
+	if (tar_queue[tar_end-1].curve == 0.0) { //straight line
+		p = tar_x - ori_x;
+		q = tar_y - ori_y;
+		err = p*(tar_y - cur_y) - q*(tar_x - cur_x);
+		err /= Sqrt(Sqr(p)+Sqr(q));
+	} else { //curve
+		err = Sqrt(Sqr(tar_cen_x - cur_x) + Sqr(tar_cen_y - cur_y));
+		err *= (tar_rad / Abs(tar_rad));
+		err = tar_rad - err;
+	}
 	
 	//perpendicular PD
 	temp = err-err_d;
@@ -132,7 +155,7 @@ void can_motor_update(){
 		else
 			can_motor_stop();
 	} else {
-		can_track_path(degree, degree_diff, CONST_VEL);
+		can_track_path(degree, degree_diff, CONST_VEL, false);
 	}
 	
 	//print debug info
@@ -141,11 +164,9 @@ void can_motor_update(){
 	tft_prints(0,1,"ANGLE %d",cur_deg);
 	tft_prints(0,2,"%d",err_d);
 	tft_prints(0,3,"%d",temp);
-	//tft_prints(0,3,"X:%5d Y:%5d",tar_x,tar_y);
-	//tft_prints(0,4,"%5dmm  %3dd",dist,degree);
-	//tft_prints(0,5,"ROTATE %3dd",degree_diff);
+	tft_prints(0,4,"%d",degree);
+	tft_prints(0,5,"%d %d",tar_cen_x,tar_cen_y);
 	tft_prints(0,7,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
-	//tft_prints(0,8,"MAX %3d",speed);
 	tft_prints(0,9,"TIM %3d",get_seconds());
 	tft_update();
 }
@@ -230,8 +251,15 @@ int main(void)
 	ticks_init();
 	start = 0;
 	
-	tar_enqueue(0, 1000, 0, false);
-	tar_enqueue(0, 2000, 0, true);
+	tar_enqueue(500, 0, 0, 0.0, false);
+	tar_enqueue(1000, 500, 0, -2.0, false);
+	tar_enqueue(500, 1000, 0, -2.0, false);
+	tar_enqueue(0, 500, 0, -2.0, false);
+	tar_enqueue(0, -500, 0, 0.0, false);
+	tar_enqueue(-500, -1000, 0, 2.0, false);
+	tar_enqueue(-1000, -500, 0, 2.0, false);
+	tar_enqueue(-500, 0, 0, 2.0, false);
+	tar_enqueue(0, 0, 0, 0.0, true);
 	
 	while (1) {
 		if (get_ticks() % 50 == 0) {
@@ -245,7 +273,13 @@ int main(void)
 			cur_x = get_X() + cor_x - 52;
 			cur_y = get_Y() + cor_y - 380;
 			
-			degree = tar_dir - (cur_deg/10);
+			degree = tar_dir;
+			if (tar_queue[tar_end-1].curve < 0)
+				degree = 90 - int_arc_tan2(tar_cen_y - cur_y, tar_cen_x - cur_x) + 90;
+			if (tar_queue[tar_end-1].curve > 0)
+				degree = 90 - int_arc_tan2(tar_cen_y - cur_y, tar_cen_x - cur_x) - 90;
+			degree -= (cur_deg/10);
+			
 			degree_diff = tar_deg - (int)(cur_deg/10);
 			degree_diff = (degree_diff+1080)%360;
 			if (degree_diff > 180)
