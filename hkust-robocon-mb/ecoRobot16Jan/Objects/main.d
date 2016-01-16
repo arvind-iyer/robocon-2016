@@ -49,5 +49,6 @@
 .\objects\main.o: motor_first.h
 .\objects\main.o: pneumatic_control.h
 .\objects\main.o: approxmath.h
+.\objects\main.o: lineSensor.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

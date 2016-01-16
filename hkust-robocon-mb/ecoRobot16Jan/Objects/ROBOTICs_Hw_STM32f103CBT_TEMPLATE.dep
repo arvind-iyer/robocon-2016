@@ -696,8 +696,24 @@ I (.\stm32f10x_std\inc\stm32f10x_rcc.h)(0x569A8C4C)
 I (.\stm32f10x_std\inc\stm32f10x_spi.h)(0x569A8C4C)
 I (.\stm32f10x_std\inc\stm32f10x_usart.h)(0x569A8C4C)
 I (.\stm32f10x_std\inc\misc.h)(0x569A8C4C)
-F (.\main.c)(0x569A984C)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\stm32f10x_std\inc -I.\user-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\ecoRobot16Jan\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_ML-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
-I (main.h)(0x569A8C4C)
+F (.\lineSensor.c)(0x569A9E4C)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\stm32f10x_std\inc -I.\user-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\ecoRobot16Jan\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_ML-o .\objects\linesensor.o --omf_browse .\objects\linesensor.crf --depend .\objects\linesensor.d)
+I (lineSensor.h)(0x569A9A86)
+I (.\stm32f10x_std\inc\stm32f10x_gpio.h)(0x569A8C4C)
+I (.\stm32f10x_std\inc\stm32f10x.h)(0x569A8C4C)
+I (.\stm32f10x_std\inc\core_cm3.h)(0x569A8C4C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
+I (.\stm32f10x_std\inc\system_stm32f10x.h)(0x569A8C4C)
+I (.\stm32f10x_std\inc\stm32f10x_conf.h)(0x569A8C4C)
+I (.\stm32f10x_std\inc\stm32f10x_dma.h)(0x569A8C4C)
+I (.\stm32f10x_std\inc\stm32f10x_exti.h)(0x569A8C4C)
+I (.\stm32f10x_std\inc\stm32f10x_flash.h)(0x569A8C4C)
+I (.\stm32f10x_std\inc\stm32f10x_fsmc.h)(0x569A8C4C)
+I (.\stm32f10x_std\inc\stm32f10x_rcc.h)(0x569A8C4C)
+I (.\stm32f10x_std\inc\stm32f10x_spi.h)(0x569A8C4C)
+I (.\stm32f10x_std\inc\stm32f10x_usart.h)(0x569A8C4C)
+I (.\stm32f10x_std\inc\misc.h)(0x569A8C4C)
+F (.\main.c)(0x569A9B8F)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\stm32f10x_std\inc -I.\user-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\ecoRobot16Jan\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_ML-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (main.h)(0x569A9B17)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -737,5 +753,6 @@ I (button.h)(0x569A8C4C)
 I (uart.h)(0x569A8C4C)
 I (pneumatic_control.h)(0x569A8C4C)
 I (approxmath.h)(0x569A8C4C)
+I (lineSensor.h)(0x569A9A86)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x55AEF5F2)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x55AEF5F2)

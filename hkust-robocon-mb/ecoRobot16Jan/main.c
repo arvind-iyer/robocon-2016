@@ -435,7 +435,7 @@ int main() {
 	adc_init();
     LED_INIT();
     uart_init(COM3,115200);
-    //ccdLed_init();
+    lineSensor_init();
 
 	long lastTick = get_ms_ticks();
     
@@ -590,16 +590,18 @@ int main() {
         
             
             //Display all the shit
-            tft_prints(0,0,"L:%f",leftArea);
-            tft_prints(0,1,"M:%f", middleArea);
-            tft_prints(0,2,"R:%f", rightArea);
-            tft_prints(0,3,"RLeft: %f", midToLeftRatio);
-            tft_prints(0,4,"RRight: %f", midToRightRatio);
-            tft_prints(0,5,"PRLeft: %f", prevMidToLeftRatio);
-            tft_prints(0,6,"PRRight: %f", prevMidToRightRatio);
-            tft_prints(0,7,"DNow : %f",diffLeftRight);
-            tft_prints(0,8,"DPrev: %f",prevDiffLeftRight);
-            tft_update();
+//            tft_prints(0,0,"L:%f",leftArea);
+//            tft_prints(0,1,"M:%f", middleArea);
+//            tft_prints(0,2,"R:%f", rightArea);
+//            tft_prints(0,3,"RLeft: %f", midToLeftRatio);
+//            tft_prints(0,4,"RRight: %f", midToRightRatio);
+//            tft_prints(0,5,"PRLeft: %f", prevMidToLeftRatio);
+//            tft_prints(0,6,"PRRight: %f", prevMidToRightRatio);
+//            tft_prints(0,7,"DNow : %f",diffLeftRight);
+//            tft_prints(0,8,"DPrev: %f",prevDiffLeftRight);
+            
+              tft_prints(0,0,"Sensor value:%d",readLineSensor());
+              tft_update();
               interpolationIndex++;
               if(interpolationIndex > 60000){
                   interpolationIndex = 1;
@@ -627,6 +629,8 @@ int main() {
             }
             servo_control(3000);
         }
+        
+        
 	}
 
 	return 0;

@@ -23,6 +23,7 @@
 #include "motor_first.h"
 #include "pneumatic_control.h"
 #include "approxmath.h"
+#include "lineSensor.h"
 
 #define MAX_CCRn			1000
 #define MIN_CCRn			450
