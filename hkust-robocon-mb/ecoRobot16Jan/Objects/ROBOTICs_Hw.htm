@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\ROBOTICs_Hw.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\ROBOTICs_Hw.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Sat Jan 16 18:47:03 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Sat Jan 16 23:34:21 2016
 <BR><P>
 <H3>Maximum Stack Usage =       3336 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1556,8 +1556,10 @@ Global Symbols
 
 <P><STRONG><a name="[25a]"></a>tft_get_max_y_char</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, tft_display.o(.text), UNUSED)
 
-<P><STRONG><a name="[c3]"></a>tft_set_pixel_pos</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, tft_display.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+<P><STRONG><a name="[c3]"></a>tft_set_pixel_pos</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, tft_display.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = tft_set_pixel_pos &rArr; tft_write_data
+</UL>
+<BR>[Calls]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
 <LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_pixel
@@ -1587,9 +1589,13 @@ Global Symbols
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_force_clear
 </UL>
 
-<P><STRONG><a name="[c8]"></a>tft_put_pixel</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, tft_display.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_pixel_pos
+<P><STRONG><a name="[c8]"></a>tft_put_pixel</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, tft_display.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = tft_put_pixel &rArr; tft_set_pixel_pos &rArr; tft_write_data
+</UL>
+<BR>[Calls]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_pixel_pos
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+</UL>
+<BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[cd]"></a>tft_char_is_changed</STRONG> (Thumb, 186 bytes, Stack size 12 bytes, tft_display.o(.text))
@@ -2101,7 +2107,7 @@ Global Symbols
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 
-<P><STRONG><a name="[75]"></a>main</STRONG> (Thumb, 1058 bytes, Stack size 2616 bytes, main.o(.text))
+<P><STRONG><a name="[75]"></a>main</STRONG> (Thumb, 946 bytes, Stack size 2616 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 3336 + Unknown Stack Size
 <LI>Call Chain = main &rArr; douglasPeucker &rArr; douglasPeuckerRecursion &rArr;  douglasPeuckerRecursion (Cycle)
 </UL>
@@ -2109,7 +2115,6 @@ Global Symbols
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2uiz
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
 <LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fsub
-<LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_frsub
 <LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calculateAreas
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Interpolation
@@ -2124,6 +2129,7 @@ Global Symbols
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;linear_ccd_read
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
+<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_pixel
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 <LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ticks_init
 <LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_ms_ticks
@@ -2932,8 +2938,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[130]"></a>__aeabi_frsub</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, faddsub_clz.o(x$fpl$frsb))
-<BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;interpolationCircle
+<BR><BR>[Called By]<UL><LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;interpolationCircle
 </UL>
 
 <P><STRONG><a name="[17c]"></a>_frsb</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, faddsub_clz.o(x$fpl$frsb), UNUSED)

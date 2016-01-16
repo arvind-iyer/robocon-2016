@@ -478,8 +478,8 @@ int main() {
         if (get_ms_ticks() % 40 == 20 && autoState == 1) {
             
             for (int i = 0; i < 128; i++) {
-				Point point = points.array[i];
-                //tft_put_pixel(i, linear_ccd_buffer1[i], BLACK);
+				//Point point = points.array[i];
+                tft_put_pixel(i, linear_ccd_buffer1[i], BLACK);
 			}
             
             
@@ -490,7 +490,7 @@ int main() {
             
  
             //tft_prints(0,0,"Count: %d",get_ms_ticks());
-			points = douglasPeucker(linear_ccd_buffer1, 16);
+			points = douglasPeucker(linear_ccd_buffer1, 4);
             
  
 
@@ -517,14 +517,14 @@ int main() {
 			}
             
             //Record the last array to the present array
-            for(int i = 0; i < 128; i++){
+           for(int i = 0; i < 128; i++){
                 prev_buffers[i] = buffers[i];
             }
             
             //Restore the data from struct to linear_ccd_buffer1
 			for (int i = 0; i < 128; i++) {
                 linear_ccd_buffer1[i] = buffers[i].y;
-				//tft_put_pixel(i, linear_ccd_buffer1[i], WHITE);
+				tft_put_pixel(i, linear_ccd_buffer1[i], WHITE);
 			}
            
             
@@ -543,16 +543,16 @@ int main() {
            
             
             
-            if(diffLeftRight <= 200 && diffLeftRight >= -200  ){
+            if(prevDiffLeftRight <= 400 && prevDiffLeftRight >= -400  ){
                 servo_control(3000);
             }
-            if (diffLeftRight > 200) {
-                servo_control(3000 - ((diffLeftRight/2 >= 1000)?1000:diffLeftRight/2)*900/1000); //Turn left
-                //servo_control(2000);
+            if (prevDiffLeftRight > 400) {
+                //servo_control(3000 - ((diffLeftRight/2 >= 1000)?1000:diffLeftRight/2)*900/1000); //Turn left
+                servo_control(2000);
             }
-            if (diffLeftRight< -200) {
-                servo_control(3000 - ((diffLeftRight/2 <= -1000)?-1000:diffLeftRight/2)*900/1000); //Turn right
-                //servo_control(4000);
+            if (prevDiffLeftRight< -400) {
+                //servo_control(3000 - ((diffLeftRight/2 <= -1000)?-1000:diffLeftRight/2)*900/1000); //Turn right
+                servo_control(4000);
             }
             
             //Control the servo's movement
@@ -575,7 +575,7 @@ int main() {
                 prev_linear_ccd_buffer1[i] = linear_ccd_buffer1[i];
             }
             
-            if(prevState == 60){ //update the previous value for every 800ms
+            if(prevState == 5){ //update the previous value for every 800ms
                 prevLeftArea = leftArea;
                 prevMiddleArea = middleArea;
                 prevRightArea = rightArea;
