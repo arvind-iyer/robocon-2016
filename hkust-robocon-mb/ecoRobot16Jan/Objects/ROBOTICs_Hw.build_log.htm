@@ -22,19 +22,90 @@ Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
 C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\ecoRobot16Jan\ROBOTICs_Hw.uvprojx
-Project File Date:  01/16/2016
+Project File Date:  01/17/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32f103CBT_TEMPLATE'
-".\Objects\ROBOTICs_Hw.axf" - 0 Error(s), 0 Warning(s).
+compiling main.c...
+linear_ccd.h(24): warning:  #1295-D: Deprecated declaration linear_ccd_init - give arg types
+  void linear_ccd_init();
+linear_ccd.h(25): warning:  #1295-D: Deprecated declaration linear_ccd_read - give arg types
+  void linear_ccd_read();
+linear_ccd.h(27): warning:  #1295-D: Deprecated declaration linear_ccd_clear - give arg types
+  void linear_ccd_clear();
+linear_ccd.h(28): warning:  #1295-D: Deprecated declaration get_linear_ccd1 - give arg types
+  u32 * get_linear_ccd1();
+linear_ccd.h(29): warning:  #1295-D: Deprecated declaration delay_57 - give arg types
+  void delay_57();
+linear_ccd.h(31): warning:  #1295-D: Deprecated declaration mid_point - give arg types
+  int mid_point();
+linear_ccd.h(32): warning:  #1295-D: Deprecated declaration edge_l - give arg types
+  int edge_l();
+linear_ccd.h(33): warning:  #1-D: last line of file ends without a newline
+  int edge_r();
+linear_ccd.h(33): warning:  #1295-D: Deprecated declaration edge_r - give arg types
+  int edge_r();
+linear_ccd.h(24): warning:  #1295-D: Deprecated declaration linear_ccd_init - give arg types
+  void linear_ccd_init();
+linear_ccd.h(25): warning:  #1295-D: Deprecated declaration linear_ccd_read - give arg types
+  void linear_ccd_read();
+linear_ccd.h(27): warning:  #1295-D: Deprecated declaration linear_ccd_clear - give arg types
+  void linear_ccd_clear();
+linear_ccd.h(28): warning:  #1295-D: Deprecated declaration get_linear_ccd1 - give arg types
+  u32 * get_linear_ccd1();
+linear_ccd.h(29): warning:  #1295-D: Deprecated declaration delay_57 - give arg types
+  void delay_57();
+linear_ccd.h(31): warning:  #1295-D: Deprecated declaration mid_point - give arg types
+  int mid_point();
+linear_ccd.h(32): warning:  #1295-D: Deprecated declaration edge_l - give arg types
+  int edge_l();
+linear_ccd.h(33): warning:  #1-D: last line of file ends without a newline
+  int edge_r();
+linear_ccd.h(33): warning:  #1295-D: Deprecated declaration edge_r - give arg types
+  int edge_r();
+pneumatic_control.h(5): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+pneumatic_control.h(6): warning:  #1-D: last line of file ends without a newline
+  void pneumatic_control(GPIO_TypeDef* PORT,u16 gpio_pin,u8 state);
+pneumatic_control.h(5): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+pneumatic_control.h(6): warning:  #1-D: last line of file ends without a newline
+  void pneumatic_control(GPIO_TypeDef* PORT,u16 gpio_pin,u8 state);
+main.c(145): warning:  #177-D: variable "d" was declared but never referenced
+  		int d;
+main.c(87): warning:  #177-D: variable "j" was declared but never referenced
+  	int i,j;
+main.c(482): warning:  #177-D: variable "point" was declared but never referenced
+  				Point point = points.array[i];
+main.c(490): warning:  #177-D: variable "buffer" was declared but never referenced
+              int32_t buffer[128];
+main.c(632): warning:  #111-D: statement is unreachable
+  	return 0;
+main.c(633): warning:  #1-D: last line of file ends without a newline
+  }
+main.c(444): warning:  #550-D: variable "prev_linear_ccd_buffer1" was set but never used
+      float prev_linear_ccd_buffer1[128];
+main.c(459): warning:  #550-D: variable "prevLeftArea" was set but never used
+      float prevLeftArea;
+main.c(460): warning:  #550-D: variable "prevMiddleArea" was set but never used
+      float prevMiddleArea;
+main.c(461): warning:  #550-D: variable "prevRightArea" was set but never used
+      float prevRightArea;
+main.c(467): warning:  #177-D: variable "flag" was declared but never referenced
+      int flag = 0; //0 or 1 or 2
+main.c: 33 warnings, 0 errors
+linking...
+Program Size: Code=30962 RO-data=1690 RW-data=4616 ZI-data=15192  
+FromELF: creating hex file...
+".\Objects\ROBOTICs_Hw.axf" - 0 Error(s), 33 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\ecoRobot16Jan\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

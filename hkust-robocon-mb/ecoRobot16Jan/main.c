@@ -434,6 +434,7 @@ int main() {
 	linear_ccd_init();
 	adc_init();
     LED_INIT();
+    uart_init(COM3,115200);
     //ccdLed_init();
 
 	long lastTick = get_ms_ticks();
@@ -478,8 +479,8 @@ int main() {
         if (get_ms_ticks() % 40 == 20 && autoState == 1) {
             
             for (int i = 0; i < 128; i++) {
-				//Point point = points.array[i];
-                tft_put_pixel(i, linear_ccd_buffer1[i], BLACK);
+				Point point = points.array[i];
+                //tft_put_pixel(i, linear_ccd_buffer1[i], BLACK);
 			}
             
             
@@ -524,7 +525,7 @@ int main() {
             //Restore the data from struct to linear_ccd_buffer1
 			for (int i = 0; i < 128; i++) {
                 linear_ccd_buffer1[i] = buffers[i].y;
-				tft_put_pixel(i, linear_ccd_buffer1[i], WHITE);
+				//tft_put_pixel(i, linear_ccd_buffer1[i], WHITE);
 			}
            
             
@@ -603,6 +604,20 @@ int main() {
               if(interpolationIndex > 60000){
                   interpolationIndex = 1;
               }
+              
+              //Datas to be sent to Rex's encoder:
+              if(leftArea > 5000 && middleArea > 6000) uart_tx_byte(COM3,0);
+              //Turn left 90 degrees:
+               
+              //Turn right 90 degrees:
+              else if(middleArea > 6000 && rightArea > 5000)uart_tx_byte(COM3,1);
+              
+              //Robot back on track
+              else if(middleArea > 6000)uart_tx_byte(COM3,2);
+              
+              //Robot out of track
+              else if(middleArea < 2000)uart_tx_byte(COM3,3);
+              
 		}
         
         else if(autoState == 0){ 
