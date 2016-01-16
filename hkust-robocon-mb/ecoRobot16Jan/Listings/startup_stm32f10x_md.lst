@@ -51,32 +51,32 @@ ARM Macro Assembler    Page 1
    30 00000000         ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
    31 00000000         ; </h>
    32 00000000         
-   33 00000000 000006F0 
+   33 00000000 00000FFF 
                        Stack_Size
-                               EQU              0x000006F0
+                               EQU              0x00000FFF
    34 00000000         
    35 00000000                 AREA             STACK, NOINIT, READWRITE, ALIGN
 =3
    36 00000000         Stack_Mem
                                SPACE            Stack_Size
-   37 000006F0         __initial_sp
-   38 000006F0         
-   39 000006F0         
-   40 000006F0         ; <h> Heap Configuration
+   37 00000FFF         __initial_sp
+   38 00000FFF         
+   39 00000FFF         
+   40 00000FFF         ; <h> Heap Configuration
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-   41 000006F0         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
-   42 000006F0         ; </h>
-   43 000006F0         
-   44 000006F0 000019F0 
+   41 00000FFF         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
+   42 00000FFF         ; </h>
+   43 00000FFF         
+   44 00000FFF 000019F0 
                        Heap_Size
                                EQU              0x000019F0
-   45 000006F0         
-   46 000006F0                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
+   45 00000FFF         
+   46 00000FFF                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
 3
    47 00000000         __heap_base
    48 00000000         Heap_Mem
@@ -472,16 +472,16 @@ ARM Macro Assembler    Page 8
               00000000 
               00000000 
               00000000 
-              000006F0 
+              00000FFF 
               000019F0 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=.\objects\startup_stm32f10x_md.d -o.\objects\startup_stm32f10x_md.
 o -I.\stm32f10x_startup -I.\stm32f10x_std -I.\user -IC:\Users\BudiRyan\Document
-s\GitHub\eco-robot-2\RTE -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\
-Include -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__UVISION_VERSION SETA 516"
- --predefine="STM32F10X_MD SETA 1" --list=.\listings\startup_stm32f10x_md.lst s
-tm32f10x_startup\startup_stm32f10x_md.s
+s\GitHub\robocon-2016\hkust-robocon-mb\ecoRobot16Jan\RTE -IC:\Keil_v5\ARM\PACK\
+Keil\STM32F1xx_DFP\1.1.0\Device\Include -IC:\Keil_v5\ARM\CMSIS\Include --predef
+ine="__UVISION_VERSION SETA 516" --predefine="STM32F10X_MD SETA 1" --list=.\lis
+tings\startup_stm32f10x_md.lst stm32f10x_startup\startup_stm32f10x_md.s
 
 
 
@@ -505,7 +505,7 @@ Symbol: Stack_Mem
       At line 296 in file stm32f10x_startup\startup_stm32f10x_md.s
       At line 298 in file stm32f10x_startup\startup_stm32f10x_md.s
 
-__initial_sp 000006F0
+__initial_sp 00000FFF
 
 Symbol: __initial_sp
    Definitions
@@ -1158,7 +1158,7 @@ Symbol: Heap_Size
       At line 48 in file stm32f10x_startup\startup_stm32f10x_md.s
       At line 297 in file stm32f10x_startup\startup_stm32f10x_md.s
 
-Stack_Size 000006F0
+Stack_Size 00000FFF
 
 Symbol: Stack_Size
    Definitions

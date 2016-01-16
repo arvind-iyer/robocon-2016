@@ -75,7 +75,7 @@ Array douglasPeucker(float buff[], float e) {
 	initArray(&points, 128);
 
 	for (int i = 0; i < 128; i++) {
-		if (list[i] == 0) {
+		if (list[i] == 100) {
 			insertArray(&points, (Point ) { i, buff[i] });
 		}
 	}
@@ -124,7 +124,7 @@ Array bresenham(Array buffer, int bufferSize){
 	}
 	if(newBufferState == 1){
 		newBuffer.array[newSize-1].x = 127;
-		newBuffer.array[newSize-1].y = 127;
+		newBuffer.array[newSize-1].y = 0;
         newBuffer.used++;
 		for(int a = 0; a < newSize; a++){
 			newBuffer.array[a].x = buffer.array[a].x;
@@ -146,7 +146,7 @@ Array bresenham(Array buffer, int bufferSize){
 			newBuffer.array[0].x = 0;
 			newBuffer.array[0].y = 0;
 			newBuffer.array[newSize - 1].x = 127;
-			newBuffer.array[newSize - 1].y = 30;
+			newBuffer.array[newSize - 1].y = 0;
             newBuffer.used += 2;
 			for(int d = 1 ; d < newSize - 1 ; d++){
 				newBuffer.array[d].x  = buffer.array[d-1].x;
@@ -158,7 +158,7 @@ Array bresenham(Array buffer, int bufferSize){
 	//INITIALIZE THE RESULT ARRAY
 	Array result;
 	initArray(&result, 128);
-    result.used = newBuffer.used;
+    result.used = 0;
 
 
 	for(i  = 1; i < newSize ; i++){
@@ -195,7 +195,7 @@ Array bresenham(Array buffer, int bufferSize){
 	}
        
     //FREE THE ALLOCATED MEMORY
-    tft_prints(0,5,"%d",result.used);
+    //tft_prints(0,6,"%d",result.used);
     freeArray(&newBuffer);
     freeArray(&buffer);
 	
@@ -246,8 +246,6 @@ struct Coor * lerp(struct Coor * target,struct Coor * lastData, float a){
     static struct Coor points[128];
 	
     for (int i = 0; i < 128; i++){
-        //X --> (target.array[i].x * invA) + (lastData.array[i].x * a)
-        //Y --> (target.array[i].y * invA) + (lastData.array[i].y * a)
         points[i].x = (float)(target[i].x * invA) + (float)(lastData[i].x * a);
         points[i].y = (float)(target[i].y * invA) + (float)(lastData[i].y * a);
 	}
@@ -260,45 +258,123 @@ struct Coor * Interpolation (struct Coor * targetData, struct Coor * lastData, f
 }
 
 
+//float * calculateAreas(float signal[]) {
+//	float leftPartition[43];
+//    float midPartition[42];
+//	float rightPartition[43];
+//	float leftAreaSum = 0;
+//    float midAreaSum = 0;
+//	float rightAreaSum = 0;
+//	int lastPossibleIndex = -1;
+
+//	//memcpy(leftPartition, signal, 43 * sizeof(int));
+//    for(int i = 0 ; i < 43 ; i++){
+//        leftPartition[i] = signal[i];
+//    }
+//	//memcpy(midPartition, signal + 43, 42 * sizeof(int));
+//     for(int i = 0 ; i < 42 ; i++){
+//        midPartition[i] = signal[i+43];
+//     }
+//    //memcpy(rightPartition, signal + 85, 43 * sizeof(int));
+//     for(int i = 0;i < 43 ; i++){
+//        rightPartition[i] = signal[i+85];
+//     }
+
+//	for (int i = 0; i < 43; i++) {
+//		if (leftPartition[i] == -1)
+//			continue;
+//		else {
+//			if (lastPossibleIndex == -1) {
+//				lastPossibleIndex = i;
+//				continue;
+//			}
+//			int trpHeight = (i + 1) - lastPossibleIndex;
+//			float area = (leftPartition[i] + leftPartition[lastPossibleIndex])
+//					/ 2 * trpHeight;
+//			leftAreaSum += area;
+//			lastPossibleIndex = i;
+//		}
+//	}
+//	lastPossibleIndex = -1;
+//	for (int i = 0; i < 42; i++) {
+//		if (midPartition[i] == -1)
+//			continue;
+//		else {
+//			if (lastPossibleIndex == -1) {
+//				lastPossibleIndex = i;
+//				continue;
+//			}
+//			int trpHeight = (i + 1) - lastPossibleIndex;
+//			int32_t area =
+//					(midPartition[i] + midPartition[lastPossibleIndex]) / 2
+//							* trpHeight;
+//			midAreaSum += area;
+//			lastPossibleIndex = i;
+//		}
+//	}
+//    lastPossibleIndex = -1;
+//	for (int i = 0; i < 43; i++) {
+//		if (rightPartition[i] == -1)
+//			continue;
+//		else {
+//			if (lastPossibleIndex == -1) {
+//				lastPossibleIndex = i;
+//				continue;
+//			}
+//			int trpHeight = (i + 1) - lastPossibleIndex;
+//			int32_t area =
+//					(rightPartition[i] + rightPartition[lastPossibleIndex]) / 2
+//							* trpHeight;
+//			rightAreaSum += area;
+//			lastPossibleIndex = i;
+//		}
+//	}
+//    static float result[3];
+//    result[0] = leftAreaSum;
+//    result[1] = midAreaSum;
+//    result[2] = rightAreaSum;
+//	return result;
+//}
+
 float * calculateAreas(float signal[]) {
-	float leftPartition[43];
+	float leftPartition[42];
     float midPartition[42];
-	float rightPartition[43];
+	float rightPartition[42];
 	float leftAreaSum = 0;
     float midAreaSum = 0;
 	float rightAreaSum = 0;
 	int lastPossibleIndex = -1;
+	int i;
 
-	//memcpy(leftPartition, signal, 43 * sizeof(int));
-    for(int i = 0 ; i < 43 ; i++){
-        leftPartition[i] = signal[i];
+	//memcpy(leftPartition, signal, 43 * sizeof(float));
+    for(i = 1 ; i < 43 ; i++){
+        leftPartition[i-1] = signal[i];
     }
-	//memcpy(midPartition, signal + 43, 42 * sizeof(int));
-     for(int i = 0 ; i < 42 ; i++){
+	//memcpy(midPartition, signal + 43, 42 * sizeof(float));
+     for(i = 0 ; i < 42 ; i++){
         midPartition[i] = signal[i+43];
      }
-    //memcpy(rightPartition, signal + 85, 43 * sizeof(int));
-     for(int i = 0;i < 43 ; i++){
+    //memcpy(rightPartition, signal + 85, 43 * sizeof(float));
+     for(i = 0;i < 42 ; i++){
         rightPartition[i] = signal[i+85];
      }
 
-	for (int i = 0; i < 43; i++) {
-		if (leftPartition[i] == -1)
-			continue;
-		else {
-			if (lastPossibleIndex == -1) {
-				lastPossibleIndex = i;
-				continue;
-			}
-			int trpHeight = (i + 1) - lastPossibleIndex;
-			float area = (leftPartition[i] + leftPartition[lastPossibleIndex])
-					/ 2 * trpHeight;
-			leftAreaSum += area;
-			lastPossibleIndex = i;
-		}
-	}
+     for (i = 0; i < 42; i++) {
+     		if (leftPartition[i] == -1)
+     			continue;
+     		else {
+     			if (lastPossibleIndex == -1) {
+     				lastPossibleIndex = i;
+     				continue;
+     			}
+     			float area =
+     					(leftPartition[i] + leftPartition[lastPossibleIndex]) / 2;
+     			leftAreaSum += area;
+     			lastPossibleIndex = i;
+     		}
+     	}
 	lastPossibleIndex = -1;
-	for (int i = 0; i < 42; i++) {
+	for (i = 0; i < 42; i++) {
 		if (midPartition[i] == -1)
 			continue;
 		else {
@@ -306,16 +382,14 @@ float * calculateAreas(float signal[]) {
 				lastPossibleIndex = i;
 				continue;
 			}
-			int trpHeight = (i + 1) - lastPossibleIndex;
-			int32_t area =
-					(midPartition[i] + midPartition[lastPossibleIndex]) / 2
-							* trpHeight;
+			float area =
+					(midPartition[i] + midPartition[lastPossibleIndex]) / 2;
 			midAreaSum += area;
 			lastPossibleIndex = i;
 		}
 	}
     lastPossibleIndex = -1;
-	for (int i = 0; i < 43; i++) {
+	for (i = 0; i < 42; i++) {
 		if (rightPartition[i] == -1)
 			continue;
 		else {
@@ -323,20 +397,19 @@ float * calculateAreas(float signal[]) {
 				lastPossibleIndex = i;
 				continue;
 			}
-			int trpHeight = (i + 1) - lastPossibleIndex;
-			int32_t area =
-					(rightPartition[i] + rightPartition[lastPossibleIndex]) / 2
-							* trpHeight;
+			float area =
+					(rightPartition[i] + rightPartition[lastPossibleIndex]) / 2;
 			rightAreaSum += area;
 			lastPossibleIndex = i;
 		}
 	}
     static float result[3];
-    result[0] = leftAreaSum;
+    result[0] = leftAreaSum ;
     result[1] = midAreaSum;
     result[2] = rightAreaSum;
 	return result;
 }
+
 
 
 //Initialize GPIO for CCD LED
@@ -354,7 +427,7 @@ void ccdLed_init(){
 }
 
 int main() {
-	tft_init(2, BLACK, RED, GREEN);
+	tft_init(2, BLACK, WHITE, GREEN);
 	button_init();
 	ticks_init();
     servo_init();
@@ -406,7 +479,7 @@ int main() {
             
             for (int i = 0; i < 128; i++) {
 				Point point = points.array[i];
-                tft_put_pixel(i, linear_ccd_buffer1[i], BLACK);
+                //tft_put_pixel(i, linear_ccd_buffer1[i], BLACK);
 			}
             
             
@@ -417,24 +490,16 @@ int main() {
             
  
             //tft_prints(0,0,"Count: %d",get_ms_ticks());
-			points = douglasPeucker(linear_ccd_buffer1, 4);
+			points = douglasPeucker(linear_ccd_buffer1, 16);
             
-            
-            
-            tft_prints(0,4,"%d",points.used); //<128
-            
-            
+ 
+
             // Do Bresenham Here
 			points = bresenham(points, points.used);
             
             
-            //Transfer the data into a static array
-            /*for(int i = 0;i < 128;i++){
-                linear_ccd_buffer1[i] = points.array[i].y;
-            }*/
-            //Transfer the data into a static struct
             for(int i = 0; i < 128 ;i++){
-                buffers[i].x = i;
+                buffers[i].x = points.array[i].x;
                 buffers[i].y = points.array[i].y;
             }
             
@@ -459,7 +524,7 @@ int main() {
             //Restore the data from struct to linear_ccd_buffer1
 			for (int i = 0; i < 128; i++) {
                 linear_ccd_buffer1[i] = buffers[i].y;
-				tft_put_pixel(i, linear_ccd_buffer1[i], YELLOW);
+				//tft_put_pixel(i, linear_ccd_buffer1[i], WHITE);
 			}
            
             
@@ -478,24 +543,16 @@ int main() {
            
             
             
-            if(diffLeftRight <= 550 && diffLeftRight >= -550  ){
-                if (prevDiffLeftRight - prevDiffLeftRight > 550) {
-                    //servo_control(3000 - (midToLeftRatio - midToRightRatio)*800/1000); //Turn left
-                    servo_control(2000);
-                }
-                if (diffLeftRight < -550) {
-                    //servo_control(3000 - (midToLeftRatio - midToRightRatio)*800/1000); //Turn right
-                    servo_control(4000);
-                }
-                else servo_control(3000);
+            if(diffLeftRight <= 200 && diffLeftRight >= -200  ){
+                servo_control(3000);
             }
-            if (diffLeftRight > 550) {
-                //servo_control(3000 - (midToLeftRatio - midToRightRatio)*800/1000); //Turn left
-                servo_control(2000);
+            if (diffLeftRight > 200) {
+                servo_control(3000 - ((diffLeftRight/2 >= 1000)?1000:diffLeftRight/2)*900/1000); //Turn left
+                //servo_control(2000);
             }
-            if (diffLeftRight< -550) {
-                //servo_control(3000 - (midToLeftRatio - midToRightRatio)*800/1000); //Turn right
-                servo_control(4000);
+            if (diffLeftRight< -200) {
+                servo_control(3000 - ((diffLeftRight/2 <= -1000)?-1000:diffLeftRight/2)*900/1000); //Turn right
+                //servo_control(4000);
             }
             
             //Control the servo's movement
@@ -532,16 +589,16 @@ int main() {
         
             
             //Display all the shit
-//            tft_prints(0,0,"Left: %f",leftArea);
-//            tft_prints(0,1,"Middle: %f", middleArea);
-//            tft_prints(0,2,"Right: %f", rightArea);
-//            tft_prints(0,3,"RatioLeft: %f", midToLeftRatio);
-//            tft_prints(0,4,"RatioRight: %f", midToRightRatio);
-//            tft_prints(0,5,"PrevRatiotLeft: %f", prevMidToLeftRatio);
-//            tft_prints(0,6,"PrevRatioRight: %f", prevMidToRightRatio);
-//            tft_prints(0,7,"DiffNow : %f",diffLeftRight);
-//            tft_prints(0,8,"DiffPrev: %f",prevDiffLeftRight);
-//              tft_update();
+            tft_prints(0,0,"L:%f",leftArea);
+            tft_prints(0,1,"M:%f", middleArea);
+            tft_prints(0,2,"R:%f", rightArea);
+            tft_prints(0,3,"RLeft: %f", midToLeftRatio);
+            tft_prints(0,4,"RRight: %f", midToRightRatio);
+            tft_prints(0,5,"PRLeft: %f", prevMidToLeftRatio);
+            tft_prints(0,6,"PRRight: %f", prevMidToRightRatio);
+            tft_prints(0,7,"DNow : %f",diffLeftRight);
+            tft_prints(0,8,"DPrev: %f",prevDiffLeftRight);
+            tft_update();
               interpolationIndex++;
               if(interpolationIndex > 60000){
                   interpolationIndex = 1;
