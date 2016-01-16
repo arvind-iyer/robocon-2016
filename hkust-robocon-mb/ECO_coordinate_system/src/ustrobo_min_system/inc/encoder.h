@@ -44,5 +44,6 @@ void encoder_init(void);
 void encoder_update(void);
 u16 get_count(ENCODER ENCODERx);
 u16 get_vel(ENCODER ENCODERx);
+void encoder_reset_reading(void);
 
 #endif
