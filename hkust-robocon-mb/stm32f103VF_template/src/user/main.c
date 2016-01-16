@@ -1,23 +1,40 @@
 #include "main.h"
 #include <stdlib.h>
 
+#define MAXVEL 140
+#define PI 3.1415926535897932
+
 int M;
 int dir;
 int W;
+
+int _x;
+int _y;
+int _angle;
+
+int M1;
+int M2;
+int M3;
 
 int start_x;
 int start_y;
 int target_x;
 int target_y;
+int target_angle;
+
 int end_vel;
 
 float err;
 
+void _updateScreen();
 void _move(int M, int dir, int W);
 
-void _straight(int x, int y, int target_angle, int d_e, int a_e);
+void _setTarget(int x, int y, int bearing);
+void _straight(int x, int y, int target_angle, int d_e, int a_e, int vel);
 void _curve(int x, int y, int target_angle, int bend);
 
+int _dist(int x0, int y0, int x, int y);
+int _angleDiff(int o, int t);
 int _bearing(int x0, int y0, int x, int y);
 int _pidBearing();
 
@@ -28,16 +45,97 @@ int _getAngle();
 
 int main()
 {
-	
+	tft_init(2, BLACK, WHITE, RED);
+	ticks_init();
+	gyro_init();
+	can_init();
+	can_rx_init();
+	can_motor_init();
+	_delay();
+	while (1)
+	{
+		_updateScreen();
+		
+	}
+}
+
+void _updateScreen()
+{
 }
 
 void _move(int M, int dir, int W)
 {
+	float _M1;
+	float _M2;
+	float _M3;
+	float X;
+	float Y;
+	X=M*int_sin(dir)*MAXVEL/100/10000;
+	Y=M*int_cos(dir)*MAXVEL/100/10000;
+	if (Sqrt(X*X+Y*Y)>MAXVEL)
+	{
+		Y=Sqrt(MAXVEL*MAXVEL/(1+X*X/Y/Y));
+		X=Sqrt(MAXVEL*MAXVEL-Y*Y);
+	}
+	_M1=(-W-X*2)/3;
+	_M2=(-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3);
+	_M3=-W-M1-M2;
+	if ((M!=0 || W!=0) && _x==_getX() && _y==_getY() && _angle==get_angle())
+	{
+		if (_M1*(err+0.03)<=140 && _M2*(err+0.03)<=140 && _M3*(err+0.03)<=140)
+		{
+			err=err+0.03;
+		}
+	}
+	else
+	{
+		err=err-0.13;
+		if (err<1)
+		{
+			err=1;
+		}
+	}
+	M1=((-W-X*2)/3)*err;
+	M2=((-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3))*err;
+	M3=(-W-M1-M2)*err;
+	//motor control
+	motor_set_vel(MOTOR1, M1, CLOSE_LOOP);
+	motor_set_vel(MOTOR2, M2, CLOSE_LOOP);
+	motor_set_vel(MOTOR3, M3, CLOSE_LOOP);
+	_x=_getX();
+	_y=_getY();
+	_angle=get_angle();
 }
 
-void _straight(int x, int y, int target_angle, int d_e, int a_e)
+void _setTarget(int x, int y, int bearing)
 {
-	
+	target_x=x;
+	target_y=y;
+	target_angle=bearing;
+}
+
+void _straight(int x, int y, int target_angle, int d_e, int a_e, int vel)
+{
+	int distance;
+	distance=_dist(_getX(), _getY(), x, y);
+	while (distance>d_e || Abs(target_angle-_getAngle()/10)>a_e)
+	{
+		M=_dist(_getX(), _getY(), x, y)/20;
+		if (M>100)
+		{
+			M=100;
+		}
+		if (_dist(_getX(), _getY(), x, y)>0 && M==0)
+		{
+			M=1;
+		}
+		dir=_pidBearing();
+		W=_angleDiff(_getAngle()/10, target_angle)*50/360;
+		_move(M, dir, W);
+	}
+	M=0;
+	W=0;
+	_move(M, dir, W);
 }
 
 void _curve(int x, int y, int target_angle, int bend)
@@ -48,13 +146,18 @@ void _curve(int x, int y, int target_angle, int bend)
 	float angle=int_arc_tan2(centerY, centerX)*10+900+bend;
 	for (float t=0; t!=1; t=t+0.2)
 	{
-		int _x;
-		int _y;
-		_x=(1-t)*(1-t)*start_x+2*(1-t)*t*centerX+t*t*target_x;
-		_y=(1-t)*(1-t)*start_y+2*(1-t)*t*centerY+t*t*target_y;
-		_straight(_x, _y, 0, 100, 360);
+		int c_x=(1-t)*(1-t)*start_x+2*(1-t)*t*centerX+t*t*target_x;
+		int c_y=(1-t)*(1-t)*start_y+2*(1-t)*t*centerY+t*t*target_y;
+		_straight(c_x, c_y, 0, 100, 360, 20);
 	}
-	_straight(x, y, 0, 100, 360);
+	_straight(x, y, 0, 100, 360, 0);
+}
+
+int _dist(int x0, int y0, int x, int y)
+{
+	int dist;
+	dist=Sqrt(Sqr(x-x0)+Sqr(y-y0));
+	return dist;
 }
 
 int _bearing(int x0, int y0, int x, int y)
@@ -65,6 +168,16 @@ int _bearing(int x0, int y0, int x, int y)
 	{
 		a=a+360;
 	}
+}
+
+int _angleDiff(int o, int t)
+{
+	int a=t-o;
+	if (0>a && Abs(a)>180)
+	{
+		a=a+360;
+	}
+	return a;
 }
 
 int _pidBearing()
@@ -90,7 +203,7 @@ void _delay()
 	int start=get_seconds();
 	while (get_seconds()-start!=5)
 	{
-		
+		_updateScreen();
 	}
 }
 
@@ -104,4 +217,9 @@ int _getY()
 {
 	//return get_pos()->y;
 	return get_pos()->x;
+}
+
+int _getAngle()
+{
+	return get_angle();
 }
