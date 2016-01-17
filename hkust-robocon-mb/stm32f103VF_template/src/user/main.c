@@ -4,34 +4,34 @@
 #define MAXVEL 140
 #define PI 3.1415926535897932
 
-int M;
-int dir;
-int W;
+int M=0;
+int dir=0;
+int W=0;
 
 int _x;
 int _y;
 int _angle;
 
-int M1;
-int M2;
-int M3;
+int M1=0;
+int M2=0;
+int M3=0;
 
 int start_x;
 int start_y;
-int target_x;
-int target_y;
-int target_angle;
+int target_x=0;
+int target_y=0;
+int target_angle=0;
 
 int end_vel;
 
-float err;
+float err=1;
 
 void _updateScreen();
 void _move(int M, int dir, int W);
 
 void _setTarget(int x, int y, int bearing);
-void _straight(int x, int y, int target_angle, int d_e, int a_e, int vel);
-void _curve(int x, int y, int target_angle, int bend);
+void _straight(int x, int y, int bearing, int d_e, int a_e, int vel);
+void _curve(int x, int y, int bend);
 
 int _dist(int x0, int y0, int x, int y);
 int _angleDiff(int o, int t);
@@ -55,12 +55,21 @@ int main()
 	while (1)
 	{
 		_updateScreen();
-		
+		_straight(0, 500, 0, 1, 1, 0);
 	}
 }
 
 void _updateScreen()
 {
+	tft_clear();
+	tft_prints(0, 0, "[%d %d] %d", _getX(), _getY(), _getAngle());
+	tft_prints(0, 1, "M: %d %d %d", M1, M2, M3);
+	tft_prints(0, 3, "_m(%d, %d, %d)", M, dir, W);
+	tft_prints(0, 4, "err: %.2f", err);
+	tft_prints(0, 6, "T: %d %d %d", target_x, target_y, target_angle);
+	tft_prints(0, 7, "dist: %d", _dist(_getX(), _getY(), target_x, target_y));
+	tft_prints(0, 9, "Ticks: %d", get_ticks());
+	tft_update();
 }
 
 void _move(int M, int dir, int W)
@@ -70,38 +79,34 @@ void _move(int M, int dir, int W)
 	float _M3;
 	float X;
 	float Y;
-	X=M*int_sin(dir)*MAXVEL/100/10000;
-	Y=M*int_cos(dir)*MAXVEL/100/10000;
-	if (Sqrt(X*X+Y*Y)>MAXVEL)
-	{
-		Y=Sqrt(MAXVEL*MAXVEL/(1+X*X/Y/Y));
-		X=Sqrt(MAXVEL*MAXVEL-Y*Y);
-	}
+	X=M*int_sin(dir*10)*MAXVEL/100/10000;
+	Y=M*int_cos(dir*10)*MAXVEL/100/10000;
 	_M1=(-W-X*2)/3;
 	_M2=(-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3);
 	_M3=-W-M1-M2;
 	if ((M!=0 || W!=0) && _x==_getX() && _y==_getY() && _angle==get_angle())
 	{
-		if (_M1*(err+0.03)<=140 && _M2*(err+0.03)<=140 && _M3*(err+0.03)<=140)
+		if (_M1*(err+0.03)<=140 && _M2*(err+0.03)<=140 && _M3<=140)
 		{
 			err=err+0.03;
 		}
 	}
 	else
 	{
-		err=err-0.13;
+		err=err/2+0.5;
 		if (err<1)
 		{
 			err=1;
 		}
 	}
-	M1=((-W-X*2)/3)*err;
-	M2=((-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3))*err;
-	M3=(-W-M1-M2)*err;
+	M1=_M1*err;
+	M2=_M2*err;
+	M3=-W-M1-M2;
 	//motor control
 	motor_set_vel(MOTOR1, M1, CLOSE_LOOP);
 	motor_set_vel(MOTOR2, M2, CLOSE_LOOP);
 	motor_set_vel(MOTOR3, M3, CLOSE_LOOP);
+	//update
 	_x=_getX();
 	_y=_getY();
 	_angle=get_angle();
@@ -114,23 +119,50 @@ void _setTarget(int x, int y, int bearing)
 	target_angle=bearing;
 }
 
-void _straight(int x, int y, int target_angle, int d_e, int a_e, int vel)
+void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 {
+	_setTarget(x, y, target_angle);
 	int distance;
 	distance=_dist(_getX(), _getY(), x, y);
-	while (distance>d_e || Abs(target_angle-_getAngle()/10)>a_e)
+	while (distance>d_e || Abs(bearing-_getAngle()/10)>a_e)
 	{
-		M=_dist(_getX(), _getY(), x, y)/20;
+		distance=_dist(_getX(), _getY(), x, y);
+		M=distance/20+vel;
 		if (M>100)
 		{
 			M=100;
 		}
-		if (_dist(_getX(), _getY(), x, y)>0 && M==0)
+		if (distance>d_e && M==0)
 		{
 			M=1;
 		}
-		dir=_pidBearing();
-		W=_angleDiff(_getAngle()/10, target_angle)*50/360;
+		if (distance>200)
+		{
+			dir=_pidBearing();
+		}
+		else
+		{
+			//dir=(_bearing(x, y, _getX(), _getY())-_getAngle()/10)%360;
+			dir = ((90-(int_arc_tan2(target_y - _getY(), target_x - _getX()))) - _getAngle()/10) %360;
+			dir = dir < 0 ? dir + 360 : dir;
+			if (dir<0)
+			{
+				dir=dir+360;
+			}
+		}
+		W=_angleDiff(_getAngle()/10, bearing)*50/360;
+		if (Abs(_angleDiff(_getAngle()/10, bearing))>a_e && W==0)
+		{
+			if (_angleDiff(_getAngle()/10, bearing)>0)
+			{
+				W=1;
+			}
+			else
+			{
+				W=-1;
+			}
+		}
+		_updateScreen();
 		_move(M, dir, W);
 	}
 	M=0;
@@ -138,7 +170,7 @@ void _straight(int x, int y, int target_angle, int d_e, int a_e, int vel)
 	_move(M, dir, W);
 }
 
-void _curve(int x, int y, int target_angle, int bend)
+void _curve(int x, int y, int bend)
 {
 	float centerX=target_x-start_x;
 	float centerY=target_y-start_y;
