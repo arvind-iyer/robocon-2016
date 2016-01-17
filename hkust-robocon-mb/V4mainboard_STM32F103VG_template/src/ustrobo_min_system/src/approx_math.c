@@ -220,36 +220,29 @@ s32 Sqr (s32 x) {
 }
 
 /**
-  * @brief  Sqrt calculation using binary search, run-time = O(log n)
-  * @param  num: the integer inside the root
-  * @retval square root of num
+  * @brief  Rapid sqrt approximation with maximum 0.297944% deviation at sqrt(2) and average 0.0184811% deviation
+  * @param  v: input
+  * @retval 100*sqrt(v)
   */
-u32 Sqrt(u32 num) {
-	s32 upper_sqrt = 1, lower_sqrt, range, tmp_sqrt, tmp_sqr;
-	//u8 i = 0;
-	if (num == 0) return 0;
-
-	while (Sqr(upper_sqrt) <= num) {
-		if ((upper_sqrt <<= 1) < 0) {
-			return 0;	// Overflow happened
-		}
-	}
-  
-	lower_sqrt = upper_sqrt >> 1;
-	range = upper_sqrt - lower_sqrt;
-	do {
-		tmp_sqrt = lower_sqrt + (range >>= 1);
-		tmp_sqr = Sqr(tmp_sqrt);
-		if (tmp_sqr < num) {lower_sqrt = tmp_sqrt;}
-		else if (tmp_sqr > num) {upper_sqrt = tmp_sqrt;}
-		else {return tmp_sqrt;}
-	} while (range >= 2);
-
-  
-	if (num < (Sqr(lower_sqrt) + Sqr(upper_sqrt)) >> 1) {
-		return lower_sqrt;
-	} else {
-		return upper_sqrt;
-	}
+u32 Sqrt(int64_t v)
+{
+/*
+    float y = v;                                //Fast inverse square root
+    long i = 0x62b759df - (*(long*)&y>>1);
+    i = (long)(*(float*)&i);
+    return (200<<21) / (i * ((3<<14) - v *i*i));
+*/
+    union
+    {
+        u32 tmp;
+        float f;
+    } u;
+ 
+    v = (u32)Abs(v);
+    u.f = v;
+    u.tmp = (u32)(0x233b4000 + (u.tmp >> 1));
+    u.tmp = (u32)u.f;
+    u.tmp = (u.tmp + (uint64_t)v*16384/u.tmp + 1)/2;
+    return u.tmp * 100 / 128;
 }
 

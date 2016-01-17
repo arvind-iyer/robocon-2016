@@ -24,6 +24,6 @@ s32 p_mod(s32 dividor, s32 divisor);
 s32 Abs(s32 v);
 s32 s_Abs (s32 v);
 s32 Sqr (s32 x);
-u32 Sqrt(u32 num);
+u32 Sqrt(int64_t v);
 
 #endif		/*  __APPROX_MATH_H */

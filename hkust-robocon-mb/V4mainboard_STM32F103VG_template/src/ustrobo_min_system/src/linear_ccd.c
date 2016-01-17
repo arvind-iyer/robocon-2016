@@ -1,5 +1,6 @@
 #include "linear_ccd.h"
 #include "adc.h"
+
 //void moving_adverage(){
 //	for(int i =0;i<128;i++){
 //	if(i==0 || i == 127){
@@ -10,6 +11,28 @@
 //	}
 //}
 	
+//void kalman_filter()
+//{
+//	u8 kalman_gain, R;
+//	u16 prior_estimate[128], estimate, prior_covariance[128], covariance;
+//	prior_covariance[30] = 1;
+//	prior_estimate[30] = linear_ccd_buffer[29];
+//	R = 1/10;
+//	
+//	for(u8 i=30;i<90;i++)
+//	{
+//		kalman_gain = (prior_covariance[i]/(prior_covariance[i] + R));
+//		estimate = prior_estimate[i] + (kalman_gain*(linear_ccd_buffer[i] - prior_estimate[i]));
+//		covariance = (1-kalman_gain)*prior_covariance[i];
+//		
+//		linear_ccd_buffer[i] = estimate;
+//		if(i<127)
+//		{
+//			prior_covariance[i+1] = covariance;
+//			prior_estimate[i+1] = estimate;
+//		}
+//	}
+//}
 
 void CLK(u8 state){//self make clock to control ccd
 
@@ -88,6 +111,19 @@ void linear_ccd_read(){
 //		tft_put_pixel(y,linear_ccd_buffer1[y],BLACK);//clear linear ccd1 pixels
 //		//tft_put_pixel(y,(linear_ccd_buffer2[y]*80 / 4095)+80,BLACK);//clear linear ccd2 pixels
 //	}
+//	kalman_filter();
+
+//	for (u8 i=0;i<128;i++)
+//	{
+//		if(i==0)
+//			linear_ccd_buffer[i] = MAX(MIN(temp[i],temp[i]),MIN(MAX(temp[i],temp[i]),temp[i+1]));
+//		
+//		if(i==127)
+//			linear_ccd_buffer[i] = MAX(MIN(temp[i-1],temp[i]),MIN(MAX(temp[i-1],temp[i]),temp[i]));
+//		
+//		linear_ccd_buffer[i] = MAX(MIN(temp[i-1],temp[i]),MIN(MAX(temp[i-1],temp[i]),temp[i+1])); //Locate the mid point
+//	}
+//	
 
 }
 
