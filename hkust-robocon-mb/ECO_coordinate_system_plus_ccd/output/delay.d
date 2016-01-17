@@ -2,7 +2,7 @@
 .\output\delay.o: .\src\ustrobo_min_system\inc\delay.h
 .\output\delay.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\delay.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\delay.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\delay.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\delay.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\delay.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\delay.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h

@@ -2,7 +2,7 @@
 .\output\battery.o: .\src\ustrobo_min_system\inc\battery.h
 .\output\battery.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\battery.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\battery.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\battery.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\battery.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\battery.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h
@@ -16,4 +16,4 @@
 .\output\battery.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\battery.o: .\src\stm32f10x_std\inc\misc.h
 .\output\battery.o: .\src\stm32f10x_std\inc\stm32f10x_adc.h
-.\output\battery.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\output\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
