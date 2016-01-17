@@ -86,14 +86,14 @@ void _move(int M, int dir, int W)
 	_M3=-W-M1-M2;
 	if ((M!=0 || W!=0) && _x==_getX() && _y==_getY() && _angle==get_angle())
 	{
-		if (_M1*(err+0.03)<=140 && _M2*(err+0.03)<=140 && _M3<=140)
+		if (_M1*(err+0.03f)<=140 && _M2*(err+0.03f)<=140 && _M3<=140)
 		{
-			err=err+0.03;
+			err=err+0.03f;
 		}
 	}
 	else
 	{
-		err=err/2+0.5;
+		err=err/2+0.5f;
 		if (err<1)
 		{
 			err=1;
@@ -101,7 +101,7 @@ void _move(int M, int dir, int W)
 	}
 	M1=_M1*err;
 	M2=_M2*err;
-	M3=-W-M1-M2;
+	M3=-W-_M1-_M2;
 	//motor control
 	motor_set_vel(MOTOR1, M1, CLOSE_LOOP);
 	motor_set_vel(MOTOR2, M2, CLOSE_LOOP);
