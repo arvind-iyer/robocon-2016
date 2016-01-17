@@ -83,7 +83,7 @@ void _move(int M, int dir, int W)
 	Y=M*int_cos(dir*10)*MAXVEL/100/10000;
 	_M1=(-W-X*2)/3;
 	_M2=(-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3);
-	_M3=-W-M1-M2;
+	_M3=-W-_M1-_M2;
 	if ((M!=0 || W!=0) && _x==_getX() && _y==_getY() && _angle==get_angle())
 	{
 		if (_M1*(err+0.03f)<=140 && _M2*(err+0.03f)<=140 && _M3<=140)
@@ -101,7 +101,7 @@ void _move(int M, int dir, int W)
 	}
 	M1=_M1*err;
 	M2=_M2*err;
-	M3=-W-_M1-_M2;
+	M3=-W-M1-M2;
 	//motor control
 	motor_set_vel(MOTOR1, M1, CLOSE_LOOP);
 	motor_set_vel(MOTOR2, M2, CLOSE_LOOP);
@@ -136,7 +136,7 @@ void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 		{
 			M=1;
 		}
-		if (distance>200)
+		if (distance>200 && 1!=1)	//debug
 		{
 			dir=_pidBearing();
 		}
