@@ -417,6 +417,11 @@
           <GroupName>src</GroupName>
           <Files>
             <File>
+              <FileName>battery.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\ustrobo_min_system\src\battery.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\user\main.c</FilePath>
@@ -451,6 +456,11 @@
               <FileType>1</FileType>
               <FilePath>.\src\user\button.c</FilePath>
             </File>
+            <File>
+              <FileName>line_sensor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\line_sensor.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -460,11 +470,6 @@
               <FileName>approx_math.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\ustrobo_min_system\src\approx_math.c</FilePath>
-            </File>
-            <File>
-              <FileName>battery.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\ustrobo_min_system\src\battery.c</FilePath>
             </File>
             <File>
               <FileName>buzzer.c</FileName>
@@ -525,6 +530,16 @@
               <FileName>lcd_main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\ustrobo_min_system\src\lcd_main.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\ustrobo_min_system\src\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>linear_ccd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\ustrobo_min_system\src\linear_ccd.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,30 +1,26 @@
 #include "main.h"
 
-uint16_t servo_val = SERVO_MIN;
+//uint16_t servo_val = SERVO_MIN;
 
-int main(void) {
-	
-	led_init();
-	
-	tft_easy_init();
-	ticks_init();
-	button_init();
-	servo_init();
-	
-	led_control(LED_D1, LED_ON);
-	
-	u8 count = 0;
-	
-	while(1){
-		button_update();
+int main(void) 
+{
+	tft_init(0,BLACK,WHITE,WHITE);
+	linear_ccd_init();
+	while(1)
+	{
+		linear_ccd_read();
+		tft_clear();
 
-		if (get_ticks()%500 == 0){
-			count++;
-			tft_append_line("%d", count);
-			tft_update();
+		for(u8 i=0;i<128;i++)
+		{
+			tft_put_pixel(i,linear_ccd_buffer[i],WHITE);
 		}
 		
-
+		for(u8 j=0;j<128;j++)
+		{
+			tft_put_pixel(j,linear_ccd_buffer[j],BLACK);
+		}
 		
+		tft_update();
 	}
 }

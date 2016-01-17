@@ -40,5 +40,7 @@
 #include "bluetooth.h"
 #include "button.h"
 #include "led.h"
+#include "linear_ccd.h"
+#include "adc.h"
 
 #endif /* __MAIN_H */
