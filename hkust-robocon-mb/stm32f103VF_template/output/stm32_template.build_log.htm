@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <html>
 <body>
 <pre>
@@ -147,3 +148,147 @@ Build Time Elapsed:  00:00:09
 </pre>
 </body>
 </html>
+=======
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.16a
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Rex Cheng, HKUST, LIC=8VRKP-M50WX-45FT5-G7R8Y-EZBPK-K7WBI
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Standard  Version: 5.16a
+Toolchain Path:  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 (build 20)
+Assembler:       Armasm.exe V5.06 (build 20)
+Linker/Locator:  ArmLink.exe V5.06 (build 20)
+Library Manager: ArmAr.exe V5.06 (build 20)
+Hex Converter:   FromElf.exe V5.06 (build 20)
+CPU DLL:         SARMCM3.DLL V5.16a
+Dialog DLL:      DCM.DLL V1.13.2.0
+Target DLL:      UL2CM3.DLL V1.155.12.0
+Dialog DLL:      TCM.DLL V1.14.5.0
+ 
+<h2>Project:</h2>
+C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\stm32f103VF_template\Project.uvprojx
+Project File Date:  01/08/2016
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
+Build target 'stm32_template'
+compiling battery.c...
+src\ustrobo_min_system\src\battery.c(26): error:  #20: identifier "u16" is undefined
+  static u16 adc_value = 0;
+src\ustrobo_min_system\src\battery.c(27): error:  #20: identifier "u16" is undefined
+  static u16 battery_values[BATTERY_VALUE_COUNT] = {0};
+src\ustrobo_min_system\src\battery.c(27): error:  #20: identifier "BATTERY_VALUE_COUNT" is undefined
+  static u16 battery_values[BATTERY_VALUE_COUNT] = {0};
+src\ustrobo_min_system\src\battery.c(28): error:  #20: identifier "u16" is undefined
+  static u16 battery_value_taken = 0;
+src\ustrobo_min_system\src\battery.c(29): error:  #20: identifier "u16" is undefined
+  static u16 battery_value_id = 0;
+src\ustrobo_min_system\src\battery.c(38): error:  #20: identifier "GPIO_InitTypeDef" is undefined
+  	GPIO_InitTypeDef GPIO_InitStructure;	
+src\ustrobo_min_system\src\battery.c(39): warning:  #223-D: function "RCC_APB2PeriphClockCmd" declared implicitly
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE); 
+src\ustrobo_min_system\src\battery.c(39): error:  #20: identifier "RCC_APB2Periph_GPIOC" is undefined
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE); 
+src\ustrobo_min_system\src\battery.c(39): error:  #20: identifier "ENABLE" is undefined
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE); 
+src\ustrobo_min_system\src\battery.c(40): error:  #20: identifier "GPIO_Mode_AIN" is undefined
+  	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;			   
+src\ustrobo_min_system\src\battery.c(41): error:  #20: identifier "GPIO_Speed_2MHz" is undefined
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
+src\ustrobo_min_system\src\battery.c(42): error:  #20: identifier "GPIO_Pin_0" is undefined
+  	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0; 
+src\ustrobo_min_system\src\battery.c(43): warning:  #223-D: function "GPIO_Init" declared implicitly
+  	GPIO_Init(GPIOC, &GPIO_InitStructure);
+src\ustrobo_min_system\src\battery.c(43): error:  #20: identifier "GPIOC" is undefined
+  	GPIO_Init(GPIOC, &GPIO_InitStructure);
+src\ustrobo_min_system\src\battery.c(56): error:  #20: identifier "ADC_InitTypeDef" is undefined
+  	ADC_InitTypeDef ADC_InitStructure;					 
+src\ustrobo_min_system\src\battery.c(57): warning:  #223-D: function "RCC_APB2PeriphClockCmd" declared implicitly
+  	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+src\ustrobo_min_system\src\battery.c(57): error:  #20: identifier "RCC_APB2Periph_ADC1" is undefined
+  	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+src\ustrobo_min_system\src\battery.c(57): error:  #20: identifier "ENABLE" is undefined
+  	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);
+src\ustrobo_min_system\src\battery.c(59): error:  #20: identifier "ADC_Mode_Independent" is undefined
+  	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
+src\ustrobo_min_system\src\battery.c(60): error:  #20: identifier "DISABLE" is undefined
+  	ADC_InitStructure.ADC_ScanConvMode = DISABLE;
+src\ustrobo_min_system\src\battery.c(62): error:  #20: identifier "ADC_ExternalTrigConv_None" is undefined
+  	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+src\ustrobo_min_system\src\battery.c(63): error:  #20: identifier "ADC_DataAlign_Right" is undefined
+  	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+src\ustrobo_min_system\src\battery.c(65): warning:  #223-D: function "ADC_Init" declared implicitly
+  	ADC_Init(ADC1, &ADC_InitStructure);
+src\ustrobo_min_system\src\battery.c(65): error:  #20: identifier "ADC1" is undefined
+  	ADC_Init(ADC1, &ADC_InitStructure);
+src\ustrobo_min_system\src\battery.c(66): warning:  #223-D: function "ADC_RegularChannelConfig" declared implicitly
+  	ADC_RegularChannelConfig(ADC1, ADC_Channel_10, 1, ADC_SampleTime_239Cycles5);
+src\ustrobo_min_system\src\battery.c(66): error:  #20: identifier "ADC_Channel_10" is undefined
+  	ADC_RegularChannelConfig(ADC1, ADC_Channel_10, 1, ADC_SampleTime_239Cycles5);
+src\ustrobo_min_system\src\battery.c(66): error:  #20: identifier "ADC_SampleTime_239Cycles5" is undefined
+  	ADC_RegularChannelConfig(ADC1, ADC_Channel_10, 1, ADC_SampleTime_239Cycles5);
+src\ustrobo_min_system\src\battery.c(67): warning:  #223-D: function "ADC_TempSensorVrefintCmd" declared implicitly
+  	ADC_TempSensorVrefintCmd(ENABLE);
+src\ustrobo_min_system\src\battery.c(68): warning:  #223-D: function "ADC_DMACmd" declared implicitly
+  	ADC_DMACmd(ADC1, ENABLE);
+src\ustrobo_min_system\src\battery.c(69): warning:  #223-D: function "ADC_Cmd" declared implicitly
+  	ADC_Cmd(ADC1, ENABLE);  
+src\ustrobo_min_system\src\battery.c(70): warning:  #223-D: function "ADC_ResetCalibration" declared implicitly
+  	ADC_ResetCalibration(ADC1);
+src\ustrobo_min_system\src\battery.c(71): warning:  #223-D: function "ADC_GetResetCalibrationStatus" declared implicitly
+  	while(ADC_GetResetCalibrationStatus(ADC1));
+src\ustrobo_min_system\src\battery.c(72): warning:  #223-D: function "ADC_StartCalibration" declared implicitly
+  	ADC_StartCalibration(ADC1);
+src\ustrobo_min_system\src\battery.c(73): warning:  #223-D: function "ADC_GetCalibrationStatus" declared implicitly
+  	while(ADC_GetCalibrationStatus(ADC1));
+src\ustrobo_min_system\src\battery.c(74): warning:  #223-D: function "ADC_SoftwareStartConvCmd" declared implicitly
+  	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+src\ustrobo_min_system\src\battery.c(80): error:  #20: identifier "ADC1" is undefined
+  	adc_value = ADC1->DR;
+src\ustrobo_min_system\src\battery.c(82): warning:  #223-D: function "get_voltage" declared implicitly
+  	battery_values[battery_value_id] = get_voltage();
+src\ustrobo_min_system\src\battery.c(94): error:  #20: identifier "u16" is undefined
+  u16 get_battery_adc(void)
+src\ustrobo_min_system\src\battery.c(104): error:  #20: identifier "u16" is undefined
+  u16 get_voltage(void)
+src\ustrobo_min_system\src\battery.c(106): error:  #20: identifier "u16" is undefined
+  	return (u16)(DVDAx100 * (adc_value - SAMPLE_BATTERY_ADC_1) / 100 + SAMPLE_BATTERY_VOLTAGE_1);
+src\ustrobo_min_system\src\battery.c(106): error:  #20: identifier "SAMPLE_BATTERY_VOLTAGE_2" is undefined
+  	return (u16)(
+VDAx100 * (adc_value - SAMPLE_BATTERY_ADC_1) / 100 + SAMPLE_BATTERY_VOLTAGE_1);
+src\ustrobo_min_system\src\battery.c(106): error:  #20: identifier "SAMPLE_BATTERY_VOLTAGE_1" is undefined
+  	return (u16)(
+VDAx100 * (adc_value - SAMPLE_BATTERY_ADC_1) / 100 + SAMPLE_BATTERY_VOLTAGE_1);
+src\ustrobo_min_system\src\battery.c(106): error:  #20: identifier "SAMPLE_BATTERY_ADC_2" is undefined
+  	return (u16)(
+VDAx100 * (adc_value - SAMPLE_BATTERY_ADC_1) / 100 + SAMPLE_BATTERY_VOLTAGE_1);
+src\ustrobo_min_system\src\battery.c(106): error:  #20: identifier "SAMPLE_BATTERY_ADC_1" is undefined
+  	return (u16)(
+VDAx100 * (adc_value - SAMPLE_BATTERY_ADC_1) / 100 + SAMPLE_BATTERY_VOLTAGE_1);
+src\ustrobo_min_system\src\battery.c: 14 warnings, 30 errors
+compiling gyro.c...
+src\ustrobo_min_system\src\gyro.c(5): error:  #20: identifier "ROBOT" is undefined
+  s32 SHIFT_X = (ROBOT == 'C' ? 31 : -204);
+src\ustrobo_min_system\src\gyro.c(57): warning:  #223-D: function "uart_rx_init" declared implicitly
+  	uart_rx_init(GYRO_UART,gyro_rx_handler);
+src\ustrobo_min_system\src\gyro.c: 1 warning, 1 error
+compiling main.c...
+".\output\stm32_template.axf" - 31 Error(s), 15 Warning(s).
+
+<h2>Collection of Component include folders:</h2>
+  C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE
+  C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+Target not created.
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>
+>>>>>>> 21fb6016ab8b7430bde8ddb725a254d7fc5f5776

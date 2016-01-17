@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include "main.h"
 #include <stdlib.h>
 
@@ -100,3 +101,16 @@ void USART2_IRQHandler(void) {
 }
 
 
+=======
+#include "main.h"
+
+int main(void)
+{
+
+	while (1) {
+
+	}
+}
+
+
+>>>>>>> 21fb6016ab8b7430bde8ddb725a254d7fc5f5776

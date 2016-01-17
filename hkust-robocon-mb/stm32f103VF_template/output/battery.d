@@ -1,5 +1,6 @@
 .\output\battery.o: src\ustrobo_min_system\src\battery.c
 .\output\battery.o: .\src\ustrobo_min_system\inc\battery.h
+<<<<<<< HEAD
 .\output\battery.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\battery.o: .\src\stm32f10x_std\inc\core_cm3.h
 .\output\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -17,3 +18,5 @@
 .\output\battery.o: .\src\stm32f10x_std\inc\misc.h
 .\output\battery.o: .\src\stm32f10x_std\inc\stm32f10x_adc.h
 .\output\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+=======
+>>>>>>> 21fb6016ab8b7430bde8ddb725a254d7fc5f5776

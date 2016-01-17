@@ -1,6 +1,7 @@
 #ifndef __GYRO_H
 #define __GYRO_H
 
+//#include "usart.h"
 #include "uart.h"
 #include "ticks.h"
 #include "delay.h"
@@ -32,9 +33,18 @@ typedef struct {
 } POSITION;
 
 
+<<<<<<< HEAD
 #define	X_FLIP						1
 #define	Y_FLIP						-1
 /** Varies along robots (depends on the encoder position) **/
+=======
+#define	X_FLIP						(ROBOT == 'C' ? 1 : -1)   /*** 1 or -1 **/
+#define	Y_FLIP						(ROBOT == 'C' ? 1: -1)   /*** 1 or -1 **/
+/** Varies along robots (depends on the encoder position) **/
+
+//#define SHIFT_X           (ROBOT == 'C' ? 0 : 190)
+//#define SHIFT_Y           (ROBOT == 'C' ? -420 : 190)
+>>>>>>> 21fb6016ab8b7430bde8ddb725a254d7fc5f5776
 
 extern volatile u8 gyro_available;
 

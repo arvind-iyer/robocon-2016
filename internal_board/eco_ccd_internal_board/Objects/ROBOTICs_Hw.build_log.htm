@@ -1,0 +1,119 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.16a
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Rex Cheng, HKUST, LIC=8VRKP-M50WX-45FT5-G7R8Y-EZBPK-K7WBI
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Standard  Version: 5.16a
+Toolchain Path:  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 (build 20)
+Assembler:       Armasm.exe V5.06 (build 20)
+Linker/Locator:  ArmLink.exe V5.06 (build 20)
+Library Manager: ArmAr.exe V5.06 (build 20)
+Hex Converter:   FromElf.exe V5.06 (build 20)
+CPU DLL:         SARMCM3.DLL V5.16a
+Dialog DLL:      DCM.DLL V1.13.2.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.17.0
+Dialog DLL:      TCM.DLL V1.14.5.0
+ 
+<h2>Project:</h2>
+C:\WorkBench\Robo\robocon-2016\internal_board\eco_ccd_internal_board\ROBOTICs_Hw.uvprojx
+Project File Date:  01/15/2016
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
+Build target 'STM32f103CBT_TEMPLATE'
+compiling linear_ccd.c...
+linear_ccd.h(24): warning:  #1295-D: Deprecated declaration linear_ccd_init - give arg types
+  void linear_ccd_init();
+linear_ccd.h(25): warning:  #1295-D: Deprecated declaration linear_ccd_read - give arg types
+  void linear_ccd_read();
+linear_ccd.h(27): warning:  #1295-D: Deprecated declaration linear_ccd_clear - give arg types
+  void linear_ccd_clear();
+linear_ccd.h(28): warning:  #1295-D: Deprecated declaration get_linear_ccd1 - give arg types
+  u32 * get_linear_ccd1();
+linear_ccd.h(29): warning:  #1295-D: Deprecated declaration delay_57 - give arg types
+  void delay_57();
+linear_ccd.h(31): warning:  #1295-D: Deprecated declaration mid_point - give arg types
+  int mid_point();
+linear_ccd.h(32): warning:  #1295-D: Deprecated declaration edge_l - give arg types
+  int edge_l();
+linear_ccd.h(33): warning:  #1-D: last line of file ends without a newline
+  int edge_r();
+linear_ccd.h(33): warning:  #1295-D: Deprecated declaration edge_r - give arg types
+  int edge_r();
+linear_ccd.c(126): warning:  #1-D: last line of file ends without a newline
+  }
+linear_ccd.c: 10 warnings, 0 errors
+compiling main.c...
+linear_ccd.h(24): warning:  #1295-D: Deprecated declaration linear_ccd_init - give arg types
+  void linear_ccd_init();
+linear_ccd.h(25): warning:  #1295-D: Deprecated declaration linear_ccd_read - give arg types
+  void linear_ccd_read();
+linear_ccd.h(27): warning:  #1295-D: Deprecated declaration linear_ccd_clear - give arg types
+  void linear_ccd_clear();
+linear_ccd.h(28): warning:  #1295-D: Deprecated declaration get_linear_ccd1 - give arg types
+  u32 * get_linear_ccd1();
+linear_ccd.h(29): warning:  #1295-D: Deprecated declaration delay_57 - give arg types
+  void delay_57();
+linear_ccd.h(31): warning:  #1295-D: Deprecated declaration mid_point - give arg types
+  int mid_point();
+linear_ccd.h(32): warning:  #1295-D: Deprecated declaration edge_l - give arg types
+  int edge_l();
+linear_ccd.h(33): warning:  #1-D: last line of file ends without a newline
+  int edge_r();
+linear_ccd.h(33): warning:  #1295-D: Deprecated declaration edge_r - give arg types
+  int edge_r();
+linear_ccd.h(24): warning:  #1295-D: Deprecated declaration linear_ccd_init - give arg types
+  void linear_ccd_init();
+linear_ccd.h(25): warning:  #1295-D: Deprecated declaration linear_ccd_read - give arg types
+  void linear_ccd_read();
+linear_ccd.h(27): warning:  #1295-D: Deprecated declaration linear_ccd_clear - give arg types
+  void linear_ccd_clear();
+linear_ccd.h(28): warning:  #1295-D: Deprecated declaration get_linear_ccd1 - give arg types
+  u32 * get_linear_ccd1();
+linear_ccd.h(29): warning:  #1295-D: Deprecated declaration delay_57 - give arg types
+  void delay_57();
+linear_ccd.h(31): warning:  #1295-D: Deprecated declaration mid_point - give arg types
+  int mid_point();
+linear_ccd.h(32): warning:  #1295-D: Deprecated declaration edge_l - give arg types
+  int edge_l();
+linear_ccd.h(33): warning:  #1-D: last line of file ends without a newline
+  int edge_r();
+linear_ccd.h(33): warning:  #1295-D: Deprecated declaration edge_r - give arg types
+  int edge_r();
+pneumatic_control.h(5): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+pneumatic_control.h(6): warning:  #1-D: last line of file ends without a newline
+  void pneumatic_control(GPIO_TypeDef* PORT,u16 gpio_pin,u8 state);
+pneumatic_control.h(5): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+pneumatic_control.h(6): warning:  #1-D: last line of file ends without a newline
+  void pneumatic_control(GPIO_TypeDef* PORT,u16 gpio_pin,u8 state);
+main.c(46): warning:  #111-D: statement is unreachable
+  	return 0;
+main.c(47): warning:  #1-D: last line of file ends without a newline
+  }
+main.c(29): warning:  #177-D: variable "prev_linear_ccd1" was declared but never referenced
+  	u32 prev_linear_ccd1[128];
+main.c(31): warning:  #177-D: variable "prev_linear_ccd_buffer1" was declared but never referenced
+      u32 prev_linear_ccd_buffer1[128];
+main.c: 26 warnings, 0 errors
+linking...
+Program Size: Code=24032 RO-data=1688 RW-data=4252 ZI-data=11836  
+FromELF: creating hex file...
+".\Objects\ROBOTICs_Hw.axf" - 0 Error(s), 36 Warning(s).
+
+<h2>Collection of Component include folders:</h2>
+  C:\WorkBench\Robo\robocon-2016\internal_board\eco_ccd_internal_board\RTE
+  C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>

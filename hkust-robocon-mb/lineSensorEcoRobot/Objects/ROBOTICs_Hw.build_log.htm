@@ -1,0 +1,227 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.16a
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Budi Ryan, HKUST, LIC=KRMKP-M1WFP-0N5AM-XE8XD-E2BWY-06LVZ
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Standard  Version: 5.16a
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 (build 20)
+Assembler:       Armasm.exe V5.06 (build 20)
+Linker/Locator:  ArmLink.exe V5.06 (build 20)
+Library Manager: ArmAr.exe V5.06 (build 20)
+Hex Converter:   FromElf.exe V5.06 (build 20)
+CPU DLL:         SARMCM3.DLL V5.16a
+Dialog DLL:      DCM.DLL V1.13.2.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.17.0
+Dialog DLL:      TCM.DLL V1.14.5.0
+ 
+<h2>Project:</h2>
+C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\lineSensorEcoRobot\ROBOTICs_Hw.uvprojx
+Project File Date:  01/17/2016
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Rebuild target 'STM32f103CBT_TEMPLATE'
+assembling startup_stm32f10x_md.s...
+compiling misc.c...
+compiling core_cm3.c...
+compiling stm32f10x_adc.c...
+compiling stm32f10x_bkp.c...
+compiling stm32f10x_can.c...
+compiling stm32f10x_cec.c...
+compiling stm32f10x_crc.c...
+compiling stm32f10x_dac.c...
+compiling stm32f10x_dbgmcu.c...
+compiling stm32f10x_dma.c...
+compiling stm32f10x_exti.c...
+compiling stm32f10x_flash.c...
+compiling stm32f10x_fsmc.c...
+compiling stm32f10x_gpio.c...
+compiling stm32f10x_i2c.c...
+compiling stm32f10x_iwdg.c...
+compiling stm32f10x_pwr.c...
+compiling stm32f10x_rcc.c...
+compiling stm32f10x_rtc.c...
+compiling stm32f10x_sdio.c...
+compiling stm32f10x_spi.c...
+compiling stm32f10x_wwdg.c...
+compiling stm32f10x_tim.c...
+compiling stm32f10x_usart.c...
+compiling LEDs.c...
+LEDs.c(45): warning:  #1-D: last line of file ends without a newline
+  }
+LEDs.c: 1 warning, 0 errors
+compiling system_stm32f10x.c...
+compiling tft_display.c...
+compiling ticks.c...
+compiling linear_ccd.c...
+linear_ccd.h(24): warning:  #1295-D: Deprecated declaration linear_ccd_init - give arg types
+  void linear_ccd_init();
+linear_ccd.h(25): warning:  #1295-D: Deprecated declaration linear_ccd_read - give arg types
+  void linear_ccd_read();
+linear_ccd.h(27): warning:  #1295-D: Deprecated declaration linear_ccd_clear - give arg types
+  void linear_ccd_clear();
+linear_ccd.h(28): warning:  #1295-D: Deprecated declaration get_linear_ccd1 - give arg types
+  u32 * get_linear_ccd1();
+linear_ccd.h(29): warning:  #1295-D: Deprecated declaration delay_57 - give arg types
+  void delay_57();
+linear_ccd.h(31): warning:  #1295-D: Deprecated declaration mid_point - give arg types
+  int mid_point();
+linear_ccd.h(32): warning:  #1295-D: Deprecated declaration edge_l - give arg types
+  int edge_l();
+linear_ccd.h(33): warning:  #1-D: last line of file ends without a newline
+  int edge_r();
+linear_ccd.h(33): warning:  #1295-D: Deprecated declaration edge_r - give arg types
+  int edge_r();
+linear_ccd.c(18): warning:  #177-D: variable "a" was declared but never referenced
+  	u32 a,b,c =0;
+linear_ccd.c(18): warning:  #177-D: variable "b" was declared but never referenced
+  	u32 a,b,c =0;
+linear_ccd.c(18): warning:  #177-D: variable "c" was declared but never referenced
+  	u32 a,b,c =0;
+linear_ccd.c(140): warning:  #1-D: last line of file ends without a newline
+  }
+linear_ccd.c: 13 warnings, 0 errors
+compiling adc.c...
+adc.c(72): warning:  #1-D: last line of file ends without a newline
+  }
+adc.c: 1 warning, 0 errors
+compiling pneumatic_control.c...
+pneumatic_control.h(5): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+pneumatic_control.h(6): warning:  #1-D: last line of file ends without a newline
+  void pneumatic_control(GPIO_TypeDef* PORT,u16 gpio_pin,u8 state);
+pneumatic_control.c: 2 warnings, 0 errors
+compiling GPIO_switch.c...
+GPIO_switch.c(32): warning:  #1-D: last line of file ends without a newline
+  }
+GPIO_switch.c: 1 warning, 0 errors
+compiling button.c...
+compiling motor.c...
+motor.c(75): warning:  #1-D: last line of file ends without a newline
+  }
+motor.c: 1 warning, 0 errors
+compiling buzzer_song.c...
+compiling buzzer.c...
+buzzer.c(63): warning:  #177-D: variable "GPIO_InitStruct" was declared but never referenced
+    GPIO_InitTypeDef GPIO_InitStruct;
+buzzer.c: 1 warning, 0 errors
+compiling uart.c...
+compiling encoder.c...
+encoder.h(18): warning:  #1295-D: Deprecated declaration encoder_init - give arg types
+  void encoder_init();
+encoder.h(19): warning:  #1295-D: Deprecated declaration gpio_init - give arg types
+  void gpio_init();
+encoder.h(20): warning:  #1295-D: Deprecated declaration timer_init - give arg types
+  void timer_init();
+encoder.h(22): warning:  #1295-D: Deprecated declaration getCount - give arg types
+  u32 getCount();
+encoder.c(65): warning:  #68-D: integer conversion resulted in a change of sign
+  	else if (prevCount - currCount < -
+NCODER_MAX_CHANGE){
+encoder.c: 5 warnings, 0 errors
+compiling servo_tutorial.c...
+compiling helper.c...
+linear_ccd.h(24): warning:  #1295-D: Deprecated declaration linear_ccd_init - give arg types
+  void linear_ccd_init();
+linear_ccd.h(25): warning:  #1295-D: Deprecated declaration linear_ccd_read - give arg types
+  void linear_ccd_read();
+linear_ccd.h(27): warning:  #1295-D: Deprecated declaration linear_ccd_clear - give arg types
+  void linear_ccd_clear();
+linear_ccd.h(28): warning:  #1295-D: Deprecated declaration get_linear_ccd1 - give arg types
+  u32 * get_linear_ccd1();
+linear_ccd.h(29): warning:  #1295-D: Deprecated declaration delay_57 - give arg types
+  void delay_57();
+linear_ccd.h(31): warning:  #1295-D: Deprecated declaration mid_point - give arg types
+  int mid_point();
+linear_ccd.h(32): warning:  #1295-D: Deprecated declaration edge_l - give arg types
+  int edge_l();
+linear_ccd.h(33): warning:  #1-D: last line of file ends without a newline
+  int edge_r();
+linear_ccd.h(33): warning:  #1295-D: Deprecated declaration edge_r - give arg types
+  int edge_r();
+pneumatic_control.h(5): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+pneumatic_control.h(6): warning:  #1-D: last line of file ends without a newline
+  void pneumatic_control(GPIO_TypeDef* PORT,u16 gpio_pin,u8 state);
+lineSensor.h(8): warning:  #1-D: last line of file ends without a newline
+  u8 readLineSensor(u16 gpio_pin);
+helper.c: 12 warnings, 0 errors
+compiling lineSensor.c...
+lineSensor.h(8): warning:  #1-D: last line of file ends without a newline
+  u8 readLineSensor(u16 gpio_pin);
+lineSensor.c(23): warning:  #1-D: last line of file ends without a newline
+  }
+lineSensor.c: 2 warnings, 0 errors
+compiling approxmath.c...
+compiling main.c...
+linear_ccd.h(24): warning:  #1295-D: Deprecated declaration linear_ccd_init - give arg types
+  void linear_ccd_init();
+linear_ccd.h(25): warning:  #1295-D: Deprecated declaration linear_ccd_read - give arg types
+  void linear_ccd_read();
+linear_ccd.h(27): warning:  #1295-D: Deprecated declaration linear_ccd_clear - give arg types
+  void linear_ccd_clear();
+linear_ccd.h(28): warning:  #1295-D: Deprecated declaration get_linear_ccd1 - give arg types
+  u32 * get_linear_ccd1();
+linear_ccd.h(29): warning:  #1295-D: Deprecated declaration delay_57 - give arg types
+  void delay_57();
+linear_ccd.h(31): warning:  #1295-D: Deprecated declaration mid_point - give arg types
+  int mid_point();
+linear_ccd.h(32): warning:  #1295-D: Deprecated declaration edge_l - give arg types
+  int edge_l();
+linear_ccd.h(33): warning:  #1-D: last line of file ends without a newline
+  int edge_r();
+linear_ccd.h(33): warning:  #1295-D: Deprecated declaration edge_r - give arg types
+  int edge_r();
+linear_ccd.h(24): warning:  #1295-D: Deprecated declaration linear_ccd_init - give arg types
+  void linear_ccd_init();
+linear_ccd.h(25): warning:  #1295-D: Deprecated declaration linear_ccd_read - give arg types
+  void linear_ccd_read();
+linear_ccd.h(27): warning:  #1295-D: Deprecated declaration linear_ccd_clear - give arg types
+  void linear_ccd_clear();
+linear_ccd.h(28): warning:  #1295-D: Deprecated declaration get_linear_ccd1 - give arg types
+  u32 * get_linear_ccd1();
+linear_ccd.h(29): warning:  #1295-D: Deprecated declaration delay_57 - give arg types
+  void delay_57();
+linear_ccd.h(31): warning:  #1295-D: Deprecated declaration mid_point - give arg types
+  int mid_point();
+linear_ccd.h(32): warning:  #1295-D: Deprecated declaration edge_l - give arg types
+  int edge_l();
+linear_ccd.h(33): warning:  #1-D: last line of file ends without a newline
+  int edge_r();
+linear_ccd.h(33): warning:  #1295-D: Deprecated declaration edge_r - give arg types
+  int edge_r();
+pneumatic_control.h(5): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+pneumatic_control.h(6): warning:  #1-D: last line of file ends without a newline
+  void pneumatic_control(GPIO_TypeDef* PORT,u16 gpio_pin,u8 state);
+lineSensor.h(8): warning:  #1-D: last line of file ends without a newline
+  u8 readLineSensor(u16 gpio_pin);
+pneumatic_control.h(5): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+pneumatic_control.h(6): warning:  #1-D: last line of file ends without a newline
+  void pneumatic_control(GPIO_TypeDef* PORT,u16 gpio_pin,u8 state);
+lineSensor.h(8): warning:  #1-D: last line of file ends without a newline
+  u8 readLineSensor(u16 gpio_pin);
+main.c(78): warning:  #1-D: last line of file ends without a newline
+  }
+main.c: 25 warnings, 0 errors
+linking...
+Program Size: Code=25994 RO-data=1690 RW-data=8352 ZI-data=4952  
+FromELF: creating hex file...
+".\Objects\ROBOTICs_Hw.axf" - 0 Error(s), 64 Warning(s).
+
+<h2>Collection of Component include folders:</h2>
+  C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\lineSensorEcoRobot\RTE
+  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:18
+</pre>
+</body>
+</html>

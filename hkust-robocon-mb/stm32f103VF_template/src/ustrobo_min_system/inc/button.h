@@ -5,8 +5,13 @@
 #include "stm32f10x_gpio.h"
 #include "gpio.h"
 #include "stm32f10x_tim.h"
+<<<<<<< HEAD
 #include "tft_160x128.h"
 #include "lcd_red.h"
+=======
+#include "tft.h"
+#include "xbc_mb.h"
+>>>>>>> 21fb6016ab8b7430bde8ddb725a254d7fc5f5776
 
 #ifdef MAINBOARD_V4
 
