@@ -1,5 +1,5 @@
 Dependencies for Project 'Project', Target 'stm32_template': (DO NOT MODIFY !)
-F (.\src\user\main.c)(0x569BC42E)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I D:\OneDrive\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="517" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
+F (.\src\user\main.c)(0x569CA752)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I D:\OneDrive\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="517" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
 I (src\user\main.h)(0x568E406F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
 I (.\src\stm32f10x_std\inc\stm32f10x.h)(0x568A78BC)
@@ -772,6 +772,6 @@ I (.\src\stm32f10x_std\inc\stm32f10x_rcc.h)(0x568A78BC)
 I (.\src\stm32f10x_std\inc\stm32f10x_spi.h)(0x568A78BC)
 I (.\src\stm32f10x_std\inc\stm32f10x_usart.h)(0x568A78BC)
 I (.\src\stm32f10x_std\inc\misc.h)(0x568A78BC)
-F (.\src\stm32f10x_startup\startup_stm32f10x_hd.s)(0x568A78BC)()
-F (.\src\stm32f10x_startup\startup_stm32f10x_md.s)(0x568A78BC)()
-F (.\src\stm32f10x_startup\startup_stm32f10x_xl.s)(0x568A78BC)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I D:\OneDrive\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 517" --pd "STM32F10X_XL SETA 1"-o .\output\startup_stm32f10x_xl.o --depend .\output\startup_stm32f10x_xl.d)
+F (.\src\stm32f10x_startup\startup_stm32f10x_hd.s)(0x569CA2FD)()
+F (.\src\stm32f10x_startup\startup_stm32f10x_md.s)(0x569CA2DF)()
+F (.\src\stm32f10x_startup\startup_stm32f10x_xl.s)(0x569CA2F9)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I D:\OneDrive\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 517" --pd "STM32F10X_XL SETA 1"-o .\output\startup_stm32f10x_xl.o --depend .\output\startup_stm32f10x_xl.d)

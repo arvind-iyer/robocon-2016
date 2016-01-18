@@ -4,6 +4,10 @@
 #define MAXVEL 140
 #define PI 3.1415926535897932
 
+//debug
+
+//end
+
 int M=0;
 int dir=0;
 int W=0;
@@ -36,7 +40,7 @@ void _curve(int x, int y, int bend);
 int _dist(int x0, int y0, int x, int y);
 int _angleDiff(int o, int t);
 int _bearing(int x0, int y0, int x, int y);
-int _pidBearing();
+int _vectorAdd(int m1, int b1, int m2, int b2);
 
 void _delay();
 int _getX();
@@ -66,8 +70,9 @@ void _updateScreen()
 	tft_prints(0, 1, "M: %d %d %d", M1, M2, M3);
 	tft_prints(0, 3, "_m(%d, %d, %d)", M, dir, W);
 	tft_prints(0, 4, "err: %.2f", err);
-	tft_prints(0, 6, "T: %d %d %d", target_x, target_y, target_angle);
+	tft_prints(0, 6, "T: %d %d %d [%d]", target_x, target_y, target_angle, _bearing(_getX(), _getY(), target_x, target_y));
 	tft_prints(0, 7, "dist: %d", _dist(_getX(), _getY(), target_x, target_y));
+	tft_prints(0, 8, "%.2f %.2f %.2f", _M1, _M2, _M3);
 	tft_prints(0, 9, "Ticks: %d", get_ticks());
 	tft_update();
 }
@@ -82,18 +87,18 @@ void _move(int M, int dir, int W)
 	X=M*int_sin(dir*10)*MAXVEL/100/10000;
 	Y=M*int_cos(dir*10)*MAXVEL/100/10000;
 	_M1=(-W-X*2)/3;
-	_M2=(-W*Sqrt(3)/3+X*Sqrt(3)/3-Y)/Sqrt(3);
+	_M2=(-W*0.577f+X*0.577f-Y)/1.73f;
 	_M3=-W-_M1-_M2;
 	if ((M!=0 || W!=0) && _x==_getX() && _y==_getY() && _angle==get_angle())
 	{
-		if (_M1*(err+0.03f)<=140 && _M2*(err+0.03f)<=140 && _M3<=140)
+		if (_M1*(err+0.03)<140 && _M2*(err+0.03)<140 && _M3<140)
 		{
-			err=err+0.03f;
+			err=err+0.03;
 		}
 	}
 	else
 	{
-		err=err/2+0.5f;
+		err=err/2+0.5;
 		if (err<1)
 		{
 			err=1;
@@ -136,15 +141,26 @@ void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 		{
 			M=1;
 		}
-		if (distance>200 && 1!=1)	//debug
+		if (distance>200 && 1!=1)
 		{
-			dir=_pidBearing();
+			int dir1;
+			dir1 = ((90-(int_arc_tan2(target_y - _getY(), target_x - _getX()))) - _getAngle()/10) %360;
+			dir1 = dir < 0 ? dir + 360 : dir;
+			if (dir1<0)
+			{
+				dir1=dir1+360;
+			}
+			//pid
+			float px=x-start_x;
+			float py=y-start_y;
+			float dab=px*px+py*py;
+			float u=((_getX()-start_x)*px+(_getY()-start_y)*py)/dab;
+			dir=_vectorAdd(_dist(_getX(), _getY(), start_x+u*px, start_y+u*py), _bearing(_getX(), _getY(), start_x+u*px, start_y+u*py), distance, dir1);
 		}
 		else
 		{
 			//dir=(_bearing(x, y, _getX(), _getY())-_getAngle()/10)%360;
 			dir = ((90-(int_arc_tan2(target_y - _getY(), target_x - _getX()))) - _getAngle()/10) %360;
-			dir = dir < 0 ? dir + 360 : dir;
 			if (dir<0)
 			{
 				dir=dir+360;
@@ -192,14 +208,20 @@ int _dist(int x0, int y0, int x, int y)
 	return dist;
 }
 
+int _atan(int y, int x)
+{
+	return int_arc_tan2(y, x);
+}
+
 int _bearing(int x0, int y0, int x, int y)
 {
-	int a;
-	a=(90-(int_arc_tan2(y - y0, x - x0)))%360;
-	if (0>a)
+	int bearing;
+	bearing=90-_atan(y-y0, x-x0);
+	if (bearing<0)
 	{
-		a=a+360;
+		bearing=bearing+360;
 	}
+	return bearing;
 }
 
 int _angleDiff(int o, int t)
@@ -212,22 +234,9 @@ int _angleDiff(int o, int t)
 	return a;
 }
 
-int _pidBearing()
+int _vectorAdd(int m1, int b1, int m2, int b2)
 {
-	float diffTargetY=target_y-_getY();
-	float diffTargetX=target_x-_getX();
-	float angleToTarget=int_arc_tan2(diffTargetY, diffTargetX)*10;
-	float targetDst=Sqrt(Sqr(diffTargetY)+Sqr(diffTargetX));
-	float diffLineX=target_x-start_x;
-	float diffLineY=target_y-start_y;
-	float u=((_getX()-start_x)*diffLineX+(_getY()-start_y)*diffLineY)/((float)diffLineX*diffLineX+diffLineY*diffLineY);
-	float linePointX=start_x+u*diffLineX;
-	float linePointY=start_y+u*diffLineY;
-	float diffPointX=linePointX-_getX();
-	float diffPointY=linePointY-_getY();
-	float dstToPoint=(float)Sqrt(Sqr(diffPointX)+Sqr(diffPointY));
-	float angleToLine=int_arc_tan2(diffPointY, diffPointX)*10;
-	return ((900-int_arc_tan2(targetDst*int_sin(angleToTarget)+dstToPoint*int_sin(angleToLine), targetDst*int_cos(angleToTarget)+dstToPoint*int_cos(angleToLine))*10)-_getAngle())/10;
+	return _bearing(0, 0, m1*int_sin(b1*10)/10000+m2*int_sin(b2*10)/10000, m1*int_cos(b1*10)/10000+m2*int_cos(b2*10)/10000);
 }
 
 void _delay()
