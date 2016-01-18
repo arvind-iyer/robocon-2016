@@ -35,7 +35,7 @@ void _move(int M, int dir, int W);
 
 void _setTarget(int x, int y, int bearing);
 void _straight(int x, int y, int bearing, int d_e, int a_e, int vel);
-void _curve(int x, int y, int bend);
+void _curve(int x, int y, /*int bend*/int centerX, int centerY);
 
 int _dist(int x0, int y0, int x, int y);
 int _angleDiff(int o, int t);
@@ -56,11 +56,17 @@ int main()
 	can_rx_init();
 	can_motor_init();
 	_delay();
+	
+	//start
 	while (1)
 	{
 		_updateScreen();
-		_straight(0, 500, 0, 1, 1, 0);
+		_curve(0, 500, 750, 250);
+		_curve(0, 1000, -750, 750);
+		_curve(0, 500, 750, 750);
+		_curve(0, 0, -750, 250);
 	}
+	
 }
 
 void _updateScreen()
@@ -70,9 +76,8 @@ void _updateScreen()
 	tft_prints(0, 1, "M: %d %d %d", M1, M2, M3);
 	tft_prints(0, 3, "_m(%d, %d, %d)", M, dir, W);
 	tft_prints(0, 4, "err: %.2f", err);
-	tft_prints(0, 6, "T: %d %d %d [%d]", target_x, target_y, target_angle, _bearing(_getX(), _getY(), target_x, target_y));
-	tft_prints(0, 7, "dist: %d", _dist(_getX(), _getY(), target_x, target_y));
-	tft_prints(0, 8, "%.2f %.2f %.2f", _M1, _M2, _M3);
+	tft_prints(0, 6, "Q: %d %d %d", target_x, target_y, target_angle);
+	tft_prints(0, 7, "T: %d [%d]", _dist(_getX(), _getY(), target_x, target_y), _bearing(_getX(), _getY(), target_x, target_y));
 	tft_prints(0, 9, "Ticks: %d", get_ticks());
 	tft_update();
 }
@@ -132,7 +137,14 @@ void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 	while (distance>d_e || Abs(bearing-_getAngle()/10)>a_e)
 	{
 		distance=_dist(_getX(), _getY(), x, y);
-		M=distance/20+vel;
+		if (vel!=0)
+		{
+			M=vel;
+		}
+		else
+		{
+			M=distance/20;
+		}
 		if (M>100)
 		{
 			M=100;
@@ -166,7 +178,7 @@ void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 				dir=dir+360;
 			}
 		}
-		W=_angleDiff(_getAngle()/10, bearing)*50/360;
+		W=_angleDiff(_getAngle()/10, bearing)*100/360;
 		if (Abs(_angleDiff(_getAngle()/10, bearing))>a_e && W==0)
 		{
 			if (_angleDiff(_getAngle()/10, bearing)>0)
@@ -186,19 +198,26 @@ void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 	_move(M, dir, W);
 }
 
-void _curve(int x, int y, int bend)
+void _curve(int x, int y, /*int bend*/int x1, int y1)
 {
+	/*
 	float centerX=target_x-start_x;
 	float centerY=target_y-start_y;
 	float radius=Sqrt(Sqr(centerX)+Sqr(centerY))/2;
 	float angle=int_arc_tan2(centerY, centerX)*10+900+bend;
-	for (float t=0; t!=1; t=t+0.2)
+	centerX=centerX/2+(radius*int_cos(angle)/10000);
+	centerY=centerY/2+(radius*int_sin(angle)/10000);
+	*/
+	int x0;
+	int y0;
+	x0=_getX();
+	y0=_getY();
+	for (float t=0; t<=1; t=t+0.1f)
 	{
-		int c_x=(1-t)*(1-t)*start_x+2*(1-t)*t*centerX+t*t*target_x;
-		int c_y=(1-t)*(1-t)*start_y+2*(1-t)*t*centerY+t*t*target_y;
-		_straight(c_x, c_y, 0, 100, 360, 20);
+		int c_x=(1-t)*(1-t)*x0+2*(1-t)*t*x1+t*t*x;
+		int c_y=(1-t)*(1-t)*y0+2*(1-t)*t*y1+t*t*y;
+		_straight(c_x, c_y, 0, 20, 360, 20);
 	}
-	_straight(x, y, 0, 100, 360, 0);
 }
 
 int _dist(int x0, int y0, int x, int y)
