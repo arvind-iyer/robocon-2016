@@ -33,25 +33,25 @@ int main(void) {
 		switch(line_sensor_state){
 			case track_turn_happy:
 				servo_control_all(SERVO_MED);
-                state = 0 ;
+        state = 0 ;
 				break;
 			case track_turn_left_smooth:
 				//servo_control_all(1900);
-                state = 1;
+        state = 1;
 				servo_control_all(2400);
 				break;
 			case track_turn_left_90:
 				servo_control_all(2400);
-                state = 1;
+        state = 1;
 				break;
 			case track_turn_right_smooth:
 				//servo_control_all(1200);
-                state = 2;
+				state = 2;
 				servo_control_all(700);
 				break;
 			case track_turn_right_90:
 				servo_control_all(700);
-                state = 2;
+        state = 2;
 				break;
             case track_turn_leave:
                 switch(state){

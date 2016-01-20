@@ -4,23 +4,37 @@
 
 int main(void) 
 {
-	tft_init(0,BLACK,WHITE,WHITE);
-	linear_ccd_init();
-	while(1)
-	{
-		linear_ccd_read();
-		tft_clear();
+	button_init();
+	servo_init();
+	led_init();
+	ticks_init();
+	tft_easy_init();
+	while(1){
+		button_update();
+		
+		if (get_full_ticks()%200==0){
+			led_blink(LED_D1);
+		}
+		
+		if (button_pressed(BUTTON_1)){
+			while(button_pressed(BUTTON_1)){
+				button_update();
+			}
 
-		for(u8 i=0;i<128;i++)
-		{
-			tft_put_pixel(i,linear_ccd_buffer[i],WHITE);
+			servo_control_all(SERVO_MIN);
+			tft_clear();
+			tft_prints(0, 0, "MIN");
+			tft_update();
 		}
 		
-		for(u8 j=0;j<128;j++)
-		{
-			tft_put_pixel(j,linear_ccd_buffer[j],BLACK);
+		if (button_pressed(BUTTON_2)){
+			while(button_pressed(BUTTON_2)){
+				button_update();
+			}
+			servo_control_all(SERVO_MAX);
+						tft_clear();
+			tft_prints(0, 0, "MAX");
+			tft_update();
 		}
-		
-		tft_update();
 	}
 }
