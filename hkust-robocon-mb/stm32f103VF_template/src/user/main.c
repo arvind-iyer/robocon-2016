@@ -5,7 +5,7 @@
 #define PI 3.1415926535897932
 
 //debug
-
+void _TEST_8figure();
 //end
 
 int M=0;
@@ -15,6 +15,7 @@ int W=0;
 int _x;
 int _y;
 int _angle;
+int _distance;
 
 int M1=0;
 int M2=0;
@@ -61,18 +62,25 @@ int main()
 	while (1)
 	{
 		_updateScreen();
-		_curve(0, 500, 750, 250);
-		_curve(0, 1000, -750, 750);
-		_curve(0, 500, 750, 750);
-		_curve(0, 0, -750, 250);
+		_straight(0, 0, 0, 1, 1, 0);
 	}
 	
 }
 
+//debug
+void _TEST_8figure()
+{
+	_curve(0, 500, 750, 250);
+	_curve(0, 1000, -750, 750);
+	_curve(0, 500, 750, 750);
+	_curve(0, 0, -750, 250);
+}
+//end
+
 void _updateScreen()
 {
 	tft_clear();
-	tft_prints(0, 0, "[%d %d] %d", _getX(), _getY(), _getAngle());
+	tft_prints(0, 0, "%d %d [%d]", _getX(), _getY(), _getAngle());
 	tft_prints(0, 1, "M: %d %d %d", M1, M2, M3);
 	tft_prints(0, 3, "_m(%d, %d, %d)", M, dir, W);
 	tft_prints(0, 4, "err: %.2f", err);
@@ -94,17 +102,17 @@ void _move(int M, int dir, int W)
 	_M1=(-W-X*2)/3;
 	_M2=(-W*0.577f+X*0.577f-Y)/1.73f;
 	_M3=-W-_M1-_M2;
-	if ((M!=0 || W!=0) && _x==_getX() && _y==_getY() && _angle==get_angle())
+	if ((M!=0 || W!=0) && (_x==_getX() && _y==_getY() && _angle==get_angle()))
 	{
-		if (_M1*(err+0.03)<140 && _M2*(err+0.03)<140 && _M3<140)
+		if (Abs(_M1*(err+0.03))<MAXVEL && Abs(_M2*(err+0.03))<MAXVEL && Abs(_M3)<MAXVEL)
 		{
 			err=err+0.03;
 		}
 	}
-	else
+	else if (_distance>=_dist(_getX(), _getY(), target_x, target_y))
 	{
 		err=err/2+0.5;
-		if (err<1)
+		if (err<1)	
 		{
 			err=1;
 		}
@@ -120,6 +128,7 @@ void _move(int M, int dir, int W)
 	_x=_getX();
 	_y=_getY();
 	_angle=get_angle();
+	_distance=_dist(_getX(), _getY(), target_x, target_y);
 }
 
 void _setTarget(int x, int y, int bearing)
