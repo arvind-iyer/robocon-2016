@@ -10,7 +10,7 @@
 int main(){
 	u16 duty_cycle = min;
 	LED_INIT();
-	tft_init(1, RED, BLACK, WHITE);
+	tft_init(1, WHITE, BLACK, RED);
 	u8 self_checked = 0;
 	button_init();
 	servo_init();
@@ -88,11 +88,15 @@ int main(){
 		
 		LED_OFF(GPIOB, GPIO_Pin_4);
 	}
-	
+
+	u8 display_val[3] = {9};
 	tft_clear();
-	tft_prints(0, 0, "%d", duty_cycle);
 	tft_update();
 	
+	tft_put_mega_ass_num(0, 1, 0, BLACK);
+	tft_put_mega_ass_num(10, 1, 0, BLACK);
+	tft_put_mega_ass_num(20, 1, 0, BLACK);
+	tft_mega_update();
 	
 	while(1){
 		if (!read_button(1)){
@@ -100,22 +104,39 @@ int main(){
 			if (duty_cycle<max){
 				duty_cycle += stepping;
 			}
-			tft_clear();
-			tft_prints(0, 0, "%d", duty_cycle);
-			tft_update();
 			servo_control(1, duty_cycle);
 			LED_OFF(GPIOA, GPIO_Pin_15);
 		}
+		
 		if (!read_button(2)){
 			LED_ON(GPIOB, GPIO_Pin_3);
 			if (duty_cycle>min){
 				duty_cycle -= stepping;
 			}
-			tft_clear();
-			tft_prints(0, 0, "%d", duty_cycle);
-			tft_update();
 			servo_control(1, duty_cycle);
 			LED_OFF(GPIOB, GPIO_Pin_3);
 		}
+	
+		u16 mapped_val = (duty_cycle-min)*999/(max-min);
+		
+		if (display_val[0] != mapped_val/100){
+			tft_put_mega_ass_num(0, 1, display_val[0], WHITE);
+			display_val[0] = mapped_val/100;
+			tft_put_mega_ass_num(0, 1, display_val[0], BLACK);
+		}
+		
+		if (display_val[1] != (mapped_val/10)%10){
+			tft_put_mega_ass_num(10, 1, display_val[1], WHITE);
+			display_val[1] = (mapped_val/10)%10;
+			tft_put_mega_ass_num(10, 1, display_val[1], BLACK);
+		}
+				
+		if (display_val[2] != mapped_val%10){
+			tft_put_mega_ass_num(20, 1, display_val[2], WHITE);
+			display_val[2] = mapped_val%10;
+			tft_put_mega_ass_num(20, 1, display_val[2], BLACK);
+		}
+		
+		tft_mega_update();
 	}
 }

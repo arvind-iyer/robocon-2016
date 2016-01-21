@@ -18,6 +18,8 @@ u16 text_color_prev		[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
 u16 bg_color					[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
 u16 bg_color_prev			[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
 u8 text_bg_color_prev	[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];/*for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color*/
+u16 tft_mega_pre[32][25];
+u16 tft_mega_storage[32][25];
 
 u16 print_pos = 0;
 
@@ -296,6 +298,12 @@ void tft_init(TFT_ORIENTATION orientation, u16 in_bg_color, u16 in_text_color, u
 			text_color_prev[x][y] = in_text_color;
 			bg_color_prev[x][y] = in_bg_color;
 		}
+	}
+	
+	for (u16 looperA=0; looperA<32; looperA++){
+		for (u16 looperB=0; looperB<25; looperB++){
+			tft_mega_pre[looperA][looperB] = tft_mega_storage[looperA][looperB] = WHITE;
+		}	
 	}
 }
 
@@ -723,6 +731,203 @@ void tft_update(void)
 						y += char_n-1;
 					}
 				}
+			}
+			break;
+	}
+}
+
+
+
+/**
+* Update image for mega scale
+**/
+void tft_mega_update(){
+	for (u16 looperA=0; looperA<32; looperA++){
+		for (u16 looperB=0; looperB<25; looperB++){
+			if (tft_mega_pre[looperA][looperB] != tft_mega_storage[looperA][looperB]){
+				for (u16 looperC=0; looperC<5; looperC++){
+					for (u16 looperD=0; looperD<5; looperD++){
+						tft_put_pixel(looperA*5+looperC, looperB*5+looperD, tft_mega_storage[looperA][looperB]);
+						tft_mega_pre[looperA][looperB] = tft_mega_storage[looperA][looperB];
+					}	
+				}
+			}
+		}	
+	}
+}
+
+/**
+* Put a pixel block of 5x5 size
+* @param x: x coordinate in mega scale (x5)
+* @param y: y coordinate in mega scale (x5)
+**/
+void tft_place_mega(u8 x, u8 y, u16 color){
+	tft_mega_storage[x][y] = color;
+}
+
+/**
+* Put a very big ass character
+* @param x: x coordinate in mega scale (x5)
+* @param y: y coordinate in mega scale (x5)
+* @param character: the number to be printed
+**/
+void tft_put_mega_ass_num(u8 x, u8 y, u8 character, u16 color){
+
+	switch(character){
+		case 0:
+			for (u16 looperA=1;looperA<9;looperA++){
+				tft_place_mega(x+looperA, y, color);
+				tft_place_mega(x+looperA, y+22, color);
+			}
+			for (u16 looperA=0;looperA<23;looperA++){
+				tft_place_mega(x+1, y+looperA, color);
+				tft_place_mega(x+8, y+looperA, color);
+			}
+			break;
+			
+		case 1:
+			for (u16 looperA=1;looperA<9;looperA++){
+				tft_place_mega(x+looperA, y+22, color);
+			}
+			for (u16 looperA=0;looperA<23;looperA++){
+				tft_place_mega(x+5, y+looperA, color);
+			}
+			
+			tft_place_mega(x+4, y+1, color);
+			tft_place_mega(x+3, y+1, color);
+			
+			tft_place_mega(x+3, y+2, color);
+			tft_place_mega(x+2, y+2, color);
+			
+			tft_place_mega(x+2, y+3, color);
+			tft_place_mega(x+1, y+3, color);
+			
+			tft_place_mega(x+1, y+4, color);
+			break;
+			
+		case 2:
+			for (u16 looperA=1;looperA<9;looperA++){
+				tft_place_mega(x+looperA, y, color);
+				tft_place_mega(x+looperA, y+11, color);
+				tft_place_mega(x+looperA, y+22, color);
+			}
+			for (u16 looperA=0;looperA<11;looperA++){
+				tft_place_mega(x+8, y+looperA, color);
+				tft_place_mega(x+1, y+11+looperA, color);
+			}
+			break;
+			
+		case 3:
+			for (u16 looperA=4;looperA<9;looperA++){
+				tft_place_mega(x+looperA, y, color);
+				tft_place_mega(x+looperA, y+22, color);
+			}
+			
+			for (u16 looperA=2;looperA<9;looperA++){
+				tft_place_mega(x+looperA, y+11, color);
+			}
+			
+			for (u16 looperA=0;looperA<23;looperA++){
+				tft_place_mega(x+8, y+looperA, color);
+			}
+			
+			tft_place_mega(x+3, y, color);
+			tft_place_mega(x+3, y+1, color);
+			
+			tft_place_mega(x+2, y+1, color);
+			tft_place_mega(x+2, y+2, color);
+			
+			tft_place_mega(x+1, y+2, color);
+			tft_place_mega(x+1, y+3, color);
+			
+			tft_place_mega(x+3, y+22, color);
+			tft_place_mega(x+3, y+21, color);
+			
+			tft_place_mega(x+2, y+21, color);
+			tft_place_mega(x+2, y+20, color);
+			
+			tft_place_mega(x+1, y+20, color);
+			tft_place_mega(x+1, y+19, color);
+			break;
+		
+		case 4:
+			for (u16 looperA=0;looperA<12;looperA++){
+				tft_place_mega(x+1, y+looperA, color);
+			}
+			for (u16 looperA=0;looperA<23;looperA++){
+				tft_place_mega(x+7, y+looperA, color);
+			}
+			for (u16 looperA=1;looperA<9;looperA++){
+				tft_place_mega(x+looperA, y+10, color);
+			}
+						
+			break;
+		
+		case 5:
+			for (u16 looperA=1;looperA<9;looperA++){
+				tft_place_mega(x+looperA, y, color);
+				tft_place_mega(x+looperA, y+11, color);
+				tft_place_mega(x+looperA, y+22, color);
+			}
+			
+			for (u16 looperA=0;looperA<11;looperA++){
+				tft_place_mega(x+1, y+looperA, color);
+				tft_place_mega(x+8, y+11+looperA, color);
+			}
+			
+			break;
+		
+		case 6:
+			for (u16 looperA=1;looperA<9;looperA++){
+				tft_place_mega(x+looperA, y, color);
+				tft_place_mega(x+looperA, y+11, color);
+				tft_place_mega(x+looperA, y+22, color);
+			}
+			for (u16 looperA=11;looperA<23;looperA++){
+				tft_place_mega(x+8, y+looperA, color);
+			}
+			for (u16 looperA=0;looperA<23;looperA++){
+				tft_place_mega(x+1, y+looperA, color);
+			}
+			break;
+		
+		case 7:
+			for (u16 looperA=1;looperA<9;looperA++){
+				tft_place_mega(x+looperA, y, color);
+			}
+			for (u16 looperA=0;looperA<6;looperA++){
+				tft_place_mega(x+1, y+looperA, color);
+			}
+			for (u16 looperA=0;looperA<23;looperA++){
+				tft_place_mega(x+8, y+looperA, color);
+			}
+			break;
+		
+		case 8:
+			for (u16 looperA=2;looperA<8;looperA++){
+				tft_place_mega(x+looperA, y, color);
+				tft_place_mega(x+looperA, y+11, color);
+				tft_place_mega(x+looperA, y+22, color);
+			}
+			
+			for (u16 looperA=1;looperA<22;looperA++){
+				tft_place_mega(x+1, y+looperA, color);
+				tft_place_mega(x+8, y+looperA, color);
+			}
+			
+			break;
+		
+		case 9:
+			for (u16 looperA=1;looperA<9;looperA++){
+				tft_place_mega(x+looperA, y, color);
+				tft_place_mega(x+looperA, y+11, color);
+				tft_place_mega(x+looperA, y+22, color);
+			}
+			for (u16 looperA=0;looperA<12;looperA++){
+				tft_place_mega(x+1, y+looperA, color);
+			}
+			for (u16 looperA=0;looperA<23;looperA++){
+				tft_place_mega(x+8, y+looperA, color);
 			}
 			break;
 	}

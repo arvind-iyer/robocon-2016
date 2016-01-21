@@ -41,7 +41,7 @@ I (.\src\ustrobo_min_system\inc\buzzer.h)(0x569651E4)
 I (.\src\ustrobo_min_system\inc\gpio.h)(0x569651E4)
 I (.\src\ustrobo_min_system\inc\delay.h)(0x569651E4)
 I (.\src\ustrobo_min_system\inc\led.h)(0x569651E4)
-I (.\src\ustrobo_min_system\inc\lcd_main.h)(0x569B5A9C)
+I (.\src\ustrobo_min_system\inc\lcd_main.h)(0x56A0D765)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (.\src\ustrobo_min_system\inc\system.h)(0x569651E4)
 I (.\src\stm32f10x_std\inc\stm32f10x_adc.h)(0x569651E4)
@@ -190,7 +190,7 @@ I (.\src\stm32f10x_std\inc\stm32f10x_usart.h)(0x569651E4)
 I (.\src\stm32f10x_std\inc\misc.h)(0x569651E4)
 I (.\src\ustrobo_min_system\inc\gpio.h)(0x569651E4)
 I (.\src\stm32f10x_std\inc\stm32f10x_tim.h)(0x569651E4)
-I (.\src\ustrobo_min_system\inc\lcd_main.h)(0x569B5A9C)
+I (.\src\ustrobo_min_system\inc\lcd_main.h)(0x56A0D765)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (.\src\ustrobo_min_system\inc\delay.h)(0x569651E4)
@@ -374,7 +374,7 @@ I (.\src\stm32f10x_std\inc\stm32f10x_usart.h)(0x569651E4)
 I (.\src\stm32f10x_std\inc\misc.h)(0x569651E4)
 I (.\src\stm32f10x_std\inc\stm32f10x_tim.h)(0x569651E4)
 I (.\src\ustrobo_min_system\inc\delay.h)(0x569651E4)
-I (.\src\ustrobo_min_system\inc\lcd_main.h)(0x569B5A9C)
+I (.\src\ustrobo_min_system\inc\lcd_main.h)(0x56A0D765)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (.\src\ustrobo_min_system\inc\ticks.h)(0x569651E4)
@@ -432,8 +432,8 @@ I (.\src\stm32f10x_std\inc\stm32f10x_spi.h)(0x569651E4)
 I (.\src\stm32f10x_std\inc\stm32f10x_usart.h)(0x569651E4)
 I (.\src\stm32f10x_std\inc\misc.h)(0x569651E4)
 I (.\src\stm32f10x_std\inc\stm32f10x_tim.h)(0x569651E4)
-F (.\src\ustrobo_min_system\src\lcd_main.c)(0x569651E4)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\V4mainboard_STM32F103VG_template\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\lcd_main.o --omf_browse .\output\lcd_main.crf --depend .\output\lcd_main.d)
-I (.\src\ustrobo_min_system\inc\lcd_main.h)(0x569B5A9C)
+F (.\src\ustrobo_min_system\src\lcd_main.c)(0x56A0D758)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\V4mainboard_STM32F103VG_template\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\lcd_main.o --omf_browse .\output\lcd_main.crf --depend .\output\lcd_main.d)
+I (.\src\ustrobo_min_system\inc\lcd_main.h)(0x56A0D765)
 I (.\src\stm32f10x_std\inc\stm32f10x.h)(0x569651E4)
 I (.\src\stm32f10x_std\inc\core_cm3.h)(0x569651E4)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
@@ -491,7 +491,7 @@ I (.\src\ustrobo_min_system\inc\ticks.h)(0x569651E4)
 I (.\src\stm32f10x_std\inc\stm32f10x_tim.h)(0x569651E4)
 I (.\src\ustrobo_min_system\inc\buzzer.h)(0x569651E4)
 I (.\src\ustrobo_min_system\inc\gpio.h)(0x569651E4)
-I (.\src\ustrobo_min_system\inc\lcd_main.h)(0x569B5A9C)
+I (.\src\ustrobo_min_system\inc\lcd_main.h)(0x56A0D765)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (.\src\ustrobo_min_system\inc\delay.h)(0x569651E4)

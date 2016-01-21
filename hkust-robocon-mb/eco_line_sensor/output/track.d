@@ -2,7 +2,7 @@
 .\output\track.o: src\user\track.h
 .\output\track.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\track.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\track.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\track.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\track.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\track.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\track.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h
@@ -22,8 +22,8 @@
 .\output\track.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\track.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\track.o: .\src\ustrobo_min_system\inc\lcd_main.h
-.\output\track.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\output\track.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\track.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\track.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\track.o: .\src\ustrobo_min_system\inc\delay.h
 .\output\track.o: src\user\button.h
 .\output\track.o: .\src\ustrobo_min_system\inc\led.h

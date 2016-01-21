@@ -111,4 +111,7 @@ void tft_prints(u8 x, u8 y, const char * pstr, ...);
 void tft_update(void);
 void tft_update_trigger(void (*fx)(void));
 
+void tft_put_mega_ass_num(u8 x, u8 y, u8 character, u16 color);
+void tft_mega_update();
+
 #endif		/* __LCD_RED_H */

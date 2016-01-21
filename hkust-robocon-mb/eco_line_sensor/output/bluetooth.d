@@ -4,7 +4,7 @@
 .\output\bluetooth.o: .\src\stm32f10x_std\inc\stm32f10x_gpio.h
 .\output\bluetooth.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\bluetooth.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\bluetooth.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\bluetooth.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\bluetooth.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\bluetooth.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\bluetooth.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h
@@ -17,8 +17,8 @@
 .\output\bluetooth.o: .\src\stm32f10x_std\inc\stm32f10x_spi.h
 .\output\bluetooth.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\bluetooth.o: .\src\stm32f10x_std\inc\misc.h
-.\output\bluetooth.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\output\bluetooth.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\bluetooth.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\bluetooth.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\bluetooth.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\bluetooth.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\bluetooth.o: .\src\ustrobo_min_system\inc\buzzer.h

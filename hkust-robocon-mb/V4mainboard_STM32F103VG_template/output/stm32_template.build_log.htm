@@ -27,29 +27,67 @@ Project File Date:  01/18/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
+compiling button.c...
+.\src\ustrobo_min_system\inc\lcd_main.h(76): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
+  void tft_easy_init();
+.\src\ustrobo_min_system\inc\lcd_main.h(97): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+src\user\button.c(44): warning:  #177-D: variable "xbox_tmp" was declared but never referenced
+    u32 xbox_tmp = 1;
+src\user\button.c: 3 warnings, 0 errors
 compiling main.c...
 .\src\ustrobo_min_system\inc\led.h(38): warning:  #1295-D: Deprecated declaration get_led_state - give arg types
   u8 get_led_state();
 .\src\ustrobo_min_system\inc\lcd_main.h(76): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
   void tft_easy_init();
+.\src\ustrobo_min_system\inc\lcd_main.h(97): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
 src\user\can_motor.h(52): warning:  #1-D: last line of file ends without a newline
   #endif
 .\src\ustrobo_min_system\inc\gyro.h(44): warning:  #1-D: last line of file ends without a newline
   #endif		/* __GYRO_H */
 src\user\main.c(40): warning:  #1-D: last line of file ends without a newline
   }
-src\user\main.c: 5 warnings, 0 errors
+src\user\main.c: 6 warnings, 0 errors
+compiling xbc_mb.c...
+.\src\ustrobo_min_system\inc\lcd_main.h(76): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
+  void tft_easy_init();
+.\src\ustrobo_min_system\inc\lcd_main.h(97): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+.\src\ustrobo_min_system\inc\led.h(38): warning:  #1295-D: Deprecated declaration get_led_state - give arg types
+  u8 get_led_state();
+src\ustrobo_min_system\src\xbc_mb.c(458): warning:  #550-D: variable "pre_pressed_cnt" was set but never used
+  	u8  pre_pressed_cnt = 0;
+src\ustrobo_min_system\src\xbc_mb.c: 4 warnings, 0 errors
+compiling linear_ccd.c...
+.\src\ustrobo_min_system\inc\lcd_main.h(76): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
+  void tft_easy_init();
+.\src\ustrobo_min_system\inc\lcd_main.h(97): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+src\ustrobo_min_system\src\linear_ccd.c(110): warning:  #1-D: last line of file ends without a newline
+  }
+src\ustrobo_min_system\src\linear_ccd.c: 3 warnings, 0 errors
+compiling lcd_main.c...
+.\src\ustrobo_min_system\inc\lcd_main.h(76): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
+  void tft_easy_init();
+.\src\ustrobo_min_system\inc\lcd_main.h(97): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+src\ustrobo_min_system\src\lcd_main.c(574): warning:  #186-D: pointless comparison of unsigned integer with zero
+  	if (tft_y_index<0 || tft_y_index>(char_max_y-1)){
+src\ustrobo_min_system\src\lcd_main.c(934): warning:  #1-D: last line of file ends without a newline
+  }
+src\ustrobo_min_system\src\lcd_main.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=22320 RO-data=516 RW-data=2216 ZI-data=35512  
+Program Size: Code=23768 RO-data=516 RW-data=2216 ZI-data=38712  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 5 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 20 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\V4mainboard_STM32F103VG_template\RTE
   C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:05
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

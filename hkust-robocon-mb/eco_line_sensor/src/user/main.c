@@ -1,4 +1,6 @@
 #include "main.h"
+#define SERVO_LEFT 2400
+#define SERVO_RIGHT 700
 
 int main(void) {
 	//Init
@@ -36,21 +38,19 @@ int main(void) {
         state = 0 ;
 				break;
 			case track_turn_left_smooth:
-				//servo_control_all(1900);
         state = 1;
-				servo_control_all(2400);
+				servo_control_all(SERVO_LEFT);
 				break;
 			case track_turn_left_90:
-				servo_control_all(2400);
+				servo_control_all(SERVO_LEFT);
         state = 1;
 				break;
 			case track_turn_right_smooth:
-				//servo_control_all(1200);
 				state = 2;
-				servo_control_all(700);
+				servo_control_all(SERVO_RIGHT);
 				break;
 			case track_turn_right_90:
-				servo_control_all(700);
+				servo_control_all(SERVO_RIGHT);
         state = 2;
 				break;
             case track_turn_leave:
@@ -59,10 +59,10 @@ int main(void) {
                         servo_control_all(SERVO_MED);
                         break;
                     case 1:
-                        servo_control_all(2400);
+                        servo_control_all(SERVO_LEFT);
                         break;
                     case 2:
-                        servo_control_all(700);
+                        servo_control_all(SERVO_RIGHT);
                         break;
                 }
                 break;
@@ -76,7 +76,7 @@ int main(void) {
 		tft_append_line("VL:%d VR:%d", get_vel(ENCODER1), get_vel(ENCODER2));
 		tft_append_line("ED:%d VD:%d", get_count(ENCODER1)-get_count(ENCODER2), get_vel(ENCODER1)-get_vel(ENCODER2));
 		tft_append_line(BYTETOBINARYPATTERN" %d", BYTETOBINARY(line_sensor_state), line_sensor_state);
-        tft_append_line("90 State: %d",state);
+    tft_append_line("90 State: %d",state);
 		//track_update();
 		
 		tft_update();

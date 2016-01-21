@@ -411,8 +411,8 @@ I (.\stm32f10x_std\inc\stm32f10x_spi.h)(0x56989FE7)
 I (.\stm32f10x_std\inc\stm32f10x_usart.h)(0x56989FE7)
 I (.\stm32f10x_std\inc\misc.h)(0x56989FE7)
 I (.\stm32f10x_std\inc\stm32f10x_tim.h)(0x56989FE7)
-F (.\tft_display.c)(0x56989FE7)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\stm32f10x_std\inc -I.\user-I C:\WorkBench\Robo\robocon-2016\internal_board\Brushless_pwm_internal_board\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_ML-o .\objects\tft_display.o --omf_browse .\objects\tft_display.crf --depend .\objects\tft_display.d)
-I (tft_display.h)(0x56989FE7)
+F (.\tft_display.c)(0x56A0D6D2)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\stm32f10x_std\inc -I.\user-I C:\WorkBench\Robo\robocon-2016\internal_board\Brushless_pwm_internal_board\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_ML-o .\objects\tft_display.o --omf_browse .\objects\tft_display.crf --depend .\objects\tft_display.d)
+I (tft_display.h)(0x56A0D508)
 I (.\stm32f10x_std\inc\stm32f10x.h)(0x56989FE7)
 I (.\stm32f10x_std\inc\core_cm3.h)(0x56989FE7)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
@@ -456,7 +456,7 @@ I (ticks.h)(0x56989FE7)
 I (buzzer_song.h)(0x56989FE7)
 I (buzzer.h)(0x56989FE7)
 I (.\stm32f10x_std\inc\stm32f10x_tim.h)(0x56989FE7)
-I (tft_display.h)(0x56989FE7)
+I (tft_display.h)(0x56A0D508)
 I (1.8 TFT_ascii.h)(0x56989FE5)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
@@ -512,7 +512,7 @@ I (.\stm32f10x_std\inc\misc.h)(0x56989FE7)
 I (buzzer_song.h)(0x56989FE7)
 I (buzzer.h)(0x56989FE7)
 I (.\stm32f10x_std\inc\stm32f10x_tim.h)(0x56989FE7)
-I (tft_display.h)(0x56989FE7)
+I (tft_display.h)(0x56A0D508)
 I (1.8 TFT_ascii.h)(0x56989FE5)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
@@ -653,7 +653,7 @@ I (buzzer_song.h)(0x56989FE7)
 I (buzzer.h)(0x56989FE7)
 I (.\stm32f10x_std\inc\stm32f10x_tim.h)(0x56989FE7)
 I (LEDs.h)(0x56989FE5)
-I (tft_display.h)(0x56989FE7)
+I (tft_display.h)(0x56A0D508)
 I (1.8 TFT_ascii.h)(0x56989FE5)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (adc.h)(0x56989FE7)
@@ -684,7 +684,7 @@ I (.\stm32f10x_std\inc\stm32f10x_spi.h)(0x56989FE7)
 I (.\stm32f10x_std\inc\stm32f10x_usart.h)(0x56989FE7)
 I (.\stm32f10x_std\inc\misc.h)(0x56989FE7)
 I (.\stm32f10x_std\inc\stm32f10x_tim.h)(0x56989FE7)
-I (tft_display.h)(0x56989FE7)
+I (tft_display.h)(0x56A0D508)
 I (1.8 TFT_ascii.h)(0x56989FE5)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
@@ -789,14 +789,14 @@ I (.\stm32f10x_std\inc\stm32f10x_tim.h)(0x56989FE7)
 I (motor.h)(0x56989FE7)
 I (pneumatic_control.h)(0x56989FE7)
 I (line_track.h)(0x56989FE7)
-I (tft_display.h)(0x56989FE7)
+I (tft_display.h)(0x56A0D508)
 I (1.8 TFT_ascii.h)(0x56989FE5)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (linear_ccd.h)(0x56989FE7)
 I (adc.h)(0x56989FE7)
 I (.\stm32f10x_std\inc\stm32f10x_adc.h)(0x56989FE7)
-F (.\main.c)(0x569F4919)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\stm32f10x_std\inc -I.\user-I C:\WorkBench\Robo\robocon-2016\internal_board\Brushless_pwm_internal_board\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_ML-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (.\main.c)(0x56A0D4DF)(--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\stm32f10x_std\inc -I.\user-I C:\WorkBench\Robo\robocon-2016\internal_board\Brushless_pwm_internal_board\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_ML-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (main.h)(0x56989FE7)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
@@ -820,7 +820,7 @@ I (buzzer_song.h)(0x56989FE7)
 I (buzzer.h)(0x56989FE7)
 I (.\stm32f10x_std\inc\stm32f10x_tim.h)(0x56989FE7)
 I (LEDs.h)(0x56989FE5)
-I (tft_display.h)(0x56989FE7)
+I (tft_display.h)(0x56A0D508)
 I (1.8 TFT_ascii.h)(0x56989FE5)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (adc.h)(0x56989FE7)
