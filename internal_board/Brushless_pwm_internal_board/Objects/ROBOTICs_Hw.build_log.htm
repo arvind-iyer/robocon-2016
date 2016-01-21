@@ -27,14 +27,18 @@ Project File Date:  01/20/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32f103CBT_TEMPLATE'
-compiling tft_display.c...
+compiling main.c...
 tft_display.h(115): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
   void tft_mega_update();
-tft_display.c: 1 warning, 0 errors
+pneumatic_control.h(4): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+main.c(151): warning:  #1-D: last line of file ends without a newline
+  }
+main.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=24660 RO-data=880 RW-data=4240 ZI-data=7064  
+Program Size: Code=24712 RO-data=880 RW-data=4240 ZI-data=7064  
 FromELF: creating hex file...
-".\Objects\ROBOTICs_Hw.axf" - 0 Error(s), 1 Warning(s).
+".\Objects\ROBOTICs_Hw.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\WorkBench\Robo\robocon-2016\internal_board\Brushless_pwm_internal_board\RTE
