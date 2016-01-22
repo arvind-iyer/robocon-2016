@@ -9,8 +9,6 @@ void line_sensor_init(void){
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
 	GPIO_InitStructure.GPIO_Pin = LINE_SENSOR_1_PIN | LINE_SENSOR_2_PIN | LINE_SENSOR_3_PIN;
-	//GPIO_InitStructure.GPIO_Pin = LINE_SENSOR_2_PIN;
-	
 	GPIO_Init(LINE_SENSOR_GPIO, &GPIO_InitStructure);
 }
 

@@ -5,11 +5,11 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.16a
 Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Rex Cheng, HKUST, LIC=8VRKP-M50WX-45FT5-G7R8Y-EZBPK-K7WBI
+License Information: Budi Ryan, HKUST, LIC=KRMKP-M1WFP-0N5AM-XE8XD-E2BWY-06LVZ
  
 Tool Versions:
 Toolchain:       MDK-ARM Standard  Version: 5.16a
-Toolchain Path:  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 (build 20)
 Assembler:       Armasm.exe V5.06 (build 20)
 Linker/Locator:  ArmLink.exe V5.06 (build 20)
@@ -21,12 +21,14 @@ Target DLL:      UL2CM3.DLL V1.155.12.0
 Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
-C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\ECO_coordinate_system_plus_ccd\Project.uvprojx
-Project File Date:  01/17/2016
+C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\ECO_coordinate_system_plus_ccd\Project.uvprojx
+Project File Date:  01/21/2016
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
+compiling can.c...
+compiling can_protocol.c...
 compiling main.c...
 .\src\ustrobo_min_system\inc\led.h(38): warning:  #1295-D: Deprecated declaration get_led_state - give arg types
   u8 get_led_state();
@@ -36,28 +38,176 @@ src\user\can_motor.h(52): warning:  #1-D: last line of file ends without a newli
   #endif
 .\src\ustrobo_min_system\inc\gyro.h(44): warning:  #1-D: last line of file ends without a newline
   #endif		/* __GYRO_H */
-src\user\line_sensor.h(31): warning:  #1295-D: Deprecated declaration get_line_sensor_all - give arg types
+src\user\line_sensor.h(29): warning:  #1295-D: Deprecated declaration get_line_sensor_all - give arg types
   u8 get_line_sensor_all();
-src\user\line_sensor.h(33): warning:  #1-D: last line of file ends without a newline
+src\user\line_sensor.h(31): warning:  #1-D: last line of file ends without a newline
   #endif
 src\user\track.h(21): warning:  #1-D: last line of file ends without a newline
   #endif
-src\user\main.c(23): warning:  #188-D: enumerated type mixed with another type
+src\user\main.c(24): warning:  #188-D: enumerated type mixed with another type
   			led_blink(LED_D1 | LED_D2);
-src\user\main.c(60): warning:  #1-D: last line of file ends without a newline
+src\user\main.c(33): warning:  #188-D: enumerated type mixed with another type
+  		tft_append_line("Sensor 1: %d",read_line_sensor(
+INE_SENSOR_1_PIN));
+src\user\main.c(34): warning:  #188-D: enumerated type mixed with another type
+          tft_append_line("Sensor 2: %d",read_line_sensor(
+INE_SENSOR_2_PIN));
+src\user\main.c(43): warning:  #188-D: enumerated type mixed with another type
+          if(read_line_sensor(
+INE_SENSOR_1_PIN) == 0 && read_line_sensor(LINE_SENSOR_1_PIN == 0)){
+src\user\main.c(43): warning:  #188-D: enumerated type mixed with another type
+          if(read_line_sensor(
+INE_SENSOR_1_PIN) == 0 && read_line_sensor(
+INE_SENSOR_1_PIN == 0)){
+src\user\main.c(47): warning:  #188-D: enumerated type mixed with another type
+          if(read_line_sensor(
+INE_SENSOR_1_PIN) == 0 && read_line_sensor(LINE_SENSOR_1_PIN == 1)){
+src\user\main.c(47): warning:  #188-D: enumerated type mixed with another type
+          if(read_line_sensor(
+INE_SENSOR_1_PIN) == 0 && read_line_sensor(
+INE_SENSOR_1_PIN == 1)){
+src\user\main.c(51): warning:  #188-D: enumerated type mixed with another type
+          if(read_line_sensor(
+INE_SENSOR_1_PIN) == 1 && read_line_sensor(LINE_SENSOR_1_PIN == 0)){
+src\user\main.c(51): warning:  #188-D: enumerated type mixed with another type
+          if(read_line_sensor(
+INE_SENSOR_1_PIN) == 1 && read_line_sensor(
+INE_SENSOR_1_PIN == 0)){
+src\user\main.c(55): warning:  #188-D: enumerated type mixed with another type
+          if(read_line_sensor(
+INE_SENSOR_1_PIN) == 1 && read_line_sensor(LINE_SENSOR_1_PIN == 1)){
+src\user\main.c(55): warning:  #188-D: enumerated type mixed with another type
+          if(read_line_sensor(
+INE_SENSOR_1_PIN) == 1 && read_line_sensor(
+INE_SENSOR_1_PIN == 1)){
+src\user\main.c(59): warning:  #1-D: last line of file ends without a newline
   }
-src\user\main.c: 9 warnings, 0 errors
+src\user\main.c(18): warning:  #177-D: variable "state" was declared but never referenced
+  	u8 state = 0;
+src\user\main.c: 20 warnings, 0 errors
+compiling can_motor.c...
+src\user\can_motor.h(52): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\can_motor.c: 1 warning, 0 errors
+compiling bluetooth.c...
+compiling crc.c...
+compiling line_sensor.c...
+src\user\line_sensor.h(29): warning:  #1295-D: Deprecated declaration get_line_sensor_all - give arg types
+  u8 get_line_sensor_all();
+src\user\line_sensor.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\line_sensor.c(31): warning:  #1-D: last line of file ends without a newline
+  }
+src\user\line_sensor.c: 3 warnings, 0 errors
+compiling button.c...
+.\src\ustrobo_min_system\inc\lcd_main.h(76): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
+  void tft_easy_init();
+src\user\button.c(44): warning:  #177-D: variable "xbox_tmp" was declared but never referenced
+    u32 xbox_tmp = 1;
+src\user\button.c: 2 warnings, 0 errors
+compiling track.c...
+.\src\ustrobo_min_system\inc\lcd_main.h(76): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
+  void tft_easy_init();
+.\src\ustrobo_min_system\inc\led.h(38): warning:  #1295-D: Deprecated declaration get_led_state - give arg types
+  u8 get_led_state();
+src\user\line_sensor.h(29): warning:  #1295-D: Deprecated declaration get_line_sensor_all - give arg types
+  u8 get_line_sensor_all();
+src\user\line_sensor.h(31): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\track.h(21): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\track.c(12): warning:  #188-D: enumerated type mixed with another type
+  	{0};
+src\user\track.c(37): warning:  #177-D: variable "index" was declared but never referenced
+  	u8 index = 0;
+src\user\track.c(83): warning:  #188-D: enumerated type mixed with another type
+  			led_blink(LED_D1 | LED_D2);
+src\user\track.c(107): warning:  #1-D: last line of file ends without a newline
+  }
+src\user\track.c: 9 warnings, 0 errors
+compiling battery.c...
+compiling approx_math.c...
+compiling buzzer.c...
+compiling motor_pwm.c...
+compiling gyro.c...
+.\src\ustrobo_min_system\inc\gyro.h(44): warning:  #1-D: last line of file ends without a newline
+  #endif		/* __GYRO_H */
+src\ustrobo_min_system\src\gyro.c: 1 warning, 0 errors
+compiling delay.c...
+compiling servo.c...
+src\ustrobo_min_system\src\servo.c(107): warning:  #1-D: last line of file ends without a newline
+  }
+src\ustrobo_min_system\src\servo.c: 1 warning, 0 errors
+compiling ticks.c...
+compiling uart.c...
+compiling led.c...
+.\src\ustrobo_min_system\inc\led.h(38): warning:  #1295-D: Deprecated declaration get_led_state - give arg types
+  u8 get_led_state();
+src\ustrobo_min_system\src\led.c(49): warning:  #188-D: enumerated type mixed with another type
+  		led_control(LED_D1, !(led_state&LED_D1));
+src\ustrobo_min_system\src\led.c(52): warning:  #188-D: enumerated type mixed with another type
+  		led_control(LED_D2, !(led_state&LED_D2));
+src\ustrobo_min_system\src\led.c(55): warning:  #188-D: enumerated type mixed with another type
+  		led_control(LED_D3, !(led_state&LED_D3));
+src\ustrobo_min_system\src\led.c(57): warning:  #1-D: last line of file ends without a newline
+  }
+src\ustrobo_min_system\src\led.c: 5 warnings, 0 errors
+compiling gpio.c...
+compiling xbc_mb.c...
+.\src\ustrobo_min_system\inc\lcd_main.h(76): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
+  void tft_easy_init();
+.\src\ustrobo_min_system\inc\led.h(38): warning:  #1295-D: Deprecated declaration get_led_state - give arg types
+  u8 get_led_state();
+src\ustrobo_min_system\src\xbc_mb.c(458): warning:  #550-D: variable "pre_pressed_cnt" was set but never used
+  	u8  pre_pressed_cnt = 0;
+src\ustrobo_min_system\src\xbc_mb.c: 3 warnings, 0 errors
+compiling core_cm3.c...
+compiling encoder.c...
+src\ustrobo_min_system\src\encoder.c(106): warning:  #1-D: last line of file ends without a newline
+  }
+src\ustrobo_min_system\src\encoder.c: 1 warning, 0 errors
+compiling lcd_main.c...
+.\src\ustrobo_min_system\inc\lcd_main.h(76): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
+  void tft_easy_init();
+src\ustrobo_min_system\src\lcd_main.c(566): warning:  #186-D: pointless comparison of unsigned integer with zero
+  	if (tft_y_index<0 || tft_y_index>(char_max_y-1)){
+src\ustrobo_min_system\src\lcd_main.c: 2 warnings, 0 errors
+compiling misc.c...
+compiling stm32f10x_adc.c...
+compiling stm32f10x_bkp.c...
+compiling stm32f10x_can.c...
+compiling stm32f10x_cec.c...
+compiling stm32f10x_crc.c...
+compiling stm32f10x_dbgmcu.c...
+compiling stm32f10x_dac.c...
+compiling stm32f10x_dma.c...
+compiling stm32f10x_exti.c...
+compiling stm32f10x_fsmc.c...
+compiling stm32f10x_flash.c...
+compiling stm32f10x_gpio.c...
+compiling stm32f10x_iwdg.c...
+compiling stm32f10x_i2c.c...
+compiling stm32f10x_pwr.c...
+compiling stm32f10x_rtc.c...
+compiling stm32f10x_rcc.c...
+compiling stm32f10x_sdio.c...
+compiling stm32f10x_spi.c...
+compiling stm32f10x_usart.c...
+compiling stm32f10x_tim.c...
+assembling startup_stm32f10x_xl.s...
+compiling stm32f10x_wwdg.c...
+compiling system_stm32f10x.c...
 linking...
-Program Size: Code=23436 RO-data=516 RW-data=2336 ZI-data=35528  
+Program Size: Code=23460 RO-data=516 RW-data=2336 ZI-data=35528  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 9 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 48 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\ECO_coordinate_system_plus_ccd\RTE
-  C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
+  C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\ECO_coordinate_system_plus_ccd\RTE
+  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:14
 </pre>
 </body>
 </html>

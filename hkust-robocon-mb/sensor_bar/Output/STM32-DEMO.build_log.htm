@@ -1,0 +1,101 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.16a
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Budi Ryan, HKUST, LIC=KRMKP-M1WFP-0N5AM-XE8XD-E2BWY-06LVZ
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Standard  Version: 5.16a
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 (build 20)
+Assembler:       Armasm.exe V5.06 (build 20)
+Linker/Locator:  ArmLink.exe V5.06 (build 20)
+Library Manager: ArmAr.exe V5.06 (build 20)
+Hex Converter:   FromElf.exe V5.06 (build 20)
+CPU DLL:         SARMCM3.DLL V5.16a
+Dialog DLL:      DCM.DLL V1.13.2.0
+Target DLL:      UL2CM3.DLL V1.155.12.0
+Dialog DLL:      TCM.DLL V1.14.5.0
+ 
+<h2>Project:</h2>
+C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\sensor_bar\USER\STM32-DEMO.uvprojx
+Project File Date:  01/22/2016
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Rebuild target 'Target 1'
+assembling startup_stm32f10x_hd.s...
+compiling stm32f10x_it.c...
+stm32f10x_it.c(43): warning:  #1-D: last line of file ends without a newline
+  */
+stm32f10x_it.c: 1 warning, 0 errors
+compiling main.c...
+compiling usart1.c...
+compiling can.c...
+compiling ticks.c...
+ticks.c(16): warning:  #177-D: variable "TIM_TimeBaseInitStructure" was declared but never referenced
+  	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
+ticks.c: 1 warning, 0 errors
+compiling led.c...
+compiling flashsave.c...
+flashsave.c(13): warning:  #177-D: variable "j" was declared but never referenced
+  	u8 i,j;
+flashsave.c(43): warning:  #177-D: variable "j" was declared but never referenced
+    u32 i, j = 0;
+flashsave.c: 2 warnings, 0 errors
+compiling can_protocol.c...
+compiling delay.c...
+compiling approx_math.c...
+compiling misc.c...
+compiling lightsensor.c...
+lightsensor.c(55): warning:  #940-D: missing return statement at end of non-void function "resultColour"
+  }
+lightsensor.c(33): warning:  #177-D: variable "i" was declared but never referenced
+  	u8 i = 0;
+lightsensor.c(429): warning:  #111-D: statement is unreachable
+  	enter_calibration = 0;
+lightsensor.c(313): warning:  #177-D: variable "id_array" was declared but never referenced
+  	u8 id_array[16] = {10,11,12,13,0,1,2,3,4,5,6,7,14,15,8,9};
+lightsensor.c(317): warning:  #177-D: variable "timer" was declared but never referenced
+  	u16 timer = 300;
+lightsensor.c: 5 warnings, 0 errors
+compiling stm32f10x_adc.c...
+compiling stm32f10x_dma.c...
+compiling stm32f10x_can.c...
+compiling stm32f10x_exti.c...
+compiling stm32f10x_gpio.c...
+compiling stm32f10x_flash.c...
+compiling stm32f10x_sdio.c...
+compiling stm32f10x_rcc.c...
+compiling stm32f10x_tim.c...
+compiling core_cm3.c...
+compiling stm32f10x_usart.c...
+compiling system_stm32f10x.c...
+linking...
+Program Size: Code=23216 RO-data=336 RW-data=436 ZI-data=6948  
+FromELF: creating hex file...
+"..\Output\STM32-DEMO.axf" - 0 Error(s), 9 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.4.4.0.pack
+                ARM::CMSIS:CORE:4.2.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 4.2.0
+
+<h2>Collection of Component include folders:</h2>
+  C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\sensor_bar\USER\RTE
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include
+  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:4.2.0
+Build Time Elapsed:  00:00:05
+</pre>
+</body>
+</html>
