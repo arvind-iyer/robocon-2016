@@ -182,7 +182,7 @@ void DataTransmit(void){
 	u8 Tx_MailBox;
 	u16 retry = RETRY_TIMEOUT;
 	CanTxMsg TxMsg;
-	//if(last_white_pos != white_pos){
+	if(last_white_pos != white_pos){
 		u8 tx_flag=0;
 		for(tx_flag=0;tx_flag<3;tx_flag++)
 		{
@@ -190,8 +190,8 @@ void DataTransmit(void){
 			Tx_MailBox = CAN_Transmit(CAN1, &TxMsg);							//transmit the message
 			while(CAN_TransmitStatus(CAN1,Tx_MailBox) != CANTXOK && retry--);
 		}
-		//last_white_pos = white_pos;
-	//}
+		last_white_pos = white_pos;
+	}
 }
 
 //colour = target, light_colour = current led light

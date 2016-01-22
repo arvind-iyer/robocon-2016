@@ -3,7 +3,7 @@
 .\output\gpio.o: .\src\stm32f10x_std\inc\stm32f10x_gpio.h
 .\output\gpio.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\gpio.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\gpio.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\gpio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\gpio.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\gpio.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\gpio.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h

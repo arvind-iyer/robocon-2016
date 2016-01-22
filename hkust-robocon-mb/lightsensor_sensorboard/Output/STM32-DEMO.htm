@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\Output\STM32-DEMO.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\Output\STM32-DEMO.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri Jan 22 21:41:12 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Sat Jan 23 00:29:34 2016
 <BR><P>
 <H3>Maximum Stack Usage =        152 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -712,7 +712,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[46]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[6c]"></a>DataTransmit</STRONG> (Thumb, 78 bytes, Stack size 56 bytes, lightsensor.o(.text))
+<P><STRONG><a name="[6c]"></a>DataTransmit</STRONG> (Thumb, 100 bytes, Stack size 56 bytes, lightsensor.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = DataTransmit &rArr; Light_Sensor_Bar_Encoding &rArr; General_Encoding
 </UL>
 <BR>[Calls]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_TransmitStatus
@@ -736,7 +736,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Calibration_mode
 </UL>
 
-<P><STRONG><a name="[6e]"></a>Calibration_mode</STRONG> (Thumb, 1126 bytes, Stack size 56 bytes, lightsensor.o(.text))
+<P><STRONG><a name="[6e]"></a>Calibration_mode</STRONG> (Thumb, 1134 bytes, Stack size 56 bytes, lightsensor.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 124<LI>Call Chain = Calibration_mode &rArr; CaptureCalibrationData &rArr; writeFlash &rArr; FLASH_ProgramHalfWord &rArr; FLASH_WaitForLastOperation
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CaptureCalibrationData

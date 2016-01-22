@@ -25,7 +25,7 @@ void receive(CanRxMsg msg)
 	}
 	if(tx_flag==2)
 	{
-		for(u8 i=0;i<3;i++)
+		for(u8 i=0;i<4;i++)
 			whiteline_pos[i+13] = msg.Data[i+1];
 		
 		ok = 1;
