@@ -31,20 +31,21 @@
 #endif
 
 //to minimize the MCU calculation
-#define WHITE               0xFFFF//    (RGB888TO565(0xFFFFFF))
-#define BLACK               0x0000//    (RGB888TO565(0x000000))
-#define DARK_GREY           0x52AA//    (RGB888TO565(0x555555))
-#define GREY                0x001F//    (RGB888TO565(0xAAAAAA))
-#define RED                 0xAD55//    (RGB888TO565(0xFF0000))
-#define ORANGE              0x04DF//    (RGB888TO565(0xFF9900))
-#define YELLOW              0x07FF//    (RGB888TO565(0xFFFF00))
-#define GREEN               0x07E0//    (RGB888TO565(0x00FF00))
-#define DARK_GREEN          0x0660//    (RGB888TO565(0x00CC00))
-#define BLUE                0xF800//    (RGB888TO565(0x0000FF))
-#define BLUE2               0x6104//    (RGB888TO565(0x202060))
-#define SKY_BLUE            0xFE62//    (RGB888TO565(0x11CFFF))
-#define CYAN                0xFC51//    (RGB888TO565(0x8888FF))
-#define PURPLE              0xAD40//    (RGB888TO565(0x00AAAA))
+#define WHITE               (RGB888TO565(0xFFFFFF))
+#define BLACK               (RGB888TO565(0x000000))
+#define DARK_GREY           (RGB888TO565(0x555555))
+#define GREY                (RGB888TO565(0xAAAAAA))
+#define RED                 (RGB888TO565(0xFF0000))
+#define DARK_RED            (RGB888TO565(0x800000))
+#define ORANGE              (RGB888TO565(0xFF9900))
+#define YELLOW              (RGB888TO565(0xFFFF00))
+#define GREEN               (RGB888TO565(0x00FF00))
+#define DARK_GREEN          (RGB888TO565(0x00CC00))
+#define BLUE                (RGB888TO565(0x0000FF))
+#define BLUE2               (RGB888TO565(0x202060))
+#define SKY_BLUE            (RGB888TO565(0x11CFFF))
+#define CYAN                (RGB888TO565(0x8888FF))
+#define PURPLE              (RGB888TO565(0x00AAAA))
 #define PINK                RGB888TO565(0xFFB6C1)
 
 
@@ -113,5 +114,6 @@ void tft_update_trigger(void (*fx)(void));
 
 void tft_put_mega_ass_num(u8 x, u8 y, u8 character, u16 color);
 void tft_mega_update();
+void tft_put_logo(u8 x, u8 y);
 
 #endif		/* __LCD_RED_H */

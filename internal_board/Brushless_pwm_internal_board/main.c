@@ -11,17 +11,16 @@ int main(){
 	u16 duty_cycle = min;
 	LED_INIT();
 	tft_init(3, WHITE, BLACK, RED);
-	u8 self_checked = 0;
 	button_init();
 	servo_init();
 	ticks_init();
 	
 	servo_control(1, min);
+	tft_put_logo(110, 80);
 	
 	u8 self_check_counter = 0;
-
 	
-	while(self_checked==0){
+	while(get_seconds()<4){
 		LED_ON(GPIOB, GPIO_Pin_4);
 		
 		if (get_ms_ticks()%200==0){
@@ -71,9 +70,7 @@ int main(){
 					tft_prints(0, 2, " ~~(o_o)~~");
 					break;
 			}
-			
-			tft_prints(0,5,"Any button to start");
-			
+		
 			self_check_counter = (self_check_counter+1)%5;
 			tft_update();
 		}
@@ -83,12 +80,17 @@ int main(){
 			tft_clear();
 			tft_prints(0,0,"Starting...");
 			tft_update();
-			self_checked = 1;
 		}
 		
 		LED_OFF(GPIOB, GPIO_Pin_4);
 	}
 
+	for (u16 loopA=0;loopA<160;loopA++){
+		for (u16 loopB=0;loopB<128;loopB++){
+			tft_put_pixel(loopA, loopB, WHITE);
+		}
+	}
+	
 	u8 display_val[3] = {9};
 	tft_clear();
 	tft_update();

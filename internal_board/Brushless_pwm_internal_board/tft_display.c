@@ -967,3 +967,395 @@ void tft_put_mega_ass_num(u8 x, u8 y, u8 character, u16 color){
 			break;
 	}
 }
+
+/**
+* Place an awesome logo at x, y
+* Like, very awesome
+**/
+void tft_put_logo(u8 x, u8 y){
+	//Place black background
+	for (u8 loopX = 0; loopX<47; loopX++){
+		for (u8 loopY = 0; loopY<42; loopY++){
+			tft_put_pixel(x+loopX, y+loopY, BLACK);
+		}
+	}
+
+	//Place DARK_RED parallelogram
+	for (u8 loopX = 15; loopX<45; loopX++){
+		tft_put_pixel(x+loopX, y+1, DARK_RED);
+	}
+	for (u8 loopX = 14; loopX<44; loopX++){
+		tft_put_pixel(x+loopX, y+2, DARK_RED);
+		tft_put_pixel(x+loopX, y+3, DARK_RED);
+	}
+	for (u8 loopX = 13; loopX<43; loopX++){
+		tft_put_pixel(x+loopX, y+4, DARK_RED);
+		tft_put_pixel(x+loopX, y+5, DARK_RED);
+		tft_put_pixel(x+loopX, y+6, DARK_RED);
+	}
+	for (u8 loopX = 12; loopX<42; loopX++){
+		tft_put_pixel(x+loopX, y+7, DARK_RED);
+		tft_put_pixel(x+loopX, y+8, DARK_RED);
+		tft_put_pixel(x+loopX, y+9, DARK_RED);
+	}
+	for (u8 loopX = 11; loopX<41; loopX++){
+		tft_put_pixel(x+loopX, y+10, DARK_RED);
+		tft_put_pixel(x+loopX, y+11, DARK_RED);
+	}
+	for (u8 loopX = 10; loopX<40; loopX++){
+		tft_put_pixel(x+loopX, y+12, DARK_RED);
+		tft_put_pixel(x+loopX, y+13, DARK_RED);
+		tft_put_pixel(x+loopX, y+14, DARK_RED);
+		tft_put_pixel(x+loopX, y+15, DARK_RED);
+	}
+	for (u8 loopX = 9; loopX<39; loopX++){
+		tft_put_pixel(x+loopX, y+16, DARK_RED);
+		tft_put_pixel(x+loopX, y+17, DARK_RED);
+		tft_put_pixel(x+loopX, y+18, DARK_RED);
+	}
+	for (u8 loopX = 8; loopX<38; loopX++){
+		tft_put_pixel(x+loopX, y+19, DARK_RED);
+		tft_put_pixel(x+loopX, y+20, DARK_RED);
+	}
+	for (u8 loopX = 7; loopX<37; loopX++){
+		tft_put_pixel(x+loopX, y+21, DARK_RED);
+		tft_put_pixel(x+loopX, y+22, DARK_RED);
+		tft_put_pixel(x+loopX, y+23, DARK_RED);
+		tft_put_pixel(x+loopX, y+24, DARK_RED);
+	}
+
+	//Put the R letter
+	tft_put_pixel(x+16, y+6, GREY);
+	for (u8 loopX = 17; loopX<36; loopX++){
+		tft_put_pixel(x+loopX, y+6, WHITE);
+	}
+
+	for (u8 loopX = 15; loopX<37; loopX++){
+		tft_put_pixel(x+loopX, y+7, WHITE);
+	}
+
+	tft_put_pixel(x+14, y+8, DARK_GREY);
+	for (u8 loopX = 15; loopX<37; loopX++){
+		tft_put_pixel(x+loopX, y+8, WHITE);
+	}
+	tft_put_pixel(x+37, y+8, GREY);
+
+	for (u8 loopX = 14; loopX<38; loopX++){
+		tft_put_pixel(x+loopX, y+9, WHITE);
+	}
+
+	for (u8 loopX = 14; loopX<20; loopX++){
+		tft_put_pixel(x+loopX, y+10, WHITE);
+	}
+	tft_put_pixel(x+20, y+10, GREY);
+	tft_put_pixel(x+28, y+10, GREY);
+	for (u8 loopX = 31; loopX<38; loopX++){
+		tft_put_pixel(x+loopX, y+10, WHITE);
+	}
+
+	for (u8 loopX = 14; loopX<20; loopX++){
+		tft_put_pixel(x+loopX, y+11, WHITE);
+	}
+	tft_put_pixel(x+28, y+11, GREY);
+	tft_put_pixel(x+29, y+11, DARK_GREY);
+	for (u8 loopX = 32; loopX<38; loopX++){
+		tft_put_pixel(x+loopX, y+11, WHITE);
+	}
+
+	tft_put_pixel(x+13, y+12, GREY);
+	for (u8 loopX = 14; loopX<19; loopX++){
+		tft_put_pixel(x+loopX, y+12, WHITE);
+	}
+	tft_put_pixel(x+19, y+12, DARK_GREY);
+	tft_put_pixel(x+21, y+12, WHITE);
+	for (u8 loopX = 30; loopX<38; loopX++){
+		tft_put_pixel(x+loopX, y+12, WHITE);
+	}
+
+	for (u8 loopX = 13; loopX<19; loopX++){
+		tft_put_pixel(x+loopX, y+13, WHITE);
+	}
+	tft_put_pixel(x+19, y+13, GREY);
+	tft_put_pixel(x+28, y+13, WHITE);
+	tft_put_pixel(x+29, y+13, WHITE);
+	for (u8 loopX = 32; loopX<38; loopX++){
+		tft_put_pixel(x+loopX, y+13, WHITE);
+	}
+
+	for (u8 loopX = 13; loopX<19; loopX++){
+		tft_put_pixel(x+loopX, y+14, WHITE);
+	}
+	tft_put_pixel(x+19, y+14, DARK_GREY);
+	tft_put_pixel(x+20, y+14, DARK_GREY);
+	tft_put_pixel(x+28, y+14, GREY);
+	tft_put_pixel(x+31, y+14, GREY);
+	for (u8 loopX = 32; loopX<38; loopX++){
+		tft_put_pixel(x+loopX, y+14, WHITE);
+	}
+
+	//LEFT LEG
+	for (u8 loopX = 12; loopX<18; loopX++){
+		tft_put_pixel(x+loopX, y+15, WHITE);
+		tft_put_pixel(x+loopX, y+16, WHITE);
+		tft_put_pixel(x+loopX, y+17, WHITE);
+	}
+	for (u8 loopX = 11; loopX<17; loopX++){
+		tft_put_pixel(x+loopX, y+18, WHITE);
+		tft_put_pixel(x+loopX, y+19, WHITE);
+		tft_put_pixel(x+loopX, y+20, WHITE);
+	}
+	for (u8 loopX = 10; loopX<16; loopX++){
+		tft_put_pixel(x+loopX, y+21, WHITE);
+		tft_put_pixel(x+loopX, y+22, WHITE);
+	}
+	for (u8 loopX = 10; loopX<15; loopX++){
+		tft_put_pixel(x+loopX, y+23, WHITE);
+	}
+	for (u8 loopX = 9; loopX<15; loopX++){
+		tft_put_pixel(x+loopX, y+24, WHITE);
+	}
+	for (u8 loopX = 9; loopX<14; loopX++){
+		tft_put_pixel(x+loopX, y+25, WHITE);
+		tft_put_pixel(x+loopX, y+26, WHITE);
+	}
+
+	//RIGHT LEG
+	for (u8 loopX = 21; loopX<38; loopX++){
+		tft_put_pixel(x+loopX, y+15, WHITE);
+	}
+	for (u8 loopX = 20; loopX<38; loopX++){
+		tft_put_pixel(x+loopX, y+16, WHITE);
+	}
+	for (u8 loopX = 20; loopX<37; loopX++){
+		tft_put_pixel(x+loopX, y+17, WHITE);
+	}
+	for (u8 loopX = 21; loopX<36; loopX++){
+		tft_put_pixel(x+loopX, y+18, WHITE);
+	}
+	for (u8 loopX = 21; loopX<29; loopX++){
+		tft_put_pixel(x+loopX, y+19, WHITE);
+	}
+	for (u8 loopX = 21; loopX<30; loopX++){
+		tft_put_pixel(x+loopX, y+20, WHITE);
+		tft_put_pixel(x+loopX+1, y+21, WHITE);
+		tft_put_pixel(x+loopX+2, y+22, WHITE);
+		tft_put_pixel(x+loopX+3, y+23, WHITE);
+	}
+	for (u8 loopX = 25; loopX<33; loopX++){
+		tft_put_pixel(x+loopX, y+24, WHITE);
+	}
+	for (u8 loopX = 26; loopX<35; loopX++){
+		tft_put_pixel(x+loopX, y+25, WHITE);
+	}
+	for (u8 loopX = 27; loopX<35; loopX++){
+		tft_put_pixel(x+loopX, y+26, WHITE);
+	}
+
+	//Misc in R letter
+	tft_put_pixel(x+11, y+17, DARK_GREY);
+	tft_put_pixel(x+21, y+17, GREY);
+	tft_put_pixel(x+17, y+18, DARK_GREY);
+	tft_put_pixel(x+36, y+18, GREY);
+	for (u8 loopX = 29; loopX<34; loopX++){
+		tft_put_pixel(x+loopX, y+19, GREY);
+	}
+	tft_put_pixel(x+34, y+19, DARK_GREY);
+	tft_put_pixel(x+10, y+20, GREY);
+	tft_put_pixel(x+18, y+20, WHITE);
+	tft_put_pixel(x+16, y+21, GREY);
+	tft_put_pixel(x+20, y+21, WHITE);
+	tft_put_pixel(x+18, y+22, WHITE);
+	tft_put_pixel(x+18, y+22, GREY);
+	tft_put_pixel(x+9, y+23, DARK_GREY);
+	tft_put_pixel(x+33, y+24, GREY);
+	tft_put_pixel(x+14, y+25, DARK_GREY);
+	tft_put_pixel(x+8, y+26, GREY);
+	tft_put_pixel(x+35, y+26, DARK_GREY);
+
+	//Bright Red in red region
+	tft_put_pixel(x+15, y+3, RED);
+	tft_put_pixel(x+17, y+4, RED);
+	tft_put_pixel(x+16, y+5, RED);
+	tft_put_pixel(x+35, y+5, RED);
+	tft_put_pixel(x+38, y+6, RED);
+	tft_put_pixel(x+49, y+6, RED);
+	tft_put_pixel(x+39, y+7, RED);
+	tft_put_pixel(x+11, y+14, RED);
+	tft_put_pixel(x+20, y+13, RED);
+	tft_put_pixel(x+39, y+14, RED);
+	tft_put_pixel(x+39, y+15, RED);
+	tft_put_pixel(x+20, y+18, RED);
+	tft_put_pixel(x+37, y+18, RED);
+	tft_put_pixel(x+38, y+19, RED);
+	tft_put_pixel(x+34, y+20, RED);
+	tft_put_pixel(x+36, y+20, RED);
+	tft_put_pixel(x+33, y+22, RED);
+	tft_put_pixel(x+8, y+23, RED);
+	tft_put_pixel(x+20, y+23, RED);
+	tft_put_pixel(x+21, y+23, RED);
+	tft_put_pixel(x+33, y+23, RED);
+	tft_put_pixel(x+8, y+24, RED);
+	tft_put_pixel(x+17, y+24, RED);
+	tft_put_pixel(x+22, y+24, RED);
+	tft_put_pixel(x+36, y+24, RED);
+	tft_put_pixel(x+7, y+25, RED);
+	tft_put_pixel(x+24, y+25, RED);
+	tft_put_pixel(x+7, y+26, RED);
+	tft_put_pixel(x+15, y+26, RED);
+	tft_put_pixel(x+18, y+26, RED);
+	tft_put_pixel(x+19, y+26, RED);
+	tft_put_pixel(x+22, y+26, RED);
+	tft_put_pixel(x+23, y+26, RED);
+	tft_put_pixel(x+24, y+26, RED);
+
+	//Put the HKUST word
+	tft_put_pixel(x+6, y+28, WHITE);
+	tft_put_pixel(x+10, y+28, WHITE);
+	tft_put_pixel(x+11, y+28, WHITE);
+	tft_put_pixel(x+13, y+28, WHITE);
+	tft_put_pixel(x+17, y+28, WHITE);
+	tft_put_pixel(x+20, y+28, WHITE);
+	tft_put_pixel(x+23, y+28, WHITE);
+	tft_put_pixel(x+24, y+28, WHITE);
+	for (u8 loopX=27;loopX<36;loopX++){
+		tft_put_pixel(x+loopX, y+28, WHITE);
+	}
+
+	tft_put_pixel(x+5, y+29, WHITE);
+	tft_put_pixel(x+6, y+29, WHITE);
+	tft_put_pixel(x+9, y+29, WHITE);
+	tft_put_pixel(x+12, y+29, WHITE);
+	tft_put_pixel(x+13, y+29, WHITE);
+	tft_put_pixel(x+16, y+29, WHITE);
+	tft_put_pixel(x+17, y+29, WHITE);
+	tft_put_pixel(x+19, y+29, WHITE);
+	tft_put_pixel(x+20, y+29, WHITE);
+	tft_put_pixel(x+22, y+29, WHITE);
+	tft_put_pixel(x+23, y+29, WHITE);
+	tft_put_pixel(x+24, y+29, WHITE);
+	for (u8 loopX=26;loopX<29;loopX++){
+		tft_put_pixel(x+loopX, y+29, WHITE);
+	}
+	for (u8 loopX=29;loopX<35;loopX++){
+		tft_put_pixel(x+loopX, y+29, WHITE);
+	}
+
+	tft_put_pixel(x+5, y+30, WHITE);
+	tft_put_pixel(x+6, y+30, WHITE);
+	tft_put_pixel(x+8, y+30, WHITE);
+	tft_put_pixel(x+9, y+30, WHITE);
+	tft_put_pixel(x+12, y+30, WHITE);
+	tft_put_pixel(x+13, y+30, WHITE);
+	tft_put_pixel(x+15, y+30, WHITE);
+	tft_put_pixel(x+16, y+30, WHITE);
+	tft_put_pixel(x+19, y+30, WHITE);
+	tft_put_pixel(x+20, y+30, WHITE);
+	tft_put_pixel(x+22, y+30, WHITE);
+	tft_put_pixel(x+23, y+30, WHITE);
+	tft_put_pixel(x+26, y+30, WHITE);
+	tft_put_pixel(x+27, y+30, WHITE);
+	tft_put_pixel(x+32, y+30, WHITE);
+
+	for (u8 loopX=5;loopX<10;loopX++){
+		tft_put_pixel(x+loopX, y+31, WHITE);
+	}
+	for (u8 loopX=11;loopX<16;loopX++){
+		tft_put_pixel(x+loopX, y+31, WHITE);
+	}
+	tft_put_pixel(x+19, y+31, WHITE);
+	tft_put_pixel(x+20, y+31, WHITE);
+	tft_put_pixel(x+22, y+31, WHITE);
+	tft_put_pixel(x+23, y+31, WHITE);
+	tft_put_pixel(x+25, y+31, WHITE);
+	tft_put_pixel(x+26, y+31, WHITE);
+	tft_put_pixel(x+27, y+31, WHITE);
+	tft_put_pixel(x+31, y+31, WHITE);
+	tft_put_pixel(x+32, y+31, WHITE);
+
+	for (u8 loopX=4;loopX<10;loopX++){
+		tft_put_pixel(x+loopX, y+32, WHITE);
+	}
+	tft_put_pixel(x+11, y+32, WHITE);
+	tft_put_pixel(x+12, y+32, WHITE);
+	tft_put_pixel(x+14, y+32, WHITE);
+	tft_put_pixel(x+15, y+32, WHITE);
+	tft_put_pixel(x+18, y+32, WHITE);
+	tft_put_pixel(x+19, y+32, WHITE);
+	tft_put_pixel(x+21, y+32, WHITE);
+	tft_put_pixel(x+22, y+32, WHITE);
+	tft_put_pixel(x+26, y+32, WHITE);
+	tft_put_pixel(x+27, y+32, WHITE);
+	tft_put_pixel(x+31, y+32, WHITE);
+	tft_put_pixel(x+32, y+32, WHITE);
+
+	tft_put_pixel(x+4, y+33, WHITE);
+	tft_put_pixel(x+5, y+33, WHITE);
+	tft_put_pixel(x+7, y+33, WHITE);
+	tft_put_pixel(x+8, y+33, WHITE);
+	tft_put_pixel(x+11, y+33, WHITE);
+	tft_put_pixel(x+12, y+33, WHITE);
+	tft_put_pixel(x+14, y+33, WHITE);
+	tft_put_pixel(x+15, y+33, WHITE);
+	tft_put_pixel(x+18, y+33, WHITE);
+	tft_put_pixel(x+19, y+33, WHITE);
+	tft_put_pixel(x+21, y+33, WHITE);
+	tft_put_pixel(x+22, y+33, WHITE);
+	tft_put_pixel(x+25, y+33, WHITE);
+	tft_put_pixel(x+26, y+33, WHITE);
+	tft_put_pixel(x+27, y+33, WHITE);
+	tft_put_pixel(x+30, y+33, WHITE);
+	tft_put_pixel(x+31, y+33, WHITE);
+
+	tft_put_pixel(x+3, y+34, WHITE);
+	tft_put_pixel(x+4, y+34, WHITE);
+	tft_put_pixel(x+5, y+34, WHITE);
+	tft_put_pixel(x+7, y+34, WHITE);
+	tft_put_pixel(x+8, y+34, WHITE);
+	tft_put_pixel(x+10, y+34, WHITE);
+	tft_put_pixel(x+11, y+34, WHITE);
+	tft_put_pixel(x+14, y+34, WHITE);
+	tft_put_pixel(x+15, y+34, WHITE);
+	tft_put_pixel(x+18, y+34, WHITE);
+	tft_put_pixel(x+19, y+34, WHITE);
+	tft_put_pixel(x+20, y+34, WHITE);
+	tft_put_pixel(x+21, y+34, WHITE);
+	tft_put_pixel(x+24, y+34, WHITE);
+	tft_put_pixel(x+25, y+34, WHITE);
+	tft_put_pixel(x+26, y+34, WHITE);
+	tft_put_pixel(x+30, y+34, WHITE);
+	tft_put_pixel(x+31, y+34, WHITE);
+
+	tft_put_pixel(x+3, y+35, WHITE);
+	tft_put_pixel(x+4, y+35, WHITE);
+	tft_put_pixel(x+7, y+35, WHITE);
+	tft_put_pixel(x+19, y+35, WHITE);
+	tft_put_pixel(x+20, y+35, WHITE);
+	tft_put_pixel(x+24, y+35, WHITE);
+
+	//Place minor detail of HKUST word
+	tft_put_pixel(x+5, y+28, GREY);
+	tft_put_pixel(x+12, y+28, GREY);
+	tft_put_pixel(x+16, y+28, GREY);
+	tft_put_pixel(x+8, y+29, GREY);
+	tft_put_pixel(x+31, y+30, GREY);
+	tft_put_pixel(x+4, y+31, GREY);
+	tft_put_pixel(x+23, y+32, GREY);
+	tft_put_pixel(x+10, y+35, GREY);
+	tft_put_pixel(x+11, y+35, GREY);
+	tft_put_pixel(x+14, y+35, GREY);
+	tft_put_pixel(x+15, y+35, GREY);
+	tft_put_pixel(x+18, y+35, GREY);
+	tft_put_pixel(x+25, y+35, GREY);
+	tft_put_pixel(x+30, y+35, GREY);
+	tft_put_pixel(x+31, y+35, GREY);
+
+	tft_put_pixel(x+7, y+28, DARK_GREY);
+	tft_put_pixel(x+25, y+30, DARK_GREY);
+	tft_put_pixel(x+13, y+32, DARK_GREY);
+	tft_put_pixel(x+25, y+32, DARK_GREY);
+	tft_put_pixel(x+24, y+33, DARK_GREY);
+	tft_put_pixel(x+6, y+35, DARK_GREY);
+	tft_put_pixel(x+12, y+34, DARK_GREY);
+	tft_put_pixel(x+16, y+34, DARK_GREY);
+	tft_put_pixel(x+16, y+35, DARK_GREY);
+}
