@@ -1,0 +1,66 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: £gVision V5.16a
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Yui Ting Mok, Ust ELEC, LIC=IK19U-S5JTG-62SLB-2LCVY-42UW1-3JLP9
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Standard  Version: 5.16a
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 (build 20)
+Assembler:       Armasm.exe V5.06 (build 20)
+Linker/Locator:  ArmLink.exe V5.06 (build 20)
+Library Manager: ArmAr.exe V5.06 (build 20)
+Hex Converter:   FromElf.exe V5.06 (build 20)
+CPU DLL:         SARMCM3.DLL V5.16a
+Dialog DLL:      DCM.DLL V1.13.2.0
+Target DLL:      UL2CM3.DLL V1.155.12.0
+Dialog DLL:      TCM.DLL V1.14.5.0
+ 
+<h2>Project:</h2>
+C:\Users\mokjj\Desktop\Light Sensor Bar - India ver - CAN cali\USER\STM32-DEMO.uvprojx
+Project File Date:  01/22/2016
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'Target 1'
+compiling lightsensor.c...
+lightsensor.c(55): warning:  #940-D: missing return statement at end of non-void function "resultColour"
+  }
+lightsensor.c(33): warning:  #177-D: variable "i" was declared but never referenced
+  	u8 i = 0;
+lightsensor.c(423): warning:  #111-D: statement is unreachable
+  	enter_calibration = 0;
+lightsensor.c(307): warning:  #177-D: variable "id_array" was declared but never referenced
+  	u8 id_array[16] = {10,11,12,13,0,1,2,3,4,5,6,7,14,15,8,9};
+lightsensor.c(311): warning:  #177-D: variable "timer" was declared but never referenced
+  	u16 timer = 300;
+lightsensor.c: 5 warnings, 0 errors
+linking...
+Program Size: Code=23212 RO-data=336 RW-data=436 ZI-data=6932  
+FromELF: creating hex file...
+"..\Output\STM32-DEMO.axf" - 0 Error(s), 5 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.4.4.0.pack
+                ARM::CMSIS:CORE:4.2.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 4.2.0
+
+<h2>Collection of Component include folders:</h2>
+  C:\Users\mokjj\Desktop\Light Sensor Bar - India ver - CAN cali\USER\RTE
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include
+  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:4.2.0
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>
