@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define THRESHOLD 50
+#define THRESHOLD 10
 #define CONST_VEL 50
 
 struct target {
@@ -92,7 +92,8 @@ void can_track_path(int angle, int rotate, int maxvel, bool curved)
 	
 	//determine velocity coefficient
 	double acc = passed / 2000.0;
-	double dec = dist / 600.0;
+	//double dec = dist / 400.0;
+	double dec = sqrt(dist / 680.0);
 	if (acc > 1.0)
 		acc = 1.0;
 	if (!tar_queue[tar_end-1].stop)
@@ -114,7 +115,6 @@ void can_track_path(int angle, int rotate, int maxvel, bool curved)
 	}
 	
 	//perpendicular PD
-	temp = err-err_d;
 	err_pid = err * 0.2 + (err-err_d) * 0.0;
 	
 	//rotational P
@@ -149,7 +149,7 @@ void can_motor_stop(){
 }
 
 void can_motor_update(){
-	if ((dist < THRESHOLD) && (Abs(degree_diff) < 5)) {
+	if ((dist < THRESHOLD) && (Abs(degree_diff) < 2)) {
 		if (tar_queue_length())
 			tar_dequeue();
 		else
@@ -251,6 +251,10 @@ int main(void)
 	ticks_init();
 	start = 0;
 	
+	tar_enqueue(2000, 0, 0, 0.0, true);
+	
+	/*
+	//8-figure
 	tar_enqueue(500, 0, 0, 0.0, false);
 	tar_enqueue(1000, 500, 0, -2.0, false);
 	tar_enqueue(500, 1000, 0, -2.0, false);
@@ -258,8 +262,15 @@ int main(void)
 	tar_enqueue(0, -500, 0, 0.0, false);
 	tar_enqueue(-500, -1000, 0, 2.0, false);
 	tar_enqueue(-1000, -500, 0, 2.0, false);
-	tar_enqueue(-500, 0, 0, 2.0, false);
+	tar_enqueue(-500, 0, 0, 2.0, false); 
 	tar_enqueue(0, 0, 0, 0.0, true);
+	
+	//circle
+	tar_enqueue(1000, 1000, 0, 1.0, false);
+	tar_enqueue(2000, 0, 0, 1.0, false);
+	tar_enqueue(1000, -1000, 0, 1.0, false);
+	tar_enqueue(0, 0, 0, 1.0, true);
+	*/
 	
 	while (1) {
 		if (get_ticks() % 50 == 0) {
@@ -286,6 +297,9 @@ int main(void)
 				degree_diff -= 360;
 			
 			dist = Sqrt(Sqr(tar_x - cur_x) + Sqr(tar_y - cur_y));
+			
+			if (get_seconds() < 2)
+				temp = cur_y;
 			
 			can_motor_update();
 			//can_calibrate();
