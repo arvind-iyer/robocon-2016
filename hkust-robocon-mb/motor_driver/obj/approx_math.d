@@ -1,7 +1,7 @@
 .\obj\approx_math.o: user\approx_math.c
 .\obj\approx_math.o: user\approx_math.h
 .\obj\approx_math.o: user\stm32f10x.h
-.\obj\approx_math.o: .\FWlib\inc\core_cm3.h
+.\obj\approx_math.o: user\core_cm3.h
 .\obj\approx_math.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\obj\approx_math.o: user\system_stm32f10x.h
 .\obj\approx_math.o: .\FWlib\inc\stm32f10x_conf.h

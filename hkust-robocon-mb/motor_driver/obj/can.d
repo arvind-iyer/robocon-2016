@@ -2,7 +2,7 @@
 .\obj\can.o: user\can.h
 .\obj\can.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\obj\can.o: user\stm32f10x.h
-.\obj\can.o: .\FWlib\inc\core_cm3.h
+.\obj\can.o: user\core_cm3.h
 .\obj\can.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\obj\can.o: user\system_stm32f10x.h
 .\obj\can.o: .\FWlib\inc\stm32f10x_conf.h

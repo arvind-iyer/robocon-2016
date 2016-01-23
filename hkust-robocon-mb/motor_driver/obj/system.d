@@ -2,7 +2,7 @@
 .\obj\system.o: user\system.h
 .\obj\system.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\obj\system.o: user\stm32f10x.h
-.\obj\system.o: .\FWlib\inc\core_cm3.h
+.\obj\system.o: user\core_cm3.h
 .\obj\system.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\obj\system.o: user\system_stm32f10x.h
 .\obj\system.o: .\FWlib\inc\stm32f10x_conf.h

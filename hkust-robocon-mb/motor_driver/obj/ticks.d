@@ -2,7 +2,7 @@
 .\obj\ticks.o: user\ticks.h
 .\obj\ticks.o: .\FWlib\inc\stm32f10x_tim.h
 .\obj\ticks.o: .\FWlib\inc\stm32f10x.h
-.\obj\ticks.o: .\FWlib\inc\core_cm3.h
+.\obj\ticks.o: .\user\core_cm3.h
 .\obj\ticks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\obj\ticks.o: .\FWlib\inc\system_stm32f10x.h
 .\obj\ticks.o: .\FWlib\inc\stm32f10x_conf.h

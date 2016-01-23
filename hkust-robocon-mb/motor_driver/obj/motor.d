@@ -2,7 +2,7 @@
 .\obj\motor.o: user\motor.h
 .\obj\motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\obj\motor.o: user\stm32f10x.h
-.\obj\motor.o: .\FWlib\inc\core_cm3.h
+.\obj\motor.o: user\core_cm3.h
 .\obj\motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\obj\motor.o: user\system_stm32f10x.h
 .\obj\motor.o: .\FWlib\inc\stm32f10x_conf.h
