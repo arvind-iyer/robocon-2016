@@ -46,7 +46,7 @@
 #define SKY_BLUE            (RGB888TO565(0x11CFFF))
 #define CYAN                (RGB888TO565(0x8888FF))
 #define PURPLE              (RGB888TO565(0x00AAAA))
-#define PINK                RGB888TO565(0xFFB6C1)
+#define PINK                (RGB888TO565(0xFFB6C1))
 
 
 

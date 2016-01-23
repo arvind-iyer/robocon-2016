@@ -288,7 +288,7 @@ void tft_init(u8 orientation, u16 in_bg_color, u16 in_text_color, u16 in_text_co
 	
 	for (u16 looperA=0; looperA<32; looperA++){
 		for (u16 looperB=0; looperB<25; looperB++){
-			tft_mega_pre[looperA][looperB] = tft_mega_storage[looperA][looperB] = WHITE;
+			tft_mega_pre[looperA][looperB] = tft_mega_storage[looperA][looperB] = in_bg_color;
 		}	
 	}
 	
@@ -792,7 +792,7 @@ void tft_mega_update(){
 }
 
 /**
-* Put a pixel block of 5x5 size
+* Put a pixel block of 5x5 size, need to call @tft_mega_update after this
 * @param x: x coordinate in mega scale (x5)
 * @param y: y coordinate in mega scale (x5)
 **/
@@ -801,7 +801,7 @@ void tft_place_mega(u8 x, u8 y, u16 color){
 }
 
 /**
-* Put a very big ass character
+* Put a very big ass character, need to call @tft_mega_update after this
 * @param x: x coordinate in mega scale (x5)
 * @param y: y coordinate in mega scale (x5)
 * @param character: the number to be printed

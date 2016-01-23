@@ -10,7 +10,7 @@
 int main(){
 	u16 duty_cycle = min;
 	LED_INIT();
-	tft_init(3, WHITE, BLACK, RED);
+	tft_init(3, BLACK, WHITE, RED);
 	button_init();
 	servo_init();
 	ticks_init();
@@ -87,7 +87,7 @@ int main(){
 
 	for (u16 loopA=0;loopA<160;loopA++){
 		for (u16 loopB=0;loopB<128;loopB++){
-			tft_put_pixel(loopA, loopB, WHITE);
+			tft_put_pixel(loopA, loopB, BLACK);
 		}
 	}
 	
@@ -95,14 +95,14 @@ int main(){
 	tft_clear();
 	tft_update();
 	
-	tft_put_mega_ass_num(0, 1, 0, BLACK);
-	tft_put_mega_ass_num(10, 1, 0, BLACK);
-	tft_put_mega_ass_num(20, 1, 0, BLACK);
+	tft_put_mega_ass_num(0, 1, 0, WHITE);
+	tft_put_mega_ass_num(10, 1, 0, WHITE);
+	tft_put_mega_ass_num(20, 1, 0, WHITE);
 	tft_mega_update();
 	
 	u16 last_loop_color = BLACK;
 	while(1){
-		u16 this_loop_number_color = BLACK;
+		u16 this_loop_number_color = WHITE;
 		
 		if (!read_button(2)){
 			LED_ON(GPIOA, GPIO_Pin_15);
@@ -110,7 +110,7 @@ int main(){
 				duty_cycle += stepping;
 			}else{
 				duty_cycle = max;
-				this_loop_number_color = BLUE;
+				this_loop_number_color = RED;
 			}
 			servo_control(1, duty_cycle);
 			LED_OFF(GPIOA, GPIO_Pin_15);
@@ -131,19 +131,19 @@ int main(){
 		u16 mapped_val = (duty_cycle-min)*999/(max-min);
 		
 		if (display_val[0] != mapped_val/100 || this_loop_number_color!=last_loop_color){
-			tft_put_mega_ass_num(0, 1, display_val[0], WHITE);
+			tft_put_mega_ass_num(0, 1, display_val[0], BLACK);
 			display_val[0] = mapped_val/100;
 			tft_put_mega_ass_num(0, 1, display_val[0], this_loop_number_color);
 		}
 		
 		if (display_val[1] != (mapped_val/10)%10 || this_loop_number_color!=last_loop_color){
-			tft_put_mega_ass_num(10, 1, display_val[1], WHITE);
+			tft_put_mega_ass_num(10, 1, display_val[1], BLACK);
 			display_val[1] = (mapped_val/10)%10;
 			tft_put_mega_ass_num(10, 1, display_val[1], this_loop_number_color);
 		}
 				
 		if (display_val[2] != mapped_val%10 || this_loop_number_color!=last_loop_color){
-			tft_put_mega_ass_num(20, 1, display_val[2], WHITE);
+			tft_put_mega_ass_num(20, 1, display_val[2], BLACK);
 			display_val[2] = mapped_val%10;
 			tft_put_mega_ass_num(20, 1, display_val[2], this_loop_number_color);
 		}

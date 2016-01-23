@@ -19,19 +19,32 @@
 #define GPIO_Pin_CS		GPIO_Pin_5
 #define RCC_APB2Periph_GPIO_CS	RCC_APB2Periph_GPIOD
 #define GPIO_CS			GPIOD
-
 // Color
-#define WHITE			0xFFFF
-#define BLACK			0x0000
-#define DARK_GREY	0x5A8B
-#define GREY			0xC718
-#define BLUE			0x001F
-#define BLUE2			0x051F
-#define RED				0xF800
-#define MAGENTA		0xF81F
-#define GREEN			0x07E0
-#define CYAN			0x7FFF
-#define YELLOW		0xFFE0
+#define	BGR888_MODE		1
+
+#if (!BGR888_MODE)
+#define	RGB888TO565(RGB888)  (((RGB888 >> 8) & 0xF800) |((RGB888 >> 5) & 0x07E0) | ((RGB888 >> 3) & 0x001F))
+#else 
+#define	RGB888TO565(BGR888)  (((BGR888 >> 19) & 0x001F) |((BGR888 >> 5) & 0x07E0) | (((u32)BGR888 << 8) & 0xF800))
+#endif
+
+//to minimize the MCU calculation
+#define WHITE               (RGB888TO565(0xFFFFFF))
+#define BLACK               (RGB888TO565(0x000000))
+#define DARK_GREY           (RGB888TO565(0x555555))
+#define GREY                (RGB888TO565(0xAAAAAA))
+#define RED                 (RGB888TO565(0xFF0000))
+#define DARK_RED            (RGB888TO565(0x800000))
+#define ORANGE              (RGB888TO565(0xFF9900))
+#define YELLOW              (RGB888TO565(0xFFFF00))
+#define GREEN               (RGB888TO565(0x00FF00))
+#define DARK_GREEN          (RGB888TO565(0x00CC00))
+#define BLUE                (RGB888TO565(0x0000FF))
+#define BLUE2               (RGB888TO565(0x202060))
+#define SKY_BLUE            (RGB888TO565(0x11CFFF))
+#define CYAN                (RGB888TO565(0x8888FF))
+#define PURPLE              (RGB888TO565(0x00AAAA))
+#define PINK                (RGB888TO565(0xFFB6C1))
 
 #define MAX_WIDTH				128
 #define MAX_HEIGHT				160
@@ -95,5 +108,6 @@ void tft_stream(const char * pstr, ...);
 
 void tft_put_mega_ass_num(u8 x, u8 y, u8 character, u16 color);
 void tft_mega_update();
+void tft_put_logo(u8 x, u8 y);
 
 #endif		/* __LCD_RED_H */

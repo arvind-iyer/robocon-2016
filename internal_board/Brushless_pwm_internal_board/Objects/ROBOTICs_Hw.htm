@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\ROBOTICs_Hw.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\ROBOTICs_Hw.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri Jan 22 21:49:10 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Sat Jan 23 15:37:02 2016
 <BR><P>
 <H3>Maximum Stack Usage =        424 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1389,7 +1389,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
-<P><STRONG><a name="[ba]"></a>tft_init</STRONG> (Thumb, 240 bytes, Stack size 32 bytes, tft_display.o(.text))
+<P><STRONG><a name="[ba]"></a>tft_init</STRONG> (Thumb, 232 bytes, Stack size 32 bytes, tft_display.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = tft_init &rArr; tft_spi_init &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_bg_color
@@ -1480,7 +1480,7 @@ Global Symbols
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_mega_update
 </UL>
 
-<P><STRONG><a name="[ca]"></a>tft_char_is_changed</STRONG> (Thumb, 240 bytes, Stack size 12 bytes, tft_display.o(.text))
+<P><STRONG><a name="[ca]"></a>tft_char_is_changed</STRONG> (Thumb, 242 bytes, Stack size 12 bytes, tft_display.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = tft_char_is_changed
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
@@ -1500,7 +1500,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
 </UL>
 
-<P><STRONG><a name="[c9]"></a>tft_update</STRONG> (Thumb, 1476 bytes, Stack size 40 bytes, tft_display.o(.text))
+<P><STRONG><a name="[c9]"></a>tft_update</STRONG> (Thumb, 1472 bytes, Stack size 40 bytes, tft_display.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = tft_update &rArr; tft_set_char_pos &rArr; tft_write_data
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_char_is_changed
@@ -1728,7 +1728,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[6e]"></a>main</STRONG> (Thumb, 872 bytes, Stack size 8 bytes, main.o(.text))
+<P><STRONG><a name="[6e]"></a>main</STRONG> (Thumb, 870 bytes, Stack size 8 bytes, main.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 424 + Unknown Stack Size
 <LI>Call Chain = main &rArr; tft_prints &rArr; vsprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
