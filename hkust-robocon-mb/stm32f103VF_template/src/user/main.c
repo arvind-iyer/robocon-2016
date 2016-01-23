@@ -57,7 +57,6 @@ int main()
 	can_rx_init();
 	can_motor_init();
 	_delay();
-	
 	//start
 	while (1)
 	{
