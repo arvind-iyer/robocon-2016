@@ -209,14 +209,6 @@ void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 
 void _curve(int x, int y, /*int bend*/int x1, int y1)
 {
-	/*
-	float centerX=target_x-start_x;
-	float centerY=target_y-start_y;
-	float radius=Sqrt(Sqr(centerX)+Sqr(centerY))/2;
-	float angle=int_arc_tan2(centerY, centerX)*10+900+bend;
-	centerX=centerX/2+(radius*int_cos(angle)/10000);
-	centerY=centerY/2+(radius*int_sin(angle)/10000);
-	*/
 	int x0;
 	int y0;
 	x0=_getX();
