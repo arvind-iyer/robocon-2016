@@ -29,7 +29,7 @@ int target_angle=0;
 
 int end_vel;
 
-float err=1;
+float err=0;
 
 void _updateScreen();
 void _move(int M, int dir, int W);
@@ -48,9 +48,15 @@ int _getX();
 int _getY();
 int _getAngle();
 
+char * stringBuffer = "";
+int buffPos=0;
+void USART2_IRQHandler();
+void handleCommand(char * command);
+
 int main()
 {
 	tft_init(2, BLACK, WHITE, RED);
+	bluetooth_init();
 	ticks_init();
 	gyro_init();
 	can_init();
@@ -61,7 +67,8 @@ int main()
 	while (1)
 	{
 		_updateScreen();
-		_straight(0, 0, 0, 1, 1, 0);
+		_straight(0, 2000, 0, 1, 2, 0);
+		_straight(0, 0, 0, 1, 2, 0);
 	}
 	
 }
@@ -78,13 +85,19 @@ void _TEST_8figure()
 
 void _updateScreen()
 {
+	int bear;
+	bear=_bearing(_getX(), _getY(), target_x, target_y)-_getAngle()/10;
+	if (0>bear)
+	{
+		bear=bear+360;
+	}
 	tft_clear();
-	tft_prints(0, 0, "%d %d [%d]", _getX(), _getY(), _getAngle());
+	tft_prints(0, 0, "%d %d [%d]", _getX(), _getY(), _getAngle()/10);
 	tft_prints(0, 1, "M: %d %d %d", M1, M2, M3);
 	tft_prints(0, 3, "_m(%d, %d, %d)", M, dir, W);
 	tft_prints(0, 4, "err: %.2f", err);
 	tft_prints(0, 6, "Q: %d %d %d", target_x, target_y, target_angle);
-	tft_prints(0, 7, "T: %d [%d]", _dist(_getX(), _getY(), target_x, target_y), _bearing(_getX(), _getY(), target_x, target_y));
+	tft_prints(0, 7, "T: %d [%d]", _dist(_getX(), _getY(), target_x, target_y), bear);
 	tft_prints(0, 9, "Ticks: %d", get_ticks());
 	tft_update();
 }
@@ -108,9 +121,9 @@ void _move(int M, int dir, int W)
 			err=err+0.03;
 		}
 	}
-	else if (_distance>=_dist(_getX(), _getY(), target_x, target_y))
+	else if (_distance>_dist(_getX(), _getY(), target_x, target_y))
 	{
-		err=err/2+0.5;
+		err=err*0.8+0.2;
 		if (err<1)	
 		{
 			err=1;
@@ -132,6 +145,7 @@ void _move(int M, int dir, int W)
 
 void _setTarget(int x, int y, int bearing)
 {
+	err=1;
 	target_x=x;
 	target_y=y;
 	target_angle=bearing;
@@ -161,11 +175,10 @@ void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 		{
 			M=1;
 		}
-		if (distance>200 && 1!=1)
+		if (distance>200)
 		{
 			int dir1;
 			dir1 = ((90-(int_arc_tan2(target_y - _getY(), target_x - _getX()))) - _getAngle()/10) %360;
-			dir1 = dir < 0 ? dir + 360 : dir;
 			if (dir1<0)
 			{
 				dir1=dir1+360;
@@ -175,7 +188,12 @@ void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 			float py=y-start_y;
 			float dab=px*px+py*py;
 			float u=((_getX()-start_x)*px+(_getY()-start_y)*py)/dab;
-			dir=_vectorAdd(_dist(_getX(), _getY(), start_x+u*px, start_y+u*py), _bearing(_getX(), _getY(), start_x+u*px, start_y+u*py), distance, dir1);
+			dir1=_vectorAdd(_dist(_getX(), _getY(), start_x+u*px, start_y+u*py), _bearing(_getX(), _getY(), start_x+u*px, start_y+u*py), distance, dir1);
+			dir=(dir1-_getAngle()/10)%360;
+			if (dir<0)
+			{
+				dir=dir+360;
+			}
 		}
 		else
 		{
@@ -203,7 +221,6 @@ void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 	}
 	M=0;
 	W=0;
-	_move(M, dir, W);
 }
 
 void _curve(int x, int y, /*int bend*/int x1, int y1)
@@ -227,7 +244,7 @@ int _dist(int x0, int y0, int x, int y)
 	return dist;
 }
 
-int _atan(int y, int x)
+int _atan2(int y, int x)
 {
 	return int_arc_tan2(y, x);
 }
@@ -235,7 +252,7 @@ int _atan(int y, int x)
 int _bearing(int x0, int y0, int x, int y)
 {
 	int bearing;
-	bearing=90-_atan(y-y0, x-x0);
+	bearing=90-_atan2(y-y0, x-x0);
 	if (bearing<0)
 	{
 		bearing=bearing+360;
@@ -282,4 +299,54 @@ int _getY()
 int _getAngle()
 {
 	return get_angle();
+}
+
+void handleCommand(char * command) {
+    int dataIndex=0;
+	int contentIndex=0;
+	int header=-1;
+    int contents[16];
+    for (char * data = strtok(command, "|"); data != NULL; data = strtok(NULL, "|"))
+	{
+        if (dataIndex == 0)
+		{
+            header = atoi(data);
+        }
+		else
+		{
+            contents[contentIndex++] = atoi(data);
+        }
+        dataIndex++;
+    }
+    switch (header) {
+        case 0:
+		{
+			int __M = contents[0];
+			int __B = contents[1];
+			int __W = contents[2];
+			_move(__M, __B, __W);
+		}
+			break;
+		default:
+			break;
+	}
+}
+
+void USART2_IRQHandler() {
+	if (USART_GetITStatus(USART2,USART_IT_RXNE) != RESET)
+	{
+		const uint8_t byte = USART_ReceiveData(USART2);
+		if (byte == '\n')
+		{
+			stringBuffer[buffPos] = '\0';
+			handleCommand(stringBuffer);
+			buffPos = 0;
+			memset(stringBuffer, 0, strlen(stringBuffer));
+		}
+		else
+		{
+			stringBuffer[buffPos++] = byte;
+		}
+		USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+	}
 }

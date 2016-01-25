@@ -86,7 +86,7 @@ BLUETOOTH_COM_IRQHandler
 		rx_data = (u8)USART_ReceiveData(BLUETOOTH_USART);
 		
 		switch (rx_state) {
-			case 0: 
+			case 0:
 				// STATE [0]: Wakeup command
 				if (rx_data == BLUETOOTH_WAKEUP) {
 					++rx_state;
