@@ -56,52 +56,52 @@ int main(void)
     u16 ticks_ms_img = 0;
     u16 averageX = 0;
     u16 count = 0;
-	while(1)    
-	{
+	
+	while(1)    {
        if(get_ticks() != ticks_ms_img){ 
-           ticks_ms_img = get_ticks();
-           fill_array();
-           print_array();
-           tft_update();
-       }
-			 if(ticks_ms_img%50 == 0){
-			 for (int i = 0; i < 16; i++) {
-				 uint32_t el = sensor_output[i];
-				 if (el == 1) {
-					 if (begin == -1) {
-						 begin = i;
-					 } else {
-						 end = i;
-						 length++;
-					 }
-				 }
-			 }
+           	ticks_ms_img = get_ticks();
+           	fill_array();
+           	print_array();
+           	tft_update();
+			if(ticks_ms_img%50 == 0){
+				for (int i = 0; i < 16; i++) {
+					uint32_t el = sensor_output[i];
+					if (el == 1) {
+						if (begin == -1) {
+							begin = i;
+						} else {
+							end = i;
+							length++;
+						}
+					}
+				}
 			 
-			 if (length >= 3 && length <= 8) {
-				 float factor = ((begin + end) / 2) / (float) 16;
-				 lastMovement = SERVO_MAX - (factor * (SERVO_MAX - SERVO_MIN));
-				 tft_prints(0, 5, "Fek: %.4f", factor); 
-			 } else if (length >= 9 || begin == end) { // 90 degree turnnnzzz
-				 if ((begin+end)/2 < 8) {
-					 lastMovement = SERVO_MAX;
-				 } else {
-					 lastMovement = SERVO_MIN;
-				 }
-			 } else {
+			if (length >= 3 && length <= 8) {
+				float factor = ((begin + end) / 2) / (float) 16;
+				lastMovement = SERVO_MAX - (factor * (SERVO_MAX - SERVO_MIN));
+				tft_prints(0, 5, "Fek: %.4f", factor); 
+			} else if (length >= 9 || begin == end) { // 90 degree turnnnzzz
+				if ((begin+end)/2 < 8) {
+					lastMovement = SERVO_MAX;
+				} else {
+					lastMovement = SERVO_MIN;
+				}
+			} else {
 				 //fuck it, do last direction
-			 }
+			}
 			 
-			 tft_update();
+			tft_update();
 			 
-			 // do processing shiet
-			 servo_control_all(lastMovement);
+			// do processing shiet
+			servo_control_all(lastMovement);
 			 
-			 begin = -1;
-			 length = 0;
+			begin = -1;
+			length = 0;
 			 
-			 // reset dis shiet
-        
-		 }
+			// reset dis shiet
+				
+			}
+		}
 	}
     return 0;
 }
