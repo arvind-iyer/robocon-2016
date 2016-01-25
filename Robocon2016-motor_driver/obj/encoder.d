@@ -1,12 +1,12 @@
 .\obj\encoder.o: user\encoder.c
 .\obj\encoder.o: user\encoder.h
-.\obj\encoder.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
+.\obj\encoder.o: C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h
 .\obj\encoder.o: .\FWlib\inc\core_cm3.h
-.\obj\encoder.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\encoder.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\system_stm32f10x.h
+.\obj\encoder.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\encoder.o: C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\system_stm32f10x.h
 .\obj\encoder.o: .\FWlib\inc\stm32f10x_conf.h
 .\obj\encoder.o: .\FWlib\inc\stm32f10x_adc.h
-.\obj\encoder.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
+.\obj\encoder.o: C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h
 .\obj\encoder.o: .\FWlib\inc\stm32f10x_bkp.h
 .\obj\encoder.o: .\FWlib\inc\stm32f10x_can.h
 .\obj\encoder.o: .\FWlib\inc\stm32f10x_cec.h

@@ -13,11 +13,9 @@ typedef enum
     COM1 = 0,   //usart1
     COM2 = 1,	//usart2
     COM3 = 2,   //usart3
-    COM4 = 3,	//uart4
-    COM5 = 4    //uart5
 } COM_TypeDef;
 
-#define COMn 5 
+#define COMn 3
 
 // Definition for USART1 
 #define COM1_CLK                    RCC_APB2Periph_USART1
@@ -49,30 +47,10 @@ typedef enum
 #define COM3_RX_GPIO_CLK            RCC_APB2Periph_GPIOB
 #define COM3_IRQn                   USART3_IRQn
 
-// Definition for UART4 
-#define COM4_CLK                    RCC_APB1Periph_UART4
-#define COM4_TX_PIN                 GPIO_Pin_10
-#define COM4_TX_GPIO_PORT           GPIOC
-#define COM4_TX_GPIO_CLK            RCC_APB2Periph_GPIOC
-#define COM4_RX_PIN                 GPIO_Pin_11
-#define COM4_RX_GPIO_PORT           GPIOC
-#define COM4_RX_GPIO_CLK            RCC_APB2Periph_GPIOC
-#define COM4_IRQn                   UART4_IRQn
-
-// Definition for UART5
-#define COM5_CLK                    RCC_APB1Periph_UART5
-#define COM5_TX_PIN                 GPIO_Pin_12
-#define COM5_TX_GPIO_PORT           GPIOC
-#define COM5_TX_GPIO_CLK            RCC_APB2Periph_GPIOC
-#define COM5_RX_PIN                 GPIO_Pin_2
-#define COM5_RX_GPIO_PORT           GPIOD
-#define COM5_RX_GPIO_CLK            RCC_APB2Periph_GPIOD
-#define COM5_IRQn                   UART5_IRQn
-
 extern USART_TypeDef* COM_USART[COMn];
 extern COM_TypeDef printf_COMx;
 
-// COM1=USART1, COM2=USART2; ..., COM5=UART5
+// COM1=USART1, COM2=USART2;
 void uart_init(COM_TypeDef COM, u32 br);
 void uart_interrupt(COM_TypeDef COM);
 
