@@ -251,7 +251,7 @@ int main(void)
 	ticks_init();
 	start = 0;
 	
-	tar_enqueue(2000, 0, 0, 0.0, true);
+	tar_enqueue(0, 0, 180, 0.0, true);
 	
 	/*
 	//8-figure
