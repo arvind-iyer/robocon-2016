@@ -36,6 +36,10 @@ void print_array(){
 
 }
 
+int begin = -1;
+int end = 0;
+int length = 0;
+int lastMovement = 0;
 
 int main(void) 
 {
@@ -60,42 +64,45 @@ int main(void)
            print_array();
            tft_update();
        }
-       
-            //count average x position
-            for(int i = 0;i < 16 ;i++){
-                if(sensor_output[i]){
-                    averageX += i;
-                    count++;
-                }
-            }
-            averageX/=count;
-            tft_prints(0,2,"Average X: %d",averageX);
-            /*
-            #define SERVO_MIN 700
-            #define SERVO_MED 1550
-            #define SERVO_MAX 2400           
-            */
-            // 7 ama 8 gerak lurus
-            if((averageX > 5) && (averageX < 11)){
-                tft_prints(0,3,"Go straight");
-                servo_control_all(SERVO_MED);
-            }
-            //ke kanan
-            else if(averageX <= 6){
-                tft_prints(0,3,"Turn right");
-                servo_control_all(2150);
-            }
-            else if(averageX >= 9){
-                tft_prints(0,3,"Turn left");
-                servo_control_all(950);
-            }
-            tft_update();
-            averageX = count = 0;
+			 if(ticks_ms_img%50 == 0){
+			 for (int i = 0; i < 16; i++) {
+				 uint32_t el = sensor_output[i];
+				 if (el == 1) {
+					 if (begin == -1) {
+						 begin = i;
+					 } else {
+						 end = i;
+						 length++;
+					 }
+				 }
+			 }
+			 
+			 if (length >= 3 && length <= 8) {
+				 float factor = ((begin + end) / 2) / (float) 16;
+				 lastMovement = SERVO_MAX - (factor * (SERVO_MAX - SERVO_MIN));
+				 tft_prints(0, 5, "Fek: %.4f", factor); 
+			 } else if (length >= 9 || begin == end) { // 90 degree turnnnzzz
+				 if ((begin+end)/2 < 8) {
+					 lastMovement = SERVO_MAX;
+				 } else {
+					 lastMovement = SERVO_MIN;
+				 }
+			 } else {
+				 //fuck it, do last direction
+			 }
+			 
+			 tft_update();
+			 
+			 // do processing shiet
+			 servo_control_all(lastMovement);
+			 
+			 begin = -1;
+			 length = 0;
+			 
+			 // reset dis shiet
         
-        
-        
+		 }
 	}
     return 0;
 }
-
 
