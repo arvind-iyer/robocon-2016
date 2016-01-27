@@ -12,9 +12,9 @@
 #define MOTOR_MAG_GPIOx					GPIOB
 #define MOTOR_MAG_Pin						GPIO_Pin_0
 
-#define MOTOR_DIR_GPIOx					GPIOC
-#define MOTOR_DIR1_Pin					GPIO_Pin_4
-#define MOTOR_DIR2_Pin					GPIO_Pin_5
+#define MOTOR_DIR_GPIOx					GPIOB
+#define MOTOR_DIR1_Pin					GPIO_Pin_1
+#define MOTOR_DIR2_Pin					GPIO_Pin_1
 
 #define MOTOR_MAG_RCC_init()		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE)
 #define MOTOR_DIR_RCC_init()		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE)

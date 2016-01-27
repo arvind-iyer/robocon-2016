@@ -13,6 +13,11 @@
   */
 #include "led.h"
 
+void LED_RCC_init(){
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+}
+
 /**
 	* @brief 		led initialization
   * @param	  None
@@ -23,10 +28,15 @@ void led_init(void)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	
 	LED_RCC_init();
-	GPIO_InitStructure.GPIO_Pin = LED_1_Pin | LED_2_Pin;
+	GPIO_InitStructure.GPIO_Pin = LED_1_Pin;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; 
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-  GPIO_Init(LED_GPIOx, &GPIO_InitStructure);
+  GPIO_Init(LED_1_GPIO, &GPIO_InitStructure);
+	
+	GPIO_InitStructure.GPIO_Pin = LED_2_Pin;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; 
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+  GPIO_Init(LED_2_GPIO, &GPIO_InitStructure);
 
 }
 
@@ -40,10 +50,8 @@ void led_control(LED led, LED_STATE state)
 {
 	u16 led_gpio_pin = 0;
 	
-	if (led & LED_1) {led_gpio_pin |= LED_1_Pin;}
-	if (led & LED_2) {led_gpio_pin |= LED_2_Pin;}
-
-	GPIO_WriteBit(LED_GPIOx, (u16) led_gpio_pin, (BitAction) state);
+	if (led & LED_1) {GPIO_WriteBit(LED_1_GPIO, (u16) led_gpio_pin, (BitAction) state);}
+	if (led & LED_2) {GPIO_WriteBit(LED_2_GPIO, (u16) led_gpio_pin, (BitAction) state);}
 }
 
 /**

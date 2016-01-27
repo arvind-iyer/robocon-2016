@@ -4,10 +4,10 @@
 #include "stm32f10x.h"
 #include "ticks.h"
 
-#define LED_GPIOx				GPIOA
-#define LED_RCC_init()	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE)
+#define LED_1_GPIO				GPIOA
+#define LED_2_GPIO				GPIOB
 #define LED_1_Pin				GPIO_Pin_2
-#define LED_2_Pin				GPIO_Pin_3
+#define LED_2_Pin				GPIO_Pin_8
 
 typedef enum {
 	LED_1 = 1 << 0,

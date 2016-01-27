@@ -2,13 +2,13 @@
 .\obj\can_protocol.o: user\can_protocol.h
 .\obj\can_protocol.o: user\ticks.h
 .\obj\can_protocol.o: .\FWlib\inc\stm32f10x_tim.h
-.\obj\can_protocol.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
+.\obj\can_protocol.o: C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h
 .\obj\can_protocol.o: .\FWlib\inc\core_cm3.h
-.\obj\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\can_protocol.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\system_stm32f10x.h
+.\obj\can_protocol.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\can_protocol.o: C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\system_stm32f10x.h
 .\obj\can_protocol.o: .\FWlib\inc\stm32f10x_conf.h
 .\obj\can_protocol.o: .\FWlib\inc\stm32f10x_adc.h
-.\obj\can_protocol.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
+.\obj\can_protocol.o: C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h
 .\obj\can_protocol.o: .\FWlib\inc\stm32f10x_bkp.h
 .\obj\can_protocol.o: .\FWlib\inc\stm32f10x_can.h
 .\obj\can_protocol.o: .\FWlib\inc\stm32f10x_cec.h
@@ -32,6 +32,6 @@
 .\obj\can_protocol.o: .\FWlib\inc\stm32f10x_wwdg.h
 .\obj\can_protocol.o: .\FWlib\inc\misc.h
 .\obj\can_protocol.o: user\can.h
-.\obj\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\obj\can_protocol.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\obj\can_protocol.o: user\uart.h
-.\obj\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\obj\can_protocol.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

@@ -1,12 +1,12 @@
 .\obj\velocity.o: user\velocity.c
 .\obj\velocity.o: user\velocity.h
-.\obj\velocity.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
+.\obj\velocity.o: C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h
 .\obj\velocity.o: .\FWlib\inc\core_cm3.h
-.\obj\velocity.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\velocity.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\system_stm32f10x.h
+.\obj\velocity.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\velocity.o: C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\system_stm32f10x.h
 .\obj\velocity.o: .\FWlib\inc\stm32f10x_conf.h
 .\obj\velocity.o: .\FWlib\inc\stm32f10x_adc.h
-.\obj\velocity.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
+.\obj\velocity.o: C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h
 .\obj\velocity.o: .\FWlib\inc\stm32f10x_bkp.h
 .\obj\velocity.o: .\FWlib\inc\stm32f10x_can.h
 .\obj\velocity.o: .\FWlib\inc\stm32f10x_cec.h
@@ -31,5 +31,5 @@
 .\obj\velocity.o: .\FWlib\inc\misc.h
 .\obj\velocity.o: user\approx_math.h
 .\obj\velocity.o: user\motor.h
-.\obj\velocity.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\obj\velocity.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\obj\velocity.o: user\encoder.h

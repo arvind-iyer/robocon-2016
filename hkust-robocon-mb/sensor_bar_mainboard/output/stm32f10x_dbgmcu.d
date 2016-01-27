@@ -2,7 +2,7 @@
 .\output\stm32f10x_dbgmcu.o: .\src\stm32f10x_std\inc\stm32f10x_dbgmcu.h
 .\output\stm32f10x_dbgmcu.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\stm32f10x_dbgmcu.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\stm32f10x_dbgmcu.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\stm32f10x_dbgmcu.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\stm32f10x_dbgmcu.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\stm32f10x_dbgmcu.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\stm32f10x_dbgmcu.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h

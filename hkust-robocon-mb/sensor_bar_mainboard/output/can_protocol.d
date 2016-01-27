@@ -4,7 +4,7 @@
 .\output\can_protocol.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\can_protocol.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\can_protocol.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\can_protocol.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\can_protocol.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\can_protocol.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\can_protocol.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h
@@ -20,7 +20,7 @@
 .\output\can_protocol.o: .\src\ustrobo_min_system\inc\buzzer.h
 .\output\can_protocol.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\can_protocol.o: src\user\can.h
-.\output\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\can_protocol.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\can_protocol.o: .\src\stm32f10x_std\inc\stm32f10x_can.h
 .\output\can_protocol.o: .\src\ustrobo_min_system\inc\uart.h
-.\output\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\can_protocol.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
