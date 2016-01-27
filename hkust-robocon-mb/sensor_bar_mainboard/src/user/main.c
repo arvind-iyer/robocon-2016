@@ -40,6 +40,7 @@ int begin = -1;
 int end = 0;
 int length = 0;
 int lastMovement = 0;
+int lastTurn = 0;
 
 int main(void) 
 {
@@ -47,15 +48,15 @@ int main(void)
 	
 	tft_init(0,BLACK,WHITE,WHITE);
 	can_init();
-    servo_init();
-    ticks_init();
+  servo_init();
+  ticks_init();
 	can_rx_init();
 	can_rx_add_filter(0x0C5,CAN_RX_MASK_EXACT,receive);
-    can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
+  can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
     
-    u16 ticks_ms_img = 0;
-    u16 averageX = 0;
-    u16 count = 0;
+  u16 ticks_ms_img = 0;
+  u16 averageX = 0;
+  u16 count = 0;
 	while(1)    
 	{
        if(get_ticks() != ticks_ms_img){ 
@@ -64,7 +65,7 @@ int main(void)
            print_array();
            tft_update();
        }
-			 if(ticks_ms_img%50 == 0){
+			 //if(ticks_ms_img%50 == 0){
 			 for (int i = 0; i < 16; i++) {
 				 uint32_t el = sensor_output[i];
 				 if (el == 1) {
@@ -77,18 +78,22 @@ int main(void)
 				 }
 			 }
 			 
-			 if (length >= 3 && length <= 8) {
-				 float factor = ((begin + end) / 2) / (float) 16;
-				 lastMovement = SERVO_MAX - (factor * (SERVO_MAX - SERVO_MIN));
-				 tft_prints(0, 5, "Fek: %.4f", factor); 
-			 } else if (length >= 9 || begin == end) { // 90 degree turnnnzzz
-				 if ((begin+end)/2 < 8) {
-					 lastMovement = SERVO_MAX;
+			 // if last turn was less than 1500ms ago, go in last direction.
+			 if (get_full_ticks() - lastTurn >= 250) {
+				 if (length >= 3 && length <= 8) {
+					 float factor = ((begin + end) / 2) / (float) 16;
+					 lastMovement = SERVO_MAX - (factor * (SERVO_MAX - SERVO_MIN));
+					 tft_prints(0, 5, "Fek: %.4f", factor); 
+				 } else if (length >= 9 || begin == end) { // 90 degree turnnnzzz
+					 if ((begin + end) / 2 < 7) {
+						 lastMovement = SERVO_MAX;
+					 } else {
+						 lastMovement = SERVO_MIN;
+					 }
+					 lastTurn = get_full_ticks();
 				 } else {
-					 lastMovement = SERVO_MIN;
+					 //fuck it, do last direction
 				 }
-			 } else {
-				 //fuck it, do last direction
 			 }
 			 
 			 tft_update();
@@ -101,7 +106,7 @@ int main(void)
 			 
 			 // reset dis shiet
         
-		 }
+		 //}
 	}
     return 0;
 }
