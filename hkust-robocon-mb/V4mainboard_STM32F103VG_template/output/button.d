@@ -21,3 +21,4 @@
 .\output\button.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\button.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\button.o: .\src\ustrobo_min_system\inc\delay.h
+.\output\button.o: src\user\xbc_mb.h

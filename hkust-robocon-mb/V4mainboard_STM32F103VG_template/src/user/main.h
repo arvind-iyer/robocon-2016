@@ -25,6 +25,7 @@
 #include "lcd_main.h"
 #include "system.h"
 #include "xbc_mb.h"
+#include "can_xbc_mb.h"
 #include "button.h"
 #include "encoder.h"
 
