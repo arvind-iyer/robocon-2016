@@ -29,8 +29,8 @@ void servo_init(void){
 	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
 
 	//------------------------------//
-	TIM_TimeBaseStructure.TIM_Prescaler = 71;												//clk=72M/(71+1)= Hz, interval=?
-	TIM_TimeBaseStructure.TIM_Period = 20000;												//pulse cycle= 20000
+	TIM_TimeBaseStructure.TIM_Prescaler = 143;												//clk=72M/(71+1)= Hz, interval=?
+	TIM_TimeBaseStructure.TIM_Period = 10000;												//pulse cycle= 20000
 	//------------------------------//
 
 	TIM_TimeBaseInit(SERVO_TIM, &TIM_TimeBaseStructure);

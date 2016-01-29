@@ -37,16 +37,6 @@ static void can_xbc_mb_decoding(CanRxMsg msg){
 				xbc_joy[XBC_JOY_RY] = msg.Data[2] + (msg.Data[3] << 8);
 				last_can_connection = get_full_ticks();
 				xbc_connection = CAN_XBC_ALL_CONNECTED;
-				
-				tft_clear();
-				tft_append_line("%d", msg.StdId);
-				tft_append_line("%d", msg.DLC);
-				tft_append_line("%x %x", msg.Data[0], msg.Data[1]);
-				tft_append_line("%x %x",	msg.Data[2], msg.Data[3]);
-				tft_append_line("%x %x",	msg.Data[4], msg.Data[5]);
-				tft_append_line("%d", xbc_joy[XBC_JOY_RX]);
-				tft_append_line("%d", xbc_joy[XBC_JOY_RY]);
-				tft_update();
 			}
 		break;
 	}

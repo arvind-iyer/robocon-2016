@@ -1,8 +1,6 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#define CLIMBING_SPEED 80
-
 #define BYTETOBINARYPATTERN "%d%d%d%d%d%d%d%d"
 #define BYTETOBINARY(byte)  \
   (byte & 0x80 ? 1 : 0), \
@@ -45,5 +43,6 @@
 #include "led.h"
 #include "linear_ccd.h"
 #include "adc.h"
+#include "manual_move.h"
 
 #endif /* __MAIN_H */

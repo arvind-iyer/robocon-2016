@@ -22,63 +22,42 @@ Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
 C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\GEN1_HYBIRD\Project.uvprojx
-Project File Date:  01/28/2016
+Project File Date:  01/29/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
-compiling can_motor.c...
+compiling manual_move.c...
 src\user\can_motor.h(52): warning:  #1-D: last line of file ends without a newline
   #endif
-src\user\can_motor.c: 1 warning, 0 errors
-compiling main.c...
-.\src\ustrobo_min_system\inc\led.h(38): warning:  #1295-D: Deprecated declaration get_led_state - give arg types
-  u8 get_led_state();
 .\src\ustrobo_min_system\inc\lcd_main.h(89): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
   void tft_easy_init();
 .\src\ustrobo_min_system\inc\lcd_main.h(110): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
   void tft_mega_update();
-src\user\can_motor.h(52): warning:  #1-D: last line of file ends without a newline
+src\user\manual_move.h(19): warning:  #1295-D: Deprecated declaration manual_init - give arg types
+  void manual_init();
+src\user\manual_move.h(20): warning:  #1295-D: Deprecated declaration climb_continue - give arg types
+  void climb_continue();
+src\user\manual_move.h(21): warning:  #1295-D: Deprecated declaration stop_climbing - give arg types
+  void stop_climbing();
+src\user\manual_move.h(22): warning:  #1295-D: Deprecated declaration manual_control_update - give arg types
+  void manual_control_update();
+src\user\manual_move.h(26): warning:  #1-D: last line of file ends without a newline
   #endif
-.\src\ustrobo_min_system\inc\gyro.h(44): warning:  #1-D: last line of file ends without a newline
-  #endif		/* __GYRO_H */
-src\user\main.c(35): warning:  #188-D: enumerated type mixed with another type
-  	motor_set_vel(
-OTOR1, int_sin(curr_angle)*curr_speed*(-1)/10000 + curr_rotate, CLOSE_LOOP);
-src\user\main.c(36): warning:  #188-D: enumerated type mixed with another type
-  	motor_set_vel(
-OTOR2, int_sin(curr_angle+1200)*curr_speed*(-1)/10000 + curr_rotate, CLOSE_LOOP);
-src\user\main.c(37): warning:  #188-D: enumerated type mixed with another type
-  	motor_set_vel(
-OTOR3, int_sin(curr_angle+2400)*curr_speed*(-1)/10000 + curr_rotate, CLOSE_LOOP);
-src\user\main.c(92): warning:  #188-D: enumerated type mixed with another type
-  				motor_set_vel(
-OTOR4, 
-LIMBING_SPEED, OPEN_LOOP);
-src\user\main.c(98): warning:  #1-D: last line of file ends without a newline
+src\user\manual_move.c(134): warning:  #1-D: last line of file ends without a newline
   }
-src\user\main.c: 10 warnings, 0 errors
-compiling can_xbc_mb.c...
-.\src\ustrobo_min_system\inc\lcd_main.h(89): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
-  void tft_easy_init();
-.\src\ustrobo_min_system\inc\lcd_main.h(110): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
-  void tft_mega_update();
-src\user\can_xbc_mb.c(196): warning:  #177-D: variable "data_prev" was declared but never referenced
-        XBC_LCD_DATA* data_prev = &xbc_lcd_data_prev[x][y];
-src\user\can_xbc_mb.c(160): warning:  #177-D: function "xbc_lcd_data_diff" was declared but never referenced
-  static u8 xbc_lcd_data_diff(XBC_LCD_DATA* data1, XBC_LCD_DATA* data2) 
-src\user\can_xbc_mb.c: 4 warnings, 0 errors
+src\user\manual_move.c: 9 warnings, 0 errors
 linking...
-Program Size: Code=30804 RO-data=516 RW-data=2284 ZI-data=40644  
+Program Size: Code=31072 RO-data=516 RW-data=2288 ZI-data=40648  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 15 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 9 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\GEN1_HYBIRD\RTE
   C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:08
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
