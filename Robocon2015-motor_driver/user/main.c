@@ -13,8 +13,8 @@
 	* Systicks is used in stm32f10x_it.c, for high frequency control (5000Hz)
   ******************************************************************************
   */
-#include "main.h"
-//#define DEBUG_MODE
+#include "main.h"		
+#define DEBUG_MODE
 
 static u16 ticks_img = 65535;	//trivial value
 

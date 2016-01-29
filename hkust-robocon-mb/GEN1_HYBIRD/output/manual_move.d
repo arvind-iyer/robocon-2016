@@ -32,3 +32,4 @@
 .\output\manual_move.o: .\src\ustrobo_min_system\inc\lcd_main.h
 .\output\manual_move.o: .\src\ustrobo_min_system\inc\delay.h
 .\output\manual_move.o: .\src\ustrobo_min_system\inc\servo.h
+.\output\manual_move.o: src\user\pneumatic.h

@@ -44,5 +44,6 @@
 #include "linear_ccd.h"
 #include "adc.h"
 #include "manual_move.h"
+#include "pneumatic.h"
 
 #endif /* __MAIN_H */

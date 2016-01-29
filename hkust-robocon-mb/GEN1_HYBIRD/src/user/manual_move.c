@@ -5,20 +5,21 @@ s32 target_rotate = 0;
 s32 curr_speed = 0;
 s32 curr_angle = 0;
 s32 curr_rotate = 0;
-u8 is_climbing = 0;
-u8 brushless_unlock_state = 0;
-u8 emergency_stopped = 0;
+u8 is_climbing = LOCKED;
+u8 brushless_unlock_state = LOCKED;
+u8 emergency_lock = UNLOCKED;
 u16 brushless_time_count = 0;
+u8 pneumatic_state = 0;
 
 void manual_init(){
 	xbc_mb_init(XBC_CAN_FIRST);
 }
 
 void brushless_control(s16 value){
-	if (value>BURSHLESS_MAX){
-		servo_control_all(BURSHLESS_MAX);
-	}else if(value<BURSHLESS_MIN){
-		servo_control_all(BURSHLESS_MIN);
+	if (value>BRUSHLESS_MAX){
+		servo_control_all(BRUSHLESS_MAX);
+	}else if(value<BRUSHLESS_MIN){
+		servo_control_all(BRUSHLESS_MIN);
 	}else{
 		servo_control_all(value);
 	}
@@ -36,7 +37,22 @@ void stop_climbing(){
 	motor_set_vel(MOTOR6, 0, OPEN_LOOP);
 }
 
-void manual_control_update(){
+CONTROL_STATE manual_control_update(){
+	if (button_pressed(BUTTON_XBC_XBOX)){
+		curr_speed = curr_angle = curr_rotate = target_speed = target_rotate = brushless_time_count = 0;
+		brushless_unlock_state = is_climbing = LOCKED;
+		emergency_lock = UNLOCKED;
+		brushless_control(BRUSHLESS_MIN);
+		
+		motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
+		motor_set_vel(MOTOR2, 0, CLOSE_LOOP);
+		motor_set_vel(MOTOR3, 0, CLOSE_LOOP);
+		motor_set_vel(MOTOR4, 0, CLOSE_LOOP);
+		motor_set_vel(MOTOR5, 0, CLOSE_LOOP);
+		motor_set_vel(MOTOR6, 0, CLOSE_LOOP);
+		return AUTO_MODE;
+	}
+	
 	//Calcuate 3 base wheels movement
 	s32 angle = int_arc_tan2(xbc_get_joy(XBC_JOY_LX), xbc_get_joy(XBC_JOY_LY))*10;
 	s32 speed = (xbc_get_joy(XBC_JOY_LY)*xbc_get_joy(XBC_JOY_LY) + 
@@ -65,7 +81,7 @@ void manual_control_update(){
 		curr_rotate = target_rotate;
 	}
 	
-	if (emergency_stopped!=0){
+	if (emergency_lock==UNLOCKED){
 		motor_set_vel(MOTOR1, int_sin(curr_angle)*curr_speed*(-1)/10000 + curr_rotate, CLOSE_LOOP);
 		motor_set_vel(MOTOR2, int_sin(curr_angle+1200)*curr_speed*(-1)/10000 + curr_rotate, CLOSE_LOOP);
 		motor_set_vel(MOTOR3, int_sin(curr_angle+2400)*curr_speed*(-1)/10000 + curr_rotate, CLOSE_LOOP);
@@ -73,16 +89,14 @@ void manual_control_update(){
 		
 	//Calcuate brushless
 	//If locked, long down unlock
-	if (brushless_unlock_state==0){
+	if (brushless_unlock_state==LOCKED){
 		brushless_control(0);
 		if (xbc_get_joy(XBC_JOY_RY)<-900 && button_pressed(BUTTON_XBC_R_JOY)){
 			if (brushless_time_count == 0){
 				brushless_time_count = get_seconds();
-			}else if(brushless_time_count>4){
-				brushless_unlock_state = 1;
-				brushless_time_count = 0;
 			}else if(brushless_time_count>1){
-				brushless_control(BURSHLESS_MIN);
+				brushless_unlock_state = UNLOCKED;
+				brushless_time_count = 0;
 			}
 		}
 	
@@ -91,12 +105,12 @@ void manual_control_update(){
 		if (xbc_get_joy(XBC_JOY_RY)<-900 && button_pressed(BUTTON_XBC_R_JOY)){
 			if (brushless_time_count == 0){
 				brushless_time_count = get_seconds();
-			}else if(brushless_time_count>2){
-				brushless_unlock_state = 0;
+			}else if(brushless_time_count>1){
+				brushless_unlock_state = LOCKED;
 				brushless_time_count = 0;
 			}
 		}
-		brushless_control(xbc_get_joy(XBC_JOY_RY)*1050/(BURSHLESS_MAX-BURSHLESS_MIN)+BURSHLESS_MIN);
+		brushless_control(xbc_get_joy(XBC_JOY_RY)*1050/(BRUSHLESS_MAX-BRUSHLESS_MIN)+BRUSHLESS_MIN);
 	}
 	
 	//Calcuate climbing wheels
@@ -106,26 +120,32 @@ void manual_control_update(){
 		stop_climbing();
 	}
 	
+	//Pneumatic control
+	if (button_pressed(BUTTON_XBC_B)){
+		pneumatic_control(GPIOB, GPIO_Pin_9, pneumatic_state);
+		pneumatic_state = !pneumatic_state;
+	}
+	
 	//E-Stop
-	if (button_pressed(BUTTON_XBC_BACK)){
+	if (emergency_lock==UNLOCKED && button_pressed(BUTTON_XBC_BACK)){
 		motor_lock(MOTOR1);
 		motor_lock(MOTOR2);
 		motor_lock(MOTOR3);
 		motor_lock(MOTOR4);
 		motor_lock(MOTOR5);
 		motor_lock(MOTOR6);
-		brushless_unlock_state = 0;
+		brushless_unlock_state = LOCKED;
 		brushless_control(0);
-		emergency_stopped = 1;
+		emergency_lock = LOCKED;
 	}
 	
 	//Recover from E-Stop by hitting LB/RB/Start/Back together
-	if (emergency_stopped==1 && button_pressed(BUTTON_XBC_BACK) && button_pressed(BUTTON_XBC_LB)
+	if (emergency_lock==LOCKED && button_pressed(BUTTON_XBC_BACK) && button_pressed(BUTTON_XBC_LB)
 		&& button_pressed(BUTTON_XBC_RB) && button_pressed(BUTTON_XBC_START)){
-		brushless_unlock_state = 1;
-		emergency_stopped = 1;
+		brushless_unlock_state = UNLOCKED;
+		emergency_lock = UNLOCKED;
 	}
-		
+	return MANUAL_CONTROL;
 }
 
 //Angle Scaled by 10
