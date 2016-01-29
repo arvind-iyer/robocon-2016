@@ -40,3 +40,4 @@
 .\obj\can_motor.o: user\motor.h
 .\obj\can_motor.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\obj\can_motor.o: user\encoder.h
+.\obj\can_motor.o: user\led.h

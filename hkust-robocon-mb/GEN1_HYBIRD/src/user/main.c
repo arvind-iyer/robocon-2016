@@ -23,20 +23,11 @@ int main(void) {
 			lastTicks = get_full_ticks();
 			led_blink(LED_D1);
 			button_update();
-			tft_clear();
-			tft_append_line("%d", button_pressed(BUTTON_XBC_LB));
-			tft_append_line("%d", button_pressed(BUTTON_XBC_RB));
-			tft_append_line("%d", button_pressed(BUTTON_XBC_START));
-			tft_append_line("%d", button_pressed(BUTTON_XBC_BACK));
-			tft_update();
 			if (control_state==MANUAL_CONTROL){
 				control_state = manual_control_update();
 			}else{
 				//AUTO
 			}
-			motor_set_vel(MOTOR4, CLIMBING_SPEED, OPEN_LOOP);
-			motor_set_vel(MOTOR5, CLIMBING_SPEED, OPEN_LOOP);
-			motor_set_vel(MOTOR6, CLIMBING_SPEED, OPEN_LOOP);
 		}
 	}
 }

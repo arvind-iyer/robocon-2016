@@ -55,10 +55,8 @@ void life_signal(void)
 {
 	if (get_seconds() % 2) {
 		led_control(LED_1, LED_ON);
-		led_control(LED_2, LED_OFF);
 	} else {
 		led_control(LED_1, LED_OFF);
-		led_control(LED_2, LED_ON);
 	}
 }
 

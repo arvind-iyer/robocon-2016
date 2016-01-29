@@ -10,8 +10,7 @@
 #include "ticks.h"
 #include "pneumatic.h"
 
-#define ACC_STEPPING 3
-#define ACC_THRESHOLD 15
+#define ACC_THRESHOLD 1
 #define CLIMBING_SPEED 80
 
 #define BRUSHLESS_MIN 400
@@ -31,7 +30,6 @@ void manual_init();
 void climb_continue();
 void stop_climbing();
 CONTROL_STATE manual_control_update();
-void set_global_movement(s32 angle, s32 speed, s32 rotate);
 void brushless_control(s16 value);
 
 #endif

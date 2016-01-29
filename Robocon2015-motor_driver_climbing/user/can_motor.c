@@ -125,6 +125,7 @@ void motor_lock(MOTOR_ID motor_id)
 /*** motor command decoding ***/
 void motor_cmd_decoding(CanRxMsg msg)
 {
+	led_control(LED_2, LED_ON);
 	switch (msg.Data[0]) {
 		case CAN_MOTOR_VEL_CMD:
 			if (msg.DLC == CAN_MOTOR_VEL_LENGTH) {
@@ -137,8 +138,13 @@ void motor_cmd_decoding(CanRxMsg msg)
 				// velocity or pwm control.
 				s32 velocity = n_bytes_to_one(fragment_vel, VEL_SIZE);
 				// Ignore if same velocity is sent.
-				if (velocity != get_target_vel() || loop_flag == OPEN_LOOP) {
-					(loop_flag == CLOSE_LOOP) ? set_velocity(velocity) : set_pwm(velocity);
+//				if (velocity != get_target_vel() || loop_flag == OPEN_LOOP) {
+//					(loop_flag == CLOSE_LOOP) ? set_velocity(velocity) : set_pwm(velocity);
+//				}
+				if (velocity > 50){
+					set_pwm(1200);
+				}else{
+					set_pwm(0);
 				}
 			}
 			break;
@@ -173,8 +179,10 @@ void motor_cmd_decoding(CanRxMsg msg)
 			}
 			break;
 		default:
+			led_control(LED_2, LED_OFF);
 			return;
 	}
+	led_control(LED_2, LED_OFF);
 }
 
 /*** User interface ***/

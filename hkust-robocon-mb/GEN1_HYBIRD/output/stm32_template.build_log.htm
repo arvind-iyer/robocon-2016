@@ -38,58 +38,30 @@ src\user\pneumatic.h(7): warning:  #1295-D: Deprecated declaration pneumatic_ini
   void pneumatic_init();
 src\user\pneumatic.h(10): warning:  #1-D: last line of file ends without a newline
   #endif
-src\user\manual_move.h(30): warning:  #1295-D: Deprecated declaration manual_init - give arg types
+src\user\manual_move.h(29): warning:  #1295-D: Deprecated declaration manual_init - give arg types
   void manual_init();
-src\user\manual_move.h(31): warning:  #1295-D: Deprecated declaration climb_continue - give arg types
+src\user\manual_move.h(30): warning:  #1295-D: Deprecated declaration climb_continue - give arg types
   void climb_continue();
-src\user\manual_move.h(32): warning:  #1295-D: Deprecated declaration stop_climbing - give arg types
+src\user\manual_move.h(31): warning:  #1295-D: Deprecated declaration stop_climbing - give arg types
   void stop_climbing();
-src\user\manual_move.h(33): warning:  #1295-D: Deprecated declaration manual_control_update - give arg types
+src\user\manual_move.h(32): warning:  #1295-D: Deprecated declaration manual_control_update - give arg types
   CONTROL_STATE manual_control_update();
-src\user\manual_move.h(37): warning:  #1-D: last line of file ends without a newline
+src\user\manual_move.h(35): warning:  #1-D: last line of file ends without a newline
   #endif
-src\user\manual_move.c(156): warning:  #1-D: last line of file ends without a newline
-  }
+src\user\manual_move.c(139): warning:  #188-D: enumerated type mixed with another type
+  			pneumatic_state = !pneumatic_state;
 src\user\manual_move.c: 11 warnings, 0 errors
-compiling main.c...
-.\src\ustrobo_min_system\inc\led.h(38): warning:  #1295-D: Deprecated declaration get_led_state - give arg types
-  u8 get_led_state();
-.\src\ustrobo_min_system\inc\lcd_main.h(89): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
-  void tft_easy_init();
-.\src\ustrobo_min_system\inc\lcd_main.h(110): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
-  void tft_mega_update();
-src\user\can_motor.h(52): warning:  #1-D: last line of file ends without a newline
-  #endif
-.\src\ustrobo_min_system\inc\gyro.h(44): warning:  #1-D: last line of file ends without a newline
-  #endif		/* __GYRO_H */
-src\user\pneumatic.h(7): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
-  void pneumatic_init();
-src\user\pneumatic.h(10): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\manual_move.h(30): warning:  #1295-D: Deprecated declaration manual_init - give arg types
-  void manual_init();
-src\user\manual_move.h(31): warning:  #1295-D: Deprecated declaration climb_continue - give arg types
-  void climb_continue();
-src\user\manual_move.h(32): warning:  #1295-D: Deprecated declaration stop_climbing - give arg types
-  void stop_climbing();
-src\user\manual_move.h(33): warning:  #1295-D: Deprecated declaration manual_control_update - give arg types
-  CONTROL_STATE manual_control_update();
-src\user\manual_move.h(37): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\main.c(40): warning:  #1-D: last line of file ends without a newline
-  }
-src\user\main.c: 13 warnings, 0 errors
 linking...
-Program Size: Code=31356 RO-data=516 RW-data=2292 ZI-data=40644  
+Program Size: Code=31336 RO-data=516 RW-data=2300 ZI-data=40644  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 24 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 11 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\GEN1_HYBIRD\RTE
   C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
