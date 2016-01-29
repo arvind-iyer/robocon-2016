@@ -21,6 +21,10 @@ u8 text_bg_color_prev	[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];/*for transmit for xb
 
 u16 print_pos = 0;
 
+uint8_t SPI_MASTER_Buffer_Rx;
+uint8_t *pt = &SPI_MASTER_Buffer_Rx;
+
+
 u8 tft_get_orientation(){
 	return tft_orientation;
 }
@@ -41,7 +45,7 @@ void tft_spi_init(void)
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);
 		RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-		RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI3, ENABLE);
+		RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI3, ENABLE); //SPI3 is the SPI master
 
 	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
 	
@@ -726,4 +730,25 @@ void tft_update(void)
 			}
 			break;
 	}
+}
+
+void lcd_dma_init()
+{
+	//PD6 LDC_D/C
+	DMA_InitTypeDef    DMA_InitStructure;
+	DMA_DeInit(DMA2_Channel1);
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)0x40003C0C;
+  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)SPI_MASTER_Buffer_Rx;
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
+  DMA_InitStructure.DMA_BufferSize = 1;
+  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
+  DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+  DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
+  DMA_Init(DMA2_Channel1, &DMA_InitStructure);
+	
+	//DMA2_FLAG_TC1 flag for DMA2CH1
 }

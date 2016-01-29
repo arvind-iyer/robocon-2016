@@ -1,0 +1,17 @@
+..\output\can_protocol.o: can_protocol.c
+..\output\can_protocol.o: can.h
+..\output\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\output\can_protocol.o: ..\CMSIS\stm32f10x.h
+..\output\can_protocol.o: ..\CMSIS\core_cm3.h
+..\output\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\output\can_protocol.o: ..\CMSIS\system_stm32f10x.h
+..\output\can_protocol.o: ..\USER\stm32f10x_conf.h
+..\output\can_protocol.o: ..\FWlib\inc\stm32f10x_can.h
+..\output\can_protocol.o: ..\CMSIS\stm32f10x.h
+..\output\can_protocol.o: ..\FWlib\inc\stm32f10x_gpio.h
+..\output\can_protocol.o: ..\FWlib\inc\stm32f10x_rcc.h
+..\output\can_protocol.o: ..\FWlib\inc\stm32f10x_usart.h
+..\output\can_protocol.o: ..\FWlib\inc\misc.h
+..\output\can_protocol.o: can_protocol.h
+..\output\can_protocol.o: can_protocol.h
+..\output\can_protocol.o: lightsensor.h
