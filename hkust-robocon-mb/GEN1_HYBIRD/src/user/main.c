@@ -12,6 +12,7 @@ int main(void) {
 	uart_init(COM1, 115200);
 	manual_init();
 	pneumatic_init();
+	buzzer_init();
 	//can_xbc_mb_tx_enable(true);
 
 	tft_put_logo(110, 90);
@@ -19,7 +20,7 @@ int main(void) {
 	u8 control_state = MANUAL_CONTROL;
 	
 	while(1){
-		if ((lastTicks - get_full_ticks())>50){
+		if ((get_full_ticks() - lastTicks)>50){
 			lastTicks = get_full_ticks();
 			led_blink(LED_D1);
 			button_update();

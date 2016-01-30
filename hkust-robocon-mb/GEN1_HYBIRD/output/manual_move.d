@@ -24,6 +24,7 @@
 .\output\manual_move.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\manual_move.o: .\src\ustrobo_min_system\inc\buzzer.h
 .\output\manual_move.o: .\src\ustrobo_min_system\inc\gpio.h
+.\output\manual_move.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\manual_move.o: .\src\ustrobo_min_system\inc\uart.h
 .\output\manual_move.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\manual_move.o: .\src\ustrobo_min_system\inc\approx_math.h

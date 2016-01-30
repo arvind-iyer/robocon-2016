@@ -289,3 +289,7 @@ PID_MODE get_curr_pid_mode(void)
 {
 	return curr_pid_mode;
 }
+
+s32 get_current_pwm(){
+	return curr_pwm;
+}

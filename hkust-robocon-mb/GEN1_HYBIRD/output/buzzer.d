@@ -18,3 +18,5 @@
 .\output\buzzer.o: .\src\stm32f10x_std\inc\misc.h
 .\output\buzzer.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\buzzer.o: .\src\ustrobo_min_system\inc\gpio.h
+.\output\buzzer.o: .\src\ustrobo_min_system\inc\ticks.h
+.\output\buzzer.o: .\src\ustrobo_min_system\inc\buzzer.h

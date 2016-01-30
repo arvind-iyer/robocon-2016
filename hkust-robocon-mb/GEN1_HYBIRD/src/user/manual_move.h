@@ -9,11 +9,14 @@
 #include "servo.h"
 #include "ticks.h"
 #include "pneumatic.h"
+#include "buzzer.h"
 
 #define ACC_THRESHOLD 1
-#define CLIMBING_SPEED 80
+#define CLIMBING_SPEED 1799
+#define DESCEND_SPEED -1200
 
 #define BRUSHLESS_MIN 400
+#define BRUSHLESS_MED_HIGH 700
 #define BRUSHLESS_MAX 1050
 
 typedef enum {

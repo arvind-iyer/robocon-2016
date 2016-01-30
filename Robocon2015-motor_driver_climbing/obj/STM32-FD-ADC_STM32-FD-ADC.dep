@@ -35,7 +35,7 @@ I (user\system.h)(0x56AA007E)
 I (user\ticks.h)(0x56AA007E)
 I (user\uart.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
-I (user\velocity.h)(0x56AA007E)
+I (user\velocity.h)(0x56ACC3C5)
 I (user\approx_math.h)(0x56AA007E)
 I (user\motor.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -43,7 +43,7 @@ I (user\encoder.h)(0x56AA007E)
 I (user\led.h)(0x56AA007E)
 I (user\can.h)(0x56AA007E)
 I (user\can_protocol.h)(0x56AA007E)
-I (user\can_motor.h)(0x56ABAB52)
+I (user\can_motor.h)(0x56ACCF7C)
 F (.\user\system.c)(0x56AA007E)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\FWlib\inc -I.\user-I C:\WorkBench\Robo\robocon-2016\Robocon2015-motor_driver_climbing\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\system.o --omf_browse .\obj\system.crf --depend .\obj\system.d)
 I (user\system.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
@@ -78,7 +78,7 @@ I (.\FWlib\inc\misc.h)(0x56AA007B)
 I (user\ticks.h)(0x56AA007E)
 I (user\uart.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
-I (user\velocity.h)(0x56AA007E)
+I (user\velocity.h)(0x56ACC3C5)
 I (user\approx_math.h)(0x56AA007E)
 I (user\motor.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -86,7 +86,7 @@ I (user\encoder.h)(0x56AA007E)
 I (user\led.h)(0x56AA007E)
 I (user\can.h)(0x56AA007E)
 I (user\can_protocol.h)(0x56AA007E)
-I (user\can_motor.h)(0x56ABAB52)
+I (user\can_motor.h)(0x56ACCF7C)
 F (.\user\stm32f10x_it.c)(0x56AA007E)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\FWlib\inc -I.\user-I C:\WorkBench\Robo\robocon-2016\Robocon2015-motor_driver_climbing\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\stm32f10x_it.o --omf_browse .\obj\stm32f10x_it.crf --depend .\obj\stm32f10x_it.d)
 I (user\stm32f10x_it.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h)(0x53BA0D60)
@@ -117,7 +117,7 @@ I (.\FWlib\inc\stm32f10x_tim.h)(0x56AA007B)
 I (.\FWlib\inc\stm32f10x_usart.h)(0x56AA007B)
 I (.\FWlib\inc\stm32f10x_wwdg.h)(0x56AA007B)
 I (.\FWlib\inc\misc.h)(0x56AA007B)
-I (user\velocity.h)(0x56AA007E)
+I (user\velocity.h)(0x56ACC3C5)
 I (user\approx_math.h)(0x56AA007E)
 I (user\motor.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -245,8 +245,8 @@ I (.\FWlib\inc\stm32f10x_tim.h)(0x56AA007B)
 I (.\FWlib\inc\stm32f10x_usart.h)(0x56AA007B)
 I (.\FWlib\inc\stm32f10x_wwdg.h)(0x56AA007B)
 I (.\FWlib\inc\misc.h)(0x56AA007B)
-F (.\user\can_motor.c)(0x56ABAB05)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\FWlib\inc -I.\user-I C:\WorkBench\Robo\robocon-2016\Robocon2015-motor_driver_climbing\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\can_motor.o --omf_browse .\obj\can_motor.crf --depend .\obj\can_motor.d)
-I (user\can_motor.h)(0x56ABAB52)
+F (.\user\can_motor.c)(0x56ACCE0C)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\FWlib\inc -I.\user-I C:\WorkBench\Robo\robocon-2016\Robocon2015-motor_driver_climbing\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\can_motor.o --omf_browse .\obj\can_motor.crf --depend .\obj\can_motor.d)
+I (user\can_motor.h)(0x56ACCF7C)
 I (user\can.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h)(0x53BA0D60)
@@ -281,7 +281,7 @@ I (user\can_protocol.h)(0x56AA007E)
 I (user\ticks.h)(0x56AA007E)
 I (user\uart.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
-I (user\velocity.h)(0x56AA007E)
+I (user\velocity.h)(0x56ACC3C5)
 I (user\approx_math.h)(0x56AA007E)
 I (user\motor.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -323,7 +323,7 @@ I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (user\uart.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 F (.\user\velocity.c)(0x56AB9DAA)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\FWlib\inc -I.\user-I C:\WorkBench\Robo\robocon-2016\Robocon2015-motor_driver_climbing\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\velocity.o --omf_browse .\obj\velocity.crf --depend .\obj\velocity.d)
-I (user\velocity.h)(0x56AA007E)
+I (user\velocity.h)(0x56ACC3C5)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h)(0x53BA0D60)
 I (.\FWlib\inc\core_cm3.h)(0x56AA007B)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
@@ -417,7 +417,7 @@ I (.\FWlib\inc\stm32f10x_tim.h)(0x56AA007B)
 I (.\FWlib\inc\stm32f10x_usart.h)(0x56AA007B)
 I (.\FWlib\inc\stm32f10x_wwdg.h)(0x56AA007B)
 I (.\FWlib\inc\misc.h)(0x56AA007B)
-F (.\user\motor.c)(0x56ABAA23)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\FWlib\inc -I.\user-I C:\WorkBench\Robo\robocon-2016\Robocon2015-motor_driver_climbing\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\motor.o --omf_browse .\obj\motor.crf --depend .\obj\motor.d)
+F (.\user\motor.c)(0x56ACCDA2)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\FWlib\inc -I.\user-I C:\WorkBench\Robo\robocon-2016\Robocon2015-motor_driver_climbing\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\motor.o --omf_browse .\obj\motor.crf --depend .\obj\motor.d)
 I (user\motor.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h)(0x53BA0D60)
@@ -484,7 +484,7 @@ I (.\FWlib\inc\misc.h)(0x56AA007B)
 I (user\ticks.h)(0x56AA007E)
 I (user\uart.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
-I (user\velocity.h)(0x56AA007E)
+I (user\velocity.h)(0x56ACC3C5)
 I (user\approx_math.h)(0x56AA007E)
 I (user\motor.h)(0x56AA007E)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -492,7 +492,7 @@ I (user\encoder.h)(0x56AA007E)
 I (user\led.h)(0x56AA007E)
 I (user\can.h)(0x56AA007E)
 I (user\can_protocol.h)(0x56AA007E)
-I (user\can_motor.h)(0x56ABAB52)
+I (user\can_motor.h)(0x56ACCF7C)
 F (.\FWlib\SRC\stm32f10x_adc.c)(0x56AA007B)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\FWlib\inc -I.\user-I C:\WorkBench\Robo\robocon-2016\Robocon2015-motor_driver_climbing\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\WorkBench\IDE\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\stm32f10x_adc.o --omf_browse .\obj\stm32f10x_adc.crf --depend .\obj\stm32f10x_adc.d)
 I (.\FWlib\inc\stm32f10x_adc.h)(0x56AA007B)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include\stm32f10x.h)(0x53BA0D60)

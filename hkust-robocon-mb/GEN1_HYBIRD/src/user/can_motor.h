@@ -17,6 +17,8 @@
 /*** RX ***/
 #define CAN_ENCODER_FEEDBACK_LENGTH				5
 #define CAN_ENCODER_FEEDBACK							0x22
+#define CAN_PWM_FEEDBACK_LENGTH		5
+#define CAN_PWM_FEEDBACK					0x23
 
 
 typedef enum {
@@ -48,5 +50,6 @@ void can_motor_init(void);
 void motor_set_vel(MOTOR_ID motor_id, s32 vel, CLOSE_LOOP_FLAG close_loop_flag);
 void motor_lock(MOTOR_ID motor_id);
 s32 get_encoder_value(MOTOR_ID motor_id);
+s32 get_pwm_value(MOTOR_ID motor_id);
 
 #endif

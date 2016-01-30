@@ -24,4 +24,5 @@
 .\output\xbc_mb_1.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\xbc_mb_1.o: .\src\ustrobo_min_system\inc\buzzer.h
 .\output\xbc_mb_1.o: .\src\ustrobo_min_system\inc\gpio.h
+.\output\xbc_mb_1.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\xbc_mb_1.o: .\src\ustrobo_min_system\inc\led.h

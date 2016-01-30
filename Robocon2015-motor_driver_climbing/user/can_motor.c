@@ -134,18 +134,9 @@ void motor_cmd_decoding(CanRxMsg msg)
 				for (u8 i = 0; i < VEL_SIZE; ++i) {
 					fragment_vel[i] = msg.Data[i+1];
 				}
-				CLOSE_LOOP_FLAG loop_flag = (CLOSE_LOOP_FLAG) msg.Data[5];// 5-th byte is loop-flag (start as 0th byte)
-				// velocity or pwm control.
 				s32 velocity = n_bytes_to_one(fragment_vel, VEL_SIZE);
-				// Ignore if same velocity is sent.
-//				if (velocity != get_target_vel() || loop_flag == OPEN_LOOP) {
-//					(loop_flag == CLOSE_LOOP) ? set_velocity(velocity) : set_pwm(velocity);
-//				}
-				if (velocity > 50){
-					set_pwm(1200);
-				}else{
-					set_pwm(0);
-				}
+				//ONLY SET PWM
+				set_pwm(velocity);
 			}
 			break;
 		case CAN_MOTOR_ACCEL_CMD:

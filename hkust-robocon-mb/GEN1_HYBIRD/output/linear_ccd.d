@@ -21,6 +21,7 @@
 .\output\linear_ccd.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\linear_ccd.o: .\src\ustrobo_min_system\inc\buzzer.h
 .\output\linear_ccd.o: .\src\ustrobo_min_system\inc\gpio.h
+.\output\linear_ccd.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\linear_ccd.o: .\src\ustrobo_min_system\inc\lcd_main.h
 .\output\linear_ccd.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\linear_ccd.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

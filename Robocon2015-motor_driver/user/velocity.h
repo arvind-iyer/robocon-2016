@@ -42,5 +42,6 @@ u16 get_current_accel(void);
 CLOSE_LOOP_FLAG get_curr_loop_flag(void);
 PID_MODE get_curr_pid_mode(void);
 bool is_encoder_working(void);
+s32 get_current_pwm(void);
 
 #endif	//VELOCITY_H

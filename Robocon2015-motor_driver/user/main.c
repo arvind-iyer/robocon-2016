@@ -14,7 +14,7 @@
   ******************************************************************************
   */
 #include "main.h"		
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 static u16 ticks_img = 65535;	//trivial value
 
@@ -41,6 +41,7 @@ int main(void)
 			/** end of motor control **/
 			if (ticks_img % 5 == 0) {
 				send_encoder(get_encoder());
+				send_current_pwm(get_current_pwm());
 			}
 			
 #ifdef DEBUG_MODE	// In debug mode, for hardware to debug by themselves

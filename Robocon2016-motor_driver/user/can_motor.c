@@ -27,6 +27,19 @@ void send_encoder(s32 encoder_value)
 	can_tx_enqueue(msg);
 }
 
+void send_current_pwm(s32 current_pwm)
+{
+	CAN_MESSAGE msg;
+	msg.id = get_can_motor_id(this_motor);
+	msg.length = CAN_ENCODER_FEEDBACK_LENGTH;
+	msg.data[0] = CAN_ENCODER_FEEDBACK;
+	msg.data[1] = one_to_n_bytes(current_pwm,0);
+	msg.data[2] = one_to_n_bytes(current_pwm,1);
+	msg.data[3] = one_to_n_bytes(current_pwm,2);
+	msg.data[4] = one_to_n_bytes(current_pwm,3);
+	can_tx_enqueue(msg);
+}
+
 /*** User Interface ***/
 /** These are how mainboard sent data control motor, keep here for reference ONLY **/
 /**

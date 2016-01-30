@@ -22,13 +22,13 @@ Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
 C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\GEN1_HYBIRD\Project.uvprojx
-Project File Date:  01/29/2016
+Project File Date:  01/31/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
 compiling manual_move.c...
-src\user\can_motor.h(52): warning:  #1-D: last line of file ends without a newline
+src\user\can_motor.h(55): warning:  #1-D: last line of file ends without a newline
   #endif
 .\src\ustrobo_min_system\inc\lcd_main.h(89): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
   void tft_easy_init();
@@ -38,30 +38,38 @@ src\user\pneumatic.h(7): warning:  #1295-D: Deprecated declaration pneumatic_ini
   void pneumatic_init();
 src\user\pneumatic.h(10): warning:  #1-D: last line of file ends without a newline
   #endif
-src\user\manual_move.h(29): warning:  #1295-D: Deprecated declaration manual_init - give arg types
+src\user\manual_move.h(32): warning:  #1295-D: Deprecated declaration manual_init - give arg types
   void manual_init();
-src\user\manual_move.h(30): warning:  #1295-D: Deprecated declaration climb_continue - give arg types
+src\user\manual_move.h(33): warning:  #1295-D: Deprecated declaration climb_continue - give arg types
   void climb_continue();
-src\user\manual_move.h(31): warning:  #1295-D: Deprecated declaration stop_climbing - give arg types
+src\user\manual_move.h(34): warning:  #1295-D: Deprecated declaration stop_climbing - give arg types
   void stop_climbing();
-src\user\manual_move.h(32): warning:  #1295-D: Deprecated declaration manual_control_update - give arg types
+src\user\manual_move.h(35): warning:  #1295-D: Deprecated declaration manual_control_update - give arg types
   CONTROL_STATE manual_control_update();
-src\user\manual_move.h(35): warning:  #1-D: last line of file ends without a newline
+src\user\manual_move.h(38): warning:  #1-D: last line of file ends without a newline
   #endif
-src\user\manual_move.c(139): warning:  #188-D: enumerated type mixed with another type
+src\user\manual_move.c(100): warning:  #188-D: enumerated type mixed with another type
+  			motor_set_vel(MOTOR1 + i, motor_vel[i], CLOSE_LOOP);
+src\user\manual_move.c(109): warning:  #188-D: enumerated type mixed with another type
+  		tft_append_line("%d %d %d", get_pwm_value(0), get_pwm_value(1), get_pwm_value(2));
+src\user\manual_move.c(109): warning:  #188-D: enumerated type mixed with another type
+  		tft_append_line("%d %d %d", get_pwm_value(0), get_pwm_value(1), get_pwm_value(2));
+src\user\manual_move.c(109): warning:  #188-D: enumerated type mixed with another type
+  		tft_append_line("%d %d %d", get_pwm_value(0), get_pwm_value(1), get_pwm_value(2));
+src\user\manual_move.c(183): warning:  #188-D: enumerated type mixed with another type
   			pneumatic_state = !pneumatic_state;
-src\user\manual_move.c: 11 warnings, 0 errors
+src\user\manual_move.c: 15 warnings, 0 errors
 linking...
-Program Size: Code=31336 RO-data=516 RW-data=2300 ZI-data=40644  
+Program Size: Code=31176 RO-data=508 RW-data=2280 ZI-data=40712  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 11 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 15 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\GEN1_HYBIRD\RTE
   C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

@@ -21,6 +21,7 @@
 .\output\can_xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\can_xbc_mb.o: .\src\ustrobo_min_system\inc\buzzer.h
 .\output\can_xbc_mb.o: .\src\ustrobo_min_system\inc\gpio.h
+.\output\can_xbc_mb.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\can_xbc_mb.o: src\user\can.h
 .\output\can_xbc_mb.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\can_xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_can.h

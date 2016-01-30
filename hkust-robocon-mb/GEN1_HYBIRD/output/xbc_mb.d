@@ -24,6 +24,7 @@
 .\output\xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\xbc_mb.o: .\src\ustrobo_min_system\inc\buzzer.h
 .\output\xbc_mb.o: .\src\ustrobo_min_system\inc\gpio.h
+.\output\xbc_mb.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\xbc_mb.o: src\user\crc.h
 .\output\xbc_mb.o: src\user\can_xbc_mb.h
 .\output\xbc_mb.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

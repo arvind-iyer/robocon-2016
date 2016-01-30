@@ -2,6 +2,7 @@
 
 #define get_can_motor_id(motor_id)	(CAN_MOTOR_BASE + (u8)motor_id)
 static s32 can_motor_encoder_value[CAN_MOTOR_COUNT] = {0};
+static s32 can_motor_pwm_value[CAN_MOTOR_COUNT] = {0};
 
 void can_motor_init(void)
 {
@@ -24,6 +25,19 @@ void send_encoder(s32 encoder_value)
 	msg.data[2] = one_to_n_bytes(encoder_value,1);
 	msg.data[3] = one_to_n_bytes(encoder_value,2);
 	msg.data[4] = one_to_n_bytes(encoder_value,3);
+	can_tx_enqueue(msg);
+}
+
+void send_current_pwm(s32 current_pwm)
+{
+	CAN_MESSAGE msg;
+	msg.id = get_can_motor_id(this_motor);
+	msg.length = CAN_PWM_FEEDBACK_LENGTH;
+	msg.data[0] = CAN_PWM_FEEDBACK;
+	msg.data[1] = one_to_n_bytes(current_pwm,0);
+	msg.data[2] = one_to_n_bytes(current_pwm,1);
+	msg.data[3] = one_to_n_bytes(current_pwm,2);
+	msg.data[4] = one_to_n_bytes(current_pwm,3);
 	can_tx_enqueue(msg);
 }
 
@@ -188,6 +202,19 @@ void can_motor_feedback_encoder(CanRxMsg msg)
 				if (msg.StdId >= CAN_MOTOR_BASE && msg.StdId < CAN_MOTOR_BASE + CAN_MOTOR_COUNT) {
 					s32 feedback = n_bytes_to_one(&msg.Data[1], 4);
 					can_motor_encoder_value[msg.StdId - CAN_MOTOR_BASE] = feedback;
+				}
+			}
+		break;
+	}
+}
+
+void can_motor_feedback_pwm(CanRxMsg msg){
+	switch (msg.Data[0]) {
+		case CAN_PWM_FEEDBACK:
+			if (msg.DLC == CAN_PWM_FEEDBACK_LENGTH) {
+				// Range check 
+				if (msg.StdId >= CAN_MOTOR_BASE && msg.StdId < CAN_MOTOR_BASE + CAN_MOTOR_COUNT) {
+					can_motor_pwm_value[msg.StdId - CAN_MOTOR_BASE] = n_bytes_to_one(&msg.Data[1], 4);
 				}
 			}
 		break;
