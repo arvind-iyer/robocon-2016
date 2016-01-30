@@ -183,13 +183,13 @@ void DataTransmit(void){
 	u16 retry = RETRY_TIMEOUT;
 	CanTxMsg TxMsg;
 	//if(last_white_pos != white_pos){
-		u8 tx_flag=0;
-		for(tx_flag=0;tx_flag<3;tx_flag++)
-		{
-			TxMsg = Light_Sensor_Bar_Encoding(tx_flag);
+		//u8 tx_flag=0;
+		//for(tx_flag=0;tx_flag<3;tx_flag++)
+		//{
+			TxMsg = Light_Sensor_Bar_Encoding();
 			Tx_MailBox = CAN_Transmit(CAN1, &TxMsg);							//transmit the message
 			while(CAN_TransmitStatus(CAN1,Tx_MailBox) != CANTXOK && retry--);
-		}
+		//}
 		//last_white_pos = white_pos;
 	//}
 }

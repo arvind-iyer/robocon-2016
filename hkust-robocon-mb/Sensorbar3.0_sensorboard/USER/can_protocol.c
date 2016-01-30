@@ -5,6 +5,9 @@
 u8 enable_flag = 0;
 u8 enter_calibration = 0;
 u8 can_calibration_step = 0;
+extern u8 white_pos;
+extern u8 whiteline_position[16];
+u8 *pt = whiteline_position;
 
 /* Private variables -----------------------------------------*/
 CanTxMsg Tx_Queue[TX_QUEUE_LENGTH];
@@ -69,6 +72,21 @@ u8 Two_Bytes_Decomposition(const u16 data, const u8 index)
 	return 0;
 }
 
+u16 array_to_u16(u8 *pt)
+{
+	u8 i=0;
+	u16 val= 0x0000;
+	for(i=0;i<16;i++)
+	{
+		if(*(pt+i)==0)
+		{
+			val = (val | 0x01<<i);
+		}
+	}
+	val = ~val;
+	return val;
+}
+
 /* General Command Encoding ------------------------------------------------------*/
 CanTxMsg General_Encoding(u32 Device_ID, Data_Field Cmd_Data)
 {
@@ -88,47 +106,50 @@ CanTxMsg General_Encoding(u32 Device_ID, Data_Field Cmd_Data)
 
 
 /* =========================================== DATA ENCODING PART ============================================== */
-extern u8 white_pos;
-extern u8 whiteline_position[16];
+
+
 CanTxMsg Light_Sensor_Bar_Encoding(u8 tx_flag){
-	u8 j=1;
-	u8 start_pos;
+	u8 i=1;
+	//u8 start_pos;
 	
 	Data_Field LSB_Data;
-	LSB_Data.Data_Length = 8;
-	LSB_Data.Data[0] = tx_flag;
+	LSB_Data.Data_Length = 2;
 	
-	
-	for(j=1;j<8;j++)
-		LSB_Data.Data[j]=0;
-	
-	switch(tx_flag)
-	{
-		case 0:
-			start_pos = 0;
-		break;
-		
-		case 1:
-			start_pos = 7;
-		break;
-		
-		case 2:
-			start_pos = 14;
-		break;
-	}
-	
-	if(tx_flag<2)
-	{
-		u8 i = 1;
-		for(i=1;i<8;i++)
-			LSB_Data.Data[i] = whiteline_position[i+start_pos-1];
-	}
-	else
-	{
-		u8 i = 1;
-		for(i=1;i<3;i++)
-			LSB_Data.Data[i] = whiteline_position[i+start_pos-1];
-	}
+	for(i=0;i<2;i++)
+		LSB_Data.Data[i] = Two_Bytes_Decomposition(array_to_u16(pt), i);
+//	LSB_Data.Data[0] = tx_flag;
+//	
+//	
+//	for(j=1;j<8;j++)
+//		LSB_Data.Data[j]=0;
+//	
+//	switch(tx_flag)
+//	{
+//		case 0:
+//			start_pos = 0;
+//		break;
+//		
+//		case 1:
+//			start_pos = 7;
+//		break;
+//		
+//		case 2:
+//			start_pos = 14;
+//		break;
+//	}
+//	
+//	if(tx_flag<2)
+//	{
+//		u8 i = 1;
+//		for(i=1;i<8;i++)
+//			LSB_Data.Data[i] = whiteline_position[i+start_pos-1];
+//	}
+//	else
+//	{
+//		u8 i = 1;
+//		for(i=1;i<3;i++)
+//			LSB_Data.Data[i] = whiteline_position[i+start_pos-1];
+//	}
 	return General_Encoding(LIGHTSENSORBAR_ID, LSB_Data);		
 }
 
