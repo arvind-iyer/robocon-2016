@@ -42,5 +42,6 @@
 #include "led.h"
 #include "linear_ccd.h"
 #include "adc.h"
+#include "3d_gyro.h"
 
 #endif /* __MAIN_H */

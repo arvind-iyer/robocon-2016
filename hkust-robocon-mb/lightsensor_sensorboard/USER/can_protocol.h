@@ -121,6 +121,7 @@ s32 Four_Bytes_Reconstruction(const uint8_t* buffer);
 s16 Two_Bytes_Reconstruction(const uint8_t* buffer);
 u8 Four_Bytes_Decomposition(const s32 data, const u8 index);
 u8 Two_Bytes_Decomposition(const u16 data, const u8 index);
+u16 array_to_u16(u8 *);
 
 void CAN_Tx_addToQueue(CanTxMsg TxMessage);
 u8 CAN_Tx_dequeue(void);
@@ -137,7 +138,7 @@ void USB_LP_CAN1_RX0_IRQHandler(void);
 u8 Enabled(void);
 CanTxMsg Sensor_Bar_Encoding(void);
 void Sensor_Bar_Update(void);
-CanTxMsg Light_Sensor_Bar_Encoding(u8);
+CanTxMsg Light_Sensor_Bar_Encoding();
 #endif
 
 
