@@ -29,9 +29,9 @@ int cor_x, cor_y;
 int vel[3];
 int degree, degree_diff, dist, speed;
 int start, passed;
-int err_d, temp;
+int err_d;
 
-void tar_enqueue(int x, int y, int deg, int curve, bool stop) {
+void auto_tar_enqueue(int x, int y, int deg, int curve, bool stop) {
 	tar_queue[tar_head].x = x;
 	tar_queue[tar_head].y = y;
 	tar_queue[tar_head].deg = deg;
@@ -40,7 +40,7 @@ void tar_enqueue(int x, int y, int deg, int curve, bool stop) {
 	tar_head++;
 }
 
-void tar_dequeue() {
+void auto_tar_dequeue() {
 	int mid_length;
 	if (tar_end && tar_queue[tar_end-1].stop)
 		start = get_ticks();
@@ -69,11 +69,43 @@ void tar_dequeue() {
 	tar_end++;
 }
 
-int tar_queue_length() {
+int auto_tar_queue_len() {
 	return tar_head - tar_end;
 }
 
-void can_track_path(int angle, int rotate, int maxvel, bool curved)
+void auto_init() {
+	tar_head = 0;
+	tar_end = 0;
+	err_d = 0;
+	ticks_init();
+	start = 0;
+}
+
+void auto_var_update() {
+	passed = get_ticks() - start;
+	cur_deg = get_angle();
+	cor_x = 0;
+	cor_y = 0;
+	xy_rotate(&cor_x, &cor_y, (-1)*cur_deg);
+	cur_x = (get_X() * (-1)) + cor_x - 0;
+	cur_y = get_Y() + cor_y - 0;
+	
+	degree = tar_dir;
+	if (tar_queue[tar_end-1].curve < 0)
+		degree = 90 - int_arc_tan2(tar_cen_y - cur_y, tar_cen_x - cur_x) + 90;
+	if (tar_queue[tar_end-1].curve > 0)
+		degree = 90 - int_arc_tan2(tar_cen_y - cur_y, tar_cen_x - cur_x) - 90;
+	degree -= (cur_deg/10);
+	
+	degree_diff = tar_deg - (int)(cur_deg/10);
+	degree_diff = (degree_diff+1080)%360;
+	if (degree_diff > 180)
+		degree_diff -= 360;
+	
+	dist = Sqrt(Sqr(tar_x - cur_x) + Sqr(tar_y - cur_y));		
+}
+
+void auto_track_path(int angle, int rotate, int maxvel, bool curved)
 {
 	int p, q;
 	int err, err_pid;
@@ -84,16 +116,16 @@ void can_track_path(int angle, int rotate, int maxvel, bool curved)
 	dotcheck /= Sqrt(Sqr(ori_x-tar_x)+Sqr(ori_y-tar_y));
 	dotcheck /= Sqrt(Sqr(cur_x-tar_x)+Sqr(cur_y-tar_y));
 	if (dotcheck <= 0.0) {
-		if (tar_queue_length() && !tar_queue[tar_end-1].stop)
-			tar_dequeue();
+		if (auto_tar_queue_len() && !tar_queue[tar_end-1].stop)
+			auto_tar_dequeue();
 		else
 			angle = 90 - int_arc_tan2(tar_y - cur_y, tar_x - cur_x) - (int)(cur_deg/10);
 	}
 	
 	//determine velocity coefficient
 	double acc = passed / 2000.0;
-	//double dec = dist / 400.0;
-	double dec = sqrt(dist / 680.0);
+	double dec = dist / 400.0;
+	//double dec = sqrt(dist / 680.0);
 	if (acc > 1.0)
 		acc = 1.0;
 	if (!tar_queue[tar_end-1].stop)
@@ -136,7 +168,7 @@ void can_track_path(int angle, int rotate, int maxvel, bool curved)
 	err_d = err;
 }
 
-void can_motor_stop(){
+void auto_motor_stop(){
 	vel[0] = 0;
 	vel[1] = 0;
 	vel[2] = 0;
@@ -148,30 +180,27 @@ void can_motor_stop(){
 	motor_lock(MOTOR3);
 }
 
-void can_motor_update(){
+void auto_motor_update(){
 	if ((dist < THRESHOLD) && (Abs(degree_diff) < 2)) {
-		if (tar_queue_length())
-			tar_dequeue();
+		if (auto_tar_queue_len())
+			auto_tar_dequeue();
 		else
-			can_motor_stop();
+			auto_motor_stop();
 	} else {
-		can_track_path(degree, degree_diff, CONST_VEL, false);
+		auto_track_path(degree, degree_diff, CONST_VEL, false);
 	}
 	
 	//print debug info
 	tft_clear();
 	tft_prints(0,0,"X:%5d Y:%5d",cur_x,cur_y);
 	tft_prints(0,1,"ANGLE %d",cur_deg);
-	tft_prints(0,2,"%d",err_d);
-	tft_prints(0,3,"%d",temp);
-	tft_prints(0,4,"%d",degree);
 	tft_prints(0,5,"%d %d",tar_cen_x,tar_cen_y);
 	tft_prints(0,7,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,9,"TIM %3d",get_seconds());
 	tft_update();
 }
 
-void can_calibrate(){
+void auto_calibrate(){
 	int cal_speed = -20;
 	if (cur_deg <= 150)
 		cal_speed = cur_deg/(-10)-5;
@@ -183,7 +212,7 @@ void can_calibrate(){
 		motor_set_vel(MOTOR2, cal_speed, CLOSE_LOOP);
 		motor_set_vel(MOTOR3, cal_speed, CLOSE_LOOP);
 	} else {
-		can_motor_stop();
+		auto_motor_stop();
 	}
 	
 	tft_clear();
@@ -191,40 +220,6 @@ void can_calibrate(){
 	tft_prints(0,1,"ANGLE %d",cur_deg);
 	tft_update();
 }
-	
-/*
-void move_line(int x, int y, int deg, int segment) {
-	double ratio;
-	for (int i = 0; i < segment; i++) {
-		ratio = (i+1)/(double)segment;
-		tar_enqueue((x - cur_x)*ratio, (y - cur_y)*ratio, (deg - cur_deg/10)*ratio);
-	}
-}
-
-//A = point that curve passes through
-//B = destination point
-//M = midpt between origin and B
-//N = pt extended from M through A to generate curve
-void move_bezier(int ax, int ay, int bx, int by, int segment) {
-	int mx, my, nx, ny;
-	int px, py, qx, qy;
-	double ratio;
-	
-	mx = (bx + cur_x)/2;
-	my = (by + cur_y)/2;
-	nx = ax*2 - mx;
-	ny = ay*2 - my;
-	
-	for (int i = 0; i < segment; i++) {
-		ratio = (i+1)/(double)segment;
-		px = (nx - cur_x)*ratio + cur_x;
-		py = (ny - cur_y)*ratio + cur_y;
-		qx = (bx - nx)*ratio + nx;
-		qy = (by - ny)*ratio + ny;
-		tar_enqueue(((qx - px)*ratio + px), ((qy - py)*ratio + py), 0);
-	}
-}
-*/
 
 int main(void)
 {
@@ -244,65 +239,33 @@ int main(void)
 	
 	_delay_ms(4000);
 	
-	tar_head = 0;
-	tar_end = 0;
-	err_d = 0;
-	temp = 0;
-	ticks_init();
-	start = 0;
-	
-	tar_enqueue(0, 0, 180, 0.0, true);
+	auto_init();
+	auto_tar_enqueue(0, 1500, 0, 0.0, true);
 	
 	/*
 	//8-figure
-	tar_enqueue(500, 0, 0, 0.0, false);
-	tar_enqueue(1000, 500, 0, -2.0, false);
-	tar_enqueue(500, 1000, 0, -2.0, false);
-	tar_enqueue(0, 500, 0, -2.0, false);
-	tar_enqueue(0, -500, 0, 0.0, false);
-	tar_enqueue(-500, -1000, 0, 2.0, false);
-	tar_enqueue(-1000, -500, 0, 2.0, false);
-	tar_enqueue(-500, 0, 0, 2.0, false); 
-	tar_enqueue(0, 0, 0, 0.0, true);
+	auto_tar_enqueue(500, 0, 0, 0.0, false);
+	auto_tar_enqueue(1000, 500, 0, -2.0, false);
+	auto_tar_enqueue(500, 1000, 0, -2.0, false);
+	auto_tar_enqueue(0, 500, 0, -2.0, false);
+	auto_tar_enqueue(0, -500, 0, 0.0, false);
+	auto_tar_enqueue(-500, -1000, 0, 2.0, false);
+	auto_tar_enqueue(-1000, -500, 0, 2.0, false);
+	auto_tar_enqueue(-500, 0, 0, 2.0, false); 
+	auto_tar_enqueue(0, 0, 0, 0.0, true);
 	
 	//circle
-	tar_enqueue(1000, 1000, 0, 1.0, false);
-	tar_enqueue(2000, 0, 0, 1.0, false);
-	tar_enqueue(1000, -1000, 0, 1.0, false);
-	tar_enqueue(0, 0, 0, 1.0, true);
+	auto_tar_enqueue(1000, 1000, 0, 1.0, false);
+	auto_tar_enqueue(2000, 0, 0, 1.0, false);
+	auto_tar_enqueue(1000, -1000, 0, 1.0, false);
+	auto_tar_enqueue(0, 0, 0, 1.0, true);
 	*/
 	
 	while (1) {
 		if (get_ticks() % 50 == 0) {
-			
-			//update variables
-			passed = get_ticks() - start;
-			cur_deg = get_angle();
-			cor_x = 52;
-			cor_y = 380;
-			xy_rotate(&cor_x, &cor_y, (-1)*cur_deg);
-			cur_x = get_X() + cor_x - 52;
-			cur_y = get_Y() + cor_y - 380;
-			
-			degree = tar_dir;
-			if (tar_queue[tar_end-1].curve < 0)
-				degree = 90 - int_arc_tan2(tar_cen_y - cur_y, tar_cen_x - cur_x) + 90;
-			if (tar_queue[tar_end-1].curve > 0)
-				degree = 90 - int_arc_tan2(tar_cen_y - cur_y, tar_cen_x - cur_x) - 90;
-			degree -= (cur_deg/10);
-			
-			degree_diff = tar_deg - (int)(cur_deg/10);
-			degree_diff = (degree_diff+1080)%360;
-			if (degree_diff > 180)
-				degree_diff -= 360;
-			
-			dist = Sqrt(Sqr(tar_x - cur_x) + Sqr(tar_y - cur_y));
-			
-			if (get_seconds() < 2)
-				temp = cur_y;
-			
-			can_motor_update();
-			//can_calibrate();
+			auto_var_update();			
+			auto_motor_update();
+			//auto_calibrate();
 		}
 	}
 }
