@@ -169,7 +169,7 @@
         </DebugOption>
         <Utilities>
           <Flash1>
-            <UseTargetDll>1</UseTargetDll>
+            <UseTargetDll>0</UseTargetDll>
             <UseExternalTool>1</UseExternalTool>
             <RunIndependent>1</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
@@ -581,11 +581,6 @@
               <FilePath>.\src\ustrobo_min_system\src\lcd_red.c</FilePath>
             </File>
             <File>
-              <FileName>gyro.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\ustrobo_min_system\src\gyro.c</FilePath>
-            </File>
-            <File>
               <FileName>motor_pwm.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\ustrobo_min_system\src\motor_pwm.c</FilePath>
@@ -594,6 +589,11 @@
               <FileName>servo.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\ustrobo_min_system\src\servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>gyro.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\ustrobo_min_system\src\gyro.c</FilePath>
             </File>
             <File>
               <FileName>system.c</FileName>
@@ -815,11 +815,6 @@
               <FilePath>.\src\stm32f10x_std\src\stm32f10x_gpio.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f10x_i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\stm32f10x_std\src\stm32f10x_i2c.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f10x_iwdg.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\stm32f10x_std\src\stm32f10x_iwdg.c</FilePath>
@@ -828,6 +823,11 @@
               <FileName>stm32f10x_pwr.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\stm32f10x_std\src\stm32f10x_pwr.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\stm32f10x_std\src\stm32f10x_i2c.c</FilePath>
             </File>
             <File>
               <FileName>stm32f10x_rcc.c</FileName>

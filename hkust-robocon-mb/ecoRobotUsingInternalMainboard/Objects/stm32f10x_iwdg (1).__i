@@ -1,0 +1,6 @@
+--c99 -c --cpu Cortex-M3 -g -O0 --apcs=interwork -I.\stm32f10x_std\inc -I.\user
+-I "C:\Users\BudiRyan\Google Drive\hkust\academics\fall_2015_2016\robotics\keil_project\tutorial2\homework\2016_sw_ library\RTE"
+-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
+-I C:\Keil_v5\ARM\CMSIS\Include
+-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_ML
+-o .\objects\stm32f10x_iwdg.o --omf_browse .\objects\stm32f10x_iwdg.crf --depend .\objects\stm32f10x_iwdg.d "stm32f10x_std\src\stm32f10x_iwdg.c"

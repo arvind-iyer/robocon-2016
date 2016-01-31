@@ -1,0 +1,6 @@
+--cpu Cortex-M3 -g --apcs=interwork -I.\stm32f10x_startup -I.\stm32f10x_std -I.\user
+-I "C:\Users\BudiRyan\Google Drive\hkust\academics\fall_2015_2016\robotics\keil_project\tutorial2\homework\2016_sw_ library\RTE"
+-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
+-I C:\Keil_v5\ARM\CMSIS\Include
+--pd "__UVISION_VERSION SETA 516" --pd "STM32F10X_MD SETA 1"
+--list .\listings\startup_stm32f10x_md.lst --xref -o .\objects\startup_stm32f10x_md.o --depend .\objects\startup_stm32f10x_md.d "stm32f10x_startup\startup_stm32f10x_md.s"
