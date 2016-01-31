@@ -23,3 +23,6 @@
 .\output\xbc_mb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\xbc_mb.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\xbc_mb.o: .\src\ustrobo_min_system\inc\buzzer.h
+.\output\xbc_mb.o: .\src\ustrobo_min_system\inc\gpio.h
+.\output\xbc_mb.o: .\src\ustrobo_min_system\inc\ticks.h
+.\output\xbc_mb.o: .\src\ustrobo_min_system\inc\led.h

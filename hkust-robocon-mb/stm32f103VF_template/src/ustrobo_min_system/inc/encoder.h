@@ -19,10 +19,10 @@ typedef struct {
 // Encoder 1 details
 #define ENCODER_TIMER1										TIM4
 #define ENCODER_TIMER1_CLOCK_SOURCE				RCC_APB1Periph_TIM4						// in APB 1
-#define ENCODER_TIMER1_GPIO_CLOCK_SOURCE	RCC_APB2Periph_GPIOB					// in APB 2
-#define ENCODER_TIMER1_PORT1							GPIO_Pin_6
-#define ENCODER_TIMER1_PORT2							GPIO_Pin_7
-#define ENCODER_TIMER1_GPIOx							GPIOB
+#define ENCODER_TIMER1_GPIO_CLOCK_SOURCE	RCC_APB2Periph_GPIOD					// in APB 2
+#define ENCODER_TIMER1_PORT1							GPIO_Pin_12
+#define ENCODER_TIMER1_PORT2							GPIO_Pin_13
+#define ENCODER_TIMER1_GPIOx							GPIOD
 // Encoder 2 details
 #define ENCODER_TIMER2										TIM5
 #define ENCODER_TIMER2_CLOCK_SOURCE				RCC_APB1Periph_TIM5						// in APB 1

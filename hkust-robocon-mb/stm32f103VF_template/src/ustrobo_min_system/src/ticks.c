@@ -1,13 +1,14 @@
 #include "ticks.h"
 
-volatile u32 ticks = 0;
+volatile u16 ticks = 0;
+volatile u16 seconds = 0;
 
 /**
   * @brief  Get the ticks passed from 0-999
   * @param  None
   * @retval ticks passed
   */
-u32 get_ticks() {
+u16 get_ticks(void) {
 	return ticks;
 }
 
@@ -16,8 +17,13 @@ u32 get_ticks() {
   * @param  seconds
   * @retval ticks passed
   */
-u16 get_seconds() {
-	return ticks/1000;
+u16 get_seconds(void) {
+	return seconds;
+}
+
+u32 get_full_ticks(void)
+{
+	return seconds * 1000 + ticks;
 }
 
 /**
@@ -54,7 +60,7 @@ void ticks_init(void) {
 	NVIC_Init(&NVIC_InitStructure);
 	
 	//SysTick_Config(SystemCoreClock/1000);
-	ticks = 0;
+	ticks = seconds = 0;
 }
 
 /**
@@ -64,11 +70,18 @@ void ticks_init(void) {
   */
 TICKS_IRQHandler
 {
-	TIM_ClearFlag(TICKS_TIM, TIM_FLAG_Update);
-	TIM_ClearITPendingBit(TICKS_TIM, TIM_IT_Update);
+  if (TIM_GetITStatus(TICKS_TIM, TIM_IT_Update) != RESET) {
+    TIM_ClearFlag(TICKS_TIM, TIM_FLAG_Update);
+    //TIM_ClearITPendingBit(TICKS_TIM, TIM_IT_Update);
 
-	ticks++;
+    if (ticks >= 999) {
+      ticks = 0;
+      seconds++;
+    } else {
+      ticks++;
+    }
+		buzzer_update();
+  }
 	
-	buzzer_check();
 }
 

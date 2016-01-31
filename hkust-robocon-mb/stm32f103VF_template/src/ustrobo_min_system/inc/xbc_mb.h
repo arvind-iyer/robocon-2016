@@ -1,22 +1,24 @@
 #ifndef _XBC_H_
 #define _XBC_H_ 
 
-
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_spi.h"
 #include "stm32f10x_tim.h"
 #include "delay.h"
 #include "lcd_main.h"
 #include "ticks.h"
+#include "led.h"
 
-#define XBC_SPI			SPI2
-#define XBC_NSS 		GPIO_Pin_12
-#define XBC_SPI_PORT 	GPIOB
+#define XBC_SPI			SPI3
+#define XBC_NSS 		GPIO_Pin_15
 
-#define XBC_SPI_SCK		GPIO_Pin_13
-#define XBC_SPI_MISO	GPIO_Pin_15
-#define XBC_SPI_MOSI	GPIO_Pin_14
-#define XBC_SPI_NSS		GPIO_Pin_12
+#define XBC_SPI_NSS_PORT 	GPIOA
+#define XBC_SPI_OTHER_PORT 	GPIOB
+
+#define XBC_SPI_SCK		GPIO_Pin_3
+#define XBC_SPI_MISO	GPIO_Pin_4
+#define XBC_SPI_MOSI	GPIO_Pin_5
+#define XBC_SPI_NSS		GPIO_Pin_15
 
 #define XBC_COMFIRMED	0x81
 #define XBC_HELLO		0x01

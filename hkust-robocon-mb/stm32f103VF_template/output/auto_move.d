@@ -27,9 +27,10 @@
 .\output\auto_move.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\auto_move.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\auto_move.o: .\src\ustrobo_min_system\inc\buzzer.h
+.\output\auto_move.o: .\src\ustrobo_min_system\inc\gpio.h
+.\output\auto_move.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\auto_move.o: .\src\ustrobo_min_system\inc\battery.h
 .\output\auto_move.o: .\src\ustrobo_min_system\inc\led.h
-.\output\auto_move.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\auto_move.o: .\src\ustrobo_min_system\inc\system.h
 .\output\auto_move.o: .\src\user\xbc_mb.h
 .\output\auto_move.o: .\src\user\button.h

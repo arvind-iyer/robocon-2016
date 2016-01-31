@@ -27,8 +27,8 @@ void gyro_init(void)
 	uart_interrupt(GYRO_UART);
 }
 
-s16    SHIFT_X = 0;	//53//	193//  -163	//	98		//79
-s16    SHIFT_Y = 0;	//40// 	-50// 	-41	//	170		//336
+s16    SHIFT_X = 0;	//92 //53//	193//  -163	//	98		//79
+s16    SHIFT_Y = 0;	//-280 //40// 	-50// 	-41	//	170		//336
 
 /**
   * @brief  Get the X coordinate
@@ -37,10 +37,8 @@ s16    SHIFT_Y = 0;	//40// 	-50// 	-41	//	170		//336
   */
 s16 get_X(void)
 {
-	
    s32 pos_x = (real_x*10000-SHIFT_X*10000+SHIFT_X*int_cos(angle)+SHIFT_Y*int_sin(angle))/10000;
-	//return real_x;
-	return pos_x;//real_x;
+	return real_x;
 }
 
 /**
@@ -52,8 +50,7 @@ s16 get_Y(void)
 {
 	
 	s32 pos_y = (real_y*10000-SHIFT_Y*10000+SHIFT_Y*int_cos(angle)-SHIFT_X*int_sin(angle))/10000;
-	//return real_y;
-	return pos_y;//real_y;
+	return real_y;
 }
 
 /**
@@ -106,8 +103,7 @@ u8 gyro_cal(void)
   * @param  a: angle to be set
   * @retval 1 = successful, 0 = failed
   */
-u8 gyro_pos_set(s16 x, s16 y, s16 a)
-{
+u8 gyro_pos_set(s16 x, s16 y, s16 a){
 	u16 ticks_last = get_ticks();
 	reply_flag &= ~GYRO_FLAG_SET_POS;
 	// Shift
@@ -223,5 +219,4 @@ void USART3_IRQHandler(void)
 	//USART_ClearFlag(USART3,USART_FLAG_RXNE);
 	//USART_ClearITPendingBit(USART3,USART_IT_RXNE);
 }
-
 

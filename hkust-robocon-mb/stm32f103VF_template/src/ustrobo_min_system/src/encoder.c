@@ -41,6 +41,10 @@ void encoder_init(void){
 		TIM_TimeBaseInit(encoder[encoder_id].timer, &TIM_TimeBaseStructure);
 		
 		// Setting to Rising edge mode
+				
+		// Use TIM_EncoderMode_TI1 to count only B pin reading
+		// TI2 to count only A pin
+		// TI12 = TI3 to count both
 		TIM_EncoderInterfaceConfig(encoder[encoder_id].timer, TIM_EncoderMode_TI12,
 														 TIM_ICPolarity_Rising, TIM_ICPolarity_Rising);
 		
@@ -52,7 +56,7 @@ void encoder_init(void){
 
 /**
   * @brief  Get the count reading from encoder.
-	* @param  ENCODERx: where x can be 1 to 2
+	* @param  ENCODERx: where x can be 1 to 2, its value to be 0 or 1
   * @retval The reading of the encoder
   */
 u32 get_count(ENCODER ENCODERx){

@@ -45,7 +45,7 @@ void xbc_init(u8 lcd_on){
 
 	SPI_InitTypeDef SPI_InitStructure;
 	RCC_APB2PeriphClockCmd( RCC_APB2Periph_GPIOB , ENABLE );
-	RCC_APB1PeriphClockCmd( RCC_APB1Periph_SPI2 , ENABLE );
+	RCC_APB1PeriphClockCmd( RCC_APB1Periph_SPI3   , ENABLE );
 	xbc_gpio_init();
 	
 	SPI_StructInit(&SPI_InitStructure );
@@ -80,24 +80,24 @@ void xbc_gpio_init(void){
 	XBC_SPI_GPIO.GPIO_Pin = XBC_SPI_SCK | XBC_SPI_MISO;
 	XBC_SPI_GPIO.GPIO_Speed = GPIO_Speed_50MHz;
 	XBC_SPI_GPIO.GPIO_Mode = GPIO_Mode_AF_PP;
-	GPIO_Init(XBC_SPI_PORT, &XBC_SPI_GPIO);
+	GPIO_Init(XBC_SPI_OTHER_PORT, &XBC_SPI_GPIO);
 
 	XBC_SPI_GPIO.GPIO_Pin = XBC_SPI_MOSI;
 	XBC_SPI_GPIO.GPIO_Speed = GPIO_Speed_50MHz;
 	XBC_SPI_GPIO.GPIO_Mode = GPIO_Mode_IPU;
-	GPIO_Init(XBC_SPI_PORT, &XBC_SPI_GPIO);
+	GPIO_Init(XBC_SPI_OTHER_PORT, &XBC_SPI_GPIO);
 	
 	/* Configure SPI1 pins: NSS (chip select)*/
 	XBC_SPI_GPIO.GPIO_Pin = XBC_SPI_NSS;
 	XBC_SPI_GPIO.GPIO_Speed = GPIO_Speed_50MHz;
 	XBC_SPI_GPIO.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-	GPIO_Init(XBC_SPI_PORT, &XBC_SPI_GPIO);
+	GPIO_Init(XBC_SPI_NSS_PORT, &XBC_SPI_GPIO);
 	
 	XBC_SPI_GPIO.GPIO_Mode = GPIO_Mode_IPD;
 	XBC_SPI_GPIO.GPIO_Pin = GPIO_Pin_10;
 	GPIO_Init(GPIOD, &XBC_SPI_GPIO);
 	
-	GPIO_SetBits( XBC_SPI_PORT , XBC_SPI_NSS );
+	GPIO_SetBits( XBC_SPI_NSS_PORT , XBC_SPI_NSS );
 }
 
 u8 get_xbc_mode(){
@@ -358,12 +358,12 @@ void TIM7_IRQHandler(void){
 			break;
 
 		case 1: //waiting xbc trigger
-			if (transmit_mode == xbc_rx_mode && !GPIO_ReadInputDataBit(XBC_SPI_PORT,XBC_NSS)){
+			if (transmit_mode == xbc_rx_mode && !GPIO_ReadInputDataBit(XBC_SPI_NSS_PORT,XBC_NSS)){
 				get_xbc_data();
 				disconnect_cnt = 0;
 				xbc_mode = 1;
 			}
-			else if (transmit_mode == tft_tx_mode && !GPIO_ReadInputDataBit(XBC_SPI_PORT,XBC_NSS)){ //send tft to xbc
+			else if (transmit_mode == tft_tx_mode && !GPIO_ReadInputDataBit(XBC_SPI_NSS_PORT,XBC_NSS)){ //send tft to xbc
 				xbc_tft_transmit();
 				disconnect_cnt = 0;
 				xbc_mode = 1;
@@ -467,8 +467,10 @@ void xbc_test_program(void)
 	
 	while(!xbc_test_ko)
 	{
-		if (ticks_img != get_ticks()) {
-			if (ticks_img % 20 == 0) {
+		if (1) {
+			if (get_ticks() % 20 == 0) {
+				led_control(LED_D1, LED_ON);
+				led_control(LED_D2, LED_OFF);
 				pre_pressed_cnt = pressed_cnt;
 				pre_xbc_press = xbc_press;
 				xbc_update();
@@ -479,6 +481,7 @@ void xbc_test_program(void)
 							tft_clear();
 							tft_prints(0,0,"PRESS [UP]");
 							pressed_cnt++;
+							led_control(LED_D3, LED_ON);
 						}
 					break;
 
@@ -629,10 +632,13 @@ void xbc_test_program(void)
 				tft_prints(0,4,"LX:%5ld",xbc_joy[XBC_LX]);
 				tft_prints(0,5,"LY:%5ld",xbc_joy[XBC_LY]);
 				tft_prints(0,6,"RX:%5ld",xbc_joy[XBC_RX]);
-				tft_prints(0,7,"RY:%5ld",xbc_joy[XBC_RY]);
+				tft_prints(0,7,"RY:%5ld %d",xbc_joy[XBC_RY], get_ticks());
 				tft_prints(0,8,"press_cnt:%3d",press_times); //normally press once count up 1
 				tft_prints(15,9,"%d",ticks_img);
 				tft_update();
+				led_control(LED_D1, LED_OFF);
+				led_control(LED_D2, LED_ON);
+
 			}
 		}
 	}

@@ -1,5 +1,5 @@
-#ifndef __LCD_MAIN_H
-#define __LCD_MAIN_H
+#ifndef __LCD_RED_H
+#define __LCD_RED_H
 
 #include "stm32f10x.h"
 #include "stm32f10x_gpio.h"
@@ -110,4 +110,4 @@ void tft_put_mega_ass_num(u8 x, u8 y, u8 character, u16 color);
 void tft_mega_update();
 void tft_put_logo(u8 x, u8 y);
 
-#endif		/* __LCD_MAIN_H */
+#endif		/* __LCD_RED_H */

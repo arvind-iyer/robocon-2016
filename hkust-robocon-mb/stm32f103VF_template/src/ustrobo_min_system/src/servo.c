@@ -1,9 +1,9 @@
 #include "servo.h"
 
-static SERVO_PWM_STRUCT servo_pwm = {{TIM_Channel_1, GPIO_Pin_6, ENABLE, TIM_OC1Init},
-																		{TIM_Channel_2, GPIO_Pin_7, ENABLE, TIM_OC2Init},
-																		{TIM_Channel_3, GPIO_Pin_8, ENABLE, TIM_OC3Init},
-																		{TIM_Channel_4, GPIO_Pin_9, ENABLE, TIM_OC4Init}};
+static SERVO_PWM_STRUCT servo_pwm = {{TIM_Channel_1, GPIO_Pin_6, ENABLE, TIM_OC1Init, TIM_SetCompare1},
+																		{TIM_Channel_2, GPIO_Pin_7, ENABLE, TIM_OC2Init, TIM_SetCompare2},
+																		{TIM_Channel_3, GPIO_Pin_8, ENABLE, TIM_OC3Init, TIM_SetCompare3},
+																		{TIM_Channel_4, GPIO_Pin_9, ENABLE, TIM_OC4Init, TIM_SetCompare4}};
 
 /**
   * @brief  Servo initialization
@@ -29,8 +29,8 @@ void servo_init(void){
 	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
 
 	//------------------------------//
-	TIM_TimeBaseStructure.TIM_Prescaler = 71;												//clk=72M/(71+1)= Hz, interval=?
-	TIM_TimeBaseStructure.TIM_Period = 20000;												//pulse cycle= 20000
+	TIM_TimeBaseStructure.TIM_Prescaler = 143;												//clk=72M/(71+1)= Hz, interval=?
+	TIM_TimeBaseStructure.TIM_Period = 10000;												//pulse cycle= 20000
 	//------------------------------//
 
 	TIM_TimeBaseInit(SERVO_TIM, &TIM_TimeBaseStructure);
@@ -76,41 +76,32 @@ void servo_init(void){
 }
 
 /**
-  * @brief  Controlling the PWM for servos
-  * @param  servo_id: Port of Motor to be used (MOTOR1, MOTOR2, MOTOR3, MOTOR4)
-  * @param  val: Value from 0 to 1000
-  * @retval None
+  * @brief  Controlling servos
+  * @param  servo_id: Port of Servo to be used (SERVO1, SERVO2, SERVO3, SERVO4)
+  * @param  val:Value from @SERVO_MIN to @SERVO_MAX
   */
-void servo_control(u8 servo_id , u16 val) {
-/***************************************************************************************************	
-	for hitec 5945 & 7955 and futaba S3010, min pulse width=900us, max pulse width=2100us
-	val is the percentage of possible turning angles for the servo from 0.1% to 100%
-	equation: desired_pulse_width=1/tim_clk*ccr_val
-	
-	example: desired_pulse_width=1232us, ccr_val=1232*1u/(1/250K)=308
-		p.s. 1u (10^-6) is for normalising the scale for val since it is in 10^-6 scale
-	i.e. min ccr_val=225, max ccr_val=525
-	
-	for safety: limted min ccr_val=250, limited max ccr_val=500
-	since 250<=ccr_val<=500,
-	put (val+1000)/4=ccr_val
-		which is the relationship between val and desired_pulse_width
-	
-	therefore 250<=(val+1000)/4<=500 and desired_pulse_width=(val+1000)*1u/(1/250K), 
-***************************************************************************************************/
 
-//	u16 ccr_val = (val+600)/3;			 
-		u16 ccr_val = val;
-//	if (ccr_val < 200 || ccr_val > 550)
-//		return;
+void servo_control(SERVO_ID servo_id , u16 val) {
+	 
+	u16 ccr_val = val;
+	val = (val<SERVO_MIN ? SERVO_MIN : (val>SERVO_MAX ? SERVO_MAX : val));
 	
-	if (servo_id == SERVO1 )
-		TIM_SetCompare1(SERVO_TIM, ccr_val );	//set for ocr
-	else if (servo_id == SERVO2 )
-		TIM_SetCompare2(SERVO_TIM, ccr_val );
-	else if ( servo_id == SERVO3 )
-		TIM_SetCompare3(SERVO_TIM, ccr_val );
-	else if ( servo_id == SERVO4 )
-		TIM_SetCompare4(SERVO_TIM, ccr_val );
+  if (((u8) servo_id) < SERVO_COUNT) {
+    servo_pwm[servo_id].TIM_SetCompare(SERVO_TIM, ccr_val);
+  }
+}
 
+/**
+  * @brief  Controlling all servos
+  * @param  val:Value from @SERVO_MIN to @SERVO_MAX
+  */
+
+void servo_control_all(u16 val) {
+	 
+	u16 ccr_val = val;
+	val = (val<SERVO_MIN ? SERVO_MIN : (val>SERVO_MAX ? SERVO_MAX : val));
+	
+  for (u8 i=0; i<SERVO_COUNT; i++) {
+    servo_pwm[i].TIM_SetCompare(SERVO_TIM, ccr_val);
+  }
 }
