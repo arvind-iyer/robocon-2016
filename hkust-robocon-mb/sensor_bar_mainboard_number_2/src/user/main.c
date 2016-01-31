@@ -41,6 +41,7 @@ int end = 0;
 int length = 0;
 int lastMovement = 0;
 int lastTurn = 0;
+float factor = 0;
 
 int main(void) 
 {
@@ -79,19 +80,30 @@ int main(void)
 			 }
 			 
 			 // if last turn was less than 1500ms ago, go in last direction.
-			 if (get_full_ticks() - lastTurn >= 250) {
-				 if (length >= 3 && length <= 8) {
-					 float factor = ((begin + end) / 2) / (float) 16;
-					 lastMovement = SERVO_MAX - (factor * (SERVO_MAX - SERVO_MIN));
+			 if (get_full_ticks() - lastTurn >= 300) {
+				 if (length >= 3 && length <= 6) {
+					 factor = (((begin+1) + (end+1)) / 2) / (float) 16;
+					 lastMovement = (SERVO_MAX-200) - (factor * (SERVO_MAX - SERVO_MIN-400));
+					 
 					 tft_prints(0, 5, "Fek: %.4f", factor); 
-				 } else if (length >= 9 || begin == end) { // 90 degree turnnnzzz
-					 if ((begin + end) / 2 < 8) {
+				 } else if (length >= 8 || (begin == end == 1)) { // 90 degree turnnnzzz
+					 if (((begin+1) + (end+1)) / 2 < 8) {
 						 lastMovement = SERVO_MAX;
 					 } else {
 						 lastMovement = SERVO_MIN;
 					 }
 					 lastTurn = get_full_ticks();
-				 } else {
+				 }
+					 /*else if(begin == end == 0) {
+						 if(factor*16 <= 8){
+							 lastMovement = SERVO_MAX;
+						 }
+						 else{
+							 lastMovement = SERVO_MIN;
+						 }
+						 lastTurn = get_full_ticks();
+					 }*/
+				 else {
 					 //fuck it, do last direction
 				 }
 			 }
