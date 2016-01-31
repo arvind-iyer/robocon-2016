@@ -12,6 +12,11 @@ int M=0;
 int dir=0;
 int W=0;
 
+int lock;
+int x_m;
+int y_m;
+int dir_m;
+
 int _x;
 int _y;
 int _angle;
@@ -36,39 +41,38 @@ void _move(int M, int dir, int W);
 
 void _setTarget(int x, int y, int bearing);
 void _straight(int x, int y, int bearing, int d_e, int a_e, int vel);
-void _curve(int x, int y, /*int bend*/int centerX, int centerY);
+void _curve(int x, int y, int centerX, int centerY);
 
 int _dist(int x0, int y0, int x, int y);
 int _angleDiff(int o, int t);
 int _bearing(int x0, int y0, int x, int y);
 int _vectorAdd(int m1, int b1, int m2, int b2);
 
-void _delay();
+void _manual();
+int _manualCheck();
+
+void _delay(int sec);
 int _getX();
 int _getY();
 int _getAngle();
 
-char * stringBuffer = "";
-int buffPos=0;
-void USART2_IRQHandler();
-void handleCommand(char * command);
-
 int main()
 {
-	tft_init(2, BLACK, WHITE, RED);
-	bluetooth_init();
+	tft_easy_init();
+	//tft_init(2, BLACK, WHITE, RED);
 	ticks_init();
 	gyro_init();
 	can_init();
 	can_rx_init();
 	can_motor_init();
-	_delay();
+	xbc_mb_init(XBC_CAN_FIRST);
+	_delay(5);
 	//start
+	lock=0;
 	while (1)
 	{
 		_updateScreen();
-		_straight(0, 2000, 0, 1, 2, 0);
-		_straight(0, 0, 0, 1, 2, 0);
+		_manual();
 	}
 	
 }
@@ -94,16 +98,20 @@ void _updateScreen()
 	tft_clear();
 	tft_prints(0, 0, "%d %d [%d]", _getX(), _getY(), _getAngle()/10);
 	tft_prints(0, 1, "M: %d %d %d", M1, M2, M3);
-	tft_prints(0, 3, "_m(%d, %d, %d)", M, dir, W);
-	tft_prints(0, 4, "err: %.2f", err);
-	tft_prints(0, 6, "Q: %d %d %d", target_x, target_y, target_angle);
-	tft_prints(0, 7, "T: %d [%d]", _dist(_getX(), _getY(), target_x, target_y), bear);
-	tft_prints(0, 9, "Ticks: %d", get_ticks());
+	tft_prints(0, 2, "_m(%d, %d, %d)", M, dir, W);
+	tft_prints(0, 3, "err: %.2f", err);
+	tft_prints(0, 4, "Q: %d %d %d", target_x, target_y, target_angle);
+	tft_prints(0, 5, "T: %d [%d]", _dist(_getX(), _getY(), target_x, target_y), bear);
+	tft_prints(0, 6, "Ticks: %d", get_ticks());
 	tft_update();
 }
 
 void _move(int M, int dir, int W)
 {
+	if (M>100)
+	{
+		M=100;
+	}
 	float _M1;
 	float _M2;
 	float _M3;
@@ -114,7 +122,7 @@ void _move(int M, int dir, int W)
 	_M1=(-W-X*2)/3;
 	_M2=(-W*0.577f+X*0.577f-Y)/1.73f;
 	_M3=-W-_M1-_M2;
-	if ((M!=0 || W!=0) && (_x==_getX() && _y==_getY() && _angle==get_angle()))
+	if ((M!=0 || W!=0) && (_x==_getX() && _y==_getY() && _angle==_getAngle()))
 	{
 		if (Abs(_M1*(err+0.03))<MAXVEL && Abs(_M2*(err+0.03))<MAXVEL && Abs(_M3)<MAXVEL)
 		{
@@ -139,7 +147,7 @@ void _move(int M, int dir, int W)
 	//update
 	_x=_getX();
 	_y=_getY();
-	_angle=get_angle();
+	_angle=_getAngle();
 	_distance=_dist(_getX(), _getY(), target_x, target_y);
 }
 
@@ -158,6 +166,8 @@ void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 	distance=_dist(_getX(), _getY(), x, y);
 	while (distance>d_e || Abs(bearing-_getAngle()/10)>a_e)
 	{
+		if (_manualCheck()==1)
+			break;
 		distance=_dist(_getX(), _getY(), x, y);
 		if (vel!=0)
 		{
@@ -231,6 +241,8 @@ void _curve(int x, int y, /*int bend*/int x1, int y1)
 	y0=_getY();
 	for (float t=0; t<=1; t=t+0.1f)
 	{
+		if (_manualCheck()==1)
+			break;
 		int c_x=(1-t)*(1-t)*x0+2*(1-t)*t*x1+t*t*x;
 		int c_y=(1-t)*(1-t)*y0+2*(1-t)*t*y1+t*t*y;
 		_straight(c_x, c_y, 0, 20, 360, 20);
@@ -275,10 +287,66 @@ int _vectorAdd(int m1, int b1, int m2, int b2)
 	return _bearing(0, 0, m1*int_sin(b1*10)/10000+m2*int_sin(b2*10)/10000, m1*int_cos(b1*10)/10000+m2*int_cos(b2*10)/10000);
 }
 
-void _delay()
+void _manual()
+{
+	button_update();
+	//XBC_JOY_LX XBC_JOY_LY
+	err=1;
+	dir=int_arc_tan2(xbc_get_joy(XBC_JOY_LX), xbc_get_joy(XBC_JOY_LY));
+	if (dir<0)
+	{
+		dir=dir+360;
+	}
+	M=(xbc_get_joy(XBC_JOY_LY)*xbc_get_joy(XBC_JOY_LY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/10000*60/100;
+	W=0;
+	_move(M, dir, W);
+	//BUTTON_XBC_Y
+	if (button_pressed(BUTTON_XBC_Y))
+	{
+		motor_set_vel(MOTOR4, 40, OPEN_LOOP);
+		motor_set_vel(MOTOR5, 40, OPEN_LOOP);
+		motor_set_vel(MOTOR6, 40, OPEN_LOOP);
+	}
+	//BUTTON_XBC_A
+	if (button_pressed(BUTTON_XBC_A))
+	{
+		motor_set_vel(MOTOR4, -40, OPEN_LOOP);
+		motor_set_vel(MOTOR5, -40, OPEN_LOOP);
+		motor_set_vel(MOTOR6, -40, OPEN_LOOP);
+	}
+	//BUTTON_XBC_X
+	if (button_pressed(BUTTON_XBC_X))
+	{
+		x_m=_getX();
+		y_m=_getY();
+		dir_m=_getAngle();
+		lock++;
+		_delay(1);
+	}
+	if (lock%2==1)
+	{
+		_straight(x_m, y_m, dir_m, 5, 5, 0);
+	}
+}
+
+int _manualCheck()
+{
+	button_update();
+	if (xbc_get_joy(XBC_JOY_LX)!=0)
+	{
+		return 1;
+	}
+	if (xbc_get_joy(XBC_JOY_LY)!=0)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+void _delay(int sec)
 {
 	int start=get_seconds();
-	while (get_seconds()-start!=5)
+	while (get_seconds()-start!=sec)
 	{
 		_updateScreen();
 	}
@@ -299,54 +367,4 @@ int _getY()
 int _getAngle()
 {
 	return get_angle();
-}
-
-void handleCommand(char * command) {
-    int dataIndex=0;
-	int contentIndex=0;
-	int header=-1;
-    int contents[16];
-    for (char * data = strtok(command, "|"); data != NULL; data = strtok(NULL, "|"))
-	{
-        if (dataIndex == 0)
-		{
-            header = atoi(data);
-        }
-		else
-		{
-            contents[contentIndex++] = atoi(data);
-        }
-        dataIndex++;
-    }
-    switch (header) {
-        case 0:
-		{
-			int __M = contents[0];
-			int __B = contents[1];
-			int __W = contents[2];
-			_move(__M, __B, __W);
-		}
-			break;
-		default:
-			break;
-	}
-}
-
-void USART2_IRQHandler() {
-	if (USART_GetITStatus(USART2,USART_IT_RXNE) != RESET)
-	{
-		const uint8_t byte = USART_ReceiveData(USART2);
-		if (byte == '\n')
-		{
-			stringBuffer[buffPos] = '\0';
-			handleCommand(stringBuffer);
-			buffPos = 0;
-			memset(stringBuffer, 0, strlen(stringBuffer));
-		}
-		else
-		{
-			stringBuffer[buffPos++] = byte;
-		}
-		USART_ClearITPendingBit(USART2, USART_IT_RXNE);
-	}
 }

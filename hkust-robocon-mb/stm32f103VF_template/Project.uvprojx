@@ -373,7 +373,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER, STM32F10X_XL, USE_STM3210B_EVAL</Define>
               <Undefine></Undefine>
-              <IncludePath>.\src;.\src\stm32f10x_std\inc;.\src\ustrobo_min_system\inc;.\src\user</IncludePath>
+              <IncludePath>.\src;.\src\stm32f10x_std\inc;.\src\ustrobo_min_system\inc;.\src\user;.\src\ustrobo_min_system\src;.\src\ustrobo_min_system</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -445,6 +445,26 @@
               <FileName>crc.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\user\crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>xbc_mb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\xbc_mb.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_xbc_mb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\can_xbc_mb.c</FilePath>
+            </File>
+            <File>
+              <FileName>bluetooth_xbc_mb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\bluetooth_xbc_mb.c</FilePath>
+            </File>
+            <File>
+              <FileName>button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\button.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -574,11 +594,6 @@
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\ustrobo_min_system\src\delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>lcd_red.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\ustrobo_min_system\src\lcd_red.c</FilePath>
             </File>
             <File>
               <FileName>gyro.c</FileName>
@@ -723,6 +738,11 @@
               <FileName>encoder.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\ustrobo_min_system\src\encoder.c</FilePath>
+            </File>
+            <File>
+              <FileName>lcd_main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\ustrobo_min_system\src\lcd_main.c</FilePath>
             </File>
           </Files>
         </Group>
