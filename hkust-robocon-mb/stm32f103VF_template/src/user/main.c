@@ -5,7 +5,7 @@
 
 int main(void)
 {
-	tft_init(2, BLUE, WHITE, BLACK);
+	tft_easy_init();
 	encoder_init();
 	gyro_init();
 	
@@ -38,7 +38,7 @@ int main(void)
 	auto_tar_enqueue(0, 0, 0, 1.0, true);
 		
 	while (1) {
-		if (get_ticks() % 50 == 0) {
+		if (get_full_ticks() % 50 == 0) {
 			auto_var_update();			
 			auto_motor_update();
 			//auto_calibrate();

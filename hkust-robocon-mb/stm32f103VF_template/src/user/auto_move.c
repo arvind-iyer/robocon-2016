@@ -40,7 +40,7 @@ void auto_tar_enqueue(int x, int y, int deg, int curve, bool stop) {
 void auto_tar_dequeue() {
 	int mid_length;
 	if (tar_end && tar_queue[tar_end-1].stop)
-		start = get_ticks();
+		start = get_full_ticks();
 	if (tar_end) {
 		ori_x = tar_queue[tar_end-1].x;
 		ori_y = tar_queue[tar_end-1].y;
@@ -79,7 +79,7 @@ void auto_init() {
 }
 
 void auto_var_update() {
-	passed = get_ticks() - start;
+	passed = get_full_ticks() - start;
 	cur_deg = get_angle();
 	cor_x = 0;
 	cor_y = 0;
@@ -191,9 +191,9 @@ void auto_motor_update(){
 	tft_clear();
 	tft_prints(0,0,"X:%5d Y:%5d",cur_x,cur_y);
 	tft_prints(0,1,"ANGLE %d",cur_deg);
-	tft_prints(0,5,"%d %d",tar_cen_x,tar_cen_y);
-	tft_prints(0,7,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
-	tft_prints(0,9,"TIM %3d",get_seconds());
+	tft_prints(0,2,"%d %d",tar_cen_x,tar_cen_y);
+	tft_prints(0,3,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
+	tft_prints(0,4,"TIM %3d",get_seconds());
 	tft_update();
 }
 
