@@ -5,15 +5,9 @@
 
 int main(void)
 {
-	led_init();
 	tft_init(2, BLUE, WHITE, BLACK);
 	encoder_init();
 	gyro_init();
-	buzzer_init();
-	
-	uart_init(COM1, 115200);
-	uart_interrupt(COM1);
-	bluetooth_init();
 	
 	can_init();
 	can_rx_init();
