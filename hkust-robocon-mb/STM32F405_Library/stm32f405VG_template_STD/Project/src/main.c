@@ -40,6 +40,7 @@ void handleCommand(char * command) {
 int main(void) {
 	SystemInit();
 	led_init();
+    //tft_init(0,BLACK,WHITE,RED);
 
 	//IMPORTANT: TM_DELAY_INIT MUST BE BEFORE ticks_init!!!
 	TM_DELAY_Init();
@@ -55,12 +56,18 @@ int main(void) {
 	uint16_t ticks_ms_img = 0;
 	
 	char buffer[512];
+    
+    tft_init(0,BLACK,BLUE,RED);
 	
 	while (1) {
 		TM_USART_Puts(USART1, "Benchod\n");
 		if (TM_USART_Gets(USART1, buffer, 512) > 0) {
 			handleCommand(buffer);
 		}
+        LED_ON(LED_1);
+        tft_prints(0,0,"HAHAHAH");
+        tft_prints(0,1,"SO HAPPY :D!");
+        tft_update();
 	}
 
 	return 0;

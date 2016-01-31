@@ -32,6 +32,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx.h"
 #include "led.h"
+#include "lcd.h"
 #include "stm32f4xx_gpio.h"
 #include "tm_stm32f4_stdio.h"
 #include "tm_stm32f4_timer_properties.h"
