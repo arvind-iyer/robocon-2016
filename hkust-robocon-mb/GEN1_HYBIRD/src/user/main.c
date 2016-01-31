@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 int main(void) {
 	servo_init();
 	led_init();
@@ -22,10 +21,9 @@ int main(void) {
 	while(1){
 		if ((get_full_ticks() - lastTicks)>50){
 			lastTicks = get_full_ticks();
-			led_blink(LED_D1);
 			button_update();
 			if (control_state==MANUAL_CONTROL){
-				control_state = manual_control_update();
+			control_state = manual_control_update();
 			}else{
 				//AUTO
 			}

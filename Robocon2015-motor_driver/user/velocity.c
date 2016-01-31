@@ -280,17 +280,15 @@ CLOSE_LOOP_FLAG get_curr_loop_flag(void)
   * @param  None
   * @retval True if encoder is working and false otherwise.
   */
-bool is_encoder_working(void)
-{
+bool is_encoder_working(void){
   return encoder_working;
 }
 
-PID_MODE get_curr_pid_mode(void)
-{
+PID_MODE get_curr_pid_mode(void){
 	return curr_pid_mode;
 }
 
 s32 get_current_pwm(){
-	return target_vel;
+	return curr_pwm;
 }
 

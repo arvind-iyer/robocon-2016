@@ -15,6 +15,7 @@
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\stm32f10x_spi.h
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\misc.h
+.\output\manual_mode.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\output\manual_mode.o: src\user\can_motor.h
 .\output\manual_mode.o: src\user\can.h
 .\output\manual_mode.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
@@ -34,3 +35,4 @@
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\delay.h
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\manual_mode.o: src\user\pneumatic.h
+.\output\manual_mode.o: .\src\ustrobo_min_system\inc\led.h

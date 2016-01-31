@@ -49,4 +49,5 @@
 .\output\main.o: .\src\ustrobo_min_system\inc\linear_ccd.h
 .\output\main.o: .\src\ustrobo_min_system\inc\adc.h
 .\output\main.o: src\user\manual_mode.h
+.\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\output\main.o: src\user\pneumatic.h

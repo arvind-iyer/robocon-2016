@@ -2,6 +2,7 @@
 #define _MANUAL_MODE_H
 
 #include "stm32f10x.h"
+#include <stdlib.h>
 #include "can_motor.h"
 #include "approx_math.h"
 #include "xbc_mb.h"
@@ -10,6 +11,7 @@
 #include "ticks.h"
 #include "pneumatic.h"
 #include "buzzer.h"
+#include "led.h"
 
 #define ACC_THRESHOLD 1
 #define CLIMBING_SPEED 1799

@@ -56,7 +56,7 @@ void encoder_init(void){
 
 /**
   * @brief  Get the count reading from encoder.
-	* @param  ENCODERx: where x can be 1 to 2
+	* @param  ENCODERx: where x can be 1 to 2, its value to be 0 or 1
   * @retval The reading of the encoder
   */
 u32 get_count(ENCODER ENCODERx){
