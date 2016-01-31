@@ -27,42 +27,30 @@ Project File Date:  01/31/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
-compiling manual_move.c...
-src\user\can_motor.h(55): warning:  #1-D: last line of file ends without a newline
-  #endif
-.\src\ustrobo_min_system\inc\lcd_main.h(89): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
-  void tft_easy_init();
+compiling main.c...
+.\src\ustrobo_min_system\inc\led.h(38): warning:  #1295-D: Deprecated declaration get_led_state - give arg types
+  u8 get_led_state();
 .\src\ustrobo_min_system\inc\lcd_main.h(110): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
   void tft_mega_update();
+src\user\can_motor.h(55): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\src\ustrobo_min_system\inc\gyro.h(44): warning:  #1-D: last line of file ends without a newline
+  #endif		/* __GYRO_H */
 src\user\pneumatic.h(7): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
   void pneumatic_init();
 src\user\pneumatic.h(10): warning:  #1-D: last line of file ends without a newline
   #endif
-src\user\manual_move.h(32): warning:  #1295-D: Deprecated declaration manual_init - give arg types
-  void manual_init();
-src\user\manual_move.h(33): warning:  #1295-D: Deprecated declaration climb_continue - give arg types
-  void climb_continue();
-src\user\manual_move.h(34): warning:  #1295-D: Deprecated declaration stop_climbing - give arg types
-  void stop_climbing();
-src\user\manual_move.h(35): warning:  #1295-D: Deprecated declaration manual_control_update - give arg types
-  CONTROL_STATE manual_control_update();
-src\user\manual_move.h(38): warning:  #1-D: last line of file ends without a newline
+src\user\manual_mode.h(39): warning:  #1-D: last line of file ends without a newline
   #endif
-src\user\manual_move.c(100): warning:  #188-D: enumerated type mixed with another type
-  			motor_set_vel(MOTOR1 + i, motor_vel[i], CLOSE_LOOP);
-src\user\manual_move.c(109): warning:  #188-D: enumerated type mixed with another type
-  		tft_append_line("%d %d %d", get_pwm_value(0), get_pwm_value(1), get_pwm_value(2));
-src\user\manual_move.c(109): warning:  #188-D: enumerated type mixed with another type
-  		tft_append_line("%d %d %d", get_pwm_value(0), get_pwm_value(1), get_pwm_value(2));
-src\user\manual_move.c(109): warning:  #188-D: enumerated type mixed with another type
-  		tft_append_line("%d %d %d", get_pwm_value(0), get_pwm_value(1), get_pwm_value(2));
-src\user\manual_move.c(183): warning:  #188-D: enumerated type mixed with another type
-  			pneumatic_state = !pneumatic_state;
-src\user\manual_move.c: 15 warnings, 0 errors
+src\user\main.c(34): warning:  #1-D: last line of file ends without a newline
+  }
+src\user\main.c: 8 warnings, 0 errors
 linking...
-Program Size: Code=31176 RO-data=508 RW-data=2280 ZI-data=40712  
+.\output\stm32_template.axf: Warning: L6304W: Duplicate input file .\output\buzzer.o ignored.
+Program Size: Code=28948 RO-data=508 RW-data=2248 ZI-data=40680  
+Finished: 0 information, 1 warning and 0 error messages.
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 15 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 9 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\GEN1_HYBIRD\RTE

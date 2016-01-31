@@ -43,7 +43,7 @@
 #include "led.h"
 #include "linear_ccd.h"
 #include "adc.h"
-#include "manual_move.h"
+#include "manual_mode.h"
 #include "pneumatic.h"
 
 #endif /* __MAIN_H */
