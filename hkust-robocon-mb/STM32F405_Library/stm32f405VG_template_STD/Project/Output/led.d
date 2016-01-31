@@ -1,12 +1,12 @@
 .\output\led.o: src\led.c
 .\output\led.o: .\inc\led.h
 .\output\led.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx.h
-.\output\led.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
+.\output\led.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cm4.h
 .\output\led.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\output\led.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h
-.\output\led.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h
-.\output\led.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h
-.\output\led.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h
+.\output\led.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cmInstr.h
+.\output\led.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\cmsis_armcc.h
+.\output\led.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cmFunc.h
+.\output\led.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cmSimd.h
 .\output\led.o: ..\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
 .\output\led.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx_conf.h
 .\output\led.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h

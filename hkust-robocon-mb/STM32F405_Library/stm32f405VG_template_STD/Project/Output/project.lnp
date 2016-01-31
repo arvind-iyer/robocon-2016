@@ -8,6 +8,7 @@
 ".\output\tm_stm32f4_pwm.o"
 ".\output\tm_stm32f4_delay.o"
 ".\output\ticks.o"
+".\output\tm_stm32f4_usart.o"
 ".\output\misc.o"
 ".\output\stm32f4xx_adc.o"
 ".\output\stm32f4xx_can.o"
@@ -54,4 +55,4 @@
 --strict --scatter ".\Output\project.sct"
 --show_parent_lib --show_full_path --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
---list ".\Listings\project.map" -o .\Output\project.axf
+--list ".\Listings\project.map" -o .\Output\project.hex

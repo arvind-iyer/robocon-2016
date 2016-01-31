@@ -1,12 +1,12 @@
 .\output\tm_stm32f4_timer_properties.o: tm_stm32f4_timer_properties.c
 .\output\tm_stm32f4_timer_properties.o: tm_stm32f4_timer_properties.h
 .\output\tm_stm32f4_timer_properties.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx.h
-.\output\tm_stm32f4_timer_properties.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
+.\output\tm_stm32f4_timer_properties.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cm4.h
 .\output\tm_stm32f4_timer_properties.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\output\tm_stm32f4_timer_properties.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h
-.\output\tm_stm32f4_timer_properties.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h
-.\output\tm_stm32f4_timer_properties.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h
-.\output\tm_stm32f4_timer_properties.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h
+.\output\tm_stm32f4_timer_properties.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cmInstr.h
+.\output\tm_stm32f4_timer_properties.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\cmsis_armcc.h
+.\output\tm_stm32f4_timer_properties.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cmFunc.h
+.\output\tm_stm32f4_timer_properties.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cmSimd.h
 .\output\tm_stm32f4_timer_properties.o: ..\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
 .\output\tm_stm32f4_timer_properties.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx_conf.h
 .\output\tm_stm32f4_timer_properties.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h

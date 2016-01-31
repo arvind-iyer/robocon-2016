@@ -3,36 +3,75 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.13.0.0
-Copyright (C) 2014 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Kenneth Au, HKUST, LIC=YA3Y8-3AVRM-BEMHH-WJJS6-DZAP4-SAWSM
+IDE-Version: µVision V5.16a
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Kenta Iwasaki, Dranithix, LIC=QF8WF-68SDP-VDVKA-1JI7J-KBDK2-B1EL7
  
 Tool Versions:
-Toolchain:       MDK-ARM Standard  Version: 5.13.0.0
+Toolchain:       MDK-ARM Standard  Version: 5.16a
 Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.05 update 1 (build 106)
-Assembler:       Armasm.exe V5.05 update 1 (build 106)
-Linker/Locator:  ArmLink.exe V5.05 update 1 (build 106)
-Library Manager: ArmAr.exe V5.05 update 1 (build 106)
-Hex Converter:   FromElf.exe V5.05 update 1 (build 106)
-CPU DLL:         SARMCM3.DLL V5.13.0.0
+C Compiler:      Armcc.exe V5.06 (build 20)
+Assembler:       Armasm.exe V5.06 (build 20)
+Linker/Locator:  ArmLink.exe V5.06 (build 20)
+Library Manager: ArmAr.exe V5.06 (build 20)
+Hex Converter:   FromElf.exe V5.06 (build 20)
+CPU DLL:         SARMCM3.DLL V5.16a
 Dialog DLL:      DARMSTM.DLL V1.65.0.0
-Target DLL:      Segger\JL2CM3.dll V2.99.11.0
+Target DLL:      Segger\JL2CM3.dll V2.99.15.2
 Dialog DLL:      TARMSTM.DLL V1.64.0.0
  
 <h2>Project:</h2>
-C:\Users\Kenneth Au\Dropbox\Documents\HKUST\Robocon 2015\Github\Robocon2015\motor_driver\STM32-FD-ADC.uvprojx
-Project File Date:  01/12/2015
+C:\Users\user\Desktop\Robocon 2016\robocon-2016\hkust-robocon-mb\motor_driver\STM32-FD-ADC.Uv2
+Project File Date:  01/03/2016
 
 <h2>Output:</h2>
+*** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32-FD-ADC'
-".\obj\STM32-FD-ADC.axf" - 0 Error(s), 0 Warning(s).
-
-<h2>Collection of Component include folders:</h2>
-  C:\Users\Kenneth Au\Dropbox\Documents\HKUST\Robocon 2015\Github\Robocon2015\motor_driver\RTE
-  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include
-
-<h2>Collection of Component Files used:</h2>
+creating preprocessor file for main.c...
+creating preprocessor file for stm32f10x_it.c...
+creating preprocessor file for stm32f10x_adc.c...
+compiling main.c...
+creating preprocessor file for stm32f10x_dma.c...
+compiling stm32f10x_it.c...
+creating preprocessor file for stm32f10x_gpio.c...
+compiling stm32f10x_adc.c...
+creating preprocessor file for stm32f10x_rcc.c...
+compiling stm32f10x_dma.c...
+creating preprocessor file for stm32f10x_usart.c...
+compiling stm32f10x_gpio.c...
+creating preprocessor file for misc.c...
+compiling stm32f10x_rcc.c...
+creating preprocessor file for stm32f10x_flash.c...
+compiling stm32f10x_usart.c...
+compiling misc.c...
+compiling stm32f10x_flash.c...
+linking...
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol SystemInit (referred from startup_stm32f10x_hd.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol FULL_SPEED_LIMIT (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol can_init (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol can_motor_init (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol can_rx_init (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol encoder_init (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol encoder_update (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol get_current_accel (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol get_encoder (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol get_seconds (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol get_ticks (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol led_control (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol led_init (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol motor_init (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol send_encoder (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol system_init (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol ticks_init (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol uart_init (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol uart_printf_enable (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol velocity_update (referred from main.o).
+.\obj\STM32-FD-ADC.axf: Error: L6218E: Undefined symbol motor_control (referred from stm32f10x_it.o).
+Not enough information to list image symbols.
+Finished: 1 information, 0 warning and 21 error messages.
+".\obj\STM32-FD-ADC.axf" - 21 Error(s), 0 Warning(s).
+Target not created.
+Build Time Elapsed:  00:00:10
 </pre>
 </body>
 </html>

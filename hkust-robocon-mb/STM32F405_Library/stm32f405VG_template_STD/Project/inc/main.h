@@ -39,6 +39,7 @@
 #include "tm_stm32f4_gpio.h"
 #include "tm_stm32f4_servo.h"
 #include "tm_stm32f4_delay.h"
+#include "tm_stm32f4_usart.h"
 #include "ticks.h"
 
 
