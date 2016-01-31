@@ -1,4 +1,5 @@
-Robocon2015
-===========
+Robocon2016 - Mainboard
 
-Repository for Robocon members
+==========================
+
+Program for mainboard V2 and V4
