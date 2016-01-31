@@ -18,7 +18,7 @@
 .\output\xbc_mb.o: .\src\stm32f10x_std\inc\misc.h
 .\output\xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\xbc_mb.o: .\src\ustrobo_min_system\inc\delay.h
-.\output\xbc_mb.o: .\src\ustrobo_min_system\inc\lcd_red.h
+.\output\xbc_mb.o: .\src\ustrobo_min_system\inc\lcd_main.h
 .\output\xbc_mb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\xbc_mb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\xbc_mb.o: .\src\ustrobo_min_system\inc\ticks.h

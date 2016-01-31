@@ -52,7 +52,7 @@ void can_init(void)
 	
 	/* CAN FIFO0 message pending interrupt enable */ 
 	CAN_ITConfig(CANn, CAN_IT_TME, ENABLE);
-	CAN_ITConfig(CANn, CAN_IT_FMP0, ENABLE);
+  CAN_ITConfig(CANn, CAN_IT_FMP0, ENABLE);
 	
 	/* CAN TX interrupt */
 	{

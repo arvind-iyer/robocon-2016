@@ -2,7 +2,7 @@
 #define	__AUTO_MOVE_H
 
 #include "delay.h"
-#include "lcd_red.h"
+#include "lcd_main.h"
 #include "system.h"
 #include "stm32f10x.h"
 #include "approx_math.h"

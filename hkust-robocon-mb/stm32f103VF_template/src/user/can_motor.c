@@ -2,10 +2,34 @@
 
 #define get_can_motor_id(motor_id)	(CAN_MOTOR_BASE + (u8)motor_id)
 s32 can_motor_encoder_value[CAN_MOTOR_COUNT] = {0};
+s32 can_motor_pwm_value[CAN_MOTOR_COUNT] = {0};
 
-void can_motor_init(void)
+void can_motor_feedback(CanRxMsg msg)
 {
-	can_rx_add_filter(CAN_MOTOR_BASE, CAN_RX_MASK_DIGIT_0_F, 0);
+	switch (msg.Data[0]) {
+		case CAN_ENCODER_FEEDBACK:
+			if (msg.DLC == CAN_ENCODER_FEEDBACK_LENGTH) {
+				// Range check 
+				if (msg.StdId >= CAN_MOTOR_BASE && msg.StdId < CAN_MOTOR_BASE + CAN_MOTOR_COUNT) {
+					s32 feedback = n_bytes_to_one(&msg.Data[1], 4);
+					can_motor_encoder_value[msg.StdId - CAN_MOTOR_BASE] = feedback;
+				}
+			}
+		break;
+		case CAN_PWM_FEEDBACK:
+			if (msg.DLC == CAN_PWM_FEEDBACK_LENGTH) {
+				// Range check 
+				if (msg.StdId >= CAN_MOTOR_BASE && msg.StdId < CAN_MOTOR_BASE + CAN_MOTOR_COUNT) {
+					s32 feedback = n_bytes_to_one(&msg.Data[1], 4);
+					can_motor_pwm_value[msg.StdId - CAN_MOTOR_BASE] = feedback;
+				}
+			}
+		break;
+	}
+}
+
+void can_motor_init(void){
+	can_rx_add_filter(CAN_MOTOR_BASE, CAN_RX_MASK_DIGIT_0_F, can_motor_feedback);
 }
 
 /*** TX ***/
@@ -34,22 +58,6 @@ void motor_set_vel(MOTOR_ID motor_id, s32 vel, CLOSE_LOOP_FLAG close_loop_flag)
 	can_tx_enqueue(msg);
 }
 
-/*** RX ***/
-void can_motor_feedback_encoder(CanRxMsg msg)
-{
-	switch (msg.Data[0]) {
-		case CAN_ENCODER_FEEDBACK:
-			if (msg.DLC == CAN_ENCODER_FEEDBACK_LENGTH) {
-				// Range check 
-				if (msg.StdId >= CAN_MOTOR_BASE && msg.StdId < CAN_MOTOR_BASE + CAN_MOTOR_COUNT) {
-					s32 feedback = n_bytes_to_one(&msg.Data[1], 4);
-					can_motor_encoder_value[msg.StdId - CAN_MOTOR_BASE] = feedback;
-				}
-			}
-		break;
-	}
-}
-
 void motor_lock(MOTOR_ID motor_id)
 {
 	CAN_MESSAGE msg;
@@ -63,7 +71,13 @@ void motor_lock(MOTOR_ID motor_id)
 	can_tx_enqueue(msg);
 }
 
-s32 get_encoder_value(MOTOR_ID motor_id)
-{
+/*** RX ***/
+
+s32 get_encoder_value(MOTOR_ID motor_id){
 	return can_motor_encoder_value[motor_id];
 }
+
+s32 get_pwm_value(MOTOR_ID motor_id){
+	return can_motor_pwm_value[motor_id];
+}
+
