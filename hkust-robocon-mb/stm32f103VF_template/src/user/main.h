@@ -32,7 +32,7 @@
 #include "bluetooth.h"
 
 
-
+#include "auto_move.h"
 
 
 extern u16 ticks_img;
