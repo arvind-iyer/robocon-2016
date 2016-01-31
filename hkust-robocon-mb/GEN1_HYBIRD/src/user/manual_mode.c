@@ -93,7 +93,24 @@ CONTROL_STATE manual_control_update(){
 		return AUTO_MODE;
 	}
 	
-	if (ground_wheels_lock==UNLOCKED && climbing_induced_ground_lock==UNLOCKED){
+	if (ground_wheels_lock == LOCKED){
+		/**
+		*** :)
+		***
+		***
+		***
+		***
+		***
+		*** DO PID LOCKING HERE
+		***
+		***
+		***
+		***
+		***
+		**/
+	}
+	
+	if (ground_wheels_lock == UNLOCKED && climbing_induced_ground_lock == UNLOCKED){
 		//Calcuate 3 base wheels movement
 		s32 vx = xbc_get_joy(XBC_JOY_LX);
 		s32 vy = xbc_get_joy(XBC_JOY_LY);
@@ -172,6 +189,7 @@ CONTROL_STATE manual_control_update(){
 	}
 	
 	//Locking the motors
+	//TODO: Add PID locking
 	if (button_pressed(BUTTON_XBC_X)){
 		if (press_button_X == UNLOCKED){
 			press_button_X = LOCKED;
