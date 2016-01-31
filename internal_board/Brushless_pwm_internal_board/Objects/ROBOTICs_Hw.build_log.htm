@@ -1,0 +1,201 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.16a
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Rex Cheng, HKUST, LIC=8VRKP-M50WX-45FT5-G7R8Y-EZBPK-K7WBI
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Standard  Version: 5.16a
+Toolchain Path:  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 (build 20)
+Assembler:       Armasm.exe V5.06 (build 20)
+Linker/Locator:  ArmLink.exe V5.06 (build 20)
+Library Manager: ArmAr.exe V5.06 (build 20)
+Hex Converter:   FromElf.exe V5.06 (build 20)
+CPU DLL:         SARMCM3.DLL V5.16a
+Dialog DLL:      DCM.DLL V1.13.2.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.17.0
+Dialog DLL:      TCM.DLL V1.14.5.0
+ 
+<h2>Project:</h2>
+C:\WorkBench\Robo\robocon-2016\internal_board\Brushless_pwm_internal_board\ROBOTICs_Hw.uvprojx
+Project File Date:  01/28/2016
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
+Build target 'STM32f103CBT_TEMPLATE'
+assembling startup_stm32f10x_md.s...
+compiling core_cm3.c...
+compiling misc.c...
+compiling stm32f10x_adc.c...
+compiling stm32f10x_bkp.c...
+compiling stm32f10x_can.c...
+compiling stm32f10x_cec.c...
+compiling stm32f10x_crc.c...
+compiling stm32f10x_dac.c...
+compiling stm32f10x_dbgmcu.c...
+compiling stm32f10x_dma.c...
+compiling stm32f10x_exti.c...
+compiling stm32f10x_fsmc.c...
+compiling stm32f10x_flash.c...
+compiling stm32f10x_gpio.c...
+compiling stm32f10x_iwdg.c...
+compiling stm32f10x_i2c.c...
+compiling stm32f10x_pwr.c...
+compiling stm32f10x_rtc.c...
+compiling stm32f10x_rcc.c...
+compiling stm32f10x_spi.c...
+compiling stm32f10x_sdio.c...
+compiling stm32f10x_tim.c...
+compiling stm32f10x_usart.c...
+compiling stm32f10x_wwdg.c...
+compiling system_stm32f10x.c...
+compiling LEDs.c...
+LEDs.c(47): warning:  #1-D: last line of file ends without a newline
+  }
+LEDs.c: 1 warning, 0 errors
+compiling ticks.c...
+ticks.c(97): warning:  #186-D: pointless comparison of unsigned integer with zero
+  		if (closer--<0){
+ticks.c: 1 warning, 0 errors
+compiling linear_ccd.c...
+tft_display.h(116): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+linear_ccd.c: 1 warning, 0 errors
+compiling adc.c...
+adc.c(72): warning:  #1-D: last line of file ends without a newline
+  }
+adc.c: 1 warning, 0 errors
+compiling tft_display.c...
+tft_display.h(116): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+tft_display.c: 1 warning, 0 errors
+compiling pneumatic_control.c...
+pneumatic_control.h(4): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+pneumatic_control.c: 1 warning, 0 errors
+compiling button.c...
+compiling GPIO_switch.c...
+tft_display.h(116): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+GPIO_switch.c(28): warning:  #1-D: last line of file ends without a newline
+  }
+GPIO_switch.c: 2 warnings, 0 errors
+compiling motor.c...
+motor.c(91): warning:  #1-D: last line of file ends without a newline
+  }
+motor.c: 1 warning, 0 errors
+compiling buzzer_song.c...
+compiling buzzer.c...
+buzzer.c(54): warning:  #177-D: variable "GPIO_InitStruct" was declared but never referenced
+    GPIO_InitTypeDef GPIO_InitStruct;
+buzzer.c(29): warning:  #550-D: variable "buzzer_period" was set but never used
+  static u16 buzzer_period = 0;                       /*!< The current buzzer on period (in millsecond) for buzzer_control */
+buzzer.c(31): warning:  #550-D: variable "buzzer_count" was set but never used
+  static u8 buzzer_count = 0;                         /*!< Storing the buzzer buzzing count for buzzer_control */
+buzzer.c: 3 warnings, 0 errors
+compiling uart.c...
+compiling servo_tutorial.c...
+compiling helper.c...
+tft_display.h(116): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+helper.c: 1 warning, 0 errors
+compiling pid.c...
+compiling encoder.c...
+encoder.h(18): warning:  #1295-D: Deprecated declaration encoder_init - give arg types
+  void encoder_init();
+encoder.h(19): warning:  #1295-D: Deprecated declaration gpio_init - give arg types
+  void gpio_init();
+encoder.h(20): warning:  #1295-D: Deprecated declaration timer_init - give arg types
+  void timer_init();
+encoder.h(22): warning:  #1295-D: Deprecated declaration getCount - give arg types
+  u32 getCount();
+encoder.c(65): warning:  #68-D: integer conversion resulted in a change of sign
+  	else if (prevCount - currCount < -
+NCODER_MAX_CHANGE){
+encoder.c: 5 warnings, 0 errors
+compiling line_track.c...
+tft_display.h(116): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+line_track.h(22): warning:  #1295-D: Deprecated declaration read - give arg types
+  u8 read();
+line_track.h(23): warning:  #1295-D: Deprecated declaration line - give arg types
+  u8 line();
+line_track.h(24): warning:  #1295-D: Deprecated declaration halt - give arg types
+  void halt();
+line_track.c(106): warning:  #177-D: variable "mid1" was declared but never referenced
+  	u8 mid1 = MAX(MIN(mid[0][0],mid[0][1]),MIN(MAX(mid[0][0],mid[0][1]),ccd1_mids[0])); 
+line_track.c(107): warning:  #177-D: variable "mid2" was declared but never referenced
+  	u8 mid2 = MAX(MIN(mid[1][0],mid[1][1]),MIN(MAX(mid[1][0],mid[1][1]),ccd2_mids[0]));
+line_track.c: 6 warnings, 0 errors
+compiling ultra_sonic.c...
+ultra_sonic.h(9): warning:  #1295-D: Deprecated declaration ultra_sonic_init - give arg types
+  void ultra_sonic_init();
+ultra_sonic.h(10): warning:  #1-D: last line of file ends without a newline
+  u32 call_ultra_sonic();
+ultra_sonic.h(10): warning:  #1295-D: Deprecated declaration call_ultra_sonic - give arg types
+  u32 call_ultra_sonic();
+ultra_sonic.c(36): warning:  #1-D: last line of file ends without a newline
+  }
+ultra_sonic.c: 4 warnings, 0 errors
+compiling commu.c...
+commu.h(10): warning:  #1295-D: Deprecated declaration commu_tx_init - give arg types
+  void commu_tx_init();
+commu.h(11): warning:  #1295-D: Deprecated declaration commu_rx_init - give arg types
+  void commu_rx_init();
+commu.h(13): warning:  #1-D: last line of file ends without a newline
+  u8 data_rx(uint16_t);
+commu.c(64): warning:  #1-D: last line of file ends without a newline
+  }
+commu.c: 4 warnings, 0 errors
+compiling holder.c...
+holder.h(8): warning:  #1295-D: Deprecated declaration tubes_check_init - give arg types
+  void tubes_check_init();
+holder.h(9): warning:  #1295-D: Deprecated declaration distance_checking - give arg types
+  u8 distance_checking();
+ultra_sonic.h(9): warning:  #1295-D: Deprecated declaration ultra_sonic_init - give arg types
+  void ultra_sonic_init();
+ultra_sonic.h(10): warning:  #1-D: last line of file ends without a newline
+  u32 call_ultra_sonic();
+ultra_sonic.h(10): warning:  #1295-D: Deprecated declaration call_ultra_sonic - give arg types
+  u32 call_ultra_sonic();
+pneumatic_control.h(4): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+tft_display.h(116): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+line_track.h(22): warning:  #1295-D: Deprecated declaration read - give arg types
+  u8 read();
+line_track.h(23): warning:  #1295-D: Deprecated declaration line - give arg types
+  u8 line();
+line_track.h(24): warning:  #1295-D: Deprecated declaration halt - give arg types
+  void halt();
+holder.c(219): warning:  #940-D: missing return statement at end of non-void function "distance_checking"
+  }
+holder.c(357): warning:  #1-D: last line of file ends without a newline
+  //}
+holder.c: 12 warnings, 0 errors
+compiling main.c...
+tft_display.h(116): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+pneumatic_control.h(4): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+main.c(153): warning:  #1-D: last line of file ends without a newline
+  }
+main.c: 3 warnings, 0 errors
+linking...
+Program Size: Code=32388 RO-data=880 RW-data=4240 ZI-data=7064  
+FromELF: creating hex file...
+".\Objects\ROBOTICs_Hw.axf" - 0 Error(s), 47 Warning(s).
+
+<h2>Collection of Component include folders:</h2>
+  C:\WorkBench\Robo\robocon-2016\internal_board\Brushless_pwm_internal_board\RTE
+  C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:13
+</pre>
+</body>
+</html>
