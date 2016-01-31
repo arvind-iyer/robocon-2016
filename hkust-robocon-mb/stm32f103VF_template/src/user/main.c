@@ -12,15 +12,19 @@ int M=0;
 int dir=0;
 int W=0;
 
+int SERVO_1=0;
+int SERVO_2=0;
+
 int lock;
 int x_m;
 int y_m;
 int dir_m;
 
-int _x;
-int _y;
-int _angle;
-int _distance;
+int _x=0;
+int _y=0;
+int _angle=0;
+int _distance=0;
+int _M=0;
 
 int M1=0;
 int M2=0;
@@ -66,6 +70,7 @@ int main()
 	can_rx_init();
 	can_motor_init();
 	xbc_mb_init(XBC_CAN_FIRST);
+	servo_init();
 	_delay(5);
 	//start
 	lock=0;
@@ -73,6 +78,7 @@ int main()
 	{
 		_updateScreen();
 		_manual();
+		//_straight(0, 1000, 0, 5, 5, 0);
 	}
 	
 }
@@ -96,13 +102,17 @@ void _updateScreen()
 		bear=bear+360;
 	}
 	tft_clear();
+	tft_prints(16, 0, "%d", get_ticks());
 	tft_prints(0, 0, "%d %d [%d]", _getX(), _getY(), _getAngle()/10);
-	tft_prints(0, 1, "M: %d %d %d", M1, M2, M3);
+	tft_prints(0, 1, "M: ([%.2f]) %d %d %d", err, M1, M2, M3);
 	tft_prints(0, 2, "_m(%d, %d, %d)", M, dir, W);
-	tft_prints(0, 3, "err: %.2f", err);
-	tft_prints(0, 4, "Q: %d %d %d", target_x, target_y, target_angle);
-	tft_prints(0, 5, "T: %d [%d]", _dist(_getX(), _getY(), target_x, target_y), bear);
-	tft_prints(0, 6, "Ticks: %d", get_ticks());
+	tft_prints(0, 3, "Q: %d %d %d", target_x, target_y, target_angle);
+	tft_prints(0, 4, "T: %d [%d]", _dist(_getX(), _getY(), target_x, target_y), bear);
+	tft_prints(0, 5, "");
+	if (lock%2==1)
+	{
+		tft_prints(0, 6, "[LOCK]");
+	}
 	tft_update();
 }
 
@@ -122,6 +132,7 @@ void _move(int M, int dir, int W)
 	_M1=(-W-X*2)/3;
 	_M2=(-W*0.577f+X*0.577f-Y)/1.73f;
 	_M3=-W-_M1-_M2;
+	
 	if ((M!=0 || W!=0) && (_x==_getX() && _y==_getY() && _angle==_getAngle()))
 	{
 		if (Abs(_M1*(err+0.03))<MAXVEL && Abs(_M2*(err+0.03))<MAXVEL && Abs(_M3)<MAXVEL)
@@ -132,15 +143,13 @@ void _move(int M, int dir, int W)
 	else if (_distance>_dist(_getX(), _getY(), target_x, target_y))
 	{
 		err=err*0.8+0.2;
-		if (err<1)	
-		{
-			err=1;
-		}
 	}
+	
 	M1=_M1*err;
 	M2=_M2*err;
 	M3=-W-M1-M2;
 	//motor control
+	_updateScreen();
 	motor_set_vel(MOTOR1, M1, CLOSE_LOOP);
 	motor_set_vel(MOTOR2, M2, CLOSE_LOOP);
 	motor_set_vel(MOTOR3, M3, CLOSE_LOOP);
@@ -161,7 +170,6 @@ void _setTarget(int x, int y, int bearing)
 
 void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 {
-	_setTarget(x, y, target_angle);
 	int distance;
 	distance=_dist(_getX(), _getY(), x, y);
 	while (distance>d_e || Abs(bearing-_getAngle()/10)>a_e)
@@ -185,7 +193,7 @@ void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 		{
 			M=1;
 		}
-		if (distance>200)
+		if (distance>200 && lock%2==0)
 		{
 			int dir1;
 			dir1 = ((90-(int_arc_tan2(target_y - _getY(), target_x - _getX()))) - _getAngle()/10) %360;
@@ -226,14 +234,26 @@ void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
 				W=-1;
 			}
 		}
+		if (M!=1 && Abs(M-_M)>5)
+		{
+			M=M*0.2f+_M*0.8f;
+		}
+		_M=M;
 		_updateScreen();
 		_move(M, dir, W);
+		if (lock%2==1)
+			break;
 	}
-	M=0;
-	W=0;
+	if (lock%2==0 || (distance<d_e && Abs(bearing-_getAngle()/10)<a_e))
+	{
+		err=1;
+		M=0;
+		W=0;
+		_move(M, dir, W);
+	}
 }
 
-void _curve(int x, int y, /*int bend*/int x1, int y1)
+void _curve(int x, int y, int x1, int y1)
 {
 	int x0;
 	int y0;
@@ -245,6 +265,7 @@ void _curve(int x, int y, /*int bend*/int x1, int y1)
 			break;
 		int c_x=(1-t)*(1-t)*x0+2*(1-t)*t*x1+t*t*x;
 		int c_y=(1-t)*(1-t)*y0+2*(1-t)*t*y1+t*t*y;
+		_setTarget(c_x, c_y, 0);
 		_straight(c_x, c_y, 0, 20, 360, 20);
 	}
 }
@@ -290,16 +311,33 @@ int _vectorAdd(int m1, int b1, int m2, int b2)
 void _manual()
 {
 	button_update();
-	//XBC_JOY_LX XBC_JOY_LY
-	err=1;
+	if (_manualCheck()==1 || lock%2==0)
+	{
+		err=1;
+	}
+	//XBC_JOY_LX XBC_JOY_LY BUTTON_XBC_LB BUTTON_XBC_RB
 	dir=int_arc_tan2(xbc_get_joy(XBC_JOY_LX), xbc_get_joy(XBC_JOY_LY));
 	if (dir<0)
 	{
 		dir=dir+360;
 	}
-	M=(xbc_get_joy(XBC_JOY_LY)*xbc_get_joy(XBC_JOY_LY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/10000*60/100;
-	W=0;
-	_move(M, dir, W);
+	M=(xbc_get_joy(XBC_JOY_LY)*xbc_get_joy(XBC_JOY_LY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/10000*30/100;
+	if (button_pressed(BUTTON_XBC_RB))
+	{
+		W=20;
+	}
+	if (button_pressed(BUTTON_XBC_LB))
+	{
+		W=-20;
+	}
+	if (!button_pressed(BUTTON_XBC_RB) && !button_pressed(BUTTON_XBC_LB) && lock%2==0)
+	{
+		W=0;
+	}
+	if (_manualCheck()==1 || lock%2==0)
+	{
+		_move(M, dir, W);
+	}
 	//BUTTON_XBC_Y
 	if (button_pressed(BUTTON_XBC_Y))
 	{
@@ -314,18 +352,29 @@ void _manual()
 		motor_set_vel(MOTOR5, -40, OPEN_LOOP);
 		motor_set_vel(MOTOR6, -40, OPEN_LOOP);
 	}
+	if (!button_pressed(BUTTON_XBC_Y) && !button_pressed(BUTTON_XBC_A))
+	{
+		motor_set_vel(MOTOR4, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR5, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR6, 0, OPEN_LOOP);
+	}
 	//BUTTON_XBC_X
 	if (button_pressed(BUTTON_XBC_X))
 	{
-		x_m=_getX();
-		y_m=_getY();
-		dir_m=_getAngle();
+		_setTarget(_getX(), _getY(), _getAngle()/10);
 		lock++;
 		_delay(1);
 	}
-	if (lock%2==1)
+	if (lock%2==1 && _manualCheck()==0)
 	{
-		_straight(x_m, y_m, dir_m, 5, 5, 0);
+		_straight(target_x, target_y, target_angle, 5, 5, 0);
+	}
+	//XBC_JOY_LT
+	//servo_control(SERVO1, xbc_get_joy(XBC_JOY_LT)/1000*2400);
+	//servo_control(SERVO2, xbc_get_joy(XBC_JOY_RT)/1000*2400);
+	if (xbc_get_joy(XBC_JOY_RT)!=0)
+	{
+		servo_control_all(400);
 	}
 }
 
@@ -337,6 +386,14 @@ int _manualCheck()
 		return 1;
 	}
 	if (xbc_get_joy(XBC_JOY_LY)!=0)
+	{
+		return 1;
+	}
+	if (button_pressed(BUTTON_XBC_LB))
+	{
+		return 1;
+	}
+	if (button_pressed(BUTTON_XBC_RB))
 	{
 		return 1;
 	}
