@@ -9,6 +9,15 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+
+typedef enum {
+	PIN_ON_TOP = 0,
+	PIN_ON_LEFT = 1,
+	PIN_ON_BOTTOM = 2,
+	PIN_ON_RIGHT = 3
+}TFT_ORIENTATION;
+
+
 // SPI, RST, DC (Converted to F4)
 #define TFT_RST_PIN		GPIO_Pin_8
 #define TFT_DC_PIN		GPIO_Pin_12
@@ -20,18 +29,33 @@
 #define RCC_AHB1Periph_GPIO_CS	RCC_AHB1Periph_GPIOD
 #define GPIO_CS			GPIOD
 
-// Color
-#define WHITE			0xFFFF
-#define BLACK			0x0000
-#define DARK_GREY		0x5A8B
-#define GREY			0xC718
-#define BLUE			0x001F
-#define BLUE2			0x051F
-#define RED				0xF800
-#define MAGENTA			0xF81F
-#define GREEN			0x07E0
-#define CYAN			0x7FFF
-#define YELLOW			0xFFE0
+#define	BGR888_MODE		1
+
+#if (!BGR888_MODE)
+#define	RGB888TO565(RGB888)  (((RGB888 >> 8) & 0xF800) |((RGB888 >> 5) & 0x07E0) | ((RGB888 >> 3) & 0x001F))
+#else 
+#define	RGB888TO565(BGR888)  (((BGR888 >> 19) & 0x001F) |((BGR888 >> 5) & 0x07E0) | (((u32)BGR888 << 8) & 0xF800))
+#endif
+
+//to minimize the MCU calculation
+#define WHITE               (RGB888TO565(0xFFFFFF))
+#define BLACK               (RGB888TO565(0x000000))
+#define DARK_GREY           (RGB888TO565(0x555555))
+#define GREY                (RGB888TO565(0xAAAAAA))
+#define RED                 (RGB888TO565(0xFF0000))
+#define DARK_RED            (RGB888TO565(0x800000))
+#define ORANGE              (RGB888TO565(0xFF9900))
+#define YELLOW              (RGB888TO565(0xFFFF00))
+#define GREEN               (RGB888TO565(0x00FF00))
+#define DARK_GREEN          (RGB888TO565(0x00CC00))
+#define BLUE                (RGB888TO565(0x0000FF))
+#define BLUE2               (RGB888TO565(0x202060))
+#define SKY_BLUE            (RGB888TO565(0x11CFFF))
+#define CYAN                (RGB888TO565(0x8888FF))
+#define PURPLE              (RGB888TO565(0x00AAAA))
+#define PINK                (RGB888TO565(0xFFB6C1))
+
+
 
 #define MAX_WIDTH				128
 #define MAX_HEIGHT				160
@@ -82,5 +106,6 @@ void tft_fill_color(u16 color);
 u8 tft_char_is_changed(u8 x, u8 y);
 void tft_prints(u8 x, u8 y, const char * pstr, ...);
 void tft_update(void);
+void tft_put_logo(u8 x, u8 y);
 
 #endif		/* __LCD_RED_H */

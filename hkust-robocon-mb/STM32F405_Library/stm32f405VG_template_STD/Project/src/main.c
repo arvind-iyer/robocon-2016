@@ -57,7 +57,8 @@ int main(void) {
 	
 	char buffer[512];
     
-    tft_init(0,BLACK,BLUE,RED);
+    tft_init(PIN_ON_RIGHT,BLACK,WHITE,RED);
+    tft_put_logo(110, 90); //Put a fancy robotics logo shit :)
 	
 	while (1) {
 		TM_USART_Puts(USART1, "Benchod\n");
