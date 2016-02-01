@@ -11,7 +11,7 @@
   (byte & 0x04 ? 1 : 0), \
   (byte & 0x02 ? 1 : 0), \
   (byte & 0x01 ? 1 : 0) 
-  
+
 #include <stdio.h>
 #include "stm32f10x.h"
 #include "stm32f10x_crc.h"
@@ -45,9 +45,5 @@
 #include "adc.h"
 #include "manual_mode.h"
 #include "pneumatic.h"
-#include "auto_move.h"
-
-extern u16 ticks_img;
-extern u16 seconds_img;
 
 #endif /* __MAIN_H */
