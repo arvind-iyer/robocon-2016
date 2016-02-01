@@ -54,4 +54,6 @@
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\adc.h
 .\output\manual_mode.o: .\src\user\manual_mode.h
 .\output\manual_mode.o: .\src\user\auto_mode.h
+.\output\manual_mode.o: .\src\user\xbc_control.h
+.\output\manual_mode.o: .\src\user\pid_lock.h
 .\output\manual_mode.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

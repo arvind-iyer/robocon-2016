@@ -46,6 +46,7 @@
 #include "manual_mode.h"
 #include "pneumatic.h"
 #include "auto_mode.h"
+#include "xbc_control.h"
 
 extern u16 ticks_img;
 extern u16 seconds_img;

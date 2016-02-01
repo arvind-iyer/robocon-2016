@@ -13,32 +13,29 @@
 #include "buzzer.h"
 #include "led.h"
 #include "auto_mode.h"
+#include "gyro.h"
+#include "pid_lock.h"
+#include "xbc_control.h"
 
 #define ACC_THRESHOLD 1
 #define CLIMBING_SPEED 1799
-#define DESCEND_SPEED -600
+#define DESCEND_SPEED -500
 
 #define BRUSHLESS_MIN 400
-#define BRUSHLESS_MED_HIGH 700
+#define BRUSHLESS_MED_HIGH 800
 #define BRUSHLESS_MAX 1050
 #define BRUSHLESS_COUNT 2
+
 typedef enum{
 	BRUSHLESS_1 = 0,
 	BRUSHLESS_2 = 1
 }BRUSHLESS_ID;
 
-typedef enum {
-	MANUAL_CONTROL = 0,
-	AUTO_MODE = 1
-}CONTROL_STATE;
-
-typedef enum {
-	LOCKED = 0,
-	UNLOCKED = 1
-}LOCK_STATE;
-
 void manual_reset(void);
 void manual_init(void);
-CONTROL_STATE manual_control_update(void);
+void manual_interval_update(void);
+void manual_fast_update(void);
+void manual_emergency_relax(void);
+void manual_emergency_stop(void);
 
 #endif

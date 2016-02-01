@@ -53,3 +53,5 @@
 .\output\main.o: src\user\pneumatic.h
 .\output\main.o: src\user\auto_mode.h
 .\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\output\main.o: src\user\pid_lock.h
+.\output\main.o: src\user\xbc_control.h

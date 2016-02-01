@@ -21,18 +21,58 @@ int main(void) {
 
 	tft_put_logo(110, 90);
 	u32 lastTicks = 0;              
-	u8 control_state = MANUAL_CONTROL;
+	LOCK_STATE last_emergency_lock = UNLOCKED;
+	CONTROL_STATE last_control_state = MANUAL_MODE;
 	
 	while(1){
-		if ((get_full_ticks() - lastTicks)>50){
-			lastTicks = get_full_ticks();
+		u32 currentTicks = get_full_ticks();
+		//Dont care if same ticks
+		if (lastTicks==currentTicks) continue;
+		
+		if ((currentTicks - lastTicks)>50){
 			button_update();
-			if (control_state==MANUAL_CONTROL){
-				control_state = manual_control_update();
+		}
+		
+		//Get state for manual/auto and emergency lock
+		xbc_global_update();
+		
+		//Deal with emergency lock, to lock or to relax
+		if (get_emergency_lock() != last_emergency_lock){
+			if (get_emergency_lock() == LOCKED){
+				manual_emergency_stop();
 			}else{
-				auto_var_update();			
-				auto_motor_update();
-				//auto_calibrate();
+				manual_emergency_relax();
+			}
+		}
+		last_emergency_lock = get_emergency_lock();
+		
+		//Deal with switching control, reseting the control
+		CONTROL_STATE control_state = get_control_state();
+		if (control_state != last_control_state){
+			if (control_state == MANUAL_MODE){
+				manual_reset();
+			}else{
+				manual_reset();
+				//Something like auto_reset() I guess?
+			}
+		}
+		last_control_state = control_state;
+		
+		if (get_emergency_lock() == UNLOCKED){
+	
+			if (control_state == MANUAL_MODE){
+					manual_fast_update();
+			}
+			
+			if ((currentTicks - lastTicks)>50){
+				lastTicks = get_full_ticks();
+				if (control_state == MANUAL_MODE){
+					manual_interval_update();
+				}else{
+					auto_var_update();			
+					auto_motor_update();
+					//auto_calibrate();
+				}
 			}
 		}
 	}

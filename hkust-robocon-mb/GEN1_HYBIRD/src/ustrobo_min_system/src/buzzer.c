@@ -1,6 +1,6 @@
 #include "buzzer.h"
 
-u16 beep_duration = 0;
+s16 beep_duration = 0;
 u32 last_ticks = 0;
 
 void buzzer_init(void)
@@ -32,7 +32,7 @@ void buzzer_off(){
 //To be called at every ticks
 void buzzer_update(){
 	if (beep_duration>0){
-		if (--beep_duration==0){
+		if (--beep_duration<=0){
 			GPIO_ResetBits(BUZZER_GPIO_PORT, BUZZER_GPIO_PIN);
 		}
 	}
