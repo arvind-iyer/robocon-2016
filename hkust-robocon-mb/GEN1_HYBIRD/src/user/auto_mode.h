@@ -1,5 +1,5 @@
-#ifndef	__AUTO_MOVE_H
-#define	__AUTO_MOVE_H
+#ifndef	__AUTO_MODE_H
+#define	__AUTO_MODE_H
 
 #include "delay.h"
 #include "lcd_main.h"

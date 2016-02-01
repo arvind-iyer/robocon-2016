@@ -12,6 +12,7 @@
 #include "pneumatic.h"
 #include "buzzer.h"
 #include "led.h"
+#include "auto_mode.h"
 
 #define ACC_THRESHOLD 1
 #define CLIMBING_SPEED 1799

@@ -2,7 +2,7 @@
 .\output\pneumatic.o: src\user\pneumatic.h
 .\output\pneumatic.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\pneumatic.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\pneumatic.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\pneumatic.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\pneumatic.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\pneumatic.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\pneumatic.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h

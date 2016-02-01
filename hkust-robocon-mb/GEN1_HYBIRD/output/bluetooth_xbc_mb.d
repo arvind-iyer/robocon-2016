@@ -5,7 +5,7 @@
 .\output\bluetooth_xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_gpio.h
 .\output\bluetooth_xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\bluetooth_xbc_mb.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\bluetooth_xbc_mb.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\bluetooth_xbc_mb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\bluetooth_xbc_mb.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\bluetooth_xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\bluetooth_xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h
@@ -18,8 +18,8 @@
 .\output\bluetooth_xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_spi.h
 .\output\bluetooth_xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\bluetooth_xbc_mb.o: .\src\stm32f10x_std\inc\misc.h
-.\output\bluetooth_xbc_mb.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\output\bluetooth_xbc_mb.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\bluetooth_xbc_mb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\bluetooth_xbc_mb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\bluetooth_xbc_mb.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\bluetooth_xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\bluetooth_xbc_mb.o: .\src\ustrobo_min_system\inc\buzzer.h
@@ -27,7 +27,7 @@
 .\output\bluetooth_xbc_mb.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\bluetooth_xbc_mb.o: src\user\crc.h
 .\output\bluetooth_xbc_mb.o: src\user\can_xbc_mb.h
-.\output\bluetooth_xbc_mb.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\output\bluetooth_xbc_mb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\output\bluetooth_xbc_mb.o: src\user\can_protocol.h
 .\output\bluetooth_xbc_mb.o: src\user\can.h
 .\output\bluetooth_xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_can.h

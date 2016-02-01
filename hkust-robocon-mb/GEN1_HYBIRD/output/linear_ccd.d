@@ -3,7 +3,7 @@
 .\output\linear_ccd.o: .\src\ustrobo_min_system\inc\adc.h
 .\output\linear_ccd.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\linear_ccd.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\linear_ccd.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\linear_ccd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\linear_ccd.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\linear_ccd.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\linear_ccd.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h
@@ -23,6 +23,6 @@
 .\output\linear_ccd.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\linear_ccd.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\linear_ccd.o: .\src\ustrobo_min_system\inc\lcd_main.h
-.\output\linear_ccd.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\output\linear_ccd.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\linear_ccd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\linear_ccd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\linear_ccd.o: .\src\ustrobo_min_system\inc\delay.h

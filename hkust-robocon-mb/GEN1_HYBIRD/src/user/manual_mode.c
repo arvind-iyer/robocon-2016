@@ -90,6 +90,14 @@ CONTROL_STATE manual_control_update(){
 		motor_set_vel(MOTOR5, 0, CLOSE_LOOP);
 		motor_set_vel(MOTOR6, 0, CLOSE_LOOP);
 		buzzer_beep(1100);
+		
+		//init auto mode
+		auto_init();
+		auto_tar_enqueue(1000, 1000, 0, 1.0, true);
+		auto_tar_enqueue(2000, 0, 0, 1.0, true);
+		auto_tar_enqueue(1000, -1000, 0, 1.0, true);
+		auto_tar_enqueue(0, 0, 0, 1.0, true);
+		
 		return AUTO_MODE;
 	}
 	

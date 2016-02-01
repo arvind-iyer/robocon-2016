@@ -1,4 +1,4 @@
-#include "auto_move.h"
+#include "auto_mode.h"
 
 #define THRESHOLD 10
 #define CONST_VEL 50

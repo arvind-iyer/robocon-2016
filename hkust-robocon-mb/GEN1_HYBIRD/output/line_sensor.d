@@ -2,7 +2,7 @@
 .\output\line_sensor.o: src\user\line_sensor.h
 .\output\line_sensor.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\line_sensor.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\line_sensor.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\line_sensor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\line_sensor.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\line_sensor.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\line_sensor.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h

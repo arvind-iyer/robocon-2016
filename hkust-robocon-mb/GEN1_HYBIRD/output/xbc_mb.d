@@ -2,7 +2,7 @@
 .\output\xbc_mb.o: src\user\xbc_mb.h
 .\output\xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\xbc_mb.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\xbc_mb.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\xbc_mb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\xbc_mb.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h
@@ -18,8 +18,8 @@
 .\output\xbc_mb.o: src\user\bluetooth_xbc_mb.h
 .\output\xbc_mb.o: src\user\bluetooth.h
 .\output\xbc_mb.o: .\src\ustrobo_min_system\inc\uart.h
-.\output\xbc_mb.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\output\xbc_mb.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\xbc_mb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\xbc_mb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\xbc_mb.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\xbc_mb.o: .\src\ustrobo_min_system\inc\buzzer.h
@@ -27,7 +27,7 @@
 .\output\xbc_mb.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\xbc_mb.o: src\user\crc.h
 .\output\xbc_mb.o: src\user\can_xbc_mb.h
-.\output\xbc_mb.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\output\xbc_mb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\output\xbc_mb.o: src\user\can_protocol.h
 .\output\xbc_mb.o: src\user\can.h
 .\output\xbc_mb.o: .\src\stm32f10x_std\inc\stm32f10x_can.h
