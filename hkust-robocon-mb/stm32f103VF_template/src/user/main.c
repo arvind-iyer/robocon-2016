@@ -12,10 +12,8 @@ int M=0;
 int dir=0;
 int W=0;
 
-int SERVO_1=0;
-int SERVO_2=0;
-
-int lock;
+int lock=0;
+int pneu=0;
 int x_m;
 int y_m;
 int dir_m;
@@ -55,6 +53,8 @@ int _vectorAdd(int m1, int b1, int m2, int b2);
 void _manual();
 int _manualCheck();
 
+void _brushlessStartup();
+
 void _delay(int sec);
 int _getX();
 int _getY();
@@ -69,8 +69,11 @@ int main()
 	can_init();
 	can_rx_init();
 	can_motor_init();
+	_delay(1);
 	xbc_mb_init(XBC_CAN_FIRST);
 	servo_init();
+	pneumatic_init();
+	_brushlessStartup();
 	_delay(5);
 	//start
 	lock=0;
@@ -108,7 +111,7 @@ void _updateScreen()
 	tft_prints(0, 2, "_m(%d, %d, %d)", M, dir, W);
 	tft_prints(0, 3, "Q: %d %d %d", target_x, target_y, target_angle);
 	tft_prints(0, 4, "T: %d [%d]", _dist(_getX(), _getY(), target_x, target_y), bear);
-	tft_prints(0, 5, "");
+	//tft_prints(0, 5, "DEBUG: %d %d", xbc_get_joy(XBC_JOY_LT), xbc_get_joy(XBC_JOY_RT));
 	if (lock%2==1)
 	{
 		tft_prints(0, 6, "[LOCK]");
@@ -133,7 +136,7 @@ void _move(int M, int dir, int W)
 	_M2=(-W*0.577f+X*0.577f-Y)/1.73f;
 	_M3=-W-_M1-_M2;
 	
-	if ((M!=0 || W!=0) && (_x==_getX() && _y==_getY() && _angle==_getAngle()))
+	if ((M!=0 || W!=0) && (_dist(_getX(), _getY(), target_x, target_y)>=_distance && Abs(_getAngle()/10-target_angle)>Abs(_angle/10-target_angle)))
 	{
 		if (Abs(_M1*(err+0.03))<MAXVEL && Abs(_M2*(err+0.03))<MAXVEL && Abs(_M3)<MAXVEL)
 		{
@@ -165,7 +168,7 @@ void _setTarget(int x, int y, int bearing)
 	err=1;
 	target_x=x;
 	target_y=y;
-	target_angle=bearing;
+	target_angle=bearing; 
 }
 
 void _straight(int x, int y, int bearing, int d_e, int a_e, int vel)
@@ -324,11 +327,11 @@ void _manual()
 	M=(xbc_get_joy(XBC_JOY_LY)*xbc_get_joy(XBC_JOY_LY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/10000*30/100;
 	if (button_pressed(BUTTON_XBC_RB))
 	{
-		W=20;
+		W=30;
 	}
 	if (button_pressed(BUTTON_XBC_LB))
 	{
-		W=-20;
+		W=-30;
 	}
 	if (!button_pressed(BUTTON_XBC_RB) && !button_pressed(BUTTON_XBC_LB) && lock%2==0)
 	{
@@ -341,16 +344,16 @@ void _manual()
 	//BUTTON_XBC_Y
 	if (button_pressed(BUTTON_XBC_Y))
 	{
-		motor_set_vel(MOTOR4, 40, OPEN_LOOP);
-		motor_set_vel(MOTOR5, 40, OPEN_LOOP);
-		motor_set_vel(MOTOR6, 40, OPEN_LOOP);
+		motor_set_vel(MOTOR4, 1799, OPEN_LOOP);
+		motor_set_vel(MOTOR5, 1799, OPEN_LOOP);
+		motor_set_vel(MOTOR6, 1799, OPEN_LOOP);
 	}
 	//BUTTON_XBC_A
 	if (button_pressed(BUTTON_XBC_A))
 	{
-		motor_set_vel(MOTOR4, -40, OPEN_LOOP);
-		motor_set_vel(MOTOR5, -40, OPEN_LOOP);
-		motor_set_vel(MOTOR6, -40, OPEN_LOOP);
+		motor_set_vel(MOTOR4, -600, OPEN_LOOP);
+		motor_set_vel(MOTOR5, -600, OPEN_LOOP);
+		motor_set_vel(MOTOR6, -600, OPEN_LOOP);
 	}
 	if (!button_pressed(BUTTON_XBC_Y) && !button_pressed(BUTTON_XBC_A))
 	{
@@ -363,19 +366,24 @@ void _manual()
 	{
 		_setTarget(_getX(), _getY(), _getAngle()/10);
 		lock++;
-		_delay(1);
+		_delay(2);
 	}
 	if (lock%2==1 && _manualCheck()==0)
 	{
 		_straight(target_x, target_y, target_angle, 5, 5, 0);
 	}
-	//XBC_JOY_LT
-	//servo_control(SERVO1, xbc_get_joy(XBC_JOY_LT)/1000*2400);
-	//servo_control(SERVO2, xbc_get_joy(XBC_JOY_RT)/1000*2400);
-	if (xbc_get_joy(XBC_JOY_RT)!=0)
+	//BUTTON_XBC_B
+	if (button_pressed(BUTTON_XBC_B))
 	{
-		servo_control_all(400);
+		pneu++;
+		pneumatic_control(GPIOB, GPIO_Pin_9, pneu%2);
+		_delay(2);
 	}
+	//XBC_JOY_LT
+	servo_control(SERVO1, 400+xbc_get_joy(XBC_JOY_LT)*650/255);
+	servo_control(SERVO2, 400+xbc_get_joy(XBC_JOY_RT)*650/255);
+	tft_prints(0, 5, "%d %d", 400+xbc_get_joy(XBC_JOY_LT)*650/255, 400+xbc_get_joy(XBC_JOY_RT)*650/255);
+	tft_update();
 }
 
 int _manualCheck()
@@ -400,11 +408,26 @@ int _manualCheck()
 	return 0;
 }
 
+void _brushlessStartup()
+{
+	int timer;
+	timer=get_seconds();
+	while (get_seconds()-timer<=2)
+	{
+		servo_control(SERVO1, 400);
+		servo_control(SERVO2, 400);
+		tft_prints(0, 5, "400 400");
+		tft_update();
+	}
+}
+
 void _delay(int sec)
 {
 	int start=get_seconds();
 	while (get_seconds()-start!=sec)
 	{
+		tft_prints(14, 5, "[DELAY]");
+		tft_update();
 		_updateScreen();
 	}
 }

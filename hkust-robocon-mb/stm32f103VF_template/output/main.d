@@ -31,12 +31,14 @@
 .\output\main.o: .\src\ustrobo_min_system\inc\system.h
 .\output\main.o: .\src\user\main.h
 .\output\main.o: src\user\xbc_mb.h
-.\output\main.o: src\user\button.h
-.\output\main.o: .\src\ustrobo_min_system\inc\encoder.h
+.\output\main.o: src\user\can_xbc_mb.h
+.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\output\main.o: src\user\can_protocol.h
 .\output\main.o: src\user\can.h
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_can.h
-.\output\main.o: src\user\can_protocol.h
 .\output\main.o: .\src\ustrobo_min_system\inc\uart.h
+.\output\main.o: src\user\button.h
+.\output\main.o: .\src\ustrobo_min_system\inc\encoder.h
 .\output\main.o: src\user\can_motor.h
 .\output\main.o: .\src\ustrobo_min_system\inc\approx_math.h
 .\output\main.o: .\src\ustrobo_min_system\inc\motor_pwm.h
@@ -45,4 +47,5 @@
 .\output\main.o: src\user\bluetooth.h
 .\output\main.o: src\user\crc.h
 .\output\main.o: src\user\position.h
+.\output\main.o: src\user\pneumatic.h
 .\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
