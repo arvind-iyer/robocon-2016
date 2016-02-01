@@ -2,7 +2,7 @@
 .\output\manual_mode.o: src\user\manual_mode.h
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\manual_mode.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\manual_mode.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h
@@ -15,10 +15,10 @@
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\stm32f10x_spi.h
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\misc.h
-.\output\manual_mode.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\output\manual_mode.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\output\manual_mode.o: src\user\can_motor.h
 .\output\manual_mode.o: src\user\can.h
-.\output\manual_mode.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\manual_mode.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\stm32f10x_can.h
 .\output\manual_mode.o: src\user\can_protocol.h
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\ticks.h
@@ -27,7 +27,7 @@
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\uart.h
-.\output\manual_mode.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\manual_mode.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\approx_math.h
 .\output\manual_mode.o: src\user\xbc_mb.h
 .\output\manual_mode.o: src\user\button.h
@@ -39,12 +39,12 @@
 .\output\manual_mode.o: src\user\auto_mode.h
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\system.h
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\stm32f10x_adc.h
-.\output\manual_mode.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\output\manual_mode.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\output\manual_mode.o: .\src\user\main.h
 .\output\manual_mode.o: .\src\stm32f10x_std\inc\stm32f10x_crc.h
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\system.h
 .\output\manual_mode.o: .\src\user\can_xbc_mb.h
-.\output\manual_mode.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\output\manual_mode.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\encoder.h
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\motor_pwm.h
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\gyro.h
@@ -54,4 +54,4 @@
 .\output\manual_mode.o: .\src\ustrobo_min_system\inc\adc.h
 .\output\manual_mode.o: .\src\user\manual_mode.h
 .\output\manual_mode.o: .\src\user\auto_mode.h
-.\output\manual_mode.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+.\output\manual_mode.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

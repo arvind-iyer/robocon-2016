@@ -2,7 +2,7 @@
 .\output\button.o: src\user\button.h
 .\output\button.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\button.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\button.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\button.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\button.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\button.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\button.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h
@@ -18,7 +18,7 @@
 .\output\button.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\button.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\button.o: .\src\ustrobo_min_system\inc\lcd_main.h
-.\output\button.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\output\button.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\button.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\button.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\button.o: .\src\ustrobo_min_system\inc\delay.h
 .\output\button.o: src\user\xbc_mb.h

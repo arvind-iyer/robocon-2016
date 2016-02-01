@@ -28,11 +28,11 @@ int main(void) {
 			lastTicks = get_full_ticks();
 			button_update();
 			if (control_state==MANUAL_CONTROL){
-			control_state = manual_control_update();
+				control_state = manual_control_update();
 			}else{
-			auto_var_update();			
-			auto_motor_update();
-			//auto_calibrate();
+				auto_var_update();			
+				auto_motor_update();
+				//auto_calibrate();
 			}
 		}
 	}

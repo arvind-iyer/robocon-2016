@@ -2,7 +2,7 @@
 .\output\approx_math.o: .\src\ustrobo_min_system\inc\approx_math.h
 .\output\approx_math.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\approx_math.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\approx_math.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\approx_math.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\approx_math.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\approx_math.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\approx_math.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h

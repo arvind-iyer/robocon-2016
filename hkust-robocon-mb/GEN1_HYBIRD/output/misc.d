@@ -2,7 +2,7 @@
 .\output\misc.o: .\src\stm32f10x_std\inc\misc.h
 .\output\misc.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\misc.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\misc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\misc.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\misc.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\misc.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\misc.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h

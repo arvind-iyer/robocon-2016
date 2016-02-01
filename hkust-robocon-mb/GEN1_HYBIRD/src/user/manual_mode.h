@@ -21,6 +21,11 @@
 #define BRUSHLESS_MIN 400
 #define BRUSHLESS_MED_HIGH 700
 #define BRUSHLESS_MAX 1050
+#define BRUSHLESS_COUNT 2
+typedef enum{
+	BRUSHLESS_1 = 0,
+	BRUSHLESS_2 = 1
+}BRUSHLESS_ID;
 
 typedef enum {
 	MANUAL_CONTROL = 0,
@@ -34,9 +39,6 @@ typedef enum {
 
 void manual_reset(void);
 void manual_init(void);
-void climb_continue(void);
-void stop_climbing(void);
 CONTROL_STATE manual_control_update(void);
-void brushless_control(s16 value);
 
 #endif

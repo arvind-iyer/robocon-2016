@@ -8,10 +8,9 @@ s32 curr_vx = 0;
 s32 curr_vy = 0;
 s32 curr_rotate = 0;
 s32 curr_angle = 0;
-u16 brushless_time_count = 0;
 
 LOCK_STATE is_climbing = LOCKED;
-LOCK_STATE brushless_lock = LOCKED;
+LOCK_STATE brushless_lock = UNLOCKED;
 LOCK_STATE emergency_lock = UNLOCKED;
 LOCK_STATE pneumatic_state = UNLOCKED;
 LOCK_STATE ground_wheels_lock = UNLOCKED;
@@ -19,13 +18,24 @@ LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
 LOCK_STATE press_button_B = UNLOCKED;
 LOCK_STATE press_button_back = UNLOCKED;
 LOCK_STATE press_button_X = UNLOCKED;
-s8 cache_speed_up = 0;
-s32 diff[3] = {0};
-s32 last_motor_vel[3] = {0};
 
 void manual_init(){
 	xbc_mb_init(XBC_CAN_FIRST);
 	manual_reset();
+}
+
+
+void brushless_control(BRUSHLESS_ID brushless_id, s16 value){
+	if ((u8) brushless_id >= BRUSHLESS_COUNT) return;
+	value = value>BRUSHLESS_MAX?BRUSHLESS_MAX:(value<BRUSHLESS_MIN?BRUSHLESS_MIN:value);
+	servo_control((SERVO_ID)brushless_id, value);
+}
+
+void brushless_control_all(s16 value){
+	value = value>BRUSHLESS_MAX?BRUSHLESS_MAX:(value<BRUSHLESS_MIN?BRUSHLESS_MIN:value);
+	for (u8 i=0; i<BRUSHLESS_COUNT; i++){
+			servo_control((SERVO_ID)i, value);
+	}
 }
 
 void manual_reset(){
@@ -33,7 +43,7 @@ void manual_reset(){
 	target_vx = target_vy = target_rotate = 0;
 	curr_vx = curr_vy = curr_rotate = curr_angle = 0;
 
-	brushless_lock = LOCKED;
+	brushless_lock = UNLOCKED;
 	emergency_lock = UNLOCKED;
 	pneumatic_state = UNLOCKED;
 	ground_wheels_lock = UNLOCKED;
@@ -41,16 +51,7 @@ void manual_reset(){
 	press_button_B = UNLOCKED;
 	press_button_back = UNLOCKED;
 	press_button_X = UNLOCKED;
-}
-
-void brushless_control(s16 value){
-	if (value>BRUSHLESS_MAX){
-		servo_control_all(BRUSHLESS_MAX);
-	}else if(value<BRUSHLESS_MIN){
-		servo_control_all(BRUSHLESS_MIN);
-	}else{
-		servo_control_all(value);
-	}
+	brushless_control_all(BRUSHLESS_MIN);
 }
 
 void climb_continue(){
@@ -78,10 +79,10 @@ void stop_climbing(){
 CONTROL_STATE manual_control_update(){
 	tft_clear();
 	if (button_pressed(BUTTON_XBC_XBOX)){
-		curr_vx = curr_vy = curr_rotate = target_vx = target_vy = target_rotate = brushless_time_count = 0;
+		curr_vx = curr_vy = curr_rotate = target_vx = target_vy = target_rotate = 0;
 		brushless_lock = is_climbing = LOCKED;
 		emergency_lock = UNLOCKED;
-		brushless_control(BRUSHLESS_MIN);
+		brushless_control_all(BRUSHLESS_MIN);
 		
 		motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
 		motor_set_vel(MOTOR2, 0, CLOSE_LOOP);
@@ -127,7 +128,7 @@ CONTROL_STATE manual_control_update(){
 		curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
 		curr_vx = (curr_vx*95/100 + vx*5/100);
 		curr_vy = (curr_vy*95/100 + vy*5/100);
-		curr_rotate = xbc_get_joy(XBC_JOY_LT)*10/8 - xbc_get_joy(XBC_JOY_RT)*10/8;
+		curr_rotate = -xbc_get_joy(XBC_JOY_RX)/3;
 
 		s32 curr_speed = (curr_vx*curr_vx + curr_vy*curr_vy) / 300;
 		s32 motor_vel[3] = {0};
@@ -138,48 +139,22 @@ CONTROL_STATE manual_control_update(){
 		for (u8 i=0;i<3;i++){
 			//motor_set_vel(MOTOR1 + i, motor_vel[i], motor_vel[i]==0?OPEN_LOOP:CLOSE_LOOP);
 			motor_set_vel(MOTOR1 + i, motor_vel[i], CLOSE_LOOP);
-			if (diff[i]<((motor_vel[i]-last_motor_vel[i])*(motor_vel[i]-last_motor_vel[i]))){
-				diff[i] = (motor_vel[i]-last_motor_vel[i])*(motor_vel[i]-last_motor_vel[i]);
-			}
-			last_motor_vel[i] = motor_vel[i];
 		}
 	}
 	
 	tft_append_line("%d", get_ticks());
 	
 	//Calcuate brushless
-	if (xbc_get_joy(XBC_JOY_RY)<-900 && button_pressed(BUTTON_XBC_R_JOY)){
-		if (brushless_time_count == 0){
-			brushless_time_count = get_seconds();
-		}else if((get_seconds() - brushless_time_count)>=1){
-			if (brushless_lock==LOCKED){
-				//Press and long down to unlock brushless
-				brushless_lock = UNLOCKED;
-				brushless_control(BRUSHLESS_MIN);
-				buzzer_beep(800);
-			}else{
-				//Press and long down to lock again
-				brushless_lock = LOCKED;
-				brushless_control(BRUSHLESS_MIN);
-				buzzer_beep(350);
-			}
-			brushless_time_count = 65535;
-		}
-	}else{
-		brushless_time_count = 0;
-		//Run the brushless
-		if (brushless_lock == UNLOCKED){
-			if (button_pressed(BUTTON_XBC_R_JOY)){
-				//More Power
-				brushless_control(xbc_get_joy(XBC_JOY_RY)*BRUSHLESS_MAX/(BRUSHLESS_MAX-BRUSHLESS_MIN)+BRUSHLESS_MIN);
-			}else{
-				//Less Power
-				brushless_control(xbc_get_joy(XBC_JOY_RY)*BRUSHLESS_MED_HIGH/(BRUSHLESS_MED_HIGH-BRUSHLESS_MIN)+BRUSHLESS_MIN);
-			}
+	if (brushless_lock == UNLOCKED){
+		if (button_pressed(BUTTON_XBC_LB) && button_pressed(BUTTON_XBC_RB)){
+			//Run the brushless
+			tft_append_line("B:%d %d", xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
+			brushless_control(BRUSHLESS_1, xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
+			brushless_control(BRUSHLESS_2, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
 		}else{
-			brushless_control(BRUSHLESS_MIN);
+			brushless_control_all(BRUSHLESS_MIN);
 		}
-	}		
+	}
 	
 	//Calcuate climbing wheels
 	if (button_pressed(BUTTON_XBC_A) && UNLOCKED == emergency_lock){
@@ -214,7 +189,7 @@ CONTROL_STATE manual_control_update(){
 		}
 	}else{
 			press_button_X = UNLOCKED;
-		}
+	}
 	
 	//Pneumatic control
 	if (button_pressed(BUTTON_XBC_B)){
@@ -240,7 +215,7 @@ CONTROL_STATE manual_control_update(){
 				motor_lock(MOTOR6);
 				brushless_lock = LOCKED;
 				ground_wheels_lock = LOCKED;
-				brushless_control(BRUSHLESS_MIN);
+				brushless_control_all(BRUSHLESS_MIN);
 				emergency_lock = LOCKED;
 				buzzer_beep(200);
 			}else{
