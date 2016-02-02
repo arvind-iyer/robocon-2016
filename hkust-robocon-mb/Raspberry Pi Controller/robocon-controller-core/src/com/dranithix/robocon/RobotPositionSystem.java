@@ -7,6 +7,9 @@ import com.badlogic.gdx.utils.Array;
 
 public class RobotPositionSystem {
 
+	private static final int MAXVEL = 140;
+	private static final int STOP_DISTANCE = 2000;
+
 	private static Array<Integer[]> queue = new Array<Integer[]>();
 
 	private static int target_x;
@@ -23,8 +26,10 @@ public class RobotPositionSystem {
 
 	/**
 	 * RESETS DEFAULTS
+	 * <p>
 	 */
 	public static void _init() {
+		_clearQueue();
 		lastX = 0;
 		lastY = 0;
 		lastAngle = 0;
@@ -46,7 +51,7 @@ public class RobotPositionSystem {
 	 * @param a_error
 	 *            max orientation error in degrees
 	 * @param velocity
-	 *            min velocity throughout course
+	 *            velocity throughout course, 0 for auto
 	 */
 	public static void _addQueue(int x, int y, int angle, int d_error, int a_error, int velocity) {
 		Integer[] target = new Integer[6];
@@ -60,7 +65,18 @@ public class RobotPositionSystem {
 	}
 
 	/**
+	 * RESETS QUEUE
+	 * <p>
+	 */
+	public static void _clearQueue() {
+		while (queue.size != 0) {
+			queue.removeIndex(0);
+		}
+	}
+
+	/**
 	 * LOADS NEXT TARGET FROM QUEUE
+	 * <p>
 	 */
 	public void _nextTarget() {
 		if (queue.size != 0) {
@@ -90,7 +106,7 @@ public class RobotPositionSystem {
 	 * @param a_error
 	 *            max orientation error in degrees
 	 * @param velocity
-	 *            min velocity throughout course
+	 *            velocity throughout course, 0 for auto
 	 */
 	public static void _setTarget(int x, int y, int angle, int d_error, int a_error, int velocity) {
 		target_x = x;
@@ -103,12 +119,25 @@ public class RobotPositionSystem {
 
 	/**
 	 * MOVES ROBOT TO TARGET
+	 * <p>
 	 */
 	public static void _straight() {
+		int M = 0;
+		int A = _angleDiff(_getAngle(), target_a);
+		int W = 0;
 		int dist = _dist(_getX(), _getY(), target_x, target_y);
-		if (dist > d_e || Math.abs(_angleDiff(_getAngle(), target_a))) {
-
+		if (dist > d_e || Math.abs(_angleDiff(_getAngle(), target_a)) > a_e) {
+			if (vel != 0) {
+				M = vel;
+			} else {
+				M = dist / STOP_DISTANCE * 100;
+				if (M > 100) {
+					M = 100;
+				}
+			}
+			W = _angleDiff(_getAngle(), target_a) * 100 / 180;
 		}
+		_move(M, A, W);
 	}
 
 	/**
@@ -116,24 +145,28 @@ public class RobotPositionSystem {
 	 * <p>
 	 * 
 	 * @param M
-	 *            magnitude scaled 0-100
+	 *            magnitude scaled 0->100
 	 * @param A
-	 *            angle of robot in degrees scaled 0-360
+	 *            local angle of motion in degrees scaled 0->360
 	 * @param W
-	 *            angular velocity
+	 *            angular speed scaled -100->100
 	 */
-	public static void _move(float M, float A, float W) {
-		float X = M * MathUtils.cosDeg(A);
-		float Y = M * MathUtils.sinDeg(A);
-		int _M1 = (int) ((-W - X * 2) / 3);
-		int _M2 = (int) ((-W * 0.577f + X * 0.577f - Y) / 1.73f);
-		int _M3 = (int) (-W - _M1 - _M2);
-
+	public static void _move(int M, int A, int W) {
+		float X = M * MathUtils.cosDeg(A) * MAXVEL / 100;
+		float Y = M * MathUtils.sinDeg(A) * MAXVEL / 100;
+		float _M1 = (-W - X * 2) / 3;
+		float _M2 = (-W * 0.577f + X * 0.577f - Y) / 1.73f;
+		float _M3 = -W - _M1 - _M2;
+		int M1 = (int) (_M1);
+		int M2 = (int) (_M2);
+		int M3 = (int) (_M3);
 		// TODO: send packet
+		System.out.println(M1 + " " + M2 + " " + M3);
 	}
 
 	/**
 	 * CALCULATES DISTANCE BETWEEN TWO POINTS
+	 * <p>
 	 * 
 	 * @param x1
 	 *            x-coordinate of POINT_1
@@ -149,9 +182,25 @@ public class RobotPositionSystem {
 		return (int) (Math.sqrt(Math.pow(y2 - y1, 2) + Math.pow(x2 - x1, 2)));
 	}
 
+	/**
+	 * CALCULATE DIFFERENCE OF TWO ANGLES
+	 * <p>
+	 * 
+	 * @param angle_o
+	 *            current orientation
+	 * @param angle_t
+	 *            target orientation
+	 * @return angle difference scaled -180->180
+	 */
 	private static int _angleDiff(int angle_o, int angle_t) {
 		int diff = angle_t - angle_o;
-		//TODO:
+		if (diff < -180) {
+			diff = diff + 360;
+		}
+		if (diff > 180) {
+			diff = diff - 360;
+		}
+		return diff;
 	}
 
 	private static int _getX() {
@@ -177,6 +226,12 @@ public class RobotPositionSystem {
 	 */
 	public static void main(String[] args) {
 		Scanner cin = new Scanner(System.in);
+		while (true) {
+			int m = cin.nextInt();
+			int a = cin.nextInt();
+			int w = cin.nextInt();
+			_move(m, a, w);
+		}
 	}
 
 }
