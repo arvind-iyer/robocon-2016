@@ -41,7 +41,14 @@
 #include "tm_stm32f4_servo.h"
 #include "tm_stm32f4_delay.h"
 #include "tm_stm32f4_usart.h"
+#include "tm_stm32f4_i2c.h"
 #include "ticks.h"
+#include "approx_math.h"
+#include "gyro.h"
+#include "can.h"
+#include "can_protocol.h"
+#include "can_motor.h"
+#include "encoder.h"
 
 
 

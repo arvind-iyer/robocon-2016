@@ -3,6 +3,7 @@
 
 TM_SERVO_t Servo1, Servo2;
 
+//Command Handler for Raspberry Pi Controller
 void handleCommand(char * command) {
 	int dataIndex = 0, contentIndex = 0, header = -1;
 
@@ -40,7 +41,6 @@ void handleCommand(char * command) {
 int main(void) {
 	SystemInit();
 	led_init();
-    //tft_init(0,BLACK,WHITE,RED);
 
 	//IMPORTANT: TM_DELAY_INIT MUST BE BEFORE ticks_init!!!
 	TM_DELAY_Init();
@@ -51,24 +51,46 @@ int main(void) {
 	TM_SERVO_Init(&Servo1, TIM4, TM_PWM_Channel_3, TM_PWM_PinsPack_1);
 	TM_SERVO_Init(&Servo2, TIM4, TM_PWM_Channel_4, TM_PWM_PinsPack_1);
 
-	TM_USART_Init(USART1, TM_USART_PinsPack_1, 115200);
+	//Initialize the 2 USART Ports
+    char buffer[512];
+    TM_USART_Init(USART1, TM_USART_PinsPack_1, 115200);
+    TM_USART_Init(USART3, TM_USART_PinsPack_1, 115200);
 
-	uint16_t ticks_ms_img = 0;
+	//Initialize I2C Modules (For future Gyro using I2C protocol, not CAN anymore) PB10 & PB12
+    //TM_I2C_Init(I2C2, TM_I2C_PinsPack_1, 100000); 
 	
-	char buffer[512];
     
-    tft_init(PIN_ON_RIGHT,BLACK,WHITE,RED);
+    tft_init(PIN_ON_RIGHT,BLACK,WHITE,RED); //Init LCD
     tft_put_logo(110, 90); //Put a fancy robotics logo shit :)
-	
+    
+    //Initialize the CAN protocol
+    can_init();
+    can_rx_init();
+    can_motor_init();
+    
+    //Initialize encoder
+    encoder_init();
+    
 	while (1) {
-		TM_USART_Puts(USART1, "Benchod\n");
 		if (TM_USART_Gets(USART1, buffer, 512) > 0) {
 			handleCommand(buffer);
 		}
-        LED_ON(LED_1);
         tft_prints(0,0,"HAHAHAH");
         tft_prints(0,1,"SO HAPPY :D!");
+        TM_USART_Puts(USART1, "Benchod\n");
         tft_update();
+        if(get_ms_ticks() % 200 == 0){
+            LED_ON(LED_1);
+            LED_ON(LED_2);
+        }
+        if(get_ms_ticks() % 200 == 100){
+            LED_OFF(LED_1);
+            LED_OFF(LED_2);
+        }
+        tft_prints(0,3,"Motor 1: %d",get_encoder_value(MOTOR1));
+        tft_prints(0,4,"Motor 2: %d",get_encoder_value(MOTOR2));
+        tft_prints(0,5,"Motor 3: %d",get_encoder_value(MOTOR3));
+        
 	}
 
 	return 0;

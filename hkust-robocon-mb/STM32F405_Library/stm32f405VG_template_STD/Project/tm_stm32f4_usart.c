@@ -268,6 +268,18 @@ uint8_t TM_USART_BufferEmpty(USART_TypeDef* USARTx) {
 	return (u->Num == 0 && u->In == u->Out);
 }
 
+/**
+  * @brief  Sending one byte of data via USART
+  * @param  COM: which USART to be used for sending data
+  * @param  data: one byte data to be sent
+  * @retval None
+  */
+void uart_tx_byte(USART_TypeDef* USARTx, uc8 data)
+{
+	while (USART_GetFlagStatus(USARTx, USART_FLAG_TC) == RESET); 
+	USART_SendData(USARTx, (uint16_t)data);
+}
+
 uint8_t TM_USART_BufferFull(USART_TypeDef* USARTx) {
 	TM_USART_t* u = TM_USART_INT_GetUsart(USARTx);
 	
@@ -339,6 +351,8 @@ void TM_USART_Puts(USART_TypeDef* USARTx, char* str) {
 	}
 }
 
+
+
 void TM_USART_Send(USART_TypeDef* USARTx, uint8_t* DataArray, uint16_t count) {
 	uint16_t i;
 	TM_USART_t* u = TM_USART_INT_GetUsart(USARTx);
@@ -357,6 +371,23 @@ void TM_USART_Send(USART_TypeDef* USARTx, uint8_t* DataArray, uint16_t count) {
 		USART_WAIT(USARTx);
 	}
 }
+
+void TM_USART_Send_Byte(USART_TypeDef* USARTx, uint8_t data) {
+	TM_USART_t* u = TM_USART_INT_GetUsart(USARTx);
+	/* If we are not initialized */
+	if (u->Initialized == 0) {
+		return;
+	}
+	/* Go through entire data array */
+    /* Wait to be ready, buffer empty */
+    USART_WAIT(USARTx);
+    /* Send data */
+    USARTx->DR = (uint16_t)(data);
+    /* Wait to be ready, buffer empty */
+    USART_WAIT(USARTx);
+	
+}
+
 
 /* Private functions */
 void TM_USART_INT_InsertToBuffer(TM_USART_t* u, uint8_t c) {
@@ -673,6 +704,10 @@ void USART3_IRQHandler(void) {
 	}
 }
 #endif
+
+//#ifdef USE_USART3
+//extern void USART3_IRQHandler(void);
+//#endif
 
 #ifdef USE_UART4
 void UART4_IRQHandler(void) {

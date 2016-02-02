@@ -49,5 +49,14 @@
 .\output\main.o: ..\Project\tm_stm32f4_gpio.h
 .\output\main.o: ..\Project\tm_stm32f4_servo.h
 .\output\main.o: ..\Project\tm_stm32f4_usart.h
+.\output\main.o: ..\Project\gyro.h
+.\output\main.o: ..\Project\tm_stm32f4_usart.h
 .\output\main.o: ..\Project\ticks.h
+.\output\main.o: ..\Project\approx_math.h
+.\output\main.o: ..\Project\tm_stm32f4_i2c.h
+.\output\main.o: ..\Project\can.h
+.\output\main.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h
+.\output\main.o: ..\Project\can_protocol.h
+.\output\main.o: ..\Project\can_motor.h
+.\output\main.o: ..\Project\encoder.h
 .\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

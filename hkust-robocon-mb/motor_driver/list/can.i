@@ -2704,8 +2704,6 @@ typedef volatile const uint32_t vuc32;
 typedef volatile const uint16_t vuc16;   
 typedef volatile const uint8_t vuc8;    
 
-typedef enum {FALSE = 0, TRUE = !FALSE} bool;
-
 typedef enum {RESET = 0, SET = !RESET} FlagStatus, ITStatus;
 
 typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
@@ -3357,13 +3355,13 @@ typedef struct
 
 
 
-#line 911 "user\\stm32f10x.h"
+#line 909 "user\\stm32f10x.h"
 
-#line 928 "user\\stm32f10x.h"
+#line 926 "user\\stm32f10x.h"
 
 
 
-#line 947 "user\\stm32f10x.h"
+#line 945 "user\\stm32f10x.h"
 
 
 
@@ -3384,7 +3382,7 @@ typedef struct
 
    
 
-#line 1029 "user\\stm32f10x.h"
+#line 1027 "user\\stm32f10x.h"
 
 
 
@@ -3438,7 +3436,7 @@ typedef struct
 
 
  
-#line 1090 "user\\stm32f10x.h"
+#line 1088 "user\\stm32f10x.h"
 
 
 
@@ -3605,7 +3603,7 @@ typedef struct
  
 
  
-#line 1266 "user\\stm32f10x.h"
+#line 1264 "user\\stm32f10x.h"
 
  
 
@@ -3633,7 +3631,7 @@ typedef struct
 
 
  
-#line 1302 "user\\stm32f10x.h"
+#line 1300 "user\\stm32f10x.h"
 
 
 
@@ -3679,7 +3677,7 @@ typedef struct
 
 
  
-#line 1362 "user\\stm32f10x.h"
+#line 1360 "user\\stm32f10x.h"
 
 
 
@@ -3696,22 +3694,22 @@ typedef struct
 
 
  
-#line 1395 "user\\stm32f10x.h"
+#line 1393 "user\\stm32f10x.h"
 
  
-#line 1412 "user\\stm32f10x.h"
+#line 1410 "user\\stm32f10x.h"
 
  
-#line 1434 "user\\stm32f10x.h"
+#line 1432 "user\\stm32f10x.h"
 
  
-#line 1443 "user\\stm32f10x.h"
+#line 1441 "user\\stm32f10x.h"
 
  
-#line 1460 "user\\stm32f10x.h"
+#line 1458 "user\\stm32f10x.h"
 
  
-#line 1482 "user\\stm32f10x.h"
+#line 1480 "user\\stm32f10x.h"
 
  
 
@@ -3732,7 +3730,7 @@ typedef struct
 
 
    
-#line 1511 "user\\stm32f10x.h"
+#line 1509 "user\\stm32f10x.h"
 
  
  
@@ -3879,38 +3877,23 @@ typedef struct
 
 
  
-#line 1673 "user\\stm32f10x.h"
+#line 1671 "user\\stm32f10x.h"
 
  
-#line 1691 "user\\stm32f10x.h"
+#line 1689 "user\\stm32f10x.h"
 
  
-#line 1709 "user\\stm32f10x.h"
+#line 1707 "user\\stm32f10x.h"
 
-#line 1726 "user\\stm32f10x.h"
-
- 
-#line 1744 "user\\stm32f10x.h"
+#line 1724 "user\\stm32f10x.h"
 
  
-#line 1763 "user\\stm32f10x.h"
+#line 1742 "user\\stm32f10x.h"
 
  
+#line 1761 "user\\stm32f10x.h"
 
  
-
-
-
-
-
-
- 
-#line 1790 "user\\stm32f10x.h"
-
-
-
-
-
 
  
 
@@ -3919,21 +3902,8 @@ typedef struct
 
 
 
-
-
  
-
-
-
-
-
-
-
-
-
- 
-
-
+#line 1788 "user\\stm32f10x.h"
 
 
 
@@ -3968,21 +3938,10 @@ typedef struct
 
 
 
-
-
  
 
 
 
-
-#line 1865 "user\\stm32f10x.h"
-
-
-
-
-
-
- 
 
 
 
@@ -3994,35 +3953,56 @@ typedef struct
 
 
 
- 
-#line 1891 "user\\stm32f10x.h"
+
+
+
 
  
-#line 1900 "user\\stm32f10x.h"
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+#line 1863 "user\\stm32f10x.h"
+
+
+
+
+
+
+ 
+
+
+
+
+
+ 
+
+
+
+
+
+ 
+#line 1889 "user\\stm32f10x.h"
+
+ 
+#line 1898 "user\\stm32f10x.h"
 
    
-#line 1909 "user\\stm32f10x.h"
+#line 1907 "user\\stm32f10x.h"
 
  
-#line 1918 "user\\stm32f10x.h"
-
- 
-
-
-
-
-
- 
-#line 1933 "user\\stm32f10x.h"
-
- 
-#line 1942 "user\\stm32f10x.h"
-
-   
-#line 1951 "user\\stm32f10x.h"
-
- 
-#line 1960 "user\\stm32f10x.h"
+#line 1916 "user\\stm32f10x.h"
 
  
 
@@ -4031,16 +4011,16 @@ typedef struct
 
 
  
-#line 1975 "user\\stm32f10x.h"
+#line 1931 "user\\stm32f10x.h"
 
  
-#line 1984 "user\\stm32f10x.h"
+#line 1940 "user\\stm32f10x.h"
 
    
-#line 1993 "user\\stm32f10x.h"
+#line 1949 "user\\stm32f10x.h"
 
  
-#line 2002 "user\\stm32f10x.h"
+#line 1958 "user\\stm32f10x.h"
 
  
 
@@ -4049,18 +4029,36 @@ typedef struct
 
 
  
-#line 2017 "user\\stm32f10x.h"
+#line 1973 "user\\stm32f10x.h"
 
  
-#line 2026 "user\\stm32f10x.h"
+#line 1982 "user\\stm32f10x.h"
 
    
-#line 2035 "user\\stm32f10x.h"
+#line 1991 "user\\stm32f10x.h"
 
  
-#line 2044 "user\\stm32f10x.h"
+#line 2000 "user\\stm32f10x.h"
 
  
+
+
+
+
+
+ 
+#line 2015 "user\\stm32f10x.h"
+
+ 
+#line 2024 "user\\stm32f10x.h"
+
+   
+#line 2033 "user\\stm32f10x.h"
+
+ 
+#line 2042 "user\\stm32f10x.h"
+
+ 
  
  
  
@@ -4090,19 +4088,19 @@ typedef struct
  
 
  
-#line 2108 "user\\stm32f10x.h"
+#line 2106 "user\\stm32f10x.h"
 
  
-#line 2143 "user\\stm32f10x.h"
+#line 2141 "user\\stm32f10x.h"
 
  
-#line 2178 "user\\stm32f10x.h"
+#line 2176 "user\\stm32f10x.h"
 
  
-#line 2213 "user\\stm32f10x.h"
+#line 2211 "user\\stm32f10x.h"
 
  
-#line 2248 "user\\stm32f10x.h"
+#line 2246 "user\\stm32f10x.h"
 
  
 
@@ -4160,7 +4158,7 @@ typedef struct
 
 
  
-#line 2315 "user\\stm32f10x.h"
+#line 2313 "user\\stm32f10x.h"
 
  
 
@@ -4177,7 +4175,7 @@ typedef struct
 
 
  
-#line 2339 "user\\stm32f10x.h"
+#line 2337 "user\\stm32f10x.h"
 
 
 
@@ -4188,7 +4186,7 @@ typedef struct
 
 
  
-#line 2355 "user\\stm32f10x.h"
+#line 2353 "user\\stm32f10x.h"
 
  
 
@@ -4197,7 +4195,7 @@ typedef struct
 
 
  
-#line 2377 "user\\stm32f10x.h"
+#line 2375 "user\\stm32f10x.h"
 
  
  
@@ -4207,9 +4205,9 @@ typedef struct
 
 
  
-#line 2392 "user\\stm32f10x.h"
+#line 2390 "user\\stm32f10x.h"
  
-#line 2399 "user\\stm32f10x.h"
+#line 2397 "user\\stm32f10x.h"
 
  
 
@@ -4239,22 +4237,22 @@ typedef struct
  
 
  
-#line 2447 "user\\stm32f10x.h"
+#line 2445 "user\\stm32f10x.h"
 
  
-#line 2468 "user\\stm32f10x.h"
+#line 2466 "user\\stm32f10x.h"
 
  
-#line 2489 "user\\stm32f10x.h"
+#line 2487 "user\\stm32f10x.h"
 
  
-#line 2510 "user\\stm32f10x.h"
+#line 2508 "user\\stm32f10x.h"
 
  
-#line 2531 "user\\stm32f10x.h"
+#line 2529 "user\\stm32f10x.h"
 
  
-#line 2552 "user\\stm32f10x.h"
+#line 2550 "user\\stm32f10x.h"
 
  
  
@@ -4263,13 +4261,13 @@ typedef struct
  
 
  
-#line 2588 "user\\stm32f10x.h"
+#line 2586 "user\\stm32f10x.h"
 
  
-#line 2618 "user\\stm32f10x.h"
+#line 2616 "user\\stm32f10x.h"
 
  
-#line 2628 "user\\stm32f10x.h"
+#line 2626 "user\\stm32f10x.h"
 
 
 
@@ -4286,7 +4284,7 @@ typedef struct
 
 
  
-#line 2652 "user\\stm32f10x.h"
+#line 2650 "user\\stm32f10x.h"
 
 
 
@@ -4303,7 +4301,7 @@ typedef struct
 
 
  
-#line 2676 "user\\stm32f10x.h"
+#line 2674 "user\\stm32f10x.h"
 
 
 
@@ -4320,7 +4318,7 @@ typedef struct
 
 
  
-#line 2700 "user\\stm32f10x.h"
+#line 2698 "user\\stm32f10x.h"
 
 
 
@@ -4337,7 +4335,7 @@ typedef struct
 
 
  
-#line 2724 "user\\stm32f10x.h"
+#line 2722 "user\\stm32f10x.h"
 
 
 
@@ -4354,7 +4352,7 @@ typedef struct
 
 
  
-#line 2748 "user\\stm32f10x.h"
+#line 2746 "user\\stm32f10x.h"
 
 
 
@@ -4371,7 +4369,7 @@ typedef struct
 
 
  
-#line 2772 "user\\stm32f10x.h"
+#line 2770 "user\\stm32f10x.h"
 
 
 
@@ -4467,9 +4465,9 @@ typedef struct
 
 
  
-#line 2873 "user\\stm32f10x.h"
+#line 2871 "user\\stm32f10x.h"
 
-#line 2882 "user\\stm32f10x.h"
+#line 2880 "user\\stm32f10x.h"
 
 
 
@@ -4487,7 +4485,7 @@ typedef struct
 
   
  
-#line 2905 "user\\stm32f10x.h"
+#line 2903 "user\\stm32f10x.h"
 
 
 
@@ -4617,13 +4615,13 @@ typedef struct
 
 
  
-#line 3040 "user\\stm32f10x.h"
+#line 3038 "user\\stm32f10x.h"
 
-#line 3047 "user\\stm32f10x.h"
+#line 3045 "user\\stm32f10x.h"
 
-#line 3054 "user\\stm32f10x.h"
+#line 3052 "user\\stm32f10x.h"
 
-#line 3061 "user\\stm32f10x.h"
+#line 3059 "user\\stm32f10x.h"
 
 
 
@@ -4632,39 +4630,39 @@ typedef struct
 
 
  
-#line 3075 "user\\stm32f10x.h"
+#line 3073 "user\\stm32f10x.h"
 
-#line 3082 "user\\stm32f10x.h"
+#line 3080 "user\\stm32f10x.h"
 
-#line 3089 "user\\stm32f10x.h"
+#line 3087 "user\\stm32f10x.h"
 
-#line 3096 "user\\stm32f10x.h"
+#line 3094 "user\\stm32f10x.h"
 
-#line 3103 "user\\stm32f10x.h"
+#line 3101 "user\\stm32f10x.h"
 
-#line 3110 "user\\stm32f10x.h"
+#line 3108 "user\\stm32f10x.h"
 
  
-#line 3118 "user\\stm32f10x.h"
+#line 3116 "user\\stm32f10x.h"
 
-#line 3125 "user\\stm32f10x.h"
+#line 3123 "user\\stm32f10x.h"
 
-#line 3132 "user\\stm32f10x.h"
+#line 3130 "user\\stm32f10x.h"
 
-#line 3139 "user\\stm32f10x.h"
+#line 3137 "user\\stm32f10x.h"
 
-#line 3146 "user\\stm32f10x.h"
+#line 3144 "user\\stm32f10x.h"
 
-#line 3153 "user\\stm32f10x.h"
+#line 3151 "user\\stm32f10x.h"
 
  
-#line 3161 "user\\stm32f10x.h"
+#line 3159 "user\\stm32f10x.h"
 
-#line 3168 "user\\stm32f10x.h"
+#line 3166 "user\\stm32f10x.h"
 
-#line 3175 "user\\stm32f10x.h"
+#line 3173 "user\\stm32f10x.h"
 
-#line 3182 "user\\stm32f10x.h"
+#line 3180 "user\\stm32f10x.h"
 
 
 
@@ -4807,7 +4805,7 @@ typedef struct
 
 
 
-#line 3332 "user\\stm32f10x.h"
+#line 3330 "user\\stm32f10x.h"
 
  
 
@@ -4836,13 +4834,13 @@ typedef struct
 
 
  
-#line 3375 "user\\stm32f10x.h"
+#line 3373 "user\\stm32f10x.h"
 
  
-#line 3389 "user\\stm32f10x.h"
+#line 3387 "user\\stm32f10x.h"
 
  
-#line 3399 "user\\stm32f10x.h"
+#line 3397 "user\\stm32f10x.h"
 
  
 
@@ -4947,7 +4945,7 @@ typedef struct
 
 
  
-#line 3517 "user\\stm32f10x.h"
+#line 3515 "user\\stm32f10x.h"
 
  
 
@@ -4974,18 +4972,18 @@ typedef struct
 
 
  
-#line 3552 "user\\stm32f10x.h"
+#line 3550 "user\\stm32f10x.h"
 
 
 
 
 
-#line 3563 "user\\stm32f10x.h"
+#line 3561 "user\\stm32f10x.h"
 
  
-#line 3571 "user\\stm32f10x.h"
+#line 3569 "user\\stm32f10x.h"
 
-#line 3578 "user\\stm32f10x.h"
+#line 3576 "user\\stm32f10x.h"
 
  
 
@@ -5002,7 +5000,7 @@ typedef struct
 
 
  
-#line 3600 "user\\stm32f10x.h"
+#line 3598 "user\\stm32f10x.h"
 
  
 
@@ -5057,12 +5055,12 @@ typedef struct
  
 
  
-#line 3662 "user\\stm32f10x.h"
+#line 3660 "user\\stm32f10x.h"
 
 
 
  
-#line 3674 "user\\stm32f10x.h"
+#line 3672 "user\\stm32f10x.h"
 
 
 
@@ -5091,7 +5089,7 @@ typedef struct
 
 
 
-#line 3711 "user\\stm32f10x.h"
+#line 3709 "user\\stm32f10x.h"
 
  
 
@@ -5105,7 +5103,7 @@ typedef struct
 
 
 
-#line 3733 "user\\stm32f10x.h"
+#line 3731 "user\\stm32f10x.h"
 
  
 
@@ -5119,7 +5117,7 @@ typedef struct
 
 
 
-#line 3755 "user\\stm32f10x.h"
+#line 3753 "user\\stm32f10x.h"
 
  
 
@@ -5133,7 +5131,7 @@ typedef struct
 
 
 
-#line 3777 "user\\stm32f10x.h"
+#line 3775 "user\\stm32f10x.h"
 
  
 
@@ -5524,76 +5522,76 @@ typedef struct
 
 
  
-#line 4174 "user\\stm32f10x.h"
+#line 4172 "user\\stm32f10x.h"
 
  
-#line 4183 "user\\stm32f10x.h"
+#line 4181 "user\\stm32f10x.h"
 
  
-#line 4192 "user\\stm32f10x.h"
+#line 4190 "user\\stm32f10x.h"
 
  
-#line 4203 "user\\stm32f10x.h"
+#line 4201 "user\\stm32f10x.h"
 
-#line 4213 "user\\stm32f10x.h"
+#line 4211 "user\\stm32f10x.h"
 
-#line 4223 "user\\stm32f10x.h"
+#line 4221 "user\\stm32f10x.h"
 
-#line 4233 "user\\stm32f10x.h"
+#line 4231 "user\\stm32f10x.h"
 
  
-#line 4244 "user\\stm32f10x.h"
+#line 4242 "user\\stm32f10x.h"
 
-#line 4254 "user\\stm32f10x.h"
+#line 4252 "user\\stm32f10x.h"
 
-#line 4264 "user\\stm32f10x.h"
+#line 4262 "user\\stm32f10x.h"
 
-#line 4274 "user\\stm32f10x.h"
+#line 4272 "user\\stm32f10x.h"
 
  
-#line 4285 "user\\stm32f10x.h"
+#line 4283 "user\\stm32f10x.h"
 
-#line 4295 "user\\stm32f10x.h"
+#line 4293 "user\\stm32f10x.h"
 
-#line 4305 "user\\stm32f10x.h"
+#line 4303 "user\\stm32f10x.h"
 
-#line 4315 "user\\stm32f10x.h"
+#line 4313 "user\\stm32f10x.h"
 
  
-#line 4326 "user\\stm32f10x.h"
+#line 4324 "user\\stm32f10x.h"
 
-#line 4336 "user\\stm32f10x.h"
+#line 4334 "user\\stm32f10x.h"
 
-#line 4346 "user\\stm32f10x.h"
+#line 4344 "user\\stm32f10x.h"
 
-#line 4356 "user\\stm32f10x.h"
+#line 4354 "user\\stm32f10x.h"
 
  
-#line 4367 "user\\stm32f10x.h"
+#line 4365 "user\\stm32f10x.h"
 
-#line 4377 "user\\stm32f10x.h"
+#line 4375 "user\\stm32f10x.h"
 
-#line 4387 "user\\stm32f10x.h"
+#line 4385 "user\\stm32f10x.h"
 
-#line 4397 "user\\stm32f10x.h"
+#line 4395 "user\\stm32f10x.h"
 
  
-#line 4408 "user\\stm32f10x.h"
+#line 4406 "user\\stm32f10x.h"
 
-#line 4418 "user\\stm32f10x.h"
+#line 4416 "user\\stm32f10x.h"
 
-#line 4428 "user\\stm32f10x.h"
+#line 4426 "user\\stm32f10x.h"
 
-#line 4438 "user\\stm32f10x.h"
+#line 4436 "user\\stm32f10x.h"
 
  
-#line 4449 "user\\stm32f10x.h"
+#line 4447 "user\\stm32f10x.h"
 
-#line 4459 "user\\stm32f10x.h"
+#line 4457 "user\\stm32f10x.h"
 
-#line 4469 "user\\stm32f10x.h"
+#line 4467 "user\\stm32f10x.h"
 
-#line 4479 "user\\stm32f10x.h"
+#line 4477 "user\\stm32f10x.h"
 
  
 
@@ -5635,7 +5633,7 @@ typedef struct
 
 
 
-#line 4527 "user\\stm32f10x.h"
+#line 4525 "user\\stm32f10x.h"
 
  
 
@@ -5682,13 +5680,13 @@ typedef struct
 
 
  
-#line 4597 "user\\stm32f10x.h"
+#line 4595 "user\\stm32f10x.h"
 
  
-#line 4612 "user\\stm32f10x.h"
+#line 4610 "user\\stm32f10x.h"
 
  
-#line 4638 "user\\stm32f10x.h"
+#line 4636 "user\\stm32f10x.h"
 
  
 
@@ -5897,10 +5895,10 @@ typedef struct
 
  
  
-#line 4859 "user\\stm32f10x.h"
+#line 4857 "user\\stm32f10x.h"
 
  
-#line 4871 "user\\stm32f10x.h"
+#line 4869 "user\\stm32f10x.h"
 
  
 
@@ -5910,7 +5908,7 @@ typedef struct
 
 
  
-#line 4888 "user\\stm32f10x.h"
+#line 4886 "user\\stm32f10x.h"
 
 
 
@@ -6049,56 +6047,56 @@ typedef struct
  
 
 
-#line 5032 "user\\stm32f10x.h"
+#line 5030 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5044 "user\\stm32f10x.h"
+#line 5042 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5056 "user\\stm32f10x.h"
+#line 5054 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5068 "user\\stm32f10x.h"
+#line 5066 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5080 "user\\stm32f10x.h"
+#line 5078 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5092 "user\\stm32f10x.h"
+#line 5090 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5104 "user\\stm32f10x.h"
+#line 5102 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5116 "user\\stm32f10x.h"
+#line 5114 "user\\stm32f10x.h"
 
 
 
@@ -6107,112 +6105,112 @@ typedef struct
  
 
 
-#line 5130 "user\\stm32f10x.h"
+#line 5128 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5142 "user\\stm32f10x.h"
+#line 5140 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5154 "user\\stm32f10x.h"
+#line 5152 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5166 "user\\stm32f10x.h"
+#line 5164 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5178 "user\\stm32f10x.h"
+#line 5176 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5190 "user\\stm32f10x.h"
+#line 5188 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5202 "user\\stm32f10x.h"
+#line 5200 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5214 "user\\stm32f10x.h"
+#line 5212 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5226 "user\\stm32f10x.h"
+#line 5224 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5238 "user\\stm32f10x.h"
+#line 5236 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5250 "user\\stm32f10x.h"
+#line 5248 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5262 "user\\stm32f10x.h"
+#line 5260 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5274 "user\\stm32f10x.h"
+#line 5272 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5286 "user\\stm32f10x.h"
+#line 5284 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5298 "user\\stm32f10x.h"
+#line 5296 "user\\stm32f10x.h"
 
 
 
  
 
 
-#line 5310 "user\\stm32f10x.h"
+#line 5308 "user\\stm32f10x.h"
 
 
 
@@ -6224,25 +6222,19 @@ typedef struct
 
  
  
-#line 5330 "user\\stm32f10x.h"
+#line 5328 "user\\stm32f10x.h"
 
  
-#line 5341 "user\\stm32f10x.h"
+#line 5339 "user\\stm32f10x.h"
 
  
-#line 5359 "user\\stm32f10x.h"
+#line 5357 "user\\stm32f10x.h"
 
 
 
 
 
 
-
-
-
-
-
- 
 
 
 
@@ -6255,7 +6247,13 @@ typedef struct
 
 
  
-#line 5397 "user\\stm32f10x.h"
+
+
+
+
+
+ 
+#line 5395 "user\\stm32f10x.h"
 
  
 
@@ -6271,7 +6269,7 @@ typedef struct
 
 
  
-#line 5418 "user\\stm32f10x.h"
+#line 5416 "user\\stm32f10x.h"
 
  
  
@@ -6397,100 +6395,100 @@ typedef struct
 
 
  
-#line 5558 "user\\stm32f10x.h"
+#line 5556 "user\\stm32f10x.h"
 
  
-#line 5575 "user\\stm32f10x.h"
+#line 5573 "user\\stm32f10x.h"
 
  
-#line 5592 "user\\stm32f10x.h"
+#line 5590 "user\\stm32f10x.h"
 
  
-#line 5609 "user\\stm32f10x.h"
+#line 5607 "user\\stm32f10x.h"
 
  
-#line 5643 "user\\stm32f10x.h"
+#line 5641 "user\\stm32f10x.h"
 
  
-#line 5677 "user\\stm32f10x.h"
+#line 5675 "user\\stm32f10x.h"
 
  
-#line 5711 "user\\stm32f10x.h"
+#line 5709 "user\\stm32f10x.h"
 
  
-#line 5745 "user\\stm32f10x.h"
+#line 5743 "user\\stm32f10x.h"
 
  
-#line 5779 "user\\stm32f10x.h"
+#line 5777 "user\\stm32f10x.h"
 
  
-#line 5813 "user\\stm32f10x.h"
+#line 5811 "user\\stm32f10x.h"
 
  
-#line 5847 "user\\stm32f10x.h"
+#line 5845 "user\\stm32f10x.h"
 
  
-#line 5881 "user\\stm32f10x.h"
+#line 5879 "user\\stm32f10x.h"
 
  
-#line 5915 "user\\stm32f10x.h"
+#line 5913 "user\\stm32f10x.h"
 
  
-#line 5949 "user\\stm32f10x.h"
+#line 5947 "user\\stm32f10x.h"
 
  
-#line 5983 "user\\stm32f10x.h"
+#line 5981 "user\\stm32f10x.h"
 
  
-#line 6017 "user\\stm32f10x.h"
+#line 6015 "user\\stm32f10x.h"
 
  
-#line 6051 "user\\stm32f10x.h"
+#line 6049 "user\\stm32f10x.h"
 
  
-#line 6085 "user\\stm32f10x.h"
+#line 6083 "user\\stm32f10x.h"
 
  
-#line 6119 "user\\stm32f10x.h"
+#line 6117 "user\\stm32f10x.h"
 
  
-#line 6153 "user\\stm32f10x.h"
+#line 6151 "user\\stm32f10x.h"
 
  
-#line 6187 "user\\stm32f10x.h"
+#line 6185 "user\\stm32f10x.h"
 
  
-#line 6221 "user\\stm32f10x.h"
+#line 6219 "user\\stm32f10x.h"
 
  
-#line 6255 "user\\stm32f10x.h"
+#line 6253 "user\\stm32f10x.h"
 
  
-#line 6289 "user\\stm32f10x.h"
+#line 6287 "user\\stm32f10x.h"
 
  
-#line 6323 "user\\stm32f10x.h"
+#line 6321 "user\\stm32f10x.h"
 
  
-#line 6357 "user\\stm32f10x.h"
+#line 6355 "user\\stm32f10x.h"
 
  
-#line 6391 "user\\stm32f10x.h"
+#line 6389 "user\\stm32f10x.h"
 
  
-#line 6425 "user\\stm32f10x.h"
+#line 6423 "user\\stm32f10x.h"
 
  
-#line 6459 "user\\stm32f10x.h"
+#line 6457 "user\\stm32f10x.h"
 
  
-#line 6493 "user\\stm32f10x.h"
+#line 6491 "user\\stm32f10x.h"
 
  
-#line 6527 "user\\stm32f10x.h"
+#line 6525 "user\\stm32f10x.h"
 
  
-#line 6561 "user\\stm32f10x.h"
+#line 6559 "user\\stm32f10x.h"
 
  
  
@@ -6508,13 +6506,13 @@ typedef struct
 
 
 
-#line 6588 "user\\stm32f10x.h"
+#line 6586 "user\\stm32f10x.h"
 
  
-#line 6596 "user\\stm32f10x.h"
+#line 6594 "user\\stm32f10x.h"
 
  
-#line 6606 "user\\stm32f10x.h"
+#line 6604 "user\\stm32f10x.h"
 
  
 
@@ -6562,10 +6560,10 @@ typedef struct
  
 
  
-#line 6667 "user\\stm32f10x.h"
+#line 6665 "user\\stm32f10x.h"
 
  
-#line 6676 "user\\stm32f10x.h"
+#line 6674 "user\\stm32f10x.h"
 
 
 
@@ -6577,7 +6575,7 @@ typedef struct
 
 
 
-#line 6697 "user\\stm32f10x.h"
+#line 6695 "user\\stm32f10x.h"
 
 
 
@@ -6589,10 +6587,10 @@ typedef struct
 
 
  
-#line 6722 "user\\stm32f10x.h"
+#line 6720 "user\\stm32f10x.h"
 
  
-#line 6732 "user\\stm32f10x.h"
+#line 6730 "user\\stm32f10x.h"
 
  
 
@@ -6609,7 +6607,7 @@ typedef struct
  
 
  
-#line 6758 "user\\stm32f10x.h"
+#line 6756 "user\\stm32f10x.h"
 
  
 
@@ -6619,10 +6617,10 @@ typedef struct
 
 
  
-#line 6781 "user\\stm32f10x.h"
+#line 6779 "user\\stm32f10x.h"
 
  
-#line 6790 "user\\stm32f10x.h"
+#line 6788 "user\\stm32f10x.h"
 
 
 
@@ -6631,10 +6629,10 @@ typedef struct
 
 
  
-#line 6809 "user\\stm32f10x.h"
+#line 6807 "user\\stm32f10x.h"
 
  
-#line 6820 "user\\stm32f10x.h"
+#line 6818 "user\\stm32f10x.h"
 
 
 
@@ -6647,7 +6645,7 @@ typedef struct
  
 
 
-#line 6849 "user\\stm32f10x.h"
+#line 6847 "user\\stm32f10x.h"
 
  
 
@@ -6659,7 +6657,7 @@ typedef struct
 
 
 
-#line 6873 "user\\stm32f10x.h"
+#line 6871 "user\\stm32f10x.h"
 
  
  
@@ -6690,7 +6688,7 @@ typedef struct
 
 
  
-#line 6913 "user\\stm32f10x.h"
+#line 6911 "user\\stm32f10x.h"
 
  
 
@@ -6769,22 +6767,16 @@ typedef struct
 
 
 
-  
 
  
 
+ 
 
 
+
  
  
- 
- 
- 
- 
- 
- 
- 
-#line 1 ".\\FWlib\\inc\\stm32f10x_dma.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_adc.h"
 
 
 
@@ -6875,6 +6867,1729 @@ typedef struct
   
 
  
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+typedef struct
+{
+  uint32_t ADC_Mode;                      
+
+ 
+
+  FunctionalState ADC_ScanConvMode;       
+
+ 
+
+  FunctionalState ADC_ContinuousConvMode; 
+
+ 
+
+  uint32_t ADC_ExternalTrigConv;          
+
+ 
+
+  uint32_t ADC_DataAlign;                 
+ 
+
+  uint8_t ADC_NbrOfChannel;               
+
+ 
+}ADC_InitTypeDef;
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+ 
+
+#line 104 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+#line 115 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+
+ 
+
+
+
+ 
+
+#line 129 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+
+
+
+#line 139 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+#line 154 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+#line 192 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+
+
+
+#line 205 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+
+ 
+
+
+
+ 
+
+#line 229 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#line 266 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+
+ 
+
+
+
+ 
+
+#line 282 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+
+ 
+
+
+
+ 
+
+#line 297 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+#line 305 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+#line 338 ".\\FWlib\\inc\\stm32f10x_adc.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+  
+
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+void ADC_DeInit(ADC_TypeDef* ADCx);
+void ADC_Init(ADC_TypeDef* ADCx, ADC_InitTypeDef* ADC_InitStruct);
+void ADC_StructInit(ADC_InitTypeDef* ADC_InitStruct);
+void ADC_Cmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+void ADC_DMACmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+void ADC_ITConfig(ADC_TypeDef* ADCx, uint16_t ADC_IT, FunctionalState NewState);
+void ADC_ResetCalibration(ADC_TypeDef* ADCx);
+FlagStatus ADC_GetResetCalibrationStatus(ADC_TypeDef* ADCx);
+void ADC_StartCalibration(ADC_TypeDef* ADCx);
+FlagStatus ADC_GetCalibrationStatus(ADC_TypeDef* ADCx);
+void ADC_SoftwareStartConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+FlagStatus ADC_GetSoftwareStartConvStatus(ADC_TypeDef* ADCx);
+void ADC_DiscModeChannelCountConfig(ADC_TypeDef* ADCx, uint8_t Number);
+void ADC_DiscModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+void ADC_RegularChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime);
+void ADC_ExternalTrigConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+uint16_t ADC_GetConversionValue(ADC_TypeDef* ADCx);
+uint32_t ADC_GetDualModeConversionValue(void);
+void ADC_AutoInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+void ADC_InjectedDiscModeCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+void ADC_ExternalTrigInjectedConvConfig(ADC_TypeDef* ADCx, uint32_t ADC_ExternalTrigInjecConv);
+void ADC_ExternalTrigInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+void ADC_SoftwareStartInjectedConvCmd(ADC_TypeDef* ADCx, FunctionalState NewState);
+FlagStatus ADC_GetSoftwareStartInjectedConvCmdStatus(ADC_TypeDef* ADCx);
+void ADC_InjectedChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel, uint8_t Rank, uint8_t ADC_SampleTime);
+void ADC_InjectedSequencerLengthConfig(ADC_TypeDef* ADCx, uint8_t Length);
+void ADC_SetInjectedOffset(ADC_TypeDef* ADCx, uint8_t ADC_InjectedChannel, uint16_t Offset);
+uint16_t ADC_GetInjectedConversionValue(ADC_TypeDef* ADCx, uint8_t ADC_InjectedChannel);
+void ADC_AnalogWatchdogCmd(ADC_TypeDef* ADCx, uint32_t ADC_AnalogWatchdog);
+void ADC_AnalogWatchdogThresholdsConfig(ADC_TypeDef* ADCx, uint16_t HighThreshold, uint16_t LowThreshold);
+void ADC_AnalogWatchdogSingleChannelConfig(ADC_TypeDef* ADCx, uint8_t ADC_Channel);
+void ADC_TempSensorVrefintCmd(FunctionalState NewState);
+FlagStatus ADC_GetFlagStatus(ADC_TypeDef* ADCx, uint8_t ADC_FLAG);
+void ADC_ClearFlag(ADC_TypeDef* ADCx, uint8_t ADC_FLAG);
+ITStatus ADC_GetITStatus(ADC_TypeDef* ADCx, uint16_t ADC_IT);
+void ADC_ClearITPendingBit(ADC_TypeDef* ADCx, uint16_t ADC_IT);
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+ 
+#line 29 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_bkp.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_bkp.h"
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+#line 78 ".\\FWlib\\inc\\stm32f10x_bkp.h"
+
+
+ 
+
+
+
+ 
+
+#line 128 ".\\FWlib\\inc\\stm32f10x_bkp.h"
+
+#line 143 ".\\FWlib\\inc\\stm32f10x_bkp.h"
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+void BKP_DeInit(void);
+void BKP_TamperPinLevelConfig(uint16_t BKP_TamperPinLevel);
+void BKP_TamperPinCmd(FunctionalState NewState);
+void BKP_ITConfig(FunctionalState NewState);
+void BKP_RTCOutputConfig(uint16_t BKP_RTCOutputSource);
+void BKP_SetRTCCalibrationValue(uint8_t CalibrationValue);
+void BKP_WriteBackupRegister(uint16_t BKP_DR, uint16_t Data);
+uint16_t BKP_ReadBackupRegister(uint16_t BKP_DR);
+FlagStatus BKP_GetFlagStatus(void);
+void BKP_ClearFlag(void);
+ITStatus BKP_GetITStatus(void);
+void BKP_ClearITPendingBit(void);
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+ 
+#line 30 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_can.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_can.h"
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+ 
+
+typedef struct
+{
+  uint16_t CAN_Prescaler;   
+ 
+  
+  uint8_t CAN_Mode;         
+
+ 
+
+  uint8_t CAN_SJW;          
+
+
+
+ 
+
+  uint8_t CAN_BS1;          
+
+ 
+
+  uint8_t CAN_BS2;          
+
+
+ 
+  
+  FunctionalState CAN_TTCM; 
+
+ 
+  
+  FunctionalState CAN_ABOM;  
+
+ 
+
+  FunctionalState CAN_AWUM;  
+
+ 
+
+  FunctionalState CAN_NART;  
+
+ 
+
+  FunctionalState CAN_RFLM;  
+
+ 
+
+  FunctionalState CAN_TXFP;  
+
+ 
+} CAN_InitTypeDef;
+
+
+
+ 
+
+typedef struct
+{
+  uint16_t CAN_FilterIdHigh;         
+
+ 
+
+  uint16_t CAN_FilterIdLow;          
+
+ 
+
+  uint16_t CAN_FilterMaskIdHigh;     
+
+
+ 
+
+  uint16_t CAN_FilterMaskIdLow;      
+
+
+ 
+
+  uint16_t CAN_FilterFIFOAssignment; 
+ 
+  
+  uint8_t CAN_FilterNumber;           
+
+  uint8_t CAN_FilterMode;            
+ 
+
+  uint8_t CAN_FilterScale;           
+ 
+
+  FunctionalState CAN_FilterActivation; 
+ 
+} CAN_FilterInitTypeDef;
+
+
+
+ 
+
+typedef struct
+{
+  uint32_t StdId;  
+ 
+
+  uint32_t ExtId;  
+ 
+
+  uint8_t IDE;     
+
+ 
+
+  uint8_t RTR;     
+
+ 
+
+  uint8_t DLC;     
+
+ 
+
+  uint8_t Data[8]; 
+ 
+} CanTxMsg;
+
+
+
+ 
+
+typedef struct
+{
+  uint32_t StdId;  
+ 
+
+  uint32_t ExtId;  
+ 
+
+  uint8_t IDE;     
+
+ 
+
+  uint8_t RTR;     
+
+ 
+
+  uint8_t DLC;     
+ 
+
+  uint8_t Data[8]; 
+ 
+
+  uint8_t FMI;     
+
+ 
+} CanRxMsg;
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+ 
+  
+
+
+
+   
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+#line 301 ".\\FWlib\\inc\\stm32f10x_can.h"
+
+
+
+
+ 
+
+
+
+ 
+
+#line 319 ".\\FWlib\\inc\\stm32f10x_can.h"
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+
+   
+                                                                
+#line 493 ".\\FWlib\\inc\\stm32f10x_can.h"
+
+
+
+
+ 
+
+
+
+ 
+
+ 
+ 
+
+ 
+
+
+
+
+ 
+#line 518 ".\\FWlib\\inc\\stm32f10x_can.h"
+
+ 
+
+
+
+ 
+
+ 
+
+
+
+
+
+#line 539 ".\\FWlib\\inc\\stm32f10x_can.h"
+
+
+
+
+
+
+
+
+ 
+
+  
+
+
+ 
+
+
+  
+
+
+ 
+#line 565 ".\\FWlib\\inc\\stm32f10x_can.h"
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+
+
+#line 590 ".\\FWlib\\inc\\stm32f10x_can.h"
+
+#line 597 ".\\FWlib\\inc\\stm32f10x_can.h"
+
+
+
+ 
+
+
+
+ 
+#line 621 ".\\FWlib\\inc\\stm32f10x_can.h"
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+  
+void CAN_DeInit(CAN_TypeDef* CANx);
+
+  
+uint8_t CAN_Init(CAN_TypeDef* CANx, CAN_InitTypeDef* CAN_InitStruct);
+void CAN_FilterInit(CAN_FilterInitTypeDef* CAN_FilterInitStruct);
+void CAN_StructInit(CAN_InitTypeDef* CAN_InitStruct);
+void CAN_SlaveStartBank(uint8_t CAN_BankNumber); 
+void CAN_DBGFreeze(CAN_TypeDef* CANx, FunctionalState NewState);
+void CAN_TTComModeCmd(CAN_TypeDef* CANx, FunctionalState NewState);
+
+ 
+uint8_t CAN_Transmit(CAN_TypeDef* CANx, CanTxMsg* TxMessage);
+uint8_t CAN_TransmitStatus(CAN_TypeDef* CANx, uint8_t TransmitMailbox);
+void CAN_CancelTransmit(CAN_TypeDef* CANx, uint8_t Mailbox);
+
+ 
+void CAN_Receive(CAN_TypeDef* CANx, uint8_t FIFONumber, CanRxMsg* RxMessage);
+void CAN_FIFORelease(CAN_TypeDef* CANx, uint8_t FIFONumber);
+uint8_t CAN_MessagePending(CAN_TypeDef* CANx, uint8_t FIFONumber);
+
+
+ 
+uint8_t CAN_OperatingModeRequest(CAN_TypeDef* CANx, uint8_t CAN_OperatingMode);
+uint8_t CAN_Sleep(CAN_TypeDef* CANx);
+uint8_t CAN_WakeUp(CAN_TypeDef* CANx);
+
+ 
+uint8_t CAN_GetLastErrorCode(CAN_TypeDef* CANx);
+uint8_t CAN_GetReceiveErrorCounter(CAN_TypeDef* CANx);
+uint8_t CAN_GetLSBTransmitErrorCounter(CAN_TypeDef* CANx);
+
+ 
+void CAN_ITConfig(CAN_TypeDef* CANx, uint32_t CAN_IT, FunctionalState NewState);
+FlagStatus CAN_GetFlagStatus(CAN_TypeDef* CANx, uint32_t CAN_FLAG);
+void CAN_ClearFlag(CAN_TypeDef* CANx, uint32_t CAN_FLAG);
+ITStatus CAN_GetITStatus(CAN_TypeDef* CANx, uint32_t CAN_IT);
+void CAN_ClearITPendingBit(CAN_TypeDef* CANx, uint32_t CAN_IT);
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+ 
+#line 31 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_cec.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_cec.h"
+
+
+
+ 
+
+
+
+ 
+  
+
+
+
+ 
+   
+
+
+  
+typedef struct
+{
+  uint16_t CEC_BitTimingMode; 
+ 
+  uint16_t CEC_BitPeriodMode; 
+ 
+}CEC_InitTypeDef;
+
+
+
+ 
+
+
+
+  
+  
+
+
+  
+
+
+
+
+
+
+
+ 
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+#line 100 ".\\FWlib\\inc\\stm32f10x_cec.h"
+
+
+  
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+ 
+
+
+
+ 
+   
+
+
+  
+#line 136 ".\\FWlib\\inc\\stm32f10x_cec.h"
+
+
+
+  
+#line 147 ".\\FWlib\\inc\\stm32f10x_cec.h"
+
+
+                               
+#line 157 ".\\FWlib\\inc\\stm32f10x_cec.h"
+
+
+
+  
+
+
+
+  
+
+
+
+ 
+ 
+
+
+ 
+
+
+
+  
+void CEC_DeInit(void);
+void CEC_Init(CEC_InitTypeDef* CEC_InitStruct);
+void CEC_Cmd(FunctionalState NewState);
+void CEC_ITConfig(FunctionalState NewState);
+void CEC_OwnAddressConfig(uint8_t CEC_OwnAddress);
+void CEC_SetPrescaler(uint16_t CEC_Prescaler);
+void CEC_SendDataByte(uint8_t Data);
+uint8_t CEC_ReceiveDataByte(void);
+void CEC_StartOfMessage(void);
+void CEC_EndOfMessageCmd(FunctionalState NewState);
+FlagStatus CEC_GetFlagStatus(uint32_t CEC_FLAG);
+void CEC_ClearFlag(uint32_t CEC_FLAG);
+ITStatus CEC_GetITStatus(uint8_t CEC_IT);
+void CEC_ClearITPendingBit(uint16_t CEC_IT);
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+ 
+#line 32 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_crc.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_crc.h"
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+void CRC_ResetDR(void);
+uint32_t CRC_CalcCRC(uint32_t Data);
+uint32_t CRC_CalcBlockCRC(uint32_t pBuffer[], uint32_t BufferLength);
+uint32_t CRC_GetCRC(void);
+void CRC_SetIDRegister(uint8_t IDValue);
+uint8_t CRC_GetIDRegister(void);
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_dac.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_dac.h"
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+typedef struct
+{
+  uint32_t DAC_Trigger;                      
+ 
+
+  uint32_t DAC_WaveGeneration;               
+
+ 
+
+  uint32_t DAC_LFSRUnmask_TriangleAmplitude; 
+
+ 
+
+  uint32_t DAC_OutputBuffer;                 
+ 
+}DAC_InitTypeDef;
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+#line 94 ".\\FWlib\\inc\\stm32f10x_dac.h"
+
+#line 104 ".\\FWlib\\inc\\stm32f10x_dac.h"
+
+
+
+ 
+
+
+
+ 
+
+#line 119 ".\\FWlib\\inc\\stm32f10x_dac.h"
+
+
+ 
+
+
+
+ 
+
+#line 151 ".\\FWlib\\inc\\stm32f10x_dac.h"
+
+#line 176 ".\\FWlib\\inc\\stm32f10x_dac.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+#line 214 ".\\FWlib\\inc\\stm32f10x_dac.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+ 
+#line 261 ".\\FWlib\\inc\\stm32f10x_dac.h"
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+void DAC_DeInit(void);
+void DAC_Init(uint32_t DAC_Channel, DAC_InitTypeDef* DAC_InitStruct);
+void DAC_StructInit(DAC_InitTypeDef* DAC_InitStruct);
+void DAC_Cmd(uint32_t DAC_Channel, FunctionalState NewState);
+
+
+
+void DAC_DMACmd(uint32_t DAC_Channel, FunctionalState NewState);
+void DAC_SoftwareTriggerCmd(uint32_t DAC_Channel, FunctionalState NewState);
+void DAC_DualSoftwareTriggerCmd(FunctionalState NewState);
+void DAC_WaveGenerationCmd(uint32_t DAC_Channel, uint32_t DAC_Wave, FunctionalState NewState);
+void DAC_SetChannel1Data(uint32_t DAC_Align, uint16_t Data);
+void DAC_SetChannel2Data(uint32_t DAC_Align, uint16_t Data);
+void DAC_SetDualChannelData(uint32_t DAC_Align, uint16_t Data2, uint16_t Data1);
+uint16_t DAC_GetDataOutputValue(uint32_t DAC_Channel);
+#line 299 ".\\FWlib\\inc\\stm32f10x_dac.h"
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+ 
+#line 34 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_dbgmcu.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_dbgmcu.h"
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+#line 80 ".\\FWlib\\inc\\stm32f10x_dbgmcu.h"
+                                              
+
+
+
+  
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+uint32_t DBGMCU_GetREVID(void);
+uint32_t DBGMCU_GetDEVID(void);
+void DBGMCU_Config(uint32_t DBGMCU_Periph, FunctionalState NewState);
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+ 
+#line 35 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_dma.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
 
  
 #line 33 ".\\FWlib\\inc\\stm32f10x_dma.h"
@@ -7119,7 +8834,7 @@ void DMA_ClearITPendingBit(uint32_t DMAy_IT);
  
 
  
-#line 35 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 36 ".\\FWlib\\inc\\stm32f10x_conf.h"
 #line 1 ".\\FWlib\\inc\\stm32f10x_exti.h"
 
 
@@ -7275,7 +8990,7 @@ void EXTI_ClearITPendingBit(uint32_t EXTI_Line);
  
 
  
-#line 36 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 37 ".\\FWlib\\inc\\stm32f10x_conf.h"
 #line 1 ".\\FWlib\\inc\\stm32f10x_flash.h"
 
 
@@ -7533,7 +9248,7 @@ FLASH_Status FLASH_WaitForLastBank1Operation(uint32_t Timeout);
  
 
  
-#line 37 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 38 ".\\FWlib\\inc\\stm32f10x_conf.h"
 #line 1 ".\\FWlib\\inc\\stm32f10x_fsmc.h"
 
 
@@ -8232,7 +9947,7 @@ void FSMC_ClearITPendingBit(uint32_t FSMC_Bank, uint32_t FSMC_IT);
   
 
  
-#line 38 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 39 ".\\FWlib\\inc\\stm32f10x_conf.h"
 #line 1 ".\\FWlib\\inc\\stm32f10x_gpio.h"
 
 
@@ -8478,10 +10193,880 @@ void GPIO_ETH_MediaInterfaceConfig(uint32_t GPIO_ETH_MediaInterface);
  
 
  
-#line 39 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 40 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_i2c.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_i2c.h"
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+typedef struct
+{
+  uint32_t I2C_ClockSpeed;          
+ 
+
+  uint16_t I2C_Mode;                
+ 
+
+  uint16_t I2C_DutyCycle;           
+ 
+
+  uint16_t I2C_OwnAddress1;         
+ 
+
+  uint16_t I2C_Ack;                 
+ 
+
+  uint16_t I2C_AcknowledgedAddress; 
+ 
+}I2C_InitTypeDef;
+
+
+
+  
+
+
+
+
+ 
+
+
+
+
+
+ 
+
+#line 92 ".\\FWlib\\inc\\stm32f10x_i2c.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+#line 166 ".\\FWlib\\inc\\stm32f10x_i2c.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+#line 236 ".\\FWlib\\inc\\stm32f10x_i2c.h"
+
+
+
+#line 246 ".\\FWlib\\inc\\stm32f10x_i2c.h"
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+#line 265 ".\\FWlib\\inc\\stm32f10x_i2c.h"
+
+
+
+ 
+
+#line 284 ".\\FWlib\\inc\\stm32f10x_i2c.h"
+
+
+
+#line 298 ".\\FWlib\\inc\\stm32f10x_i2c.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+
+
  
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
+
+ 
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+  
+ 
+
+
+ 
+ 
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+    
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+  
+ 
+
+ 
+
+
+ 
+ 
+
+
+ 
+
+
+ 
+
+#line 496 ".\\FWlib\\inc\\stm32f10x_i2c.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+void I2C_DeInit(I2C_TypeDef* I2Cx);
+void I2C_Init(I2C_TypeDef* I2Cx, I2C_InitTypeDef* I2C_InitStruct);
+void I2C_StructInit(I2C_InitTypeDef* I2C_InitStruct);
+void I2C_Cmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_DMACmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_DMALastTransferCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_GenerateSTART(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_GenerateSTOP(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_AcknowledgeConfig(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_OwnAddress2Config(I2C_TypeDef* I2Cx, uint8_t Address);
+void I2C_DualAddressCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_GeneralCallCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_ITConfig(I2C_TypeDef* I2Cx, uint16_t I2C_IT, FunctionalState NewState);
+void I2C_SendData(I2C_TypeDef* I2Cx, uint8_t Data);
+uint8_t I2C_ReceiveData(I2C_TypeDef* I2Cx);
+void I2C_Send7bitAddress(I2C_TypeDef* I2Cx, uint8_t Address, uint8_t I2C_Direction);
+uint16_t I2C_ReadRegister(I2C_TypeDef* I2Cx, uint8_t I2C_Register);
+void I2C_SoftwareResetCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_NACKPositionConfig(I2C_TypeDef* I2Cx, uint16_t I2C_NACKPosition);
+void I2C_SMBusAlertConfig(I2C_TypeDef* I2Cx, uint16_t I2C_SMBusAlert);
+void I2C_TransmitPEC(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_PECPositionConfig(I2C_TypeDef* I2Cx, uint16_t I2C_PECPosition);
+void I2C_CalculatePEC(I2C_TypeDef* I2Cx, FunctionalState NewState);
+uint8_t I2C_GetPEC(I2C_TypeDef* I2Cx);
+void I2C_ARPCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_StretchClockCmd(I2C_TypeDef* I2Cx, FunctionalState NewState);
+void I2C_FastModeDutyCycleConfig(I2C_TypeDef* I2Cx, uint16_t I2C_DutyCycle);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+ 
+ErrorStatus I2C_CheckEvent(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT);
+
+
+
+
+ 
+uint32_t I2C_GetLastEvent(I2C_TypeDef* I2Cx);
+
+
+
+
+ 
+FlagStatus I2C_GetFlagStatus(I2C_TypeDef* I2Cx, uint32_t I2C_FLAG);
+
+
+
+ 
+
+void I2C_ClearFlag(I2C_TypeDef* I2Cx, uint32_t I2C_FLAG);
+ITStatus I2C_GetITStatus(I2C_TypeDef* I2Cx, uint32_t I2C_IT);
+void I2C_ClearITPendingBit(I2C_TypeDef* I2Cx, uint32_t I2C_IT);
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+ 
+#line 41 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_iwdg.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_iwdg.h"
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+#line 84 ".\\FWlib\\inc\\stm32f10x_iwdg.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+void IWDG_WriteAccessCmd(uint16_t IWDG_WriteAccess);
+void IWDG_SetPrescaler(uint8_t IWDG_Prescaler);
+void IWDG_SetReload(uint16_t Reload);
+void IWDG_ReloadCounter(void);
+void IWDG_Enable(void);
+FlagStatus IWDG_GetFlagStatus(uint16_t IWDG_FLAG);
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+ 
+#line 42 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_pwr.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_pwr.h"
+
+
+
+ 
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+#line 70 ".\\FWlib\\inc\\stm32f10x_pwr.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+ 
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+void PWR_DeInit(void);
+void PWR_BackupAccessCmd(FunctionalState NewState);
+void PWR_PVDCmd(FunctionalState NewState);
+void PWR_PVDLevelConfig(uint32_t PWR_PVDLevel);
+void PWR_WakeUpPinCmd(FunctionalState NewState);
+void PWR_EnterSTOPMode(uint32_t PWR_Regulator, uint8_t PWR_STOPEntry);
+void PWR_EnterSTANDBYMode(void);
+FlagStatus PWR_GetFlagStatus(uint32_t PWR_FLAG);
+void PWR_ClearFlag(uint32_t PWR_FLAG);
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+ 
+#line 43 ".\\FWlib\\inc\\stm32f10x_conf.h"
 #line 1 ".\\FWlib\\inc\\stm32f10x_rcc.h"
 
 
@@ -8849,9 +11434,530 @@ void RCC_ClearITPendingBit(uint8_t RCC_IT);
   
 
  
-#line 43 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 44 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_rtc.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_rtc.h"
+
+
+
+ 
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+ 
+
+
+
+ 
+
+#line 64 ".\\FWlib\\inc\\stm32f10x_rtc.h"
+
+
+  
+
+
+
+ 
+
+#line 82 ".\\FWlib\\inc\\stm32f10x_rtc.h"
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+void RTC_ITConfig(uint16_t RTC_IT, FunctionalState NewState);
+void RTC_EnterConfigMode(void);
+void RTC_ExitConfigMode(void);
+uint32_t  RTC_GetCounter(void);
+void RTC_SetCounter(uint32_t CounterValue);
+void RTC_SetPrescaler(uint32_t PrescalerValue);
+void RTC_SetAlarm(uint32_t AlarmValue);
+uint32_t  RTC_GetDivider(void);
+void RTC_WaitForLastTask(void);
+void RTC_WaitForSynchro(void);
+FlagStatus RTC_GetFlagStatus(uint16_t RTC_FLAG);
+void RTC_ClearFlag(uint16_t RTC_FLAG);
+ITStatus RTC_GetITStatus(uint16_t RTC_IT);
+void RTC_ClearITPendingBit(uint16_t RTC_IT);
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+ 
+#line 45 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_sdio.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_sdio.h"
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+typedef struct
+{
+  uint32_t SDIO_ClockEdge;            
+ 
+
+  uint32_t SDIO_ClockBypass;          
+
+ 
+
+  uint32_t SDIO_ClockPowerSave;       
+
+ 
+
+  uint32_t SDIO_BusWide;              
+ 
+
+  uint32_t SDIO_HardwareFlowControl;  
+ 
+
+  uint8_t SDIO_ClockDiv;              
+ 
+                                           
+} SDIO_InitTypeDef;
+
+typedef struct
+{
+  uint32_t SDIO_Argument;  
+
+
+ 
+
+  uint32_t SDIO_CmdIndex;   
+
+  uint32_t SDIO_Response;  
+ 
+
+  uint32_t SDIO_Wait;      
+ 
+
+  uint32_t SDIO_CPSM;      
+
+ 
+} SDIO_CmdInitTypeDef;
+
+typedef struct
+{
+  uint32_t SDIO_DataTimeOut;     
+
+  uint32_t SDIO_DataLength;      
+ 
+  uint32_t SDIO_DataBlockSize;  
  
  
+  uint32_t SDIO_TransferDir;    
+
+ 
+ 
+  uint32_t SDIO_TransferMode;   
+ 
+ 
+  uint32_t SDIO_DPSM;           
+
+ 
+} SDIO_DataInitTypeDef;
+
+
+
+  
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+  
+
+
+
+
+ 
+
+#line 222 ".\\FWlib\\inc\\stm32f10x_sdio.h"
+
+
+  
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+ 
+
+#line 245 ".\\FWlib\\inc\\stm32f10x_sdio.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+  
+
+
+
+ 
+
+#line 283 ".\\FWlib\\inc\\stm32f10x_sdio.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+ 
+
+
+
+ 
+
+#line 330 ".\\FWlib\\inc\\stm32f10x_sdio.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+#line 421 ".\\FWlib\\inc\\stm32f10x_sdio.h"
+
+
+
+#line 448 ".\\FWlib\\inc\\stm32f10x_sdio.h"
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+void SDIO_DeInit(void);
+void SDIO_Init(SDIO_InitTypeDef* SDIO_InitStruct);
+void SDIO_StructInit(SDIO_InitTypeDef* SDIO_InitStruct);
+void SDIO_ClockCmd(FunctionalState NewState);
+void SDIO_SetPowerState(uint32_t SDIO_PowerState);
+uint32_t SDIO_GetPowerState(void);
+void SDIO_ITConfig(uint32_t SDIO_IT, FunctionalState NewState);
+void SDIO_DMACmd(FunctionalState NewState);
+void SDIO_SendCommand(SDIO_CmdInitTypeDef *SDIO_CmdInitStruct);
+void SDIO_CmdStructInit(SDIO_CmdInitTypeDef* SDIO_CmdInitStruct);
+uint8_t SDIO_GetCommandResponse(void);
+uint32_t SDIO_GetResponse(uint32_t SDIO_RESP);
+void SDIO_DataConfig(SDIO_DataInitTypeDef* SDIO_DataInitStruct);
+void SDIO_DataStructInit(SDIO_DataInitTypeDef* SDIO_DataInitStruct);
+uint32_t SDIO_GetDataCounter(void);
+uint32_t SDIO_ReadData(void);
+void SDIO_WriteData(uint32_t Data);
+uint32_t SDIO_GetFIFOCount(void);
+void SDIO_StartSDIOReadWait(FunctionalState NewState);
+void SDIO_StopSDIOReadWait(FunctionalState NewState);
+void SDIO_SetSDIOReadWaitMode(uint32_t SDIO_ReadWaitMode);
+void SDIO_SetSDIOOperation(FunctionalState NewState);
+void SDIO_SendSDIOSuspendCmd(FunctionalState NewState);
+void SDIO_CommandCompletionCmd(FunctionalState NewState);
+void SDIO_CEATAITCmd(FunctionalState NewState);
+void SDIO_SendCEATACmd(FunctionalState NewState);
+FlagStatus SDIO_GetFlagStatus(uint32_t SDIO_FLAG);
+void SDIO_ClearFlag(uint32_t SDIO_FLAG);
+ITStatus SDIO_GetITStatus(uint32_t SDIO_IT);
+void SDIO_ClearITPendingBit(uint32_t SDIO_IT);
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+ 
+#line 46 ".\\FWlib\\inc\\stm32f10x_conf.h"
 #line 1 ".\\FWlib\\inc\\stm32f10x_spi.h"
 
 
@@ -9261,8 +12367,818 @@ void SPI_I2S_ClearITPendingBit(SPI_TypeDef* SPIx, uint8_t SPI_I2S_IT);
  
 
  
-#line 46 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 47 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+
+ 
+
+
+
+  
+
+
+
+  
+
+
+
+
+ 
+
+typedef struct
+{
+  uint16_t TIM_Prescaler;         
+ 
+
+  uint16_t TIM_CounterMode;       
+ 
+
+  uint16_t TIM_Period;            
+
+  
+
+  uint16_t TIM_ClockDivision;     
+ 
+
+  uint8_t TIM_RepetitionCounter;  
+
+
+
+
+
+
+ 
+} TIM_TimeBaseInitTypeDef;       
+
+
+
+ 
+
+typedef struct
+{
+  uint16_t TIM_OCMode;        
+ 
+
+  uint16_t TIM_OutputState;   
+ 
+
+  uint16_t TIM_OutputNState;  
+
+ 
+
+  uint16_t TIM_Pulse;         
+ 
+
+  uint16_t TIM_OCPolarity;    
+ 
+
+  uint16_t TIM_OCNPolarity;   
+
+ 
+
+  uint16_t TIM_OCIdleState;   
+
+ 
+
+  uint16_t TIM_OCNIdleState;  
+
+ 
+} TIM_OCInitTypeDef;
+
+
+
+ 
+
+typedef struct
+{
+
+  uint16_t TIM_Channel;      
+ 
+
+  uint16_t TIM_ICPolarity;   
+ 
+
+  uint16_t TIM_ICSelection;  
+ 
+
+  uint16_t TIM_ICPrescaler;  
+ 
+
+  uint16_t TIM_ICFilter;     
+ 
+} TIM_ICInitTypeDef;
+
+
+
+
+ 
+
+typedef struct
+{
+
+  uint16_t TIM_OSSRState;        
+ 
+
+  uint16_t TIM_OSSIState;        
+ 
+
+  uint16_t TIM_LOCKLevel;        
+  
+
+  uint16_t TIM_DeadTime;         
+
+ 
+
+  uint16_t TIM_Break;            
+ 
+
+  uint16_t TIM_BreakPolarity;    
+ 
+
+  uint16_t TIM_AutomaticOutput;  
+ 
+} TIM_BDTRInitTypeDef;
+
+
+
+ 
+
+#line 186 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+ 
+#line 205 ".\\FWlib\\inc\\stm32f10x_tim.h"
+									                                 
+ 
+#line 216 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+                                             
+#line 225 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+ 
+#line 236 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+ 
+#line 249 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+                                         
+#line 266 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+ 
+#line 279 ".\\FWlib\\inc\\stm32f10x_tim.h"
+                                                                                                                                                                                                                          
+
+
+  
+
+
+
+ 
+
+#line 308 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+#line 341 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+#line 355 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+ 
+
+
+
+ 
+
+#line 373 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+  
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+#line 497 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+#line 561 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+#line 577 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+#line 593 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+#line 610 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+#line 619 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+#line 665 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+#line 709 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+#line 725 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+
+  
+
+
+
+ 
+
+#line 742 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+#line 770 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+#line 784 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+#line 833 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+
+ 
+
+#line 851 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+
+  
+
+
+
+ 
+
+#line 866 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+
+                                     
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+#line 927 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+#line 943 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+  
+
+
+
+ 
+
+
+
+
+
+
+
+  
+
+
+
+ 
+
+#line 987 ".\\FWlib\\inc\\stm32f10x_tim.h"
+                               
+                               
+
+
+
+  
+
+
+
+ 
+
+
+
+
+  
+
+
+
+ 
+
+
+
+
+  
+
+
+
+ 
+
+#line 1034 ".\\FWlib\\inc\\stm32f10x_tim.h"
+
+
+ 
+
+
+
+ 
+
+
+
+ 
+
+
+
+  
+
+
+
+ 
+
+void TIM_DeInit(TIM_TypeDef* TIMx);
+void TIM_TimeBaseInit(TIM_TypeDef* TIMx, TIM_TimeBaseInitTypeDef* TIM_TimeBaseInitStruct);
+void TIM_OC1Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct);
+void TIM_OC2Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct);
+void TIM_OC3Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct);
+void TIM_OC4Init(TIM_TypeDef* TIMx, TIM_OCInitTypeDef* TIM_OCInitStruct);
+void TIM_ICInit(TIM_TypeDef* TIMx, TIM_ICInitTypeDef* TIM_ICInitStruct);
+void TIM_PWMIConfig(TIM_TypeDef* TIMx, TIM_ICInitTypeDef* TIM_ICInitStruct);
+void TIM_BDTRConfig(TIM_TypeDef* TIMx, TIM_BDTRInitTypeDef *TIM_BDTRInitStruct);
+void TIM_TimeBaseStructInit(TIM_TimeBaseInitTypeDef* TIM_TimeBaseInitStruct);
+void TIM_OCStructInit(TIM_OCInitTypeDef* TIM_OCInitStruct);
+void TIM_ICStructInit(TIM_ICInitTypeDef* TIM_ICInitStruct);
+void TIM_BDTRStructInit(TIM_BDTRInitTypeDef* TIM_BDTRInitStruct);
+void TIM_Cmd(TIM_TypeDef* TIMx, FunctionalState NewState);
+void TIM_CtrlPWMOutputs(TIM_TypeDef* TIMx, FunctionalState NewState);
+void TIM_ITConfig(TIM_TypeDef* TIMx, uint16_t TIM_IT, FunctionalState NewState);
+void TIM_GenerateEvent(TIM_TypeDef* TIMx, uint16_t TIM_EventSource);
+void TIM_DMAConfig(TIM_TypeDef* TIMx, uint16_t TIM_DMABase, uint16_t TIM_DMABurstLength);
+void TIM_DMACmd(TIM_TypeDef* TIMx, uint16_t TIM_DMASource, FunctionalState NewState);
+void TIM_InternalClockConfig(TIM_TypeDef* TIMx);
+void TIM_ITRxExternalClockConfig(TIM_TypeDef* TIMx, uint16_t TIM_InputTriggerSource);
+void TIM_TIxExternalClockConfig(TIM_TypeDef* TIMx, uint16_t TIM_TIxExternalCLKSource,
+                                uint16_t TIM_ICPolarity, uint16_t ICFilter);
+void TIM_ETRClockMode1Config(TIM_TypeDef* TIMx, uint16_t TIM_ExtTRGPrescaler, uint16_t TIM_ExtTRGPolarity,
+                             uint16_t ExtTRGFilter);
+void TIM_ETRClockMode2Config(TIM_TypeDef* TIMx, uint16_t TIM_ExtTRGPrescaler, 
+                             uint16_t TIM_ExtTRGPolarity, uint16_t ExtTRGFilter);
+void TIM_ETRConfig(TIM_TypeDef* TIMx, uint16_t TIM_ExtTRGPrescaler, uint16_t TIM_ExtTRGPolarity,
+                   uint16_t ExtTRGFilter);
+void TIM_PrescalerConfig(TIM_TypeDef* TIMx, uint16_t Prescaler, uint16_t TIM_PSCReloadMode);
+void TIM_CounterModeConfig(TIM_TypeDef* TIMx, uint16_t TIM_CounterMode);
+void TIM_SelectInputTrigger(TIM_TypeDef* TIMx, uint16_t TIM_InputTriggerSource);
+void TIM_EncoderInterfaceConfig(TIM_TypeDef* TIMx, uint16_t TIM_EncoderMode,
+                                uint16_t TIM_IC1Polarity, uint16_t TIM_IC2Polarity);
+void TIM_ForcedOC1Config(TIM_TypeDef* TIMx, uint16_t TIM_ForcedAction);
+void TIM_ForcedOC2Config(TIM_TypeDef* TIMx, uint16_t TIM_ForcedAction);
+void TIM_ForcedOC3Config(TIM_TypeDef* TIMx, uint16_t TIM_ForcedAction);
+void TIM_ForcedOC4Config(TIM_TypeDef* TIMx, uint16_t TIM_ForcedAction);
+void TIM_ARRPreloadConfig(TIM_TypeDef* TIMx, FunctionalState NewState);
+void TIM_SelectCOM(TIM_TypeDef* TIMx, FunctionalState NewState);
+void TIM_SelectCCDMA(TIM_TypeDef* TIMx, FunctionalState NewState);
+void TIM_CCPreloadControl(TIM_TypeDef* TIMx, FunctionalState NewState);
+void TIM_OC1PreloadConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCPreload);
+void TIM_OC2PreloadConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCPreload);
+void TIM_OC3PreloadConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCPreload);
+void TIM_OC4PreloadConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCPreload);
+void TIM_OC1FastConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCFast);
+void TIM_OC2FastConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCFast);
+void TIM_OC3FastConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCFast);
+void TIM_OC4FastConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCFast);
+void TIM_ClearOC1Ref(TIM_TypeDef* TIMx, uint16_t TIM_OCClear);
+void TIM_ClearOC2Ref(TIM_TypeDef* TIMx, uint16_t TIM_OCClear);
+void TIM_ClearOC3Ref(TIM_TypeDef* TIMx, uint16_t TIM_OCClear);
+void TIM_ClearOC4Ref(TIM_TypeDef* TIMx, uint16_t TIM_OCClear);
+void TIM_OC1PolarityConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCPolarity);
+void TIM_OC1NPolarityConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCNPolarity);
+void TIM_OC2PolarityConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCPolarity);
+void TIM_OC2NPolarityConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCNPolarity);
+void TIM_OC3PolarityConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCPolarity);
+void TIM_OC3NPolarityConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCNPolarity);
+void TIM_OC4PolarityConfig(TIM_TypeDef* TIMx, uint16_t TIM_OCPolarity);
+void TIM_CCxCmd(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint16_t TIM_CCx);
+void TIM_CCxNCmd(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint16_t TIM_CCxN);
+void TIM_SelectOCxM(TIM_TypeDef* TIMx, uint16_t TIM_Channel, uint16_t TIM_OCMode);
+void TIM_UpdateDisableConfig(TIM_TypeDef* TIMx, FunctionalState NewState);
+void TIM_UpdateRequestConfig(TIM_TypeDef* TIMx, uint16_t TIM_UpdateSource);
+void TIM_SelectHallSensor(TIM_TypeDef* TIMx, FunctionalState NewState);
+void TIM_SelectOnePulseMode(TIM_TypeDef* TIMx, uint16_t TIM_OPMode);
+void TIM_SelectOutputTrigger(TIM_TypeDef* TIMx, uint16_t TIM_TRGOSource);
+void TIM_SelectSlaveMode(TIM_TypeDef* TIMx, uint16_t TIM_SlaveMode);
+void TIM_SelectMasterSlaveMode(TIM_TypeDef* TIMx, uint16_t TIM_MasterSlaveMode);
+void TIM_SetCounter(TIM_TypeDef* TIMx, uint16_t Counter);
+void TIM_SetAutoreload(TIM_TypeDef* TIMx, uint16_t Autoreload);
+void TIM_SetCompare1(TIM_TypeDef* TIMx, uint16_t Compare1);
+void TIM_SetCompare2(TIM_TypeDef* TIMx, uint16_t Compare2);
+void TIM_SetCompare3(TIM_TypeDef* TIMx, uint16_t Compare3);
+void TIM_SetCompare4(TIM_TypeDef* TIMx, uint16_t Compare4);
+void TIM_SetIC1Prescaler(TIM_TypeDef* TIMx, uint16_t TIM_ICPSC);
+void TIM_SetIC2Prescaler(TIM_TypeDef* TIMx, uint16_t TIM_ICPSC);
+void TIM_SetIC3Prescaler(TIM_TypeDef* TIMx, uint16_t TIM_ICPSC);
+void TIM_SetIC4Prescaler(TIM_TypeDef* TIMx, uint16_t TIM_ICPSC);
+void TIM_SetClockDivision(TIM_TypeDef* TIMx, uint16_t TIM_CKD);
+uint16_t TIM_GetCapture1(TIM_TypeDef* TIMx);
+uint16_t TIM_GetCapture2(TIM_TypeDef* TIMx);
+uint16_t TIM_GetCapture3(TIM_TypeDef* TIMx);
+uint16_t TIM_GetCapture4(TIM_TypeDef* TIMx);
+uint16_t TIM_GetCounter(TIM_TypeDef* TIMx);
+uint16_t TIM_GetPrescaler(TIM_TypeDef* TIMx);
+FlagStatus TIM_GetFlagStatus(TIM_TypeDef* TIMx, uint16_t TIM_FLAG);
+void TIM_ClearFlag(TIM_TypeDef* TIMx, uint16_t TIM_FLAG);
+ITStatus TIM_GetITStatus(TIM_TypeDef* TIMx, uint16_t TIM_IT);
+void TIM_ClearITPendingBit(TIM_TypeDef* TIMx, uint16_t TIM_IT);
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+ 
+
+ 
+#line 48 ".\\FWlib\\inc\\stm32f10x_conf.h"
 #line 1 ".\\FWlib\\inc\\stm32f10x_usart.h"
 
 
@@ -9615,8 +13531,115 @@ void USART_ClearITPendingBit(USART_TypeDef* USARTx, uint16_t USART_IT);
   
 
  
-#line 48 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 49 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 1 ".\\FWlib\\inc\\stm32f10x_wwdg.h"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
+
+ 
+
+
+
+
+
+
+
+ 
+#line 33 ".\\FWlib\\inc\\stm32f10x_wwdg.h"
+
+
+
+ 
+
+
+
+  
+
+
+
+  
+  
+
+
+  
+
+
+
+  
+  
+
+
+  
+  
+#line 68 ".\\FWlib\\inc\\stm32f10x_wwdg.h"
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+
+
+
+  
+  
+void WWDG_DeInit(void);
+void WWDG_SetPrescaler(uint32_t WWDG_Prescaler);
+void WWDG_SetWindowValue(uint8_t WindowValue);
+void WWDG_EnableIT(void);
+void WWDG_SetCounter(uint8_t Counter);
+void WWDG_Enable(uint8_t Counter);
+FlagStatus WWDG_GetFlagStatus(void);
+void WWDG_ClearFlag(void);
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+ 
+#line 50 ".\\FWlib\\inc\\stm32f10x_conf.h"
 #line 1 ".\\FWlib\\inc\\misc.h"
 
 
@@ -9824,7 +13847,7 @@ void SysTick_CLKSourceConfig(uint32_t SysTick_CLKSource);
  
 
  
-#line 50 ".\\FWlib\\inc\\stm32f10x_conf.h"
+#line 51 ".\\FWlib\\inc\\stm32f10x_conf.h"
 
  
  
@@ -9838,7 +13861,7 @@ void SysTick_CLKSourceConfig(uint32_t SysTick_CLKSource);
 
 
  
-#line 6974 "user\\stm32f10x.h"
+#line 6972 "user\\stm32f10x.h"
 
 
 
@@ -9875,632 +13898,6 @@ void SysTick_CLKSourceConfig(uint32_t SysTick_CLKSource);
 
  
 #line 6 "user\\can.h"
-#line 1 ".\\FWlib\\inc\\stm32f10x_can.h"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
- 
-
-
-
-
-
-
-
- 
-#line 33 ".\\FWlib\\inc\\stm32f10x_can.h"
-
-
-
- 
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
- 
-
-typedef struct
-{
-  uint16_t CAN_Prescaler;   
- 
-  
-  uint8_t CAN_Mode;         
-
- 
-
-  uint8_t CAN_SJW;          
-
-
-
- 
-
-  uint8_t CAN_BS1;          
-
- 
-
-  uint8_t CAN_BS2;          
-
-
- 
-  
-  FunctionalState CAN_TTCM; 
-
- 
-  
-  FunctionalState CAN_ABOM;  
-
- 
-
-  FunctionalState CAN_AWUM;  
-
- 
-
-  FunctionalState CAN_NART;  
-
- 
-
-  FunctionalState CAN_RFLM;  
-
- 
-
-  FunctionalState CAN_TXFP;  
-
- 
-} CAN_InitTypeDef;
-
-
-
- 
-
-typedef struct
-{
-  uint16_t CAN_FilterIdHigh;         
-
- 
-
-  uint16_t CAN_FilterIdLow;          
-
- 
-
-  uint16_t CAN_FilterMaskIdHigh;     
-
-
- 
-
-  uint16_t CAN_FilterMaskIdLow;      
-
-
- 
-
-  uint16_t CAN_FilterFIFOAssignment; 
- 
-  
-  uint8_t CAN_FilterNumber;           
-
-  uint8_t CAN_FilterMode;            
- 
-
-  uint8_t CAN_FilterScale;           
- 
-
-  FunctionalState CAN_FilterActivation; 
- 
-} CAN_FilterInitTypeDef;
-
-
-
- 
-
-typedef struct
-{
-  uint32_t StdId;  
- 
-
-  uint32_t ExtId;  
- 
-
-  uint8_t IDE;     
-
- 
-
-  uint8_t RTR;     
-
- 
-
-  uint8_t DLC;     
-
- 
-
-  uint8_t Data[8]; 
- 
-} CanTxMsg;
-
-
-
- 
-
-typedef struct
-{
-  uint32_t StdId;  
- 
-
-  uint32_t ExtId;  
- 
-
-  uint8_t IDE;     
-
- 
-
-  uint8_t RTR;     
-
- 
-
-  uint8_t DLC;     
- 
-
-  uint8_t Data[8]; 
- 
-
-  uint8_t FMI;     
-
- 
-} CanRxMsg;
-
-
-
- 
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-   
-
-
-
-
-
-
-
-
-
-
- 
-  
-
-
-
-   
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-#line 301 ".\\FWlib\\inc\\stm32f10x_can.h"
-
-
-
-
- 
-
-
-
- 
-
-#line 319 ".\\FWlib\\inc\\stm32f10x_can.h"
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
-
-
- 
-
-
-
-
-   
-                                                                
-#line 493 ".\\FWlib\\inc\\stm32f10x_can.h"
-
-
-
-
- 
-
-
-
- 
-
- 
- 
-
- 
-
-
-
-
- 
-#line 518 ".\\FWlib\\inc\\stm32f10x_can.h"
-
- 
-
-
-
- 
-
- 
-
-
-
-
-
-#line 539 ".\\FWlib\\inc\\stm32f10x_can.h"
-
-
-
-
-
-
-
-
- 
-
-  
-
-
- 
-
-
-  
-
-
- 
-#line 565 ".\\FWlib\\inc\\stm32f10x_can.h"
-
- 
-
-
-
- 
-
-
-
-
-
-
- 
-
-
-
-
-
-#line 590 ".\\FWlib\\inc\\stm32f10x_can.h"
-
-#line 597 ".\\FWlib\\inc\\stm32f10x_can.h"
-
-
-
- 
-
-
-
- 
-#line 621 ".\\FWlib\\inc\\stm32f10x_can.h"
-
-
-
- 
-
-
-
- 
-
-
-
- 
-
-
-
- 
-
-
-
- 
-  
-void CAN_DeInit(CAN_TypeDef* CANx);
-
-  
-uint8_t CAN_Init(CAN_TypeDef* CANx, CAN_InitTypeDef* CAN_InitStruct);
-void CAN_FilterInit(CAN_FilterInitTypeDef* CAN_FilterInitStruct);
-void CAN_StructInit(CAN_InitTypeDef* CAN_InitStruct);
-void CAN_SlaveStartBank(uint8_t CAN_BankNumber); 
-void CAN_DBGFreeze(CAN_TypeDef* CANx, FunctionalState NewState);
-void CAN_TTComModeCmd(CAN_TypeDef* CANx, FunctionalState NewState);
-
- 
-uint8_t CAN_Transmit(CAN_TypeDef* CANx, CanTxMsg* TxMessage);
-uint8_t CAN_TransmitStatus(CAN_TypeDef* CANx, uint8_t TransmitMailbox);
-void CAN_CancelTransmit(CAN_TypeDef* CANx, uint8_t Mailbox);
-
- 
-void CAN_Receive(CAN_TypeDef* CANx, uint8_t FIFONumber, CanRxMsg* RxMessage);
-void CAN_FIFORelease(CAN_TypeDef* CANx, uint8_t FIFONumber);
-uint8_t CAN_MessagePending(CAN_TypeDef* CANx, uint8_t FIFONumber);
-
-
- 
-uint8_t CAN_OperatingModeRequest(CAN_TypeDef* CANx, uint8_t CAN_OperatingMode);
-uint8_t CAN_Sleep(CAN_TypeDef* CANx);
-uint8_t CAN_WakeUp(CAN_TypeDef* CANx);
-
- 
-uint8_t CAN_GetLastErrorCode(CAN_TypeDef* CANx);
-uint8_t CAN_GetReceiveErrorCounter(CAN_TypeDef* CANx);
-uint8_t CAN_GetLSBTransmitErrorCounter(CAN_TypeDef* CANx);
-
- 
-void CAN_ITConfig(CAN_TypeDef* CANx, uint32_t CAN_IT, FunctionalState NewState);
-FlagStatus CAN_GetFlagStatus(CAN_TypeDef* CANx, uint32_t CAN_FLAG);
-void CAN_ClearFlag(CAN_TypeDef* CANx, uint32_t CAN_FLAG);
-ITStatus CAN_GetITStatus(CAN_TypeDef* CANx, uint32_t CAN_IT);
-void CAN_ClearITPendingBit(CAN_TypeDef* CANx, uint32_t CAN_IT);
-
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
- 
-
- 
 #line 7 "user\\can.h"
 #line 8 "user\\can.h"
 

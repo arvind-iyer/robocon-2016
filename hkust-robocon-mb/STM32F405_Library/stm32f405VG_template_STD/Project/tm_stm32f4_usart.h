@@ -206,6 +206,7 @@ UART8        |PE1    PE0     |-      -       |-      -
 #include "attributes.h"
 #include "defines.h"
 #include "tm_stm32f4_gpio.h"
+#include "gyro.h"
 
 /* F405/407/415/417/F446 */
 #if defined (STM32F40_41xxx) || defined(STM32F446xx)
@@ -463,6 +464,8 @@ typedef enum {
  * @}
  */
 
+
+
 /**
  * @defgroup TM_USART_Functions
  * @brief    USART Functions
@@ -477,6 +480,14 @@ typedef enum {
  * @retval None
  */
 void TM_USART_Init(USART_TypeDef* USARTx, TM_USART_PinsPack_t pinspack, uint32_t baudrate);
+
+/**
+  * @brief  Sending one byte of data via USART
+  * @param  COM: which USART to be used for sending data
+  * @param  data: one byte data to be sent
+  * @retval None
+  */
+void uart_tx_byte(USART_TypeDef* USARTx, uc8 data);
 
 /**
  * @brief  Initializes USARTx peripheral and corresponding pins with custom hardware flow control mode
@@ -525,6 +536,13 @@ void TM_USART_Puts(USART_TypeDef* USARTx, char* str);
  * @retval None
  */
 void TM_USART_Send(USART_TypeDef* USARTx, uint8_t* DataArray, uint16_t count);
+
+/**
+ * @brief  Sends an integer to USART port
+ * @param  *USARTx: Pointer to USARTx peripheral you will use
+ * @retval None
+ */
+void TM_USART_Send_Byte(USART_TypeDef* USARTx, uint8_t data);
 
 /**
  * @brief  Gets character from internal USART buffer
