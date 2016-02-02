@@ -10,19 +10,19 @@
       <TargetName>STM32-FD-ADC</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060061::V5.06 update 1 (build 61)::ARMCC</pCCUsed>
+      <pCCUsed>5060020::V5.06 (build 20)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
-          <Device>STM32F103RB</Device>
+          <Device>STM32F103VE</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F1xx_DFP.2.0.0</PackID>
+          <PackID>Keil.STM32F1xx_DFP.1.1.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
-          <Cpu>IROM(0x08000000,0x20000) IRAM(0x20000000,0x5000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
+          <Cpu>IROM(0x08000000,0x80000) IRAM(0x20000000,0x10000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000 -FP0($$Device:STM32F103RB$Flash\STM32F10x_128.FLM))</FlashDriverDll>
-          <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:STM32F103RB$Device\Include\stm32f10x.h</RegisterFile>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F10x_512 -FS08000000 -FL080000 -FP0($$Device:STM32F103VE$Flash\STM32F10x_512.FLM))</FlashDriverDll>
+          <DeviceId>4225</DeviceId>
+          <RegisterFile>$$Device:STM32F103VE$Device\Include\stm32f10x.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -32,7 +32,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:STM32F103RB$SVD\STM32F103xx.svd</SFDFile>
+          <SFDFile>$$Device:STM32F103VE$SVD\STM32F103xx.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -105,11 +105,11 @@
           <StopOnExitCode>3</StopOnExitCode>
           <CustomArgument></CustomArgument>
           <IncludeLibraryModules></IncludeLibraryModules>
-          <ComprImg>1</ComprImg>
+          <ComprImg>0</ComprImg>
         </CommonProperty>
         <DllOption>
           <SimDllName>SARMCM3.DLL</SimDllName>
-          <SimDllArguments> -REMAP</SimDllArguments>
+          <SimDllArguments>-REMAP</SimDllArguments>
           <SimDlgDll>DCM.DLL</SimDlgDll>
           <SimDlgDllArguments>-pCM3</SimDlgDllArguments>
           <TargetDllName>SARMCM3.DLL</TargetDllName>
@@ -135,7 +135,7 @@
             <RestoreFunctions>1</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
-            <RestoreSysVw>1</RestoreSysVw>
+            <RestoreSysVw>0</RestoreSysVw>
           </Simulator>
           <Target>
             <UseTarget>1</UseTarget>
@@ -147,10 +147,10 @@
             <RestoreFunctions>0</RestoreFunctions>
             <RestoreToolbox>1</RestoreToolbox>
             <RestoreTracepoints>0</RestoreTracepoints>
-            <RestoreSysVw>1</RestoreSysVw>
+            <RestoreSysVw>0</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>1</TargetSelection>
+          <TargetSelection>6</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -164,21 +164,21 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile>.\STM32DBG.ini</InitializationFile>
-            <Driver>BIN\UL2CM3.DLL</Driver>
+            <Driver>Segger\JL2CM3.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
           <Flash1>
-            <UseTargetDll>0</UseTargetDll>
-            <UseExternalTool>1</UseExternalTool>
-            <RunIndependent>1</RunIndependent>
+            <UseTargetDll>1</UseTargetDll>
+            <UseExternalTool>0</UseExternalTool>
+            <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4096</DriverSelection>
+            <DriverSelection>4099</DriverSelection>
           </Flash1>
-          <bUseTDR>0</bUseTDR>
-          <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3>"flash.bat" (./obj/@H.hex 3 256000 STM32F1_XL-density_768K)</Flash3>
+          <bUseTDR>1</bUseTDR>
+          <Flash2>Segger\JL2CM3.dll</Flash2>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -199,11 +199,11 @@
             <ldmm>1</ldmm>
             <ldXref>1</ldXref>
             <BigEnd>0</BigEnd>
-            <AdsALst>0</AdsALst>
+            <AdsALst>1</AdsALst>
             <AdsACrf>1</AdsACrf>
             <AdsANop>0</AdsANop>
             <AdsANot>0</AdsANot>
-            <AdsLLst>0</AdsLLst>
+            <AdsLLst>1</AdsLLst>
             <AdsLmap>1</AdsLmap>
             <AdsLcgr>1</AdsLcgr>
             <AdsLsym>1</AdsLsym>
@@ -212,8 +212,8 @@
             <AdsLsun>1</AdsLsun>
             <AdsLven>1</AdsLven>
             <AdsLsxf>1</AdsLsxf>
-            <RvctClst>0</RvctClst>
-            <GenPPlst>0</GenPPlst>
+            <RvctClst>1</RvctClst>
+            <GenPPlst>1</GenPPlst>
             <AdsCpuType>"Cortex-M3"</AdsCpuType>
             <RvctDeviceName></RvctDeviceName>
             <mOS>0</mOS>
@@ -284,12 +284,12 @@
               <IRAM>
                 <Type>0</Type>
                 <StartAddress>0x20000000</StartAddress>
-                <Size>0x5000</Size>
+                <Size>0x10000</Size>
               </IRAM>
               <IROM>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x80000</Size>
               </IROM>
               <XRAM>
                 <Type>0</Type>
@@ -314,7 +314,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x20000</Size>
+                <Size>0x80000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -339,7 +339,7 @@
               <OCR_RVCT9>
                 <Type>0</Type>
                 <StartAddress>0x20000000</StartAddress>
-                <Size>0x5000</Size>
+                <Size>0x10000</Size>
               </OCR_RVCT9>
               <OCR_RVCT10>
                 <Type>0</Type>
@@ -351,7 +351,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>4</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -371,7 +371,7 @@
             <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>USE_STDPERIPH_DRIVER, STM32F10X_MD</Define>
+              <Define>USE_STDPERIPH_DRIVER, STM32F10X_HD</Define>
               <Undefine></Undefine>
               <IncludePath>.\FWlib\inc;.\user</IncludePath>
             </VariousControls>
@@ -417,9 +417,9 @@
           <GroupName>Startup Code</GroupName>
           <Files>
             <File>
-              <FileName>startup_stm32f10x_md.s</FileName>
+              <FileName>startup_stm32f10x_hd.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\startup\startup_stm32f10x_md.s</FilePath>
+              <FilePath>.\startup\startup_stm32f10x_hd.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -432,24 +432,9 @@
               <FilePath>.\user\main.c</FilePath>
             </File>
             <File>
-              <FileName>system.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\system.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f10x_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\stm32f10x_it.c</FilePath>
-            </File>
-            <File>
-              <FileName>ticks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\ticks.c</FilePath>
-            </File>
-            <File>
-              <FileName>uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\uart.c</FilePath>
             </File>
             <File>
               <FileName>approx_math.c</FileName>
@@ -472,14 +457,14 @@
               <FilePath>.\user\can_protocol.c</FilePath>
             </File>
             <File>
-              <FileName>velocity.c</FileName>
+              <FileName>debug.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\velocity.c</FilePath>
+              <FilePath>.\user\debug.c</FilePath>
             </File>
             <File>
-              <FileName>led.c</FileName>
+              <FileName>debugger.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\led.c</FilePath>
+              <FilePath>.\user\debugger.c</FilePath>
             </File>
             <File>
               <FileName>encoder.c</FileName>
@@ -487,14 +472,64 @@
               <FilePath>.\user\encoder.c</FilePath>
             </File>
             <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>motion.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\motion.c</FilePath>
+            </File>
+            <File>
               <FileName>motor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\motor.c</FilePath>
             </File>
             <File>
-              <FileName>debug.c</FileName>
+              <FileName>pid_pos.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\debug.c</FilePath>
+              <FilePath>.\user\pid_pos.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid_vel.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\pid_vel.c</FilePath>
+            </File>
+            <File>
+              <FileName>Robocon_CAN.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\Robocon_CAN.c</FilePath>
+            </File>
+            <File>
+              <FileName>Robocon_CANProtocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\Robocon_CANProtocol.c</FilePath>
+            </File>
+            <File>
+              <FileName>system.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\system.c</FilePath>
+            </File>
+            <File>
+              <FileName>system_stm32f10x.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\system_stm32f10x.c</FilePath>
+            </File>
+            <File>
+              <FileName>ticks.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\ticks.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>velocity.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\velocity.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -536,35 +571,15 @@
               <FileType>1</FileType>
               <FilePath>.\FWlib\SRC\stm32f10x_flash.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Document</GroupName>
+          <Files>
             <File>
-              <FileName>stm32f10x_spi.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\FWlib\SRC\stm32f10x_spi.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f10x_tim.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\FWlib\SRC\stm32f10x_tim.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f10x_can.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\FWlib\SRC\stm32f10x_can.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f10x_exti.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\FWlib\SRC\stm32f10x_exti.c</FilePath>
-            </File>
-            <File>
-              <FileName>core_cm3.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\core_cm3.c</FilePath>
-            </File>
-            <File>
-              <FileName>system_stm32f10x.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\system_stm32f10x.c</FilePath>
+              <FileName>readme.txt</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\readme.txt</FilePath>
             </File>
           </Files>
         </Group>
