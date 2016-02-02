@@ -16,6 +16,21 @@ public class RobotPositionSystem {
 	private static int a_e;
 	private static int vel;
 
+	private static int lastX;
+	private static int lastY;
+	private static int lastAngle;
+	private static float err;
+
+	/**
+	 * RESETS DEFAULTS
+	 */
+	public static void _init() {
+		lastX = 0;
+		lastY = 0;
+		lastAngle = 0;
+		err = 1;
+	}
+
 	/**
 	 * ADDS A TARGET
 	 * <p>
@@ -87,19 +102,40 @@ public class RobotPositionSystem {
 		int _M1 = (int) ((-W - X * 2) / 3);
 		int _M2 = (int) ((-W * 0.577f + X * 0.577f - Y) / 1.73f);
 		int _M3 = (int) (-W - _M1 - _M2);
-		//TODO: send packet
+
+		// TODO: send packet
+	}
+
+	/**
+	 * CALCULATES DISTANCE BETWEEN TWO POINTS
+	 * 
+	 * @param x1
+	 *            x-coordinate of POINT_1
+	 * @param y1
+	 *            y-coordinate of POINT_1
+	 * @param x2
+	 *            x-coordinate of POINT_2
+	 * @param y2
+	 *            y-coordinate of POINT_2
+	 * @return distance of two points
+	 */
+	private static int _dist(int x1, int y1, int x2, int y2) {
+		return (int) (Math.sqrt(Math.pow(y2 - y1, 2) + Math.pow(x2 - x1, 2)));
 	}
 
 	private static int _getX() {
-
+		// TODO: gyro
+		return 0;
 	}
 
 	private static int _getY() {
-
+		// TODO: gyro
+		return 0;
 	}
 
 	private static int _getAngle() {
-
+		// TODO: gyro
+		return 0;
 	}
 
 	/**
