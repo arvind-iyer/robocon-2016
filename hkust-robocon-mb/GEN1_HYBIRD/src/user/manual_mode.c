@@ -17,6 +17,14 @@ LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
 LOCK_STATE press_button_B = UNLOCKED;
 LOCK_STATE press_button_X = UNLOCKED;
 
+u16 brushless_pressed_time = 0;
+
+#define CONTORLLER_MODE_1
+#ifdef
+	static XBC_JOY brushless_joy_sticks = {XBC_JOY_LT, XBC_JOY_RT}
+	static u16 brushless_stick_max = 255
+#endif
+
 void manual_init(){
 	xbc_mb_init(XBC_CAN_FIRST);
 	manual_reset();
@@ -75,26 +83,6 @@ void manual_fast_update(){
 
 void manual_interval_update(){
 	tft_clear();
-	if (button_pressed(BUTTON_XBC_XBOX)){
-		curr_vx = curr_vy = curr_rotate = target_vx = target_vy = target_rotate = 0;
-		brushless_lock = is_climbing = LOCKED;
-		brushless_control_all(BRUSHLESS_MIN);
-		
-		motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
-		motor_set_vel(MOTOR2, 0, CLOSE_LOOP);
-		motor_set_vel(MOTOR3, 0, CLOSE_LOOP);
-		motor_set_vel(MOTOR4, 0, CLOSE_LOOP);
-		motor_set_vel(MOTOR5, 0, CLOSE_LOOP);
-		motor_set_vel(MOTOR6, 0, CLOSE_LOOP);
-		buzzer_beep(1100);
-		
-		//init auto mode
-		auto_init();
-		auto_tar_enqueue(1000, 1000, 0, 1.0, true);
-		auto_tar_enqueue(2000, 0, 0, 1.0, true);
-		auto_tar_enqueue(1000, -1000, 0, 1.0, true);
-		auto_tar_enqueue(0, 0, 0, 1.0, true);
-	}
 	
 	if (ground_wheels_lock == UNLOCKED && climbing_induced_ground_lock == UNLOCKED){
 		//Calcuate 3 base wheels movement
@@ -128,9 +116,22 @@ void manual_interval_update(){
 			tft_append_line("B:%d %d", xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
 			//brushless_control(BRUSHLESS_1, xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
 			//brushless_control(BRUSHLESS_2, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
-			brushless_control(BRUSHLESS_1, xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MED_HIGH-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
-			brushless_control(BRUSHLESS_2, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MED_HIGH-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
-		
+
+			/** Control Manual: 
+			** first 30% -> No respond
+			** 30% ~ 50% -> Able to make eco start moving (constant across)
+			** 50% ~ 100% -> Linear incrase up to 50% pwm
+			** Keep 100% -> Continue grow to max power
+			*/
+			for (u8 i=0;i<BRUSHLESS_COUNT;i++){
+				if (xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max*3/10)){
+
+				}else if(xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max/2)){
+
+				}else{
+					
+				}
+			}
 		}else{
 			brushless_control_all(BRUSHLESS_MIN);
 		}

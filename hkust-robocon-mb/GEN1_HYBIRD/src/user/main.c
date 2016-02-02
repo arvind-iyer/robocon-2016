@@ -3,6 +3,11 @@
 #include <stdbool.h>
 #include <string.h>
 
+u16 last_loop_ticks = 0;
+u16 last_loop_seconds = 0;
+u16 this_loop_ticks = 0;
+u16 this_loop_seconds = 0;
+
 int main(void) {
 	servo_init();
 	led_init();
@@ -19,22 +24,24 @@ int main(void) {
 	gyro_init();
 	//can_xbc_mb_tx_enable(true);
 
-	tft_put_logo(110, 90);
-	u32 lastTicks = 0;              
+	tft_put_logo(110, 90);            
 	LOCK_STATE last_emergency_lock = UNLOCKED;
 	CONTROL_STATE last_control_state = MANUAL_MODE;
 	
 	while(1){
-		u32 currentTicks = get_full_ticks();
+		this_loop_ticks = get_ticks();
 		//Dont care if same ticks
-		if (lastTicks==currentTicks) continue;
-		
-		if ((currentTicks - lastTicks)>50){
-			button_update();
+		if (this_loop_ticks == last_loop_ticks){
+			continue;
 		}
+		last_loop_ticks = this_loop_ticks;
 		
-		//Get state for manual/auto and emergency lock
-		xbc_global_update();
+		if ((currentTicks - lastTicks)>5){
+			//Update the pressed state of the buttons
+			button_update();
+			//Get state for manual/auto and emergency lock
+			xbc_global_update();
+		}
 		
 		//Deal with emergency lock, to lock or to relax
 		if (get_emergency_lock() != last_emergency_lock){
