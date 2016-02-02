@@ -60,6 +60,22 @@ public class RobotPositionSystem {
 	}
 
 	/**
+	 * LOADS NEXT TARGET FROM QUEUE
+	 */
+	public void _nextTarget() {
+		if (queue.size != 0) {
+			int x = queue.get(0)[0];
+			int y = queue.get(0)[1];
+			int angle = queue.get(0)[2];
+			int d_error = queue.get(0)[3];
+			int a_error = queue.get(0)[4];
+			int velocity = queue.get(0)[5];
+			_setTarget(x, y, angle, d_error, a_error, velocity);
+			queue.removeIndex(0);
+		}
+	}
+
+	/**
 	 * SETS CURRENT TARGET
 	 * <p>
 	 * 
@@ -83,6 +99,16 @@ public class RobotPositionSystem {
 		d_e = d_error;
 		a_e = a_error;
 		vel = velocity;
+	}
+
+	/**
+	 * MOVES ROBOT TO TARGET
+	 */
+	public static void _straight() {
+		int dist = _dist(_getX(), _getY(), target_x, target_y);
+		if (dist > d_e || Math.abs(_angleDiff(_getAngle(), target_a))) {
+
+		}
 	}
 
 	/**
@@ -121,6 +147,11 @@ public class RobotPositionSystem {
 	 */
 	private static int _dist(int x1, int y1, int x2, int y2) {
 		return (int) (Math.sqrt(Math.pow(y2 - y1, 2) + Math.pow(x2 - x1, 2)));
+	}
+
+	private static int _angleDiff(int angle_o, int angle_t) {
+		int diff = angle_t - angle_o;
+		//TODO:
 	}
 
 	private static int _getX() {
