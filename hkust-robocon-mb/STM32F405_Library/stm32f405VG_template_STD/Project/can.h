@@ -4,7 +4,9 @@
 #include <stdio.h>
 #include "stm32f4xx.h"
 #include "stm32f4xx_can.h"
+#include "stm32f4xx_rcc.h"
 #include "misc.h"
+#include "tm_stm32f4_gpio.h"
 //PA11 RX PA12 TX
 
 #define	CANn							CAN1

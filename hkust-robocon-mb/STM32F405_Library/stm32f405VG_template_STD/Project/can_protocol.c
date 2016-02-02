@@ -145,6 +145,7 @@ CAN_TX_IRQHander
 	if (CAN_GetITStatus(CAN1, CAN_IT_TME) != RESET)
 	{
 		// If all the mailboxes are empty
+        tft_prints(0,2,"SEND");
 		CAN_ClearITPendingBit(CAN1, CAN_IT_TME);
 		can_tx_dequeue();
 	}
@@ -171,7 +172,6 @@ void can_rx_init(void)
 
 	/* enabling interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel= CAN_Rx_IRQn; 
-
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 4;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;

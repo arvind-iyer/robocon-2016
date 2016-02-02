@@ -40,12 +40,14 @@
 .\output\can_protocol.o: can.h
 .\output\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\can_protocol.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h
+.\output\can_protocol.o: tm_stm32f4_gpio.h
+.\output\can_protocol.o: defines.h
 .\output\can_protocol.o: tm_stm32f4_usart.h
 .\output\can_protocol.o: attributes.h
-.\output\can_protocol.o: defines.h
-.\output\can_protocol.o: tm_stm32f4_gpio.h
 .\output\can_protocol.o: gyro.h
 .\output\can_protocol.o: tm_stm32f4_usart.h
 .\output\can_protocol.o: tm_stm32f4_delay.h
 .\output\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\output\can_protocol.o: approx_math.h
+.\output\can_protocol.o: lcd.h
+.\output\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

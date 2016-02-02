@@ -37,3 +37,5 @@
 .\output\can.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h
 .\output\can.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
 .\output\can.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h
+.\output\can.o: tm_stm32f4_gpio.h
+.\output\can.o: defines.h

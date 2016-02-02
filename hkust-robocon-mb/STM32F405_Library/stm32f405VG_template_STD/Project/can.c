@@ -12,19 +12,19 @@ void can_init(void)
 	CAN_InitTypeDef CAN_InitStructure;
 	
 	/* RCC enable */
-    GPIO_PinAFConfig(CAN_GPIO_PORT, CAN_Tx_GPIO_Pin, GPIO_AF_CAN1);
-    //GPIO_PinAFConfig(CAN_GPIO_PORT, CAN_Rx_GPIO_Pin, GPIO_AF_CAN1);
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+    
+	RCC_AHB1PeriphClockCmd(CAN_GPIO_RCC, ENABLE);
 	RCC_APB1PeriphClockCmd(CAN_RCC, ENABLE);
-	RCC_APB2PeriphClockCmd(CAN_GPIO_RCC, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
+    GPIO_PinAFConfig(CAN_GPIO_PORT, CAN_Tx_GPIO_Pin | CAN_Rx_GPIO_Pin, GPIO_AF_CAN1);
 
 	/* CAN GPIO init */
 	// CAN_Rx Pin
-	GPIO_InitStructure.GPIO_Pin = CAN_Rx_GPIO_Pin;
+	/*GPIO_InitStructure.GPIO_Pin = CAN_Rx_GPIO_Pin;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
 	GPIO_Init(CAN_GPIO_PORT, &GPIO_InitStructure);
 	
 	// CAN_Tx Pin
@@ -32,8 +32,11 @@ void can_init(void)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
-	GPIO_Init(CAN_GPIO_PORT, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
+	GPIO_Init(CAN_GPIO_PORT, &GPIO_InitStructure);*/
+    
+    TM_GPIO_InitAlternate(GPIOA, CAN_Tx_GPIO_Pin | CAN_Rx_GPIO_Pin, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High, GPIO_AF_CAN1);
+	
 	
 	/* CAN register init */
 	CAN_DeInit(CANn);
@@ -63,13 +66,11 @@ void can_init(void)
 	{
 		NVIC_InitTypeDef NVIC_InitStructure;
 		NVIC_InitStructure.NVIC_IRQChannel= CAN1_TX_IRQn; 
-
 		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
 		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 4;
 		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 		NVIC_Init(&NVIC_InitStructure);
 	}
-
 }
 
 

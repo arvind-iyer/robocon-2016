@@ -3,6 +3,45 @@
 
 TM_SERVO_t Servo1, Servo2;
 
+
+//Sensor bar data
+u16 data1[8];
+u16 data2[8];
+u16 sensor_output[16];
+
+void receive(CanRxMsg msg)
+{
+	for(int i = 0; i < 8 ;i++){
+        data1[i] = msg.Data[i];
+    }
+    
+}
+
+void receive2(CanRxMsg msg){
+    for(int i = 0; i < 8 ; i++){
+        data2[i] = msg.Data[i]; 
+    }
+}
+
+void fill_array(){
+    for(int i = 0; i < 8; i++){
+        sensor_output[i] = data2[7-i];
+    }
+    for(int i = 0; i < 8; i++){
+        sensor_output[8+i] = data1[7-i];
+    }
+}
+
+void print_array(){
+    tft_prints(0,0,"Sensor output");
+    for(int i = 0; i < 16 ;i++){
+        
+        tft_prints(i,1,"%d",sensor_output[i]);
+    }
+
+
+}
+
 //Command Handler for Raspberry Pi Controller
 void handleCommand(char * command) {
 	int dataIndex = 0, contentIndex = 0, header = -1;
@@ -66,31 +105,36 @@ int main(void) {
     //Initialize the CAN protocol
     can_init();
     can_rx_init();
-    can_motor_init();
+    can_rx_add_filter(0x0C5,CAN_RX_MASK_EXACT,receive);
+    can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
+    //can_motor_init();
     
     //Initialize encoder
-    encoder_init();
-    
+    //encoder_init();
+    u32 ticks_ms_img = 0;
 	while (1) {
-		if (TM_USART_Gets(USART1, buffer, 512) > 0) {
-			handleCommand(buffer);
-		}
-        tft_prints(0,0,"HAHAHAH");
-        tft_prints(0,1,"SO HAPPY :D!");
-        TM_USART_Puts(USART1, "Benchod\n");
-        tft_update();
-        if(get_ms_ticks() % 200 == 0){
-            LED_ON(LED_1);
-            LED_ON(LED_2);
+        if(get_ms_ticks() != ticks_ms_img){
+            ticks_ms_img = get_ms_ticks();
+            if (TM_USART_Gets(USART1, buffer, 512) > 0) {
+                handleCommand(buffer);
+            }
+            tft_prints(0,0,"Sensor output: ");
+            print_array();
+            TM_USART_Puts(USART1, "Benchod\n");
+            tft_update();
+            if(get_ms_ticks() % 200 == 0){
+                LED_ON(LED_1);
+                LED_ON(LED_2);
+            }
+            if(get_ms_ticks() % 200 == 100){
+                LED_OFF(LED_1);
+                LED_OFF(LED_2);
+            }
+            tft_prints(0,3,"Motor 1: %d",get_encoder_value(MOTOR1));
+            tft_prints(0,4,"Motor 2: %d",get_encoder_value(MOTOR2));
+            tft_prints(0,5,"Motor 3: %d",get_encoder_value(MOTOR3));
         }
-        if(get_ms_ticks() % 200 == 100){
-            LED_OFF(LED_1);
-            LED_OFF(LED_2);
-        }
-        tft_prints(0,3,"Motor 1: %d",get_encoder_value(MOTOR1));
-        tft_prints(0,4,"Motor 2: %d",get_encoder_value(MOTOR2));
-        tft_prints(0,5,"Motor 3: %d",get_encoder_value(MOTOR3));
-        
+            
 	}
 
 	return 0;
