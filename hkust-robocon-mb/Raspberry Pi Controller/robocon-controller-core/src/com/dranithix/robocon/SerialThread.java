@@ -29,21 +29,16 @@ public class SerialThread implements Disposable, Runnable {
 			running = false;
 		} else {
 			comPort = SerialPort.getCommPort(Robocon.COM_PORT_ADDRESS);
-			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING,
-					1000, 0);
+			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 1000, 0);
 			comPort.setBaudRate(115200);
 
 			if (running = comPort.openPort()) {
-				System.out.format(
-						"Robocon: Server started on %s."
-								+ System.lineSeparator(),
-						Robocon.COM_PORT_ADDRESS);
-				
+				System.out.format("Robocon: Server started on %s." + System.lineSeparator(), Robocon.COM_PORT_ADDRESS);
+
 				in = new BufferedReader(new InputStreamReader(comPort.getInputStream()));
 				out = new PrintWriter(comPort.getOutputStream(), false);
 			} else {
-				System.out.println("Robocon: Unable to start server on "
-						+ Robocon.COM_PORT_ADDRESS + ".");
+				System.out.println("Robocon: Unable to start server on " + Robocon.COM_PORT_ADDRESS + ".");
 			}
 		}
 
@@ -82,6 +77,7 @@ public class SerialThread implements Disposable, Runnable {
 
 	@Override
 	public void dispose() {
-		comPort.closePort();
+		if (comPort != null)
+			comPort.closePort();
 	}
 }

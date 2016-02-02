@@ -44,7 +44,7 @@ public class Robocon extends ControllerAdapter implements
 
 		VisUI.load();
 
-		stage = new Stage(new FitViewport(1280, 768));
+		stage = new Stage(new FitViewport(800, 600));
 		Gdx.input.setInputProcessor(stage);
 
 		VisTable layout = new VisTable(true);

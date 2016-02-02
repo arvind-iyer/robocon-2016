@@ -4,37 +4,22 @@ import com.dranithix.robocon.net.NetworkEvent;
 import com.dranithix.robocon.net.NetworkEventOpcode;
 
 public class MotorControlEvent extends NetworkEvent {
-	private int magnitude, direction;
+	private int w1, w2, w3;
 
-	public MotorControlEvent(int direction, int magnitude) {
+	public MotorControlEvent(int w1, int w2, int w3) {
 		super(NetworkEventOpcode.MOTOR_CONTROL);
 		
-		setDirection(direction);
-		setMagnitude(magnitude);
+		this.w1 = w1;
+		this.w2 = w2;
+		this.w3 = w3;
 	
 		initEvent();
 	}
-
-	public int getMagnitude() {
-		return magnitude;
-	}
-
-	public void setMagnitude(int magnitude) {
-		this.magnitude = magnitude;
-	}
-
-	public int getDirection() {
-		return direction;
-	}
-
-	public void setDirection(int direction) {
-		this.direction = direction;
-	}
-
 	@Override
 	protected void initEvent() {
-		putInt(direction);
-		putInt(magnitude);
+		putInt(w1);
+		putInt(w2);
+		putInt(w3);
 	}
 
 }
