@@ -1,22 +1,23 @@
 #include "3d_gyro.h"
-u8 I2C_Rx_Buffer[14];
+u8 I2C_Rx_Buffer[14]; //It is empty!
+u8 *I2C_pt = I2C_Rx_Buffer;
 s16 AccelGyro[6];
 s16 *Accelpt = AccelGyro;
 
 void gyro3d_init()
 {
 	I2C_InitTypeDef I2C_InitStructure;
-	GPIO_InitTypeDef GPIO_InitStructure;
+	GPIO_InitTypeDef GPIO_I2C_Config;
 
 	/* Enable I2C and GPIO clocks */
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C1, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 
 	/* Configure I2C pins: SCL and SDA */
-	GPIO_InitStructure.GPIO_Pin = MPU6050_I2C_SCL_Pin | MPU6050_I2C_SDA_Pin;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
-	GPIO_Init(MPU6050_I2C_Port, &GPIO_InitStructure);
+	GPIO_I2C_Config.GPIO_Pin = MPU6050_I2C_SCL_Pin | MPU6050_I2C_SDA_Pin;
+	GPIO_I2C_Config.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_I2C_Config.GPIO_Mode = GPIO_Mode_AF_OD;
+	GPIO_Init(MPU6050_I2C_Port, &GPIO_I2C_Config);
 
 	/* I2C configuration */
 	I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
@@ -30,6 +31,14 @@ void gyro3d_init()
 	I2C_Init(MPU6050_I2C, &I2C_InitStructure);
 	/* I2C Peripheral Enable */
 	I2C_Cmd(MPU6050_I2C, ENABLE);
+	
+	EXTI_InitTypeDef EXTI_InitStructure;
+	EXTI_InitStructure.EXTI_Line=EXTI_Line4;
+	EXTI_InitStructure.EXTI_LineCmd=ENABLE;
+	EXTI_InitStructure.EXTI_Mode=EXTI_Mode_Interrupt;
+	EXTI_InitStructure.EXTI_Trigger=EXTI_Trigger_Rising_Falling;
+	EXTI_Init(&EXTI_InitStructure);//apply all setup	
+	EXTI_ClearITPendingBit(EXTI_Line4);
 	
 	MPU6050_Initialize();
 	gyro_dma_init();

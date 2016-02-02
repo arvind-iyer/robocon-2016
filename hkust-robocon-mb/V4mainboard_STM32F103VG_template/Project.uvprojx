@@ -178,7 +178,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3>"" ()</Flash3>
+          <Flash3>"flash.bat" (./output/@H.hex 10 256000 STM32F1_High-density_512K)</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -462,9 +462,9 @@
               <FilePath>.\src\user\line_sensor.c</FilePath>
             </File>
             <File>
-              <FileName>3d_gyro.c</FileName>
+              <FileName>MPU6050.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\src\user\3d_gyro.c</FilePath>
+              <FilePath>.\src\user\MPU6050.c</FilePath>
             </File>
           </Files>
         </Group>

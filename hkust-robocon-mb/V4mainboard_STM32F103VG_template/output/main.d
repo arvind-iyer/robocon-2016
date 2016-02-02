@@ -45,5 +45,5 @@
 .\output\main.o: src\user\crc.h
 .\output\main.o: .\src\ustrobo_min_system\inc\linear_ccd.h
 .\output\main.o: .\src\ustrobo_min_system\inc\adc.h
-.\output\main.o: src\user\3d_gyro.h
-.\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_i2c.h
+.\output\main.o: src\user\MPU6050.h
+.\output\main.o: src\user\HAL_MPU6050.h

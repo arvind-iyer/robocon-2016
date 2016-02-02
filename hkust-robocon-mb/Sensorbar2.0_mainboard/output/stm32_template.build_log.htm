@@ -21,8 +21,8 @@ Target DLL:      UL2CM3.DLL V1.155.12.0
 Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
-D:\HKUST\Robotics\Robocon\git\robocon-2016\hkust-robocon-mb\V4mainboard_STM32F103VG_template\Project.uvprojx
-Project File Date:  02/01/2016
+C:\Users\mokjj\Desktop\lighsensor_mainboard\Project.uvprojx
+Project File Date:  01/18/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
@@ -36,37 +36,27 @@ src\user\can_motor.h(52): warning:  #1-D: last line of file ends without a newli
   #endif
 .\src\ustrobo_min_system\inc\gyro.h(44): warning:  #1-D: last line of file ends without a newline
   #endif		/* __GYRO_H */
-src\user\MPU6050.h(394): warning:  #1295-D: Deprecated declaration MPU6050_Initialize - give arg types
-  void MPU6050_Initialize();
-src\user\MPU6050.h(395): warning:  #1295-D: Deprecated declaration MPU6050_TestConnection - give arg types
-  u8 MPU6050_TestConnection();
-src\user\MPU6050.h(398): warning:  #1295-D: Deprecated declaration MPU6050_GetFullScaleGyroRange - give arg types
-  uint8_t MPU6050_GetFullScaleGyroRange();
-src\user\MPU6050.h(401): warning:  #1295-D: Deprecated declaration MPU6050_GetFullScaleAccelRange - give arg types
-  uint8_t MPU6050_GetFullScaleAccelRange();
-src\user\MPU6050.h(405): warning:  #1295-D: Deprecated declaration MPU6050_GetSleepModeStatus - give arg types
-  u8 MPU6050_GetSleepModeStatus();
-src\user\MPU6050.h(409): warning:  #1295-D: Deprecated declaration MPU6050_GetDeviceID - give arg types
-  uint8_t MPU6050_GetDeviceID();
-src\user\MPU6050.h(418): warning:  #1295-D: Deprecated declaration MPU6050_I2C_Init - give arg types
-  void MPU6050_I2C_Init();
-src\user\main.c(40): warning:  #188-D: enumerated type mixed with another type
-  	tft_init(1,
+src\user\main.c(17): warning:  #188-D: enumerated type mixed with another type
+  	tft_init(0,
 LACK,
 HITE,
 HITE);
-src\user\main.c: 12 warnings, 0 errors
+src\user\main.c(31): warning:  #1-D: last line of file ends without a newline
+  }
+src\user\main.c(15): warning:  #177-D: variable "display" was declared but never referenced
+  	u8 display[16];
+src\user\main.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=24136 RO-data=460 RW-data=2124 ZI-data=35404  
+Program Size: Code=21876 RO-data=460 RW-data=2128 ZI-data=35408  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 12 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  D:\HKUST\Robotics\Robocon\git\robocon-2016\hkust-robocon-mb\V4mainboard_STM32F103VG_template\RTE
+  C:\Users\mokjj\Desktop\lighsensor_mainboard\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

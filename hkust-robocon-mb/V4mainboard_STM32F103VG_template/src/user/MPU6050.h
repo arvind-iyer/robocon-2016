@@ -5,47 +5,42 @@
 //     2012-05-23 - initial release. Thanks to Jeff Rowberg <jeff@rowberg.net> for his AVR/Arduino
 //                  based development which inspired me & taken as reference to develop this.
 /* ============================================================================================
-MPU6050 device I2C library code for ARM STM32F103xx is placed under the MIT license
-Copyright (c) 2012 Harinadha Reddy Chintalapalli
+ MPU6050 device I2C library code for ARM STM32F103xx is placed under the MIT license
+ Copyright (c) 2012 Harinadha Reddy Chintalapalli
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-================================================================================================
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ ================================================================================================
+ */
 
 #ifndef _MPU6050_H_
 #define _MPU6050_H_
 
 #ifdef __cplusplus
- extern "C" {
-#endif 
+extern "C" {
+#endif
 
- /* Includes */
+/* Includes */
+#include "HAL_MPU6050.h"
 
-#include "stm32f10x.h"
-#include "stm32f10x_dma.h"
-#include "stm32f10x_i2c.h"
-#include "stm32f10x_exti.h"
-#include "ticks.h"
-	 
 #define MPU6050_ADDRESS_AD0_LOW     0x68 // address pin low (GND), default for InvenSense evaluation board
 #define MPU6050_ADDRESS_AD0_HIGH    0x69 // address pin high (VCC)
-#define MPU6050_DEFAULT_ADDRESS     0x68 //(MPU6050_ADDRESS_AD0_LOW<<1) 0x68sucks
+#define MPU6050_DEFAULT_ADDRESS     (MPU6050_ADDRESS_AD0_LOW<<1)
 
 #define MPU6050_RA_XG_OFFS_TC       0x00 //[7] PWR_MODE, [6:1] XG_OFFS_TC, [0] OTP_BNK_VLD
 #define MPU6050_RA_YG_OFFS_TC       0x01 //[7] PWR_MODE, [6:1] YG_OFFS_TC, [0] OTP_BNK_VLD
@@ -158,10 +153,18 @@ THE SOFTWARE.
 #define MPU6050_RA_FIFO_R_W         0x74
 #define MPU6050_RA_WHO_AM_I         0x75
 
+#define MPU6050_TC_PWR_MODE_BIT     7
+#define MPU6050_TC_OFFSET_BIT       6
+#define MPU6050_TC_OFFSET_LENGTH    6
+#define MPU6050_TC_OTP_BNK_VLD_BIT  0
 
 #define MPU6050_VDDIO_LEVEL_VLOGIC  0
 #define MPU6050_VDDIO_LEVEL_VDD     1
 
+#define MPU6050_CFG_EXT_SYNC_SET_BIT    5
+#define MPU6050_CFG_EXT_SYNC_SET_LENGTH 3
+#define MPU6050_CFG_DLPF_CFG_BIT    2
+#define MPU6050_CFG_DLPF_CFG_LENGTH 3
 
 #define MPU6050_EXT_SYNC_DISABLED       0x0
 #define MPU6050_EXT_SYNC_TEMP_OUT_L     0x1
@@ -183,16 +186,23 @@ THE SOFTWARE.
 #define MPU6050_GCONFIG_FS_SEL_BIT      4
 #define MPU6050_GCONFIG_FS_SEL_LENGTH   2
 
-#define MPU6050_GYRO_FS_250         0x00<<3
-#define MPU6050_GYRO_FS_500         0x01<<3
-#define MPU6050_GYRO_FS_1000        0x02<<3
-#define MPU6050_GYRO_FS_2000        0x03<<3
+#define MPU6050_GYRO_FS_250         0x00
+#define MPU6050_GYRO_FS_500         0x01
+#define MPU6050_GYRO_FS_1000        0x02
+#define MPU6050_GYRO_FS_2000        0x03
 
+#define MPU6050_ACONFIG_XA_ST_BIT           7
+#define MPU6050_ACONFIG_YA_ST_BIT           6
+#define MPU6050_ACONFIG_ZA_ST_BIT           5
+#define MPU6050_ACONFIG_AFS_SEL_BIT         4
+#define MPU6050_ACONFIG_AFS_SEL_LENGTH      2
+#define MPU6050_ACONFIG_ACCEL_HPF_BIT       2
+#define MPU6050_ACONFIG_ACCEL_HPF_LENGTH    3
 
-#define MPU6050_ACCEL_FS_2          0x00<<3
-#define MPU6050_ACCEL_FS_4          0x01<<3
-#define MPU6050_ACCEL_FS_8          0x02<<3
-#define MPU6050_ACCEL_FS_16         0x03<<3
+#define MPU6050_ACCEL_FS_2          0x00
+#define MPU6050_ACCEL_FS_4          0x01
+#define MPU6050_ACCEL_FS_8          0x02
+#define MPU6050_ACCEL_FS_16         0x03
 
 #define MPU6050_DHPF_RESET          0x00
 #define MPU6050_DHPF_5              0x01
@@ -201,6 +211,21 @@ THE SOFTWARE.
 #define MPU6050_DHPF_0P63           0x04
 #define MPU6050_DHPF_HOLD           0x07
 
+#define MPU6050_TEMP_FIFO_EN_BIT    7
+#define MPU6050_XG_FIFO_EN_BIT      6
+#define MPU6050_YG_FIFO_EN_BIT      5
+#define MPU6050_ZG_FIFO_EN_BIT      4
+#define MPU6050_ACCEL_FIFO_EN_BIT   3
+#define MPU6050_SLV2_FIFO_EN_BIT    2
+#define MPU6050_SLV1_FIFO_EN_BIT    1
+#define MPU6050_SLV0_FIFO_EN_BIT    0
+
+#define MPU6050_MULT_MST_EN_BIT     7
+#define MPU6050_WAIT_FOR_ES_BIT     6
+#define MPU6050_SLV_3_FIFO_EN_BIT   5
+#define MPU6050_I2C_MST_P_NSR_BIT   4
+#define MPU6050_I2C_MST_CLK_BIT     3
+#define MPU6050_I2C_MST_CLK_LENGTH  4
 
 #define MPU6050_CLOCK_DIV_348       0x0
 #define MPU6050_CLOCK_DIV_333       0x1
@@ -219,6 +244,42 @@ THE SOFTWARE.
 #define MPU6050_CLOCK_DIV_381       0xE
 #define MPU6050_CLOCK_DIV_364       0xF
 
+#define MPU6050_I2C_SLV_RW_BIT      7
+#define MPU6050_I2C_SLV_ADDR_BIT    6
+#define MPU6050_I2C_SLV_ADDR_LENGTH 7
+#define MPU6050_I2C_SLV_EN_BIT      7
+#define MPU6050_I2C_SLV_BYTE_SW_BIT 6
+#define MPU6050_I2C_SLV_REG_DIS_BIT 5
+#define MPU6050_I2C_SLV_GRP_BIT     4
+#define MPU6050_I2C_SLV_LEN_BIT     3
+#define MPU6050_I2C_SLV_LEN_LENGTH  4
+
+#define MPU6050_I2C_SLV4_RW_BIT         7
+#define MPU6050_I2C_SLV4_ADDR_BIT       6
+#define MPU6050_I2C_SLV4_ADDR_LENGTH    7
+#define MPU6050_I2C_SLV4_EN_BIT         7
+#define MPU6050_I2C_SLV4_INT_EN_BIT     6
+#define MPU6050_I2C_SLV4_REG_DIS_BIT    5
+#define MPU6050_I2C_SLV4_MST_DLY_BIT    4
+#define MPU6050_I2C_SLV4_MST_DLY_LENGTH 5
+
+#define MPU6050_MST_PASS_THROUGH_BIT    7
+#define MPU6050_MST_I2C_SLV4_DONE_BIT   6
+#define MPU6050_MST_I2C_LOST_ARB_BIT    5
+#define MPU6050_MST_I2C_SLV4_NACK_BIT   4
+#define MPU6050_MST_I2C_SLV3_NACK_BIT   3
+#define MPU6050_MST_I2C_SLV2_NACK_BIT   2
+#define MPU6050_MST_I2C_SLV1_NACK_BIT   1
+#define MPU6050_MST_I2C_SLV0_NACK_BIT   0
+
+#define MPU6050_INTCFG_INT_LEVEL_BIT        7
+#define MPU6050_INTCFG_INT_OPEN_BIT         6
+#define MPU6050_INTCFG_LATCH_INT_EN_BIT     5
+#define MPU6050_INTCFG_INT_RD_CLEAR_BIT     4
+#define MPU6050_INTCFG_FSYNC_INT_LEVEL_BIT  3
+#define MPU6050_INTCFG_FSYNC_INT_EN_BIT     2
+#define MPU6050_INTCFG_I2C_BYPASS_EN_BIT    1
+#define MPU6050_INTCFG_CLKOUT_EN_BIT        0
 
 #define MPU6050_INTMODE_ACTIVEHIGH  0x00
 #define MPU6050_INTMODE_ACTIVELOW   0x01
@@ -330,50 +391,37 @@ THE SOFTWARE.
 #define MPU6050_DMP_MEMORY_BANK_SIZE    256
 #define MPU6050_DMP_MEMORY_CHUNK_SIZE   16
 
-#define TRUE			1
-#define FALSE		0
+void MPU6050_Initialize();
+u8 MPU6050_TestConnection();
 
-#define gyro_xsensitivity 66.5 //66.5 Dead on at last check
-#define gyro_ysensitivity 66.5 //72.7 Dead on at last check
-#define gyro_zsensitivity 65.5
+// GYRO_CONFIG register
+uint8_t MPU6050_GetFullScaleGyroRange();
+void MPU6050_SetFullScaleGyroRange(uint8_t range);
+// ACCEL_CONFIG register
+uint8_t MPU6050_GetFullScaleAccelRange();
+void MPU6050_SetFullScaleAccelRange(uint8_t range);
 
-#define MPU6050_I2C I2C2
-#define MPU6050_DMA_Channel DMA1_Channel7
-#define MPU6050_INT_Exti 4
-#define I2C_DR_Address 0x40005410
-#define MPU6050_I2C_Port GPIOB
-#define MPU6050_I2C_SCL_Pin GPIO_Pin_6
-#define MPU6050_I2C_SDA_Pin GPIO_Pin_7
-#define MPU6050_I2C_Speed 100000
-
-
-
-void MPU6050_Initialize(void);
-void gyro3d_init();
-void gyro_dma_init();
-char MPU6050_TestConnection(void);
-
+// PWR_MGMT_1 register
+u8 MPU6050_GetSleepModeStatus();
+void MPU6050_SetSleepModeStatus(FunctionalState NewState);
+void MPU6050_SetClockSource(uint8_t source);
 // WHO_AM_I register
-uint8_t MPU6050_GetDeviceID(void);
+uint8_t MPU6050_GetDeviceID();
 
-void MPU6050_GetRawAccelGyro(int* AccelGyro);
-
-void MPU6050_Write(uint8_t slaveAddr, uint8_t regAddr, uint8_t data);
+void MPU6050_GetRawAccelGyro(s16* AccelGyro);
 
 void MPU6050_WriteBits(uint8_t slaveAddr, uint8_t regAddr, uint8_t bitStart, uint8_t length, uint8_t data);
 void MPU6050_WriteBit(uint8_t slaveAddr, uint8_t regAddr, uint8_t bitNum, uint8_t data);
-void MPU6050_ReadBits(uint8_t slaveAddr, uint8_t regAddr, uint8_t bitStart, uint8_t length, uint8_t *data); 
+void MPU6050_ReadBits(uint8_t slaveAddr, uint8_t regAddr, uint8_t bitStart, uint8_t length, uint8_t *data);
 void MPU6050_ReadBit(uint8_t slaveAddr, uint8_t regAddr, uint8_t bitNum, uint8_t *data);
 
-void MPU6050_I2C_Init(void);
+void MPU6050_I2C_Init();
 void MPU6050_I2C_ByteWrite(u8 slaveAddr, u8* pBuffer, u8 writeAddr);
 void MPU6050_I2C_BufferRead(u8 slaveAddr,u8* pBuffer, u8 readAddr, u16 NumByteToRead);
-void MPU6050_DMA_Read(u8 slaveAddr, u8 readAddr, u16 NumByteToRead);
-void I2C_DMA_Read(u8 slaveAddr, u8 readAddr);
 
-static void i2cUnstick(void);
-
-int MPU6050_GetFIFO(int *FIFO_Data);
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __MPU6050_H */
 /******************* (C) COPYRIGHT 2012 Harinadha Reddy Chintalapalli *****END OF FILE****/
