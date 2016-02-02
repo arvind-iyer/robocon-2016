@@ -41,6 +41,7 @@
 #include "button.h"
 #include "led.h"
 #include "linear_ccd.h"
+#include "line_sensor.h"
 #include "adc.h"
 
 #endif /* __MAIN_H */
