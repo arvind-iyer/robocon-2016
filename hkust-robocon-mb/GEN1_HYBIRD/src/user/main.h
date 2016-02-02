@@ -50,6 +50,8 @@
 
 extern u16 last_loop_ticks;
 extern u16 last_loop_seconds;
+extern u16 last_long_loop_ticks;
+extern u16 last_long_loop_seconds;
 extern u16 this_loop_ticks;
 extern u16 this_loop_seconds;
 

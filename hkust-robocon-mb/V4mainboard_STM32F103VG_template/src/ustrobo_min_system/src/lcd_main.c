@@ -11,13 +11,13 @@ u8 tft_width = 0, tft_height = 0;
 u8 tft_y_index = 0;
 u8 char_max_x, char_max_y;
 
-char text							[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
-char text_prev				[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
-u16 text_color				[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
-u16 text_color_prev		[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
-u16 bg_color					[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
-u16 bg_color_prev			[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
-u8 text_bg_color_prev	[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];/*for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color*/
+char text							[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+char text_prev				[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+u16 text_color				[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+u16 text_color_prev		[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+u16 bg_color					[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+u16 bg_color_prev			[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+u8 text_bg_color_prev	[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];/*for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color*/
 u16 tft_mega_pre[32][25];
 u16 tft_mega_storage[32][25];
 
@@ -509,8 +509,7 @@ void tft_fill_color(u16 color)
 	}
 }
 
-u8 tft_char_is_changed(u8 x, u8 y)
-{
+u8 tft_char_is_changed(u8 x, u8 y){
 	u8 re = (text_prev[x][y] != text[x][y] || text_color_prev[x][y] != text_color[x][y] || bg_color_prev[x][y] != bg_color[x][y]);
 	text_prev[x][y] = text[x][y];
 	text_color_prev[x][y] = text_color[x][y];
@@ -544,7 +543,7 @@ void tft_prints(u8 x, u8 y, const char * pstr, ...){
 		} else if (*fp == '\r' || *fp == '\n') {		  				 
 			fp++;
 		} else {
-			if (x > char_max_x || y > (char_max_y-1)) {
+			if (x > char_max_x || y > char_max_y) {
 				break;
 			}
 
@@ -571,7 +570,7 @@ void tft_append_line(const char * pstr, ...){
 	vsprintf((char*)buf, (const char*)pstr, arglist);
 	va_end(arglist);
 	
-	if (tft_y_index<0 || tft_y_index>(char_max_y-1)){
+	if (tft_y_index<0 || tft_y_index>char_max_y){
 		tft_y_index = 0;
 	}
 
@@ -596,7 +595,7 @@ void tft_append_line(const char * pstr, ...){
 			x++;
 		}
 	}
-	tft_y_index = tft_y_index > (char_max_y-1) ? 0 : tft_y_index+1;
+	tft_y_index = tft_y_index > char_max_y ? 0 : tft_y_index+1;
 }
 
 void tft_stream(const char * pstr, ...){

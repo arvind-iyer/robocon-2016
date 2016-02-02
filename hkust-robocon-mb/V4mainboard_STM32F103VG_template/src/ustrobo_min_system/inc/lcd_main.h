@@ -51,14 +51,14 @@
 #define CHAR_WIDTH				8
 #define CHAR_HEIGHT				16
 
-#define CHAR_MAX_X_VERTICAL		15
-#define CHAR_MAX_Y_VERTICAL		9
+#define CHAR_MAX_X_VERTICAL		16
+#define CHAR_MAX_Y_VERTICAL		10
 
-#define CHAR_MAX_X_HORIZONTAL	19
-#define CHAR_MAX_Y_HORIZONTAL	7
+#define CHAR_MAX_X_HORIZONTAL	20
+#define CHAR_MAX_Y_HORIZONTAL	8
 
-#define CHAR_MAX_X_ANY	19
-#define CHAR_MAX_Y_ANY	9
+#define CHAR_MAX_X_ANY	20
+#define CHAR_MAX_Y_ANY	10
 
 extern u8 tft_orientation;
 extern u8 tft_width;
@@ -67,10 +67,10 @@ extern u16 curr_bg_color;
 extern u16 curr_text_color;
 extern u16 curr_text_color_sp;
 
-extern char text						[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
-extern u16 text_color				[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
-extern u16 bg_color					[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1];
-extern u8 text_bg_color_prev[CHAR_MAX_X_ANY+1][CHAR_MAX_Y_ANY+1]; // for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color
+extern char text						[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+extern u16 text_color				[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+extern u16 bg_color					[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+extern u8 text_bg_color_prev[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY]; // for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color
 
 typedef enum {
 	PIN_ON_TOP = 0,
@@ -86,7 +86,7 @@ void tft_config(void);
 void tft_reset(void);
 
 void tft_init(TFT_ORIENTATION orientation, u16 bg_color, u16 text_color, u16 sp_color);
-void tft_easy_init();
+void tft_easy_init(void);
 void tft_enable(void);
 void tft_disable(void);
 void tft_set_bg_color(u16 in_bg_color);

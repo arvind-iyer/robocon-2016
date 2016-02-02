@@ -16,6 +16,8 @@
 #include "gyro.h"
 #include "pid_lock.h"
 #include "xbc_control.h"
+#include "main.h"
+#include <stdbool.h>
 
 #define ACC_THRESHOLD 1
 #define CLIMBING_SPEED 1799

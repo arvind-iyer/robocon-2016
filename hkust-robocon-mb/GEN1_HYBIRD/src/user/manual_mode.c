@@ -20,9 +20,9 @@ LOCK_STATE press_button_X = UNLOCKED;
 u16 brushless_pressed_time = 0;
 
 #define CONTORLLER_MODE_1
-#ifdef
-	static XBC_JOY brushless_joy_sticks = {XBC_JOY_LT, XBC_JOY_RT}
-	static u16 brushless_stick_max = 255
+#ifdef CONTORLLER_MODE_1
+	static XBC_JOY brushless_joy_sticks[2] = {XBC_JOY_LT, XBC_JOY_RT};
+	static u16 brushless_stick_max = 255;
 #endif
 
 void manual_init(){
@@ -30,16 +30,21 @@ void manual_init(){
 	manual_reset();
 }
 
-void brushless_control(BRUSHLESS_ID brushless_id, s16 value){
+void brushless_control(BRUSHLESS_ID brushless_id, u16 value, bool is_percentage_mode){
 	if ((u8) brushless_id >= BRUSHLESS_COUNT) return;
-	value = value>BRUSHLESS_MAX?BRUSHLESS_MAX:(value<BRUSHLESS_MIN?BRUSHLESS_MIN:value);
-	servo_control((SERVO_ID)brushless_id, value);
+	if (is_percentage_mode){
+		value = value>BRUSHLESS_MAX?BRUSHLESS_MAX:(value<BRUSHLESS_MIN?BRUSHLESS_MIN:value);
+		servo_control((SERVO_ID)brushless_id, value);
+	}else{
+		value = value>100?100:value;
+		servo_control((SERVO_ID)brushless_id, (BRUSHLESS_MAX-BRUSHLESS_MIN)*value/100 + BRUSHLESS_MIN);
+	}
 }
 
-void brushless_control_all(s16 value){
+void brushless_control_all(s16 value, bool is_percentage_mode){
 	value = value>BRUSHLESS_MAX?BRUSHLESS_MAX:(value<BRUSHLESS_MIN?BRUSHLESS_MIN:value);
 	for (u8 i=0; i<BRUSHLESS_COUNT; i++){
-			servo_control((SERVO_ID)i, value);
+		servo_control((SERVO_ID)i, value);
 	}
 }
 
@@ -54,7 +59,7 @@ void manual_reset(){
 	climbing_induced_ground_lock = UNLOCKED;
 	press_button_B = UNLOCKED;
 	press_button_X = UNLOCKED;
-	brushless_control_all(BRUSHLESS_MIN);
+	brushless_control_all(0, true);
 }
 
 void climb_continue(){
@@ -107,7 +112,7 @@ void manual_interval_update(){
 		}
 	}
 	
-	tft_append_line("%d", get_ticks());
+	tft_append_line("%d", this_loop_ticks);
 	
 	//Calcuate brushless
 	if (brushless_lock == UNLOCKED){
@@ -117,7 +122,7 @@ void manual_interval_update(){
 			//brushless_control(BRUSHLESS_1, xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
 			//brushless_control(BRUSHLESS_2, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
 
-			/** Control Manual: 
+			/* Control Manual: 
 			** first 30% -> No respond
 			** 30% ~ 50% -> Able to make eco start moving (constant across)
 			** 50% ~ 100% -> Linear incrase up to 50% pwm
@@ -125,15 +130,33 @@ void manual_interval_update(){
 			*/
 			for (u8 i=0;i<BRUSHLESS_COUNT;i++){
 				if (xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max*3/10)){
-
-				}else if(xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max/2)){
-
-				}else{
+					brushless_pressed_time = 0;
+					brushless_control((BRUSHLESS_ID)i, 0, true);
 					
+				}else if(xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max/2)){
+					brushless_pressed_time = 0;
+					brushless_control((BRUSHLESS_ID)i, 35, true);
+					
+				}else{
+					//Cap the brushless_pressed_time to avoid overflow
+					u16 ticks_different = (this_loop_ticks - last_long_loop_ticks);
+					if ((u32) (brushless_pressed_time + ticks_different) < 65535){
+						brushless_pressed_time += ticks_different;
+					}else{
+						brushless_pressed_time = 65535;
+					}
+					
+					//If less than 1.2 seconds, keep 50%
+					if (brushless_pressed_time<1200){
+						brushless_control((BRUSHLESS_ID)i, 50, true);
+					}else{
+						u16 Iamjustatempvariable = 50 + (brushless_pressed_time-1200)/100;
+						brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable>100?100:Iamjustatempvariable, true);
+					}
 				}
 			}
 		}else{
-			brushless_control_all(BRUSHLESS_MIN);
+			brushless_control_all(0, true);
 		}
 	}
 	
@@ -196,7 +219,7 @@ void manual_emergency_stop(){
 	motor_lock(MOTOR6);
 	brushless_lock = LOCKED;
 	ground_wheels_lock = LOCKED;
-	brushless_control_all(BRUSHLESS_MIN);
+	brushless_control_all(0, true);
 }
 
 void manual_emergency_relax(){

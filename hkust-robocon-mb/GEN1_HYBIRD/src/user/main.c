@@ -5,6 +5,8 @@
 
 u16 last_loop_ticks = 0;
 u16 last_loop_seconds = 0;
+u16 last_long_loop_ticks;
+u16 last_long_loop_seconds;
 u16 this_loop_ticks = 0;
 u16 this_loop_seconds = 0;
 
@@ -36,7 +38,7 @@ int main(void) {
 		}
 		last_loop_ticks = this_loop_ticks;
 		
-		if ((currentTicks - lastTicks)>5){
+		if ((this_loop_ticks - last_loop_ticks)>5){
 			//Update the pressed state of the buttons
 			button_update();
 			//Get state for manual/auto and emergency lock
@@ -71,8 +73,8 @@ int main(void) {
 					manual_fast_update();
 			}
 			
-			if ((currentTicks - lastTicks)>50){
-				lastTicks = get_full_ticks();
+			if ((this_loop_ticks - last_long_loop_ticks)>50){
+				last_long_loop_ticks = get_full_ticks();
 				if (control_state == MANUAL_MODE){
 					manual_interval_update();
 				}else{
