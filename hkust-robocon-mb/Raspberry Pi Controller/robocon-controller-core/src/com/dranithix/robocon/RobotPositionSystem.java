@@ -8,6 +8,13 @@ public class RobotPositionSystem {
 	private static final int MAXVEL = 140;
 	private static final int STOP_DISTANCE = 2000;
 
+	public static int MOTOR1;
+	public static int MOTOR2;
+	public static int MOTOR3;
+	public static int MOTOR4;
+	public static int MOTOR5;
+	public static int MOTOR6;
+
 	private static Array<Integer[]> queue = new Array<Integer[]>();
 
 	private static int target_x;
@@ -28,6 +35,12 @@ public class RobotPositionSystem {
 	 */
 	public static void _init() {
 		_clearQueue();
+		MOTOR1 = 0;
+		MOTOR2 = 0;
+		MOTOR3 = 0;
+		MOTOR4 = 0;
+		MOTOR5 = 0;
+		MOTOR6 = 0;
 		lastX = 0;
 		lastY = 0;
 		lastBearing = 0;
@@ -190,11 +203,9 @@ public class RobotPositionSystem {
 		float _M1 = (-W - X * 2) / 3;
 		float _M2 = (-W * 0.577f + X * 0.577f - Y) / 1.73f;
 		float _M3 = -W - _M1 - _M2;
-		int M1 = (int) (_M1);
-		int M2 = (int) (_M2);
-		int M3 = (int) (_M3);
-		// TODO: send packet
-		System.out.println(M1 + " " + M2 + " " + M3);
+		MOTOR1 = (int) (_M1);
+		MOTOR2 = (int) (_M2);
+		MOTOR3 = (int) (_M3);
 	}
 
 	/**
