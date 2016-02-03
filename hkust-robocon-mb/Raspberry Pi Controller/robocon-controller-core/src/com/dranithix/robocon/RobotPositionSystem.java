@@ -252,6 +252,46 @@ public class RobotPositionSystem {
 		return diff;
 	}
 
+	/**
+	 * CALCULATES BEARING OF POINT FROM POINT_0
+	 * <p>
+	 * 
+	 * @param x0
+	 *            x-coordinate of POINT_0
+	 * @param y0
+	 *            y-coordinate of POINT_0
+	 * @param x
+	 *            x-coordinate of POINT
+	 * @param y
+	 *            y-coordinate of POINT
+	 * @return bearing in degrees scaled 0->360
+	 */
+	private static int _bearing(float x0, float y0, float x, float y) {
+		int b = (int) (90 - MathUtils.atan2(y - y0, x - x0));
+		if (b < 0) {
+			b = b + 360;
+		}
+		return b;
+	}
+
+	/**
+	 * CALCULATES RESULTING BEARING OF VECTOR ADDITION
+	 * 
+	 * @param m1
+	 *            magnitude of VECTOR_1
+	 * @param b1
+	 *            bearing of VECTOR_1
+	 * @param m2
+	 *            magnitude of VECTOR_2
+	 * @param b2
+	 *            bearing of VECTOR_2
+	 * @return
+	 */
+	private static int _vectorAdd(int m1, int b1, int m2, int b2) {
+		return _bearing(0, 0, m1 * MathUtils.sinDeg(b1) + m2 * MathUtils.sinDeg(b2),
+				m1 * MathUtils.cosDeg(b1) / 10000 + m2 * MathUtils.cosDeg(b2));
+	}
+
 	private static int _getX() {
 		// TODO: gyro
 		return 0;
