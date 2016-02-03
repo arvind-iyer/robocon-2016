@@ -1,5 +1,5 @@
-#ifndef __LCD_RED_H
-#define __LCD_RED_H
+#ifndef __LCD_MAIN_H
+#define __LCD_MAIN_H
 
 #include "stm32f10x.h"
 #include "stm32f10x_gpio.h"
