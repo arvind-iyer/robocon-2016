@@ -1,7 +1,5 @@
 package com.dranithix.robocon;
 
-import java.util.Scanner;
-
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
@@ -21,7 +19,7 @@ public class RobotPositionSystem {
 
 	private static int lastX;
 	private static int lastY;
-	private static int lastAngle;
+	private static int lastBearing;
 	private static float err;
 
 	/**
@@ -32,7 +30,7 @@ public class RobotPositionSystem {
 		_clearQueue();
 		lastX = 0;
 		lastY = 0;
-		lastAngle = 0;
+		lastBearing = 0;
 		err = 1;
 	}
 
@@ -44,7 +42,7 @@ public class RobotPositionSystem {
 	 *            target x-coordinate
 	 * @param y
 	 *            target y-coordinate
-	 * @param angle
+	 * @param bearing
 	 *            target orientation
 	 * @param d_error
 	 *            max distance error
@@ -53,11 +51,11 @@ public class RobotPositionSystem {
 	 * @param velocity
 	 *            velocity throughout course, 0 for auto
 	 */
-	public static void _addQueue(int x, int y, int angle, int d_error, int a_error, int velocity) {
+	public static void _addQueue(int x, int y, int bearing, int d_error, int a_error, int velocity) {
 		Integer[] target = new Integer[6];
 		target[0] = x;
 		target[1] = y;
-		target[2] = angle;
+		target[2] = bearing;
 		target[3] = d_error;
 		target[4] = a_error;
 		target[5] = vel;
@@ -77,8 +75,10 @@ public class RobotPositionSystem {
 	/**
 	 * LOADS NEXT TARGET FROM QUEUE
 	 * <p>
+	 * 
+	 * @return true on success
 	 */
-	public void _nextTarget() {
+	public static boolean _nextTarget() {
 		if (queue.size != 0) {
 			int x = queue.get(0)[0];
 			int y = queue.get(0)[1];
@@ -88,6 +88,9 @@ public class RobotPositionSystem {
 			int velocity = queue.get(0)[5];
 			_setTarget(x, y, angle, d_error, a_error, velocity);
 			queue.removeIndex(0);
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -99,7 +102,7 @@ public class RobotPositionSystem {
 	 *            target x-coordinate
 	 * @param y
 	 *            target y-coordinate
-	 * @param angle
+	 * @param bearing
 	 *            target orientation
 	 * @param d_error
 	 *            max distance error
@@ -108,11 +111,11 @@ public class RobotPositionSystem {
 	 * @param velocity
 	 *            velocity throughout course, 0 for auto
 	 */
-	public static void _setTarget(int x, int y, int angle, int d_error, int a_error, int velocity) {
+	public static void _setTarget(int x, int y, int bearing, int d_error, int a_error, int velocity) {
 		err = 1;
 		target_x = x;
 		target_y = y;
-		target_a = angle;
+		target_a = bearing;
 		d_e = d_error;
 		a_e = a_error;
 		vel = velocity;
@@ -124,19 +127,20 @@ public class RobotPositionSystem {
 	 */
 	public static void _straight() {
 		int M = 0;
-		int A = _angleDiff(_getAngle(), target_a);
+		int A = _angleDiff(_getBearing(), target_a);
 		int W = 0;
 		int dist = _dist(_getX(), _getY(), target_x, target_y);
-		if (dist > d_e || Math.abs(_angleDiff(_getAngle(), target_a)) > a_e) {
+		System.out.println("dist=" + dist);
+		if (dist > d_e || Math.abs(_angleDiff(_getBearing(), target_a)) > a_e) {
 			if (vel != 0) {
 				M = vel;
 			} else {
-				M = dist / STOP_DISTANCE * 100;
+				M = dist * 100 / STOP_DISTANCE;
 				if (M > 100) {
 					M = 100;
 				}
 			}
-			W = _angleDiff(_getAngle(), target_a) * 100 / 180;
+			W = _angleDiff(_getBearing(), target_a) * 100 / 180;
 		}
 		if (M * err > 100) {
 			err = 100 / M;
@@ -146,6 +150,10 @@ public class RobotPositionSystem {
 		}
 		M = (int) (M * err);
 		W = (int) (W * err);
+		System.out.println("Target: " + target_x + ", " + target_y);
+		System.out.println("M=" + M);
+		System.out.println("A=" + A);
+		System.out.println("W=" + W);
 		_move(M, A, W);
 	}
 
@@ -155,14 +163,14 @@ public class RobotPositionSystem {
 	 */
 	public static void _errUpdate() {
 		if (_dist(_getX(), _getY(), target_x, target_y) >= _dist(lastX, lastY, target_x, target_y)
-				|| Math.abs(_angleDiff(_getAngle(), target_a)) >= Math.abs(_angleDiff(lastAngle, target_a))) {
+				|| Math.abs(_angleDiff(_getBearing(), target_a)) >= Math.abs(_angleDiff(lastBearing, target_a))) {
 			err = err + 0.03f;
 		} else {
 			err = err * 0.8f + 0.2f;
 		}
 		lastX = _getX();
 		lastY = _getY();
-		lastAngle = _getAngle();
+		lastBearing = _getBearing();
 	}
 
 	/**
@@ -172,13 +180,13 @@ public class RobotPositionSystem {
 	 * @param M
 	 *            magnitude scaled 0->100
 	 * @param A
-	 *            local angle of motion in degrees scaled 0->360
+	 *            local bearing of motion in degrees
 	 * @param W
 	 *            angular speed scaled -100->100
 	 */
 	public static void _move(int M, int A, int W) {
-		float X = M * MathUtils.cosDeg(A) * MAXVEL / 100;
-		float Y = M * MathUtils.sinDeg(A) * MAXVEL / 100;
+		float X = M * MathUtils.sinDeg(A) * MAXVEL / 100;
+		float Y = M * MathUtils.cosDeg(A) * MAXVEL / 100;
 		float _M1 = (-W - X * 2) / 3;
 		float _M2 = (-W * 0.577f + X * 0.577f - Y) / 1.73f;
 		float _M3 = -W - _M1 - _M2;
@@ -238,7 +246,7 @@ public class RobotPositionSystem {
 		return 0;
 	}
 
-	private static int _getAngle() {
+	private static int _getBearing() {
 		// TODO: gyro
 		return 0;
 	}
@@ -250,13 +258,13 @@ public class RobotPositionSystem {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Scanner cin = new Scanner(System.in);
-		while (true) {
-			int m = cin.nextInt();
-			int a = cin.nextInt();
-			int w = cin.nextInt();
-			_move(m, a, w);
+		_init();
+		_addQueue(0, 0, 90, 0, 0, 0);
+		//_addQueue(0, 0, 0, 0, 0, 0);
+		while (_nextTarget()) {
+			_straight();
 		}
+		//_move(100, 0, 0);
 	}
 
 }
