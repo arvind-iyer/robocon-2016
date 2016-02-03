@@ -3,12 +3,9 @@
 #include <stdbool.h>
 #include <string.h>
 
-u16 last_loop_ticks = 0;
-u16 last_loop_seconds = 0;
-u16 last_long_loop_ticks;
-u16 last_long_loop_seconds;
-u16 this_loop_ticks = 0;
-u16 this_loop_seconds = 0;
+u32 last_loop_ticks = 0;
+u32 last_long_loop_ticks = 0;
+u32 this_loop_ticks = 0;
 
 int main(void) {
 	servo_init();
@@ -31,12 +28,12 @@ int main(void) {
 	CONTROL_STATE last_control_state = MANUAL_MODE;
 	
 	while(1){
-		this_loop_ticks = get_ticks();
+		this_loop_ticks = get_full_ticks();
+		
 		//Dont care if same ticks
 		if (this_loop_ticks == last_loop_ticks){
 			continue;
 		}
-		last_loop_ticks = this_loop_ticks;
 		
 		if ((this_loop_ticks - last_loop_ticks)>5){
 			//Update the pressed state of the buttons
@@ -84,6 +81,7 @@ int main(void) {
 				}
 			}
 		}
+		last_loop_ticks = this_loop_ticks;
 	}
 }
 /*

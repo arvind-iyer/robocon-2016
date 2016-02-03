@@ -27,25 +27,45 @@ Project File Date:  02/01/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
-compiling lcd_main.c...
+compiling main.c...
+.\src\ustrobo_min_system\inc\led.h(38): warning:  #1295-D: Deprecated declaration get_led_state - give arg types
+  u8 get_led_state();
 .\src\ustrobo_min_system\inc\lcd_main.h(110): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
   void tft_mega_update();
-src\ustrobo_min_system\src\lcd_main.c(573): warning:  #186-D: pointless comparison of unsigned integer with zero
-  	if (tft_y_index<0 || tft_y_index>char_max_y){
-src\ustrobo_min_system\src\lcd_main.c(1326): warning:  #1-D: last line of file ends without a newline
-  }
-src\ustrobo_min_system\src\lcd_main.c: 3 warnings, 0 errors
+src\user\can_motor.h(55): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\src\ustrobo_min_system\inc\gyro.h(62): warning:  #1-D: last line of file ends without a newline
+  #endif		/* __GYRO_H */
+src\user\pneumatic.h(7): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+src\user\pneumatic.h(10): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\auto_mode.h(24): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\pid_lock.h(13): warning:  #1295-D: Deprecated declaration _setCurrentAsTarget - give arg types
+  void _setCurrentAsTarget();
+src\user\pid_lock.h(15): warning:  #1295-D: Deprecated declaration _lockInTarget - give arg types
+  void _lockInTarget();
+src\user\pid_lock.h(17): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\xbc_control.h(28): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\manual_mode.h(43): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\main.c(115): warning:  #1-D: last line of file ends without a newline
+  */
+src\user\main.c: 13 warnings, 0 errors
 linking...
-Program Size: Code=35768 RO-data=508 RW-data=2512 ZI-data=42600  
+Program Size: Code=35784 RO-data=508 RW-data=2516 ZI-data=42596  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 3 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 13 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\WorkBench\Robo\robocon-2016\hkust-robocon-mb\GEN1_HYBIRD\RTE
   C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

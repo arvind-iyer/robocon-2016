@@ -48,11 +48,8 @@
 #include "auto_mode.h"
 #include "xbc_control.h"
 
-extern u16 last_loop_ticks;
-extern u16 last_loop_seconds;
-extern u16 last_long_loop_ticks;
-extern u16 last_long_loop_seconds;
-extern u16 this_loop_ticks;
-extern u16 this_loop_seconds;
+extern u32 last_loop_ticks;
+extern u32 last_long_loop_ticks;
+extern u32 this_loop_ticks;
 
 #endif /* __MAIN_H */
