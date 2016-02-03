@@ -109,6 +109,7 @@ public class RobotPositionSystem {
 	 *            velocity throughout course, 0 for auto
 	 */
 	public static void _setTarget(int x, int y, int angle, int d_error, int a_error, int velocity) {
+		err = 1;
 		target_x = x;
 		target_y = y;
 		target_a = angle;
@@ -118,7 +119,7 @@ public class RobotPositionSystem {
 	}
 
 	/**
-	 * MOVES ROBOT TO TARGET
+	 * MOVES ROBOT TO TARGET WITH PID
 	 * <p>
 	 */
 	public static void _straight() {
@@ -137,7 +138,31 @@ public class RobotPositionSystem {
 			}
 			W = _angleDiff(_getAngle(), target_a) * 100 / 180;
 		}
+		if (M * err > 100) {
+			err = 100 / M;
+		}
+		if (W * err > 100) {
+			err = 100 / W;
+		}
+		M = (int) (M * err);
+		W = (int) (W * err);
 		_move(M, A, W);
+	}
+
+	/**
+	 * UPDATES ERR SCALE, TO BE CALLED AFTER EVERY MOVEMENT
+	 * <p>
+	 */
+	public static void _errUpdate() {
+		if (_dist(_getX(), _getY(), target_x, target_y) >= _dist(lastX, lastY, target_x, target_y)
+				|| Math.abs(_angleDiff(_getAngle(), target_a)) >= Math.abs(_angleDiff(lastAngle, target_a))) {
+			err = err + 0.03f;
+		} else {
+			err = err * 0.8f + 0.2f;
+		}
+		lastX = _getX();
+		lastY = _getY();
+		lastAngle = _getAngle();
 	}
 
 	/**
