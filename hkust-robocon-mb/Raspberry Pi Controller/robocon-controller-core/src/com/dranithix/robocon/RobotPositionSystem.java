@@ -17,6 +17,9 @@ public class RobotPositionSystem {
 
 	private static Array<Integer[]> queue = new Array<Integer[]>();
 
+	private static int start_x;
+	private static int start_y;
+
 	private static int target_x;
 	private static int target_y;
 	private static int target_a;
@@ -132,6 +135,8 @@ public class RobotPositionSystem {
 		distanceThreshold = d_error;
 		angleThreshold = a_error;
 		vel = velocity;
+		start_x = _getX();
+		start_y = _getY();
 	}
 
 	/**
@@ -140,7 +145,8 @@ public class RobotPositionSystem {
 	 */
 	public static void _straight() {
 		int M = 0;
-		int A = 0;
+		int A = (int) (90 - MathUtils.atan2(target_y - _getY(), target_x - _getX()) * MathUtils.radiansToDegrees);
+		;
 		int W = 0;
 		int dist = _dist(_getX(), _getY(), target_x, target_y);
 		System.out.println("dist=" + dist);
@@ -154,11 +160,15 @@ public class RobotPositionSystem {
 				}
 			}
 			W = _angleDiff(_getBearing(), target_a) * 100 / 180;
-		}
-		if (dist > STOP_DISTANCE) {
-			// TODO: pid
-		} else {
-			A = (int) (90 - MathUtils.atan2(target_y - _getY(), target_x - _getX()) * MathUtils.radiansToDegrees);
+			if (dist > STOP_DISTANCE) {
+				int px = target_x - start_x;
+				int py = target_y - start_y;
+				int dab = px * px + py * py;
+				int u = ((_getX() - start_x) * px + (_getY() - start_y) * py) / dab;
+				int dir1 = _vectorAdd(_dist(_getX(), _getY(), start_x + u * px, start_y + u * py),
+						_bearing(_getX(), _getY(), start_x + u * px, start_y + u * py), dist, A);
+				A = (dir1 - _getBearing()) % 360;
+			}
 		}
 		if (M * err > 100) {
 			err = 100 / M;
