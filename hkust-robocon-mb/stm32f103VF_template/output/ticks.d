@@ -3,7 +3,7 @@
 .\output\ticks.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
 .\output\ticks.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\ticks.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\ticks.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\ticks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\ticks.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\ticks.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\ticks.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h

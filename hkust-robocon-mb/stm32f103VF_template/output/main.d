@@ -1,9 +1,9 @@
 .\output\main.o: src\user\main.c
 .\output\main.o: src\user\main.h
-.\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\main.o: .\src\stm32f10x_std\inc\core_cm3.h
-.\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\output\main.o: .\src\stm32f10x_std\inc\system_stm32f10x.h
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_conf.h
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_dma.h
@@ -22,29 +22,16 @@
 .\output\main.o: .\src\ustrobo_min_system\inc\buzzer.h
 .\output\main.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\main.o: .\src\ustrobo_min_system\inc\battery.h
-<<<<<<< HEAD
-.\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_adc.h
-.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-=======
->>>>>>> 21fb6016ab8b7430bde8ddb725a254d7fc5f5776
 .\output\main.o: .\src\ustrobo_min_system\inc\delay.h
 .\output\main.o: .\src\ustrobo_min_system\inc\led.h
 .\output\main.o: .\src\ustrobo_min_system\inc\lcd_red.h
-.\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\main.o: .\src\ustrobo_min_system\inc\system.h
-<<<<<<< HEAD
-.\output\main.o: .\src\user\main.h
-.\output\main.o: .\src\ustrobo_min_system\inc\xbc_mb.h
-.\output\main.o: .\src\ustrobo_min_system\inc\button.h
-.\output\main.o: .\src\ustrobo_min_system\inc\tft_160x128.h
-.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
-=======
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_adc.h
-.\output\main.o: C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\output\main.o: .\src\user\main.h
 .\output\main.o: .\src\ustrobo_min_system\inc\xbc_mb.h
 .\output\main.o: src\user\button.h
->>>>>>> 21fb6016ab8b7430bde8ddb725a254d7fc5f5776
 .\output\main.o: .\src\ustrobo_min_system\inc\encoder.h
 .\output\main.o: src\user\can.h
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_can.h
@@ -60,3 +47,4 @@
 .\output\main.o: src\user\position.h
 .\output\main.o: src\user\pid.h
 .\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\output\main.o: src\user\main.h

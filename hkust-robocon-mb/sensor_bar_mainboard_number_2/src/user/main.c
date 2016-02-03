@@ -68,7 +68,7 @@ int main(void)
            print_array();
 					 lineSensorState = getLineSensorAll();
 					 tft_prints(0,2,"%d", lineSensorState);
-           tft_update();
+           //tft_update();
        }
 			 //if(ticks_ms_img%50 == 0){
 			 for (int i = 0; i < 16; i++) {
@@ -109,8 +109,9 @@ int main(void)
 							}
 						}	
 				}
-			 
-			 tft_update();
+			 if(ticks_ms_img%50 == 0){
+				tft_update();
+			 }
 			 
 			 // do processing shiet
 			 servo_control_all(lastMovement);

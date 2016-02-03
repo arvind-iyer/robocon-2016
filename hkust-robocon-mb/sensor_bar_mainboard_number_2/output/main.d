@@ -45,3 +45,4 @@
 .\output\main.o: src\user\crc.h
 .\output\main.o: .\src\ustrobo_min_system\inc\linear_ccd.h
 .\output\main.o: .\src\ustrobo_min_system\inc\adc.h
+.\output\main.o: src\user\line_sensor.h
