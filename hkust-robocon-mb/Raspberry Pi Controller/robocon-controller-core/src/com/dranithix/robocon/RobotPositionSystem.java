@@ -140,7 +140,7 @@ public class RobotPositionSystem {
 	 */
 	public static void _straight() {
 		int M = 0;
-		int A = (int) (90 - MathUtils.atan2(target_y - _getY(), target_x - _getX()) * MathUtils.radiansToDegrees);
+		int A = 0;
 		int W = 0;
 		int dist = _dist(_getX(), _getY(), target_x, target_y);
 		System.out.println("dist=" + dist);
@@ -154,6 +154,11 @@ public class RobotPositionSystem {
 				}
 			}
 			W = _angleDiff(_getBearing(), target_a) * 100 / 180;
+		}
+		if (dist > STOP_DISTANCE) {
+			// TODO: pid
+		} else {
+			A = (int) (90 - MathUtils.atan2(target_y - _getY(), target_x - _getX()) * MathUtils.radiansToDegrees);
 		}
 		if (M * err > 100) {
 			err = 100 / M;
@@ -270,12 +275,11 @@ public class RobotPositionSystem {
 	 */
 	public static void main(String[] args) {
 		_init();
-		// _addQueue(100, 0, 0, 0, 0, 0);
+		_addQueue(0, 100, 0, 0, 0, 0);
 		// _addQueue(0, 0, 0, 0, 0, 0);
-		// while (_nextTarget()) {
-		// _straight();
-		// }
-		// _move(100, 0, 0);
+		while (_nextTarget()) {
+			_straight();
+		}
 	}
 
 }
