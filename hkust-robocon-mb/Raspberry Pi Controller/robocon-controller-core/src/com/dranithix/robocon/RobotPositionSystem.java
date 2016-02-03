@@ -13,8 +13,8 @@ public class RobotPositionSystem {
 	private static int target_x;
 	private static int target_y;
 	private static int target_a;
-	private static int d_e;
-	private static int a_e;
+	private static int distanceThreshold;
+	private static int angleThreshold;
 	private static int vel;
 
 	private static int lastX;
@@ -116,8 +116,8 @@ public class RobotPositionSystem {
 		target_x = x;
 		target_y = y;
 		target_a = bearing;
-		d_e = d_error;
-		a_e = a_error;
+		distanceThreshold = d_error;
+		angleThreshold = a_error;
 		vel = velocity;
 	}
 
@@ -127,11 +127,11 @@ public class RobotPositionSystem {
 	 */
 	public static void _straight() {
 		int M = 0;
-		int A = (int) (90-MathUtils.atan2(target_y - _getY(), target_x - _getX()) * MathUtils.radiansToDegrees);
+		int A = (int) (90 - MathUtils.atan2(target_y - _getY(), target_x - _getX()) * MathUtils.radiansToDegrees);
 		int W = 0;
 		int dist = _dist(_getX(), _getY(), target_x, target_y);
 		System.out.println("dist=" + dist);
-		if (dist > d_e || Math.abs(_angleDiff(_getBearing(), target_a)) > a_e) {
+		if (dist > distanceThreshold || Math.abs(_angleDiff(_getBearing(), target_a)) > angleThreshold) {
 			if (vel != 0) {
 				M = vel;
 			} else {
@@ -259,11 +259,11 @@ public class RobotPositionSystem {
 	 */
 	public static void main(String[] args) {
 		_init();
-		_addQueue(-100, 0, 0, 0, 0, 0);
+		// _addQueue(100, 0, 0, 0, 0, 0);
 		// _addQueue(0, 0, 0, 0, 0, 0);
-		while (_nextTarget()) {
-			_straight();
-		}
+		// while (_nextTarget()) {
+		// _straight();
+		// }
 		// _move(100, 0, 0);
 	}
 
