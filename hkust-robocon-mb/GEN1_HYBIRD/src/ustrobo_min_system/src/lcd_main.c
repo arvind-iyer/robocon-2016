@@ -602,6 +602,7 @@ void tft_stream(const char * pstr, ...){
 	//Implementing
 }
 
+
 /**
   * @brief  Refresh the whole screen
   * @param  None
@@ -625,8 +626,8 @@ void tft_update(void)
 
 	switch (tft_orientation) {
 		case 0:
-			for (y = 0; y <= CHAR_MAX_Y_VERTICAL; y++) {
-				for (x = 0; x <= CHAR_MAX_X_VERTICAL; x++) {
+			for (y = 0; y < CHAR_MAX_Y_VERTICAL; y++) {
+				for (x = 0; x < CHAR_MAX_X_VERTICAL; x++) {
 					if (tft_char_is_changed(x, y)) {
 						char_n = 1;
 						while (x+char_n < CHAR_MAX_X_VERTICAL && tft_char_is_changed(x+char_n, y)) {
@@ -652,8 +653,8 @@ void tft_update(void)
 			}
 			break;
 		case 1:
-			for (x = 0; x <= CHAR_MAX_X_HORIZONTAL; x++) {
-				for (y = CHAR_MAX_Y_HORIZONTAL; y >= 0; y--) {
+			for (x = 0; x < CHAR_MAX_X_HORIZONTAL; x++) {
+				for (y = CHAR_MAX_Y_HORIZONTAL-1; y >= 0; y--) {
 					if (tft_char_is_changed(x, y)) {
 						char_n = 1;
 						while (y-char_n > -1 && tft_char_is_changed(x, y-char_n)) {
@@ -663,7 +664,7 @@ void tft_update(void)
 								char_n++;
 							}
 						}
-						tft_set_char_pos((CHAR_MAX_Y_HORIZONTAL-y)*CHAR_HEIGHT, x*CHAR_WIDTH, (CHAR_MAX_Y_HORIZONTAL-y+char_n)*CHAR_HEIGHT-1, (x+1)*CHAR_WIDTH-1);
+						tft_set_char_pos((CHAR_MAX_Y_HORIZONTAL-y-1)*CHAR_HEIGHT, x*CHAR_WIDTH, (CHAR_MAX_Y_HORIZONTAL-y-1+char_n)*CHAR_HEIGHT-1, (x+1)*CHAR_WIDTH-1);
 						x2 = x;
 						for (px = 0; px < CHAR_WIDTH; px++) {
 							for (py = 0; py < char_n*CHAR_HEIGHT; py++) {
@@ -679,8 +680,8 @@ void tft_update(void)
 			}
 			break;
 		case 2:
-			for (y = CHAR_MAX_Y_VERTICAL; y >= 0; y--) {
-				for (x = CHAR_MAX_X_VERTICAL; x >= 0; x--) {
+			for (y = CHAR_MAX_Y_VERTICAL-1; y >= 0; y--) {
+				for (x = CHAR_MAX_X_VERTICAL-1; x >= 0; x--) {
 					if (tft_char_is_changed(x, y)) {
 						char_n = 1;
 						while (x-char_n > -1 && tft_char_is_changed(x-char_n, y)) {
@@ -690,10 +691,10 @@ void tft_update(void)
 								char_n++;
 							}
 						}
-						tft_set_char_pos((CHAR_MAX_X_VERTICAL-x)*CHAR_WIDTH, (CHAR_MAX_Y_VERTICAL-y)*CHAR_HEIGHT, (CHAR_MAX_X_VERTICAL-x+char_n)*CHAR_WIDTH-1, (CHAR_MAX_Y_VERTICAL-y)*CHAR_HEIGHT-1);
+						tft_set_char_pos((CHAR_MAX_X_VERTICAL-x-1)*CHAR_WIDTH, (CHAR_MAX_Y_VERTICAL-y-1)*CHAR_HEIGHT, (CHAR_MAX_X_VERTICAL-x-1+char_n)*CHAR_WIDTH-1, (CHAR_MAX_Y_VERTICAL-y)*CHAR_HEIGHT-1);
 						y2 = y;
-						for (py = 0; py <= CHAR_HEIGHT; py++) {
-							for (px = 0; px <= char_n*CHAR_WIDTH; px++) {
+						for (py = 0; py < CHAR_HEIGHT; py++) {
+							for (px = 0; px < char_n*CHAR_WIDTH; px++) {
 								x2 = x-px/CHAR_WIDTH;
 								clr = ascii_8x16[((text[x2][y2] - 32) * CHAR_HEIGHT) + (CHAR_HEIGHT-py-1)] & (0x80 >> (CHAR_WIDTH-(px % CHAR_WIDTH)-1)) ? text_color[x2][y2] : bg_color[x2][y2];
 								tft_write_data(clr >> 8);
@@ -706,18 +707,18 @@ void tft_update(void)
 			}
 			break;
 		case 3:
-			for (x = CHAR_MAX_X_HORIZONTAL; x >= 0; x--) {
-				for (y = 0; y <= CHAR_MAX_Y_HORIZONTAL; y++) {
+			for (x = CHAR_MAX_X_HORIZONTAL-1; x >= 0; x--) {
+				for (y = 0; y < CHAR_MAX_Y_HORIZONTAL; y++) {
 					if (tft_char_is_changed(x, y)) {
 						char_n = 1;
-						while (y+char_n <= CHAR_MAX_Y_HORIZONTAL && tft_char_is_changed(x, y+char_n)) {
+						while (y+char_n < CHAR_MAX_Y_HORIZONTAL && tft_char_is_changed(x, y+char_n)) {
 							if (y+char_n >= CHAR_MAX_Y_HORIZONTAL) {
 								break;
 							} else {
 								char_n++;
 							}
 						}
-						tft_set_char_pos(y*CHAR_HEIGHT, (CHAR_MAX_X_HORIZONTAL-x)*CHAR_WIDTH, (y+char_n)*CHAR_HEIGHT-1, (CHAR_MAX_X_HORIZONTAL-x)*CHAR_WIDTH-1);
+						tft_set_char_pos(y*CHAR_HEIGHT, (CHAR_MAX_X_HORIZONTAL-x-1)*CHAR_WIDTH, (y+char_n)*CHAR_HEIGHT-1, (CHAR_MAX_X_HORIZONTAL-x)*CHAR_WIDTH-1);
 						x2 = x;
 						for (px = 0; px < CHAR_WIDTH; px++) {
 							for (py = 0; py < char_n*CHAR_HEIGHT; py++) {

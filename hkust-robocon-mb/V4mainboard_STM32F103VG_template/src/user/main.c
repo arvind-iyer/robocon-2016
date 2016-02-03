@@ -3,7 +3,7 @@
 int main(void) 
 {
 	ticks_init();
-	tft_init(0, BLACK, WHITE, RED);
+	tft_init(3, BLACK, WHITE, RED);
 	encoder_init();
 
 	tft_put_logo(110, 90);
