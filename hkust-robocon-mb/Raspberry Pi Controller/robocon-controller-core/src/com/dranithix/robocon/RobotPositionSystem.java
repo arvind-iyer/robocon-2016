@@ -1,11 +1,12 @@
 package com.dranithix.robocon;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 public class RobotPositionSystem {
 
-	private static final int MAXVEL = 140;
+	private static final int MAX_VELOCITY = 140;
 	private static final int STOP_DISTANCE = 2000;
 
 	public static int MOTOR1;
@@ -15,39 +16,38 @@ public class RobotPositionSystem {
 	public static int MOTOR5;
 	public static int MOTOR6;
 
-	private static Array<Integer[]> queue = new Array<Integer[]>();
+	private static Array<Integer[]> targetQueue = new Array<Integer[]>();
 
-	private static int start_x;
-	private static int start_y;
+	private static Vector2 startPos = new Vector2();
+	private static Vector2 lastPos = new Vector2();
+	private static Vector2 targetPos = new Vector2();
+	private static Vector2 currentPos = new Vector2();
 
-	private static int target_x;
-	private static int target_y;
-	private static int target_a;
+	private static float targetBearing;
+	private static float currentBearing;
+
 	private static int distanceThreshold;
 	private static int angleThreshold;
-	private static int vel;
+	private static int robotVelocity;
 
-	private static int lastX;
-	private static int lastY;
-	private static int lastBearing;
-	private static float err;
+	private static float lastBearing;
+	private static float positionError;
 
 	/**
 	 * RESETS DEFAULTS
 	 * <p>
 	 */
 	public static void _init() {
-		_clearQueue();
+		clearQueue();
 		MOTOR1 = 0;
 		MOTOR2 = 0;
 		MOTOR3 = 0;
 		MOTOR4 = 0;
 		MOTOR5 = 0;
 		MOTOR6 = 0;
-		lastX = 0;
-		lastY = 0;
+		lastPos.set(0, 0);
 		lastBearing = 0;
-		err = 1;
+		positionError = 1;
 	}
 
 	/**
@@ -67,24 +67,25 @@ public class RobotPositionSystem {
 	 * @param velocity
 	 *            velocity throughout course, 0 for auto
 	 */
-	public static void _addQueue(int x, int y, int bearing, int d_error, int a_error, int velocity) {
+	public static void addQueue(int x, int y, int bearing, int d_error,
+			int a_error, int velocity) {
 		Integer[] target = new Integer[6];
 		target[0] = x;
 		target[1] = y;
 		target[2] = bearing;
 		target[3] = d_error;
 		target[4] = a_error;
-		target[5] = vel;
-		queue.add(target);
+		target[5] = velocity;
+		targetQueue.add(target);
 	}
 
 	/**
 	 * RESETS QUEUE
 	 * <p>
 	 */
-	public static void _clearQueue() {
-		while (queue.size != 0) {
-			queue.removeIndex(0);
+	public static void clearQueue() {
+		while (targetQueue.size != 0) {
+			targetQueue.removeIndex(0);
 		}
 	}
 
@@ -95,15 +96,15 @@ public class RobotPositionSystem {
 	 * @return true on success
 	 */
 	public static boolean _nextTarget() {
-		if (queue.size != 0) {
-			int x = queue.get(0)[0];
-			int y = queue.get(0)[1];
-			int angle = queue.get(0)[2];
-			int d_error = queue.get(0)[3];
-			int a_error = queue.get(0)[4];
-			int velocity = queue.get(0)[5];
-			_setTarget(x, y, angle, d_error, a_error, velocity);
-			queue.removeIndex(0);
+		if (targetQueue.size != 0) {
+			int x = targetQueue.get(0)[0];
+			int y = targetQueue.get(0)[1];
+			int angle = targetQueue.get(0)[2];
+			int d_error = targetQueue.get(0)[3];
+			int a_error = targetQueue.get(0)[4];
+			int velocity = targetQueue.get(0)[5];
+			setTarget(x, y, angle, d_error, a_error, velocity);
+			targetQueue.removeIndex(0);
 			return true;
 		} else {
 			return false;
@@ -127,16 +128,16 @@ public class RobotPositionSystem {
 	 * @param velocity
 	 *            velocity throughout course, 0 for auto
 	 */
-	public static void _setTarget(int x, int y, int bearing, int d_error, int a_error, int velocity) {
-		err = 1;
-		target_x = x;
-		target_y = y;
-		target_a = bearing;
+	public static void setTarget(int x, int y, int bearing, int d_error,
+			int a_error, int velocity) {
+		positionError = 1;
+		targetPos.set(x, y);
+		startPos.set(currentPos);
+
+		targetBearing = bearing;
 		distanceThreshold = d_error;
 		angleThreshold = a_error;
-		vel = velocity;
-		start_x = _getX();
-		start_y = _getY();
+		robotVelocity = velocity;
 	}
 
 	/**
@@ -144,115 +145,104 @@ public class RobotPositionSystem {
 	 * <p>
 	 */
 	public static void _straight() {
-		int M = 0;
-		int A = (int) (90 - MathUtils.atan2(target_y - _getY(), target_x - _getX()) * MathUtils.radiansToDegrees);
-		;
-		int W = 0;
-		int dist = _dist(_getX(), _getY(), target_x, target_y);
-		System.out.println("dist=" + dist);
-		if (dist > distanceThreshold || Math.abs(_angleDiff(_getBearing(), target_a)) > angleThreshold) {
-			if (vel != 0) {
-				M = vel;
+		float velocity = 0;
+		float robotBearing = 90
+				- MathUtils.atan2(targetPos.y - currentPos.y, targetPos.x
+						- currentPos.x) * MathUtils.radiansToDegrees;
+
+		float angularVelocity = 0;
+		float targetDistance = currentPos.dst(targetPos);
+		System.out.println("dist=" + targetDistance);
+		if (targetDistance > distanceThreshold
+				|| Math.abs(angleDifference(currentBearing, targetBearing)) > angleThreshold) {
+			if (robotVelocity != 0) {
+				velocity = robotVelocity;
 			} else {
-				M = dist * 100 / STOP_DISTANCE;
-				if (M > 100) {
-					M = 100;
-				}
+				velocity = MathUtils.clamp(
+						targetDistance * 100 / STOP_DISTANCE, -1000, 1000);
 			}
-			W = _angleDiff(_getBearing(), target_a) * 100 / 180;
-			if (dist > STOP_DISTANCE) {
-				int px = target_x - start_x;
-				int py = target_y - start_y;
-				int dab = px * px + py * py;
-				int u = ((_getX() - start_x) * px + (_getY() - start_y) * py) / dab;
-				int dir1 = _vectorAdd(_dist(_getX(), _getY(), start_x + u * px, start_y + u * py),
-						_bearing(_getX(), _getY(), start_x + u * px, start_y + u * py), dist, A);
-				A = (dir1 - _getBearing()) % 360;
+			angularVelocity = angleDifference(currentBearing, targetBearing) * 100 / 180;
+			if (targetDistance > STOP_DISTANCE) {
+				float px = targetPos.x - startPos.x;
+				float py = targetPos.y - startPos.y;
+				float dab = px * px + py * py;
+				float u = ((currentPos.x - startPos.x) * px + (currentPos.y - startPos.y)
+						* py)
+						/ dab;
+				Vector2 distPos = new Vector2(startPos.x + u * px, startPos.y
+						+ u * py);
+				float dir1 = calculateResultantBearing(currentPos.dst(distPos),
+						calculateBearing(startPos, distPos), targetDistance,
+						robotBearing);
+				robotBearing = (dir1 - currentBearing) % 360;
 			}
 		}
-		if (M * err > 100) {
-			err = 100 / M;
+		if (velocity * positionError > 100) {
+			positionError = 100 / velocity;
 		}
-		if (W * err > 100) {
-			err = 100 / W;
+		if (angularVelocity * positionError > 100) {
+			positionError = 100 / angularVelocity;
 		}
-		M = (int) (M * err);
-		W = (int) (W * err);
-		System.out.println("Target: " + target_x + ", " + target_y);
-		System.out.println("M=" + M);
-		System.out.println("A=" + A);
-		System.out.println("W=" + W);
-		_move(M, A, W);
+		velocity = velocity * positionError;
+		angularVelocity = angularVelocity * positionError;
+		System.out.println("Target: " + targetPos.x + ", " + targetPos.y);
+		System.out.println("M=" + velocity);
+		System.out.println("A=" + robotBearing);
+		System.out.println("W=" + angularVelocity);
+		moveRobot(velocity, robotBearing, angularVelocity);
 	}
 
 	/**
 	 * UPDATES ERR SCALE, TO BE CALLED AFTER EVERY MOVEMENT
 	 * <p>
 	 */
-	public static void _errUpdate() {
-		if (_dist(_getX(), _getY(), target_x, target_y) >= _dist(lastX, lastY, target_x, target_y)
-				|| Math.abs(_angleDiff(_getBearing(), target_a)) >= Math.abs(_angleDiff(lastBearing, target_a))) {
-			err = err + 0.03f;
+	public static void fixPositionError() {
+		if (currentPos.angle(targetPos) >= lastPos.angle(targetPos)
+				|| Math.abs(angleDifference(currentBearing, targetBearing)) >= Math
+						.abs(angleDifference(lastBearing, targetBearing))) {
+			positionError = positionError + 0.03f;
 		} else {
-			err = err * 0.8f + 0.2f;
+			positionError = positionError * 0.8f + 0.2f;
 		}
-		lastX = _getX();
-		lastY = _getY();
-		lastBearing = _getBearing();
+		lastPos.set(currentPos);
+		lastBearing = currentBearing;
 	}
 
 	/**
 	 * SETS ROBOT IN MOTION
 	 * <p>
 	 * 
-	 * @param M
+	 * @param m
 	 *            magnitude scaled 0->100
-	 * @param A
+	 * @param a
 	 *            local bearing of motion in degrees
-	 * @param W
-	 *            angular speed scaled -100->100
+	 * @param w
+	 *            angular speed scaled -100 -> 100
 	 */
-	public static void _move(int M, int A, int W) {
-		float X = M * MathUtils.sinDeg(A) * MAXVEL / 100;
-		float Y = M * MathUtils.cosDeg(A) * MAXVEL / 100;
-		float _M1 = (-W - X * 2) / 3;
-		float _M2 = (-W * 0.577f + X * 0.577f - Y) / 1.73f;
-		float _M3 = -W - _M1 - _M2;
+	public static void moveRobot(float m, float a, float w) {
+		float X = m * MathUtils.sinDeg(a) * MAX_VELOCITY / 100;
+		float Y = m * MathUtils.cosDeg(a) * MAX_VELOCITY / 100;
+		float _M1 = (-w - X * 2) / 3;
+		float _M2 = (-w * 0.577f + X * 0.577f - Y) / 1.73f;
+		float _M3 = -w - _M1 - _M2;
 		MOTOR1 = (int) (_M1);
 		MOTOR2 = (int) (_M2);
 		MOTOR3 = (int) (_M3);
 	}
 
 	/**
-	 * CALCULATES DISTANCE BETWEEN TWO POINTS
-	 * <p>
-	 * 
-	 * @param x1
-	 *            x-coordinate of POINT_1
-	 * @param y1
-	 *            y-coordinate of POINT_1
-	 * @param x2
-	 *            x-coordinate of POINT_2
-	 * @param y2
-	 *            y-coordinate of POINT_2
-	 * @return distance of two points
-	 */
-	private static int _dist(int x1, int y1, int x2, int y2) {
-		return (int) (Math.sqrt(Math.pow(y2 - y1, 2) + Math.pow(x2 - x1, 2)));
-	}
-
-	/**
 	 * CALCULATE DIFFERENCE OF TWO ANGLES
 	 * <p>
 	 * 
-	 * @param angle_o
+	 * @param currentBearing2
 	 *            current orientation
-	 * @param angle_t
+	 * @param targetBearing2
 	 *            target orientation
 	 * @return angle difference scaled -180->180
 	 */
-	private static int _angleDiff(int angle_o, int angle_t) {
-		int diff = angle_t - angle_o;
+	private static float angleDifference(float currentBearing2,
+			float targetBearing2) {
+		float diff = targetBearing2 - currentBearing2;
 		if (diff < -180) {
 			diff = diff + 360;
 		}
@@ -276,8 +266,9 @@ public class RobotPositionSystem {
 	 *            y-coordinate of POINT
 	 * @return bearing in degrees scaled 0->360
 	 */
-	private static int _bearing(float x0, float y0, float x, float y) {
-		int b = (int) (90 - MathUtils.atan2(y - y0, x - x0));
+	private static float calculateBearing(Vector2 startPos, Vector2 currentPos) {
+		float b = 90 - MathUtils.atan2(currentPos.y - startPos.y, currentPos.x
+				- startPos.x);
 		if (b < 0) {
 			b = b + 360;
 		}
@@ -287,9 +278,9 @@ public class RobotPositionSystem {
 	/**
 	 * CALCULATES RESULTING BEARING OF VECTOR ADDITION
 	 * 
-	 * @param m1
+	 * @param f
 	 *            magnitude of VECTOR_1
-	 * @param b1
+	 * @param g
 	 *            bearing of VECTOR_1
 	 * @param m2
 	 *            magnitude of VECTOR_2
@@ -297,24 +288,14 @@ public class RobotPositionSystem {
 	 *            bearing of VECTOR_2
 	 * @return
 	 */
-	private static int _vectorAdd(int m1, int b1, int m2, int b2) {
-		return _bearing(0, 0, m1 * MathUtils.sinDeg(b1) + m2 * MathUtils.sinDeg(b2),
-				m1 * MathUtils.cosDeg(b1) / 10000 + m2 * MathUtils.cosDeg(b2));
-	}
-
-	private static int _getX() {
-		// TODO: gyro
-		return 0;
-	}
-
-	private static int _getY() {
-		// TODO: gyro
-		return 0;
-	}
-
-	private static int _getBearing() {
-		// TODO: gyro
-		return 0;
+	private static float calculateResultantBearing(float f, float g, float m2,
+			float b2) {
+		return calculateBearing(
+				new Vector2(0, 0),
+				new Vector2(
+						f * MathUtils.sinDeg(g) + m2 * MathUtils.sinDeg(b2), f
+								* MathUtils.cosDeg(g) / 10000 + m2
+								* MathUtils.cosDeg(b2)));
 	}
 
 	/**
@@ -325,7 +306,7 @@ public class RobotPositionSystem {
 	 */
 	public static void main(String[] args) {
 		_init();
-		_addQueue(0, 100, 0, 0, 0, 0);
+		addQueue(100, 100, 32, 0, 0, 0);
 		// _addQueue(0, 0, 0, 0, 0, 0);
 		while (_nextTarget()) {
 			_straight();
