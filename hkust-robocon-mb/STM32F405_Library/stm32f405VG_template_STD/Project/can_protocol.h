@@ -3,15 +3,13 @@
 
 #include "ticks.h"
 #include "can.h"
-#include "tm_stm32f4_usart.h"
 #include "stm32f4xx.h"
-#include "lcd.h"
 
 #define CAN_TX_QUEUE_MAX_SIZE				2000
-#define CAN_TX_IRQHander						void CAN1_TX_IRQHandler (void)
+#define CAN_TX_IRQHander						void CAN2_TX_IRQHandler (void)
 	
-#define CAN_Rx_IRQn							    CAN1_RX1_IRQn
-#define	CAN_Rx_IRQHandler						void CAN1_RX1_IRQHandler(void)
+#define CAN_Rx_IRQn							    CAN2_RX0_IRQn
+#define	CAN_Rx_IRQHandler						void CAN2_RX0_IRQHandler(void)
 
 /*** X = the ID bit that must be equal 	***/
 /*** ? = the ID bit that can varies 		***/

@@ -37,5 +37,10 @@
 .\output\can.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h
 .\output\can.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
 .\output\can.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h
-.\output\can.o: tm_stm32f4_gpio.h
+.\output\can.o: lcd.h
+.\output\can.o: tm_stm32f4_delay.h
 .\output\can.o: defines.h
+.\output\can.o: attributes.h
+.\output\can.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\output\can.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\can.o: tm_stm32f4_gpio.h

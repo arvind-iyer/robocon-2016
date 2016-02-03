@@ -145,7 +145,7 @@ CAN_TX_IRQHander
 	if (CAN_GetITStatus(CAN1, CAN_IT_TME) != RESET)
 	{
 		// If all the mailboxes are empty
-        tft_prints(0,2,"SEND");
+        //tft_prints(0,2,"SEND");
 		CAN_ClearITPendingBit(CAN1, CAN_IT_TME);
 		can_tx_dequeue();
 	}

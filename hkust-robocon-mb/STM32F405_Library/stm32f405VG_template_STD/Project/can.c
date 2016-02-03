@@ -1,6 +1,67 @@
 #include "can.h"
 
 
+
+//
+//CAN & GPIO & TIM CONFIGURATION
+//
+void RCC_Configuration(void) {
+ /* ENABLE CLOCKS */
+ /* GPIOB clock enable */
+ RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+ /* CAN1 clock enable */
+ RCC_APB1PeriphClockCmd(RCC_APB1Periph_CAN1, ENABLE);
+}
+
+void GPIO_Configuration(void) {
+ GPIO_InitTypeDef GPIO_InitStructureCAN_RX;
+ GPIO_InitTypeDef GPIO_InitStructureCAN_TX;
+
+ /* GPIO CAN_RX Configuration */
+ GPIO_InitStructureCAN_RX.GPIO_Pin = GPIO_Pin_11;
+ GPIO_InitStructureCAN_RX.GPIO_Mode = GPIO_Mode_AF;
+ GPIO_Init(GPIOA, &GPIO_InitStructureCAN_RX);
+
+ /* GPIO CAN_TX Configuration */
+ GPIO_InitStructureCAN_TX.GPIO_Pin = GPIO_Pin_12;
+ GPIO_InitStructureCAN_TX.GPIO_Mode = GPIO_Mode_AF;
+ GPIO_InitStructureCAN_TX.GPIO_OType = GPIO_OType_PP;
+ GPIO_InitStructureCAN_TX.GPIO_PuPd = GPIO_PuPd_NOPULL;
+ GPIO_InitStructureCAN_TX.GPIO_Speed = GPIO_Speed_50MHz;
+ GPIO_Init(GPIOA, &GPIO_InitStructureCAN_TX);
+
+ /* Connect CAN_RX & CAN_TX to AF9 */
+ GPIO_PinAFConfig(GPIOA, GPIO_PinSource11, GPIO_AF_CAN1); //CAN_RX = PB12
+ GPIO_PinAFConfig(GPIOA, GPIO_PinSource12, GPIO_AF_CAN1); //CAN_TX = PB13
+}
+
+void CAN_Configuration(void) {
+ CAN_InitTypeDef CAN_InitStructure;
+ RCC_ClocksTypeDef     RCC_Clocks;
+
+ /* CAN2 reset */
+ CAN_DeInit(CAN1);
+
+ /* CAN2 configuration */
+ CAN_InitStructure.CAN_TTCM = DISABLE; // time-triggered communication mode = DISABLED
+ CAN_InitStructure.CAN_ABOM = ENABLE; // automatic bus-off management mode = DISABLED
+ CAN_InitStructure.CAN_AWUM = DISABLE; // automatic wake-up mode = DISABLED
+ CAN_InitStructure.CAN_NART = DISABLE; // non-automatic retransmission mode = DISABLED
+ CAN_InitStructure.CAN_RFLM = DISABLE; // receive FIFO locked mode = DISABLED
+ CAN_InitStructure.CAN_TXFP = DISABLE; // transmit FIFO priority = DISABLED
+ CAN_InitStructure.CAN_Mode = CAN_Mode_Normal; // normal CAN mode
+ CAN_InitStructure.CAN_SJW = CAN_SJW_1tq; // synchronization jump width = 1
+ CAN_InitStructure.CAN_BS1 = CAN_BS1_6tq; //14
+ CAN_InitStructure.CAN_BS2 = CAN_BS2_7tq; //6
+ CAN_InitStructure.CAN_Prescaler = 3; // baudrate 125kbps
+ //CAN_InitStructure.CAN_Prescaler = 4; // baudrate 500 kbps
+ RCC_GetClocksFreq(&RCC_Clocks);
+ tft_prints(0,5,"Freq: %d",RCC_Clocks.PCLK1_Frequency);
+ tft_prints(0,6,"Prescaler: %d", CAN_InitStructure.CAN_Prescaler);
+ CAN_Init(CAN1, &CAN_InitStructure);
+}
+
+
 /**
   * @brief  Configure and initialize the CAN (GPIOs + CAN only).
   * @param  None
@@ -8,55 +69,12 @@
   */
 void can_init(void)
 {
-	GPIO_InitTypeDef GPIO_InitStructure;
-	CAN_InitTypeDef CAN_InitStructure;
-	
-	/* RCC enable */
-    
-	RCC_AHB1PeriphClockCmd(CAN_GPIO_RCC, ENABLE);
-	RCC_APB1PeriphClockCmd(CAN_RCC, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM1, ENABLE);
-    GPIO_PinAFConfig(CAN_GPIO_PORT, CAN_Tx_GPIO_Pin | CAN_Rx_GPIO_Pin, GPIO_AF_CAN1);
-
-	/* CAN GPIO init */
-	// CAN_Rx Pin
-	/*GPIO_InitStructure.GPIO_Pin = CAN_Rx_GPIO_Pin;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
-	GPIO_Init(CAN_GPIO_PORT, &GPIO_InitStructure);
-	
-	// CAN_Tx Pin
-	GPIO_InitStructure.GPIO_Pin = CAN_Tx_GPIO_Pin;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
-	GPIO_Init(CAN_GPIO_PORT, &GPIO_InitStructure);*/
-    
-    TM_GPIO_InitAlternate(GPIOA, CAN_Tx_GPIO_Pin | CAN_Rx_GPIO_Pin, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_High, GPIO_AF_CAN1);
-	
-	
-	/* CAN register init */
-	CAN_DeInit(CANn);
-	CAN_StructInit(&CAN_InitStructure);
-	
-	/* CAN cell init */
-	CAN_InitStructure.CAN_TTCM = DISABLE;
-	CAN_InitStructure.CAN_ABOM = ENABLE;
-	CAN_InitStructure.CAN_AWUM = DISABLE;
-	CAN_InitStructure.CAN_NART = DISABLE;
-	CAN_InitStructure.CAN_RFLM = DISABLE;
-	CAN_InitStructure.CAN_TXFP = DISABLE;
-	CAN_InitStructure.CAN_Mode = CAN_Mode_Normal;
-	
-	/* CAN Baudrate = 1 MBPS */
-	CAN_InitStructure.CAN_SJW = CAN_SJW_1tq;
-	CAN_InitStructure.CAN_BS1 = CAN_BS1_3tq;
-	CAN_InitStructure.CAN_BS2 = CAN_BS2_2tq;
-	CAN_InitStructure.CAN_Prescaler = 6;
-	CAN_Init(CANn, &CAN_InitStructure);
+	/* Initialize Clocks */
+      RCC_Configuration();
+      /* Initialize GPIO */
+      GPIO_Configuration();
+      /* Initialize CAN */
+      CAN_Configuration();
 	
 	/* CAN FIFO0 message pending interrupt enable */ 
 	CAN_ITConfig(CANn, CAN_IT_TME, ENABLE);
@@ -66,10 +84,11 @@ void can_init(void)
 	{
 		NVIC_InitTypeDef NVIC_InitStructure;
 		NVIC_InitStructure.NVIC_IRQChannel= CAN1_TX_IRQn; 
-		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 4;
+		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;
 		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 		NVIC_Init(&NVIC_InitStructure);
+        tft_prints(0,3,"RUN TX IRQ");
 	}
 }
 

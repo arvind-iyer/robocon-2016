@@ -138,7 +138,7 @@ u8 gyro_pos_set(s16 x, s16 y, s16 a){
   */
 
 
-/*void USART3_IRQHandler(void)
+void USART3_IRQHandler(void)
 {
 	u8 rx_data, i;
 	u16 x, y, a;
@@ -217,5 +217,5 @@ u8 gyro_pos_set(s16 x, s16 y, s16 a){
 		}
 		
 	}
-}*/
+}
 

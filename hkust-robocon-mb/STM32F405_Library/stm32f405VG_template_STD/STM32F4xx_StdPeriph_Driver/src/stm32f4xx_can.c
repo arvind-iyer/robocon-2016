@@ -318,7 +318,7 @@ uint8_t CAN_Init(CAN_TypeDef* CANx, CAN_InitTypeDef* CAN_InitStruct)
       InitStatus = CAN_InitStatus_Success ;
     }
   }
-
+   tft_prints(0,4,"CAN INIT: %d",InitStatus);
   /* At this step, return the status of initialization */
   return InitStatus;
 }

@@ -6,16 +6,17 @@
 #include "stm32f4xx_can.h"
 #include "stm32f4xx_rcc.h"
 #include "misc.h"
+#include "lcd.h"
 #include "tm_stm32f4_gpio.h"
 //PA11 RX PA12 TX
 
-#define	CANn							CAN1
-#define CAN_RCC						RCC_APB1Periph_CAN1
+#define	CANn							CAN2
+#define CAN_RCC						RCC_APB1Periph_CAN2
 
-#define	CAN_Rx_GPIO_Pin		    GPIO_Pin_11
-#define	CAN_Tx_GPIO_Pin		    GPIO_Pin_12
-#define	CAN_GPIO_PORT			GPIOA
-#define CAN_GPIO_RCC			RCC_AHB1Periph_GPIOA
+#define	CAN_Rx_GPIO_Pin		    GPIO_Pin_5
+#define	CAN_Tx_GPIO_Pin		    GPIO_Pin_6
+#define	CAN_GPIO_PORT			GPIOB
+#define CAN_GPIO_RCC			RCC_AHB1Periph_GPIOB
 
 #define CAN_TX_RETRY_TIMEOUT	800		// To prevent infinite loop
 
