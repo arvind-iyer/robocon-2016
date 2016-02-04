@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -133,8 +134,11 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 		int angle = 90 - (int) point.angle();
 		angle = angle < 0 ? 360 + angle : angle;
 
-		// int magnitude = MathUtils
-		// .floor((float) ((point.len() / Math.sqrt(2)) * MAX_MOTOR_SPEED));
+		int velocity = (int) MathUtils
+				.clamp((point.len() / Math.sqrt(2)) * 100, 0, 100);
+
+		controlSystem.moveRobot(velocity, angle, 0);
+
 		//
 		// System.out.println(magnitude + " Angle: " + angle);
 		//

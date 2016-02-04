@@ -13,8 +13,8 @@ import com.dranithix.robocon.net.events.MotorControlEvent;
  */
 public class RobotControlSystem extends Task {
 
-	private final int MAX_VELOCITY = 140;
-	private final int STOP_DISTANCE = 2000;
+	public static final int MAX_VELOCITY = 140;
+	public static final int STOP_DISTANCE = 2000;
 
 	private Array<Integer> motorValues = new Array<Integer>();
 	private Array<Integer[]> targetQueue = new Array<Integer[]>();
@@ -39,6 +39,8 @@ public class RobotControlSystem extends Task {
 
 	public RobotControlSystem(RobotSerialManager serial) {
 		this.serial = serial;
+		
+		for (int i = 0; i < 6; i++) motorValues.add(0);
 	}
 
 	/**
@@ -225,6 +227,8 @@ public class RobotControlSystem extends Task {
 		motorValues.set(0, (int) motor1);
 		motorValues.set(1, (int) motor2);
 		motorValues.set(2, (int) motor3);
+		
+		System.out.println(motorValues);
 
 		serial.sendEvent(new MotorControlEvent(motorValues));
 	}
