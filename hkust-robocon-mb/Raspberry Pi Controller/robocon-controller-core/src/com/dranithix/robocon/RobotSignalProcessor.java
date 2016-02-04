@@ -13,7 +13,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Sort;
 
-public class GraphFilter {
+/**
+ * 
+ * @author Kenta Iwasaki
+ *
+ */
+public class RobotSignalProcessor {
 	private Array<Vector2> lastFilteredData = new Array<Vector2>();
 	private Array<Vector2> localMaximas = new Array<Vector2>();
 

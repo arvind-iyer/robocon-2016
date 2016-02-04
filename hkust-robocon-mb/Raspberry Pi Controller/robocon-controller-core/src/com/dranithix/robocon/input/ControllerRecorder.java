@@ -5,11 +5,12 @@ import java.util.Arrays;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
-import com.dranithix.robocon.SerialThread;
-import com.dranithix.robocon.net.events.MotorControlEvent;
 
+/**
+ * 
+ * @author Kenta Iwasaki
+ *
+ */
 public class ControllerRecorder {
 	private FileHandle movesFile;
 

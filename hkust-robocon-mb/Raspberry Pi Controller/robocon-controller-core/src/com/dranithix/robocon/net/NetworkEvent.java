@@ -3,6 +3,11 @@ package com.dranithix.robocon.net;
 
 import com.badlogic.gdx.utils.Array;
 
+/**
+ * 
+ * @author Kenta Iwasaki
+ *
+ */
 public abstract class NetworkEvent {
 	public static final char PACKET_SEPARATOR = '|';
 

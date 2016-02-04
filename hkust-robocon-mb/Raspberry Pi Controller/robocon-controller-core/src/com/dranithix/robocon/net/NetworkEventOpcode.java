@@ -1,7 +1,12 @@
 package com.dranithix.robocon.net;
 
+/**
+ * 
+ * @author Kenta Iwasaki
+ *
+ */
 public enum NetworkEventOpcode {
-	MOTOR_CONTROL(0), TEST(1), GYRO_SHIFT(2);
+	MOTOR_CONTROL(0);
 	
 	private int opcode;
 	

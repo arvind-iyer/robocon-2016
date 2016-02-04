@@ -3,51 +3,42 @@ package com.dranithix.robocon;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer.Task;
+import com.dranithix.robocon.net.events.MotorControlEvent;
 
-public class RobotPositionSystem {
+/**
+ * 
+ * @author Christopher PK & Kenta Iwasaki
+ *
+ */
+public class RobotControlSystem extends Task {
 
-	private static final int MAX_VELOCITY = 140;
-	private static final int STOP_DISTANCE = 2000;
+	private final int MAX_VELOCITY = 140;
+	private final int STOP_DISTANCE = 2000;
 
-	public static int MOTOR1;
-	public static int MOTOR2;
-	public static int MOTOR3;
-	public static int MOTOR4;
-	public static int MOTOR5;
-	public static int MOTOR6;
+	private Array<Integer> motorValues = new Array<Integer>();
+	private Array<Integer[]> targetQueue = new Array<Integer[]>();
 
-	private static Array<Integer[]> targetQueue = new Array<Integer[]>();
+	private Vector2 startPos = new Vector2();
+	private Vector2 lastPos = new Vector2();
 
-	private static Vector2 startPos = new Vector2();
-	private static Vector2 lastPos = new Vector2();
-	private static Vector2 targetPos = new Vector2();
-	private static Vector2 currentPos = new Vector2();
+	private Vector2 currentPos;
+	private float currentBearing;
 
-	private static float targetBearing;
-	private static float currentBearing;
+	private Vector2 targetPos = new Vector2();
+	private float targetBearing;
 
-	private static int distanceThreshold;
-	private static int angleThreshold;
-	private static int robotVelocity;
+	private int distanceThreshold;
+	private int bearingThreshold;
+	private int robotVelocity;
 
-	private static float lastBearing;
-	private static float positionError;
+	private float lastBearing = 0;
+	private float positionError = 1;
 
-	/**
-	 * RESETS DEFAULTS
-	 * <p>
-	 */
-	public static void _init() {
-		clearQueue();
-		MOTOR1 = 0;
-		MOTOR2 = 0;
-		MOTOR3 = 0;
-		MOTOR4 = 0;
-		MOTOR5 = 0;
-		MOTOR6 = 0;
-		lastPos.set(0, 0);
-		lastBearing = 0;
-		positionError = 1;
+	private RobotSerialManager serial;
+
+	public RobotControlSystem(RobotSerialManager serial) {
+		this.serial = serial;
 	}
 
 	/**
@@ -60,21 +51,21 @@ public class RobotPositionSystem {
 	 *            target y-coordinate
 	 * @param bearing
 	 *            target orientation
-	 * @param d_error
+	 * @param maxDistanceError
 	 *            max distance error
-	 * @param a_error
+	 * @param maxBearingError
 	 *            max orientation error in degrees
 	 * @param velocity
 	 *            velocity throughout course, 0 for auto
 	 */
-	public static void addQueue(int x, int y, int bearing, int d_error,
-			int a_error, int velocity) {
+	public void addQueue(Vector2 targetPos, int bearing, int maxDistanceError,
+			int maxBearingError, int velocity) {
 		Integer[] target = new Integer[6];
-		target[0] = x;
-		target[1] = y;
+		target[0] = (int) targetPos.x;
+		target[1] = (int) targetPos.y;
 		target[2] = bearing;
-		target[3] = d_error;
-		target[4] = a_error;
+		target[3] = maxDistanceError;
+		target[4] = maxBearingError;
 		target[5] = velocity;
 		targetQueue.add(target);
 	}
@@ -83,7 +74,7 @@ public class RobotPositionSystem {
 	 * RESETS QUEUE
 	 * <p>
 	 */
-	public static void clearQueue() {
+	public void clearQueue() {
 		while (targetQueue.size != 0) {
 			targetQueue.removeIndex(0);
 		}
@@ -95,16 +86,18 @@ public class RobotPositionSystem {
 	 * 
 	 * @return true on success
 	 */
-	public static boolean _nextTarget() {
+	public boolean dequeueNextTarget() {
 		if (targetQueue.size != 0) {
-			int x = targetQueue.get(0)[0];
-			int y = targetQueue.get(0)[1];
-			int angle = targetQueue.get(0)[2];
-			int d_error = targetQueue.get(0)[3];
-			int a_error = targetQueue.get(0)[4];
-			int velocity = targetQueue.get(0)[5];
-			setTarget(x, y, angle, d_error, a_error, velocity);
-			targetQueue.removeIndex(0);
+			Integer[] nextTarget = targetQueue.removeIndex(0);
+			int x = nextTarget[0];
+			int y = nextTarget[1];
+			int bearing = nextTarget[2];
+			int maxDistanceError = nextTarget[3];
+			int maxBearingError = nextTarget[4];
+			int velocity = nextTarget[5];
+
+			setTarget(new Vector2(x, y), bearing, maxDistanceError,
+					maxBearingError, velocity);
 			return true;
 		} else {
 			return false;
@@ -121,22 +114,23 @@ public class RobotPositionSystem {
 	 *            target y-coordinate
 	 * @param bearing
 	 *            target orientation
-	 * @param d_error
+	 * @param maxDistanceError
 	 *            max distance error
-	 * @param a_error
+	 * @param maxBearingError
 	 *            max orientation error in degrees
 	 * @param velocity
 	 *            velocity throughout course, 0 for auto
 	 */
-	public static void setTarget(int x, int y, int bearing, int d_error,
-			int a_error, int velocity) {
+	public void setTarget(Vector2 targetPos, int bearing, int maxDistanceError,
+			int maxBearingError, int velocity) {
 		positionError = 1;
-		targetPos.set(x, y);
-		startPos.set(currentPos);
+
+		this.targetPos = targetPos.cpy();
+		this.startPos = currentPos.cpy();
 
 		targetBearing = bearing;
-		distanceThreshold = d_error;
-		angleThreshold = a_error;
+		distanceThreshold = maxDistanceError;
+		bearingThreshold = maxBearingError;
 		robotVelocity = velocity;
 	}
 
@@ -144,7 +138,7 @@ public class RobotPositionSystem {
 	 * MOVES ROBOT TO TARGET WITH PID
 	 * <p>
 	 */
-	public static void _straight() {
+	public void moveStraightToTarget() {
 		float velocity = 0;
 		float robotBearing = 90
 				- MathUtils.atan2(targetPos.y - currentPos.y, targetPos.x
@@ -154,7 +148,7 @@ public class RobotPositionSystem {
 		float targetDistance = currentPos.dst(targetPos);
 		System.out.println("dist=" + targetDistance);
 		if (targetDistance > distanceThreshold
-				|| Math.abs(angleDifference(currentBearing, targetBearing)) > angleThreshold) {
+				|| Math.abs(angleDifference(currentBearing, targetBearing)) > bearingThreshold) {
 			if (robotVelocity != 0) {
 				velocity = robotVelocity;
 			} else {
@@ -196,7 +190,7 @@ public class RobotPositionSystem {
 	 * UPDATES ERR SCALE, TO BE CALLED AFTER EVERY MOVEMENT
 	 * <p>
 	 */
-	public static void fixPositionError() {
+	public void fixPositionError() {
 		if (currentPos.angle(targetPos) >= lastPos.angle(targetPos)
 				|| Math.abs(angleDifference(currentBearing, targetBearing)) >= Math
 						.abs(angleDifference(lastBearing, targetBearing))) {
@@ -212,37 +206,41 @@ public class RobotPositionSystem {
 	 * SETS ROBOT IN MOTION
 	 * <p>
 	 * 
-	 * @param m
+	 * @param velocity
 	 *            magnitude scaled 0->100
-	 * @param a
+	 * @param robotBearing
 	 *            local bearing of motion in degrees
-	 * @param w
+	 * @param angularVelocity
 	 *            angular speed scaled -100 -> 100
 	 */
-	public static void moveRobot(float m, float a, float w) {
-		float X = m * MathUtils.sinDeg(a) * MAX_VELOCITY / 100;
-		float Y = m * MathUtils.cosDeg(a) * MAX_VELOCITY / 100;
-		float _M1 = (-w - X * 2) / 3;
-		float _M2 = (-w * 0.577f + X * 0.577f - Y) / 1.73f;
-		float _M3 = -w - _M1 - _M2;
-		MOTOR1 = (int) (_M1);
-		MOTOR2 = (int) (_M2);
-		MOTOR3 = (int) (_M3);
+	public void moveRobot(float velocity, float robotBearing,
+			float angularVelocity) {
+		float xComponent = velocity * MathUtils.sinDeg(robotBearing)
+				* MAX_VELOCITY / 100;
+		float yComponent = velocity * MathUtils.cosDeg(robotBearing)
+				* MAX_VELOCITY / 100;
+		float motor1 = (-angularVelocity - xComponent * 2) / 3;
+		float motor2 = (-angularVelocity * 0.577f + xComponent * 0.577f - yComponent) / 1.73f;
+		float motor3 = -angularVelocity - motor1 - motor2;
+		motorValues.set(0, (int) motor1);
+		motorValues.set(1, (int) motor2);
+		motorValues.set(2, (int) motor3);
+
+		serial.sendEvent(new MotorControlEvent(motorValues));
 	}
 
 	/**
 	 * CALCULATE DIFFERENCE OF TWO ANGLES
 	 * <p>
 	 * 
-	 * @param currentBearing2
+	 * @param currentBearing
 	 *            current orientation
-	 * @param targetBearing2
+	 * @param targetBearing
 	 *            target orientation
 	 * @return angle difference scaled -180->180
 	 */
-	private static float angleDifference(float currentBearing2,
-			float targetBearing2) {
-		float diff = targetBearing2 - currentBearing2;
+	private float angleDifference(float currentBearing, float targetBearing) {
+		float diff = targetBearing - currentBearing;
 		if (diff < -180) {
 			diff = diff + 360;
 		}
@@ -266,7 +264,7 @@ public class RobotPositionSystem {
 	 *            y-coordinate of POINT
 	 * @return bearing in degrees scaled 0->360
 	 */
-	private static float calculateBearing(Vector2 startPos, Vector2 currentPos) {
+	private float calculateBearing(Vector2 startPos, Vector2 currentPos) {
 		float b = 90 - MathUtils.atan2(currentPos.y - startPos.y, currentPos.x
 				- startPos.x);
 		if (b < 0) {
@@ -288,8 +286,7 @@ public class RobotPositionSystem {
 	 *            bearing of VECTOR_2
 	 * @return
 	 */
-	private static float calculateResultantBearing(float f, float g, float m2,
-			float b2) {
+	private float calculateResultantBearing(float f, float g, float m2, float b2) {
 		return calculateBearing(
 				new Vector2(0, 0),
 				new Vector2(
@@ -298,19 +295,20 @@ public class RobotPositionSystem {
 								* MathUtils.cosDeg(b2)));
 	}
 
-	/**
-	 * DEBUG
-	 * <p>
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		_init();
-		addQueue(100, 100, 32, 0, 0, 0);
-		// _addQueue(0, 0, 0, 0, 0, 0);
-		while (_nextTarget()) {
-			_straight();
+	@Override
+	public void run() {
+		if (serial.isRunning()) {
+
+			// Check if current position had been received from the main-board
+			// beforehand.
+			while (currentPos != null && dequeueNextTarget()) {
+				moveStraightToTarget();
+			}
 		}
 	}
 
+	public void updateRobotPosition(Vector2 currentPos, int bearing) {
+		this.currentPos = currentPos.cpy();
+		this.currentBearing = bearing;
+	}
 }

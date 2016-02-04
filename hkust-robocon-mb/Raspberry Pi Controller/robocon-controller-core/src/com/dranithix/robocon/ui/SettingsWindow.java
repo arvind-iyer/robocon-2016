@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.dranithix.robocon.SerialThread;
+import com.dranithix.robocon.RobotSerialManager;
 import com.kotcrab.vis.ui.building.OneColumnTableBuilder;
 import com.kotcrab.vis.ui.building.TableBuilder;
 import com.kotcrab.vis.ui.building.utilities.CellWidget;
@@ -18,9 +18,9 @@ public class SettingsWindow extends VisWindow {
 	private VisLabel connectLabel;
 	private VisTextButton btnConnect;
 	
-	private SerialThread serial;
+	private RobotSerialManager serial;
 
-	public SettingsWindow(SerialThread serial) {
+	public SettingsWindow(RobotSerialManager serial) {
 		super("Settings");
 		
 		this.serial = serial;

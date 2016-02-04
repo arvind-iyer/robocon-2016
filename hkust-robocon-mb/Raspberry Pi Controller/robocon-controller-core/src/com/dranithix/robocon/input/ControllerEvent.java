@@ -1,8 +1,10 @@
 package com.dranithix.robocon.input;
 
-import com.dranithix.robocon.SerialThread;
-import com.dranithix.robocon.net.events.MotorControlEvent;
-
+/**
+ * 
+ * @author Kenta Iwasaki
+ *
+ */
 public class ControllerEvent {
 	private int leftMotor, rightMotor, leftDirection, rightDirection;
 	private long time;

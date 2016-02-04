@@ -2,6 +2,11 @@ package com.dranithix.robocon.actors;
 
 import com.kotcrab.vis.ui.widget.VisTable;
 
+/**
+ * 
+ * @author Kenta Iwasaki
+ *
+ */
 public class GameMapActor extends VisTable {
 
 	// private static ShapeRenderer renderer = new ShapeRenderer();

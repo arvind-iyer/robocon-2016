@@ -3,38 +3,73 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.17.0.0
+IDE-Version: µVision V5.16a
 Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Christopher PK Wong, HKUST, LIC=ZB4CX-HJZD9-11BPY-I5TZB-PU1XS-7R4YZ
+License Information: Kenta Iwasaki, Dranithix, LIC=QF8WF-68SDP-VDVKA-1JI7J-KBDK2-B1EL7
  
 Tool Versions:
-Toolchain:       MDK-ARM Standard  Version: 5.17
+Toolchain:       MDK-ARM Standard  Version: 5.16a
 Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.06 update 1 (build 61)
-Assembler:       Armasm.exe V5.06 update 1 (build 61)
-Linker/Locator:  ArmLink.exe V5.06 update 1 (build 61)
-Library Manager: ArmAr.exe V5.06 update 1 (build 61)
-Hex Converter:   FromElf.exe V5.06 update 1 (build 61)
-CPU DLL:         SARMCM3.DLL V5.17
-Dialog DLL:      DCM.DLL V1.13.4.0
-Target DLL:      UL2CM3.DLL V1.156.1.0
-Dialog DLL:      TCM.DLL V1.14.6.0
+C Compiler:      Armcc.exe V5.06 (build 20)
+Assembler:       Armasm.exe V5.06 (build 20)
+Linker/Locator:  ArmLink.exe V5.06 (build 20)
+Library Manager: ArmAr.exe V5.06 (build 20)
+Hex Converter:   FromElf.exe V5.06 (build 20)
+CPU DLL:         SARMCM3.DLL V5.16a
+Dialog DLL:      DCM.DLL V1.13.2.0
+Target DLL:      UL2CM3.DLL V1.155.12.0
+Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
-D:\OneDrive\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\Project.uvprojx
-Project File Date:  02/01/2016
+C:\Users\user\Desktop\Robocon 2016\robocon-2016\hkust-robocon-mb\stm32f103VF_template\Project.uvprojx
+Project File Date:  02/02/2016
 
 <h2>Output:</h2>
-*** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+*** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
-".\output\stm32_template.axf" - 0 Error(s), 0 Warning(s).
+compiling main.c...
+.\src\ustrobo_min_system\inc\lcd_main.h(89): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
+  void tft_easy_init();
+.\src\ustrobo_min_system\inc\lcd_main.h(110): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+.\src\ustrobo_min_system\inc\servo.h(39): warning:  #1-D: last line of file ends without a newline
+  #endif		/*  _SERVO_H_ */
+src\user\position.h(24): warning:  #1295-D: Deprecated declaration pursueTarget - give arg types
+  void pursueTarget();
+src\user\position.h(26): warning:  #1295-D: Deprecated declaration lockAllMotors - give arg types
+  void lockAllMotors();
+src\user\position.h(28): warning:  #1-D: last line of file ends without a newline
+  void setTargetLocation(int x, int y);
+src\user\pneumatic.h(7): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+src\user\pneumatic.h(10): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\main.c(54): warning:  #1182-D: a declaration cannot have a label
+  					u32 w1 = contents[0];
+src\user\main.c(62): warning:  #188-D: enumerated type mixed with another type
+  					motor_set_vel(
+OTOR1, w1, CLOSE_LOOP);
+src\user\main.c(63): warning:  #188-D: enumerated type mixed with another type
+  					motor_set_vel(
+OTOR2, w2, CLOSE_LOOP);
+src\user\main.c(64): warning:  #188-D: enumerated type mixed with another type
+  					motor_set_vel(
+OTOR3, w3, CLOSE_LOOP);
+src\user\main.c(67): warning:  #188-D: enumerated type mixed with another type
+  					motor_set_vel(
+OTOR4, w4, OPEN_LOOP);
+src\user\main.c: 13 warnings, 0 errors
+linking...
+Program Size: Code=26384 RO-data=576 RW-data=2128 ZI-data=41968  
+FromELF: creating hex file...
+".\output\stm32_template.axf" - 0 Error(s), 13 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  D:\OneDrive\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE
-  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include
+  C:\Users\user\Desktop\Robocon 2016\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE
+  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

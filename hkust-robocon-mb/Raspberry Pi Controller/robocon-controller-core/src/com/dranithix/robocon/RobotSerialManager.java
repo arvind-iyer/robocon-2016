@@ -7,19 +7,31 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.dranithix.robocon.net.NetworkEvent;
 import com.fazecast.jSerialComm.SerialPort;
 
-public class SerialThread implements Disposable, Runnable {
-	private GraphFilter filter = new GraphFilter();
+/**
+ * 
+ * @author Kenta Iwasaki
+ *
+ */
+public class RobotSerialManager implements Disposable, Runnable {
+	private RobotSignalProcessor filter = new RobotSignalProcessor();
 
 	private SerialPort comPort;
 	private BufferedReader in;
 	private PrintWriter out;
 
+	private Robocon robocon;
+
+	public RobotSerialManager(Robocon robocon) {
+		this.robocon = robocon;
+	}
+
 	public boolean isRunning() {
-		return comPort.isOpen();
+		return comPort != null && comPort.isOpen();
 	}
 
 	public boolean toggleConnection() {
@@ -29,16 +41,22 @@ public class SerialThread implements Disposable, Runnable {
 			running = false;
 		} else {
 			comPort = SerialPort.getCommPort(Robocon.COM_PORT_ADDRESS);
-			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 1000, 0);
+			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING,
+					1000, 0);
 			comPort.setBaudRate(115200);
 
 			if (running = comPort.openPort()) {
-				System.out.format("Robocon: Server started on %s." + System.lineSeparator(), Robocon.COM_PORT_ADDRESS);
+				System.out.format(
+						"Robocon: Server started on %s."
+								+ System.lineSeparator(),
+						Robocon.COM_PORT_ADDRESS);
 
-				in = new BufferedReader(new InputStreamReader(comPort.getInputStream()));
+				in = new BufferedReader(new InputStreamReader(
+						comPort.getInputStream()));
 				out = new PrintWriter(comPort.getOutputStream(), false);
 			} else {
-				System.out.println("Robocon: Unable to start server on " + Robocon.COM_PORT_ADDRESS + ".");
+				System.out.println("Robocon: Unable to start server on "
+						+ Robocon.COM_PORT_ADDRESS + ".");
 			}
 		}
 
@@ -54,7 +72,14 @@ public class SerialThread implements Disposable, Runnable {
 						continue;
 					String[] contents = line.split(Pattern.quote("|"));
 					switch (contents[0]) {
-
+					case "STATE":
+						Vector2 currentPos = new Vector2(
+								Integer.decode(contents[1]),
+								Integer.decode(contents[2]));
+						int currentBearing = Integer.decode(contents[3]);
+						
+						robocon.updateRobotPosition(currentPos, currentBearing);
+						break;
 					}
 					System.out.println(Arrays.toString(contents));
 				} catch (IOException ex) {
