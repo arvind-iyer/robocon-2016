@@ -2,4 +2,4 @@ Robocon2016 - Hybrid Robot
 
 ==========================
 
-Generation 1
+Generation 0
