@@ -49,9 +49,9 @@ int main(void) {
 		//Deal with emergency lock, to lock or to relax
 		if (get_emergency_lock() != last_emergency_lock){
 			if (get_emergency_lock() == LOCKED){
-				//manual_emergency_stop();
+				manual_emergency_stop();
 			}else{
-				//manual_emergency_relax();
+				manual_emergency_relax();
 			}
 		}
 		last_emergency_lock = get_emergency_lock();
@@ -74,7 +74,7 @@ int main(void) {
 					manual_fast_update();
 			}
 			
-			if ((this_loop_ticks - last_long_loop_ticks)>50){
+			if ((this_loop_ticks - last_long_loop_ticks)>LONG_LOOP_TICKS){
 				if (control_state == MANUAL_MODE){
 					manual_interval_update();
 				}else{

@@ -12,6 +12,8 @@
   (byte & 0x02 ? 1 : 0), \
   (byte & 0x01 ? 1 : 0) 
   
+	
+#define LONG_LOOP_TICKS 100
 #include <stdio.h>
 #include "stm32f10x.h"
 #include "stm32f10x_crc.h"
