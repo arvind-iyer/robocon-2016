@@ -25,26 +25,28 @@ public class RobotSerialManager implements Disposable, Runnable {
 	private PrintWriter out;
 
 	private Robocon robocon;
+	
+	private boolean running = false;
 
 	public RobotSerialManager(Robocon robocon) {
 		this.robocon = robocon;
+		
+		comPort = SerialPort.getCommPort(Robocon.COM_PORT_ADDRESS);
+		comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING,
+				1000, 0);
+		comPort.setBaudRate(115200);
 	}
 
 	public boolean isRunning() {
-		return comPort != null && comPort.isOpen();
+		return running;
 	}
 
 	public boolean toggleConnection() {
-		boolean running;
-		if (comPort != null && comPort.isOpen()) {
+		if (running) {
+			System.out.println("Robocon: Shutted down server.");
 			comPort.closePort();
 			running = false;
 		} else {
-			comPort = SerialPort.getCommPort(Robocon.COM_PORT_ADDRESS);
-			comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING,
-					1000, 0);
-			comPort.setBaudRate(115200);
-
 			if (running = comPort.openPort()) {
 				System.out.format(
 						"Robocon: Server started on %s."
@@ -57,17 +59,21 @@ public class RobotSerialManager implements Disposable, Runnable {
 			} else {
 				System.out.println("Robocon: Unable to start server on "
 						+ Robocon.COM_PORT_ADDRESS + ".");
+				comPort.closePort();
 			}
 		}
 
 		return running;
 	}
 
+	@Override
 	public void run() {
 		while (true) {
-			if (comPort != null && comPort.isOpen()) {
+			System.out.println(running);
+			if (running) {
 				try {
 					final String line = in.readLine();
+					System.out.println(line);
 					if (line.isEmpty())
 						continue;
 					String[] contents = line.split(Pattern.quote("|"));
@@ -82,12 +88,9 @@ public class RobotSerialManager implements Disposable, Runnable {
 						break;
 					}
 					System.out.println(Arrays.toString(contents));
-				} catch (IOException ex) {
-					continue;
-				} catch (NumberFormatException ex) {
-					continue;
 				} catch (Exception ex) {
 					ex.printStackTrace();
+					continue;
 				}
 			}
 		}
@@ -96,6 +99,7 @@ public class RobotSerialManager implements Disposable, Runnable {
 	public void sendEvent(final NetworkEvent packet) {
 		if (out != null) {
 			out.write(packet.getRawPacket());
+			System.out.print(packet.getRawPacket());
 			out.flush();
 		}
 	}

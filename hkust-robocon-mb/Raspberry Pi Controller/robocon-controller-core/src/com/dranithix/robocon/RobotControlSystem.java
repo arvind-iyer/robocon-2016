@@ -228,8 +228,6 @@ public class RobotControlSystem extends Task {
 		motorValues.set(1, (int) motor2);
 		motorValues.set(2, (int) motor3);
 		
-		System.out.println(motorValues);
-
 		serial.sendEvent(new MotorControlEvent(motorValues));
 	}
 

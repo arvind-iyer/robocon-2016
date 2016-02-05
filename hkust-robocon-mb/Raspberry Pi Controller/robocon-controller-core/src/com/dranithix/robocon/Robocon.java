@@ -25,7 +25,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
  *
  */
 public class Robocon extends ControllerAdapter implements ApplicationListener {
-	public static final int COM_PORT = 6;
+	public static final int COM_PORT = 4;
 	public static final String COM_PORT_ADDRESS = "COM".concat(Integer
 			.toString(COM_PORT));
 
@@ -48,7 +48,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 		thread.start();
 
 		controlSystem = new RobotControlSystem(serial);
-		Timer.instance().scheduleTask(controlSystem, 0, 0.001f);
+//		Timer.instance().scheduleTask(controlSystem, 0, 0.001f);
 
 		VisUI.load();
 

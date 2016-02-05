@@ -27,10 +27,11 @@ int main(void) {
 	
 	while (1) {
 		// Send robot state to Raspberry Pi.
-		uart_tx(COM2, "STATE|%d|%d|%d", get_pos()->x, get_pos()->y, get_pos()->angle);
+		uart_tx(COM2, "STATE|%d|%d|%d\n", get_pos()->x, get_pos()->y, get_pos()->angle);
 		
 		// Display TFT to insure screen is on.
-		tft_prints(0, 0, "It works!");
+		tft_prints(0, 0, "It works!");	
+		tft_prints(0, 1, "Time: %d", get_full_ticks());
 		tft_update();
 	}
 }
