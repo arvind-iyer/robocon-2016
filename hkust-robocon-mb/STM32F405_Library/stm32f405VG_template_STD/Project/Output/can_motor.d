@@ -1,7 +1,8 @@
 .\output\can_motor.o: can_motor.c
 .\output\can_motor.o: can_motor.h
-.\output\can_motor.o: can.h
+.\output\can_motor.o: can_protocol.h
 .\output\can_motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\can_motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\output\can_motor.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\output\can_motor.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\can_motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -38,12 +39,6 @@
 .\output\can_motor.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h
 .\output\can_motor.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
 .\output\can_motor.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h
-.\output\can_motor.o: lcd.h
-.\output\can_motor.o: tm_stm32f4_delay.h
-.\output\can_motor.o: defines.h
-.\output\can_motor.o: attributes.h
-.\output\can_motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\output\can_motor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\output\can_motor.o: tm_stm32f4_gpio.h
-.\output\can_motor.o: can_protocol.h
-.\output\can_motor.o: ticks.h
+.\output\can_motor.o: ..\Project\ticks.h
+.\output\can_motor.o: ..\Project\tm_stm32f4_gpio.h
+.\output\can_motor.o: ..\Project\defines.h

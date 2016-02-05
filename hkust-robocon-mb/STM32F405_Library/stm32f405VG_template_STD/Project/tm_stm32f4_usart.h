@@ -207,6 +207,7 @@ UART8        |PE1    PE0     |-      -       |-      -
 #include "defines.h"
 #include "tm_stm32f4_gpio.h"
 #include "gyro.h"
+#include "lcd.h"
 
 /* F405/407/415/417/F446 */
 #if defined (STM32F40_41xxx) || defined(STM32F446xx)

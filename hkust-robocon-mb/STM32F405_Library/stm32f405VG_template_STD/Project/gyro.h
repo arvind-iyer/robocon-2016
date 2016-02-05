@@ -5,6 +5,7 @@
 #include "ticks.h"
 #include "tm_stm32f4_delay.h"
 #include "approx_math.h"
+#include "lcd.h"
 
 #define MENU_ADD_GYRO_TEST menu_add(5, "Position Test", position_test)
 

@@ -10,7 +10,7 @@ u8 buf_rec = 0;
 u8 buf_data[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 u8 rx_command_arr[GYRO_COMMAND_LENGTH] = {GYRO_UPDATED, GYRO_REPLY};
-u8 buf_len[GYRO_COMMAND_LENGTH] = {0x06, 0x01};		//data size, for confirm data
+u8 buf_len[GYRO_COMMAND_LENGTH] = {0x06, 0x01};	
 
 volatile u8 reply_flag = 0;
 
@@ -23,10 +23,7 @@ volatile u8 gyro_available = 0;
   */
 void gyro_init(void)
 {
-	//uart_init(GYRO_UART, 115200);
-	//uart_interrupt(GYRO_UART);
     TM_USART_Init(GYRO_UART, TM_USART_PinsPack_1, 115200);
-    
 }
 
 s16    SHIFT_X = 0;	//92 //53//	193//  -163	//	98		//79
@@ -40,7 +37,7 @@ s16    SHIFT_Y = 0;	//-280 //40// 	-50// 	-41	//	170		//336
 s16 get_X(void)
 {
    s32 pos_x = (real_x*10000-SHIFT_X*10000+SHIFT_X*int_cos(angle)+SHIFT_Y*int_sin(angle))/10000;
-	return real_x;
+   return real_x;
 }
 
 /**
@@ -72,9 +69,9 @@ s16 get_angle(void)
   */
 void gyro_pos_update(void)			// unuseful
 {
-	TM_USART_Send_Byte(GYRO_UART, GYRO_WAKEUP);
-	TM_USART_Send_Byte(GYRO_UART, GYRO_UPDATE);
-	TM_USART_Send_Byte(GYRO_UART, 0);
+	uart_tx_byte(GYRO_UART, GYRO_WAKEUP);
+	uart_tx_byte(GYRO_UART, GYRO_UPDATE);
+	uart_tx_byte(GYRO_UART, 0);
 }
 
 /**
@@ -87,9 +84,9 @@ u8 gyro_cal(void)
 	u16 ticks_last = get_ms_ticks();
 	reply_flag &= ~GYRO_FLAG_CAL;
 	
-	TM_USART_Send_Byte(GYRO_UART, GYRO_WAKEUP);
-	TM_USART_Send_Byte(GYRO_UART, GYRO_CAL);
-	TM_USART_Send_Byte(GYRO_UART, 0);
+	uart_tx_byte(GYRO_UART, GYRO_WAKEUP);
+	uart_tx_byte(GYRO_UART, GYRO_CAL);
+	uart_tx_byte(GYRO_UART, 0);
 	
 	while (!(reply_flag & GYRO_FLAG_CAL)) {
 		if ((get_ms_ticks()+1000-ticks_last) % 1000 >= 20)			// 20 ms timeout
@@ -113,15 +110,15 @@ u8 gyro_pos_set(s16 x, s16 y, s16 a){
 	y = (y*10000+SHIFT_Y*10000-SHIFT_Y*int_cos(a)+SHIFT_X*int_sin(a))/10000;
 	
 	
-	TM_USART_Send_Byte(GYRO_UART, GYRO_WAKEUP);
-	TM_USART_Send_Byte(GYRO_UART, GYRO_POS_SET);
-	TM_USART_Send_Byte(GYRO_UART, 0x06);
-	TM_USART_Send_Byte(GYRO_UART, x >> 8);
-	TM_USART_Send_Byte(GYRO_UART, x & 0xFF);
-	TM_USART_Send_Byte(GYRO_UART, y >> 8);
-	TM_USART_Send_Byte(GYRO_UART, y & 0xFF);
-	TM_USART_Send_Byte(GYRO_UART, a >> 8);
-	TM_USART_Send_Byte(GYRO_UART, a & 0xFF);
+	uart_tx_byte(GYRO_UART, GYRO_WAKEUP);
+	uart_tx_byte(GYRO_UART, GYRO_POS_SET);
+	uart_tx_byte(GYRO_UART, 0x06);
+	uart_tx_byte(GYRO_UART, x >> 8);
+	uart_tx_byte(GYRO_UART, x & 0xFF);
+	uart_tx_byte(GYRO_UART, y >> 8);
+	uart_tx_byte(GYRO_UART, y & 0xFF);
+	uart_tx_byte(GYRO_UART, a >> 8);
+	uart_tx_byte(GYRO_UART, a & 0xFF);
 	
 	while (!(reply_flag & GYRO_FLAG_SET_POS)) {
 		if ((get_ms_ticks()+1000-ticks_last) % 1000 >= 20)			// 20 ms timeout
@@ -140,24 +137,28 @@ u8 gyro_pos_set(s16 x, s16 y, s16 a){
 
 void USART3_IRQHandler(void)
 {
+    tft_prints(0,5,"RX Interrupt..");
 	u8 rx_data, i;
 	u16 x, y, a;
 	if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
 	{
 		rx_data = (u8)USART_ReceiveData(USART3);
+        
+        tft_prints(0,6,"Data: %d",rx_data);
 		switch (rx_state) {
 			case 0:	// wakeup
 				if (rx_data == GYRO_WAKEUP) {
 					rx_command = 0xFF;
 					buf_rec = 0;
 					rx_state++;
-				}
+				} 
 				break;
 			case 1:	// command
 				for (i = 0; i < GYRO_COMMAND_LENGTH; i ++) {
 					if (rx_data == rx_command_arr[i]) {
 						rx_command = i;
 						rx_state++;
+                        tft_prints(0,0,"State: %d",rx_command);
 						break;
 					}
 				}
@@ -215,7 +216,7 @@ void USART3_IRQHandler(void)
 				rx_state = 0;
 				break;
 		}
-		
+		tft_prints(0,5,"GYRO HANDLER RUN");
 	}
 }
 

@@ -41,7 +41,10 @@
 .\output\gyro.o: defines.h
 .\output\gyro.o: tm_stm32f4_gpio.h
 .\output\gyro.o: gyro.h
-.\output\gyro.o: ticks.h
+.\output\gyro.o: lcd.h
 .\output\gyro.o: tm_stm32f4_delay.h
 .\output\gyro.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\output\gyro.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\gyro.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\gyro.o: ticks.h
 .\output\gyro.o: approx_math.h

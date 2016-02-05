@@ -45,3 +45,6 @@
 .\output\tm_stm32f4_usart.o: tm_stm32f4_delay.h
 .\output\tm_stm32f4_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\output\tm_stm32f4_usart.o: approx_math.h
+.\output\tm_stm32f4_usart.o: lcd.h
+.\output\tm_stm32f4_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\tm_stm32f4_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

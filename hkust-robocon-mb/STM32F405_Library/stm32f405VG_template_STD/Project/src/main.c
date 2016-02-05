@@ -94,14 +94,20 @@ int main(void) {
 	//Initialize the 2 USART Ports
     char buffer[512];
     TM_USART_Init(USART1, TM_USART_PinsPack_1, 115200);
-    TM_USART_Init(USART3, TM_USART_PinsPack_1, 115200);
+    //TM_USART_Init(USART3, TM_USART_PinsPack_1, 115200);
+    
+    //LCD Initialization
+    tft_init(PIN_ON_RIGHT,BLACK,WHITE,RED); //Init LCD
+    //tft_put_logo(110, 90);
+    
+    //Initialize Gyro module
+    gyro_init();
 
 	//Initialize I2C Modules (For future Gyro using I2C protocol, not CAN anymore) PB10 & PB12
     //TM_I2C_Init(I2C2, TM_I2C_PinsPack_1, 100000); 
 	
     
-    tft_init(PIN_ON_RIGHT,BLACK,WHITE,RED); //Init LCD
-    tft_put_logo(110, 90); //Put a fancy robotics logo shit :)
+
     
     //Initialize the CAN protocol
     can_init();
@@ -111,27 +117,29 @@ int main(void) {
     //can_motor_init();
     
     //Initialize encoder
-    //encoder_init();
     u32 ticks_ms_img = 0;
 	while (1) {
         if(get_ms_ticks() != ticks_ms_img){
             ticks_ms_img = get_ms_ticks();
-            
-            tft_prints(0,0,"Sensor output: ");
-            print_array();
-            //TM_USART_Puts(USART1, "Benchod\n");
+            tft_prints(0,0,"X: %d",get_X());
+            tft_prints(0,1,"Y: %d",get_Y());
+            tft_prints(0,2,"Angle: %d",get_angle());
             tft_update();
+
+            
+            //TM_USART_Puts(USART1, "Benchod\n");
+            //TM_USART_Puts(USART3, "BENCHOD\n");
             if(get_ms_ticks() % 200 == 0){
                 LED_ON(LED_1);
                 LED_ON(LED_2);
+ 
             }
             if(get_ms_ticks() % 200 == 100){
                 LED_OFF(LED_1);
                 LED_OFF(LED_2);
             }
             
-        }
-            
+        }    
 	}
 
 	return 0;

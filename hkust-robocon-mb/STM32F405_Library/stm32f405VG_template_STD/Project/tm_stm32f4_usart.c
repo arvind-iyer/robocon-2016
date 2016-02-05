@@ -122,6 +122,7 @@ void TM_USART_Init(USART_TypeDef* USARTx, TM_USART_PinsPack_t pinspack, uint32_t
 #ifdef USE_USART3
 	if (USARTx == USART3) {
 		TM_USART_INT_Init(USART3, pinspack, baudrate, TM_USART3_HARDWARE_FLOW_CONTROL, TM_USART3_MODE, TM_USART3_PARITY, TM_USART3_STOP_BITS, TM_USART3_WORD_LENGTH);
+        
 	}
 #endif
 #ifdef USE_UART4
@@ -303,6 +304,7 @@ void TM_USART_SetCustomStringEndCharacter(USART_TypeDef* USARTx, uint8_t Charact
 	/* Set delimiter */
 	u->StringDelimiter = Character;
 }
+
 
 uint8_t TM_USART_FindCharacter(USART_TypeDef* USARTx, uint8_t c) {
 	uint16_t num, out;
@@ -550,7 +552,7 @@ void TM_USART3_InitPins(TM_USART_PinsPack_t pinspack) {
 #if defined(GPIOB)
 	if (pinspack == TM_USART_PinsPack_1) {
 		TM_GPIO_InitAlternate(GPIOB, GPIO_Pin_10 | GPIO_Pin_11, TM_GPIO_OType_PP, TM_GPIO_PuPd_UP, TM_GPIO_Speed_High, GPIO_AF_USART3);
-	}
+    }
 #endif
 #if defined(GPIOC)
 	if (pinspack == TM_USART_PinsPack_2) {
@@ -662,6 +664,7 @@ void TM_UART8_InitPins(TM_USART_PinsPack_t pinspack) {
 
 #ifdef USE_USART1
 void USART1_IRQHandler(void) {
+    tft_prints(0,6,"USART 1 RUN");
 	/* Check if interrupt was because data is received */
 	if (USART1->SR & USART_SR_RXNE) {
 		#ifdef TM_USART1_USE_CUSTOM_IRQ
@@ -692,6 +695,7 @@ void USART2_IRQHandler(void) {
 
 //#ifdef USE_USART3
 //void USART3_IRQHandler(void) {
+//    tft_prints(0,6,"AB");
 //	/* Check if interrupt was because data is received */
 //	if (USART3->SR & USART_SR_RXNE) {
 //		#ifdef TM_USART3_USE_CUSTOM_IRQ
@@ -703,13 +707,8 @@ void USART2_IRQHandler(void) {
 //		#endif
 //	}
 //}
-
-
 //#endif
 
-#ifdef USE_USART3
-//extern void USART3_IRQHandler(void);
-#endif
 
 #ifdef USE_UART4
 void UART4_IRQHandler(void) {

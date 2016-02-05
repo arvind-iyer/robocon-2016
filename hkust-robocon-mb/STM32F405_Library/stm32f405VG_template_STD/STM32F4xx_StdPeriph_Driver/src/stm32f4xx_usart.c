@@ -774,6 +774,7 @@ void USART_LINCmd(USART_TypeDef* USARTx, FunctionalState NewState)
   }
 }
 
+
 /**
   * @brief  Transmits break characters.
   * @param  USARTx: where x can be 1, 2, 3, 4, 5, 6, 7 or 8 to select the USART or 

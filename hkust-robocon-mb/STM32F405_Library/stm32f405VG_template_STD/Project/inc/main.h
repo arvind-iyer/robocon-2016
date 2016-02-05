@@ -45,9 +45,7 @@
 #include "ticks.h"
 #include "approx_math.h"
 #include "gyro.h"
-#include "can.h"
 #include "can_protocol.h"
-#include "can_motor.h"
 #include "encoder.h"
 
 
