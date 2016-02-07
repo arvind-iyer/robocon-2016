@@ -49,16 +49,16 @@ void can_init(void)
 	/* CAN GPIO init */
 	// CAN_Rx Pin
 	//CAN_Rx_GPIO->gpio_init(GPIO_Speed_50MHz, GPIO_Mode_AF, GPIO_OType_PP, GPIO_PuPd_UP);
-    TM_GPIO_Init(GPIOA, CAN_Rx_GPIO, TM_GPIO_Mode_AF, TM_GPIO_OType_PP, TM_GPIO_PuPd_UP, TM_GPIO_Speed_Fast);
+    TM_GPIO_Init(CAN_GPIO, CAN_Rx_GPIO, TM_GPIO_Mode_AF, TM_GPIO_OType_PP, TM_GPIO_PuPd_UP, TM_GPIO_Speed_Fast);
     
 	// CAN_Tx Pin
 	//CAN_Tx_GPIO->gpio_init(GPIO_Speed_50MHz, GPIO_Mode_AF, GPIO_OType_PP, GPIO_PuPd_NOPULL);
-    TM_GPIO_Init(GPIOA, CAN_Tx_GPIO, TM_GPIO_Mode_AF, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_Fast);
+    TM_GPIO_Init(CAN_GPIO, CAN_Tx_GPIO, TM_GPIO_Mode_AF, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_Fast);
     
 
 	/** CAN alternate function configuration **/
-	GPIO_PinAFConfig(GPIOA, GPIO_PinSource11, GPIO_AF_CAN1);
-	GPIO_PinAFConfig(GPIOA, GPIO_PinSource12, GPIO_AF_CAN1);
+	GPIO_PinAFConfig(CAN_GPIO, GPIO_PinSource11, GPIO_AF_CAN1);
+	GPIO_PinAFConfig(CAN_GPIO, GPIO_PinSource12, GPIO_AF_CAN1);
 
 
 	/* CAN register init */
@@ -161,9 +161,6 @@ u8 can_empty_mailbox(void)
 	return ((CANn->TSR&CAN_TSR_TME0) == CAN_TSR_TME0)
 	+((CANn->TSR&CAN_TSR_TME1) == CAN_TSR_TME1)
 	+ ((CANn->TSR&CAN_TSR_TME2) == CAN_TSR_TME2);
-//	return (CAN_TransmitStatus(CANn, 0) == CAN_TxStatus_Ok)
-//		+ (CAN_TransmitStatus(CANn, 1) == CAN_TxStatus_Ok)
-//		+ (CAN_TransmitStatus(CANn, 2) == CAN_TxStatus_Ok);
 }
 
 /** 
@@ -263,16 +260,6 @@ void CAN1_TX_IRQHandler(void)
 void can_rx_init(void)
 {
 	NVIC_InitTypeDef NVIC_InitStructure;
-	
-	/*
-	#ifdef  VECT_TAB_RAM  
-	// Set the Vector Table base location at 0x20000000 
-	NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0); 
-	#else  // VECT_TAB_FLASH  
-	// Set the Vector Table base location at 0x08000000  
-	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   
-	#endif
-	*/
 	
 	CAN_ITConfig(CANn, CAN_IT_FMP0, ENABLE);
 

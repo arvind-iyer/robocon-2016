@@ -15,10 +15,9 @@
 #define	CANn							CAN1
 #define CAN_RCC						RCC_APB1Periph_CAN1
 
-//GPIO* const CAN_Rx_GPIO = &PA11;
-//GPIO* const CAN_Tx_GPIO = &PA12;
 #define CAN_Rx_GPIO GPIO_Pin_11
 #define CAN_Tx_GPIO GPIO_Pin_12
+#define CAN_GPIO GPIOA
 
 #define CAN_GPIO_RCC			RCC_AHB1Periph_GPIOA
 
@@ -75,14 +74,14 @@ u32 can_get_rx_count(void);
 struct CAN_MESSAGE can_get_recent_rx(void);
 
 /*** CAN Interrupt ***/
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
+#ifdef __cplusplus
+extern "C" {
+#endif
 void CAN1_RX0_IRQHandler(void);
 void CAN1_TX_IRQHandler(void);
-//#ifdef __cplusplus
-//}
-//#endif
+#ifdef __cplusplus
+}
+#endif
 
 /*** Protocol Encoding / Decoding ***/
 u8 one_to_n_bytes(s32 num, u8 n);			// Encode
