@@ -6,15 +6,15 @@ package com.dranithix.robocon.net;
  *
  */
 public enum NetworkEventOpcode {
-	MOTOR_CONTROL(0);
+	MOTOR_CONTROL("MOTOR_CONTROL"), SERVO_CONTROL("SERVO_CONTROL");
 	
-	private int opcode;
+	private String opcode;
 	
-	private NetworkEventOpcode(int opcode) {
+	private NetworkEventOpcode(String opcode) {
 		this.opcode = opcode;
 	}
 	
-	public int getOpcode() {
+	public String getOpcode() {
 		return opcode;
 	}
 }

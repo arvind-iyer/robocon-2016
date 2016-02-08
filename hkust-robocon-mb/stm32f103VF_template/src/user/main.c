@@ -4,16 +4,18 @@
 
 #define BLUETOOTH_MODE true
 
-char * stringBuffer = "";
+char stringBuffer[512];
 int buffPos = 0;
 
+int w1 = 0, w2 = 0, w3 = 0;
+
 int main(void) {
-	stringBuffer = calloc(1, sizeof(char));
 	tft_easy_init();
 	
 	ticks_init();
 	buzzer_init();
 	gyro_init();
+	servo_init();
 	
 	// Initialize Bluetooth/rPi Mode.
 	uart_init(BLUETOOTH_MODE ? COM2 : COM1, 115200);
@@ -23,64 +25,71 @@ int main(void) {
 	can_rx_init();
 	can_motor_init();
 	
-	s32 lastTick = get_seconds();
+	s32 lastStateUpdate = get_full_ticks();
 	
 	while (1) {
 		// Send robot state to Raspberry Pi.
-		uart_tx(COM2, "STATE|%d|%d|%d\n", get_pos()->x, get_pos()->y, get_pos()->angle);
-		
-		// Display TFT to insure screen is on.
-		tft_prints(0, 0, "It works!");	
-		tft_prints(0, 1, "Time: %d", get_full_ticks());
-		tft_update();
+		if (get_full_ticks() - lastStateUpdate >= 10) {
+			uart_tx(COM2, "STATE|%d|%d|%d\n", get_pos()->x, get_pos()->y, get_pos()->angle);
+			
+			// Display TFT to insure screen is on.
+			tft_prints(0, 0, "It works!");	
+			tft_prints(0, 1, "Time: %d", get_full_ticks());
+			tft_update();
+			
+			lastStateUpdate = get_full_ticks();
+		}
 	}
 }
 
 void handleCommand(char * command) {
-    int dataIndex = 0, contentIndex = 0, header = -1;
+    int dataIndex = 0, contentIndex = 0;
+		char * header;
+
+		int contents[16];
+
+		for (char * data = strtok(command, "|"); data != NULL;
+				data = strtok(NULL, "|")) {
+			if (dataIndex == 0) {
+				header = data;
+			} else {
+				contents[contentIndex++] = atoi(data);
+			}
+			dataIndex++;
+		}
     
-    int contents[16];
-    
-    for (char * data = strtok(command, "|"); data != NULL; data = strtok(NULL, "|")) {
-        if (dataIndex == 0) {
-            header = atoi(data);
-        } else {
-            contents[contentIndex++] = atoi(data);
-        }
-        dataIndex++;
-    }
-    
-    switch (header) {
-        case 0: // Motor Control [W1, W2, W3, W4, W5, W6]
-					u32 w1 = contents[0];
-					u32 w2 = contents[1];
-					u32 w3 = contents[2];
-					u32 w4 = contents[3];
-					u32 w5 = contents[4];
-					u32 w6 = contents[5];
+    if (strcmp(header, "MOTOR_CONTROL") == 0) { // Motor Control [W1, W2, W3, W4, W5, W6]
+				w1 = contents[0];
+				w2 = contents[1];
+				w3 = contents[2];
+				int w4 = contents[3];
+				int w5 = contents[4];
+				int w6 = contents[5];
+		
+				// Wheel Base Motors
+				motor_set_vel(MOTOR1, w1, CLOSE_LOOP);
+				motor_set_vel(MOTOR2, w2, CLOSE_LOOP);
+				motor_set_vel(MOTOR3, w3, CLOSE_LOOP);
 			
-					// Wheel Base Motors
-					motor_set_vel(MOTOR1, w1, CLOSE_LOOP);
-					motor_set_vel(MOTOR2, w2, CLOSE_LOOP);
-					motor_set_vel(MOTOR3, w3, CLOSE_LOOP);
-				
-				  // Pole Climbing Motors
-					motor_set_vel(MOTOR4, w4, OPEN_LOOP);
-					motor_set_vel(MOTOR5, w5, OPEN_LOOP);
-					motor_set_vel(MOTOR6, w6, OPEN_LOOP);
-					break;
+				// Pole Climbing Motors
+				motor_set_vel(MOTOR4, w4, OPEN_LOOP);
+				motor_set_vel(MOTOR5, w5, OPEN_LOOP);
+				motor_set_vel(MOTOR6, w6, OPEN_LOOP);
+		} else if (strcmp(header, "SERVO_CONTROL") == 0) { // Servo Control [ID, Magnitude]
+				int servoId = contents[0];
+				int servoPwm = contents[1];
+				servo_control(servoId, servoPwm);
     }
 }
 
 void handleController() {
-	if (USART_GetITStatus(BLUETOOTH_MODE ? USART2 : USART1,USART_IT_RXNE) != RESET){
+	if (USART_GetITStatus(BLUETOOTH_MODE ? USART2 : USART1, USART_IT_RXNE) != RESET){
 		const uint8_t byte = USART_ReceiveData(BLUETOOTH_MODE ? USART2 : USART1);
 		if (byte == '\n') {
-        stringBuffer[buffPos] = '\0';
+				stringBuffer[buffPos] = '\0';
         handleCommand(stringBuffer);
+				stringBuffer[0] = '\0';
         buffPos = 0;
-        
-        memset(stringBuffer, 0, strlen(stringBuffer));
     } else {
         stringBuffer[buffPos++] = byte;
     }

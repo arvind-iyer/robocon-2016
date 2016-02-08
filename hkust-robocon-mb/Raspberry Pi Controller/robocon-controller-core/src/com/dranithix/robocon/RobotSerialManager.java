@@ -25,26 +25,30 @@ public class RobotSerialManager implements Disposable, Runnable {
 	private PrintWriter out;
 
 	private Robocon robocon;
-	
+
 	private boolean running = false;
+
+	private long lastFlush = 0;
 
 	public RobotSerialManager(Robocon robocon) {
 		this.robocon = robocon;
-		
+
 		comPort = SerialPort.getCommPort(Robocon.COM_PORT_ADDRESS);
-		comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING,
-				1000, 0);
+		comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 1000,
+				100);
 		comPort.setBaudRate(115200);
 	}
 
-	public boolean isRunning() {
+	public synchronized boolean isRunning() {
 		return running;
 	}
 
-	public boolean toggleConnection() {
-		if (running) {
+	public void toggleConnection() {
+		if (isRunning()) {
 			System.out.println("Robocon: Shutted down server.");
 			comPort.closePort();
+			in = null;
+			out = null;
 			running = false;
 		} else {
 			if (running = comPort.openPort()) {
@@ -62,19 +66,15 @@ public class RobotSerialManager implements Disposable, Runnable {
 				comPort.closePort();
 			}
 		}
-
-		return running;
 	}
 
 	@Override
 	public void run() {
-		while (true) {
-			System.out.println(running);
-			if (running) {
-				try {
+		try {
+			while (true) {
+				if (isRunning() && in != null) {
 					final String line = in.readLine();
-					System.out.println(line);
-					if (line.isEmpty())
+					if (line == null || line.isEmpty())
 						continue;
 					String[] contents = line.split(Pattern.quote("|"));
 					switch (contents[0]) {
@@ -83,24 +83,35 @@ public class RobotSerialManager implements Disposable, Runnable {
 								Integer.decode(contents[1]),
 								Integer.decode(contents[2]));
 						int currentBearing = Integer.decode(contents[3]);
-						
+
 						robocon.updateRobotPosition(currentPos, currentBearing);
 						break;
+					default:
+						System.out.println(line);
+						break;
 					}
-					System.out.println(Arrays.toString(contents));
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					continue;
 				}
+			}
+		} catch (Exception ex) {
+			if (ex.getMessage() != null
+					&& ex.getMessage().contains(
+							"Underlying input stream returned zero bytes")) {
+				System.out.println("Robocon: Lost connection with the robot.");
+				toggleConnection();
+			} else {
+				ex.printStackTrace();
 			}
 		}
 	}
 
 	public void sendEvent(final NetworkEvent packet) {
 		if (out != null) {
-			out.write(packet.getRawPacket());
-			System.out.print(packet.getRawPacket());
-			out.flush();
+			synchronized (out) {
+				if (isRunning()) {
+					out.write(packet.getRawPacket());
+					out.flush();
+				}
+			}
 		}
 	}
 

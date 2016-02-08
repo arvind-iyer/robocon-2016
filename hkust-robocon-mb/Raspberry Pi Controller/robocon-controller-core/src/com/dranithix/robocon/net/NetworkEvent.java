@@ -1,4 +1,3 @@
-
 package com.dranithix.robocon.net;
 
 import com.badlogic.gdx.utils.Array;
@@ -21,8 +20,7 @@ public abstract class NetworkEvent {
 	protected abstract void initEvent();
 
 	public String getRawPacket() {
-		StringBuilder eventBuilder = new StringBuilder(String.valueOf(header
-				.getOpcode()));
+		StringBuilder eventBuilder = new StringBuilder(header.getOpcode());
 		for (String data : contents) {
 			eventBuilder.append(PACKET_SEPARATOR);
 			eventBuilder.append(data);

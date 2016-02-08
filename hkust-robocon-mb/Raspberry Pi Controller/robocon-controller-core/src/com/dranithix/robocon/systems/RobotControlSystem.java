@@ -1,9 +1,11 @@
-package com.dranithix.robocon;
+package com.dranithix.robocon.systems;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer.Task;
+import com.dranithix.robocon.RobotSerialManager;
+import com.dranithix.robocon.RobotTarget;
 import com.dranithix.robocon.net.events.MotorControlEvent;
 
 /**
@@ -17,7 +19,7 @@ public class RobotControlSystem extends Task {
 	public static final int STOP_DISTANCE = 2000;
 
 	private Array<Integer> motorValues = new Array<Integer>();
-	private Array<Integer[]> targetQueue = new Array<Integer[]>();
+	private Array<RobotTarget> targetQueue = new Array<RobotTarget>();
 
 	private Vector2 startPos = new Vector2();
 	private Vector2 lastPos = new Vector2();
@@ -25,7 +27,7 @@ public class RobotControlSystem extends Task {
 	private Vector2 currentPos;
 	private float currentBearing;
 
-	private Vector2 targetPos = new Vector2();
+	private Vector2 targetPos = null;
 	private float targetBearing;
 
 	private int distanceThreshold;
@@ -39,8 +41,9 @@ public class RobotControlSystem extends Task {
 
 	public RobotControlSystem(RobotSerialManager serial) {
 		this.serial = serial;
-		
-		for (int i = 0; i < 6; i++) motorValues.add(0);
+
+		for (int i = 0; i < 6; i++)
+			motorValues.add(0);
 	}
 
 	/**
@@ -62,13 +65,8 @@ public class RobotControlSystem extends Task {
 	 */
 	public void addQueue(Vector2 targetPos, int bearing, int maxDistanceError,
 			int maxBearingError, int velocity) {
-		Integer[] target = new Integer[6];
-		target[0] = (int) targetPos.x;
-		target[1] = (int) targetPos.y;
-		target[2] = bearing;
-		target[3] = maxDistanceError;
-		target[4] = maxBearingError;
-		target[5] = velocity;
+		RobotTarget target = new RobotTarget(targetPos, bearing,
+				maxDistanceError, maxBearingError, velocity);
 		targetQueue.add(target);
 	}
 
@@ -90,18 +88,11 @@ public class RobotControlSystem extends Task {
 	 */
 	public boolean dequeueNextTarget() {
 		if (targetQueue.size != 0) {
-			Integer[] nextTarget = targetQueue.removeIndex(0);
-			int x = nextTarget[0];
-			int y = nextTarget[1];
-			int bearing = nextTarget[2];
-			int maxDistanceError = nextTarget[3];
-			int maxBearingError = nextTarget[4];
-			int velocity = nextTarget[5];
-
-			setTarget(new Vector2(x, y), bearing, maxDistanceError,
-					maxBearingError, velocity);
+			RobotTarget nextTarget = targetQueue.removeIndex(0);
+			setTarget(nextTarget);
 			return true;
 		} else {
+			targetPos = null;
 			return false;
 		}
 	}
@@ -123,17 +114,16 @@ public class RobotControlSystem extends Task {
 	 * @param velocity
 	 *            velocity throughout course, 0 for auto
 	 */
-	public void setTarget(Vector2 targetPos, int bearing, int maxDistanceError,
-			int maxBearingError, int velocity) {
+	public void setTarget(RobotTarget target) {
 		positionError = 1;
 
-		this.targetPos = targetPos.cpy();
+		this.targetPos = target.getTargetPos().cpy();
 		this.startPos = currentPos.cpy();
 
-		targetBearing = bearing;
-		distanceThreshold = maxDistanceError;
-		bearingThreshold = maxBearingError;
-		robotVelocity = velocity;
+		targetBearing = target.getTargetBearing();
+		distanceThreshold = target.getMaxDistanceError();
+		bearingThreshold = target.getMaxBearingError();
+		robotVelocity = target.getVelocity();
 	}
 
 	/**
@@ -148,7 +138,7 @@ public class RobotControlSystem extends Task {
 
 		float angularVelocity = 0;
 		float targetDistance = currentPos.dst(targetPos);
-		System.out.println("dist=" + targetDistance);
+//		System.out.println("dist=" + targetDistance);
 		if (targetDistance > distanceThreshold
 				|| Math.abs(angleDifference(currentBearing, targetBearing)) > bearingThreshold) {
 			if (robotVelocity != 0) {
@@ -181,10 +171,10 @@ public class RobotControlSystem extends Task {
 		}
 		velocity = velocity * positionError;
 		angularVelocity = angularVelocity * positionError;
-		System.out.println("Target: " + targetPos.x + ", " + targetPos.y);
-		System.out.println("M=" + velocity);
-		System.out.println("A=" + robotBearing);
-		System.out.println("W=" + angularVelocity);
+//		System.out.println("Target: " + targetPos.x + ", " + targetPos.y);
+//		System.out.println("M=" + velocity);
+//		System.out.println("A=" + robotBearing);
+//		System.out.println("W=" + angularVelocity);
 		moveRobot(velocity, robotBearing, angularVelocity);
 	}
 
@@ -227,7 +217,7 @@ public class RobotControlSystem extends Task {
 		motorValues.set(0, (int) motor1);
 		motorValues.set(1, (int) motor2);
 		motorValues.set(2, (int) motor3);
-		
+
 		serial.sendEvent(new MotorControlEvent(motorValues));
 	}
 
@@ -300,17 +290,18 @@ public class RobotControlSystem extends Task {
 	@Override
 	public void run() {
 		if (serial.isRunning()) {
-
 			// Check if current position had been received from the main-board
 			// beforehand.
-			while (currentPos != null && dequeueNextTarget()) {
+			while (currentPos != null && targetPos != null) {
 				moveStraightToTarget();
 			}
 		}
 	}
 
 	public void updateRobotPosition(Vector2 currentPos, int bearing) {
+		currentPos.y *= -1;
+//		System.out.println(currentPos + " " + (bearing / 10));
 		this.currentPos = currentPos.cpy();
-		this.currentBearing = bearing;
+		this.currentBearing = bearing / 10;
 	}
 }

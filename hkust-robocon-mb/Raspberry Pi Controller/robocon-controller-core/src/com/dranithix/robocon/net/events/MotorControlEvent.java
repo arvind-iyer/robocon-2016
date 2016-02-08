@@ -1,5 +1,7 @@
 package com.dranithix.robocon.net.events;
 
+import java.util.Arrays;
+
 import com.badlogic.gdx.utils.Array;
 import com.dranithix.robocon.net.NetworkEvent;
 import com.dranithix.robocon.net.NetworkEventOpcode;
