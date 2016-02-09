@@ -23,7 +23,8 @@ int main(void) {
 	encoder_init();
 	gyro_init();
 	button_init();
-	//can_xbc_mb_tx_enable(true);
+	can_xbc_mb_init();
+	can_xbc_mb_tx_enable(true);
 
 	tft_put_logo(110, 90);            
 	CONTROL_STATE last_control_state = MANUAL_MODE;
@@ -75,6 +76,7 @@ int main(void) {
 					auto_motor_update();
 					//auto_calibrate();
 				}
+				can_xbc_mb_lcd_tx();
 			}
 			last_long_loop_ticks = this_loop_ticks;
 		}
@@ -83,7 +85,6 @@ int main(void) {
 }
 /*
 =======
-
 int main(void)
 {
 	//auto_tar_enqueue(0, 1500, 0, 0.0, true);
