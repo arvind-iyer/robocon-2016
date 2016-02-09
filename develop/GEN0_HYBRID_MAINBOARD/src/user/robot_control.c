@@ -31,7 +31,7 @@ void brushless_control_all(u16 value, bool is_percentage_mode){
 		value = value>BRUSHLESS_MAX?BRUSHLESS_MAX:(value<BRUSHLESS_MIN?BRUSHLESS_MIN:value);
 	}
 	for (u8 i=0; i<BRUSHLESS_COUNT; i++){
-		brushless_control((BRUSHLESS_ID)i, value, true);
+		brushless_control((BRUSHLESS_ID)i, value, is_percentage_mode);
 	}
 }
 

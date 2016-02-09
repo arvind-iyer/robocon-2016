@@ -13,15 +13,7 @@
 
 #include "manual_mode.h"
 
-//Scaled by 10
-s32 target_vx = 0;
-s32 target_vy = 0;
-s32 target_rotate = 0;
-s32 curr_vx = 0;
-s32 curr_vy = 0;
-s32 curr_rotate = 0;
-s32 curr_angle = 0;
-
+s32 curr_vx = 0, curr_vy = 0, curr_rotate = 0;
 LOCK_STATE is_climbing = LOCKED;
 LOCK_STATE brushless_lock = UNLOCKED;
 LOCK_STATE ground_wheels_lock = UNLOCKED;
@@ -40,22 +32,18 @@ void manual_init(){
 }
 
 void manual_reset(){
-	//Scaled by 10
-	target_vx = target_vy = target_rotate = 0;
-	curr_vx = curr_vy = curr_rotate = curr_angle = 0;
-
+	curr_vx = curr_vy = curr_rotate = 0;
 	brushless_lock = UNLOCKED;
 	ground_wheels_lock = UNLOCKED;
 	climbing_induced_ground_lock = UNLOCKED;
-	press_button_B = UNLOCKED;
-	press_button_X = UNLOCKED;
+	press_button_B = press_button_X = UNLOCKED;
 	brushless_control_all(0, true);
 }
 
 //This fast update is for controlling things that require a high refresh rate
 void manual_fast_update(){
 	if (ground_wheels_lock == LOCKED){
-		_lockInTarget();
+		//_lockInTarget();
 	}
 }
 
@@ -71,17 +59,17 @@ void manual_interval_update(){
 			
 			//Plus 1800 to switch heading
 			//curr_angle = int_arc_tan2(curr_vx, curr_vy)*10 + 1800;
-			curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
 			
 			//Put acceleration
 			if (Abs(curr_vx - vx) > ACC_THRESHOLD || Abs(curr_vy - vy) > ACC_THRESHOLD){
-				curr_vx = (curr_vx*95/100 + vx*5/100);
-				curr_vy = (curr_vy*95/100 + vy*5/100);
+				curr_vx = (curr_vx*(1000-ACC_RATE)/1000 + vx*ACC_RATE/1000);
+				curr_vy = (curr_vy*(1000-ACC_RATE)/1000 + vy*ACC_RATE/1000);
 			}else{
 				curr_vx = vx;
 				curr_vy = vy;
 			}
 			
+			s32 curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
 			curr_rotate = -xbc_get_joy(XBC_JOY_RX)/3;
 
 			s32 curr_speed = (curr_vx*curr_vx + curr_vy*curr_vy) / 300;
@@ -97,8 +85,7 @@ void manual_interval_update(){
 			tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 			tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
 			tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
-			tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/1000, get_pwm_value(MOTOR2)/1000, get_pwm_value(MOTOR3)/1000);
-			tft_append_line("%d", can_tx_queue_size());
+			tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/10000, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);
 		}else{
 			for (u8 i=0;i<3;i++){
 				//motor_set_vel(MOTOR1 + i, motor_vel[i], motor_vel[i]==0?OPEN_LOOP:CLOSE_LOOP);
@@ -120,7 +107,7 @@ void manual_interval_update(){
 			/* Control Manual: 
 			** first 30% -> No respond
 			** 30% ~ 50% -> Able to make eco start moving (constant across)
-			** 50% ~ 100% -> Linear incrase up to 50% pwm
+			** 50% ~ 100% -> Constant 50%
 			** Keep 100% -> Continue grow to max power
 			*/
 			for (u8 i=0;i<BRUSHLESS_COUNT;i++){
@@ -145,8 +132,9 @@ void manual_interval_update(){
 					
 					//If less than 0.7 seconds, keep 50%
 					if (brushless_pressed_time[i]<700){
+						u16 Iamjustatempvariable = 35 + (xbc_get_joy(brushless_joy_sticks[i] - brushless_stick_max/2))*15/128;
 						brushless_control((BRUSHLESS_ID)i, 50, true);
-						tft_append_line("%d%", 50);
+						tft_append_line("%d%", Iamjustatempvariable);
 					}else{
 						u16 Iamjustatempvariable = 50 + (brushless_pressed_time[i]-700)/20;
 						Iamjustatempvariable = Iamjustatempvariable>100?100:Iamjustatempvariable;
@@ -164,11 +152,11 @@ void manual_interval_update(){
 	}
 	
 	//Deal with climbing
-	if (button_pressed(BUTTON_XBC_A)){
+	if (button_pressed(BUTTON_XBC_A) > XBC_BUTTON_MIN_PRESSED){
 		climb_continue();
 		climbing_induced_ground_lock = LOCKED;
 		tft_append_line("CLIMBING");
-	}else	if (button_pressed(BUTTON_XBC_Y)){
+	}else	if (button_pressed(BUTTON_XBC_Y) > XBC_BUTTON_MIN_PRESSED){
 		descend_continue();
 		climbing_induced_ground_lock = LOCKED;
 		tft_append_line("DESCENDING");
@@ -179,7 +167,7 @@ void manual_interval_update(){
 	
 	//Locking the motors
 	//TODO: Add PID locking
-	if (button_pressed(BUTTON_XBC_X)){
+	if (button_pressed(BUTTON_XBC_X) > XBC_BUTTON_MIN_PRESSED){
 		if (press_button_X == UNLOCKED){
 			press_button_X = LOCKED;
 			buzzer_beep(75);
@@ -196,7 +184,7 @@ void manual_interval_update(){
 	}
 	
 	//Pneumatic control
-	if (button_pressed(BUTTON_XBC_B)){
+	if (button_pressed(BUTTON_XBC_B) > XBC_BUTTON_MIN_PRESSED){
 		if (press_button_B == UNLOCKED){
 			press_button_B = LOCKED;
 			pneumatic_toggle();

@@ -59,7 +59,7 @@ int main(void) {
 		if (get_emergency_lock() == UNLOCKED){
 			//Update with short interval here
 			if (control_state == MANUAL_MODE){
-					//manual_fast_update();
+					manual_fast_update();
 			}
 		}
 			
