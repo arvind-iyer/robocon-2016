@@ -14,7 +14,8 @@ void auto_tar_enqueue(int x, int y, int deg, int curve, bool stop);
 void auto_tar_dequeue(void);
 int auto_tar_queue_len(void);
 
-void auto_init(void);
+int auto_get_ticks(void);
+void auto_reset(void);
 void auto_var_update(void);
 void auto_track_path(int angle, int rotate, int maxvel, bool curved);
 void auto_motor_stop(void);

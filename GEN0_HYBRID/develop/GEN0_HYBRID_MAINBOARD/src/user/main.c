@@ -50,8 +50,7 @@ int main(void) {
 			if (control_state == MANUAL_MODE){
 				manual_reset();
 			}else{
-				manual_reset();
-				//Something like auto_reset() I guess?
+				auto_reset();
 			}
 		}
 		last_control_state = control_state;
@@ -87,8 +86,6 @@ int main(void) {
 
 int main(void)
 {
-	
-	auto_init();
 	//auto_tar_enqueue(0, 1500, 0, 0.0, true);
 	
 	
