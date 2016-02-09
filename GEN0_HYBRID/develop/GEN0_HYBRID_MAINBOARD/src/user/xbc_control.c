@@ -55,10 +55,10 @@ void xbc_global_update(){
 			press_button_XBOX = LOCKED;
 			if (current_control_state == MANUAL_MODE){
 				current_control_state = AUTO_MODE;
-				buzzer_beep(450);
+				//buzzer_beep(450);
 			}else{
 				current_control_state = MANUAL_MODE;
-				buzzer_beep(650);
+				//buzzer_beep(650);
 			}
 		}
 	}else{

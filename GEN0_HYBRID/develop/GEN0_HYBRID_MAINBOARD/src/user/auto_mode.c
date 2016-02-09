@@ -20,14 +20,19 @@ int tar_x, tar_y, tar_deg, tar_dir;
 int tar_rad, tar_cen_x, tar_cen_y;
 int ori_x, ori_y;
 
-//robot properties
+//auto properties
 int cur_x, cur_y, cur_deg;
 int cor_x, cor_y;
 int vel[3];
 int degree, degree_diff, dist, speed;
 int start, passed;
 int err_d;
+int auto_ticks = 0;
 
+int auto_get_ticks(){
+	return get_full_ticks() - auto_ticks;
+}
+	
 void auto_tar_enqueue(int x, int y, int deg, int curve, bool stop) {
 	tar_queue[tar_head].x = x;
 	tar_queue[tar_head].y = y;
@@ -40,7 +45,7 @@ void auto_tar_enqueue(int x, int y, int deg, int curve, bool stop) {
 void auto_tar_dequeue() {
 	int mid_length;
 	if (tar_end && tar_queue[tar_end-1].stop)
-		start = get_full_ticks();
+		start = auto_get_ticks();
 	if (tar_end) {
 		ori_x = tar_queue[tar_end-1].x;
 		ori_y = tar_queue[tar_end-1].y;
@@ -70,22 +75,23 @@ int auto_tar_queue_len() {
 	return tar_head - tar_end;
 }
 
-void auto_init() {
+void auto_reset() {
 	tar_head = 0;
 	tar_end = 0;
 	err_d = 0;
-	ticks_init();
+	auto_ticks = get_full_ticks();
 	start = 0;
+	gyro_pos_set(0,0,0);
 }
 
 void auto_var_update() {
-	passed = get_full_ticks() - start;
+	passed = auto_get_ticks() - start;
 	cur_deg = get_angle();
 	cor_x = 0;
 	cor_y = 0;
 	xy_rotate(&cor_x, &cor_y, (-1)*cur_deg);
-	cur_x = get_X() + cor_x - 0;
-	cur_y = get_Y() + cor_y - 0;
+	cur_x = get_pos()->x + cor_x - 0;
+	cur_y = get_pos()->y + cor_y - 0;
 	
 	degree = tar_dir;
 	if (tar_queue[tar_end-1].curve < 0)
@@ -193,7 +199,7 @@ void auto_motor_update(){
 	tft_prints(0,1,"ANGLE %d",cur_deg);
 	tft_prints(0,2,"%d %d",tar_cen_x,tar_cen_y);
 	tft_prints(0,3,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
-	tft_prints(0,4,"TIM %3d",get_seconds());
+	tft_prints(0,4,"TIM %3d",auto_get_ticks()/1000);
 	tft_update();
 }
 
