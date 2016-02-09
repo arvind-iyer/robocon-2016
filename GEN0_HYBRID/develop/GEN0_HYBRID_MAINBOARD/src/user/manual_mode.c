@@ -95,6 +95,9 @@ void manual_interval_update(){
 				motor_set_vel(MOTOR1 + i, motor_vel[i], CLOSE_LOOP);
 			}
 			tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
+			tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
+			tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
+			tft_append_line("%d %d %d", get_pwm_value(MOTOR1), get_pwm_value(MOTOR2), get_pwm_value(MOTOR3));
 		}else{
 			for (u8 i=0;i<3;i++){
 				//motor_set_vel(MOTOR1 + i, motor_vel[i], motor_vel[i]==0?OPEN_LOOP:CLOSE_LOOP);
@@ -149,7 +152,6 @@ void manual_interval_update(){
 						brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
 						tft_append_line("%d%", Iamjustatempvariable);
 					}
-					tft_append_line("%d%", brushless_pressed_time[i]);
 				}
 			}
 		}else{

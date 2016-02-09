@@ -37,7 +37,6 @@ void led_init(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; 
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_Init(LED_2_GPIO, &GPIO_InitStructure);
-
 }
 
 /**
@@ -46,12 +45,9 @@ void led_init(void)
 	*	@param		state: The value can be either LED_ON or LED_OFF
   * @retval 	None
 	*/
-void led_control(LED led, LED_STATE state)
-{
-	u16 led_gpio_pin = 0;
-	
-	if (led & LED_1) {GPIO_WriteBit(LED_1_GPIO, (u16) led_gpio_pin, (BitAction) state);}
-	if (led & LED_2) {GPIO_WriteBit(LED_2_GPIO, (u16) led_gpio_pin, (BitAction) state);}
+void led_control(LED led, LED_STATE state){
+	if (led & LED_1) {GPIO_WriteBit(LED_1_GPIO, GPIO_Pin_2, (BitAction) state);}
+	if (led & LED_2) {GPIO_WriteBit(LED_2_GPIO, GPIO_Pin_8, (BitAction) state);}
 }
 
 /**

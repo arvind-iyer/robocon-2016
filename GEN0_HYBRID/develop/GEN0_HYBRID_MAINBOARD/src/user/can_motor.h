@@ -4,7 +4,7 @@
 #include "can.h"
 #include "can_protocol.h"
 
-#define CAN_MOTOR_COUNT										16
+#define CAN_MOTOR_COUNT										8
 #define	CAN_MOTOR_BASE										0x0B0
 
 /*** TX ***/
@@ -19,6 +19,10 @@
 #define CAN_ENCODER_FEEDBACK							0x22
 #define CAN_PWM_FEEDBACK_LENGTH		5
 #define CAN_PWM_FEEDBACK					0x23
+#define CAN_TARGET_VEL_FEEDBACK_LENGTH		5
+#define CAN_TARGET_VEL_FEEDBACK					0x24
+#define CAN_CURR_VEL_FEEDBACK_LENGTH		5
+#define CAN_CURR_VEL_FEEDBACK					0x25
 
 
 typedef enum {
@@ -51,5 +55,7 @@ void motor_set_vel(MOTOR_ID motor_id, s32 vel, CLOSE_LOOP_FLAG close_loop_flag);
 void motor_lock(MOTOR_ID motor_id);
 s32 get_encoder_value(MOTOR_ID motor_id);
 s32 get_pwm_value(MOTOR_ID motor_id);
+s32 get_target_vel(MOTOR_ID motor_id);
+s32 get_curr_vel(MOTOR_ID motor_id);
 
 #endif

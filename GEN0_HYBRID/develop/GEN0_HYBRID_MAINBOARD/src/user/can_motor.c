@@ -3,9 +3,10 @@
 #define get_can_motor_id(motor_id)	(CAN_MOTOR_BASE + (u8)motor_id)
 s32 can_motor_encoder_value[CAN_MOTOR_COUNT] = {0};
 s32 can_motor_pwm_value[CAN_MOTOR_COUNT] = {0};
+s32 can_motor_target_vel_value[CAN_MOTOR_COUNT] = {0};
+s32 can_motor_curr_vel_value[CAN_MOTOR_COUNT] = {0};
 
-void can_motor_feedback(CanRxMsg msg)
-{
+void can_motor_feedback(CanRxMsg msg){
 	switch (msg.Data[0]) {
 		case CAN_ENCODER_FEEDBACK:
 			if (msg.DLC == CAN_ENCODER_FEEDBACK_LENGTH) {
@@ -22,6 +23,24 @@ void can_motor_feedback(CanRxMsg msg)
 				if (msg.StdId >= CAN_MOTOR_BASE && msg.StdId < CAN_MOTOR_BASE + CAN_MOTOR_COUNT) {
 					s32 feedback = n_bytes_to_one(&msg.Data[1], 4);
 					can_motor_pwm_value[msg.StdId - CAN_MOTOR_BASE] = feedback;
+				}
+			}
+		break;
+		case CAN_TARGET_VEL_FEEDBACK:
+			if (msg.DLC == CAN_TARGET_VEL_FEEDBACK_LENGTH) {
+				// Range check 
+				if (msg.StdId >= CAN_MOTOR_BASE && msg.StdId < CAN_MOTOR_BASE + CAN_MOTOR_COUNT) {
+					s32 feedback = n_bytes_to_one(&msg.Data[1], 4);
+					can_motor_target_vel_value[msg.StdId - CAN_MOTOR_BASE] = feedback;
+				}
+			}
+		break;
+		case CAN_CURR_VEL_FEEDBACK:
+			if (msg.DLC == CAN_CURR_VEL_FEEDBACK_LENGTH) {
+				// Range check 
+				if (msg.StdId >= CAN_MOTOR_BASE && msg.StdId < CAN_MOTOR_BASE + CAN_MOTOR_COUNT) {
+					s32 feedback = n_bytes_to_one(&msg.Data[1], 4);
+					can_motor_curr_vel_value[msg.StdId - CAN_MOTOR_BASE] = feedback;
 				}
 			}
 		break;
@@ -81,3 +100,10 @@ s32 get_pwm_value(MOTOR_ID motor_id){
 	return can_motor_pwm_value[motor_id];
 }
 
+s32 get_target_vel(MOTOR_ID motor_id){
+	return can_motor_target_vel_value[motor_id];
+}
+
+s32 get_curr_vel(MOTOR_ID motor_id){
+	return can_motor_curr_vel_value[motor_id];
+}

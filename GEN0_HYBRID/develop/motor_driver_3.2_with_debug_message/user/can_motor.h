@@ -4,12 +4,11 @@
 #include "can.h"
 #include "can_protocol.h"
 #include "velocity.h"
-#include "led.h"
 
 #define CAN_MOTOR_COUNT								16
 #define	CAN_MOTOR_BASE								0x0B0
 
-/*** TX ***/
+/*** RX ***/
 #define	CAN_MOTOR_VEL_LENGTH					6
 #define CAN_MOTOR_VEL_CMD							0xAA
 
@@ -22,10 +21,15 @@
 #define CAN_MOTOR_LOCK_LENGTH	 		  	1
 #define CAN_MOTOR_LOCK_CMD						0xEE	
 
-/*** RX ***/
+/*** TX ***/
 #define CAN_ENCODER_FEEDBACK_LENGTH		5
 #define CAN_ENCODER_FEEDBACK					0x22
-
+#define CAN_PWM_FEEDBACK_LENGTH		5
+#define CAN_PWM_FEEDBACK					0x23
+#define CAN_TARGET_VEL_FEEDBACK_LENGTH		5
+#define CAN_TARGET_VEL_FEEDBACK					0x24
+#define CAN_CURR_VEL_FEEDBACK_LENGTH		5
+#define CAN_CURR_VEL_FEEDBACK					0x25
 
 typedef enum {
 	MOTOR1 = 0,
@@ -46,7 +50,7 @@ typedef enum {
 	MOTOR16
 } MOTOR_ID;
 
-#define this_motor MOTOR6
+#define this_motor MOTOR3
 
 
 /*** TX ***/
@@ -55,6 +59,9 @@ void motor_set_vel(MOTOR_ID motor_id, s32 vel, CLOSE_LOOP_FLAG close_loop_flag);
 void motor_set_acceleration(MOTOR_ID motor_id, u16 accel);
 void motor_lock(MOTOR_ID motor_id);
 void send_encoder(s32 encoder_value);
+void send_current_pwm(s32 pwm_value);
+void send_target_vel(s32 target_vel);
+void send_curr_vel(s32 curr_vel);
 
 /*** RX ***/
 void can_motor_feedback_encoder(CanRxMsg msg);

@@ -14,7 +14,7 @@
   ******************************************************************************
   */
 #include "main.h"
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 static u16 ticks_img = 65535;	//trivial value
 
@@ -29,6 +29,7 @@ int main(void)
 	can_init();
 	can_rx_init();
 	can_motor_init();
+	led_control(LED_BOTH, LED_ON);
 	/** end of init **/
 
 	while (true) {

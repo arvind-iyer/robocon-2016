@@ -15,6 +15,7 @@
   */
 #include "main.h"		
 //#define DEBUG_MODE
+#define FEEDBACK_MODE
 
 static u16 ticks_img = 65535;	//trivial value
 
@@ -39,9 +40,14 @@ int main(void)
 			/** Accelerate for every milisecond if motor not reach our velocity setting**/
 			velocity_update();
 			/** end of motor control **/
-			if (ticks_img % 5 == 0) {
-				send_encoder(get_encoder());
-			}
+			#ifdef FEEDBACK_MODE
+				if (ticks_img % 5 == 0) {
+					send_encoder(get_encoder());
+					send_current_pwm(get_current_pwm());
+					send_target_vel(get_target_vel());
+					send_curr_vel(get_current_vel());
+				}
+			#endif
 			
 #ifdef DEBUG_MODE	// In debug mode, for hardware to debug by themselves
 			debug();

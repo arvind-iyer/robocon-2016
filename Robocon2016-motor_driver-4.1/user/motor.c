@@ -34,8 +34,8 @@ void motor_init(void)
   GPIO_Init(MOTOR_MAG_GPIOx, &GPIO_InitStructure);
 
 	/* PWM direction GPIO configuation */
-	MOTOR_DIR_RCC_init();
-	GPIO_InitStructure.GPIO_Pin = MOTOR_DIR1_Pin | MOTOR_DIR2_Pin;
+	//MOTOR_DIR_RCC_init();
+	GPIO_InitStructure.GPIO_Pin = MOTOR_DIR_Pin;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz; 
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
   GPIO_Init(MOTOR_DIR_GPIOx, &GPIO_InitStructure);
@@ -75,11 +75,9 @@ void motor_init(void)
 static void set_dir(DIRECTION dir)
 {
 	if (dir == ANTI_CKW) {
-		GPIO_SetBits(MOTOR_DIR_GPIOx, MOTOR_DIR1_Pin);
-		GPIO_ResetBits(MOTOR_DIR_GPIOx, MOTOR_DIR2_Pin);
+		GPIO_SetBits(MOTOR_DIR_GPIOx, MOTOR_DIR_Pin);
 	} else if (dir == CKW) {
-		GPIO_SetBits(MOTOR_DIR_GPIOx,MOTOR_DIR2_Pin);
-		GPIO_ResetBits(MOTOR_DIR_GPIOx,MOTOR_DIR1_Pin);
+		GPIO_ResetBits(MOTOR_DIR_GPIOx,MOTOR_DIR_Pin);
 	}
 }
 
