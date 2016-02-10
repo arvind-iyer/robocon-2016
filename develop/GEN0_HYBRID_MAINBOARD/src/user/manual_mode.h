@@ -21,8 +21,7 @@
 #include "robot_control.h"
 
 #define ACC_THRESHOLD 2
-#define ACC_RATE 45 // FROM 1 to 1000, 1000 is instant change speed
-#define XBC_BUTTON_MIN_PRESSED 6
+#define ACC_RATE 50 // FROM 1 to 1000, 1000 is instant change speed
 
 void manual_reset(void);
 void manual_init(void);

@@ -5,7 +5,7 @@
 #include "can.h"
 #include "uart.h"
 
-#define CAN_TX_QUEUE_MAX_SIZE				4000
+#define CAN_TX_QUEUE_MAX_SIZE				2000
 #define CAN_TX_IRQHander						void USB_HP_CAN1_TX_IRQHandler(void)
 	
 #define CAN_Rx_IRQn									USB_LP_CAN1_RX0_IRQn

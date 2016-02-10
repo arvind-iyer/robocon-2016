@@ -152,11 +152,11 @@ void manual_interval_update(){
 	}
 	
 	//Deal with climbing
-	if (button_pressed(BUTTON_XBC_A) > XBC_BUTTON_MIN_PRESSED){
+	if (button_pressed(BUTTON_XBC_A)){
 		climb_continue();
 		climbing_induced_ground_lock = LOCKED;
 		tft_append_line("CLIMBING");
-	}else	if (button_pressed(BUTTON_XBC_Y) > XBC_BUTTON_MIN_PRESSED){
+	}else	if (button_pressed(BUTTON_XBC_Y)){
 		descend_continue();
 		climbing_induced_ground_lock = LOCKED;
 		tft_append_line("DESCENDING");
@@ -167,7 +167,7 @@ void manual_interval_update(){
 	
 	//Locking the motors
 	//TODO: Add PID locking
-	if (button_pressed(BUTTON_XBC_X) > XBC_BUTTON_MIN_PRESSED){
+	if (button_pressed(BUTTON_XBC_X)){
 		if (press_button_X == UNLOCKED){
 			press_button_X = LOCKED;
 			buzzer_beep(75);
@@ -184,7 +184,7 @@ void manual_interval_update(){
 	}
 	
 	//Pneumatic control
-	if (button_pressed(BUTTON_XBC_B) > XBC_BUTTON_MIN_PRESSED){
+	if (button_pressed(BUTTON_XBC_B)){
 		if (press_button_B == UNLOCKED){
 			press_button_B = LOCKED;
 			pneumatic_toggle();

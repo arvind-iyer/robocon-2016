@@ -15,7 +15,7 @@
   */
 #include "main.h"		
 //#define DEBUG_MODE
-#define FEEDBACK_MODE
+//#define FEEDBACK_MODE
 
 static u16 ticks_img = 65535;	//trivial value
 

@@ -4,6 +4,9 @@
 static s32 can_motor_encoder_value[CAN_MOTOR_COUNT] = {0};
 static s32 can_motor_pwm_value[CAN_MOTOR_COUNT] = {0};
 
+//To ignore message sent from the past
+u16 last_received_ticks = 0;
+
 void can_motor_init(void)
 {
 	can_rx_add_filter(get_can_motor_id(this_motor), CAN_RX_MASK_EXACT, 	motor_cmd_decoding);
@@ -178,6 +181,31 @@ void motor_cmd_decoding(CanRxMsg msg)
 				}
 			}
 			break;
+		case CAN_MOTOR_VEL_STAMP_CMD:
+			if (msg.DLC == CAN_MOTOR_VEL_STAMP_LENGTH) {
+				u16 received_ticks = n_bytes_to_one(&msg.Data[5], 2);
+				
+				//Receiving message from the past.. Ignore it
+				if ((last_received_ticks > received_ticks+5)){
+					break;
+				}else{
+					last_received_ticks = received_ticks;
+				}
+				
+				const u8 VEL_SIZE = 4;	// velocity data contain 4 bytes
+				u8 fragment_vel[VEL_SIZE] = {0};
+				for (u8 i = 0; i < VEL_SIZE; ++i) {
+					fragment_vel[i] = msg.Data[i+1];
+				}
+				CLOSE_LOOP_FLAG loop_flag = (CLOSE_LOOP_FLAG) msg.Data[7];// 7-th byte is loop-flag (start as 0th byte)
+				// velocity or pwm control.
+				s32 velocity = n_bytes_to_one(fragment_vel, VEL_SIZE);
+				// Ignore if same velocity is sent.
+				if (velocity != get_target_vel() || loop_flag == OPEN_LOOP) {
+					(loop_flag == CLOSE_LOOP) ? set_velocity(velocity) : set_pwm(velocity);
+				}
+			}
+			break;
 		case CAN_MOTOR_ACCEL_CMD:
 			if (msg.DLC == CAN_MOTOR_ACCEL_LENGTH) {
 				const u8 ACCEL_SIZE = 2;	// acceleration data contain 2 bytes
@@ -206,6 +234,18 @@ void motor_cmd_decoding(CanRxMsg msg)
 		case CAN_MOTOR_LOCK_CMD:
 			if (msg.DLC == CAN_MOTOR_LOCK_LENGTH) {
 				lock_motor();
+			}
+			break;
+		case CAN_MOTOR_LOCK_STAMP_CMD:
+			if (msg.DLC == CAN_MOTOR_LOCK_STAMP_LENGTH) {
+				lock_motor();
+			}
+			s32 received_ticks = n_bytes_to_one(&msg.Data[1], 2);
+			//Receiving message from the past.. Ignore it
+			if ((last_received_ticks - received_ticks)>0){
+				break;
+			}else{
+				received_ticks = last_received_ticks;
 			}
 			break;
 		default:

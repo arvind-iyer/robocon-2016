@@ -21,6 +21,12 @@
 #define CAN_MOTOR_LOCK_LENGTH	 		  	1
 #define CAN_MOTOR_LOCK_CMD						0xEE	
 
+#define	CAN_MOTOR_VEL_STAMP_LENGTH							8
+#define CAN_MOTOR_VEL_STAMP_CMD									0xAB
+
+#define CAN_MOTOR_LOCK_STAMP_LENGTH	 		  	3
+#define CAN_MOTOR_LOCK_STAMP_CMD						0xED	
+
 /*** TX ***/
 #define CAN_ENCODER_FEEDBACK_LENGTH		5
 #define CAN_ENCODER_FEEDBACK					0x22
@@ -50,7 +56,7 @@ typedef enum {
 	MOTOR16
 } MOTOR_ID;
 
-#define this_motor MOTOR3
+#define this_motor MOTOR2
 
 
 /*** TX ***/
