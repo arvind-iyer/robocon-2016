@@ -51,7 +51,7 @@ int main(void) {
 			if (control_state == MANUAL_MODE){
 				manual_reset();
 			}else{
-				auto_reset();
+				auto_init();
 			}
 		}
 		last_control_state = control_state;
@@ -72,9 +72,13 @@ int main(void) {
 				if (control_state == MANUAL_MODE){
 					manual_interval_update();
 				}else{
-					auto_var_update();			
-					auto_motor_update();
-					//auto_calibrate();
+					if (auto_get_state()) {
+						auto_var_update();			
+						auto_motor_update();
+						//auto_calibrate();
+					} else {
+						auto_menu_update();
+					}
 				}
 				can_xbc_mb_lcd_tx();
 			}
