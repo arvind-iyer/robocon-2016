@@ -87,30 +87,3 @@ int main(void) {
 		last_loop_ticks = this_loop_ticks;
 	}
 }
-/*
-=======
-
-int main(void)
-{
-	//auto_tar_enqueue(0, 1500, 0, 0.0, true);
-	
-	
-	//8-figure
-	auto_tar_enqueue(500, 0, 0, 0.0, false);
-	auto_tar_enqueue(1000, 500, 0, -2.0, false);
-	auto_tar_enqueue(500, 1000, 0, -2.0, false);
-	auto_tar_enqueue(0, 500, 0, -2.0, false);
-	auto_tar_enqueue(0, -500, 0, 0.0, false);
-	auto_tar_enqueue(-500, -1000, 0, 2.0, false);
-	auto_tar_enqueue(-1000, -500, 0, 2.0, false);
-	auto_tar_enqueue(-500, 0, 0, 2.0, false); 
-	auto_tar_enqueue(0, 0, 0, 0.0, true);
-	
-	
-	//circle
-	auto_tar_enqueue(1000, 1000, 0, 1.0, true);
-	auto_tar_enqueue(2000, 0, 0, 1.0, true);
-	auto_tar_enqueue(1000, -1000, 0, 1.0, true);
-	auto_tar_enqueue(0, 0, 0, 1.0, true);
-}
-*/

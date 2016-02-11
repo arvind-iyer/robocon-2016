@@ -17,11 +17,11 @@ int auto_get_ticks(void);
 void auto_init(void);
 void auto_reset(void);
 bool auto_get_state(void);
-void auto_menu_update(void);
-void auto_var_update(void);
 void auto_track_path(int angle, int rotate, int maxvel, bool curved);
 void auto_motor_stop(void);
-void auto_motor_update(void);
 void auto_calibrate(void);
+void auto_menu_update(void);
+void auto_var_update(void);
+void auto_motor_update(void);
 
 #endif
