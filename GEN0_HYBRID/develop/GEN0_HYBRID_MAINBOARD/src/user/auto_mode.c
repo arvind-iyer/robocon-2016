@@ -168,7 +168,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		p = tar_x - ori_x;
 		q = tar_y - ori_y;
 		err = p*(tar_y - cur_y) - q*(tar_x - cur_x);
-		err /= Sqrt(Sqr(p)+Sqr(q));
+		err /= (int)(Sqrt(Sqr(p)+Sqr(q)));
 	} else { //curve
 		err = Sqrt(Sqr(tar_cen_x - cur_x) + Sqr(tar_cen_y - cur_y));
 		err *= (tar_rad / Abs(tar_rad));
@@ -223,11 +223,9 @@ void auto_motor_update(){
 	tft_clear();
 	tft_prints(0,0,"X:%5d Y:%5d",cur_x,cur_y);
 	tft_prints(0,1,"ANGLE %d",cur_deg);
-	tft_prints(0,2,"%d %d",tar_x,tar_y);
+	tft_prints(0,2,"TAR %d %d",tar_x,tar_y);
 	tft_prints(0,3,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,4,"TIM %3d",auto_get_ticks()/1000);
-	tft_prints(0,5,"%d, %d",degree,degree_diff);
-	tft_prints(0,6,"%d, %d",tar_head,tar_end);
 	tft_update();
 }
 
