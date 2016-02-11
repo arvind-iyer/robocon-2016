@@ -1,5 +1,7 @@
 package com.dranithix.robocon.systems;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -14,7 +16,7 @@ import com.dranithix.robocon.net.events.MotorControlEvent;
  *
  */
 public class RobotControlSystem extends Task {
-
+	
 	public static final int MAX_VELOCITY = 140;
 	public static final int STOP_DISTANCE = 2000;
 
@@ -178,6 +180,19 @@ public class RobotControlSystem extends Task {
 		moveRobot(velocity, robotBearing, angularVelocity);
 	}
 
+	public void _curve(ArrayList<RobotTarget> control) {
+		for (double t=0; t!=1; t=t+0.2) {
+			float x=0.0f;
+			float y=0.0f;
+			for (int i=0; i!=control.size(); i++) {
+				x=(float) (x+Math.pow(1-t, control.size()-i)*Math.pow(t, i)*control.get(i).targetPos.x);
+				y=(float) (y+Math.pow(1-t, control.size()-i)*Math.pow(t, i)*control.get(i).targetPos.y);
+			}
+			this.addQueue(new Vector2(x, y), 0, 50, 360, 20);
+			System.out.println("added x=" + x + " y=" + y);
+		}
+	}
+	
 	/**
 	 * UPDATES ERR SCALE, TO BE CALLED AFTER EVERY MOVEMENT
 	 * <p>
