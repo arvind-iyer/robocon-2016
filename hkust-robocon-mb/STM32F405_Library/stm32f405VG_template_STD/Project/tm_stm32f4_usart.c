@@ -122,7 +122,6 @@ void TM_USART_Init(USART_TypeDef* USARTx, TM_USART_PinsPack_t pinspack, uint32_t
 #ifdef USE_USART3
 	if (USARTx == USART3) {
 		TM_USART_INT_Init(USART3, pinspack, baudrate, TM_USART3_HARDWARE_FLOW_CONTROL, TM_USART3_MODE, TM_USART3_PARITY, TM_USART3_STOP_BITS, TM_USART3_WORD_LENGTH);
-        
 	}
 #endif
 #ifdef USE_UART4
@@ -150,6 +149,18 @@ void TM_USART_Init(USART_TypeDef* USARTx, TM_USART_PinsPack_t pinspack, uint32_t
 		TM_USART_INT_Init(UART8, pinspack, baudrate, TM_UART8_HARDWARE_FLOW_CONTROL, TM_UART8_MODE, TM_UART8_PARITY, TM_UART8_STOP_BITS, TM_UART8_WORD_LENGTH);
 	}
 #endif
+}
+
+/**
+  * @brief  Sending one byte of data via USART
+  * @param  COM: which USART to be used for sending data
+  * @param  data: one byte data to be sent
+  * @retval None
+  */
+void uart_tx_byte(USART_TypeDef* USARTx, uc8 data)
+{
+	while (USART_GetFlagStatus(USARTx, USART_FLAG_TC) == RESET); 
+	USART_SendData(USARTx,data);
 }
 
 void TM_USART_InitWithFlowControl(USART_TypeDef* USARTx, TM_USART_PinsPack_t pinspack, uint32_t baudrate, TM_USART_HardwareFlowControl_t FlowControl) {
@@ -269,18 +280,6 @@ uint8_t TM_USART_BufferEmpty(USART_TypeDef* USARTx) {
 	return (u->Num == 0 && u->In == u->Out);
 }
 
-/**
-  * @brief  Sending one byte of data via USART
-  * @param  COM: which USART to be used for sending data
-  * @param  data: one byte data to be sent
-  * @retval None
-  */
-void uart_tx_byte(USART_TypeDef* USARTx, uc8 data)
-{
-	while (USART_GetFlagStatus(USARTx, USART_FLAG_TC) == RESET); 
-	USART_SendData(USARTx, (uint16_t)data);
-}
-
 uint8_t TM_USART_BufferFull(USART_TypeDef* USARTx) {
 	TM_USART_t* u = TM_USART_INT_GetUsart(USARTx);
 	
@@ -304,7 +303,6 @@ void TM_USART_SetCustomStringEndCharacter(USART_TypeDef* USARTx, uint8_t Charact
 	/* Set delimiter */
 	u->StringDelimiter = Character;
 }
-
 
 uint8_t TM_USART_FindCharacter(USART_TypeDef* USARTx, uint8_t c) {
 	uint16_t num, out;
@@ -353,8 +351,6 @@ void TM_USART_Puts(USART_TypeDef* USARTx, char* str) {
 	}
 }
 
-
-
 void TM_USART_Send(USART_TypeDef* USARTx, uint8_t* DataArray, uint16_t count) {
 	uint16_t i;
 	TM_USART_t* u = TM_USART_INT_GetUsart(USARTx);
@@ -373,23 +369,6 @@ void TM_USART_Send(USART_TypeDef* USARTx, uint8_t* DataArray, uint16_t count) {
 		USART_WAIT(USARTx);
 	}
 }
-
-void TM_USART_Send_Byte(USART_TypeDef* USARTx, uint8_t data) {
-	TM_USART_t* u = TM_USART_INT_GetUsart(USARTx);
-	/* If we are not initialized */
-	if (u->Initialized == 0) {
-		return;
-	}
-	/* Go through entire data array */
-    /* Wait to be ready, buffer empty */
-    USART_WAIT(USARTx);
-    /* Send data */
-    USARTx->DR = (uint16_t)(data);
-    /* Wait to be ready, buffer empty */
-    USART_WAIT(USARTx);
-	
-}
-
 
 /* Private functions */
 void TM_USART_INT_InsertToBuffer(TM_USART_t* u, uint8_t c) {
@@ -551,8 +530,8 @@ void TM_USART3_InitPins(TM_USART_PinsPack_t pinspack) {
 	/* Init pins */
 #if defined(GPIOB)
 	if (pinspack == TM_USART_PinsPack_1) {
-		TM_GPIO_InitAlternate(GPIOB, GPIO_Pin_10 | GPIO_Pin_11, TM_GPIO_OType_PP, TM_GPIO_PuPd_UP, TM_GPIO_Speed_High, GPIO_AF_USART3);
-    }
+		TM_GPIO_InitAlternate(GPIOB, GPIO_Pin_10 | GPIO_Pin_11, TM_GPIO_OType_PP, TM_GPIO_PuPd_UP, TM_GPIO_Speed_Fast, GPIO_AF_USART3);
+	}
 #endif
 #if defined(GPIOC)
 	if (pinspack == TM_USART_PinsPack_2) {
@@ -664,7 +643,6 @@ void TM_UART8_InitPins(TM_USART_PinsPack_t pinspack) {
 
 #ifdef USE_USART1
 void USART1_IRQHandler(void) {
-    tft_prints(0,6,"USART 1 RUN");
 	/* Check if interrupt was because data is received */
 	if (USART1->SR & USART_SR_RXNE) {
 		#ifdef TM_USART1_USE_CUSTOM_IRQ
@@ -695,7 +673,6 @@ void USART2_IRQHandler(void) {
 
 //#ifdef USE_USART3
 //void USART3_IRQHandler(void) {
-//    tft_prints(0,6,"AB");
 //	/* Check if interrupt was because data is received */
 //	if (USART3->SR & USART_SR_RXNE) {
 //		#ifdef TM_USART3_USE_CUSTOM_IRQ
@@ -708,7 +685,6 @@ void USART2_IRQHandler(void) {
 //	}
 //}
 //#endif
-
 
 #ifdef USE_UART4
 void UART4_IRQHandler(void) {
@@ -833,7 +809,8 @@ static void TM_USART_INT_Init(
 #ifdef USE_USART3
 	if (USARTx == USART3) {
 		/* Enable USART clock */
-		RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
+		//RCC->APB1ENR |= RCC_APB1ENR_USART3EN;
+        RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
 		
 		/* Init pins */
 		TM_USART3_InitPins(pinspack);
@@ -907,6 +884,11 @@ static void TM_USART_INT_Init(
 	USART_DeInit(USARTx);
 	
 	/* Fill NVIC settings */
+    #ifdef VECT_TAB_RAM
+	NVIC_SetVectorTable(NVIC_VectTab_RAM,0x0);
+	#else
+	NVIC_SetVectorTable(NVIC_VectTab_FLASH,0x0);
+	#endif
 	NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = USART_NVIC_PRIORITY;
 	NVIC_InitStruct.NVIC_IRQChannelSubPriority = TM_USART_INT_GetSubPriority(USARTx);
@@ -918,6 +900,7 @@ static void TM_USART_INT_Init(
 	USART_InitStruct.USART_Parity = Parity;
 	USART_InitStruct.USART_StopBits = StopBits;
 	USART_InitStruct.USART_WordLength = WordLength;
+    USART_InitStruct.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
 	
 	/* We are not initialized */
 	u->Initialized = 0;
@@ -929,14 +912,17 @@ static void TM_USART_INT_Init(
 	
 	/* Init */
 	USART_Init(USARTx, &USART_InitStruct);
+
 	
 	/* Enable RX interrupt */
-	USARTx->CR1 |= USART_CR1_RXNEIE;
+	//USARTx->CR1 |= USART_CR1_RXNEIE;
+    USART_ITConfig(USARTx,USART_IT_RXNE,ENABLE);
 	
 	/* We are initialized now */
 	u->Initialized = 1;
 	
 	/* Enable USART peripheral */
-	USARTx->CR1 |= USART_CR1_UE;
+	//USARTx->CR1 |= USART_CR1_UE;
+    USART_Cmd(USARTx, ENABLE);
 }
 

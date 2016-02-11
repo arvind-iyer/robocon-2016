@@ -79,7 +79,7 @@ void handleCommand(char * command) {
 
 
 int main(void) {
-	SystemInit();
+    SystemInit();
 	led_init();
 
 	//IMPORTANT: TM_DELAY_INIT MUST BE BEFORE ticks_init!!!
@@ -93,11 +93,10 @@ int main(void) {
 
 	//Initialize the 2 USART Ports
     char buffer[512];
-    TM_USART_Init(USART1, TM_USART_PinsPack_1, 115200);
-    //TM_USART_Init(USART3, TM_USART_PinsPack_1, 115200);
     
+    //TM_USART_Init(USART3, TM_USART_PinsPack_1
     //LCD Initialization
-    tft_init(PIN_ON_RIGHT,BLACK,WHITE,RED); //Init LCD
+    tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED); //Init LCD
     //tft_put_logo(110, 90);
     
     //Initialize Gyro module
@@ -110,10 +109,10 @@ int main(void) {
 
     
     //Initialize the CAN protocol
-    can_init();
-    can_rx_init();
-    can_rx_add_filter(0x0C5,CAN_RX_MASK_DIGIT_0_F,receive);
-    can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
+//    can_init();
+//    can_rx_init();
+//    can_rx_add_filter(0x0C5,CAN_RX_MASK_DIGIT_0_F,receive);
+    //can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
     //can_motor_init();
     
     //Initialize encoder
@@ -121,20 +120,16 @@ int main(void) {
 	while (1) {
         if(get_ms_ticks() != ticks_ms_img){
             ticks_ms_img = get_ms_ticks();
-            tft_prints(0,0,"X: %d",get_X());
-            tft_prints(0,1,"Y: %d",get_Y());
-            tft_prints(0,2,"Angle: %d",get_angle());
-            tft_update();
-
-            
+//            tft_prints(0,0,"X: %d",get_X());
+//            tft_prints(0,1,"Y: %d",get_Y());
+//            tft_prints(0,2,"Angle: %d",get_angle());
             //TM_USART_Puts(USART1, "Benchod\n");
-            //TM_USART_Puts(USART3, "BENCHOD\n");
-            if(get_ms_ticks() % 200 == 0){
+            if(get_ms_ticks() % 250 == 0){
                 LED_ON(LED_1);
                 LED_ON(LED_2);
  
             }
-            if(get_ms_ticks() % 200 == 100){
+            if(get_ms_ticks() % 250 == 125){
                 LED_OFF(LED_1);
                 LED_OFF(LED_2);
             }

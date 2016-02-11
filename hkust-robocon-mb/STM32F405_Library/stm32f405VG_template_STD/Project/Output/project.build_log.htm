@@ -17,36 +17,26 @@ Library Manager: ArmAr.exe V5.06 (build 20)
 Hex Converter:   FromElf.exe V5.06 (build 20)
 CPU DLL:         SARMCM3.DLL V5.16a
 Dialog DLL:      DCM.DLL V1.13.2.0
-Target DLL:      UL2CM3.DLL V1.155.12.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.17.0
 Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
 C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\STM32F405_Library\stm32f405VG_template_STD\Project\project.uvprojx
-Project File Date:  02/04/2016
+Project File Date:  02/11/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F4_ROBOCON'
-compiling can_protocol.c...
-can_protocol.c(42): warning:  #177-D: variable "GPIO_InitStructure" was declared but never referenced
-  	GPIO_InitTypeDef GPIO_InitStructure;
-can_protocol.c: 1 warning, 0 errors
-compiling main.c...
-..\Project\gyro.h(45): warning:  #1-D: last line of file ends without a newline
+compiling gyro.c...
+gyro.h(62): warning:  #1-D: last line of file ends without a newline
   #endif		/* __GYRO_H */
-src\main.c(49): warning:  #550-D: variable "contents" was set but never used
-  	int contents[16];
-src\main.c(145): warning:  #111-D: statement is unreachable
-  	return 0;
-src\main.c(146): warning:  #1-D: last line of file ends without a newline
+gyro.c(279): warning:  #1-D: last line of file ends without a newline
   }
-src\main.c(95): warning:  #177-D: variable "buffer" was declared but never referenced
-      char buffer[512];
-src\main.c: 5 warnings, 0 errors
+gyro.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=23772 RO-data=976 RW-data=2112 ZI-data=36392  
+Program Size: Code=22768 RO-data=976 RW-data=2128 ZI-data=36392  
 FromELF: creating hex file...
-".\Output\project.hex" - 0 Error(s), 6 Warning(s).
+".\Output\project.hex" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 

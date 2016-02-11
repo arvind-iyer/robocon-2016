@@ -39,12 +39,3 @@
 .\output\tm_stm32f4_usart.o: attributes.h
 .\output\tm_stm32f4_usart.o: defines.h
 .\output\tm_stm32f4_usart.o: tm_stm32f4_gpio.h
-.\output\tm_stm32f4_usart.o: gyro.h
-.\output\tm_stm32f4_usart.o: tm_stm32f4_usart.h
-.\output\tm_stm32f4_usart.o: ticks.h
-.\output\tm_stm32f4_usart.o: tm_stm32f4_delay.h
-.\output\tm_stm32f4_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\output\tm_stm32f4_usart.o: approx_math.h
-.\output\tm_stm32f4_usart.o: lcd.h
-.\output\tm_stm32f4_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\output\tm_stm32f4_usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
