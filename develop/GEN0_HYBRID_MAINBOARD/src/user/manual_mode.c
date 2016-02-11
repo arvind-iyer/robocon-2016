@@ -13,13 +13,15 @@
 
 #include "manual_mode.h"
 
-s32 curr_vx = 0, curr_vy = 0, curr_rotate = 0;
+s32 curr_vx = 0, curr_vy = 0, curr_angle = 0;
+s32 curr_heading = 0;
 LOCK_STATE is_climbing = LOCKED;
 LOCK_STATE brushless_lock = UNLOCKED;
 LOCK_STATE ground_wheels_lock = UNLOCKED;
 LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
 LOCK_STATE press_button_B = UNLOCKED;
 LOCK_STATE press_button_X = UNLOCKED;
+bool is_rotating = false;
 
 u16 brushless_pressed_time[2] = {0};
 
@@ -32,11 +34,12 @@ void manual_init(){
 }
 
 void manual_reset(){
-	curr_vx = curr_vy = curr_rotate = 0;
+	curr_vx = curr_vy = curr_angle = curr_heading = 0;
 	brushless_lock = UNLOCKED;
 	ground_wheels_lock = UNLOCKED;
 	climbing_induced_ground_lock = UNLOCKED;
 	press_button_B = press_button_X = UNLOCKED;
+	is_rotating = false;
 	brushless_control_all(0, true);
 }
 
@@ -45,6 +48,33 @@ void manual_fast_update(){
 	if (ground_wheels_lock == LOCKED){
 		//_lockInTarget();
 	}
+}
+
+s16 last_angle_pid = 0;
+s32 sum_of_last_angle_error = 0;
+//Do PID in angle
+s32 angle_pid(){
+	s16 this_curr_global_angle = get_angle();
+	s16 this_target_global_angle = curr_heading;
+	//Map both angles to same area
+	while(this_curr_global_angle>=1800){
+		this_curr_global_angle -= 3600;
+	}
+	while(this_curr_global_angle<-1800){
+		this_curr_global_angle += 3600;
+	}
+	while(this_target_global_angle>=1800){
+		this_target_global_angle -= 3600;
+	}
+	while(this_target_global_angle<-1800){
+		this_target_global_angle += 3600;
+	}
+	s32 error = this_target_global_angle - this_curr_global_angle;
+	sum_of_last_angle_error = sum_of_last_angle_error*8/9 + error;
+	//This value scaled by 1000(PID constant) and then 10(angle scale)
+	s32 temp = error*ANGLE_PID_P + sum_of_last_angle_error*ANGLE_PID_I + (this_curr_global_angle-last_angle_pid)*ANGLE_PID_D;
+	last_angle_pid = this_curr_global_angle;
+	return temp;
 }
 
 //Interval update is called in a timed interval, reducing stress
@@ -57,22 +87,63 @@ void manual_interval_update(){
 			s32 vx = xbc_get_joy(XBC_JOY_LX);
 			s32 vy = xbc_get_joy(XBC_JOY_LY);
 			
-			//Plus 1800 to switch heading
-			//curr_angle = int_arc_tan2(curr_vx, curr_vy)*10 + 1800;
-			
-			//Put acceleration
-			if (Abs(curr_vx - vx) > ACC_THRESHOLD || Abs(curr_vy - vy) > ACC_THRESHOLD){
-				curr_vx = (curr_vx*(1000-ACC_RATE)/1000 + vx*ACC_RATE/1000);
-				curr_vy = (curr_vy*(1000-ACC_RATE)/1000 + vy*ACC_RATE/1000);
-			}else{
-				curr_vx = vx;
-				curr_vy = vy;
+			/*
+			** This part calculate acceleration
+			** It caps the max. acceleration for both x and y
+			** By finding the axis with more difference(thus more acceleration), cap it
+			** Then use the same proportion for the another axis to ensure the angle is correct
+			*/
+			u8 acceleration_amount;
+			//If both x and y are at low speed, use low speed mode
+			if (Abs(curr_vx) < LOW_SPEED_THRESHOLD && Abs(curr_vy) < LOW_SPEED_THRESHOLD){
+				acceleration_amount = LOW_SPEED_ACC;
+			}else {
+				acceleration_amount = HIGH_SPEED_ACC;
 			}
 			
-			s32 curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
-			curr_rotate = -xbc_get_joy(XBC_JOY_RX)/3;
+			//Use the axis with larger difference as the major consideration
+			//The other axis simply follow the proportion
+			if (Abs(curr_vx - vx) > Abs(curr_vy - vy)){
+				//Use x-axis as major
+				s32 proportion;
+				if (curr_vx > vx){
+					proportion = acceleration_amount *1000 / ((s32)curr_vx - vx);
+					curr_vx -= acceleration_amount;
+				}else{
+					proportion = acceleration_amount *1000 / ((s32)vx - curr_vx);
+					curr_vx += acceleration_amount;
+				}
+				
+				curr_vy += (vy - curr_vy) *proportion /1000;
+				
+			}else{
+				//Use y-axis as major
+				s32 proportion;
+				if (curr_vy > vy){
+					proportion = acceleration_amount *1000 / ((s32)curr_vy - vy);
+					curr_vy -= acceleration_amount;
+				}else{
+					proportion = acceleration_amount *1000 / ((s32)vy - curr_vy);
+					curr_vy += acceleration_amount;
+				}
+				
+				curr_vx += (vx - curr_vx) *proportion /1000;
+			}
+			
+			curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
+			s32 curr_rotate = -xbc_get_joy(XBC_JOY_RX)/3;
+			//change heading for angle PID use
+			if (curr_rotate == 0){
+				if (is_rotating){
+					is_rotating = false;
+					curr_heading = get_angle();
+				}
+				curr_rotate = -angle_pid()/1500;
+			}else{
+				is_rotating = true;
+			}
 
-			s32 curr_speed = (curr_vx*curr_vx + curr_vy*curr_vy) / 300;
+			s32 curr_speed = (curr_vx*curr_vx + curr_vy*curr_vy) / 700;
 			s32 motor_vel[3] = {0};
 			motor_vel[0] = (int_sin(curr_angle)*curr_speed*(-1)/10000 + curr_rotate)/10;
 			motor_vel[1] = (int_sin(curr_angle+1200)*curr_speed*(-1)/10000 + curr_rotate)/10;
@@ -82,10 +153,12 @@ void manual_interval_update(){
 				//motor_set_vel(MOTOR1 + i, motor_vel[i], motor_vel[i]==0?OPEN_LOOP:CLOSE_LOOP);
 				motor_set_vel(MOTOR1 + i, motor_vel[i], CLOSE_LOOP);
 			}
+			tft_append_line("%d %d", curr_vx, curr_vy);
+			tft_append_line("%d", curr_rotate);
 			tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
-			tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
-			tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
-			tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/10000, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);
+			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
+			//tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
+			//tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/10000, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);
 		}else{
 			for (u8 i=0;i<3;i++){
 				//motor_set_vel(MOTOR1 + i, motor_vel[i], motor_vel[i]==0?OPEN_LOOP:CLOSE_LOOP);
@@ -96,7 +169,15 @@ void manual_interval_update(){
 	
 	tft_append_line("%d", this_loop_ticks);
 	
-	//Calcuate brushless
+	/* 
+	** This part provide the safety lock and control for the brushless motors
+	**
+	** Control Manual: 
+	** first 30% -> No respond
+	** 30% ~ 50% -> Able to make eco start moving (constant across)
+	** 50% ~ 100% -> grow linearly to 50%
+	** Keep 100% -> Continue grow to max power wih respect to time
+	*/
 	if (brushless_lock == UNLOCKED){
 		if (button_pressed(BUTTON_XBC_LB) && button_pressed(BUTTON_XBC_RB)){
 			//Run the brushless
@@ -104,12 +185,6 @@ void manual_interval_update(){
 			//brushless_control(BRUSHLESS_1, xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
 			//brushless_control(BRUSHLESS_2, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
 
-			/* Control Manual: 
-			** first 30% -> No respond
-			** 30% ~ 50% -> Able to make eco start moving (constant across)
-			** 50% ~ 100% -> Constant 50%
-			** Keep 100% -> Continue grow to max power
-			*/
 			for (u8 i=0;i<BRUSHLESS_COUNT;i++){
 				if (xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max*3/10)){
 					brushless_pressed_time[i] = 0;
@@ -130,10 +205,10 @@ void manual_interval_update(){
 						brushless_pressed_time[i] = 10000;
 					}
 					
-					//If less than 0.7 seconds, keep 50%
+					//If less than 0.7 seconds, grow linearly to 50%
 					if (brushless_pressed_time[i]<700){
 						u16 Iamjustatempvariable = 35 + (xbc_get_joy(brushless_joy_sticks[i] - brushless_stick_max/2))*15/128;
-						brushless_control((BRUSHLESS_ID)i, 50, true);
+						brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
 						tft_append_line("%d%", Iamjustatempvariable);
 					}else{
 						u16 Iamjustatempvariable = 50 + (brushless_pressed_time[i]-700)/20;
@@ -151,7 +226,12 @@ void manual_interval_update(){
 		}
 	}
 	
-	//Deal with climbing
+	/*
+	** This part is related to climbing mechanism
+	** Hold button A to climb up
+	** Hold button Y to descend
+	** While climbing, the ground wheels should be locked
+	*/
 	if (button_pressed(BUTTON_XBC_A)){
 		climb_continue();
 		climbing_induced_ground_lock = LOCKED;
@@ -165,7 +245,12 @@ void manual_interval_update(){
 		climbing_induced_ground_lock = UNLOCKED;
 	}
 	
-	//Locking the motors
+
+	/*
+	** This part deals with locking the robot.
+	** When the lock button(X) is pressed, the ground wheels should be locked at least
+	** For further implementation, it should lock itself in place with PID
+	*/
 	//TODO: Add PID locking
 	if (button_pressed(BUTTON_XBC_X)){
 		if (press_button_X == UNLOCKED){
@@ -183,7 +268,9 @@ void manual_interval_update(){
 			press_button_X = UNLOCKED;
 	}
 	
-	//Pneumatic control
+	/*
+	** This part deals with locking the robot onto the pole.
+	*/
 	if (button_pressed(BUTTON_XBC_B)){
 		if (press_button_B == UNLOCKED){
 			press_button_B = LOCKED;

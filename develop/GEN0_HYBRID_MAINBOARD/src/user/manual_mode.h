@@ -20,8 +20,14 @@
 #include "main.h"
 #include "robot_control.h"
 
-#define ACC_THRESHOLD 2
-#define ACC_RATE 50 // FROM 1 to 1000, 1000 is instant change speed
+#define LOW_SPEED_ACC 10
+#define HIGH_SPEED_ACC 25
+#define LOW_SPEED_THRESHOLD 50
+
+//Scaled by 1000
+#define ANGLE_PID_P 3000
+#define ANGLE_PID_I 0
+#define ANGLE_PID_D 0
 
 void manual_reset(void);
 void manual_init(void);
