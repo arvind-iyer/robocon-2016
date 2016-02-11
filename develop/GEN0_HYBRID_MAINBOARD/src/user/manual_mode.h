@@ -29,6 +29,8 @@
 #define ANGLE_PID_I 0
 #define ANGLE_PID_D 0
 
+#define BRUSHLESS_LOCK_TIMEOUT 5000
+
 void manual_reset(void);
 void manual_init(void);
 void manual_interval_update(void);

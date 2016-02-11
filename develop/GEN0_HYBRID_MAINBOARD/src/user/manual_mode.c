@@ -24,6 +24,7 @@ LOCK_STATE press_button_X = UNLOCKED;
 bool is_rotating = false;
 
 u16 brushless_pressed_time[2] = {0};
+u16 brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT+1;
 
 static XBC_JOY brushless_joy_sticks[2] = {XBC_JOY_LT, XBC_JOY_RT};
 static u16 brushless_stick_max = 255;
@@ -40,6 +41,7 @@ void manual_reset(){
 	climbing_induced_ground_lock = UNLOCKED;
 	press_button_B = press_button_X = UNLOCKED;
 	is_rotating = false;
+	brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT + 1;
 	brushless_control_all(0, true);
 }
 
@@ -80,6 +82,7 @@ s32 angle_pid(){
 //Interval update is called in a timed interval, reducing stress
 void manual_interval_update(){
 	tft_clear();
+	u16 ticks_different = (this_loop_ticks - last_long_loop_ticks);
 	
 	if (ground_wheels_lock == UNLOCKED){
 		if (climbing_induced_ground_lock == UNLOCKED){
@@ -179,50 +182,64 @@ void manual_interval_update(){
 	** Keep 100% -> Continue grow to max power wih respect to time
 	*/
 	if (brushless_lock == UNLOCKED){
-		if (button_pressed(BUTTON_XBC_LB) && button_pressed(BUTTON_XBC_RB)){
-			//Run the brushless
-			//tft_append_line("B:%d %d", xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
-			//brushless_control(BRUSHLESS_1, xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
-			//brushless_control(BRUSHLESS_2, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
+		//Run the brushless
+		//tft_append_line("B:%d %d", xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
+		//brushless_control(BRUSHLESS_1, xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
+		//brushless_control(BRUSHLESS_2, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
 
-			for (u8 i=0;i<BRUSHLESS_COUNT;i++){
-				if (xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max*3/10)){
-					brushless_pressed_time[i] = 0;
-					brushless_control((BRUSHLESS_ID)i, 0, true);
-					tft_append_line("%d%", 0);
-					
-				}else if(xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max/2)){
-					brushless_pressed_time[i] = 0;
-					brushless_control((BRUSHLESS_ID)i, 35, true);
-					tft_append_line("%d%", 35);
-					
+		//If not quite pressed, count time
+		if (xbc_get_joy(brushless_joy_sticks[0]) < (brushless_stick_max/10) && xbc_get_joy(brushless_joy_sticks[1]) < (brushless_stick_max/10)){
+				if ((brushless_lock_timeout + ticks_different) < BRUSHLESS_LOCK_TIMEOUT){
+					brushless_lock_timeout += ticks_different;
 				}else{
-					//Cap the brushless_pressed_time to avoid overflow
-					u16 ticks_different = (this_loop_ticks - last_long_loop_ticks);
-					if ((brushless_pressed_time[i] + ticks_different) < 10000){
-						brushless_pressed_time[i] += ticks_different;
-					}else{
-						brushless_pressed_time[i] = 10000;
-					}
-					
-					//If less than 0.7 seconds, grow linearly to 50%
-					if (brushless_pressed_time[i]<700){
-						u16 Iamjustatempvariable = 35 + (xbc_get_joy(brushless_joy_sticks[i] - brushless_stick_max/2))*15/128;
-						brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
-						tft_append_line("%d%", Iamjustatempvariable);
-					}else{
-						u16 Iamjustatempvariable = 50 + (brushless_pressed_time[i]-700)/20;
-						Iamjustatempvariable = Iamjustatempvariable>100?100:Iamjustatempvariable;
-						brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
-						tft_append_line("%d%", Iamjustatempvariable);
-					}
+					brushless_lock = LOCKED;
+					brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT + 1;
+				}
+		}else{
+			brushless_lock_timeout = 0;
+		}
+			
+		
+		for (u8 i=0;i<BRUSHLESS_COUNT;i++){
+
+			if (xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max*3/10)){
+				brushless_pressed_time[i] = 0;
+				brushless_control((BRUSHLESS_ID)i, 0, true);
+				tft_append_line("%d%", 0);
+				
+			}else if(xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max/2)){
+				brushless_pressed_time[i] = 0;
+				brushless_control((BRUSHLESS_ID)i, 35, true);
+				tft_append_line("%d%", 35);
+				
+			}else{
+				//Cap the brushless_pressed_time to avoid overflow
+				if ((brushless_pressed_time[i] + ticks_different) < 10000){
+					brushless_pressed_time[i] += ticks_different;
+				}else{
+					brushless_pressed_time[i] = 10000;
+				}
+				
+				//If less than 0.7 seconds, grow linearly to 50%
+				if (brushless_pressed_time[i]<700){
+					u16 Iamjustatempvariable = 35 + (xbc_get_joy(brushless_joy_sticks[i] - brushless_stick_max/2))*15/128;
+					brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
+					tft_append_line("%d%", Iamjustatempvariable);
+				}else{
+					u16 Iamjustatempvariable = 50 + (brushless_pressed_time[i]-700)/20;
+					Iamjustatempvariable = Iamjustatempvariable>100?100:Iamjustatempvariable;
+					brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
+					tft_append_line("%d%", Iamjustatempvariable);
 				}
 			}
-		}else{
-			brushless_control_all(0, true);
-			for (u8 i=0;i<BRUSHLESS_COUNT;i++){
-				brushless_pressed_time[i] = 0;
-			}
+		}
+	}else if (button_pressed(BUTTON_XBC_LB) && button_pressed(BUTTON_XBC_RB)){
+		brushless_lock = UNLOCKED;
+		brushless_lock_timeout = 0;
+	}else{
+		brushless_control_all(0, true);
+		for (u8 i=0;i<BRUSHLESS_COUNT;i++){
+			brushless_pressed_time[i] = 0;
 		}
 	}
 	
