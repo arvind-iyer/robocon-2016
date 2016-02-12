@@ -21,6 +21,8 @@ LOCK_STATE ground_wheels_lock = UNLOCKED;
 LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
 LOCK_STATE press_button_B = UNLOCKED;
 LOCK_STATE press_button_X = UNLOCKED;
+s32 motor_vel[3] = {0};
+CLOSE_LOOP_FLAG motor_loop_state[3] = {CLOSE_LOOP};
 bool is_rotating = false;
 
 u16 brushless_pressed_time[2] = {0};
@@ -43,13 +45,6 @@ void manual_reset(){
 	is_rotating = false;
 	brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT + 1;
 	brushless_control_all(0, true);
-}
-
-//This fast update is for controlling things that require a high refresh rate
-void manual_fast_update(){
-	if (ground_wheels_lock == LOCKED){
-		//_lockInTarget();
-	}
 }
 
 s16 last_angle_pid = 0;
@@ -77,6 +72,19 @@ s32 angle_pid(){
 	s32 temp = error*ANGLE_PID_P + sum_of_last_angle_error*ANGLE_PID_I + (this_curr_global_angle-last_angle_pid)*ANGLE_PID_D;
 	last_angle_pid = this_curr_global_angle;
 	return temp;
+}
+
+//This fast update is for controlling things that require a high refresh rate
+void manual_fast_update(){
+	if (ground_wheels_lock == LOCKED){
+		//_lockInTarget();
+		s32 curr_rotate = -angle_pid()/1500;
+		for (u8 i=0;i<3;i++){
+			motor_vel[i] = curr_rotate/10;
+			motor_loop_state[i] = CLOSE_LOOP;
+			motor_set_vel(MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
+		}
+	}
 }
 
 //Interval update is called in a timed interval, reducing stress
@@ -147,25 +155,22 @@ void manual_interval_update(){
 			}
 
 			s32 curr_speed = (curr_vx*curr_vx + curr_vy*curr_vy) / 700;
-			s32 motor_vel[3] = {0};
 			motor_vel[0] = (int_sin(curr_angle)*curr_speed*(-1)/10000 + curr_rotate)/10;
 			motor_vel[1] = (int_sin(curr_angle+1200)*curr_speed*(-1)/10000 + curr_rotate)/10;
 			motor_vel[2] = (int_sin(curr_angle+2400)*curr_speed*(-1)/10000 + curr_rotate)/10;
 			
 			for (u8 i=0;i<3;i++){
-				//motor_set_vel(MOTOR1 + i, motor_vel[i], motor_vel[i]==0?OPEN_LOOP:CLOSE_LOOP);
-				motor_set_vel(MOTOR1 + i, motor_vel[i], CLOSE_LOOP);
+				motor_loop_state[i] = CLOSE_LOOP;
 			}
 			tft_append_line("%d %d", curr_vx, curr_vy);
 			tft_append_line("%d", curr_rotate);
-			tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/10000, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);
 		}else{
 			for (u8 i=0;i<3;i++){
-				//motor_set_vel(MOTOR1 + i, motor_vel[i], motor_vel[i]==0?OPEN_LOOP:CLOSE_LOOP);
-				motor_set_vel(MOTOR1 + i, 0, OPEN_LOOP);
+				motor_vel[i] = 0;
+				motor_loop_state[i] = OPEN_LOOP;
 			}
 		}
 	}
@@ -274,6 +279,7 @@ void manual_interval_update(){
 			press_button_X = LOCKED;
 			buzzer_beep(75);
 			if (ground_wheels_lock == UNLOCKED){
+				curr_heading = get_angle();
 				ground_wheels_lock = LOCKED;
 				_setCurrentAsTarget();
 			}else {
@@ -296,5 +302,13 @@ void manual_interval_update(){
 	}else{
 		press_button_B = UNLOCKED;
 	}
+	
+	//At last apply the motor velocity and display it
+	//Also happends in fast update
+	for (u8 i=0;i<3;i++){
+		motor_set_vel(MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
+	}
+	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
+	
 	tft_update();
 }

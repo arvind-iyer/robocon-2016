@@ -188,7 +188,6 @@ void can_xbc_mb_lcd_tx(void)
       data->color = text_color[x][y];
       data->bg_color = bg_color[x][y];
       data->text = text[x][y];
-      
 
       
       // TEXT OF THE SAME COLOR AND SAME BG_COLOR WILL BE PACKED INSIDE THE SAME PACKAGE

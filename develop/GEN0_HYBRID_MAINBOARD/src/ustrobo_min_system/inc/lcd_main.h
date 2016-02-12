@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
-
+#include "lcd_font.h"
 #include "delay.h"
 
 // SPI, RST, DC
@@ -55,22 +55,16 @@
 #define CHAR_MAX_Y_VERTICAL		10
 
 #define CHAR_MAX_X_HORIZONTAL	20
-#define CHAR_MAX_Y_HORIZONTAL	8
+#define CHAR_MAX_Y_HORIZONTAL	10
 
-#define CHAR_MAX_X_ANY	20
-#define CHAR_MAX_Y_ANY	10
+#define CHAR_MAX_X	20
+#define CHAR_MAX_Y	10
 
-extern u8 tft_orientation;
-extern u8 tft_width;
-extern u8 tft_height;
-extern u16 curr_bg_color;
-extern u16 curr_text_color;
-extern u16 curr_text_color_sp;
+extern char text[CHAR_MAX_X][CHAR_MAX_Y];
+extern u16 text_color[CHAR_MAX_X][CHAR_MAX_Y];
+extern u16 bg_color[CHAR_MAX_X][CHAR_MAX_Y];
+extern u8 text_bg_color_prev[CHAR_MAX_X][CHAR_MAX_Y]; // for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color
 
-extern char text						[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-extern u16 text_color				[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-extern u16 bg_color					[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-extern u8 text_bg_color_prev[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY]; // for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color
 
 typedef enum {
 	PIN_ON_TOP = 0,
@@ -102,7 +96,11 @@ void tft_fill_color(u16 color);
 u8 tft_char_is_changed(u8 x, u8 y);
 void tft_prints(u8 x, u8 y, const char * pstr, ...);
 void tft_update(void);
+void tft_update_trigger(void (*fx)(void));
 u8 tft_get_orientation(void);
+u8 tft_get_max_x_char(void);
+u8 tft_get_max_y_char(void);
+
 void tft_append_line(const char * pstr, ...);
 void tft_stream(const char * pstr, ...);
 
@@ -110,4 +108,4 @@ void tft_put_mega_ass_num(u8 x, u8 y, u8 character, u16 color);
 void tft_mega_update(void);
 void tft_put_logo(u8 x, u8 y);
 
-#endif		/* __LCD_RED_H */
+#endif
