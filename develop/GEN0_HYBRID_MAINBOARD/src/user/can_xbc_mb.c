@@ -166,7 +166,6 @@ static u8 xbc_lcd_data_color_diff(XBC_LCD_DATA* data1, XBC_LCD_DATA* data2)
 }
 
 
-
 /**
   * @brief Transmit Mainboard LCD data to XBC
   */

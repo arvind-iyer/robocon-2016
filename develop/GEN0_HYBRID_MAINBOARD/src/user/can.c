@@ -35,7 +35,7 @@ void can_init(void)
 	CAN_StructInit(&CAN_InitStructure);
 	
 	/* CAN cell init */
-	CAN_InitStructure.CAN_TTCM = ENABLE;
+	CAN_InitStructure.CAN_TTCM = DISABLE;
 	CAN_InitStructure.CAN_ABOM = ENABLE;
 	CAN_InitStructure.CAN_AWUM = DISABLE;
 	CAN_InitStructure.CAN_NART = DISABLE;
