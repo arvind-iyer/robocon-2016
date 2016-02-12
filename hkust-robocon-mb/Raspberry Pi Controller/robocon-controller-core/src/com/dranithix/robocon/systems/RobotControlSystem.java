@@ -172,18 +172,21 @@ public class RobotControlSystem extends Task {
 		moveRobot(velocity, robotBearing, angularVelocity);
 	}
 
+	/**
+	 * 
+	 * @param control
+	 */
 	public void _curve(ArrayList<RobotTarget> control) {
 		for (double t = 0; t <= 1; t = t + 0.2) {
-			float x = 0.0f;
-			float y = 0.0f;
+			float x = 0;
+			float y = 0;
 			for (int i = 0; i != control.size(); i++) {
-				x = x + (float) (binomial(control.size(), i) * Math.pow(1 - t, control.size() - i) * Math.pow(t, i)
-						* control.get(i).targetPos.x);
-				y = y + (float) (binomial(control.size(), i) * Math.pow(1 - t, control.size() - i) * Math.pow(t, i)
-						* control.get(i).targetPos.y);
+				double c = binomial(control.size() - 1, i) * Math.pow(1 - t, control.size() - i - 1) * Math.pow(t, i);
+				x = (float) (x + c * control.get(i).targetPos.x);
+				y = (float) (y + c * control.get(i).targetPos.y);
 			}
 			this.addQueue(new Vector2(x, y), 0, 50, 360, 20);
-			System.out.println("added x=" + x + " y=" + y);
+			// System.out.println("added x=" + x + " y=" + y);
 		}
 	}
 
