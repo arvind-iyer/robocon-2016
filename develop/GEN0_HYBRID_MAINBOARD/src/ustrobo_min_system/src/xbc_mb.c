@@ -455,7 +455,6 @@ void xbc_test_program(void)
 {
 	u32 this_loop_ticks = 0;
 	u8	pressed_cnt = 0;
-	u8  pre_pressed_cnt = 0;
 	u16 press_times = 0;
 	u8 xbc_test_ko = 0;
 	u32 pre_xbc_press = 0;
@@ -471,7 +470,6 @@ void xbc_test_program(void)
 			if (get_ticks() % 20 == 0) {
 				led_control(LED_D1, LED_ON);
 				led_control(LED_D2, LED_OFF);
-				pre_pressed_cnt = pressed_cnt;
 				pre_xbc_press = xbc_press;
 				xbc_update();
 				switch (pressed_cnt)

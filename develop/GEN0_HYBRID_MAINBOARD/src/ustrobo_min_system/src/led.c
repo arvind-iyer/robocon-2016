@@ -46,12 +46,12 @@ void led_control(LED led, LED_STATE state){
 void led_blink(LED led){
 
 	if (led & LED_D1) {
-		led_control(LED_D1, !(led_state&LED_D1));
+		led_control(LED_D1, (LED_STATE) !(led_state&LED_D1));
 	}
 	if (led & LED_D2) {
-		led_control(LED_D2, !(led_state&LED_D2));
+		led_control(LED_D2, (LED_STATE) !(led_state&LED_D2));
 	}
 	if (led & LED_D3) {
-		led_control(LED_D3, !(led_state&LED_D3));
+		led_control(LED_D3, (LED_STATE) !(led_state&LED_D3));
 	}
 }

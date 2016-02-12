@@ -82,7 +82,7 @@ void manual_fast_update(){
 		for (u8 i=0;i<3;i++){
 			motor_vel[i] = curr_rotate/10;
 			motor_loop_state[i] = CLOSE_LOOP;
-			motor_set_vel(MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
+			motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
 		}
 	}
 }
@@ -306,7 +306,7 @@ void manual_interval_update(){
 	//At last apply the motor velocity and display it
 	//Also happends in fast update
 	for (u8 i=0;i<3;i++){
-		motor_set_vel(MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
+		motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
 	}
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	

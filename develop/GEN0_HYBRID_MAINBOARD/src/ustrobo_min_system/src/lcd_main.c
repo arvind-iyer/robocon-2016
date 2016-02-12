@@ -568,7 +568,7 @@ void tft_append_line(const char * pstr, ...){
 	vsprintf((char*)buf, (const char*)pstr, arglist);
 	va_end(arglist);
 	
-	if (tft_y_index<0 || tft_y_index>char_max_y){
+	if (tft_y_index>char_max_y){
 		tft_y_index = 0;
 	}
 

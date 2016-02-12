@@ -67,6 +67,5 @@ RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 
 
 u32 get_adc(u8 i){
-
 return adc_value[i];
 }

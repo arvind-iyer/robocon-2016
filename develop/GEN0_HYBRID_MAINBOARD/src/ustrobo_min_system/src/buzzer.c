@@ -36,4 +36,5 @@ void buzzer_update(){
 			GPIO_ResetBits(BUZZER_GPIO_PORT, BUZZER_GPIO_PIN);
 		}
 	}
+
 }

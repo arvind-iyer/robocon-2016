@@ -65,7 +65,7 @@ void stop_climbing(){
 
 void pneumatic_toggle(){
 	if (get_emergency_lock() == LOCKED) return;
-	pneumatic_state = !pneumatic_state;
+	pneumatic_state = (LOCK_STATE)!pneumatic_state;
 	pneumatic_control(GPIOB, GPIO_Pin_9, pneumatic_state);
 }
 
