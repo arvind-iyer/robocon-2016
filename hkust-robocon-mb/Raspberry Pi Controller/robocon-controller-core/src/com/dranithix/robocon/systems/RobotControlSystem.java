@@ -173,8 +173,11 @@ public class RobotControlSystem extends Task {
 	}
 
 	/**
+	 * CURVE
+	 * <p>
 	 * 
 	 * @param control
+	 *            CONTROL POINTS
 	 */
 	public void _curve(ArrayList<RobotTarget> control) {
 		for (double t = 0; t <= 1; t = t + 0.2) {
@@ -309,6 +312,14 @@ public class RobotControlSystem extends Task {
 		this.currentBearing = bearing / 10;
 	}
 
+	/**
+	 * BINOMIAL COEFFICIENT
+	 * <p>
+	 * 
+	 * @param n
+	 * @param k
+	 * @return
+	 */
 	private int binomial(int n, int k) {
 		if (k > n - k)
 			k = n - k;
