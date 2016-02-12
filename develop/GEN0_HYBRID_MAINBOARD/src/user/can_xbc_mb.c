@@ -166,6 +166,7 @@ static u8 xbc_lcd_data_color_diff(XBC_LCD_DATA* data1, XBC_LCD_DATA* data2)
 }
 
 
+
 /**
   * @brief Transmit Mainboard LCD data to XBC
   */
@@ -188,6 +189,7 @@ void can_xbc_mb_lcd_tx(void)
       data->color = text_color[x][y];
       data->bg_color = bg_color[x][y];
       data->text = text[x][y];
+      
 
       
       // TEXT OF THE SAME COLOR AND SAME BG_COLOR WILL BE PACKED INSIDE THE SAME PACKAGE
