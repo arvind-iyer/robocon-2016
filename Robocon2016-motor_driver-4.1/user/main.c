@@ -23,6 +23,7 @@ int main(void)
 	/** initialization **/
 motor_init();
 	ticks_init();
+	led_init();
 	/** end of init **/
 	u8 state = 0;
 	u16 last_seconds = 0;
@@ -34,11 +35,21 @@ motor_init();
 		u16 this_seconds = get_seconds();
 		//motor_control(1, 50);
 		if (this_seconds%3==0 && last_seconds!=this_seconds){
-			state==0?motor_control(1, 100):motor_control(0, 50);
-			state = !state;
+			if (state==0){
+				motor_control(0, 230);
+			}else if(state==1){
+				motor_control(1, 230);
+			}else if(state==2){
+				motor_control(1, 230);
+			}else{
+				motor_control(0, 1);
+			}
+			state = (state+1)%2;
 			last_seconds = this_seconds;
 		}
-			life_signal();
+		if (this_seconds>1){
+			led_control(LED_1, LED_ON);
+		}
 #else							// Normal execute mode, led show life signal.
 			/** flahsing led light to show mcu still working **/
 			if (!is_encoder_working()) {

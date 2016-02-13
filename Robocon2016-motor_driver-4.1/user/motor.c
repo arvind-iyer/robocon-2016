@@ -67,11 +67,11 @@ void motor_control(u8 dir,u16 magnitude){
 
 		if(dir==0){
 			GPIO_SetBits(DIR_GPIO,DIR_PIN);
-			TIM_SetCompare3(MOTOR_TIM,magnitude);
+			TIM_SetCompare3(MOTOR_TIM,250-magnitude);
 		}
 		else{
 			GPIO_ResetBits(DIR_GPIO,DIR_PIN);
-			TIM_SetCompare3(MOTOR_TIM,magnitude);
+			TIM_SetCompare3(MOTOR_TIM,250-magnitude);
 		}
 	
 }
