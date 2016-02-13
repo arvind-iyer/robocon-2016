@@ -5,6 +5,7 @@
 #include "approx_math.h"
 #include "motor.h"
 #include "encoder.h"
+#include <stdbool.h>
 
 #define ENCODER_TIM TIM2
 
@@ -22,7 +23,7 @@ extern const u16 PID_Prescalar;
 
 /*** these are regularly call ***/
 void velocity_update(void);
-void motor_control(s32 p, s32 i, s32 d);
+//void motor_control(s32 p, s32 i, s32 d);
 void pos_control(void);
 
 /*** these are triggered by CAN once receive ***/

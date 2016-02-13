@@ -1,32 +1,17 @@
-#ifndef MOTOR_H
-#define MOTOR_H
+#ifndef __MOTOR_H_
+#define __MOTOR_H_
 
-#include <stdbool.h>
 #include "stm32f10x.h"
-#include "approx_math.h"
+#include "stm32f10x_gpio.h"	  
+#include "stm32f10x_tim.h"
 
-#define MAX_PWM									1799
-#define MOTOR_TIM								TIM3
-#define MOTOR_TIM_RCC_init()		RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE)
+#define PWM_GPIO GPIOB
+#define PWM_PIN GPIO_Pin_0
+#define DIR_GPIO GPIOB
+#define DIR_PIN GPIO_Pin_1
+#define MOTOR_TIM TIM3
 
-#define MOTOR_MAG_GPIOx					GPIOB
-#define MOTOR_MAG_Pin						GPIO_Pin_0
-
-#define MOTOR_DIR_GPIOx					GPIOB
-#define MOTOR_DIR_Pin					GPIO_Pin_1
-
-#define MOTOR_MAG_RCC_init()		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE)
-#define MOTOR_DIR_RCC_init()		RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE)
-
-typedef enum {
-	DONT_CARE = -1,
-	ANTI_CKW = 0,
-	CKW = 1
-} DIRECTION;
- 
 void motor_init(void);
-void motion_set_motor(s32 compare);
-void motor_set_pwm(s32 pwm);
-bool is_overspeed(void);
+void motor_control(u8 dir,u16 magnitude);//dir can be 1 or 0 , pwm can be 1 or 2  
 
-#endif	// MOTOR_H
+#endif

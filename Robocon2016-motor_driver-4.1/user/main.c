@@ -21,31 +21,23 @@ static u16 ticks_img = 65535;	//trivial value
 int main(void)
 {
 	/** initialization **/
-	system_init(5000);
+motor_init();
 	ticks_init();
-	led_init();
-	encoder_init();
-	motor_init();
-	can_init();
-	can_rx_init();
-	can_motor_init();
-	led_control(LED_BOTH, LED_ON);
 	/** end of init **/
-
-	while (true) {
-		if (ticks_img != get_ticks()) {
-			ticks_img = get_ticks();
-			/** 1000Hz, can be higher by using systicks instead **/
-			encoder_update();
-			/** Accelerate for every milisecond if motor not reach our velocity setting**/
-			velocity_update();
-			/** end of motor control **/
-			if (ticks_img % 5 == 0) {
-				send_encoder(get_encoder());
-			}
+	u8 state = 0;
+	u16 last_seconds = 0;
+	while (1) {
 			
 #ifdef DEBUG_MODE	// In debug mode, for hardware to debug by themselves
-			debug();
+			//debug();
+		
+		u16 this_seconds = get_seconds();
+		if (this_seconds%3==0 && last_seconds!=this_seconds){
+			state==0?motor_control(0, 150):motor_control(1, 75);
+			state = !state;
+			last_seconds = this_seconds;
+		}
+			life_signal();
 #else							// Normal execute mode, led show life signal.
 			/** flahsing led light to show mcu still working **/
 			if (!is_encoder_working()) {
@@ -57,6 +49,5 @@ int main(void)
 			}
 #endif
 		}
-	}
 }
 

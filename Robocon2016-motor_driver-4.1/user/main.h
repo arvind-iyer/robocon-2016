@@ -18,10 +18,12 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+
 #include <stdio.h>
 #include "stm32f10x.h"
-
-#include "system.h"
+#include "motor.h"
+#include "ticks.h"
+#include "led.h"
 
 #endif
 
