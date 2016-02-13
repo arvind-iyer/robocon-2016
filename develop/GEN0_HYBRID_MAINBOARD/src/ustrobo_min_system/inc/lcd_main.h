@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdbool.h>
 
 #include "delay.h"
 
@@ -99,7 +100,7 @@ void tft_clear_line(u8 line);
 void tft_clear(void);
 void tft_put_pixel(u8 x, u8 y, u16 color);
 void tft_fill_color(u16 color);
-u8 tft_char_is_changed(u8 x, u8 y);
+bool tft_char_is_changed(u8 x, u8 y);
 void tft_prints(u8 x, u8 y, const char * pstr, ...);
 void tft_update(void);
 u8 tft_get_orientation(void);

@@ -12,14 +12,12 @@ u8 tft_y_index = 0;
 u8 char_max_x, char_max_y;
 
 char text							[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-char text_prev				[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+static bool tft_unit_changed	[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
 u16 text_color				[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-u16 text_color_prev		[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
 u16 bg_color					[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-u16 bg_color_prev			[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
 u8 text_bg_color_prev	[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];/*for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color*/
-u16 tft_mega_pre[32][25];
-u16 tft_mega_storage[32][25];
+static u16 tft_mega_pre[32][25];
+static u16 tft_mega_storage[32][25];
 
 u16 print_pos = 0;
 
@@ -294,9 +292,7 @@ void tft_init(TFT_ORIENTATION orientation, u16 in_bg_color, u16 in_text_color, u
 			text_color[x][y] = in_text_color;
 			bg_color[x][y] = in_bg_color;
 
-			text_prev[x][y] = ' ';
-			text_color_prev[x][y] = in_text_color;
-			bg_color_prev[x][y] = in_bg_color;
+			tft_unit_changed[x][y] = true;
 		}
 	}
 	
@@ -419,9 +415,7 @@ void tft_force_clear(void)
 	u8 x, y;
 	for (x = 0; x <= CHAR_MAX_X_ANY; x++) {
 		for (y = 0; y <= CHAR_MAX_Y_ANY; y++) {
-			text_prev[x][y] = ' ';
-			text_color_prev[x][y] = curr_text_color;
-			bg_color_prev[x][y] = curr_bg_color;
+			tft_unit_changed[x][y] = true;
 		}
 	}
 	tft_fill_color(curr_bg_color);
@@ -507,11 +501,9 @@ void tft_fill_color(u16 color)
 	}
 }
 
-u8 tft_char_is_changed(u8 x, u8 y){
-	u8 re = (text_prev[x][y] != text[x][y] || text_color_prev[x][y] != text_color[x][y] || bg_color_prev[x][y] != bg_color[x][y]);
-	text_prev[x][y] = text[x][y];
-	text_color_prev[x][y] = text_color[x][y];
-	bg_color_prev[x][y] = bg_color[x][y];
+bool tft_char_is_changed(u8 x, u8 y){
+	bool re = tft_unit_changed[x][y];
+	tft_unit_changed[x][y] = false;
 	return re;
 }
 
@@ -545,6 +537,13 @@ void tft_prints(u8 x, u8 y, const char * pstr, ...){
 				break;
 			}
 
+			char temp_text = *fp++;
+			u16 temp_text_color = is_special ? curr_text_color_sp : curr_text_color;
+			
+			if (text[x][y] != temp_text || text_color[x][y] != temp_text_color || bg_color[x][y] != curr_bg_color){
+				tft_unit_changed[x][y] = true;
+			}
+			
 			text[x][y] = *fp++;
 			text_color[x][y] = is_special ? curr_text_color_sp : curr_text_color;
 			bg_color[x][y] = curr_bg_color;	
@@ -587,6 +586,13 @@ void tft_append_line(const char * pstr, ...){
 				break;
 			}
 
+			char temp_text = *fp++;
+			u16 temp_text_color = is_special ? curr_text_color_sp : curr_text_color;
+			
+			if (text[x][tft_y_index] != temp_text || text_color[x][tft_y_index] != temp_text_color || bg_color[x][tft_y_index] != curr_bg_color){
+				tft_unit_changed[x][tft_y_index] = true;
+			}
+			
 			text[x][tft_y_index] = *fp++;
 			text_color[x][tft_y_index] = is_special ? curr_text_color_sp : curr_text_color;
 			bg_color[x][tft_y_index] = curr_bg_color;	

@@ -13,20 +13,20 @@
 
 #include "manual_mode.h"
 
-s32 curr_vx = 0, curr_vy = 0, curr_angle = 0;
-s32 curr_heading = 0;
-LOCK_STATE is_climbing = LOCKED;
-LOCK_STATE brushless_lock = UNLOCKED;
-LOCK_STATE ground_wheels_lock = UNLOCKED;
-LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
-LOCK_STATE press_button_B = UNLOCKED;
-LOCK_STATE press_button_X = UNLOCKED;
-s32 motor_vel[3] = {0};
-CLOSE_LOOP_FLAG motor_loop_state[3] = {CLOSE_LOOP};
-bool is_rotating = false;
+static s32 curr_vx = 0, curr_vy = 0, curr_angle = 0;
+static s32 curr_heading = 0;
+static LOCK_STATE is_climbing = LOCKED;
+static LOCK_STATE brushless_lock = UNLOCKED;
+static LOCK_STATE ground_wheels_lock = UNLOCKED;
+static LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
+static LOCK_STATE press_button_B = UNLOCKED;
+static LOCK_STATE press_button_X = UNLOCKED;
+static s32 motor_vel[3] = {0};
+static CLOSE_LOOP_FLAG motor_loop_state[3] = {CLOSE_LOOP};
+static bool is_rotating = false;
 
-u16 brushless_pressed_time[2] = {0};
-u16 brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT+1;
+static u16 brushless_pressed_time[2] = {0};
+static u16 brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT+1;
 
 static XBC_JOY brushless_joy_sticks[2] = {XBC_JOY_LT, XBC_JOY_RT};
 static u16 brushless_stick_max = 255;

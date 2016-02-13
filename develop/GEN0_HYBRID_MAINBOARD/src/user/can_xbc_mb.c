@@ -147,15 +147,6 @@ void can_xbc_mb_tx_enable(bool flag)
   xbc_mb_tx_flag = flag;  
 }
 
-static u8 xbc_lcd_data_diff(XBC_LCD_DATA* data1, XBC_LCD_DATA* data2) 
-{
-  if (data1 == 0 || data2 == 0) {
-    return 0;
-  } else {
-    return data1->color != data2->color || data1->bg_color != data2->bg_color || data1->text != data2->text;
-  }
-}
-
 static u8 xbc_lcd_data_color_diff(XBC_LCD_DATA* data1, XBC_LCD_DATA* data2)
 {
   if (data1 == 0 || data2 == 0) {
@@ -183,13 +174,10 @@ void can_xbc_mb_lcd_tx(void)
   for (u8 y = 0; y < CHAR_MAX_Y_VERTICAL; ++y) {
     for (u8 x = 0; x < CHAR_MAX_X_VERTICAL; ++x) {
       XBC_LCD_DATA* data = &xbc_lcd_data[x][y];
-      XBC_LCD_DATA* data_prev = &xbc_lcd_data_prev[x][y];
       
       data->color = text_color[x][y];
       data->bg_color = bg_color[x][y];
       data->text = text[x][y];
-      
-
       
       // TEXT OF THE SAME COLOR AND SAME BG_COLOR WILL BE PACKED INSIDE THE SAME PACKAGE
       if (text_in_package == 0 || msg.length >= 8 || xbc_lcd_data_color_diff(last_tx_data, data)) {
