@@ -366,6 +366,7 @@ typedef struct
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/  
 
+void uart_tx_byte(USART_TypeDef* USARTx, uc8 data);
 
 /*  Function used to set the USART configuration to the default reset state ***/ 
 void USART_DeInit(USART_TypeDef* USARTx);

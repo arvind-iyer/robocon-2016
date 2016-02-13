@@ -80,6 +80,7 @@ void handleCommand(char * command) {
 
 int main(void) {
     SystemInit();
+    SystemCoreClockUpdate();
 	led_init();
 
 	//IMPORTANT: TM_DELAY_INIT MUST BE BEFORE ticks_init!!!
@@ -102,15 +103,15 @@ int main(void) {
     //Initialize Gyro module
     gyro_init();
 
-	//Initialize I2C Modules (For future Gyro using I2C protocol, not CAN anymore) PB10 & PB12
+	//Initialize I2C Modules (For future Gyro using I2C protocol, not USART anymore) PB10 & PB12
     //TM_I2C_Init(I2C2, TM_I2C_PinsPack_1, 100000); 
 	
     
 
     
     //Initialize the CAN protocol
-//    can_init();
-//    can_rx_init();
+//  can_init();
+//  can_rx_init();
 //    can_rx_add_filter(0x0C5,CAN_RX_MASK_DIGIT_0_F,receive);
     //can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
     //can_motor_init();
@@ -120,19 +121,13 @@ int main(void) {
 	while (1) {
         if(get_ms_ticks() != ticks_ms_img){
             ticks_ms_img = get_ms_ticks();
-//            tft_prints(0,0,"X: %d",get_X());
-//            tft_prints(0,1,"Y: %d",get_Y());
-//            tft_prints(0,2,"Angle: %d",get_angle());
-            //TM_USART_Puts(USART1, "Benchod\n");
-            if(get_ms_ticks() % 250 == 0){
-                LED_ON(LED_1);
-                LED_ON(LED_2);
- 
-            }
-            if(get_ms_ticks() % 250 == 125){
-                LED_OFF(LED_1);
-                LED_OFF(LED_2);
-            }
+            
+            //Show information for the gyro
+            tft_clear();
+            tft_prints(0,0,"X: %d",get_pos()->x);
+            tft_prints(0,1,"Y: %d",get_pos()->y);
+            tft_prints(0,2,"Angle: %d",get_pos()->angle);
+            tft_update();
             
         }    
 	}

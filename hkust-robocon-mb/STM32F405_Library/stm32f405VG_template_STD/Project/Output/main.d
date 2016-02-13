@@ -48,7 +48,7 @@
 .\output\main.o: ..\Project\tm_stm32f4_pwm.h
 .\output\main.o: ..\Project\tm_stm32f4_gpio.h
 .\output\main.o: ..\Project\tm_stm32f4_servo.h
-.\output\main.o: ..\Project\tm_stm32f4_usart.h
+.\output\main.o: ..\Project\usart.h
 .\output\main.o: ..\Project\tm_stm32f4_i2c.h
 .\output\main.o: ..\Project\ticks.h
 .\output\main.o: ..\Project\approx_math.h

@@ -28,6 +28,7 @@ volatile u8 gyro_available = 0;
 void plus_x(void)
 {
 	SHIFT_X++;
+    return;
 }
 void minus_x(void)
 {
@@ -58,7 +59,8 @@ s32 gyro_get_shift_y(void)
   */
 void gyro_init(void)
 {
-   TM_USART_Init(USART3, TM_USART_PinsPack_1,115200);
+   uart_init(GYRO_UART, 115200);
+   uart_interrupt(GYRO_UART);
 }
 
 
@@ -161,32 +163,23 @@ void USART3_IRQHandler(void)
 {
 	u8 rx_data, i;
 	u16 x, y, a;
-    tft_prints(0,3,"Status: %d",USART_GetITStatus(USART3,USART_IT_RXNE));
     
 	if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
 	{
 		rx_data = (u8)USART_ReceiveData(USART3);
-        tft_prints(0,3,"Data: %d",rx_data);
-        if(rx_state > max_state) max_state = rx_state;
-        if(rx_command < min_command) min_command = rx_command; 
-        tft_prints(0,4,"state:%d Max:%d",rx_state,max_state);
-        tft_prints(0,5,"rx command: %d",rx_command);
-        tft_prints(0,6,"min command: %d",min_command);
 		switch (rx_state) {
 			case 0:	// wakeup
-                tft_prints(0,0,"state 0: %d",rx_data);
 				if (rx_data == GYRO_WAKEUP) {
 					rx_command = 0xFF;
 					buf_rec = 0;
-					rx_state = 1;
+					rx_state++;
 				}
 				break;
 			case 1:	// command
-                tft_prints(0,1,"state 1: %d",rx_data);
 				for (i = 0; i < GYRO_COMMAND_LENGTH; i ++) {
 					if (rx_data == rx_command_arr[i]) {
 						rx_command = i;
-						rx_state = 2;
+						rx_state++;
 						break;
 					}
 				}
@@ -194,23 +187,21 @@ void USART3_IRQHandler(void)
 					rx_state = 0;
 				break;
 			case 2: // confirm command
-                tft_prints(0,2,"state 2: %d",rx_data);
-				if (rx_data != buf_len[rx_command]) {                    // wrong data length
-                    rx_state = 0;
+				if (rx_data != buf_len[rx_command]) {		// wrong data length
+					rx_state = 0;
 					break;
 				}
-				rx_state = 3;
-                
+				rx_state++;
 				if (buf_len[rx_command] > 0) {
 					break;
 				}
 			case 3: // receive data
 				if (buf_len[rx_command] == 0) {
-					rx_state = 4;
+					rx_state++;
 				} else {
 					buf_data[buf_rec++] = rx_data;
 					if (buf_rec >= buf_len[rx_command]) {
-						rx_state = 4;
+						rx_state++;
 					} else {
 						break;
 					}
@@ -252,12 +243,9 @@ void USART3_IRQHandler(void)
 				break;
 		}
 	}
-    else{
-        USART_ClearFlag(USART3, USART_FLAG_RXNE);
-        tft_prints(0,7,"Clear Pending Bits");
-    }
-    if(get_ms_ticks() % 10 == 5)tft_update();
+    
 }
+
 
 s16 get_X(void)
 {

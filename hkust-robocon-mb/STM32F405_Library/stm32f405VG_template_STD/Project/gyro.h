@@ -1,14 +1,14 @@
 #ifndef __GYRO_H
 #define __GYRO_H
 
-#include "tm_stm32f4_usart.h"
+#include "usart.h"
 #include "lcd.h"
 #include "ticks.h"
 #include "approx_math.h"
 
 #define MENU_ADD_GYRO_TEST menu_add(5, "Position Test", position_test)
 
-#define GYRO_UART  USART3
+#define GYRO_UART  COM3
 
 /*** Command List ***/
 #define GYRO_WAKEUP				0x01
