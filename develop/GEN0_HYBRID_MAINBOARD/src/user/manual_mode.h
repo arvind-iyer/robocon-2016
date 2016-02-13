@@ -28,6 +28,7 @@
 #define ANGLE_PID_P 3000
 #define ANGLE_PID_I 0
 #define ANGLE_PID_D 0
+#define ANGLE_PID_MAX 600
 
 #define BRUSHLESS_LOCK_TIMEOUT 5000
 

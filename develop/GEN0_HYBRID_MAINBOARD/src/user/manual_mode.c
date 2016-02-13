@@ -67,7 +67,7 @@ s32 angle_pid(){
 		this_target_global_angle += 3600;
 	}
 	s32 error = this_target_global_angle - this_curr_global_angle;
-	sum_of_last_angle_error = sum_of_last_angle_error*8/9 + error;
+	sum_of_last_angle_error = sum_of_last_angle_error*98/99 + error;
 	//This value scaled by 1000(PID constant) and then 10(angle scale)
 	s32 temp = error*ANGLE_PID_P + sum_of_last_angle_error*ANGLE_PID_I + (this_curr_global_angle-last_angle_pid)*ANGLE_PID_D;
 	last_angle_pid = this_curr_global_angle;
@@ -79,6 +79,11 @@ void manual_fast_update(){
 	if (ground_wheels_lock == LOCKED){
 		//_lockInTarget();
 		s32 curr_rotate = -angle_pid()/1500;
+		if (curr_rotate > ANGLE_PID_MAX){
+			curr_rotate = ANGLE_PID_MAX;
+		}else if (curr_rotate < -ANGLE_PID_MAX){
+			curr_rotate = -ANGLE_PID_MAX;
+		}
 		for (u8 i=0;i<3;i++){
 			motor_vel[i] = curr_rotate/10;
 			motor_loop_state[i] = CLOSE_LOOP;
