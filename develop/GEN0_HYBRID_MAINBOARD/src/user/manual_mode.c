@@ -15,21 +15,28 @@
 
 static s32 curr_vx = 0, curr_vy = 0, curr_angle = 0;
 static s32 curr_heading = 0;
+static s32 actual_speed[2] = {0};
+static s32 encoder_last_vel[2][ENCODER_READING_ARRAY_SIZE] = {0};
+static u16	encoder_reading_pointer[2] = {0};
+
+static s32 motor_vel[3] = {0};
+static CLOSE_LOOP_FLAG motor_loop_state[3] = {CLOSE_LOOP};
+static bool is_rotating = false;
+
 static LOCK_STATE is_climbing = LOCKED;
 static LOCK_STATE brushless_lock = UNLOCKED;
 static LOCK_STATE ground_wheels_lock = UNLOCKED;
 static LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
 static LOCK_STATE press_button_B = UNLOCKED;
 static LOCK_STATE press_button_X = UNLOCKED;
-static s32 motor_vel[3] = {0};
-static CLOSE_LOOP_FLAG motor_loop_state[3] = {CLOSE_LOOP};
-static bool is_rotating = false;
 
 static u16 brushless_pressed_time[2] = {0};
 static u16 brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT+1;
-
 static XBC_JOY brushless_joy_sticks[2] = {XBC_JOY_LT, XBC_JOY_RT};
 static u16 brushless_stick_max = 255;
+
+static s16 last_angle_pid = 0;
+static s32 sum_of_last_angle_error = 0;
 
 void manual_init(){
 	xbc_mb_init(XBC_CAN_FIRST);
@@ -47,8 +54,6 @@ void manual_reset(){
 	brushless_control_all(0, true);
 }
 
-s16 last_angle_pid = 0;
-s32 sum_of_last_angle_error = 0;
 //Do PID in angle
 s32 angle_pid(){
 	s16 this_curr_global_angle = get_angle();
@@ -71,24 +76,38 @@ s32 angle_pid(){
 	//This value scaled by 1000(PID constant) and then 10(angle scale)
 	s32 temp = error*ANGLE_PID_P + sum_of_last_angle_error*ANGLE_PID_I + (this_curr_global_angle-last_angle_pid)*ANGLE_PID_D;
 	last_angle_pid = this_curr_global_angle;
+	
+	if (temp > ANGLE_PID_MAX){
+		temp = ANGLE_PID_MAX;
+	}else if (temp < -ANGLE_PID_MAX){
+		temp = -ANGLE_PID_MAX;
+	}
 	return temp;
 }
 
-//This fast update is for controlling things that require a high refresh rate
+/*
+** This fast update is for controlling things that require a high refresh rate
+** It contains:
+** - Locking itself in place
+** - Recording encoder reading and speed
+*/
 void manual_fast_update(){
 	if (ground_wheels_lock == LOCKED){
 		//_lockInTarget();
 		s32 curr_rotate = -angle_pid()/1500;
-		if (curr_rotate > ANGLE_PID_MAX){
-			curr_rotate = ANGLE_PID_MAX;
-		}else if (curr_rotate < -ANGLE_PID_MAX){
-			curr_rotate = -ANGLE_PID_MAX;
-		}
 		for (u8 i=0;i<3;i++){
 			motor_vel[i] = curr_rotate/10;
 			motor_loop_state[i] = CLOSE_LOOP;
 			motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
 		}
+	}
+	
+	//Recording encoder velocity, need to connect encoder to mainboard
+	for (u8 counter=0;counter<2;counter++){
+		s32 encoder_reading = get_encoder_count((ENCODER)counter);
+		encoder_last_vel[counter][encoder_reading_pointer[counter]] = encoder_reading;
+		encoder_reading_pointer[counter] = (encoder_reading_pointer[counter]+1) % ENCODER_READING_ARRAY_SIZE;
+		actual_speed[counter] = encoder_reading - (encoder_reading_pointer[counter]+1) % ENCODER_READING_ARRAY_SIZE;
 	}
 }
 

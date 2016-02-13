@@ -59,6 +59,6 @@ void encoder_init(void){
 	* @param  ENCODERx: where x can be 1 to 2, its value to be 0 or 1
   * @retval The reading of the encoder
   */
-u32 get_count(ENCODER ENCODERx){
+u32 get_encoder_count(ENCODER ENCODERx){
 	return TIM_GetCounter(encoder[ENCODERx].timer);
 }

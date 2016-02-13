@@ -40,6 +40,6 @@ typedef enum {
 
 // function declaration
 void encoder_init(void);
-u32 get_count(ENCODER ENCODERx);
+u32 get_encoder_count(ENCODER ENCODERx);
 
 #endif
