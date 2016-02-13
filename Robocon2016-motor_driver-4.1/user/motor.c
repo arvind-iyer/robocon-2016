@@ -32,7 +32,7 @@ void motor_init(){
 	//------------------------------//366hz
 	//40300for turn on  
 
-	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure);
+	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
 	//final freq= timer freq / prescaler / period
 	
 	// ------------OC Init Configuration------------//

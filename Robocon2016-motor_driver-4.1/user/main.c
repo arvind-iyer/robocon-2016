@@ -32,12 +32,12 @@ motor_init();
 			//debug();
 		
 		u16 this_seconds = get_seconds();
-		motor_control(1, 50);
-//		if (this_seconds%3==0 && last_seconds!=this_seconds){
-//			state==0?motor_control(1, 50):motor_control(0, 75);
-//			state = !state;
-//			last_seconds = this_seconds;
-//		}
+		//motor_control(1, 50);
+		if (this_seconds%3==0 && last_seconds!=this_seconds){
+			state==0?motor_control(1, 100):motor_control(0, 50);
+			state = !state;
+			last_seconds = this_seconds;
+		}
 			life_signal();
 #else							// Normal execute mode, led show life signal.
 			/** flahsing led light to show mcu still working **/
