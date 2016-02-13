@@ -20,7 +20,7 @@
 #include "main.h"
 #include "robot_control.h"
 
-#define LOW_SPEED_ACC 10
+#define LOW_SPEED_ACC 5
 #define HIGH_SPEED_ACC 25
 #define LOW_SPEED_THRESHOLD 50
 
