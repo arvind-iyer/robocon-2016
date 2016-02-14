@@ -415,7 +415,11 @@ void tft_force_clear(void)
 	u8 x, y;
 	for (x = 0; x <= CHAR_MAX_X_ANY; x++) {
 		for (y = 0; y <= CHAR_MAX_Y_ANY; y++) {
-			tft_unit_changed[x][y] = true;
+			if (text[x][y]==' ' && text_color[x][y]==curr_text_color && bg_color[x][y]==curr_bg_color){
+				tft_unit_changed[x][y] = false;
+			}else{
+				tft_unit_changed[x][y] = true;
+			}
 		}
 	}
 	tft_fill_color(curr_bg_color);
@@ -428,10 +432,14 @@ void tft_force_clear(void)
   */
 void tft_clear_line(u8 line){
 	for (u8 x = 0; x < CHAR_MAX_X_ANY; x++) {
+		if (text[x][line]==' ' && text_color[x][line]==curr_text_color && bg_color[x][line]==curr_bg_color){
+			tft_unit_changed[x][line] = false;
+		}else{
+			tft_unit_changed[x][line] = true;
+		}
 		text[x][line] = ' ';
 		text_color[x][line] = curr_text_color;
 		bg_color[x][line] = curr_bg_color;
-		tft_unit_changed[x][line] = true;
 	}
 }
 
