@@ -21,8 +21,8 @@
 #include "robot_control.h"
 
 #define LOW_SPEED_ACC 5
-#define HIGH_SPEED_ACC 25
-#define LOW_SPEED_THRESHOLD 50
+#define HIGH_SPEED_ACC 15
+#define LOW_SPEED_THRESHOLD 100
 
 //Scaled by 1000
 #define ANGLE_PID_P 3000
@@ -38,5 +38,6 @@ void manual_reset(void);
 void manual_init(void);
 void manual_interval_update(void);
 void manual_fast_update(void);
+void manual_vel_set_zero(void);
 
 #endif

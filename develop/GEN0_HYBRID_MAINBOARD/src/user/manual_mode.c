@@ -23,7 +23,6 @@ static s32 motor_vel[3] = {0};
 static CLOSE_LOOP_FLAG motor_loop_state[3] = {CLOSE_LOOP};
 static bool is_rotating = false;
 
-static LOCK_STATE is_climbing = LOCKED;
 static LOCK_STATE brushless_lock = UNLOCKED;
 static LOCK_STATE ground_wheels_lock = UNLOCKED;
 static LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
@@ -52,6 +51,13 @@ void manual_reset(){
 	is_rotating = false;
 	brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT + 1;
 	brushless_control_all(0, true);
+}
+
+void manual_vel_set_zero(){
+	for (u8 i=0;i<3;i++){
+		motor_vel[i] = 0;
+		motor_loop_state[i] = OPEN_LOOP;
+	}
 }
 
 //Do PID in angle
@@ -297,7 +303,6 @@ void manual_interval_update(){
 		stop_climbing();
 		climbing_induced_ground_lock = UNLOCKED;
 	}
-	
 
 	/*
 	** This part deals with locking the robot.
@@ -313,9 +318,11 @@ void manual_interval_update(){
 				curr_heading = get_angle();
 				ground_wheels_lock = LOCKED;
 				_setCurrentAsTarget();
+				manual_vel_set_zero();
 			}else {
 				buzzer_beep(225);
 				ground_wheels_lock = UNLOCKED;
+				manual_vel_set_zero();
 			}
 		}
 	}else{
@@ -343,3 +350,4 @@ void manual_interval_update(){
 	
 	tft_update();
 }
+

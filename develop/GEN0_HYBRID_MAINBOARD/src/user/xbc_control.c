@@ -10,11 +10,11 @@
 
 #include "xbc_control.h"
 
-LOCK_STATE emergency_lock = UNLOCKED;
-LOCK_STATE press_button_back = UNLOCKED;
-LOCK_STATE press_button_XBOX = UNLOCKED;
-CONTROL_STATE current_control_state = MANUAL_MODE;
-XBC_CONNECTION last_connection_state = XBC_DISCONNECTED;
+static LOCK_STATE emergency_lock = UNLOCKED;
+static LOCK_STATE press_button_back = UNLOCKED;
+static LOCK_STATE press_button_XBOX = UNLOCKED;
+static CONTROL_STATE current_control_state = MANUAL_MODE;
+static CAN_XBC_CONNECTION_MODE last_connection_state = XBC_DISCONNECTED;
 
 void xbc_global_update(){
 		
@@ -36,14 +36,15 @@ void xbc_global_update(){
 	}
 	
 	//Turn on the emergency lock if the xbox controller is loose
-	XBC_CONNECTION this_connection_state = xbc_get_connection();
+	CAN_XBC_CONNECTION_MODE this_connection_state = can_xbc_get_connection();
 	if (this_connection_state != last_connection_state){
-		if (this_connection_state != XBC_CAN_CONNECTED){
+		if (this_connection_state == CAN_XBC_DISCONNECTED){
 			emergency_lock = LOCKED;
 			emergency_stop();
 			buzzer_beep(2500);
-		}else{
+		}else if(this_connection_state == CAN_XBC_ALL_CONNECTED){
 			emergency_lock = UNLOCKED;
+			manual_vel_set_zero();
 			buzzer_beep(500);
 		}
 		last_connection_state = this_connection_state;

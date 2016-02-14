@@ -93,5 +93,6 @@ void emergency_stop(){
 	motor_lock(MOTOR4);
 	motor_lock(MOTOR5);
 	motor_lock(MOTOR6);
+	manual_vel_set_zero();
 	brushless_control_all(0, true);
 }
