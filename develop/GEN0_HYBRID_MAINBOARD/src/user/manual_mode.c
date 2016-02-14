@@ -104,10 +104,10 @@ void manual_fast_update(){
 	
 	//Recording encoder velocity, need to connect encoder to mainboard
 	for (u8 counter=0;counter<2;counter++){
-		s32 encoder_reading = get_encoder_count((ENCODER)counter);
-		encoder_last_vel[counter][encoder_reading_pointer[counter]] = encoder_reading;
-		encoder_reading_pointer[counter] = (encoder_reading_pointer[counter]+1) % ENCODER_READING_ARRAY_SIZE;
-		actual_speed[counter] = encoder_reading - (encoder_reading_pointer[counter]+1) % ENCODER_READING_ARRAY_SIZE;
+		//s32 encoder_reading = get_encoder_count((ENCODER)counter);
+		//encoder_last_vel[counter][encoder_reading_pointer[counter]] = encoder_reading;
+		//encoder_reading_pointer[counter] = (encoder_reading_pointer[counter]+1) % ENCODER_READING_ARRAY_SIZE;
+		//actual_speed[counter] = encoder_reading - (encoder_reading_pointer[counter]+1) % ENCODER_READING_ARRAY_SIZE;
 	}
 }
 
@@ -136,9 +136,15 @@ void manual_interval_update(){
 				acceleration_amount = HIGH_SPEED_ACC;
 			}
 			
+			//If the difference is not that much, directly assign speed
+			if (Abs(curr_vx - vx) < (acceleration_amount+1) && Abs(curr_vy - vy) < (acceleration_amount+1)){
+				curr_vx = vx;
+				curr_vy = vy;
+			
+			//Else:
 			//Use the axis with larger difference as the major consideration
 			//The other axis simply follow the proportion
-			if (Abs(curr_vx - vx) > Abs(curr_vy - vy)){
+			}else if (Abs(curr_vx - vx) > Abs(curr_vy - vy)){
 				//Use x-axis as major
 				s32 proportion;
 				if (curr_vx > vx){
@@ -200,6 +206,7 @@ void manual_interval_update(){
 	}
 	
 	tft_append_line("%d", this_loop_ticks);
+	tft_append_line("%d", this_loop_ticks-last_long_loop_ticks);
 	
 	/* 
 	** This part provide the safety lock and control for the brushless motors

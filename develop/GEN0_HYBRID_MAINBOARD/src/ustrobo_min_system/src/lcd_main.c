@@ -267,7 +267,7 @@ void tft_init(TFT_ORIENTATION orientation, u16 in_bg_color, u16 in_text_color, u
 	tft_spi_init();
 	tft_reset();
 	tft_config();
-  	tft_write_command(0x2C);
+  tft_write_command(0x2C);
 	tft_set_bg_color(in_bg_color);
 	tft_set_text_color(in_text_color);
 	tft_set_special_color(in_text_color_sp);
@@ -431,6 +431,7 @@ void tft_clear_line(u8 line){
 		text[x][line] = ' ';
 		text_color[x][line] = curr_text_color;
 		bg_color[x][line] = curr_bg_color;
+		tft_unit_changed[x][line] = true;
 	}
 }
 
@@ -441,8 +442,9 @@ void tft_clear_line(u8 line){
   */
 void tft_clear(void){
 	tft_y_index = 0;
-	for(u8 y = 0; y < CHAR_MAX_Y_ANY; y++)
+	for(u8 y = 0; y < CHAR_MAX_Y_ANY; y++){
 		tft_clear_line(y);
+	}
 }
 
 /**
@@ -544,8 +546,8 @@ void tft_prints(u8 x, u8 y, const char * pstr, ...){
 				tft_unit_changed[x][y] = true;
 			}
 			
-			text[x][y] = *fp++;
-			text_color[x][y] = is_special ? curr_text_color_sp : curr_text_color;
+			text[x][tft_y_index] = temp_text;
+			text_color[x][tft_y_index] = temp_text_color;
 			bg_color[x][y] = curr_bg_color;	
 			x++;
 		}
@@ -593,8 +595,8 @@ void tft_append_line(const char * pstr, ...){
 				tft_unit_changed[x][tft_y_index] = true;
 			}
 			
-			text[x][tft_y_index] = *fp++;
-			text_color[x][tft_y_index] = is_special ? curr_text_color_sp : curr_text_color;
+			text[x][tft_y_index] = temp_text;
+			text_color[x][tft_y_index] = temp_text_color;
 			bg_color[x][tft_y_index] = curr_bg_color;	
 			x++;
 		}
