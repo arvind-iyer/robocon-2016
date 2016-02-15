@@ -28,8 +28,7 @@ import com.kotcrab.vis.ui.widget.VisTable;
  */
 public class Robocon extends ControllerAdapter implements ApplicationListener {
 	public static final int COM_PORT = 4;
-	public static final String COM_PORT_ADDRESS = "COM".concat(Integer
-			.toString(COM_PORT));
+	public static final String COM_PORT_ADDRESS = "COM".concat(Integer.toString(COM_PORT));
 
 	private SettingsWindow settingsWindow;
 
@@ -74,10 +73,8 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 
 		Controllers.addListener(this);
 
-		cam = new OrthographicCamera(Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
-		cam.position.set(Gdx.graphics.getWidth() / 2,
-				Gdx.graphics.getHeight() / 2, 0);
+		cam = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		cam.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
 
 		batch = new SpriteBatch();
 		font = new BitmapFont();
@@ -96,31 +93,32 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 		cam.unproject(mousePos);
 
 		settingsWindow.updateConnectionStatus(serial.isRunning());
-		
-		Controller controller = Controllers.getControllers().first();
-		
-		float leftYAxis = -controller.getAxis(LEFT_X_AXIS);
-		float leftXAxis = controller.getAxis(LEFT_Y_AXIS);
 
-		float rightXAxis = controller.getAxis(RIGHT_Y_AXIS);
+		if (Controllers.getControllers().size > 0) {
+			Controller controller = Controllers.getControllers().first();
 
-		Vector2 leftPoint = new Vector2(leftXAxis, leftYAxis);
-		int leftAngle = 90 - (int) leftPoint.angle();
-		leftAngle = leftAngle < 0 ? 360 + leftAngle : leftAngle;
+			float leftYAxis = -controller.getAxis(LEFT_X_AXIS);
+			float leftXAxis = controller.getAxis(LEFT_Y_AXIS);
 
-		int velocity = (int) MathUtils.clamp(
-				(leftPoint.len() / Math.sqrt(2)) * 100, 0, 100);
-		
-		int angularVelocity = (int) rightXAxis * 100;
+			float rightXAxis = controller.getAxis(RIGHT_Y_AXIS);
 
-		controlSystem.moveRobot(velocity * 0.5f, leftAngle, angularVelocity);
+			Vector2 leftPoint = new Vector2(leftXAxis, leftYAxis);
+			int leftAngle = 90 - (int) leftPoint.angle();
+			leftAngle = leftAngle < 0 ? 360 + leftAngle : leftAngle;
 
+			int velocity = (int) MathUtils.clamp((leftPoint.len() / Math.sqrt(2)) * 100, 0, 100);
+
+			int angularVelocity = (int) rightXAxis * 100;
+
+			controlSystem.moveRobot(velocity * 0.5f, leftAngle, angularVelocity);
+		}
 
 		stage.act();
 		stage.draw();
-		
+
 		batch.begin();
-//		batch.draw(new Texture(ScreenUtils.getFrameBufferPixels(false)), 0, 0);
+		// batch.draw(new Texture(ScreenUtils.getFrameBufferPixels(false)), 0,
+		// 0);
 		batch.end();
 	}
 
