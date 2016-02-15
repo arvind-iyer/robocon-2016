@@ -11,12 +11,13 @@ import com.dranithix.robocon.net.events.ServoControlEvent.ServoType;
  *
  */
 public class RobotFanSystem extends Task {
-
-	private static final int FAN_PWM_MIN = 400;
+	private static final int FAN_PWM_STOP = 500;
+	private static final int FAN_PWM_MIN = 595;
 	private static final int FAN_PWM_MAX = 1050;
 
 	private RobotSerialManager serial;
 
+	private boolean fanStopped = true;
 	private int magnitude = FAN_PWM_MIN;
 
 	private long initStartTime = -1;
@@ -30,27 +31,30 @@ public class RobotFanSystem extends Task {
 	}
 
 	public void fanControl(int magnitude) {
-		System.out.println(magnitude);
+		System.out.println(getPwmValue(magnitude));
 
 		this.magnitude = getPwmValue(magnitude);
 	}
 
 	public void toggleFan(boolean start) {
-		if (start && initStartTime == -1) {
-			initStartTime = System.currentTimeMillis();
+		if (!start) {
+			fanStopped = false;
 			System.out.println("Brushless has started.");
-		} else if (!start && initStartTime != -1) {
-			initStartTime = -1;
-			magnitude = FAN_PWM_MIN;
+		} else if (start) {
+			fanStopped = true;
 			System.out.println("Brushless has stopped.");
 		}
+	}
+	
+	public boolean isFanStopped() {
+		return fanStopped;
 	}
 
 	@Override
 	public void run() {
 		if (serial != null) {
-			serial.sendEvent(new ServoControlEvent(ServoType.SERVO_1, magnitude));
-			serial.sendEvent(new ServoControlEvent(ServoType.SERVO_2, magnitude));
+			serial.sendEvent(new ServoControlEvent(ServoType.SERVO_1, fanStopped ? FAN_PWM_STOP : magnitude));
+			serial.sendEvent(new ServoControlEvent(ServoType.SERVO_2, fanStopped ? FAN_PWM_STOP : magnitude));
 		}
 	}
 

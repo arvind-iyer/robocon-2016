@@ -49,3 +49,4 @@
 .\output\main.o: src\user\position.h
 .\output\main.o: src\user\pneumatic.h
 .\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h

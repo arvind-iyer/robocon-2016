@@ -1,42 +1,36 @@
 package com.dranithix.robocon;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.dranithix.robocon.net.NetworkEvent;
 import com.fazecast.jSerialComm.SerialPort;
+import com.fazecast.jSerialComm.SerialPortEvent;
+import com.fazecast.jSerialComm.SerialPortPacketListener;
 
 /**
  * 
  * @author Kenta Iwasaki
  *
  */
-public class RobotSerialManager implements Disposable, Runnable {
+public class RobotSerialManager implements Disposable, Runnable,
+		SerialPortPacketListener {
 	private RobotSignalProcessor filter = new RobotSignalProcessor();
 
 	private SerialPort comPort;
-	private BufferedReader in;
-	private PrintWriter out;
 
 	private Robocon robocon;
 
 	private boolean running = false;
 
-	private long lastFlush = 0;
-
 	public RobotSerialManager(Robocon robocon) {
 		this.robocon = robocon;
 
 		comPort = SerialPort.getCommPort(Robocon.COM_PORT_ADDRESS);
-		comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 1000,
+		comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 100,
 				100);
-		comPort.setBaudRate(115200);
+		comPort.setBaudRate(38400);
 	}
 
 	public synchronized boolean isRunning() {
@@ -47,8 +41,6 @@ public class RobotSerialManager implements Disposable, Runnable {
 		if (isRunning()) {
 			System.out.println("Robocon: Shutted down server.");
 			comPort.closePort();
-			in = null;
-			out = null;
 			running = false;
 		} else {
 			if (running = comPort.openPort()) {
@@ -57,9 +49,7 @@ public class RobotSerialManager implements Disposable, Runnable {
 								+ System.lineSeparator(),
 						Robocon.COM_PORT_ADDRESS);
 
-				in = new BufferedReader(new InputStreamReader(
-						comPort.getInputStream()));
-				out = new PrintWriter(comPort.getOutputStream(), false);
+				comPort.addDataListener(this);
 			} else {
 				System.out.println("Robocon: Unable to start server on "
 						+ Robocon.COM_PORT_ADDRESS + ".");
@@ -70,13 +60,55 @@ public class RobotSerialManager implements Disposable, Runnable {
 
 	@Override
 	public void run() {
-		try {
-			while (true) {
-				if (isRunning() && in != null) {
-					final String line = in.readLine();
-					if (line == null || line.isEmpty())
-						continue;
-					String[] contents = line.split(Pattern.quote("|"));
+		while (true) {
+			if (!comPort.isOpen()) {
+				running = false;
+			}
+		}
+	}
+
+	public void sendEvent(final NetworkEvent packet) {
+//		System.out.print(packet.getRawPacket());
+		if (isRunning()) {
+			int sendStatus = comPort.writeBytes(packet.getRawPacket()
+					.getBytes(), packet.getRawPacket().length());
+			if (sendStatus == -1) {
+				System.out.println("Error occurred sending packet "
+						+ packet.getRawPacket().replace("\n", "")
+						+ ". Resending...");
+				sendEvent(packet);
+			}
+		}
+	}
+
+	@Override
+	public void dispose() {
+		if (comPort != null)
+			comPort.closePort();
+	}
+
+	@Override
+	public int getListeningEvents() {
+		return SerialPort.LISTENING_EVENT_DATA_RECEIVED;
+	}
+
+	@Override
+	public int getPacketSize() {
+		return 1;
+	}
+
+	StringBuffer receivedPacket = new StringBuffer();
+
+	@Override
+	public void serialEvent(SerialPortEvent event) {
+		if (event.getEventType() == SerialPort.LISTENING_EVENT_DATA_RECEIVED) {
+			receivedPacket.append(new String(event.getReceivedData()));
+
+			String line = receivedPacket.toString();
+			try {
+				if (line.contains("\n")) {
+					String[] contents = line.replace("\n", "").split(
+							Pattern.quote("|"));
 					switch (contents[0]) {
 					case "STATE":
 						Vector2 currentPos = new Vector2(
@@ -90,34 +122,11 @@ public class RobotSerialManager implements Disposable, Runnable {
 						System.out.println(line);
 						break;
 					}
+					receivedPacket = new StringBuffer();
 				}
-			}
-		} catch (Exception ex) {
-			if (ex.getMessage() != null
-					&& ex.getMessage().contains(
-							"Underlying input stream returned zero bytes")) {
-				System.out.println("Robocon: Lost connection with the robot.");
-				toggleConnection();
-			} else {
-				ex.printStackTrace();
+			} catch (NumberFormatException ex) {
+				// Ignore; incomplete packet received.
 			}
 		}
-	}
-
-	public void sendEvent(final NetworkEvent packet) {
-		if (out != null) {
-			synchronized (out) {
-				if (isRunning()) {
-					out.write(packet.getRawPacket());
-					out.flush();
-				}
-			}
-		}
-	}
-
-	@Override
-	public void dispose() {
-		if (comPort != null)
-			comPort.closePort();
 	}
 }

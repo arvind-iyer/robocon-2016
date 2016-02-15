@@ -96,9 +96,32 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 		cam.unproject(mousePos);
 
 		settingsWindow.updateConnectionStatus(serial.isRunning());
+		
+		Controller controller = Controllers.getControllers().first();
+		
+		float leftYAxis = -controller.getAxis(LEFT_X_AXIS);
+		float leftXAxis = controller.getAxis(LEFT_Y_AXIS);
+
+		float rightXAxis = controller.getAxis(RIGHT_Y_AXIS);
+
+		Vector2 leftPoint = new Vector2(leftXAxis, leftYAxis);
+		int leftAngle = 90 - (int) leftPoint.angle();
+		leftAngle = leftAngle < 0 ? 360 + leftAngle : leftAngle;
+
+		int velocity = (int) MathUtils.clamp(
+				(leftPoint.len() / Math.sqrt(2)) * 100, 0, 100);
+		
+		int angularVelocity = (int) rightXAxis * 100;
+
+		controlSystem.moveRobot(velocity * 0.5f, leftAngle, angularVelocity);
+
 
 		stage.act();
 		stage.draw();
+		
+		batch.begin();
+//		batch.draw(new Texture(ScreenUtils.getFrameBufferPixels(false)), 0, 0);
+		batch.end();
 	}
 
 	@Override
@@ -110,7 +133,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 	}
 
 	int brushlessStartCounter = 0;
-	int brushlessMagnitude = 29;
+	int brushlessMagnitude = 0;
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
@@ -129,18 +152,18 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 			break;
 		case 6: // L2
 			brushlessMagnitude += 1;
-			brushlessMagnitude = MathUtils.clamp(brushlessMagnitude, 29, 100);
+			brushlessMagnitude = MathUtils.clamp(brushlessMagnitude, 0, 100);
 			fanSystem.fanControl(brushlessMagnitude);
 			break;
 		case 7: // R2
 			brushlessMagnitude -= 1;
-			brushlessMagnitude = MathUtils.clamp(brushlessMagnitude, 29, 100);
+			brushlessMagnitude = MathUtils.clamp(brushlessMagnitude, 0, 100);
 			fanSystem.fanControl(brushlessMagnitude);
 			break;
 		}
 
 		if (brushlessStartCounter == 2) {
-			fanSystem.toggleFan(true);
+			fanSystem.toggleFan(!fanSystem.isFanStopped());
 		}
 		return false;
 	}
@@ -163,10 +186,6 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 		case 7: // R2
 			break;
 		}
-
-		if (brushlessStartCounter == 0) {
-			fanSystem.toggleFan(false);
-		}
 		return false;
 	}
 
@@ -177,31 +196,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 
 	@Override
 	public boolean axisMoved(Controller controller, int axisCode, float value) {
-		float yAxis = -controller.getAxis(LEFT_X_AXIS);
-		float xAxis = controller.getAxis(LEFT_Y_AXIS);
 
-		float rightYAxis = -controller.getAxis(RIGHT_X_AXIS);
-		float rightXAxis = controller.getAxis(RIGHT_Y_AXIS);
-
-		Vector2 point = new Vector2(xAxis, yAxis);
-		int angle = 90 - (int) point.angle();
-		angle = angle < 0 ? 360 + angle : angle;
-
-		int velocity = (int) MathUtils.clamp(
-				(point.len() / Math.sqrt(2)) * 100, 0, 100);
-
-		controlSystem.moveRobot(velocity, angle, 0);
-
-		//
-		// System.out.println(magnitude + " Angle: " + angle);
-		//
-		// serialThread.sendEvent(new MotorControlEvent(angle, magnitude));
-
-		// serialThread.sendEvent(new MotorControlEvent(
-		// MotorControlEvent.MOTOR_LEFT, leftMotorDir, leftMotorScaled));
-		// serialThread
-		// .sendEvent(new MotorControlEvent(MotorControlEvent.MOTOR_RIGHT,
-		// rightMotorDir, rightMotorScaled));
 		return false;
 	}
 

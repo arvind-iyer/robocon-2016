@@ -33,7 +33,7 @@ typedef struct {
 
 
 #define	X_FLIP						1
-#define	Y_FLIP						-1
+#define	Y_FLIP						1
 /** Varies along robots (depends on the encoder position) **/
 
 extern volatile u8 gyro_available;
