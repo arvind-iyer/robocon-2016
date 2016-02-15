@@ -98,12 +98,13 @@ int main(void) {
 				handleCommand();
 			}
 			
+			tft_clear();
+			
 			// Display TFT to insure screen is on.
-			tft_prints(0, 0, "It works!");	
-			tft_prints(0, 1, "X: %d", get_pos()->x);
-			tft_prints(0, 2, "Y: %d", get_pos()->y);
-			tft_prints(0, 3, "A: %d", get_pos()->angle);
-			tft_prints(0, 4, "Time: %d", get_full_ticks());
+			tft_prints(0, 0, "X: %d", get_pos()->x);
+			tft_prints(0, 1, "Y: %d", get_pos()->y);
+			tft_prints(0, 2, "A: %d", get_pos()->angle);
+			tft_prints(0, 3, "Time: %d", get_full_ticks());
 			tft_update();
 			
 			lastStateUpdate = get_full_ticks();

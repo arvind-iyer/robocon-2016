@@ -1,5 +1,5 @@
 Dependencies for Project 'Project', Target 'stm32_template': (DO NOT MODIFY !)
-F (.\src\user\main.c)(0x56C0E761)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user -I.\src\ustrobo_min_system\src -I.\src\ustrobo_min_system-I "C:\Users\user\Desktop\Robocon 2016\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE"-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
+F (.\src\user\main.c)(0x56C1B7C9)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user -I.\src\ustrobo_min_system\src -I.\src\ustrobo_min_system-I "C:\Users\user\Desktop\Robocon 2016\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE"-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
 I (src\user\main.h)(0x56B3F949)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (.\src\stm32f10x_std\inc\stm32f10x.h)(0x5687A244)
@@ -43,7 +43,7 @@ I (src\user\can_motor.h)(0x56B3F949)
 I (.\src\ustrobo_min_system\inc\approx_math.h)(0x5687A245)
 I (.\src\ustrobo_min_system\inc\motor_pwm.h)(0x5687A245)
 I (.\src\ustrobo_min_system\inc\servo.h)(0x56B3F949)
-I (.\src\ustrobo_min_system\inc\gyro.h)(0x56C0E287)
+I (.\src\ustrobo_min_system\inc\gyro.h)(0x56C1B729)
 I (src\user\bluetooth.h)(0x56B3F949)
 I (src\user\crc.h)(0x5687A245)
 I (src\user\position.h)(0x56B3F949)
@@ -364,8 +364,8 @@ I (.\src\stm32f10x_std\inc\stm32f10x_rcc.h)(0x5687A244)
 I (.\src\stm32f10x_std\inc\stm32f10x_spi.h)(0x5687A244)
 I (.\src\stm32f10x_std\inc\stm32f10x_usart.h)(0x5687A244)
 I (.\src\stm32f10x_std\inc\misc.h)(0x5687A244)
-F (.\src\ustrobo_min_system\src\gyro.c)(0x56B3F949)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user -I.\src\ustrobo_min_system\src -I.\src\ustrobo_min_system-I "C:\Users\user\Desktop\Robocon 2016\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE"-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\gyro.o --omf_browse .\output\gyro.crf --depend .\output\gyro.d)
-I (.\src\ustrobo_min_system\inc\gyro.h)(0x56C0E287)
+F (.\src\ustrobo_min_system\src\gyro.c)(0x56C1B710)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user -I.\src\ustrobo_min_system\src -I.\src\ustrobo_min_system-I "C:\Users\user\Desktop\Robocon 2016\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE"-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\gyro.o --omf_browse .\output\gyro.crf --depend .\output\gyro.d)
+I (.\src\ustrobo_min_system\inc\gyro.h)(0x56C1B729)
 I (.\src\ustrobo_min_system\inc\uart.h)(0x5687A245)
 I (.\src\stm32f10x_std\inc\stm32f10x_gpio.h)(0x5687A244)
 I (.\src\stm32f10x_std\inc\stm32f10x.h)(0x5687A244)

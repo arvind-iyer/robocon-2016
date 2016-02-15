@@ -1,3 +1,4 @@
+
 #include "gyro.h"
 #include "approx_math.h"
 
@@ -260,4 +261,3 @@ s16 get_Y(void)
 	//return real_y;
 	return pos_y;//real_y;
 }
-
