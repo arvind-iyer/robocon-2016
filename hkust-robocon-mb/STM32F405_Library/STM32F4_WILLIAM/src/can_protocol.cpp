@@ -19,11 +19,12 @@
 	
 #include <can_protocol.h>
 #include <stm32f4xx_can.h>
+#include <buzzer_song.h>
 
-struct CAN_MESSAGE CAN_Tx_Queue_Array[CAN_TX_QUEUE_MAX_SIZE];
-struct CAN_QUEUE CAN_Tx_Queue = {0, 0, CAN_TX_QUEUE_MAX_SIZE, CAN_Tx_Queue_Array};
+CAN_MESSAGE CAN_Tx_Queue_Array[CAN_TX_QUEUE_MAX_SIZE];
+CAN_QUEUE CAN_Tx_Queue = {0, 0, CAN_TX_QUEUE_MAX_SIZE, CAN_Tx_Queue_Array};
 u8 CAN_FilterCount = 0;             /*!< The number of can filter applied */
-static struct CAN_MESSAGE can_recent_rx;   /*!< The latest received can message */ 
+static CAN_MESSAGE can_recent_rx;   /*!< The latest received can message */ 
 static u32 can_rx_count = 0;		    /*!< Number of rx received */
 
 /*!< Array storing all the handler function for CAN Rx (element id equals to filter id) */
@@ -48,18 +49,14 @@ void can_init(void)
 
 	/* CAN GPIO init */
 	// CAN_Rx Pin
-	//CAN_Rx_GPIO->gpio_init(GPIO_Speed_50MHz, GPIO_Mode_AF, GPIO_OType_PP, GPIO_PuPd_UP);
-    TM_GPIO_Init(CAN_GPIO, CAN_Rx_GPIO, TM_GPIO_Mode_AF, TM_GPIO_OType_PP, TM_GPIO_PuPd_UP, TM_GPIO_Speed_Fast);
-    
+	CAN_Rx_GPIO->gpio_init(GPIO_Speed_50MHz, GPIO_Mode_AF, GPIO_OType_PP, GPIO_PuPd_UP);
+
 	// CAN_Tx Pin
-	//CAN_Tx_GPIO->gpio_init(GPIO_Speed_50MHz, GPIO_Mode_AF, GPIO_OType_PP, GPIO_PuPd_NOPULL);
-    TM_GPIO_Init(CAN_GPIO, CAN_Tx_GPIO, TM_GPIO_Mode_AF, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_Fast);
-    
+	CAN_Tx_GPIO->gpio_init(GPIO_Speed_50MHz, GPIO_Mode_AF, GPIO_OType_PP, GPIO_PuPd_NOPULL);
 
 	/** CAN alternate function configuration **/
-	GPIO_PinAFConfig(CAN_GPIO, GPIO_PinSource11, GPIO_AF_CAN1);
-	GPIO_PinAFConfig(CAN_GPIO, GPIO_PinSource12, GPIO_AF_CAN1);
-
+	GPIO_PinAFConfig(CAN_Rx_GPIO->gpio, GPIO_PinSource11, GPIO_AF_CAN1);
+	GPIO_PinAFConfig(CAN_Tx_GPIO->gpio, GPIO_PinSource12, GPIO_AF_CAN1);
 
 	/* CAN register init */
 	CAN_DeInit(CANn);
@@ -107,19 +104,7 @@ void can_init(void)
 	*/
 static u8 can_tx(CanTxMsg msg)
 {
-    tft_prints(0,6,"Status: %d",CAN_Transmit(CANn, &msg) != CAN_TxStatus_NoMailBox);
 	return CAN_Transmit(CANn, &msg) != CAN_TxStatus_NoMailBox;							//transmit the message
-}
-
-void testing()
-{
-    CanTxMsg msg;
-    msg.Data[0] = 99;
-    msg.StdId = 0x0C5;
-    msg.ExtId = 0x0C5;
-    tft_prints(0,2,"Data sent:%d",msg.Data[0]);
-    tft_update();
-    can_tx(msg);
 }
 
 /**
@@ -173,6 +158,9 @@ u8 can_empty_mailbox(void)
 	return ((CANn->TSR&CAN_TSR_TME0) == CAN_TSR_TME0)
 	+((CANn->TSR&CAN_TSR_TME1) == CAN_TSR_TME1)
 	+ ((CANn->TSR&CAN_TSR_TME2) == CAN_TSR_TME2);
+//	return (CAN_TransmitStatus(CANn, 0) == CAN_TxStatus_Ok)
+//		+ (CAN_TransmitStatus(CANn, 1) == CAN_TxStatus_Ok)
+//		+ (CAN_TransmitStatus(CANn, 2) == CAN_TxStatus_Ok);
 }
 
 /** 
@@ -180,7 +168,7 @@ u8 can_empty_mailbox(void)
 	* @param msg: The can message that will be added
 	* @retval 0: Fail to enqueue due to the exceeding size, 1: Successfully enqueued
 	*/
-u8 can_tx_enqueue(struct CAN_MESSAGE msg)
+u8 can_tx_enqueue(CAN_MESSAGE msg)
 {
 	u8 queue_full = 0;
 
@@ -208,7 +196,7 @@ u8 can_tx_enqueue(struct CAN_MESSAGE msg)
 u8 can_tx_dequeue(void)
 {
 	if (!can_tx_queue_empty() && can_empty_mailbox() > 0) {
-		struct CAN_MESSAGE msg = CAN_Tx_Queue.queue[CAN_Tx_Queue.head];
+		CAN_MESSAGE msg = CAN_Tx_Queue.queue[CAN_Tx_Queue.head];
 		CanTxMsg TxMsg;
 		u8 data_length = msg.length;
 		
@@ -273,6 +261,16 @@ void can_rx_init(void)
 {
 	NVIC_InitTypeDef NVIC_InitStructure;
 	
+	/*
+	#ifdef  VECT_TAB_RAM  
+	// Set the Vector Table base location at 0x20000000 
+	NVIC_SetVectorTable(NVIC_VectTab_RAM, 0x0); 
+	#else  // VECT_TAB_FLASH  
+	// Set the Vector Table base location at 0x08000000  
+	NVIC_SetVectorTable(NVIC_VectTab_FLASH, 0x0);   
+	#endif
+	*/
+	
 	CAN_ITConfig(CANn, CAN_IT_FMP0, ENABLE);
 
 	/* enabling interrupt */
@@ -315,10 +313,6 @@ void can_rx_add_filter(u16 id, u16 mask, void (*handler)(CanRxMsg msg))
 	++CAN_FilterCount;
 }
 
-void display_rx_count(){
-    tft_prints(0,3,"rx_count: %d",can_rx_count);
-}
-
 /**
 	* @brief Get the number of handled CAN Rx data
 	* @param None
@@ -326,7 +320,6 @@ void display_rx_count(){
 	*/
 u32 can_get_rx_count(void)
 {
-    display_rx_count();
 	return can_rx_count;
 }
 
@@ -335,7 +328,7 @@ u32 can_get_rx_count(void)
   * @param None
   * @retval Recent rx message
   */
-struct CAN_MESSAGE can_get_recent_rx(void)
+CAN_MESSAGE can_get_recent_rx(void)
 {
   return can_recent_rx;
 }
@@ -343,16 +336,8 @@ struct CAN_MESSAGE can_get_recent_rx(void)
 	* @brief Interrupt for CAN Rx
 	* @warning Use USB_LP_CAN_RX0_IRQHandler for HD, USB_LP_CAN1_RX0_IRQHandler for XLD / MD
 	*/
-void print_status(void){
-    tft_clear();
-    tft_prints(0,4,"IRQ Status: %d", CAN_GetITStatus(CANn,CAN_IT_FMP0));
-    tft_update();
-}
-
-
 void CAN1_RX0_IRQHandler(void)
 {
-    //print_status();
 	if (CAN_GetITStatus(CANn, CAN_IT_FMP0) != RESET) {
 		CanRxMsg RxMessage;
 		CAN_ClearITPendingBit(CANn, CAN_IT_FMP0);
