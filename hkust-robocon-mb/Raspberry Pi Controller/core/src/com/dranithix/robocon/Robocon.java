@@ -13,13 +13,14 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.dranithix.robocon.systems.RobotControlSystem;
-import com.dranithix.robocon.systems.RobotFanSystem;
 import com.dranithix.robocon.ui.SettingsWindow;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisTable;
+import com.pk.robocon.main.ControlPID;
+import com.pk.robocon.system.Position;
+import com.pk.robocon.system.Target;
+import com.pk.robocon.system.Threshold;
 
 /**
  * 
@@ -32,7 +33,6 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 
 	private SettingsWindow settingsWindow;
 
-	private RobotSerialManager serial;
 	private Stage stage;
 
 	Vector3 mousePos = new Vector3(0, 0, 0);
@@ -41,19 +41,10 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 	SpriteBatch batch;
 	BitmapFont font;
 
-	RobotControlSystem controlSystem;
-	RobotFanSystem fanSystem;
-
 	@Override
 	public void create() {
-		Thread thread = new Thread(serial = new RobotSerialManager(this));
+		Thread thread = new Thread(RobotSerialManager.getInstance());
 		thread.start();
-
-		controlSystem = new RobotControlSystem(serial);
-		Timer.instance().scheduleTask(controlSystem, 0, 0.1f);
-
-		fanSystem = new RobotFanSystem(serial);
-		Timer.instance().scheduleTask(fanSystem, 0, 0.1f);
 
 		VisUI.load();
 
@@ -64,7 +55,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 		layout.defaults().fill().expand().pad(10);
 
 		VisTable settingsLayout = new VisTable(true);
-		settingsLayout.add(settingsWindow = new SettingsWindow(serial));
+		settingsLayout.add(settingsWindow = new SettingsWindow());
 		layout.add(settingsLayout);
 
 		layout.setFillParent(true);
@@ -80,11 +71,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 		font = new BitmapFont();
 
 	}
-
-	public void updateRobotPosition(Vector2 currentPos, int bearing) {
-		controlSystem.updateRobotPosition(currentPos, bearing);
-	}
-
+	
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -92,7 +79,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 		mousePos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 		cam.unproject(mousePos);
 
-		settingsWindow.updateConnectionStatus(serial.isRunning());
+		settingsWindow.updateConnectionStatus(RobotSerialManager.getInstance().isRunning());
 
 		if (Controllers.getControllers().size > 0) {
 			Controller controller = Controllers.getControllers().first();
@@ -110,24 +97,21 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 
 			int angularVelocity = (int) rightXAxis * 100;
 
-			controlSystem.moveRobot(velocity * 0.5f, leftAngle, angularVelocity);
+			ControlPID.moveRobot((int) (velocity * 0.5f), leftAngle, angularVelocity);
 		}
+		
+		ControlPID.execute();
 
 		stage.act();
 		stage.draw();
-
-		batch.begin();
-		// batch.draw(new Texture(ScreenUtils.getFrameBufferPixels(false)), 0,
-		// 0);
-		batch.end();
 	}
 
 	@Override
 	public void dispose() {
 		stage.dispose();
-		serial.dispose();
-
 		VisUI.dispose();
+		
+		RobotSerialManager.getInstance().dispose();
 	}
 
 	int brushlessStartCounter = 0;
@@ -137,8 +121,9 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 	public boolean buttonDown(Controller controller, int buttonCode) {
 		switch (buttonCode) {
 		case 0: // Button 1
-			controlSystem.addQueue(new Vector2(0, 1000), 45, 10, 5, 0);
-			controlSystem.dequeueNextTarget();
+			Position targetPos = new Position(new Vector2(0, 1000), 45);
+			ControlPID.addQueue(new Target(targetPos, new Threshold(0, 0), 0));
+			ControlPID.resetPathStart();
 			break;
 		case 1: // Button 2
 			break;
@@ -151,17 +136,17 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 		case 6: // L2
 			brushlessMagnitude += 1;
 			brushlessMagnitude = MathUtils.clamp(brushlessMagnitude, 0, 100);
-			fanSystem.fanControl(brushlessMagnitude);
+//			fanSystem.fanControl(brushlessMagnitude);
 			break;
 		case 7: // R2
 			brushlessMagnitude -= 1;
 			brushlessMagnitude = MathUtils.clamp(brushlessMagnitude, 0, 100);
-			fanSystem.fanControl(brushlessMagnitude);
+//			fanSystem.fanControl(brushlessMagnitude);
 			break;
 		}
 
 		if (brushlessStartCounter == 2) {
-			fanSystem.toggleFan(!fanSystem.isFanStopped());
+//			fanSystem.toggleFan(!fanSystem.isFanStopped());
 		}
 		return false;
 	}

@@ -8,6 +8,7 @@ import com.dranithix.robocon.net.NetworkEvent;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortEvent;
 import com.fazecast.jSerialComm.SerialPortPacketListener;
+import com.pk.robocon.main.ControlPID;
 
 /**
  * 
@@ -20,13 +21,17 @@ public class RobotSerialManager implements Disposable, Runnable,
 
 	private SerialPort comPort;
 
-	private Robocon robocon;
-
 	private boolean running = false;
 
-	public RobotSerialManager(Robocon robocon) {
-		this.robocon = robocon;
+	private static RobotSerialManager instance;
 
+	public static final RobotSerialManager getInstance() {
+		if (instance == null)
+			instance = new RobotSerialManager();
+		return instance;
+	}
+
+	public RobotSerialManager() {
 		comPort = SerialPort.getCommPort(Robocon.COM_PORT_ADDRESS);
 		comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 100,
 				100);
@@ -68,7 +73,7 @@ public class RobotSerialManager implements Disposable, Runnable,
 	}
 
 	public void sendEvent(final NetworkEvent packet) {
-//		System.out.print(packet.getRawPacket());
+		// System.out.print(packet.getRawPacket());
 		if (isRunning()) {
 			int sendStatus = comPort.writeBytes(packet.getRawPacket()
 					.getBytes(), packet.getRawPacket().length());
@@ -114,9 +119,13 @@ public class RobotSerialManager implements Disposable, Runnable,
 						Vector2 currentPos = new Vector2(
 								Integer.decode(contents[1]),
 								Integer.decode(contents[2]));
-						int currentBearing = Integer.decode(contents[3]);
+						int currentBearing = Integer.decode(contents[3]) / 10;
 
-						robocon.updateRobotPosition(currentPos, currentBearing);
+						ControlPID.updateGyroPosition(currentPos,
+								currentBearing);
+
+						// robocon.updateRobotPosition(currentPos,
+						// currentBearing);
 						break;
 					default:
 						System.out.println(line);

@@ -22,6 +22,13 @@ public class MotorControlEvent extends NetworkEvent {
 		initEvent();
 	}
 
+	public MotorControlEvent(Integer... values) {
+		super(NetworkEventOpcode.MOTOR_CONTROL);
+		for (int motorValue : values)
+			motorValues.add(motorValue);
+		initEvent();
+	}
+
 	@Override
 	protected void initEvent() {
 		for (Integer magnitude : motorValues) {
