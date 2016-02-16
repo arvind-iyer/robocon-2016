@@ -1,17 +1,17 @@
 /**
   ******************************************************************************
-	* _____  ________________   ________      ______                           
-	* __  / / /_  ___/__  __/   ___  __ \________  /__________________________ 
-	* _  / / /_____ \__  /      __  /_/ /  __ \_  __ \  __ \  ___/  __ \_  __ \
-	* / /_/ / ____/ /_  /       _  _, _// /_/ /  /_/ / /_/ / /__ / /_/ /  / / /
-	* \____/  /____/ /_/        /_/ |_| \____//_.___/\____/\___/ \____//_/ /_/ 
+  * _____  ________________   ________      ______                           
+  * __  / / /_  ___/__  __/   ___  __ \________  /__________________________ 
+  * _  / / /_____ \__  /      __  /_/ /  __ \_  __ \  __ \  ___/  __ \_  __ \
+  * / /_/ / ____/ /_  /       _  _, _// /_/ /  /_/ / /_/ / /__ / /_/ /  / / /
+  * \____/  /____/ /_/        /_/ |_| \____//_.___/\____/\___/ \____//_/ /_/ 
   *                                                                
-	* @file    auto_mode.c
+  * @file    auto_mode.c
   * @author  Pang Hong Wing
   * @version V1.0.0
   * @date    11 Feb, 2016
   * @brief   Library for hybrid auto movement mode, in particular for PID
-	*          movement tracking.
+  *          movement tracking.
   ******************************************************************************
   */
 
@@ -20,6 +20,7 @@
 #define THRESHOLD 10
 #define CONST_VEL 50
 
+/*
 struct target {
 	int x;
 	int y;
@@ -27,6 +28,7 @@ struct target {
 	double curve; //curvature scaled up by 1000
 	bool stop;
 };
+*/
 
 //mode variables
 bool is_running;
@@ -34,7 +36,7 @@ bool up_pressed, dn_pressed, start_pressed;
 int path_id;
 
 //path target queue
-struct target tar_queue[50];
+TARGET tar_queue[50];
 int tar_head, tar_end;
 
 //path target variables
@@ -60,13 +62,27 @@ int auto_ticks = 0;
   * @param  stop: deccelerate and pause at target if true
   * @retval None
   */
-void auto_tar_enqueue(int x, int y, int deg, int curve, bool stop) {
+void auto_tar_enqueue(PATH_NODE_TYPE type, int x, int y, int deg, int curve) {
+	tar_queue[tar_head].type = type;
 	tar_queue[tar_head].x = x;
 	tar_queue[tar_head].y = y;
 	tar_queue[tar_head].deg = deg;
 	tar_queue[tar_head].curve = curve;
-	tar_queue[tar_head].stop = stop;
 	tar_head++;
+}
+
+/**
+  * @brief  Add array of targets to queue
+  * @param  path: Array of targets
+  * @retval No. of targets
+  */
+int auto_tar_add_path(const TARGET* path) {
+	int i = 0;
+	while (path[i].type != NODE_END) {
+		auto_tar_enqueue(path[i].type, path[i].x, path[i].y, path[i].deg, path[i].curve);
+		i++;
+	}
+	return i;
 }
 
 /**
@@ -76,7 +92,7 @@ void auto_tar_enqueue(int x, int y, int deg, int curve, bool stop) {
   */
 void auto_tar_dequeue() {
 	int mid_length;
-	if (tar_end && tar_queue[tar_end-1].stop)
+	if (tar_end && (tar_queue[tar_end-1].type == NODE_STOP))
 		start = auto_get_ticks();
 	if (tar_end) {
 		ori_x = tar_queue[tar_end-1].x;
@@ -179,7 +195,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	dotcheck /= Sqrt(Sqr(ori_x-tar_x)+Sqr(ori_y-tar_y));
 	dotcheck /= Sqrt(Sqr(cur_x-tar_x)+Sqr(cur_y-tar_y));
 	if (dotcheck <= 0.0) {
-		if (auto_tar_queue_len() && !tar_queue[tar_end-1].stop)
+		if (auto_tar_queue_len() && (tar_queue[tar_end-1].type == NODE_PASS))
 			auto_tar_dequeue();
 		else
 			angle = 90 - int_arc_tan2(tar_y - cur_y, tar_x - cur_x) - (int)(cur_deg/10);
@@ -191,7 +207,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	//double dec = sqrt(dist / 680.0);
 	if (acc > 1.0)
 		acc = 1.0;
-	if (!tar_queue[tar_end-1].stop)
+	if (tar_queue[tar_end-1].type == NODE_PASS)
 		dec = 1.0;
 	double vel_coeff = acc < dec ? acc : dec;
 	if (vel_coeff > 1.0)
@@ -295,24 +311,13 @@ void auto_menu_update() {
 			is_running = true;
 			switch (path_id) {
 				case 0:
-					auto_tar_enqueue(0, 1500, 0, 0.0, true);
+					auto_tar_add_path(STRAIGHT);
 					break;
 				case 1:
-					auto_tar_enqueue(1000, 1000, 0, 1.0, false);
-					auto_tar_enqueue(2000, 0, 0, 1.0, false);
-					auto_tar_enqueue(1000, -1000, 0, 1.0, false);
-					auto_tar_enqueue(0, 0, 0, 1.0, true);
+					auto_tar_add_path(CIRCLE);
 					break;
 				case 2:
-					auto_tar_enqueue(500, 0, 0, 0.0, false);
-					auto_tar_enqueue(1000, 500, 0, -2.0, false);
-					auto_tar_enqueue(500, 1000, 0, -2.0, false);
-					auto_tar_enqueue(0, 500, 0, -2.0, false);
-					auto_tar_enqueue(0, -500, 0, 0.0, false);
-					auto_tar_enqueue(-500, -1000, 0, 2.0, false);
-					auto_tar_enqueue(-1000, -500, 0, 2.0, false);
-					auto_tar_enqueue(-500, 0, 0, 2.0, false); 
-					auto_tar_enqueue(0, 0, 0, 0.0, true);
+					auto_tar_add_path(EIGHT_FIG);
 					break;
 			}
 		}
