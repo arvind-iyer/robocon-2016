@@ -554,8 +554,8 @@ void tft_prints(u8 x, u8 y, const char * pstr, ...){
 				tft_unit_changed[x][y] = true;
 			}
 			
-			text[x][tft_y_index] = temp_text;
-			text_color[x][tft_y_index] = temp_text_color;
+			text[x][y] = temp_text;
+			text_color[x][y] = temp_text_color;
 			bg_color[x][y] = curr_bg_color;	
 			x++;
 		}
