@@ -1,2 +1,2 @@
 # HKUST Robocon 2016 Code Repository
-Rex branch
+## GEN1 Eco Robot with IMU
