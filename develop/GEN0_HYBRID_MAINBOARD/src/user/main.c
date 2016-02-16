@@ -26,7 +26,7 @@ int main(void) {
 	can_xbc_mb_init();
 	can_xbc_mb_tx_enable(true);
 
-	tft_put_logo(80, 115);            
+	tft_put_logo(110, 90);            
 	CONTROL_STATE last_control_state = MANUAL_MODE;
 
 	while(1){
@@ -51,7 +51,7 @@ int main(void) {
 			if (control_state == MANUAL_MODE){
 				manual_reset();
 			}else{
-				auto_reset();
+				auto_init();
 			}
 		}
 		last_control_state = control_state;
@@ -59,7 +59,7 @@ int main(void) {
 		if (get_emergency_lock() == UNLOCKED){
 			//Update with short interval here
 			if (control_state == MANUAL_MODE){
-					manual_fast_update();
+					//manual_fast_update();
 			}
 		}
 			
@@ -72,9 +72,13 @@ int main(void) {
 				if (control_state == MANUAL_MODE){
 					manual_interval_update();
 				}else{
-					auto_var_update();			
-					auto_motor_update();
-					//auto_calibrate();
+					if (auto_get_state()) {
+						auto_var_update();			
+						auto_motor_update();
+						//auto_calibrate();
+					} else {
+						auto_menu_update();
+					}
 				}
 				can_xbc_mb_lcd_tx();
 			}
@@ -83,29 +87,3 @@ int main(void) {
 		last_loop_ticks = this_loop_ticks;
 	}
 }
-/*
-=======
-int main(void)
-{
-	//auto_tar_enqueue(0, 1500, 0, 0.0, true);
-	
-	
-	//8-figure
-	auto_tar_enqueue(500, 0, 0, 0.0, false);
-	auto_tar_enqueue(1000, 500, 0, -2.0, false);
-	auto_tar_enqueue(500, 1000, 0, -2.0, false);
-	auto_tar_enqueue(0, 500, 0, -2.0, false);
-	auto_tar_enqueue(0, -500, 0, 0.0, false);
-	auto_tar_enqueue(-500, -1000, 0, 2.0, false);
-	auto_tar_enqueue(-1000, -500, 0, 2.0, false);
-	auto_tar_enqueue(-500, 0, 0, 2.0, false); 
-	auto_tar_enqueue(0, 0, 0, 0.0, true);
-	
-	
-	//circle
-	auto_tar_enqueue(1000, 1000, 0, 1.0, true);
-	auto_tar_enqueue(2000, 0, 0, 1.0, true);
-	auto_tar_enqueue(1000, -1000, 0, 1.0, true);
-	auto_tar_enqueue(0, 0, 0, 1.0, true);
-}
-*/
