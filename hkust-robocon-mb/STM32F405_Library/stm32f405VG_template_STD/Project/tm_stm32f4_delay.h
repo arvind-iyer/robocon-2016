@@ -151,6 +151,9 @@ Another way is to use ARM compiler.
  - attribute.h
 @endverbatim
  */
+#define TM_DELAY_TIM				TIM2
+#define TM_DELAY_TIM_IRQ			TIM2_IRQn
+#define TM_DELAY_TIM_IRQ_HANDLER	TIM2_IRQHandler
 #include "stm32f4xx.h"
 #include "stm32f4xx_rcc.h"
 #include "defines.h"
@@ -162,6 +165,7 @@ Another way is to use ARM compiler.
 #include "tm_stm32f4_timer_properties.h"
 #endif
 #include "stdlib.h"
+#include "lcd.h"
 
 /**
  * @defgroup TM_DELAY_Typedefs
@@ -314,6 +318,14 @@ static __INLINE void Delayms(uint32_t millis) {
  * @retval None
  */
 void TM_DELAY_Init(void);
+
+/**
+ *  @brief Gets the current time (in millisecond)
+ *  @param None
+ *  @retval Current time in milliseconds
+ *
+ */
+uint32_t get_ticks(void);
 
 /**
  * @brief  Gets the TM_Time variable value

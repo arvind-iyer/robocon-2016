@@ -38,7 +38,9 @@
 .\output\lcd.o: tm_stm32f4_delay.h
 .\output\lcd.o: defines.h
 .\output\lcd.o: attributes.h
+.\output\lcd.o: tm_stm32f4_timer_properties.h
 .\output\lcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\output\lcd.o: lcd.h
 .\output\lcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\lcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\lcd.o: lcd_font.h

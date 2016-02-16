@@ -86,6 +86,7 @@ void SysTick_Handler(void) {
 
 void TM_DELAY_Init(void) {	
 #if defined(TM_DELAY_TIM)
+ 
 	TM_DELAY_INT_InitTIM();
 #else
 	/* Set Systick interrupt every 1ms */
@@ -141,7 +142,6 @@ void TM_DELAY_INT_InitTIM(void) {
 	
 	/* Get timer properties */
 	TM_TIMER_PROPERTIES_GetTimerProperties(TM_DELAY_TIM, &TIM_Data);
-	
 	/* Generate timer properties, 1us ticks */
 	TM_TIMER_PROPERTIES_GenerateDataForWorkingFrequency(&TIM_Data, 1000000);
 	
@@ -288,4 +288,8 @@ TM_DELAY_Timer_t* TM_DELAY_TimerAutoReloadValue(TM_DELAY_Timer_t* Timer, uint32_
 	
 	/* Return pointer */
 	return Timer;
+}
+
+uint32_t get_ticks(){
+    return TM_Time;
 }

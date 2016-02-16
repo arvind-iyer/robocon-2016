@@ -37,4 +37,9 @@
 .\output\tm_stm32f4_delay.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
 .\output\tm_stm32f4_delay.o: defines.h
 .\output\tm_stm32f4_delay.o: attributes.h
+.\output\tm_stm32f4_delay.o: tm_stm32f4_timer_properties.h
 .\output\tm_stm32f4_delay.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\output\tm_stm32f4_delay.o: lcd.h
+.\output\tm_stm32f4_delay.o: tm_stm32f4_delay.h
+.\output\tm_stm32f4_delay.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\tm_stm32f4_delay.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

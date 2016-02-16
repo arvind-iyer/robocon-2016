@@ -38,10 +38,11 @@
 .\output\can_protocol.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h
 .\output\can_protocol.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
 .\output\can_protocol.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h
-.\output\can_protocol.o: ..\Project\ticks.h
 .\output\can_protocol.o: ..\Project\tm_stm32f4_gpio.h
 .\output\can_protocol.o: ..\Project\defines.h
 .\output\can_protocol.o: ..\Project\lcd.h
 .\output\can_protocol.o: ..\Project\tm_stm32f4_delay.h
 .\output\can_protocol.o: ..\Project\attributes.h
+.\output\can_protocol.o: ..\Project\tm_stm32f4_timer_properties.h
+.\output\can_protocol.o: ..\Project\lcd.h
 .\output\can_protocol.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

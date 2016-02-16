@@ -3,7 +3,6 @@
 
 #include "usart.h"
 #include "lcd.h"
-#include "ticks.h"
 #include "approx_math.h"
 
 #define MENU_ADD_GYRO_TEST menu_add(5, "Position Test", position_test)

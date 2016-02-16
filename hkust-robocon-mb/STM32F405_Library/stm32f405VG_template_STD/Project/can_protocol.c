@@ -107,7 +107,19 @@ void can_init(void)
 	*/
 static u8 can_tx(CanTxMsg msg)
 {
+    tft_prints(0,6,"Status: %d",CAN_Transmit(CANn, &msg) != CAN_TxStatus_NoMailBox);
 	return CAN_Transmit(CANn, &msg) != CAN_TxStatus_NoMailBox;							//transmit the message
+}
+
+void testing()
+{
+    
+    struct CAN_MESSAGE msg;
+    msg.data[0] = (u8) 99;
+    msg.id = 0x0C5;
+    msg.length = 1;
+    tft_prints(0,1,"Data sent:%d",msg.data[0]);
+    can_tx_enqueue(msg);
 }
 
 /**
@@ -303,6 +315,10 @@ void can_rx_add_filter(u16 id, u16 mask, void (*handler)(CanRxMsg msg))
 	++CAN_FilterCount;
 }
 
+void display_rx_count(){
+    tft_prints(0,3,"rx_count: %d",can_rx_count);
+}
+
 /**
 	* @brief Get the number of handled CAN Rx data
 	* @param None
@@ -310,6 +326,7 @@ void can_rx_add_filter(u16 id, u16 mask, void (*handler)(CanRxMsg msg))
 	*/
 u32 can_get_rx_count(void)
 {
+    display_rx_count();
 	return can_rx_count;
 }
 
@@ -326,9 +343,16 @@ struct CAN_MESSAGE can_get_recent_rx(void)
 	* @brief Interrupt for CAN Rx
 	* @warning Use USB_LP_CAN_RX0_IRQHandler for HD, USB_LP_CAN1_RX0_IRQHandler for XLD / MD
 	*/
+void print_status(void){
+    tft_clear();
+    tft_prints(0,4,"IRQ Status: %d", CAN_GetITStatus(CANn,CAN_IT_FMP0));
+    tft_update();
+}
+
+
 void CAN1_RX0_IRQHandler(void)
 {
-    tft_prints(0,2,"RX IRQ RUNN");
+    //print_status();
 	if (CAN_GetITStatus(CANn, CAN_IT_FMP0) != RESET) {
 		CanRxMsg RxMessage;
 		CAN_ClearITPendingBit(CANn, CAN_IT_FMP0);

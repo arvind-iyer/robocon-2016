@@ -7,7 +7,6 @@
 #include <stm32f4xx_can.h>
 #include <stm32f4xx_rcc.h>
 #include <misc.h>
-#include <ticks.h>
 #include <tm_stm32f4_gpio.h>
 #include "lcd.h"
 
@@ -42,7 +41,6 @@ struct CAN_MESSAGE {
 	u32 id;			/*** 11-bit ID: 0x000 to 0x7FF ***/
 	u8 length;	/*** 0 to 8 ***/
 	u8 data[8];
-
 } ;
 
 struct CAN_QUEUE{
@@ -50,7 +48,6 @@ struct CAN_QUEUE{
 	u16 tail;						/*** Current tail of queue ***/
 	const u16 length; 	/*** Length of queue ***/
 	struct CAN_MESSAGE* queue;		/*** The can message queue (array) ***/
-
 };
 
 
@@ -74,17 +71,14 @@ u32 can_get_rx_count(void);
 struct CAN_MESSAGE can_get_recent_rx(void);
 
 /*** CAN Interrupt ***/
-#ifdef __cplusplus
-extern "C" {
-#endif
 void CAN1_RX0_IRQHandler(void);
 void CAN1_TX_IRQHandler(void);
-#ifdef __cplusplus
-}
-#endif
+
 
 /*** Protocol Encoding / Decoding ***/
 u8 one_to_n_bytes(s32 num, u8 n);			// Encode
 s32 n_bytes_to_one(u8* array, u8 n);	// Decode
+
+void testing();
 
 #endif /* __CAN_PROTOCOL_H */
