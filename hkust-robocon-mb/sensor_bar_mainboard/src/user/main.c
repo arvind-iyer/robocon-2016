@@ -85,11 +85,8 @@ int main(void)
 					 lastMovement = SERVO_MAX - (factor * (SERVO_MAX - SERVO_MIN));
 					 tft_prints(0, 5, "Fek: %.4f", factor); 
 				 } else if (length >= 9 || begin == end) { // 90 degree turnnnzzz
-<<<<<<< HEAD
 					 if ((begin + end) / 2 < 8) {
-=======
 					 if ((begin + end) / 2 < 7) {
->>>>>>> fa84f6e58771a2f1b340a6e40e906d0f88e9a442
 						 lastMovement = SERVO_MAX;
 					 } else {
 						 lastMovement = SERVO_MIN;
@@ -114,4 +111,4 @@ int main(void)
 	}
     return 0;
 }
-
+}

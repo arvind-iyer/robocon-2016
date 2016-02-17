@@ -49,11 +49,11 @@ int main(void)
 	
 	tft_init(0,BLACK,WHITE,WHITE);
 	can_init();
-  servo_init();
-  ticks_init();
+    servo_init();
+    ticks_init();
 	can_rx_init();
 	can_rx_add_filter(0x0C5,CAN_RX_MASK_EXACT,receive);
-  can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
+    can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
     
   u16 ticks_ms_img = 0;
   u16 averageX = 0;
@@ -110,15 +110,10 @@ int main(void)
 			 
 			 tft_update();
 			 
-			 // do processing shiet
 			 servo_control_all(lastMovement);
 			 
 			 begin = -1;
 			 length = 0;
-			 
-			 // reset dis shiet
-        
-		 //}
 	}
     return 0;
 }
