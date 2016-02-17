@@ -3,10 +3,14 @@ package com.pk.robocon.system;
 import com.pk.robocon.main.ControlPID;
 
 public class Path {
+	private static final int MAX_VELOCITY = 140;
 	private static final int STOP_DISTANCE = 2000;
 
 	private Target target;
-	private float err;
+	private float errAngle = 1;
+	private float errDist = 1;
+	private int lastDist = 0;
+	private int lastAngleDiff = 0;
 
 	public Path(Target t) {
 		this.target = t;
@@ -28,8 +32,55 @@ public class Path {
 			}
 			W = angleDiff(ControlPID.getCurrentPosition(), target.getPosition()) * 100 / 180;
 		}
+		this.updateErr();
+		M = (int) (M * errDist);
+		W = (int) (W * errAngle);
 		System.out.println("move(" + M + ", " + bearing + ", " + W + ")");
 		ControlPID.moveRobot(M, bearing, W);
+	}
+
+	private void updateErr() {
+		if (!this.checkErrAngle()) {
+			errAngle = errAngle + 0.03f;
+		} else {
+			errAngle = errAngle * 0.8f + 0.2f;
+		}
+		if (!this.checkErrDist()) {
+			errDist = errDist + 0.03f;
+		} else {
+			errDist = errDist * 0.8f + 0.2f;
+		}
+		this.lastAngleDiff = Math.abs(angleDiff(ControlPID.getCurrentPosition(), target.getPosition()));
+		this.lastDist = dist(ControlPID.getCurrentPosition(), target.getPosition());
+	}
+
+	private boolean checkErrAngle() {
+		if (Math.abs(angleDiff(ControlPID.getCurrentPosition(), target.getPosition())) > this.lastAngleDiff) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean checkErrDist() {
+		if (dist(ControlPID.getCurrentPosition(), target.getPosition()) >= this.lastDist) {
+			return false;
+		}
+		return true;
+	}
+
+	public void resetErr() {
+		this.errAngle = 1;
+		this.errDist = 1;
+	}
+
+	public void move(int M, int bearing, int W) {
+		double xComponent = (double) (M * Math.sin(bearing * Math.PI / 180) * MAX_VELOCITY / 100);
+		double yComponent = (double) (M * Math.cos(bearing * Math.PI / 180) * MAX_VELOCITY / 100);
+		int M1 = (int) ((-W - xComponent * 2) / 3);
+		int M2 = (int) ((-W * 0.577f + xComponent * 0.577f - yComponent) / 1.73f);
+		int M3 = -W - M1 - M2;
+		// TODO: Serial
+		// ControlPID.sendPID(M1, M2, M3);
 	}
 
 	public Target getTarget() {
