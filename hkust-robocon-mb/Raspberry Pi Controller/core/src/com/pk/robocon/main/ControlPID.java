@@ -47,17 +47,21 @@ public class ControlPID {
 	}
 
 	public static void updateGyroPosition(Vector2 gyroPos, int gyroAngle) {
-		currentPosition.setPos(gyroPos.cpy());
-		currentPosition.setBearing(gyroAngle);
+		ControlPID.currentPosition.setPos(gyroPos.cpy());
+		ControlPID.currentPosition.setBearing(gyroAngle);
+
+		System.out.println(ControlPID.currentPosition.getX() + " "
+				+ ControlPID.currentPosition.getY());
 	}
 
 	public static void resetPathStart() {
-		startPosition = currentPosition;
+		startPosition = ControlPID.currentPosition;
 	}
 
-	public static void execute() {
+	public static boolean execute() {
 		if (queue.size() > 0)
 			queue.get(0).straight();
+		return queue.size() > 0;
 	}
 
 	public static void nextPID() {

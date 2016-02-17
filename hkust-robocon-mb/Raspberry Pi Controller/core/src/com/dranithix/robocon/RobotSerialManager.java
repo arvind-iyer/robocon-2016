@@ -1,5 +1,6 @@
 package com.dranithix.robocon;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import com.badlogic.gdx.math.Vector2;
@@ -114,6 +115,7 @@ public class RobotSerialManager implements Disposable, Runnable,
 				if (line.contains("\n")) {
 					String[] contents = line.replace("\n", "").split(
 							Pattern.quote("|"));
+					System.out.println(Arrays.toString(contents));
 					switch (contents[0]) {
 					case "STATE":
 						Vector2 currentPos = new Vector2(

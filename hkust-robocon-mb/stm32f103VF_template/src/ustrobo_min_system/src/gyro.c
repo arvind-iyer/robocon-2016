@@ -1,4 +1,3 @@
-
 #include "gyro.h"
 #include "approx_math.h"
 
@@ -207,12 +206,12 @@ void USART3_IRQHandler(void)
 			case 4:
 				switch (rx_command) {
 					case 0:		// GYRO_UPDATED // X and Y are flipped.
-						y = buf_data[0];
-						y <<= 8;
-						y |= buf_data[1];
-						x = buf_data[2];
+						x = buf_data[0];
 						x <<= 8;
-						x |= buf_data[3];
+						x |= buf_data[1];
+						y = buf_data[2];
+						y <<= 8;
+						y |= buf_data[3];
 						a = buf_data[4];
 						a <<= 8;
 						a |= buf_data[5];

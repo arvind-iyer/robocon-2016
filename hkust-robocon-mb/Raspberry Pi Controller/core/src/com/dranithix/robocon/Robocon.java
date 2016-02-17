@@ -81,7 +81,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 
 		settingsWindow.updateConnectionStatus(RobotSerialManager.getInstance().isRunning());
 
-		if (Controllers.getControllers().size > 0) {
+		if (Controllers.getControllers().size > 0 && !ControlPID.execute()) {
 			Controller controller = Controllers.getControllers().first();
 
 			float leftYAxis = -controller.getAxis(LEFT_X_AXIS);
@@ -99,8 +99,6 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 
 			ControlPID.moveRobot((int) (velocity * 0.5f), leftAngle, angularVelocity);
 		}
-		
-		ControlPID.execute();
 
 		stage.act();
 		stage.draw();
