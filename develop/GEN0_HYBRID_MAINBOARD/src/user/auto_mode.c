@@ -55,19 +55,11 @@ int auto_ticks = 0;
 
 /**
   * @brief  Add target to queue
-  * @param  x: x-coordinate of target
-  * @param  y: y-coordinate of target
-  * @param  deg: orientation of hybrid at target
-  * @param  curve: curvature of path, divided by 1000
-  * @param  stop: deccelerate and pause at target if true
+  * @param  target: struct to be added
   * @retval None
   */
-void auto_tar_enqueue(PATH_NODE_TYPE type, int x, int y, int deg, int curve) {
-	tar_queue[tar_head].type = type;
-	tar_queue[tar_head].x = x;
-	tar_queue[tar_head].y = y;
-	tar_queue[tar_head].deg = deg;
-	tar_queue[tar_head].curve = curve;
+void auto_tar_enqueue(TARGET target) {	
+	tar_queue[tar_head] = target;
 	tar_head++;
 }
 
@@ -79,7 +71,7 @@ void auto_tar_enqueue(PATH_NODE_TYPE type, int x, int y, int deg, int curve) {
 int auto_tar_add_path(const TARGET* path) {
 	int i = 0;
 	while (path[i].type != NODE_END) {
-		auto_tar_enqueue(path[i].type, path[i].x, path[i].y, path[i].deg, path[i].curve);
+		auto_tar_enqueue(path[i]);
 		i++;
 	}
 	return i;
@@ -380,10 +372,12 @@ void auto_var_update() {
   */
 void auto_motor_update(){
 	if ((dist < THRESHOLD) && (Abs(degree_diff) < 2)) {
-		if (auto_tar_queue_len())
+		if (auto_tar_queue_len()) {
 			auto_tar_dequeue();
-		else
+		} else {
 			auto_motor_stop();
+			is_running = false;
+		}
 	} else {
 		auto_track_path(degree, degree_diff, CONST_VEL, false);
 	}

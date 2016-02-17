@@ -26,7 +26,7 @@ typedef	struct {
 
 #include "auto_paths.h"
 
-void auto_tar_enqueue(PATH_NODE_TYPE type, int x, int y, int deg, int curve);
+void auto_tar_enqueue(TARGET target);
 int auto_tar_add_path(const TARGET* path);
 void auto_tar_dequeue(void);
 int auto_tar_queue_len(void);
