@@ -110,10 +110,10 @@ void uarttest_init(void){
 
 
 int main(void) {
+
 	led_init();
 
 	//IMPORTANT: TM_DELAY_INIT MUST BE BEFORE ticks_init!!!
-    //ticks_init();
 	TM_DELAY_Init();
 	
 
@@ -127,7 +127,6 @@ int main(void) {
     //TM_USART_Init(USART3, TM_USART_PinsPack_1
     //LCD Initialization
     tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED); //Init LCD
-    //tft_put_logo(110, 90);
     
     //Initialize Gyro module
     gyro_init();
@@ -137,32 +136,35 @@ int main(void) {
 	//cantest_init();
     //uarttest_init();
     
-
-    
     //Initialize the CAN protocol
     can_init();
-    testing();
-    
-    
-    
-    //can_rx_init();
-    //can_rx_add_filter(0x0C5,CAN_RX_MASK_EXACT,receive);
-    //can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
-    //can_motor_init();
+    can_rx_init();
+    can_motor_init();
+    motor_set_vel(MOTOR1,10,OPEN_LOOP);
+    motor_set_vel(MOTOR2,10,OPEN_LOOP);
+    motor_set_vel(MOTOR3,10,OPEN_LOOP);
+    motor_set_vel(MOTOR4,250,OPEN_LOOP);
+    motor_set_vel(MOTOR5,250,OPEN_LOOP);
+    motor_set_vel(MOTOR6,250,OPEN_LOOP);
+
     
     //Initialize encoder
     u32 ticks_ms_img = 0;
 	while (1) {
         if(get_ticks() != ticks_ms_img){
             ticks_ms_img = get_ticks();
-            
+            //testing();
             tft_clear();
-            tft_prints(0,1,"CAN TESTING");
-            tft_prints(0,4,"Count: %d",get_ticks());
+             
+            tft_prints(0,0,"Count: %d",get_ticks());
+            tft_prints(0,1,"Motor1: %d",get_encoder_value(MOTOR1));
+            tft_prints(0,2,"Motor2: %d",get_encoder_value(MOTOR2));
+            tft_prints(0,3,"Motor3: %d",get_encoder_value(MOTOR3));
+            tft_prints(0,4,"Motor4: %d",get_encoder_value(MOTOR4));
+            tft_prints(0,5,"Motor5: %d",get_encoder_value(MOTOR5));
+            tft_prints(0,6,"Motor6: %d",get_encoder_value(MOTOR6));
             
             tft_update();
-            
-            
         }    
 	}
 

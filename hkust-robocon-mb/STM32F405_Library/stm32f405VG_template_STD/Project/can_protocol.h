@@ -37,11 +37,11 @@
 #define	CAN_RX_MASK_DIGIT_0_1				0x7FE		/*** XXX XXXX XXX? 	(0xAB0 - 0xAB1)			***/
 
 
-struct CAN_MESSAGE {
+typedef struct CAN_MESSAGE {
 	u32 id;			/*** 11-bit ID: 0x000 to 0x7FF ***/
 	u8 length;	/*** 0 to 8 ***/
 	u8 data[8];
-} ;
+}CAN_MESSAGE;
 
 struct CAN_QUEUE{
 	u16 head;						/*** Current head of queue ***/

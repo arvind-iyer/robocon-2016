@@ -23,7 +23,7 @@
 struct CAN_MESSAGE CAN_Tx_Queue_Array[CAN_TX_QUEUE_MAX_SIZE];
 struct CAN_QUEUE CAN_Tx_Queue = {0, 0, CAN_TX_QUEUE_MAX_SIZE, CAN_Tx_Queue_Array};
 u8 CAN_FilterCount = 0;             /*!< The number of can filter applied */
-static struct CAN_MESSAGE can_recent_rx;   /*!< The latest received can message */ 
+static CAN_MESSAGE can_recent_rx;   /*!< The latest received can message */ 
 static u32 can_rx_count = 0;		    /*!< Number of rx received */
 
 /*!< Array storing all the handler function for CAN Rx (element id equals to filter id) */
@@ -79,9 +79,9 @@ void can_init(void)
 	/** CAN_Clock_Speed is defined as CAN_RCC **/
 	/** APB1 = MCU_Clock_Speed / 4, APB2 = MCU_Clock_Speed / 2, AHB1 = MCU_Clock_Speed **/
 	CAN_InitStructure.CAN_SJW = CAN_SJW_1tq;
-	CAN_InitStructure.CAN_BS1 = CAN_BS1_6tq;
-	CAN_InitStructure.CAN_BS2 = CAN_BS2_7tq;
-	CAN_InitStructure.CAN_Prescaler = 3;
+	CAN_InitStructure.CAN_BS1 = CAN_BS1_4tq;
+	CAN_InitStructure.CAN_BS2 = CAN_BS2_3tq;
+	CAN_InitStructure.CAN_Prescaler = 2;
 	while (CAN_Init(CANn, &CAN_InitStructure) != CAN_InitStatus_Success);
 	
 	/* CAN Transmission Mailbox Empty interrupt enable */ 
@@ -107,19 +107,7 @@ void can_init(void)
 	*/
 static u8 can_tx(CanTxMsg msg)
 {
-    tft_prints(0,6,"Status: %d",CAN_Transmit(CANn, &msg) != CAN_TxStatus_NoMailBox);
 	return CAN_Transmit(CANn, &msg) != CAN_TxStatus_NoMailBox;							//transmit the message
-}
-
-void testing()
-{
-    CanTxMsg msg;
-    msg.Data[0] = 99;
-    msg.StdId = 0x0C5;
-    msg.ExtId = 0x0C5;
-    tft_prints(0,2,"Data sent:%d",msg.Data[0]);
-    tft_update();
-    can_tx(msg);
 }
 
 /**
@@ -180,7 +168,7 @@ u8 can_empty_mailbox(void)
 	* @param msg: The can message that will be added
 	* @retval 0: Fail to enqueue due to the exceeding size, 1: Successfully enqueued
 	*/
-u8 can_tx_enqueue(struct CAN_MESSAGE msg)
+u8 can_tx_enqueue(CAN_MESSAGE msg)
 {
 	u8 queue_full = 0;
 
@@ -191,7 +179,6 @@ u8 can_tx_enqueue(struct CAN_MESSAGE msg)
 		CAN_Tx_Queue.queue[CAN_Tx_Queue.tail] = msg;
 		CAN_Tx_Queue.tail = (CAN_Tx_Queue.tail + 1) % CAN_Tx_Queue.length;
 		queue_full = 0;
-		
 	}
 
 	can_tx_dequeue();
@@ -315,10 +302,6 @@ void can_rx_add_filter(u16 id, u16 mask, void (*handler)(CanRxMsg msg))
 	++CAN_FilterCount;
 }
 
-void display_rx_count(){
-    tft_prints(0,3,"rx_count: %d",can_rx_count);
-}
-
 /**
 	* @brief Get the number of handled CAN Rx data
 	* @param None
@@ -326,7 +309,6 @@ void display_rx_count(){
 	*/
 u32 can_get_rx_count(void)
 {
-    display_rx_count();
 	return can_rx_count;
 }
 
@@ -335,7 +317,7 @@ u32 can_get_rx_count(void)
   * @param None
   * @retval Recent rx message
   */
-struct CAN_MESSAGE can_get_recent_rx(void)
+CAN_MESSAGE can_get_recent_rx(void)
 {
   return can_recent_rx;
 }
@@ -343,11 +325,6 @@ struct CAN_MESSAGE can_get_recent_rx(void)
 	* @brief Interrupt for CAN Rx
 	* @warning Use USB_LP_CAN_RX0_IRQHandler for HD, USB_LP_CAN1_RX0_IRQHandler for XLD / MD
 	*/
-void print_status(void){
-    tft_clear();
-    tft_prints(0,4,"IRQ Status: %d", CAN_GetITStatus(CANn,CAN_IT_FMP0));
-    tft_update();
-}
 
 
 void CAN1_RX0_IRQHandler(void)
