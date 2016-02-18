@@ -14,9 +14,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.dranithix.robocon.RobotSerialManager.SerialCommandListener;
 import com.dranithix.robocon.ui.SettingsWindow;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisTable;
+import com.pk.robocon.main.Control;
 import com.pk.robocon.main.ControlPID;
 import com.pk.robocon.system.Position;
 import com.pk.robocon.system.Target;
@@ -27,11 +29,13 @@ import com.pk.robocon.system.Threshold;
  * @author Kenta Iwasaki
  *
  */
-public class Robocon extends ControllerAdapter implements ApplicationListener {
-	public static final int COM_PORT = 4;
+public class Robocon extends ControllerAdapter implements ApplicationListener, SerialCommandListener {
+	public static final int COM_PORT = 8;
 	public static final String COM_PORT_ADDRESS = "COM".concat(Integer.toString(COM_PORT));
 
 	private SettingsWindow settingsWindow;
+
+	private ControlPID controlPid = new ControlPID();
 
 	private Stage stage;
 
@@ -45,6 +49,8 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 	public void create() {
 		Thread thread = new Thread(RobotSerialManager.getInstance());
 		thread.start();
+
+		RobotSerialManager.getInstance().addSerialListener(this);
 
 		VisUI.load();
 
@@ -71,7 +77,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 		font = new BitmapFont();
 
 	}
-	
+
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -81,7 +87,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 
 		settingsWindow.updateConnectionStatus(RobotSerialManager.getInstance().isRunning());
 
-		if (Controllers.getControllers().size > 0 && !ControlPID.execute()) {
+		if (Controllers.getControllers().size > 0 && !controlPid.execute()) {
 			Controller controller = Controllers.getControllers().first();
 
 			float leftYAxis = -controller.getAxis(LEFT_X_AXIS);
@@ -97,8 +103,11 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 
 			int angularVelocity = (int) rightXAxis * 100;
 
-			ControlPID.moveRobot((int) (velocity * 0.5f), leftAngle, angularVelocity);
+			Integer[] motorValues = Control.calculateRobotValues((int) (velocity * 0.5f), leftAngle, angularVelocity);
+			controlPid.setMotorValues(motorValues);
 		}
+		
+		controlPid.sendMotorCommands();
 
 		stage.act();
 		stage.draw();
@@ -108,7 +117,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 	public void dispose() {
 		stage.dispose();
 		VisUI.dispose();
-		
+
 		RobotSerialManager.getInstance().dispose();
 	}
 
@@ -120,8 +129,8 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 		switch (buttonCode) {
 		case 0: // Button 1
 			Position targetPos = new Position(new Vector2(0, 1000), 45);
-			ControlPID.addQueue(new Target(targetPos, new Threshold(0, 0), 0));
-			ControlPID.resetPathStart();
+			controlPid.addQueue(new Target(targetPos, new Threshold(0, 0), 0));
+			// controlPid.();
 			break;
 		case 1: // Button 2
 			break;
@@ -134,17 +143,17 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 		case 6: // L2
 			brushlessMagnitude += 1;
 			brushlessMagnitude = MathUtils.clamp(brushlessMagnitude, 0, 100);
-//			fanSystem.fanControl(brushlessMagnitude);
+			// fanSystem.fanControl(brushlessMagnitude);
 			break;
 		case 7: // R2
 			brushlessMagnitude -= 1;
 			brushlessMagnitude = MathUtils.clamp(brushlessMagnitude, 0, 100);
-//			fanSystem.fanControl(brushlessMagnitude);
+			// fanSystem.fanControl(brushlessMagnitude);
 			break;
 		}
 
 		if (brushlessStartCounter == 2) {
-//			fanSystem.toggleFan(!fanSystem.isFanStopped());
+			// fanSystem.toggleFan(!fanSystem.isFanStopped());
 		}
 		return false;
 	}
@@ -192,5 +201,21 @@ public class Robocon extends ControllerAdapter implements ApplicationListener {
 
 	@Override
 	public void resume() {
+	}
+
+	@Override
+	public void onReceive(String[] contents) {
+		switch (contents[0]) {
+		case "STATE":
+			int currentBearing = Integer.decode(contents[3]) / 10;
+
+			controlPid.currentPosUpdate(Integer.decode(contents[1]), Integer.decode(contents[2]), currentBearing);
+
+			// robocon.updateRobotPosition(currentPos,
+			// currentBearing);
+			break;
+		default:
+			break;
+		}
 	}
 }

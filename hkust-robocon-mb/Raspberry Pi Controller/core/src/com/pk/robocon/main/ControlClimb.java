@@ -1,26 +1,20 @@
 package com.pk.robocon.main;
 
+public class ControlClimb extends Control {
 
-public class ControlClimb {
-
-	private static final int CLIMB_UP = 1799;
-	private static final int CLIMB_STOP = 0;
-	private static final int CLIMB_DOWN = -600;
+	public static final int CLIMB_UP = 1799;
+	public static final int CLIMB_STOP = 0;
+	public static final int CLIMB_DOWN = -600;
 
 	public ControlClimb() {
 
 	}
 
 	/**
-	 * magnitude of brushless scaled 0->100
+	 * magnitude of wheel
 	 */
-	public static void executeBrushless(int M1, int M2) {
-
+	public void executeBrushless(int W) {
+		super.setClimb(W);
 	}
 
-	private static void sendClimb(int W) {
-//		motorsClimb[0].send(W);
-//		motorsClimb[1].send(W);
-//		motorsClimb[2].send(W);
-	}
 }

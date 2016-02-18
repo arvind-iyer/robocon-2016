@@ -1,11 +1,14 @@
 package com.pk.robocon.system;
 
-import com.pk.robocon.main.ControlPID;
+import com.badlogic.gdx.math.MathUtils;
+import com.pk.robocon.main.Control;
 
 public class Path {
-
-	private static final int MAX_VELOCITY = 140;
 	private static final int STOP_DISTANCE = 2000;
+
+	private int M1;
+	private int M2;
+	private int M3;
 
 	private Target target;
 	private float errAngle = 1;
@@ -23,24 +26,26 @@ public class Path {
 		int M = 0;
 		int bearing;
 		int W = 0;
-		bearing = bearing(ControlPID.getCurrentPosition(), target.getPosition());
+		bearing = bearing(Control.getCurrentPos(), target.getPosition());
 		if (!this.completed()) {
 			if (target.getVel() != 0) {
 				M = target.getVel();
 			} else {
-				M = dist(ControlPID.getCurrentPosition(), target.getPosition())
-						* 100 / STOP_DISTANCE;
+				M = dist(Control.getCurrentPos(), target.getPosition()) * 100 / STOP_DISTANCE;
 				if (M > 100) {
 					M = 100;
 				}
 			}
-			W = angleDiff(ControlPID.getCurrentPosition(), target.getPosition()) * 100 / 180;
+			W = angleDiff(Control.getCurrentPos(), target.getPosition()) * 100 / 180;
 		}
-//		this.updateErr();
-//		M = (int) (M * errDist);
-//		W = (int) (W * errAngle);
-		System.out.println("move(" + M + ", " + bearing + ", " + W + ")");
-		this.move(M, bearing, W);
+		this.updateErr();
+		M = (int) (M * errDist);
+		W = (int) (W * errAngle);
+
+		Integer[] motorValues = Control.calculateRobotValues(M, bearing, W);
+		this.M1 = motorValues[0];
+		this.M2 = motorValues[1];
+		this.M3 = motorValues[2];
 	}
 
 	private void updateErr() {
@@ -54,22 +59,19 @@ public class Path {
 		} else {
 			errDist = errDist * 0.8f + 0.2f;
 		}
-		this.lastAngleDiff = Math.abs(angleDiff(
-				ControlPID.getCurrentPosition(), target.getPosition()));
-		this.lastDist = dist(ControlPID.getCurrentPosition(),
-				target.getPosition());
+		this.lastAngleDiff = Math.abs(angleDiff(Control.getCurrentPos(), target.getPosition()));
+		this.lastDist = dist(Control.getCurrentPos(), target.getPosition());
 	}
 
 	private boolean checkErrAngle() {
-		if (Math.abs(angleDiff(ControlPID.getCurrentPosition(),
-				target.getPosition())) > this.lastAngleDiff) {
+		if (Math.abs(angleDiff(Control.getCurrentPos(), target.getPosition())) > this.lastAngleDiff) {
 			return false;
 		}
 		return true;
 	}
 
 	private boolean checkErrDist() {
-		if (dist(ControlPID.getCurrentPosition(), target.getPosition()) >= this.lastDist) {
+		if (dist(Control.getCurrentPos(), target.getPosition()) >= this.lastDist) {
 			return false;
 		}
 		return true;
@@ -80,35 +82,25 @@ public class Path {
 		this.errDist = 1;
 	}
 
-	public void move(int M, int bearing, int W) {
-		double xComponent = (double) (M * Math.sin(bearing * Math.PI / 180)
-				* MAX_VELOCITY / 100);
-		double yComponent = (double) (M * Math.cos(bearing * Math.PI / 180)
-				* MAX_VELOCITY / 100);
-		int M1 = (int) ((-W - xComponent * 2) / 3);
-		int M2 = (int) ((-W * 0.577f + xComponent * 0.577f - yComponent) / 1.73f);
-		int M3 = -W - M1 - M2;
-		ControlPID.sendMotorCommands(M1, M2, M3);
-	}
-
 	public Target getTarget() {
 		return target;
 	}
 
+	/**
+	 * Returns true if path is completed
+	 * 
+	 * @return
+	 */
 	public boolean completed() {
-		if (dist(ControlPID.getCurrentPosition(), target.getPosition()) > target
-				.getThreshold().getDist_err()
-				|| Math.abs(angleDiff(ControlPID.getCurrentPosition(),
-						target.getPosition())) > target.getThreshold()
-						.getAngle_err()) {
+		if (dist(Control.getCurrentPos(), target.getPosition()) > target.getThreshold().getDist_err() || Math
+				.abs(angleDiff(Control.getCurrentPos(), target.getPosition())) > target.getThreshold().getAngle_err()) {
 			return false;
 		}
 		return true;
 	}
 
 	private static int dist(Position o, Position t) {
-		return (int) (Math.sqrt(Math.pow(t.getX() - o.getX(), 2)
-				+ Math.pow(t.getY() - o.getY(), 2)));
+		return (int) (Math.sqrt(Math.pow(t.getX() - o.getX(), 2) + Math.pow(t.getY() - o.getY(), 2)));
 	}
 
 	private static int angleDiff(Position o, Position t) {
@@ -123,9 +115,10 @@ public class Path {
 	}
 
 	private static int bearing(Position o, Position t) {
-		int bearing = (int) (90 - Math.atan2(t.getY() - o.getY(),
-				t.getX() - o.getY())
-				* 180 / Math.PI);
+		// int bearing = (int) (90 - Math.atan2(t.getY() - o.getY(), t.getX() -
+		// o.getX()) * 180 / Math.PI);
+		int bearing = (int) (90
+				- MathUtils.atan2(t.getY() - o.getY(), t.getX() - o.getX()) * MathUtils.radiansToDegrees);
 		bearing = bearing - o.getBearing();
 		if (bearing < -180) {
 			bearing = bearing + 360;
@@ -134,6 +127,18 @@ public class Path {
 			bearing = bearing - 360;
 		}
 		return bearing;
+	}
+
+	public int getM1() {
+		return this.M1;
+	}
+
+	public int getM2() {
+		return this.M2;
+	}
+
+	public int getM3() {
+		return this.M3;
 	}
 
 }

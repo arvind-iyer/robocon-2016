@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.dranithix.robocon.net.NetworkEvent;
 import com.fazecast.jSerialComm.SerialPort;
@@ -16,8 +17,12 @@ import com.pk.robocon.main.ControlPID;
  * @author Kenta Iwasaki
  *
  */
-public class RobotSerialManager implements Disposable, Runnable,
-		SerialPortPacketListener {
+public class RobotSerialManager implements Disposable, Runnable, SerialPortPacketListener {
+	public interface SerialCommandListener {
+		public void onReceive(String[] contents);
+	}
+
+	private Array<SerialCommandListener> serialListeners = new Array<SerialCommandListener>();
 	private RobotSignalProcessor filter = new RobotSignalProcessor();
 
 	private SerialPort comPort;
@@ -32,10 +37,13 @@ public class RobotSerialManager implements Disposable, Runnable,
 		return instance;
 	}
 
+	public void addSerialListener(SerialCommandListener listener) {
+		serialListeners.add(listener);
+	}
+
 	public RobotSerialManager() {
 		comPort = SerialPort.getCommPort(Robocon.COM_PORT_ADDRESS);
-		comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 100,
-				100);
+		comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 100, 100);
 		comPort.setBaudRate(38400);
 	}
 
@@ -50,15 +58,11 @@ public class RobotSerialManager implements Disposable, Runnable,
 			running = false;
 		} else {
 			if (running = comPort.openPort()) {
-				System.out.format(
-						"Robocon: Server started on %s."
-								+ System.lineSeparator(),
-						Robocon.COM_PORT_ADDRESS);
+				System.out.format("Robocon: Server started on %s." + System.lineSeparator(), Robocon.COM_PORT_ADDRESS);
 
 				comPort.addDataListener(this);
 			} else {
-				System.out.println("Robocon: Unable to start server on "
-						+ Robocon.COM_PORT_ADDRESS + ".");
+				System.out.println("Robocon: Unable to start server on " + Robocon.COM_PORT_ADDRESS + ".");
 				comPort.closePort();
 			}
 		}
@@ -76,12 +80,10 @@ public class RobotSerialManager implements Disposable, Runnable,
 	public void sendEvent(final NetworkEvent packet) {
 		// System.out.print(packet.getRawPacket());
 		if (isRunning()) {
-			int sendStatus = comPort.writeBytes(packet.getRawPacket()
-					.getBytes(), packet.getRawPacket().length());
+			int sendStatus = comPort.writeBytes(packet.getRawPacket().getBytes(), packet.getRawPacket().length());
 			if (sendStatus == -1) {
-				System.out.println("Error occurred sending packet "
-						+ packet.getRawPacket().replace("\n", "")
-						+ ". Resending...");
+				System.out.println(
+						"Error occurred sending packet " + packet.getRawPacket().replace("\n", "") + ". Resending...");
 				sendEvent(packet);
 			}
 		}
@@ -113,26 +115,13 @@ public class RobotSerialManager implements Disposable, Runnable,
 			String line = receivedPacket.toString();
 			try {
 				if (line.contains("\n")) {
-					String[] contents = line.replace("\n", "").split(
-							Pattern.quote("|"));
+					String[] contents = line.replace("\n", "").split(Pattern.quote("|"));
+
 					System.out.println(Arrays.toString(contents));
-					switch (contents[0]) {
-					case "STATE":
-						Vector2 currentPos = new Vector2(
-								Integer.decode(contents[1]),
-								Integer.decode(contents[2]));
-						int currentBearing = Integer.decode(contents[3]) / 10;
-
-						ControlPID.updateGyroPosition(currentPos,
-								currentBearing);
-
-						// robocon.updateRobotPosition(currentPos,
-						// currentBearing);
-						break;
-					default:
-						System.out.println(line);
-						break;
+					for (SerialCommandListener listener : serialListeners) {
+						listener.onReceive(contents);
 					}
+
 					receivedPacket = new StringBuffer();
 				}
 			} catch (NumberFormatException ex) {

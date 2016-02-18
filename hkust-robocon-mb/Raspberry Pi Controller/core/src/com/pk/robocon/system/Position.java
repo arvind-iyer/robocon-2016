@@ -23,15 +23,4 @@ public class Position {
 	public int getBearing() {
 		return this.bearing;
 	}
-
-	public void setPos(Vector2 pos) {
-		this.pos = pos;
-	}
-
-	public void setBearing(int bearing) {
-		this.bearing = bearing;
-	}
-	
-	
-
 }
