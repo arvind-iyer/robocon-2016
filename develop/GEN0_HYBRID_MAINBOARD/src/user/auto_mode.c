@@ -32,7 +32,7 @@ struct target {
 
 //mode variables
 bool is_running;
-bool up_pressed, dn_pressed, start_pressed;
+bool up_pressed, dn_pressed, start_pressed, back_pressed;
 int path_id;
 
 //path target queue
@@ -384,10 +384,12 @@ void auto_motor_update(){
 	
 	//print debug info
 	tft_clear();
-	tft_prints(0,0,"X:%5d Y:%5d",cur_x,cur_y);
-	tft_prints(0,1,"ANGLE %d",cur_deg);
-	tft_prints(0,2,"TAR %d %d",tar_x,tar_y);
-	tft_prints(0,3,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
-	tft_prints(0,4,"TIM %3d",auto_get_ticks()/1000);
+	tft_prints(0,0,"[AUTO MODE]");
+	tft_prints(0,1,"X %5d -> %5d",cur_x,tar_x);
+	tft_prints(0,2,"Y %5d -> %5d",cur_y,tar_y);
+	tft_prints(0,3,"D %5d -> %5d",cur_deg,tar_deg);
+	tft_prints(0,4,">> %2d / %2d",tar_end,tar_head);
+	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
+	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
 	tft_update();
 }
