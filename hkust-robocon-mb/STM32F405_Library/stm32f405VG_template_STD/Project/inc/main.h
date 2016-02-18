@@ -47,7 +47,7 @@
 #include "can_protocol.h"
 #include "can_motor.h"
 #include "encoder.h"
-
+#include "sensor_bar.h"
 
 
 #endif /* __MAIN_H */

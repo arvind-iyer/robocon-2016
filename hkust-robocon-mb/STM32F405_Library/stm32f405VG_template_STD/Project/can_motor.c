@@ -179,6 +179,14 @@ void motor_lock(MOTOR_ID motor_id)
 //		return;
 //	}
 //}
+void display_value(int x){
+    tft_prints(0,6,"msg.StdId: %d",x);
+}
+
+void display_value2(int y){
+    tft_prints(0,7,"Data: %d",y);
+}
+
 
 void can_motor_feedback(CanRxMsg msg){
 	switch (msg.Data[0]) {
@@ -243,6 +251,10 @@ void can_motor_feedback_encoder(CanRxMsg msg)
 s32 get_encoder_value(MOTOR_ID motor_id)
 {
 	return can_motor_encoder_value[motor_id];
+}
+
+s32 get_pwm_value(MOTOR_ID motor_id){
+    return can_motor_pwm_value[motor_id];
 }
 
 

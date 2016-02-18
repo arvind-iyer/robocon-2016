@@ -66,5 +66,6 @@ void motor_cmd_decoding(CanRxMsg msg);
 /*** RX ***/
 void can_motor_feedback(CanRxMsg msg);
 s32 get_encoder_value(MOTOR_ID motor_id);
+s32 get_pwm_value(MOTOR_ID motor_id);
 
 #endif			// __CAN_MOTOR_H
