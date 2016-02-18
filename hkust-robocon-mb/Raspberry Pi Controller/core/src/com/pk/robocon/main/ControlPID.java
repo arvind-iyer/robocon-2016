@@ -13,7 +13,6 @@ import com.pk.robocon.system.Threshold;
 public class ControlPID {
 	public static final int MAX_PWM_VELOCITY = 140;
 
-	private static Position startPosition;
 	private static ArrayList<Path> queue = new ArrayList<Path>();
 
 	private static Position currentPosition = new Position(new Vector2(0, 0), 0);
@@ -52,10 +51,6 @@ public class ControlPID {
 
 		System.out.println(ControlPID.currentPosition.getX() + " "
 				+ ControlPID.currentPosition.getY());
-	}
-
-	public static void resetPathStart() {
-		startPosition = ControlPID.currentPosition;
 	}
 
 	public static boolean execute() {
