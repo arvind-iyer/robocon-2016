@@ -24,11 +24,6 @@ void button_init(void)
   	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
   	GPIO_InitStructure.GPIO_Pin = BUT_START | BUT_UP | BUT_DOWN | BUT_L | BUT_R;
   	GPIO_Init(BUT_PORT, &GPIO_InitStructure);
-
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-  	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-	GPIO_InitStructure.GPIO_Pin = BUT_WAKEUP;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
 }
 
 /**

@@ -31,5 +31,6 @@
 
 extern u16 ticks_img;
 extern u16 seconds_img;
+#define IMU_BUFFER_COUNT 5
 
 #endif /* __MAIN_H */
