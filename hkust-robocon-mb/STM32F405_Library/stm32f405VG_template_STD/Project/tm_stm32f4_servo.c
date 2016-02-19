@@ -63,7 +63,7 @@ TM_SERVO_Result_t TM_SERVO_SetDegrees(TM_SERVO_t* ServoStruct, float degrees) {
 		ServoStruct->Channel,
 		micros
 	);
-	
+    
 	/* Return OK */
 	return TM_SERVO_Result_Ok;
 }

@@ -36,5 +36,13 @@
 .\output\usart.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h
 .\output\usart.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h
 .\output\usart.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
+.\output\usart.o: tm_stm32f4_delay.h
+.\output\usart.o: defines.h
+.\output\usart.o: attributes.h
+.\output\usart.o: tm_stm32f4_timer_properties.h
+.\output\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\output\usart.o: lcd.h
+.\output\usart.o: tm_stm32f4_delay.h
 .\output\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h

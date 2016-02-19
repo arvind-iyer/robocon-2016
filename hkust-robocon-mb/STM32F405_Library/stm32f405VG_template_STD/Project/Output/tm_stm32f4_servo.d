@@ -39,3 +39,10 @@
 .\output\tm_stm32f4_servo.o: tm_stm32f4_pwm.h
 .\output\tm_stm32f4_servo.o: tm_stm32f4_timer_properties.h
 .\output\tm_stm32f4_servo.o: tm_stm32f4_gpio.h
+.\output\tm_stm32f4_servo.o: lcd.h
+.\output\tm_stm32f4_servo.o: tm_stm32f4_delay.h
+.\output\tm_stm32f4_servo.o: attributes.h
+.\output\tm_stm32f4_servo.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\output\tm_stm32f4_servo.o: lcd.h
+.\output\tm_stm32f4_servo.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\tm_stm32f4_servo.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

@@ -81,6 +81,7 @@ extern C {
 #include "defines.h"
 #include "tm_stm32f4_pwm.h"
 #include "tm_stm32f4_timer_properties.h"
+#include "lcd.h"
 
 /**
  * @defgroup TM_SERVO_Macros

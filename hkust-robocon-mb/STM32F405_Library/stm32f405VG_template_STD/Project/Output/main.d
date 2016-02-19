@@ -50,6 +50,7 @@
 .\output\main.o: ..\Project\tm_stm32f4_gpio.h
 .\output\main.o: ..\Project\tm_stm32f4_servo.h
 .\output\main.o: ..\Project\usart.h
+.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
 .\output\main.o: ..\Project\tm_stm32f4_i2c.h
 .\output\main.o: ..\Project\approx_math.h
 .\output\main.o: ..\Project\gyro.h

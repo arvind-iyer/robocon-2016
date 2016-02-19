@@ -1,23 +1,29 @@
 #include "usart.h"
 
-//#ifdef __GNUC__
-///* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
-//   set to 'Yes') calls __io_putchar() */
-//#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-//#else
-//#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
-//#endif /* __GNUC__ */
+uint8_t rx_buffer[256] = { 0 };
+uint8_t rx_full = 0;
+on_receive_listener *uart1_rx_listener;
+on_receive_listener *uart3_rx_listener;
+uint8_t uart1_listener_empty = 1;
+uint8_t uart3_listener_empty = 1;
 
-USART_TypeDef* COM_USART[COMn] = {USART1,USART3}; 
-GPIO_TypeDef* COM_TX_PORT[COMn] = {COM1_TX_GPIO_PORT,COM3_TX_GPIO_PORT}; 
+#ifdef __GNUC__
+/* With GCC/RAISONANCE, small printf (option LD Linker->Libraries->Small printf
+   set to 'Yes') calls __io_putchar() */
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif /* __GNUC__ */
+
+USART_TypeDef* COM_USART[COMn] = {USART1, USART3}; 
+GPIO_TypeDef* COM_TX_PORT[COMn] = {COM1_TX_GPIO_PORT, COM3_TX_GPIO_PORT}; 
 GPIO_TypeDef* COM_RX_PORT[COMn] = {COM1_RX_GPIO_PORT, COM3_RX_GPIO_PORT}; 
-uc32 COM_USART_CLK[COMn] = {COM1_CLK,COM3_CLK};
+uc32 COM_USART_CLK[COMn] = {COM1_CLK, COM3_CLK};
 uc32 COM_TX_PORT_CLK[COMn] = {COM1_TX_GPIO_CLK, COM3_TX_GPIO_CLK}; 
 uc32 COM_RX_PORT_CLK[COMn] = {COM1_RX_GPIO_CLK, COM3_RX_GPIO_CLK};
 uc16 COM_TX_PIN[COMn] = {COM1_TX_PIN, COM3_TX_PIN};
-uc16 COM_RX_PIN[COMn] = {COM1_RX_PIN,COM3_RX_PIN};
+uc16 COM_RX_PIN[COMn] = {COM1_RX_PIN, COM3_RX_PIN};
 uc16 COM_IRQ[COMn] = {USART1_IRQn, USART3_IRQn};
-
 
 COM_TypeDef printf_COMx;
 
@@ -97,8 +103,8 @@ void uart_interrupt(COM_TypeDef COM)
 	#endif
 
 	NVIC_InitStructure.NVIC_IRQChannel = COM_IRQ[COM];
-	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 6;
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 2;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
 	/* Enables the USART receive interrupt */
@@ -134,7 +140,7 @@ void uart_printf_disable(void)
 void uart_tx_byte(COM_TypeDef COM, uc8 data)
 {
 	while (USART_GetFlagStatus(COM_USART[COM], USART_FLAG_TC) == RESET); 
-	USART_SendData(COM_USART[COM],data);
+	USART_SendData(COM_USART[COM], (uint16_t)data);
 }
 
 /**
@@ -143,10 +149,10 @@ void uart_tx_byte(COM_TypeDef COM, uc8 data)
   * @param  tx_buf: string to be sent
   * @retval None
   */
-void uart_tx(COM_TypeDef COM, uc8 * tx_buf, ...)
+void uart_tx(COM_TypeDef COM, const uc8 * tx_buf, ...)
 {
 	va_list arglist;
-	u8 buf[40], *fp;
+	u8 buf[255], *fp;
 	
 	va_start(arglist, tx_buf);
 	vsprintf((char*)buf, (const char*)tx_buf, arglist);
@@ -154,7 +160,7 @@ void uart_tx(COM_TypeDef COM, uc8 * tx_buf, ...)
 	
 	fp = buf;
 	while (*fp)
-		uart_tx_byte(COM,*fp++);
+		uart_tx_byte(COM, (uint16_t)*fp++);
 }
 /**
   * @brief  Receiving one byte of data via USART
@@ -166,6 +172,35 @@ u8 uart_rx_byte(COM_TypeDef COM)
 	while (USART_GetFlagStatus(COM_USART[COM], USART_FLAG_TC) == RESET); 
 	return (u8)USART_ReceiveData(COM_USART[COM]);
 }
+
+void uart_interrupt_init(COM_TypeDef COM, on_receive_listener *listener)
+{
+	if (COM == COM1)
+	{
+		uart1_rx_listener = listener;
+		uart1_listener_empty = 0;
+	}
+	else if (COM == COM3)
+	{
+		uart3_rx_listener = listener;
+		uart3_listener_empty = 0;
+	}
+	else
+		assert(0);
+	
+	uart_interrupt(COM);
+}
+	
+void USART1_IRQHandler(void)
+{
+	if(USART_GetITStatus(USART1,USART_IT_RXNE) != RESET)
+	{ // check RX interrupt
+		if (!uart1_listener_empty)
+			(*uart1_rx_listener)(USART_ReceiveData(USART1));
+		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+	}
+}
+
 /**
   * @brief  Binding of function Printf
   * @param  None

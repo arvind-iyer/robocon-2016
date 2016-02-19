@@ -37,13 +37,14 @@
 .\output\gyro.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h
 .\output\gyro.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h
 .\output\gyro.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
-.\output\gyro.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\output\gyro.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\output\gyro.o: lcd.h
 .\output\gyro.o: tm_stm32f4_delay.h
 .\output\gyro.o: defines.h
 .\output\gyro.o: attributes.h
 .\output\gyro.o: tm_stm32f4_timer_properties.h
 .\output\gyro.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\output\gyro.o: lcd.h
+.\output\gyro.o: tm_stm32f4_delay.h
+.\output\gyro.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\output\gyro.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\gyro.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
 .\output\gyro.o: approx_math.h
