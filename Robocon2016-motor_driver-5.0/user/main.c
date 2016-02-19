@@ -36,15 +36,15 @@ motor_init();
 		//motor_control(1, 50);
 		if (this_seconds%3==0 && last_seconds!=this_seconds){
 			if (state==0){
-				motor_control(0, 100);
+				motor_control(0, 220);
 			}else if(state==1){
-				motor_control(1, 100);
+				motor_control(1, 220);
 			}else if(state==2){
-				motor_control(1, 200);
+				motor_control(1, 0);
 			}else{
 				motor_control(0, 1);
 			}
-			state = (state+1)%4;
+			state = (state+1)%3;
 			last_seconds = this_seconds;
 		}
 		if (this_seconds>1){
