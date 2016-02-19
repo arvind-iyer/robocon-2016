@@ -35,7 +35,7 @@ void debug(void)
 		led_control(LED_1, LED_OFF);
 		set_velocity(-50);
 	} else {
-		set_pwm(0);
+		set_velocity(0);
 		led_control(LED_BOTH, LED_OFF);
 	}
 }

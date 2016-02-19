@@ -16,7 +16,7 @@ public class Path {
 	private float errDist = 1f;
 	private int lastDist = 0;
 	private int lastAngleDiff = 0;
-
+	
 	public Path(Target t) {
 		this.errDist = 1f;
 		this.errAngle = 1f;

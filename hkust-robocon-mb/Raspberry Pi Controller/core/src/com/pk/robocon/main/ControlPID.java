@@ -3,6 +3,7 @@ package com.pk.robocon.main;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
+import com.dranithix.robocon.ui.QueueChangeListener;
 import com.pk.robocon.system.Path;
 import com.pk.robocon.system.Position;
 import com.pk.robocon.system.Target;
@@ -50,7 +51,7 @@ public class ControlPID extends Control {
 	/**
 	 * Updates PID motor values
 	 */
-	public boolean execute() {
+	public boolean execute(QueueChangeListener queueListener) {
 		if (queue.size() > 0) {
 			// queue.get(0).straight();
 			queue.get(0).calculateLinearPath();
@@ -70,6 +71,7 @@ public class ControlPID extends Control {
 			// queue.get(0).getM3());
 			if (queue.get(0).completed()) {
 				System.out.println("LOADING NEXT TARGET");
+				if(queue.size()>0) {queueListener.setQueueRemoveCheck(true);}
 				queue.remove(0);
 			}
 		} else {

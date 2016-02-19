@@ -15,13 +15,20 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.dranithix.robocon.RobotSerialManager.SerialCommandListener;
 import com.dranithix.robocon.ui.SettingsWindow;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisTable;
+import com.dranithix.robocon.ui.LabelsList;
+import com.dranithix.robocon.ui.OperationUI;
+import com.dranithix.robocon.ui.PositionListView;
+import com.dranithix.robocon.ui.QueueChangeInterface;
+import com.dranithix.robocon.ui.QueueChangeListener;
 import com.pk.robocon.main.Control;
 import com.pk.robocon.main.ControlPID;
+import com.pk.robocon.system.Path;
 import com.pk.robocon.system.Position;
 import com.pk.robocon.system.Target;
 import com.pk.robocon.system.Threshold;
@@ -31,18 +38,29 @@ import com.pk.robocon.system.Threshold;
  * @author Kenta Iwasaki
  *
  */
-public class Robocon extends ControllerAdapter implements ApplicationListener, SerialCommandListener {
+public class Robocon extends ControllerAdapter implements ApplicationListener, 
+SerialCommandListener, QueueChangeInterface{
+	
 	public static final int COM_PORT = 8;
 	public static final String COM_PORT_ADDRESS = "COM".concat(Integer.toString(COM_PORT));
 
 	private SettingsWindow settingsWindow;
 
-	private ControlPID controlPid = new ControlPID();
+	public ControlPID controlPid = new ControlPID();
+
+	public ControlPID getControlPid() {
+		return this.controlPid;
+	}
 
 	private Stage stage;
+	
+	private QueueChangeListener queueListener;
 
 	Vector3 mousePos = new Vector3(0, 0, 0);
 	OrthographicCamera cam;
+	
+	LabelsList labelList;
+	PositionListView positionList;
 
 	SpriteBatch batch;
 	BitmapFont font;
@@ -53,6 +71,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener, S
 		thread.start();
 
 		RobotSerialManager.getInstance().addSerialListener(this);
+		queueListener = new QueueChangeListener(this);
 
 		VisUI.load();
 
@@ -65,7 +84,18 @@ public class Robocon extends ControllerAdapter implements ApplicationListener, S
 		VisTable settingsLayout = new VisTable(true);
 		settingsLayout.add(settingsWindow = new SettingsWindow());
 		layout.add(settingsLayout);
+		layout.row();
+		
+		labelList = new LabelsList();
+		positionList = new PositionListView(labelList, this);
 
+		Table table = new Table();
+		table.setFillParent(true);
+		table.add(positionList).fill().grow().size(540, 250);
+		table.add(labelList).fill().grow().size(240, 250);
+
+		layout.add(table);
+		
 		layout.setFillParent(true);
 
 		stage.addActor(layout);
@@ -79,7 +109,19 @@ public class Robocon extends ControllerAdapter implements ApplicationListener, S
 		font = new BitmapFont();
 
 	}
-
+	
+	public void callUpdateQueue() {
+		positionList.updateQueueArray();
+	}
+	public void removeTargetListener(){
+		positionList.deleteTopMostEntry();
+	}
+	
+	/*public void queueChange(Path path, OperationUI receivedOperation.operationNum){
+		OperationUI operation = receivedOperation;
+		
+	}*/
+	
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -89,7 +131,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener, S
 
 		settingsWindow.updateConnectionStatus(RobotSerialManager.getInstance().isRunning());
 		
-		if (Controllers.getControllers().size > 0 && !controlPid.execute()) {
+		if (Controllers.getControllers().size > 0 && !controlPid.execute(queueListener)) {
 			Controller controller = Controllers.getControllers().first();
 
 			float leftYAxis = -controller.getAxis(LEFT_X_AXIS);
@@ -106,7 +148,12 @@ public class Robocon extends ControllerAdapter implements ApplicationListener, S
 			int angularVelocity = (int) rightXAxis * 100;
 			controlPid.calculateMotorValues((int) (velocity * 0.5f), leftJoystickAngle, angularVelocity);
 		}
-
+		
+		try {
+			positionList.updateLabelsList(positionList.snapshotPath);
+		} catch (java.lang.NullPointerException e) {
+		}
+		queueListener.update();
 		controlPid.sendMotorCommands();
 
 		stage.act();
@@ -136,6 +183,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener, S
 				control.add(new Vector2(500, 500));
 				control.add(new Vector2(0, 1000));
 				controlPid.addCurve(control, 45);
+				queueListener.setInterfaceCheck(true);
 				//Position targetPos = new Position(new Vector2(0, 1000), 45);
 				//controlPid.addQueue(new Target(targetPos, new Threshold(0, 0), 0));
 			} else {
