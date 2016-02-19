@@ -61,15 +61,6 @@ public class Control {
 		}
 	}
 
-	public static Integer[] calculateRobotValues(int M, int bearing, int W) {
-		double xComponent = (double) (M * Math.sin(bearing * Math.PI / 180) * MAX_VELOCITY / 100);
-		double yComponent = (double) (M * Math.cos(bearing * Math.PI / 180) * MAX_VELOCITY / 100);
-		int M1 = (int) ((-W - xComponent * 2) / 3);
-		int M2 = (int) ((-W * 0.577f + xComponent * 0.577f - yComponent) / 1.73f);
-		int M3 = -W - M1 - M2;
-		return new Integer[] { M1, M2, M3 };
-	}
-
 	/**
 	 * Sends motor commands, pid and climbing included
 	 */

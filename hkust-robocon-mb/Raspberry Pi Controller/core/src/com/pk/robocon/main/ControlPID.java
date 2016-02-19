@@ -27,22 +27,24 @@ public class ControlPID extends Control {
 	}
 
 	/**
-	 * Adds multiple Target to form curve
+	 * Adds multiple Vector2 to form curve
 	 * 
 	 * @param control
 	 *            Control points in bezier curve
 	 */
-	public void addCurve(ArrayList<Target> control) {
-		for (double t = 0; t <= 1; t = t + 0.2) {
+	public void addCurve(ArrayList<Vector2> control, int finalBearing) {
+		control.add(0, Control.getCurrentPos().getVector());
+		for (double t = 0; t != 1; t = t + 0.2) {
 			float x = 0;
 			float y = 0;
 			for (int i = 0; i != control.size(); i++) {
 				double c = binomial(control.size() - 1, i) * Math.pow(1 - t, control.size() - i - 1) * Math.pow(t, i);
-				x = (float) (x + c * control.get(i).getPosition().getX());
-				y = (float) (y + c * control.get(i).getPosition().getY());
+				x = (float) (x + c * control.get(i).x);
+				y = (float) (y + c * control.get(i).y);
 			}
 			addQueue(new Target(new Position(new Vector2((int) (x), (int) (y)), 0), new Threshold(50, 360), 20));
 		}
+		addQueue(new Target(new Position(control.get(control.size() - 1), finalBearing), new Threshold(0, 0), 0));
 	}
 
 	/**
@@ -52,10 +54,26 @@ public class ControlPID extends Control {
 		if (queue.size() > 0) {
 			// queue.get(0).straight();
 			queue.get(0).calculateLinearPath();
-			this.calculateMotorValues(queue.get(0).getM(), queue.get(0).getBearing(), queue.get(0).getW());
-			this.sendMotorCommands();
+			int M = (int) queue.get(0).getM();
+			int bearing = queue.get(0).getBearing();
+			int W = (int) queue.get(0).getW();
+			System.out.println("GYRO: " + Control.getCurrentPos().getX() + "," + Control.getCurrentPos().getY() + " "
+					+ Control.getCurrentPos().getBearing());
+			System.out.println("Target: " + queue.get(0).getTarget().getPosition().getX() + ","
+					+ queue.get(0).getTarget().getPosition().getY() + " "
+					+ queue.get(0).getTarget().getPosition().getBearing());
+			System.out.println("move(" + M + "[" + queue.get(0).getErrDist() + "], " + bearing + ", " + W + "["
+					+ queue.get(0).getErrAngle() + "])");
+			this.calculateMotorValues(M, bearing, W);
+			// this.sendMotorCommand;
 			// super.setMotorValues(queue.get(0).getM1(), queue.get(0).getM2(),
 			// queue.get(0).getM3());
+			if (queue.get(0).completed()) {
+				System.out.println("LOADING NEXT TARGET");
+				queue.remove(0);
+			}
+		} else {
+			System.out.println("NO MORE TARGETS");
 		}
 		return queue.size() > 0;
 	}

@@ -19,6 +19,10 @@ public class Position {
 	public int getY() {
 		return (int) (this.pos.y);
 	}
+	
+	public Vector2 getVector() {
+		return new Vector2(this.getX(), this.getY());
+	}
 
 	public int getBearing() {
 		return this.bearing;

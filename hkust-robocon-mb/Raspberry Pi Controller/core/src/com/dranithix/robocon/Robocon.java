@@ -1,5 +1,7 @@
 package com.dranithix.robocon;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controller;
@@ -86,7 +88,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener, S
 		cam.unproject(mousePos);
 
 		settingsWindow.updateConnectionStatus(RobotSerialManager.getInstance().isRunning());
-
+		
 		if (Controllers.getControllers().size > 0 && !controlPid.execute()) {
 			Controller controller = Controllers.getControllers().first();
 
@@ -102,9 +104,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener, S
 			int velocity = (int) MathUtils.clamp((leftPoint.len() / Math.sqrt(2)) * 100, 0, 100);
 
 			int angularVelocity = (int) rightXAxis * 100;
-
-			Integer[] motorValues = Control.calculateRobotValues((int) (velocity * 0.5f), leftJoystickAngle, angularVelocity);
-			controlPid.setMotorValues(motorValues);
+			controlPid.calculateMotorValues((int) (velocity * 0.5f), leftJoystickAngle, angularVelocity);
 		}
 
 		controlPid.sendMotorCommands();
@@ -132,8 +132,12 @@ public class Robocon extends ControllerAdapter implements ApplicationListener, S
 		case 0: // Button 1
 			pidState = !pidState;
 			if (pidState == true) {
-				Position targetPos = new Position(new Vector2(0, 1000), 45);
-				controlPid.addQueue(new Target(targetPos, new Threshold(0, 0), 0));
+				ArrayList<Vector2> control=new ArrayList<Vector2>();
+				control.add(new Vector2(500, 500));
+				control.add(new Vector2(0, 1000));
+				controlPid.addCurve(control, 45);
+				//Position targetPos = new Position(new Vector2(0, 1000), 45);
+				//controlPid.addQueue(new Target(targetPos, new Threshold(0, 0), 0));
 			} else {
 				controlPid.getQueue().clear();
 			}

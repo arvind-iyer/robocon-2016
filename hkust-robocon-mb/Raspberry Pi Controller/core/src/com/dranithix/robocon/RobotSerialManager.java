@@ -117,7 +117,7 @@ public class RobotSerialManager implements Disposable, Runnable, SerialPortPacke
 				if (line.contains("\n")) {
 					String[] contents = line.replace("\n", "").split(Pattern.quote("|"));
 
-					System.out.println(Arrays.toString(contents));
+					//System.out.println(Arrays.toString(contents));
 					for (SerialCommandListener listener : serialListeners) {
 						listener.onReceive(contents);
 					}

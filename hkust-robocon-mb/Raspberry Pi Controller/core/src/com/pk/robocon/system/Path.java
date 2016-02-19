@@ -7,32 +7,33 @@ public class Path {
 
 	private static final int STOP_DISTANCE = 2000;
 
-	private int M = 0;
+	private float M = 0;
 	private int bearing = 0;
-	private int W = 0;
+	private float W = 0;
 
 	private Target target;
-	private float errAngle = 1;
-	private float errDist = 1;
+	private float errAngle = 1f;
+	private float errDist = 1f;
 	private int lastDist = 0;
 	private int lastAngleDiff = 0;
 
 	public Path(Target t) {
-		this.errDist = 1;
-		this.errAngle = 1;
+		this.errDist = 1f;
+		this.errAngle = 1f;
 		this.target = t;
 	}
 
-	public int translationPID_M() {
-		int M = 0;
+	public float translationPID_M() {
+		float M = 0;
 		if (target.getVel() != 0) {
 			M = target.getVel();
 		} else {
-			M = dist(Control.getCurrentPos(), target.getPosition()) * 100 / STOP_DISTANCE;
-			if (M > 100) {
-				M = 100;
+			M = dist(Control.getCurrentPos(), target.getPosition()) * 100.0f / STOP_DISTANCE;
+			if (M > 100f) {
+				M = 100f;
 			}
 		}
+		//System.out.println("preM: " + M);
 		return M;
 	}
 
@@ -40,8 +41,8 @@ public class Path {
 		return bearing(Control.getCurrentPos(), target.getPosition());
 	}
 
-	public int OrientationPID() {
-		return angleDiff(Control.getCurrentPos(), target.getPosition()) * 100 / 180;
+	public float OrientationPID() {
+		return angleDiff(Control.getCurrentPos(), target.getPosition()); // *100/180
 	}
 
 	public void calculateLinearPath() {
@@ -51,8 +52,8 @@ public class Path {
 			this.W = this.OrientationPID();
 		}
 		this.updateErr();
-		this.M = (int) (this.M * this.errDist);
-		this.W = (int) (this.W * this.errAngle);
+		this.M = this.M * this.errDist;
+		this.W = this.W * this.errAngle;
 	}
 
 	private void updateErr() {
@@ -68,6 +69,15 @@ public class Path {
 		}
 		this.lastAngleDiff = Math.abs(angleDiff(Control.getCurrentPos(), target.getPosition()));
 		this.lastDist = dist(Control.getCurrentPos(), target.getPosition());
+		// System.out.println("err: " + errDist + " " + errAngle);
+	}
+
+	public float getErrAngle() {
+		return this.errAngle;
+	}
+
+	public float getErrDist() {
+		return this.errDist;
 	}
 
 	private boolean checkErrAngle() {
@@ -85,8 +95,8 @@ public class Path {
 	}
 
 	public void resetErr() {
-		this.errAngle = 1;
-		this.errDist = 1;
+		this.errAngle = 1f;
+		this.errDist = 1f;
 	}
 
 	public Target getTarget() {
@@ -136,7 +146,7 @@ public class Path {
 		return bearing;
 	}
 
-	public int getM() {
+	public float getM() {
 		return this.M;
 	}
 
@@ -144,7 +154,7 @@ public class Path {
 		return this.bearing;
 	}
 
-	public int getW() {
+	public float getW() {
 		return this.W;
 	}
 
