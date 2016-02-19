@@ -4,11 +4,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.pk.robocon.main.Control;
 
 public class Path {
+
 	private static final int STOP_DISTANCE = 2000;
 
-	private int M1;
-	private int M2;
-	private int M3;
+	private int M = 0;
+	private int bearing = 0;
+	private int W = 0;
 
 	private Target target;
 	private float errAngle = 1;
@@ -22,30 +23,36 @@ public class Path {
 		this.target = t;
 	}
 
-	public void straight() {
+	public int translationPID_M() {
 		int M = 0;
-		int bearing;
-		int W = 0;
-		bearing = bearing(Control.getCurrentPos(), target.getPosition());
-		if (!this.completed()) {
-			if (target.getVel() != 0) {
-				M = target.getVel();
-			} else {
-				M = dist(Control.getCurrentPos(), target.getPosition()) * 100 / STOP_DISTANCE;
-				if (M > 100) {
-					M = 100;
-				}
+		if (target.getVel() != 0) {
+			M = target.getVel();
+		} else {
+			M = dist(Control.getCurrentPos(), target.getPosition()) * 100 / STOP_DISTANCE;
+			if (M > 100) {
+				M = 100;
 			}
-			W = angleDiff(Control.getCurrentPos(), target.getPosition()) * 100 / 180;
+		}
+		return M;
+	}
+
+	public int translationPID_bearing() {
+		return bearing(Control.getCurrentPos(), target.getPosition());
+	}
+
+	public int OrientationPID() {
+		return angleDiff(Control.getCurrentPos(), target.getPosition()) * 100 / 180;
+	}
+
+	public void calculateLinearPath() {
+		this.bearing = this.translationPID_bearing();
+		if (!this.completed()) {
+			this.M = this.translationPID_M();
+			this.W = this.OrientationPID();
 		}
 		this.updateErr();
-		M = (int) (M * errDist);
-		W = (int) (W * errAngle);
-
-		Integer[] motorValues = Control.calculateRobotValues(M, bearing, W);
-		this.M1 = motorValues[0];
-		this.M2 = motorValues[1];
-		this.M3 = motorValues[2];
+		this.M = (int) (this.M * this.errDist);
+		this.W = (int) (this.W * this.errAngle);
 	}
 
 	private void updateErr() {
@@ -129,16 +136,16 @@ public class Path {
 		return bearing;
 	}
 
-	public int getM1() {
-		return this.M1;
+	public int getM() {
+		return this.M;
 	}
 
-	public int getM2() {
-		return this.M2;
+	public int getBearing() {
+		return this.bearing;
 	}
 
-	public int getM3() {
-		return this.M3;
+	public int getW() {
+		return this.W;
 	}
 
 }

@@ -96,17 +96,17 @@ public class Robocon extends ControllerAdapter implements ApplicationListener, S
 			float rightXAxis = controller.getAxis(RIGHT_Y_AXIS);
 
 			Vector2 leftPoint = new Vector2(leftXAxis, leftYAxis);
-			int leftAngle = 90 - (int) leftPoint.angle();
-			leftAngle = leftAngle < 0 ? 360 + leftAngle : leftAngle;
+			int leftJoystickAngle = 90 - (int) leftPoint.angle();
+			leftJoystickAngle = leftJoystickAngle < 0 ? 360 + leftJoystickAngle : leftJoystickAngle;
 
 			int velocity = (int) MathUtils.clamp((leftPoint.len() / Math.sqrt(2)) * 100, 0, 100);
 
 			int angularVelocity = (int) rightXAxis * 100;
 
-			Integer[] motorValues = Control.calculateRobotValues((int) (velocity * 0.5f), leftAngle, angularVelocity);
+			Integer[] motorValues = Control.calculateRobotValues((int) (velocity * 0.5f), leftJoystickAngle, angularVelocity);
 			controlPid.setMotorValues(motorValues);
 		}
-		
+
 		controlPid.sendMotorCommands();
 
 		stage.act();
@@ -124,12 +124,19 @@ public class Robocon extends ControllerAdapter implements ApplicationListener, S
 	int brushlessStartCounter = 0;
 	int brushlessMagnitude = 0;
 
+	boolean pidState = false;
+
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
 		switch (buttonCode) {
 		case 0: // Button 1
-			Position targetPos = new Position(new Vector2(0, 1000), 45);
-			controlPid.addQueue(new Target(targetPos, new Threshold(0, 0), 0));
+			pidState = !pidState;
+			if (pidState == true) {
+				Position targetPos = new Position(new Vector2(0, 1000), 45);
+				controlPid.addQueue(new Target(targetPos, new Threshold(0, 0), 0));
+			} else {
+				controlPid.getQueue().clear();
+			}
 			// controlPid.();
 			break;
 		case 1: // Button 2

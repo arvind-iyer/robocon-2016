@@ -50,8 +50,12 @@ public class ControlPID extends Control {
 	 */
 	public boolean execute() {
 		if (queue.size() > 0) {
-			queue.get(0).straight();
-			super.setMotorValues(queue.get(0).getM1(), queue.get(0).getM2(), queue.get(0).getM3());
+			// queue.get(0).straight();
+			queue.get(0).calculateLinearPath();
+			this.calculateMotorValues(queue.get(0).getM(), queue.get(0).getBearing(), queue.get(0).getW());
+			this.sendMotorCommands();
+			// super.setMotorValues(queue.get(0).getM1(), queue.get(0).getM2(),
+			// queue.get(0).getM3());
 		}
 		return queue.size() > 0;
 	}
@@ -63,6 +67,30 @@ public class ControlPID extends Control {
 		if (!queue.isEmpty()) {
 			queue.remove(0);
 		}
+	}
+
+	/**
+	 * Updates the motor values
+	 * <p>
+	 * In manual control, call move(), param magnitude, bearing,
+	 * orientationPID()
+	 * 
+	 * @param M
+	 *            magnitude scaled 0->100, given by this.translationPID_M()
+	 * @param bearing
+	 *            bearing scaled -180->180, given by
+	 *            this.translationPID_bearing()
+	 * @param W
+	 *            angular velocity scaled -100->100, given by
+	 *            this.orientationPID()
+	 */
+	public void calculateMotorValues(int M, int bearing, int W) {
+		double xComponent = (double) (M * Math.sin(bearing * Math.PI / 180) * MAX_VELOCITY / 100);
+		double yComponent = (double) (M * Math.cos(bearing * Math.PI / 180) * MAX_VELOCITY / 100);
+		int M1 = (int) ((-W - xComponent * 2) / 3);
+		int M2 = (int) ((-W * 0.577f + xComponent * 0.577f - yComponent) / 1.73f);
+		int M3 = -W - M1 - M2;
+		super.setMotorValues(M1, M2, M3);
 	}
 
 	private static int binomial(int n, int k) {
