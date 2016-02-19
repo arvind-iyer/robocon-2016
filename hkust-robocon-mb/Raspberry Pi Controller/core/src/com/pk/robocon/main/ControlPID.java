@@ -18,6 +18,20 @@ public class ControlPID extends Control {
 	}
 
 	/**
+	 * Adds Target to top of queue
+	 * 
+	 * @param t
+	 *            Target Object
+	 */
+	public void overrideQueue(Target t) {
+		if (queue.size() != 0) {
+			queue.get(0).setErrDist(1);
+			queue.get(0).setErrAngle(1);
+		}
+		queue.add(0, new Path(t));
+	}
+
+	/**
 	 * Adds a single Target
 	 * 
 	 * @param t
@@ -43,7 +57,8 @@ public class ControlPID extends Control {
 				x = (float) (x + c * control.get(i).x);
 				y = (float) (y + c * control.get(i).y);
 			}
-			addQueue(new Target(new Position(new Vector2((int) (x), (int) (y)), 0), new Threshold(50, 360), 20));
+			addQueue(new Target(new Position(new Vector2((int) (x), (int) (y)), finalBearing), new Threshold(50, 360),
+					20));
 		}
 		addQueue(new Target(new Position(control.get(control.size() - 1), finalBearing), new Threshold(0, 0), 0));
 	}

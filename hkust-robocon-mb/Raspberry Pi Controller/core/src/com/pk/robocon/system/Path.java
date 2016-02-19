@@ -13,6 +13,7 @@ public class Path {
 
 	private Target target;
 	private float errAngle = 1f;
+
 	private float errDist = 1f;
 	private int lastDist = 0;
 	private int lastAngleDiff = 0;
@@ -33,7 +34,7 @@ public class Path {
 				M = 100f;
 			}
 		}
-		//System.out.println("preM: " + M);
+		// System.out.println("preM: " + M);
 		return M;
 	}
 
@@ -78,6 +79,14 @@ public class Path {
 
 	public float getErrDist() {
 		return this.errDist;
+	}
+
+	public void setErrAngle(float errAngle) {
+		this.errAngle = errAngle;
+	}
+
+	public void setErrDist(float errDist) {
+		this.errDist = errDist;
 	}
 
 	private boolean checkErrAngle() {
