@@ -42,7 +42,7 @@ public class ControlPID extends Control {
 				x = (float) (x + c * control.get(i).x);
 				y = (float) (y + c * control.get(i).y);
 			}
-			addQueue(new Target(new Position(new Vector2((int) (x), (int) (y)), 0), new Threshold(50, 360), 20));
+			addQueue(new Target(new Position(new Vector2((int) (x), (int) (y)), finalBearing), new Threshold(50, 360), 20));
 		}
 		addQueue(new Target(new Position(control.get(control.size() - 1), finalBearing), new Threshold(0, 0), 0));
 	}
