@@ -23,6 +23,7 @@ int main(void) {
 	encoder_init();
 	gyro_init();
 	button_init();
+	bluetooth_init();
 	can_xbc_mb_init();
 	can_xbc_mb_tx_enable(true);
 

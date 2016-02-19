@@ -347,6 +347,7 @@ void manual_interval_update(){
 		motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
 	}
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
+	bluetooth_tx("%d", motor_vel[0]);
 	
 	tft_update();
 }
