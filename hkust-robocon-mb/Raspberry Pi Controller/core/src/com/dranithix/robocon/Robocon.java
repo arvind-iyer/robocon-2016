@@ -220,7 +220,7 @@ public class Robocon extends ControllerAdapter implements ApplicationListener, S
 		case "STATE":
 			int currentBearing = Integer.decode(contents[3]) / 10;
 
-			controlPid.currentPosUpdate(Integer.decode(contents[1]), Integer.decode(contents[2]), currentBearing);
+			Control.currentPosUpdate(Integer.decode(contents[1]), Integer.decode(contents[2]), currentBearing);
 
 			// robocon.updateRobotPosition(currentPos,
 			// currentBearing);

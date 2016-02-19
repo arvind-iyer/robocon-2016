@@ -26,18 +26,6 @@ public class Control {
 		return currentPos;
 	}
 
-	private static int getGyroX() {
-		return currentPos.getX();
-	}
-
-	private static int getGyroY() {
-		return currentPos.getY();
-	}
-
-	private static int getGyroBearing() {
-		return currentPos.getBearing();
-	}
-
 	protected void setBrushless(int W1, int W2) {
 		this.motorsBrushless[0].setServo(W1);
 		this.motorsBrushless[1].setServo(W2);
