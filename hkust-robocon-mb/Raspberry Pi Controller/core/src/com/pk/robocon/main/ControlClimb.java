@@ -6,10 +6,6 @@ public class ControlClimb extends Control {
 	public static final int CLIMB_STOP = 0;
 	public static final int CLIMB_DOWN = -600;
 
-	public ControlClimb() {
-
-	}
-
 	/**
 	 * magnitude of wheel
 	 */

@@ -20,6 +20,7 @@ public class ControlPID extends Control {
 	 * Adds a single Target
 	 * 
 	 * @param t
+	 *            Target object
 	 */
 	public void addQueue(Target t) {
 		queue.add(new Path(t));
@@ -29,6 +30,7 @@ public class ControlPID extends Control {
 	 * Adds multiple Target to form curve
 	 * 
 	 * @param control
+	 *            Control points in bezier curve
 	 */
 	public void addCurve(ArrayList<Target> control) {
 		for (double t = 0; t <= 1; t = t + 0.2) {
