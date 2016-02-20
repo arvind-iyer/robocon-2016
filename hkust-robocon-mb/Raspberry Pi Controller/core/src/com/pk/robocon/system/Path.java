@@ -6,6 +6,7 @@ import com.pk.robocon.main.Control;
 public class Path {
 
 	private static final int STOP_DISTANCE = 2000;
+	private static final float errIncrement = 0.07f;
 
 	private float M = 0;
 	private int bearing = 0;
@@ -17,7 +18,7 @@ public class Path {
 	private float errDist = 1f;
 	private int lastDist = 0;
 	private int lastAngleDiff = 0;
-	
+
 	public Path(Target t) {
 		this.errDist = 1f;
 		this.errAngle = 1f;
@@ -59,12 +60,12 @@ public class Path {
 
 	private void updateErr() {
 		if (!this.checkErrAngle()) {
-			errAngle = errAngle + 0.03f;
+			errAngle = errAngle + errIncrement;
 		} else {
 			errAngle = errAngle * 0.8f + 0.2f;
 		}
 		if (!this.checkErrDist()) {
-			errDist = errDist + 0.03f;
+			errDist = errDist + errIncrement;
 		} else {
 			errDist = errDist * 0.8f + 0.2f;
 		}
