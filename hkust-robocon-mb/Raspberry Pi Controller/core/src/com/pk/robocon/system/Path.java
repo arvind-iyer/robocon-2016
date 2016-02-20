@@ -91,7 +91,7 @@ public class Path {
 	}
 
 	private boolean checkErrAngle() {
-		if (Math.abs(angleDiff(Control.getCurrentPos(), target.getPosition())) > this.lastAngleDiff) {
+		if (Math.abs(angleDiff(Control.getCurrentPos(), target.getPosition())) >= this.lastAngleDiff) {
 			return false;
 		}
 		return true;
