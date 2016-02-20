@@ -105,17 +105,6 @@ public class PositionListView extends VisWindow {
 				Path path = new Path(t);
 				robocon.getControlPid().addQueue(t);
 				adapter.add(path);
-				/*
-				 * adapter.add(new Path(Integer.parseInt(xField.getText()),
-				 * Integer.parseInt(yField.getText()),
-				 * Integer.parseInt(angleField.getText()),
-				 * Integer.parseInt(distanceErrorField.getText()),
-				 * Integer.parseInt(angleErrorField.getText()),
-				 * Integer.parseInt(velocityField.getText())));
-				 * xField.setText(""); yField.setText("");
-				 * angleField.setText(""); distanceErrorField.setText("");
-				 * angleErrorField.setText(""); velocityField.setText("");
-				 */
 			}
 		});
 
@@ -132,15 +121,14 @@ public class PositionListView extends VisWindow {
 		});
 
 		add(view.getMainTable()).grow().expand().fill().center().row();
-		view.setItemClickListener(new ItemClickListener<Path>() {
-			@Override
-			public void clicked(Path item) {
-				labels.setTargX(Integer.toString(item.getTarget().getPosition().getX()));
-				labels.setTargY(Integer.toString(item.getTarget().getPosition().getY()));
-				labels.setTargAngle(Integer.toString(item.getTarget().getPosition().getBearing()));
-				snapshotPath = item;
-			}
-		});
+//		view.setItemClickListener(new ItemClickListener<Path>() {
+//			@Override
+//			public void clicked(Path item) {
+//				labels.setTargX(Integer.toString(item.getTarget().getPosition().getX()));
+//				labels.setTargY(Integer.toString(item.getTarget().getPosition().getY()));
+//				labels.setTargAngle(Integer.toString(item.getTarget().getPosition().getBearing()));
+//			}
+//		});
 	}
 
 	/*

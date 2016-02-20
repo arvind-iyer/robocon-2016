@@ -60,7 +60,7 @@ public class ControlPID extends Control {
 			addQueue(new Target(new Position(new Vector2((int) (x), (int) (y)), finalBearing), new Threshold(50, 360),
 					20));
 		}
-		addQueue(new Target(new Position(control.get(control.size() - 1), finalBearing), new Threshold(0, 0), 0));
+		addQueue(new Target(new Position(control.get(control.size() - 1), finalBearing), new Threshold(1, 1), 0));
 	}
 
 	/**
@@ -86,8 +86,9 @@ public class ControlPID extends Control {
 			// queue.get(0).getM3());
 			if (queue.get(0).completed()) {
 				System.out.println("LOADING NEXT TARGET");
-				if(queue.size()>0) {queueListener.setQueueRemoveCheck(true);}
 				queue.remove(0);
+				if(queue.size()>0) {queueListener.setQueueRemoveCheck(true);}
+				//if(queue.size()==0) {queueListener.setQueueRemoveCheck(true);}
 			}
 		} else {
 			System.out.println("NO MORE TARGETS");
