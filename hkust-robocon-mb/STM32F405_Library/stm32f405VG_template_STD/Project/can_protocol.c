@@ -48,11 +48,9 @@ void can_init(void)
 
 	/* CAN GPIO init */
 	// CAN_Rx Pin
-	//CAN_Rx_GPIO->gpio_init(GPIO_Speed_50MHz, GPIO_Mode_AF, GPIO_OType_PP, GPIO_PuPd_UP);
     TM_GPIO_Init(CAN_GPIO, CAN_Rx_GPIO, TM_GPIO_Mode_AF, TM_GPIO_OType_PP, TM_GPIO_PuPd_UP, TM_GPIO_Speed_Fast);
     
 	// CAN_Tx Pin
-	//CAN_Tx_GPIO->gpio_init(GPIO_Speed_50MHz, GPIO_Mode_AF, GPIO_OType_PP, GPIO_PuPd_NOPULL);
     TM_GPIO_Init(CAN_GPIO, CAN_Tx_GPIO, TM_GPIO_Mode_AF, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_Fast);
     
 

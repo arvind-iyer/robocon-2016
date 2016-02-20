@@ -1,5 +1,8 @@
+#ifndef LED_H
+#define LED_H
+
 #include "stm32f4xx.h"
-#include "stm32f4xx_gpio.h"
+#include "tm_stm32f4_gpio.h"
 #include <stdint.h>
 #define LED_1  GPIO_Pin_2
 #define LED_2  GPIO_Pin_3
@@ -11,3 +14,7 @@
 void led_init(void);
 void LED_OFF(uint16_t gpio_pin);
 void LED_ON(uint16_t gpio_pin);
+void LED_ON_ALL(void);
+void LED_OFF_ALL(void);
+
+#endif

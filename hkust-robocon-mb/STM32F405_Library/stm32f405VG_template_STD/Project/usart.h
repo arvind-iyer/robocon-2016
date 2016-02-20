@@ -1,9 +1,9 @@
 #ifndef __USART_H
 #define __USART_H
 
-#include "stm32f4xx_gpio.h"
 #include "stm32f4xx_usart.h"
 #include "tm_stm32f4_delay.h"
+#include "tm_stm32f4_gpio.h"
 
 #include <stdio.h>
 #include <stdarg.h>

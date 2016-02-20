@@ -35,3 +35,5 @@
 .\output\led.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h
 .\output\led.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h
 .\output\led.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
+.\output\led.o: ..\Project\tm_stm32f4_gpio.h
+.\output\led.o: ..\Project\defines.h

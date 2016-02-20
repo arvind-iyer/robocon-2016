@@ -39,9 +39,6 @@ void uart_init(COM_TypeDef COM, u32 br)
 	USART_InitTypeDef USART_InitStructure;
 
 	RCC_AHB1PeriphClockCmd(COM_TX_PORT_CLK[COM] | COM_RX_PORT_CLK[COM], ENABLE);
-   
-    
-
 	if (COM == COM1)
 	{
 		RCC_APB2PeriphClockCmd(COM_USART_CLK[COM], ENABLE);
@@ -55,25 +52,8 @@ void uart_init(COM_TypeDef COM, u32 br)
         GPIO_PinAFConfig(GPIOB, GPIO_PinSource11, GPIO_AF_USART3);//Connect PB11 to USART1_Rx
 	}
 
-	/* Configure USART Tx as alternate function push-pull */
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-	GPIO_InitStructure.GPIO_Pin = COM_TX_PIN[COM];
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-	GPIO_Init(COM_TX_PORT[COM] , &GPIO_InitStructure);
-    
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
-	GPIO_InitStructure.GPIO_Pin = COM_RX_PIN[COM];
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-	GPIO_Init(COM_RX_PORT[COM] , &GPIO_InitStructure);
-
-	/* Configure USART Rx as input floating */
-//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-//	GPIO_InitStructure.GPIO_Pin = COM_RX_PIN[COM];
-//	GPIO_Init(COM_RX_PORT[COM], &GPIO_InitStructure);
+	/* Configure USART Tx & USART Rx as alternate function push-pull */
+    TM_GPIO_Init(COM_TX_PORT[COM],COM_TX_PIN[COM]|COM_RX_PIN[COM],TM_GPIO_Mode_AF,TM_GPIO_OType_PP,TM_GPIO_PuPd_UP,TM_GPIO_Speed_Fast);
 
 	/* USART configuration */
 	USART_InitStructure.USART_BaudRate = br;

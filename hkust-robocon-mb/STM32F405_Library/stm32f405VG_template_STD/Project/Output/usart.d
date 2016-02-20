@@ -1,6 +1,6 @@
 .\output\usart.o: usart.c
 .\output\usart.o: usart.h
-.\output\usart.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h
+.\output\usart.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h
 .\output\usart.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\output\usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -45,4 +45,5 @@
 .\output\usart.o: tm_stm32f4_delay.h
 .\output\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\usart.o: tm_stm32f4_gpio.h
 .\output\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
