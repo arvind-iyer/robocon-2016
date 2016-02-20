@@ -44,7 +44,7 @@ public class Path {
 	}
 
 	public float OrientationPID() {
-		return angleDiff(Control.getCurrentPos(), target.getPosition()); // *100/180
+		return angleDiff(Control.getCurrentPos(), target.getPosition()) / 1.8f; // *100/180
 	}
 
 	public void calculateLinearPath() {

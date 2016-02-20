@@ -2,11 +2,12 @@ package com.pk.robocon.main;
 
 public class ControlBrushless extends Control {
 
-	private final static int BRUSHLESS_MIN = 590;
-	private final static int BRUSHLESS_MAX = 1050;
+	public final static int BRUSHLESS_UNLOCK = 450;
+	public final static int BRUSHLESS_MIN = 590;
+	public final static int BRUSHLESS_MAX = 1050;
 
-	public ControlBrushless() {
-
+	public void unlockBrushless() {
+		super.setBrushless(BRUSHLESS_UNLOCK, BRUSHLESS_UNLOCK);
 	}
 
 	/**

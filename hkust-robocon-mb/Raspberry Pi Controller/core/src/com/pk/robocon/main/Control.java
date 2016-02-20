@@ -63,7 +63,6 @@ public class Control {
 	 * sends servo commands, brushless motor
 	 */
 	public void sendBrushlessCommands() {
-		// TODO: send packets of 2 brushless
 		RobotSerialManager.getInstance()
 				.sendEvent(new ServoControlEvent(ServoType.SERVO_1, motorsBrushless[0].getServo()));
 		RobotSerialManager.getInstance()
