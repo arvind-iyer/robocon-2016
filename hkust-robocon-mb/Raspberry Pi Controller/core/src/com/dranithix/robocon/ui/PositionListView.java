@@ -62,6 +62,7 @@ public class PositionListView extends VisWindow {
 		final VisValidatableTextField angleErrorField = new VisValidatableTextField();
 		VisTextButton addButton = new VisTextButton("Add");
 		VisTextButton removeButton = new VisTextButton("Remove");
+		VisTextButton overrideButton = new VisTextButton("Override");
 
 		FormValidator xValidator = new FormValidator(addButton);
 		xValidator.notEmpty(xField, "");
@@ -71,37 +72,38 @@ public class PositionListView extends VisWindow {
 		xValidator.notEmpty(angleErrorField, "");
 
 		add(new VisLabel("New DataPoint:")).row();
-		HorizontalFlowGroup flowfuck = new HorizontalFlowGroup(5);
-		flowfuck.addActor(xField);
-		flowfuck.addActor(yField);
-		flowfuck.addActor(angleField);
-		add(flowfuck).expandX().fillX().row();
-		HorizontalFlowGroup thebitcheshavearrived = new HorizontalFlowGroup(5);
-		thebitcheshavearrived.addActor(distanceErrorField);
-		thebitcheshavearrived.addActor(angleErrorField);
-		thebitcheshavearrived.addActor(addButton);
-		thebitcheshavearrived.addActor(removeButton);
-		add(thebitcheshavearrived).expandX().fillX().row();
+		HorizontalFlowGroup firstRow = new HorizontalFlowGroup(5);
+		firstRow.addActor(xField);
+		firstRow.addActor(yField);
+		firstRow.addActor(angleField);
+		add(firstRow).expandX().fillX().row();
+		HorizontalFlowGroup secondRow = new HorizontalFlowGroup(5);
+		secondRow.addActor(distanceErrorField);
+		secondRow.addActor(angleErrorField);
+		secondRow.addActor(addButton);
+		secondRow.addActor(removeButton);
+		secondRow.addActor(overrideButton);
+		add(secondRow).expandX().fillX().row();
 
 		addButton.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				// by changing array using adapter view will be invalidated
 				// automatically
-				int x,y,bearing,vel, distErr,angleErr;
-				
+				int x, y, bearing, vel, distErr, angleErr;
+
 				x = Integer.parseInt(xField.getText());
 				y = Integer.parseInt(yField.getText());
 				bearing = Integer.parseInt(angleField.getText());
 				distErr = Integer.parseInt(distanceErrorField.getText());
 				angleErr = Integer.parseInt(angleErrorField.getText());
-				try{vel = (int) snapshotPath.getM();}
-				catch(java.lang.NullPointerException e){
+				try {
+					vel = (int) snapshotPath.getM();
+				} catch (java.lang.NullPointerException e) {
 					vel = 0;
 				}
-				
-				Target t = new Target(new Position(new Vector2(x,y), bearing)
-						, new Threshold(distErr, angleErr), vel);
+
+				Target t = new Target(new Position(new Vector2(x, y), bearing), new Threshold(distErr, angleErr), vel);
 				Path path = new Path(t);
 				robocon.getControlPid().addQueue(t);
 				adapter.add(path);
@@ -120,15 +122,39 @@ public class PositionListView extends VisWindow {
 			}
 		});
 
+		overrideButton.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				int x, y, bearing, vel, distErr, angleErr;
+
+				x = Integer.parseInt(xField.getText());
+				y = Integer.parseInt(yField.getText());
+				bearing = Integer.parseInt(angleField.getText());
+				distErr = Integer.parseInt(distanceErrorField.getText());
+				angleErr = Integer.parseInt(angleErrorField.getText());
+				try {
+					vel = (int) snapshotPath.getM();
+				} catch (java.lang.NullPointerException e) {
+					vel = 0;
+				}
+
+				Target t = new Target(new Position(new Vector2(x, y), bearing), new Threshold(distErr, angleErr), vel);
+				Path path = new Path(t);
+				robocon.getControlPid().overrideQueue(t);
+				adapter.add(path);
+
+			}
+		});
+
 		add(view.getMainTable()).grow().expand().fill().center().row();
-//		view.setItemClickListener(new ItemClickListener<Path>() {
-//			@Override
-//			public void clicked(Path item) {
-//				labels.setTargX(Integer.toString(item.getTarget().getPosition().getX()));
-//				labels.setTargY(Integer.toString(item.getTarget().getPosition().getY()));
-//				labels.setTargAngle(Integer.toString(item.getTarget().getPosition().getBearing()));
-//			}
-//		});
+		// view.setItemClickListener(new ItemClickListener<Path>() {
+		// @Override
+		// public void clicked(Path item) {
+		// labels.setTargX(Integer.toString(item.getTarget().getPosition().getX()));
+		// labels.setTargY(Integer.toString(item.getTarget().getPosition().getY()));
+		// labels.setTargAngle(Integer.toString(item.getTarget().getPosition().getBearing()));
+		// }
+		// });
 	}
 
 	/*
@@ -207,8 +233,9 @@ public class PositionListView extends VisWindow {
 
 	public void deleteTopMostEntry() {
 		pathArray.removeIndex(0);
-		if(pathArray.size > 0) 
-			{snapshotPath = pathArray.get(0);}
+		if (pathArray.size > 0) {
+			snapshotPath = pathArray.get(0);
+		}
 		adapter.itemsDataChanged();
 	}
 }

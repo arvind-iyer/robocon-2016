@@ -1,6 +1,6 @@
 Dependencies for Project 'STM32-FD-ADC', Target 'STM32-FD-ADC': (DO NOT MODIFY !)
 F (.\startup\startup_stm32f10x_md.s)(0x56C485DB)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I C:\Users\user\Documents\GitHub\robocon-2016\hkust-robocon-mb\motor_driver\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 517" --pd "STM32F10X_MD SETA 1"-o .\obj\startup_stm32f10x_md.o --depend .\obj\startup_stm32f10x_md.d)
-F (.\user\main.c)(0x56C74704)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\FWlib\inc -I.\user-I C:\Users\user\Documents\GitHub\robocon-2016\hkust-robocon-mb\motor_driver\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="517" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
+F (.\user\main.c)(0x56C83FF1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I.\FWlib\inc -I.\user-I C:\Users\user\Documents\GitHub\robocon-2016\hkust-robocon-mb\motor_driver\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="517" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
 I (user\main.h)(0x56C485DB)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
 I (user\stm32f10x.h)(0x56C49E36)
