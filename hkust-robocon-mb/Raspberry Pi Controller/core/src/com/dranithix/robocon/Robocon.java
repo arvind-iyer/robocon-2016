@@ -91,8 +91,8 @@ SerialCommandListener, QueueChangeInterface{
 
 		Table table = new Table();
 		table.setFillParent(true);
-		table.add(positionList).fill().grow().size(540, 250);
-		table.add(labelList).fill().grow().size(240, 250);
+		table.add(positionList).fill().grow().size(520, 250);
+		table.add(labelList).fill().grow().size(260, 250);
 
 		layout.add(table);
 		

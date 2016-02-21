@@ -90,13 +90,6 @@ public class ControlPID extends Control {
 				if (queue.size() > 0) {
 					queueListener.setQueueRemoveCheck(true);
 				}
-				try {
-					if (queue.size() == 0) {
-						queueListener.setQueueRemoveCheck(true);
-					}
-				} catch (Exception e) {
-
-				}
 			}
 		} else {
 			System.out.println("NO MORE TARGETS");

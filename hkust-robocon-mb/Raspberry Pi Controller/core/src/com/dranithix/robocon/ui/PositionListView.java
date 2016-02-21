@@ -64,12 +64,12 @@ public class PositionListView extends VisWindow {
 		VisTextButton removeButton = new VisTextButton("Remove");
 		VisTextButton overrideButton = new VisTextButton("Override");
 
-		FormValidator xValidator = new FormValidator(addButton);
-		xValidator.notEmpty(xField, "");
-		xValidator.notEmpty(yField, "");
-		xValidator.notEmpty(angleField, "");
-		xValidator.notEmpty(distanceErrorField, "");
-		xValidator.notEmpty(angleErrorField, "");
+		FormValidator validator = new FormValidator(addButton);
+		validator.notEmpty(xField, "");
+		validator.notEmpty(yField, "");
+		validator.notEmpty(angleField, "");
+		validator.notEmpty(distanceErrorField, "");
+		validator.notEmpty(angleErrorField, "");
 
 		add(new VisLabel("New DataPoint:")).row();
 		HorizontalFlowGroup firstRow = new HorizontalFlowGroup(5);
@@ -157,16 +157,6 @@ public class PositionListView extends VisWindow {
 		// });
 	}
 
-	/*
-	 * public static class Position { protected int x; protected int y;
-	 * protected int angle; protected int distError; protected int angleError;
-	 * protected int vel;
-	 * 
-	 * public Position(int x, int y, int angle, int angleError, int distError,
-	 * int vel) { this.x = x; this.y = y; this.angle = angle; this.distError =
-	 * distError; this.angleError = angleError; this.vel = vel; } }
-	 */
-
 	private static class TestAdapter extends ArrayAdapter<Path, VisTable> {
 		private final Drawable bg = VisUI.getSkin().getDrawable("window-bg");
 		private final Drawable selection = VisUI.getSkin().getDrawable("list-selection");
@@ -232,7 +222,10 @@ public class PositionListView extends VisWindow {
 	}
 
 	public void deleteTopMostEntry() {
-		pathArray.removeIndex(0);
+		try{pathArray.removeIndex(0);}
+		catch(Exception e){
+			
+		}
 		if (pathArray.size > 0) {
 			snapshotPath = pathArray.get(0);
 		}
