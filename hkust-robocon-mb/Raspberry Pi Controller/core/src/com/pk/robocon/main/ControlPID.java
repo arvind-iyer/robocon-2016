@@ -87,9 +87,8 @@ public class ControlPID extends Control {
 			if (queue.get(0).completed()) {
 				System.out.println("LOADING NEXT TARGET");
 				queue.remove(0);
-				if (queue.size() > 0) {
-					queueListener.setQueueRemoveCheck(true);
-				}
+				queueListener.setQueueRemoveCheck(true);
+
 			}
 		} else {
 			System.out.println("NO MORE TARGETS");
