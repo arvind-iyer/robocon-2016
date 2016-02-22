@@ -59,19 +59,26 @@ public class Path {
 	}
 
 	private void updateErr() {
+		this.updateErrAngle();
+		this.updateErrDist();
+	}
+
+	private void updateErrAngle() {
 		if (!this.checkErrAngle()) {
 			errAngle = errAngle + errIncrement;
 		} else {
 			errAngle = errAngle * 0.8f + 0.2f;
 		}
+		this.lastAngleDiff = Math.abs(angleDiff(Control.getCurrentPos(), target.getPosition()));
+	}
+
+	private void updateErrDist() {
 		if (!this.checkErrDist()) {
 			errDist = errDist + errIncrement;
 		} else {
 			errDist = errDist * 0.8f + 0.2f;
 		}
-		this.lastAngleDiff = Math.abs(angleDiff(Control.getCurrentPos(), target.getPosition()));
 		this.lastDist = dist(Control.getCurrentPos(), target.getPosition());
-		// System.out.println("err: " + errDist + " " + errAngle);
 	}
 
 	public float getErrAngle() {

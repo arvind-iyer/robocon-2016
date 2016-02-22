@@ -1,7 +1,6 @@
 package com.dranithix.robocon;
 
 import java.util.ArrayList;
-
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.controllers.Controller;
@@ -38,9 +37,9 @@ import com.pk.robocon.system.Threshold;
  * @author Kenta Iwasaki
  *
  */
-public class Robocon extends ControllerAdapter implements ApplicationListener, 
-SerialCommandListener, QueueChangeInterface{
-	
+public class Robocon extends ControllerAdapter
+		implements ApplicationListener, SerialCommandListener, QueueChangeInterface {
+
 	public static final int COM_PORT = 8;
 	public static final String COM_PORT_ADDRESS = "COM".concat(Integer.toString(COM_PORT));
 
@@ -53,12 +52,12 @@ SerialCommandListener, QueueChangeInterface{
 	}
 
 	private Stage stage;
-	
+
 	private QueueChangeListener queueListener;
 
 	Vector3 mousePos = new Vector3(0, 0, 0);
 	OrthographicCamera cam;
-	
+
 	LabelsList labelList;
 	PositionListView positionList;
 
@@ -85,7 +84,7 @@ SerialCommandListener, QueueChangeInterface{
 		settingsLayout.add(settingsWindow = new SettingsWindow());
 		layout.add(settingsLayout);
 		layout.row();
-		
+
 		labelList = new LabelsList();
 		positionList = new PositionListView(labelList, this);
 
@@ -95,7 +94,7 @@ SerialCommandListener, QueueChangeInterface{
 		table.add(labelList).fill().grow().size(260, 250);
 
 		layout.add(table);
-		
+
 		layout.setFillParent(true);
 
 		stage.addActor(layout);
@@ -109,19 +108,15 @@ SerialCommandListener, QueueChangeInterface{
 		font = new BitmapFont();
 
 	}
-	
+
 	public void callUpdateQueue() {
 		positionList.updateQueueArray();
 	}
-	public void removeTargetListener(){
+
+	public void removeTargetListener() {
 		positionList.deleteTopMostEntry();
 	}
-	
-	/*public void queueChange(Path path, OperationUI receivedOperation.operationNum){
-		OperationUI operation = receivedOperation;
-		
-	}*/
-	
+
 	@Override
 	public void render() {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -130,7 +125,7 @@ SerialCommandListener, QueueChangeInterface{
 		cam.unproject(mousePos);
 
 		settingsWindow.updateConnectionStatus(RobotSerialManager.getInstance().isRunning());
-		
+
 		if (Controllers.getControllers().size > 0 && !controlPid.execute(queueListener)) {
 			Controller controller = Controllers.getControllers().first();
 
@@ -146,12 +141,20 @@ SerialCommandListener, QueueChangeInterface{
 			int velocity = (int) MathUtils.clamp((leftPoint.len() / Math.sqrt(2)) * 100, 0, 100);
 
 			int angularVelocity = (int) rightXAxis * 100;
-			controlPid.calculateMotorValues((int) (velocity * 0.5f), leftJoystickAngle, angularVelocity);
+
+			if (controlPid.getOrientationLockState()) {
+				controlPid.calculateMotorValues((int) (velocity * 0.5f), leftJoystickAngle,
+						angularVelocity + controlPid.getOrientationLockW());
+			} else {
+				controlPid.calculateMotorValues((int) (velocity * 0.5f), leftJoystickAngle, angularVelocity);
+			}
+
 		}
-		
+
 		try {
 			positionList.updateLabelsList(positionList.snapshotPath);
 		} catch (java.lang.NullPointerException e) {
+
 		}
 		queueListener.update();
 		controlPid.sendMotorCommands();
@@ -177,21 +180,23 @@ SerialCommandListener, QueueChangeInterface{
 	public boolean buttonDown(Controller controller, int buttonCode) {
 		switch (buttonCode) {
 		case 0: // Button 1
+			controlPid.orientationUnlock();
 			pidState = !pidState;
 			if (pidState == true) {
-				ArrayList<Vector2> control=new ArrayList<Vector2>();
+				ArrayList<Vector2> control = new ArrayList<Vector2>();
 				control.add(new Vector2(500, 500));
 				control.add(new Vector2(0, 1000));
 				controlPid.addCurve(control, 45);
 				queueListener.setInterfaceCheck(true);
-				//Position targetPos = new Position(new Vector2(0, 1000), 45);
-				//controlPid.addQueue(new Target(targetPos, new Threshold(0, 0), 0));
 			} else {
 				controlPid.getQueue().clear();
 			}
-			// controlPid.();
 			break;
 		case 1: // Button 2
+			break;
+		case 2: // Button 3
+			controlPid.toggleOrientationLock();
+			System.out.println("BEARING LOCKED");
 			break;
 		case 4: // L1
 			brushlessStartCounter++;
@@ -223,6 +228,8 @@ SerialCommandListener, QueueChangeInterface{
 		case 0: // Button 1
 			break;
 		case 1: // Button 2
+			break;
+		case 2: // Button 3
 			break;
 		case 4: // L1
 			brushlessStartCounter--;

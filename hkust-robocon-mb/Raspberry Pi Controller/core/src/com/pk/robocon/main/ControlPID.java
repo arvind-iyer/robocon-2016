@@ -11,6 +11,13 @@ import com.pk.robocon.system.Threshold;
 
 public class ControlPID extends Control {
 
+	private static final float errIncrement = 0.07f;
+
+	private int lockedBearing = 0;
+	private boolean orientationLock = false;;
+	private float errAngle = 1;
+	private int lastAngleDiff = 0;
+
 	private ArrayList<Path> queue = new ArrayList<Path>();
 
 	public ArrayList<Path> getQueue() {
@@ -61,6 +68,40 @@ public class ControlPID extends Control {
 					20));
 		}
 		addQueue(new Target(new Position(control.get(control.size() - 1), finalBearing), new Threshold(1, 1), 0));
+	}
+
+	public void orientationUnlock() {
+		this.orientationLock = false;
+	}
+
+	public void toggleOrientationLock() {
+		this.lockedBearing = Control.getCurrentPos().getBearing();
+		this.orientationLock = !this.orientationLock;
+	}
+
+	public boolean getOrientationLockState() {
+		return this.orientationLock;
+	}
+
+	public int getOrientationLockW() {
+		this.updateErrAngle();
+		return (int) (angleDiff(Control.getCurrentPos().getBearing(), this.lockedBearing) * this.errAngle / 1.8f); // *100/180
+	}
+
+	private void updateErrAngle() {
+		if (!this.checkErrAngle()) {
+			errAngle = errAngle + errIncrement;
+		} else {
+			errAngle = errAngle * 0.8f + 0.2f;
+		}
+		this.lastAngleDiff = Math.abs(angleDiff(Control.getCurrentPos().getBearing(), this.lockedBearing));
+	}
+
+	private boolean checkErrAngle() {
+		if (Math.abs(angleDiff(Control.getCurrentPos().getBearing(), this.lockedBearing)) >= this.lastAngleDiff) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -137,6 +178,17 @@ public class ControlPID extends Control {
 		for (int i = 1, m = n; i <= k; i++, m--)
 			b = b * m / i;
 		return b;
+	}
+
+	private static int angleDiff(int o, int t) {
+		int diff = t - o;
+		if (diff < -180) {
+			diff = diff + 360;
+		}
+		if (diff > 180) {
+			diff = diff - 360;
+		}
+		return diff;
 	}
 
 }
