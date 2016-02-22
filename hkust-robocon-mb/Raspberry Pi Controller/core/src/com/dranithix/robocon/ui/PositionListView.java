@@ -97,11 +97,7 @@ public class PositionListView extends VisWindow {
 				bearing = Integer.parseInt(angleField.getText());
 				distErr = Integer.parseInt(distanceErrorField.getText());
 				angleErr = Integer.parseInt(angleErrorField.getText());
-				try {
-					vel = (int) snapshotPath.getM();
-				} catch (java.lang.NullPointerException e) {
-					vel = 0;
-				}
+				vel = snapshotPath == null ? 0 : (int) snapshotPath.getM();
 
 				Target t = new Target(new Position(new Vector2(x, y), bearing), new Threshold(distErr, angleErr), vel);
 				Path path = new Path(t);
@@ -132,11 +128,7 @@ public class PositionListView extends VisWindow {
 				bearing = Integer.parseInt(angleField.getText());
 				distErr = Integer.parseInt(distanceErrorField.getText());
 				angleErr = Integer.parseInt(angleErrorField.getText());
-				try {
-					vel = (int) snapshotPath.getM();
-				} catch (java.lang.NullPointerException e) {
-					vel = 0;
-				}
+				vel = snapshotPath == null ? 0 : (int) snapshotPath.getM();
 
 				Target t = new Target(new Position(new Vector2(x, y), bearing), new Threshold(distErr, angleErr), vel);
 				Path path = new Path(t);
@@ -204,12 +196,17 @@ public class PositionListView extends VisWindow {
 	}
 
 	public void updateLabelsList(Path item) {
-		this.labels.valueLabelX.setText(Integer.toString((Control.getCurrentPos().getX())));
-		this.labels.valueLabelY.setText(Integer.toString((Control.getCurrentPos().getY())));
-		this.labels.valueLabelAngle.setText(Integer.toString((Control.getCurrentPos().getBearing())));
-		this.labels.valueTargetLabelDistanceError.setText(Float.toString(item.getErrDist()));
-		this.labels.valueTargetLabelAngleError.setText(Float.toString(item.getErrAngle()));
-		this.labels.valueTargetLabelVelocity.setText(Integer.toString(item.getTarget().getVel()));
+		if (Control.getCurrentPos() != null) {
+			this.labels.valueLabelX.setText(Integer.toString((Control.getCurrentPos().getX())));
+			this.labels.valueLabelY.setText(Integer.toString((Control.getCurrentPos().getY())));
+			this.labels.valueLabelAngle.setText(Integer.toString((Control.getCurrentPos().getBearing())));
+		}
+		if (item != null) {
+			this.labels.valueTargetLabelDistanceError.setText(Float.toString(item.getErrDist()));
+			this.labels.valueTargetLabelAngleError.setText(Float.toString(item.getErrAngle()));
+			this.labels.valueTargetLabelVelocity.setText(Integer.toString(item.getTarget().getVel()));
+		}
+
 	}
 
 	public void updateQueueArray() {
@@ -222,12 +219,10 @@ public class PositionListView extends VisWindow {
 	}
 
 	public void deleteTopMostEntry() {
-		try{pathArray.removeIndex(0);}
-		catch(Exception e){
-			
-		}
-		if (pathArray.size > 0) {
-			snapshotPath = pathArray.get(0);
+		try {
+			snapshotPath = pathArray.pop();
+		} catch (IllegalArgumentException ex) {
+			snapshotPath = null;
 		}
 		adapter.itemsDataChanged();
 	}

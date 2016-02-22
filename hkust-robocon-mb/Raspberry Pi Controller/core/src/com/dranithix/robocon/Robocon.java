@@ -142,20 +142,16 @@ public class Robocon extends ControllerAdapter
 
 			int angularVelocity = (int) rightXAxis * 100;
 
-			if (controlPid.getOrientationLockState()) {
-				controlPid.calculateMotorValues((int) (velocity * 0.5f), leftJoystickAngle,
+			if (controlPid.getOrientationLockState() && (velocity == 0 && angularVelocity == 0)) {
+				controlPid.calculateMotorValues((int) (velocity), leftJoystickAngle,
 						angularVelocity + controlPid.getOrientationLockW());
 			} else {
-				controlPid.calculateMotorValues((int) (velocity * 0.5f), leftJoystickAngle, angularVelocity);
+				controlPid.calculateMotorValues((int) (velocity), leftJoystickAngle, angularVelocity);
 			}
 
 		}
 
-		try {
-			positionList.updateLabelsList(positionList.snapshotPath);
-		} catch (java.lang.NullPointerException e) {
-
-		}
+		positionList.updateLabelsList(positionList.snapshotPath);
 		queueListener.update();
 		controlPid.sendMotorCommands();
 
@@ -183,10 +179,10 @@ public class Robocon extends ControllerAdapter
 			controlPid.orientationUnlock();
 			pidState = !pidState;
 			if (pidState == true) {
-				ArrayList<Vector2> control = new ArrayList<Vector2>();
-				control.add(new Vector2(500, 500));
-				control.add(new Vector2(0, 1000));
-				controlPid.addCurve(control, 45);
+				// ArrayList<Vector2> control = new ArrayList<Vector2>();
+				// control.add(new Vector2(0, 0));
+				// controlPid.addCurve(control, 45);
+				controlPid.addQueue(new Target(new Position(new Vector2(0, 0), 0), new Threshold(1, 1), 0));
 				queueListener.setInterfaceCheck(true);
 			} else {
 				controlPid.getQueue().clear();
