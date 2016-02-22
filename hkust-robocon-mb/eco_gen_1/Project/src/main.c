@@ -105,7 +105,6 @@ int main(void) {
 			 begin = -1;
 			 length = 0;
 	}
-
 	return 0;
 }
 
