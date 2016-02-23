@@ -1,13 +1,17 @@
 #include "main.h"
 
+
+
 volatile u16 ADC_val[16] = {0};
 
 u8 sensor_pos = 0;
 u8 LED_STATE;
 u8 buttonA = 0, buttonB = 0;
+extern u8 colour_now[];
 
 extern struct Reading* hsv_ptr;
 extern struct Reading* output_ptr;
+extern struct Reading* colour_list_ptr;
 
 void GPIO_init(void){
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC, ENABLE);
@@ -93,13 +97,6 @@ void DMA_init(void){
 	
 	ADC_DMACmd(ADC1, ENABLE);
 	DMA_Cmd(DMA1_Channel1, ENABLE);
-	
-//	NVIC_InitTypeDef NVIC_InitStructure;
-//	NVIC_InitStructure.NVIC_IRQChannel = DMA1_Channel1_IRQn;
-//	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority	=	0;
-//	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;
-//	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-//	NVIC_Init(&NVIC_InitStructure);
 }
 
 void dllm(CanRxMsg msg)
@@ -175,7 +172,8 @@ int main(void)
 			LED_STATE = 0;
 		DMA_ClearFlag(DMA1_FLAG_TC1);
 		
-		read_reading(output_ptr, buttonA, buttonB);
+		//read_reading(output_ptr, buttonA, buttonB);
 		//flag_test(temp);
+		read_colour();
 	}
 }
