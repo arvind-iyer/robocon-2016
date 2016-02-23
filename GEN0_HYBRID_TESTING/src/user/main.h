@@ -20,6 +20,7 @@
 #include "ticks.h"
 #include "delay.h"
 
+#include "debug.h"
 #include "buzzer.h"
 #include "led.h"
 #include "lcd_main.h"

@@ -25,9 +25,10 @@ int main(void) {
 	button_init();
 	bluetooth_init();
 	can_xbc_mb_init();
+	debug_init();
 	can_xbc_mb_tx_enable(true);
 
-	tft_put_logo(110, 90);            
+	tft_put_logo(80, 120);            
 	CONTROL_STATE last_control_state = MANUAL_MODE;
 
 	while(1){

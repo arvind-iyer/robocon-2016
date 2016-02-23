@@ -13,21 +13,18 @@ static u8 rx_filter_count = 0;
 
 USART_TypeDef* BLUETOOTH_USART	= 0;
 
-void bluetooth_init(void)
-{
+void bluetooth_init(void){
 	uart_init(BLUETOOTH_COM, BLUETOOTH_COM_BR);
 	uart_interrupt(BLUETOOTH_COM);
 	BLUETOOTH_USART = COM_USART[BLUETOOTH_COM];
 	rx_filter_count = 0;
 }
 
-void bluetooth_tx_byte(uc8 byte)
-{
+void bluetooth_tx_byte(uc8 byte){
 	uart_tx_byte(BLUETOOTH_COM, byte);
 }
 
-void bluetooth_tx(uc8* tx_buf, ...)
-{
+void bluetooth_tx(uc8* tx_buf, ...){
 	va_list arglist;
 	u8 buf[40], *fp;
 	
@@ -74,13 +71,11 @@ void bluetooth_rx_add_filter(u8 id, u8 mask, void (*handler)(u8 id, u8 length, u
 	++rx_filter_count;
 }
 
-u8 bluetooth_rx_state(void)
-{
+u8 bluetooth_rx_state(void){
 	return rx_state;
 }
 
-BLUETOOTH_COM_IRQHandler
-{
+BLUETOOTH_COM_IRQHandler{
 	u8 rx_data;
 	if (USART_GetITStatus(BLUETOOTH_USART, USART_IT_RXNE) != RESET) {
 		rx_data = (u8)USART_ReceiveData(BLUETOOTH_USART);
@@ -173,8 +168,7 @@ BLUETOOTH_COM_IRQHandler
 	rx_last_update = get_seconds() * 1000 + get_ticks();	
 }
 
-void bluetooth_data_handler(u8 id, u8 length, u8* data)
-{
+void bluetooth_data_handler(u8 id, u8 length, u8* data){
 	u8 i = 0;
 	for (i = 0; i < rx_filter_count; ++i) {
 		// Check whether the filtered data0 fits any data[0]
@@ -185,8 +179,7 @@ void bluetooth_data_handler(u8 id, u8 length, u8* data)
 	}
 }
 
-void bluetooth_update(void)
-{
+void bluetooth_update(void){
 	u32 current_time = get_seconds() * 1000 + get_ticks();
 	if (current_time - rx_last_update > BLUETOOTH_RX_RESET_TIMEOUT) {
 		rx_data_reset();
