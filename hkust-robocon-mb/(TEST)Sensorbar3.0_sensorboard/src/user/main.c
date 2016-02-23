@@ -6,8 +6,6 @@ u8 sensor_pos = 0;
 u8 LED_STATE;
 u8 buttonA = 0, buttonB = 0;
 
-extern struct Colour* calculated_reading_ptr;
-extern struct Colour* colour_list_ptr;
 extern struct Reading* hsv_ptr;
 extern struct Reading* output_ptr;
 
@@ -167,7 +165,7 @@ int main(void)
 		}
 		
 		set_colour(LED_STATE);
-		_delay_us(700);
+		_delay_ms(delay_time);
 		ADC_Cmd(ADC1, ENABLE);	//start ADC convertion
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET)); //waiting for DMA is finished
 		data_collect();

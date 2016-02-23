@@ -1,25 +1,25 @@
 #include "colour_calculation.h"
 
-extern volatile u16 ADC_val[16];
+u8 turn = 0;
+u8 data_collect_flag;
+u8 normalized_flag = 0;
+
 extern u8 LED_STATE;
 extern u8 buttonA, buttonB;
 
-struct Reading temp_reading;
+struct Reading temp_reading[max_turn];
+struct Reading rgb_cap;
+struct Reading calculated;
 struct Reading hsv;
 struct Reading output; 
+struct Reading colour_list[list_num];
 
-struct Colour calculated_reading;
-struct Colour colour_list[10];
-
-u8 turn = 0;
-u8 data_collect_flag;
-
-struct Reading* temp_reading_ptr = &temp_reading;
+struct Reading* temp_reading_ptr = temp_reading;
+struct Reading* rgb_cap_ptr = &rgb_cap;
+struct Reading* calculated_ptr = &calculated;
 struct Reading* hsv_ptr = &hsv;
 struct Reading* output_ptr = &output;
-struct Colour* calculated_reading_ptr = &calculated_reading;
-struct Colour* colour_list_ptr = colour_list;
-
+struct Reading* colour_list_ptr = colour_list;
 
 /**
 	* @brief This function is used for sampling the ADC_val for nth times and take the mean of the readings, then convert the readings to hsv colour space
@@ -28,23 +28,27 @@ void data_collect()
 {
 	if(turn==0)
 	{
-		temp_reading_init(temp_reading_ptr);
+		for(u8 i=0;i<max_turn;i++)
+			reading_init(temp_reading_ptr+i);
+		reading_init(calculated_ptr);
 	}
 	
-	inc_temp_readings(temp_reading_ptr, LED_STATE);
+	set_temp_readings(temp_reading_ptr, turn, LED_STATE);
+	if(LED_STATE == BLUE)
+		turn++;
 	
 	if(turn==(max_turn - 1))
 	{
-		avg_temp_readings(temp_reading_ptr, max_turn);
-		//minus_off_readings(temp_reading_ptr); //Overflowed!
-		//scale_temp_readings(temp_reading_ptr);
-		//rgb_to_xyz(temp_reading_ptr);
-		//xyz_to_lab(&xyz);
-		rgb_to_hsv_degree(temp_reading_ptr);
+		avg_temp_readings(temp_reading_ptr, calculated_ptr, max_turn);
+		reading_ratio(calculated_ptr);
 		
-		set_red(calculated_reading_ptr, temp_reading_ptr->red_reading);
-		set_blue(calculated_reading_ptr, temp_reading_ptr->blue_reading);
-		set_green(calculated_reading_ptr, temp_reading_ptr->green_reading);
+		if(normalized_flag)
+		{
+			rgb_normalization(calculated_ptr);
+			rgb_to_hsv_degree(calculated_ptr);
+		}
+		
+		copy_readings(hsv_ptr, output_ptr,1);
 		
 		turn = 0;
 		data_collect_flag = 1;
@@ -65,105 +69,32 @@ void colour_init()
 	while(get_ticks()%100!=0);
 	LED_Control(1,1,1);
 	
+	set_colour(OFF);
 	while(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
 	while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
-	set_colour_list(0);
+	rgb_init();
 	IndicatorControl(14);
 	
-	while(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
-	while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
-	set_colour_list(1);
-	IndicatorControl(16);
-	
-	while(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
-	while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
-	set_colour_list(2);
-	IndicatorControl(18);
-	
-	while(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
-	while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
-	set_colour_list(3);
-	IndicatorControl(20);
-	
-	while(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
-	while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
-}
-
-//u8 colour_compare(struct Reading* reading, u8 index)
-//{
+//	while(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
+//	while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
+//	set_colour_list(1);
+//	IndicatorControl(16);
 //	
-//	u8 difference_0	=	colour_difference(reading, colour_list_ptr, index) * 10;
-//	u8 difference_1	= colour_difference(reading, colour_list_ptr+1, index) * 10; 
-//	u8 difference_2	= colour_difference(reading, colour_list_ptr+2, index) * 10;
-//	u8 difference_3	=	colour_difference(reading, colour_list_ptr+3, index) * 10;
-
-//	CAN_MESSAGE msg;
-//	msg.id = 0x0C5;
-//	msg.length = 4;
-//	msg.data[0] = difference_0;
-//	msg.data[1] = difference_1;
-//	msg.data[2] = difference_2;
-//	msg.data[3] = difference_3;
-//	can_tx_enqueue(msg);
+//	while(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
+//	while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
+//	set_colour_list(2);
+//	IndicatorControl(18);
 //	
-//	IndicatorControl(24);
-//	
-////	if(difference_0 < 23)
-////		return 0;
-////	else if(difference_1 < 23)
-////		return 1;
-////	else if(difference_2 < 23)
-////		return 2;
-////	else if(difference_3 < 23)
-////		return 3;
-////	else
-////		return 99;
-//}
-
-//----------------------------------------------------------Struct Manipulation------------------------------------------------------------------------------
-void inc_temp_readings(struct Reading* reading, u8 colour)
-{
-	switch(colour)
-	{
-		case(RED):
-			for(u8 i=0;i<16;i++)
-				reading->red_reading[i] += ADC_val[i];
-		break;
-			
-		case(BLUE):
-			for(u8 i=0;i<16;i++)
-				reading->blue_reading[i] += ADC_val[i];
-		break;
-		
-		case(GREEN):
-			for(u8 i=0;i<16;i++)
-				reading->green_reading[i] += ADC_val[i];
-			turn++;
-		break;
-	}
+//	while(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
+//	while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
+//	set_colour_list(3);
+//	IndicatorControl(20);
+	set_colour(OFF);
+	while(GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
+	while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15));
 }
 
-void avg_temp_readings(struct Reading* reading, u8 freq)
-{
-	for(u8 i=0;i<16;i++)
-	{
-		reading->red_reading[i] = (reading->red_reading[i] / freq);
-		reading->blue_reading[i] = (reading->blue_reading[i] / freq);
-		reading->green_reading[i] = (reading->green_reading[i] / freq);
-	}
-}
-
-void temp_reading_init(struct Reading* reading)
-{
-	for(u8 i=0;i<16;i++)
-	{
-		reading->red_reading[i] = 0;
-		reading->blue_reading[i] = 0;
-		reading->green_reading[i] = 0;
-	}
-}
-
-void set_colour_list(u8 index)
+void rgb_init()
 {
 	LED_STATE = 0;
 	turn = 0;
@@ -171,7 +102,7 @@ void set_colour_list(u8 index)
 	while(!data_collect_flag)
 	{
 		set_colour(LED_STATE);
-		_delay_us(700);
+		_delay_ms(sample_time);
 		ADC_Cmd(ADC1, ENABLE);
 		
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
@@ -182,15 +113,77 @@ void set_colour_list(u8 index)
 			LED_STATE = 0;
 		DMA_ClearFlag(DMA1_FLAG_TC1);
 	}
-	set_red(colour_list_ptr+index, temp_reading_ptr->red_reading);
-	set_blue(colour_list_ptr+index, temp_reading_ptr->blue_reading);
-	set_green(colour_list_ptr+index, temp_reading_ptr->green_reading);
 	
+	copy_readings(calculated_ptr, rgb_cap_ptr, 1);
+	
+//	for(u8 i=0;i<16;i++)
+//	{
+//		rgb_cap_ptr->red_reading[i] += 3;
+//		rgb_cap_ptr->green_reading[i] += 3;
+//		rgb_cap_ptr->blue_reading[i] += 3;
+//	}
+	normalized_flag = 1;
+}
+
+//-------------------------------------------------------------Struct Manipulation--------------------------------------------------------------------------
+
+void set_colour_list(u8 index)
+{
+	LED_STATE = 0;
+	turn = 0;
+	data_collect_flag = 0;
+	while(!data_collect_flag)
+	{
+		set_colour(LED_STATE);
+		_delay_ms(delay_time);
+		ADC_Cmd(ADC1, ENABLE);
+		
+		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+		data_collect();
+		
+		LED_STATE++;
+		if(LED_STATE>2)
+			LED_STATE = 0;
+		DMA_ClearFlag(DMA1_FLAG_TC1);
+	}
+//	set_red(colour_list_ptr+index, temp_reading_ptr->red_reading);
+//	set_blue(colour_list_ptr+index, temp_reading_ptr->blue_reading);
+//	set_green(colour_list_ptr+index, temp_reading_ptr->green_reading);
+// 	write codes to set the reading
+	copy_readings(colour_list_ptr+index, calculated_ptr, 1);
 	set_colour(OFF);
 }
 
+void reading_ratio(struct Reading* reading)
+{
+	for(u8 i=0;i<16;i++)
+	{
+		reading->red_reading[i] = ((reading->red_reading[i]) * 255) / max_reading;
+		reading->green_reading[i] = ((reading->green_reading[i]) * 255) / max_reading;
+		reading->blue_reading[i] = ((reading->blue_reading[i]) * 255) / max_reading;
+	}
+}
 
-//-------------------------------------------------------------CAN TX MESSAGE-----------------------------------------------------------------------------
+void rgb_normalization(struct Reading* reading)
+{
+	for(u8 i=0;i<16;i++)
+	{
+		reading->red_reading[i] = ((reading->red_reading[i]) * 255) / (rgb_cap_ptr->red_reading[i]);
+		reading->green_reading[i] = ((reading->green_reading[i]) * 255) / (rgb_cap_ptr->green_reading[i]);
+		reading->blue_reading[i] = ((reading->blue_reading[i]) * 255) / (rgb_cap_ptr->blue_reading[i]);
+		
+		if(reading->red_reading[i]>255)
+			reading->red_reading[i] = 255;
+		if(reading->green_reading[i]>255)
+			reading->green_reading[i] = 255;
+		if(reading->blue_reading[i]>255)
+			reading->blue_reading[i] = 255;
+	}
+	
+	
+}
+
+//-------------------------------------------------------------CAN TX MESSAGE--------------------------------------------------------------------------------
 
 /**
 	* @breif sending the successive 4 sensor reading via CAN
@@ -217,7 +210,7 @@ void read_reading(struct Reading* reading, u8 colour, u8 position)
 						msg.data[4+j] = Two_Bytes_Decomposition(reading->red_reading[12], j);
 					for(u8 j=0;j<2;j++)
 						msg.data[6+j] = Two_Bytes_Decomposition(reading->red_reading[13], j);
-					IndicatorControl(0);
+					//IndicatorControl(0);
 				break;
 				
 				case 1:
@@ -229,7 +222,7 @@ void read_reading(struct Reading* reading, u8 colour, u8 position)
 						msg.data[4+j] = Two_Bytes_Decomposition(reading->red_reading[2], j);
 					for(u8 j=0;j<2;j++)
 						msg.data[6+j] = Two_Bytes_Decomposition(reading->red_reading[3], j);
-					IndicatorControl(10);
+					//IndicatorControl(10);
 				break;
 					
 				case 2:
@@ -241,7 +234,7 @@ void read_reading(struct Reading* reading, u8 colour, u8 position)
 						msg.data[4+j] = Two_Bytes_Decomposition(reading->red_reading[6], j);
 					for(u8 j=0;j<2;j++)
 						msg.data[6+j] = Two_Bytes_Decomposition(reading->red_reading[7], j);
-					IndicatorControl(20);
+					//IndicatorControl(20);
 				break;
 					
 				case 3:
@@ -253,7 +246,7 @@ void read_reading(struct Reading* reading, u8 colour, u8 position)
 						msg.data[4+j] = Two_Bytes_Decomposition(reading->red_reading[8], j);
 					for(u8 j=0;j<2;j++)
 						msg.data[6+j] = Two_Bytes_Decomposition(reading->red_reading[9], j);
-					IndicatorControl(30);
+					//IndicatorControl(30);
 				break;
 			}
 		break;
@@ -270,7 +263,7 @@ void read_reading(struct Reading* reading, u8 colour, u8 position)
 						msg.data[4+j] = Two_Bytes_Decomposition(reading->blue_reading[12], j);
 					for(u8 j=0;j<2;j++)
 						msg.data[6+j] = Two_Bytes_Decomposition(reading->blue_reading[13], j);
-					IndicatorControl(0);
+					//IndicatorControl(0);
 				break;
 				
 				case 1:
@@ -282,7 +275,7 @@ void read_reading(struct Reading* reading, u8 colour, u8 position)
 						msg.data[4+j] = Two_Bytes_Decomposition(reading->blue_reading[2], j);
 					for(u8 j=0;j<2;j++)
 						msg.data[6+j] = Two_Bytes_Decomposition(reading->blue_reading[3], j);
-					IndicatorControl(10);
+					//IndicatorControl(10);
 				break;
 					
 				case 2:
@@ -294,7 +287,7 @@ void read_reading(struct Reading* reading, u8 colour, u8 position)
 						msg.data[4+j] = Two_Bytes_Decomposition(reading->blue_reading[6], j);
 					for(u8 j=0;j<2;j++)
 						msg.data[6+j] = Two_Bytes_Decomposition(reading->blue_reading[7], j);
-					IndicatorControl(20);
+					//IndicatorControl(20);
 				break;
 					
 				case 3:
@@ -306,7 +299,7 @@ void read_reading(struct Reading* reading, u8 colour, u8 position)
 						msg.data[4+j] = Two_Bytes_Decomposition(reading->blue_reading[8], j);
 					for(u8 j=0;j<2;j++)
 						msg.data[6+j] = Two_Bytes_Decomposition(reading->blue_reading[9], j);
-					IndicatorControl(30);
+					//IndicatorControl(30);
 				break;
 			}
 		break;
@@ -323,7 +316,7 @@ void read_reading(struct Reading* reading, u8 colour, u8 position)
 						msg.data[4+j] = Two_Bytes_Decomposition(reading->green_reading[12], j);
 					for(u8 j=0;j<2;j++)
 						msg.data[6+j] = Two_Bytes_Decomposition(reading->green_reading[13], j);
-					IndicatorControl(0);
+					//IndicatorControl(0);
 				break;
 				
 				case 1:
@@ -335,7 +328,7 @@ void read_reading(struct Reading* reading, u8 colour, u8 position)
 						msg.data[4+j] = Two_Bytes_Decomposition(reading->green_reading[2], j);
 					for(u8 j=0;j<2;j++)
 						msg.data[6+j] = Two_Bytes_Decomposition(reading->green_reading[3], j);
-					IndicatorControl(10);
+					//IndicatorControl(10);
 				break;
 					
 				case 2:
@@ -347,7 +340,7 @@ void read_reading(struct Reading* reading, u8 colour, u8 position)
 						msg.data[4+j] = Two_Bytes_Decomposition(reading->green_reading[6], j);
 					for(u8 j=0;j<2;j++)
 						msg.data[6+j] = Two_Bytes_Decomposition(reading->green_reading[7], j);
-					IndicatorControl(20);
+					//IndicatorControl(20);
 				break;
 					
 				case 3:
@@ -359,7 +352,7 @@ void read_reading(struct Reading* reading, u8 colour, u8 position)
 						msg.data[4+j] = Two_Bytes_Decomposition(reading->green_reading[8], j);
 					for(u8 j=0;j<2;j++)
 						msg.data[6+j] = Two_Bytes_Decomposition(reading->green_reading[9], j);
-					IndicatorControl(30);
+					//IndicatorControl(30);
 				break;
 			}
 		break;
@@ -480,98 +473,78 @@ void read_single_reading(struct Reading* reading, u8 pos)
 	can_tx_enqueue(msg);
 }
 
-//---------------------------------------------------------------Colour difference functions-----------------------------------
-//u32 colour_difference(struct Reading* reading, struct Colour* list, u8 index)
-//{
-//	return Sqrt((s32)(Sqr(reading->red_reading[index] - list->red_reading[index])) + Sqr(reading->green_reading[index] - list->green_reading[index]) + Sqr(reading->blue_reading[index] - list->blue_reading[index]));
-//}
-
-/**
-	* @breif changing the rgb readings to hsv
-	* @param reading: the struct that going to read 
-**/
-void rgb_to_hsv(struct Reading* reading)
-{
-	//red_reading is h, green_reading is s, red reading is v
-	for(u8 i=0;i<16;i++)
-	{
-		//calibrate the reading to 0.00x
-		reading->red_reading[i] = ((reading->red_reading[i] * 100000) / max_reading);
-		reading->blue_reading[i] = ((reading->blue_reading[i] * 100000) / max_reading);
-		reading->green_reading[i] = ((reading->green_reading[i] * 100000) / max_reading);
-		
-		u32 min = MIN(MIN(reading->red_reading[i], reading->green_reading[i]),MIN(reading->green_reading[i], reading->blue_reading[i]));
-		u32 max = MAX(MAX(reading->red_reading[i], reading->green_reading[i]),MAX(reading->green_reading[i], reading->blue_reading[i]));
-		u32 del_max = max - min;
-		
-		
-		reading->blue_reading[i] = del_max;
-		hsv.blue_reading[i] = del_max;
-		
-		if(del_max<1000)
-		{
-			hsv.red_reading[i] = 0;
-			hsv.green_reading[i] = 0;
-		}
-		else
-		{
-			hsv.green_reading[i] = (del_max / max)*100000;
-			
-			u32 del_r = ((((max - reading->red_reading[i])/6000000) + del_max/2000000)/del_max)*100000; //0.000
-			u32 del_g = (((max - reading->green_reading[i]/6000000) + del_max/2000000)/del_max)*100000;
-			u32 del_b = (((max- reading->blue_reading[i]/6000000) + del_max/2000000)/del_max)*100000;
-
-			output.red_reading[i] = del_r;
-			output.blue_reading[i] = del_g;
-			output.green_reading[i] = del_b;
-			
-			if(reading->red_reading[i] == max)
-				hsv.red_reading[i] = (del_b - del_g);
-			else if(reading->green_reading[i] == max)
-				hsv.red_reading[i] = 33333 + (del_r - del_b);
-			else if(reading->blue_reading[i] == max)
-				hsv.red_reading[i] = 66667 + (del_g - del_r);
-			
-			if(hsv.red_reading[i]<100000)
-				hsv.red_reading[i] += 100000;
-			if(hsv.red_reading[i]>100000)
-				hsv.red_reading[i] -= 100000;
-		}
-	}
-}
-
+//-------------------------------------------------------------Colour difference functions-----------------------------------------------------------------
 /**
 	* @breif changing the rgb readings to hsv degree (0 - 360)
 	* @param reading: the struct that going to read 
 **/
+
+
 void rgb_to_hsv_degree(struct Reading* reading)
 {
-	//red_reading is h, green_reading is s, red reading is v
+	signed int h[16];
+	u16 min[16];
+	u16 max[16];
+	u16 del_max[16];
+	//red_reading is h, green_reading is s, blue_reading is v
 	for(u8 i=0;i<16;i++)
 	{
-		reading->red_reading[i] = ((reading->red_reading[i] * 100000) / max_reading);
-		reading->blue_reading[i] = ((reading->blue_reading[i] * 100000) / max_reading);
-		reading->green_reading[i] = ((reading->green_reading[i] * 100000) / max_reading);
+//		reading->red_reading[i] = ((reading->red_reading[i] * 1000) / 255); //correct to one decimal
+//		reading->blue_reading[i] = ((reading->blue_reading[i] * 1000) / 255); //correct to one decimal
+//		reading->green_reading[i] = ((reading->green_reading[i] * 1000) / 255); //correct to one decimal
+				
+		if(reading->red_reading[i] < reading->green_reading[i])
+			min[i] = reading->red_reading[i];
+		else
+			min[i] = reading->green_reading[i];	
+		if(reading->blue_reading[i] < min[i])
+			min[i] = reading->blue_reading[i];
+
+		if(reading->red_reading[i] > reading->green_reading[i])
+			max[i] = reading->red_reading[i];
+		else
+			max[i] = reading->green_reading[i];
+		if(reading->blue_reading[i] > max[i])
+			max[i] = reading->blue_reading[i];
 		
-		u32 min = MIN(MIN(reading->red_reading[i], reading->green_reading[i]),MIN(reading->green_reading[i], reading->blue_reading[i]));
-		u32 max = MAX(MAX(reading->red_reading[i], reading->green_reading[i]),MAX(reading->green_reading[i], reading->blue_reading[i]));
-		u32 del_max = max - min;
+		del_max[i] = max[i] - min[i];
+//		
+//		output_ptr->red_reading[i] = reading->red_reading[i];
+//		output_ptr->blue_reading[i] = reading->blue_reading[i];
+//		output_ptr->green_reading[i] = reading->green_reading[i];
+//		
+		hsv.blue_reading[i] = max[i];
 		
-		hsv.blue_reading[i] = del_max;
-		
-		if(del_max == 0)
+		if(del_max[i] < white_tolerance)
 		{
 			hsv.green_reading[i] = 0;
 			hsv.red_reading[i] = 0;
+			IndicatorControl(100);
 		}
+		else
+		{			
+			hsv.green_reading[i] = (del_max[i]*255)/ max[i];
 			
-		hsv.green_reading[i] = (del_max*100) / max;
-		
-		if(max == reading->red_reading[i])
-			hsv.red_reading[i] = 60 * ((reading->green_reading[i] - reading->green_reading[i]) % 6);
-		if(max == reading->green_reading[i])
-			hsv.red_reading[i] = 60 * ((reading->blue_reading[i] - reading->red_reading[i]) / del_max) + 2;
-		if(max == reading->blue_reading[i])
-			hsv.red_reading[i] = 60 * ((reading->red_reading[i] - reading->green_reading[i]) / del_max) + 4;
+			if(max[i] == reading->red_reading[i])
+			{
+				h[i] = (60*(reading->green_reading[i] - reading->blue_reading[i]))/ del_max[i];
+				IndicatorControl(10);
+			}
+			else if(max[i] == reading->green_reading[i])
+			{
+				h[i] = 120 + ((reading->blue_reading[i] - reading->red_reading[i]) * 60/ del_max[i]);
+				IndicatorControl(14);
+			}
+			else
+			{
+				h[i] = 240 +  ((reading->red_reading[i] - reading->green_reading[i]) * 60/ del_max[i]);
+				IndicatorControl(18);
+			}
+			
+			if(h[i]<0)
+				h[i] += 360;
+			
+			hsv.red_reading[i] = h[i];
+		}	
 	}
 }

@@ -32,4 +32,3 @@
 .\output\colour_calculation.o: .\src\ustrobo_min_system\inc\approx_math.h
 .\output\colour_calculation.o: .\src\ustrobo_min_system\inc\delay.h
 .\output\colour_calculation.o: .\src\stm32f10x_std\inc\stm32f10x_adc.h
-.\output\colour_calculation.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

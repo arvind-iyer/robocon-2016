@@ -26,13 +26,13 @@ void set_colour(u8 colour);
 #define FD14 GPIO_Pin_6
 #define FD15 GPIO_Pin_10
 
-#define LED_RED GPIO_Pin_11
-#define LED_GREEN GPIO_Pin_12
+#define LED_RED GPIO_Pin_12
+#define LED_GREEN GPIO_Pin_11
 #define LED_BLUE GPIO_Pin_13
 
 #define RED 0
-#define BLUE 1
-#define GREEN 2
+#define GREEN 1
+#define BLUE 2
 #define OFF 3
 
 #endif /* __LED_H */

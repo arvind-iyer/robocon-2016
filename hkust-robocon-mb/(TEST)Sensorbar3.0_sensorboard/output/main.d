@@ -34,4 +34,3 @@
 .\output\main.o: src\user\colour_list.h
 .\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\output\main.o: .\src\ustrobo_min_system\inc\approx_math.h
-.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

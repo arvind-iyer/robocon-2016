@@ -121,11 +121,11 @@ void set_colour(u8 colour)
 		case(RED):
 			LED_Control(1,0,0);
 			break;
-		case(BLUE):
-			LED_Control(0,0,1);
-			break;
 		case(GREEN):
 			LED_Control(0,1,0);
+		break;
+		case(BLUE):
+			LED_Control(0,0,1);
 			break;
 		case(OFF):
 			LED_Control(0,0,0);
