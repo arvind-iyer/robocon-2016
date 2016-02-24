@@ -47,6 +47,13 @@ void IMU_receiver(u8 byte){
 			}
 		}else{
 			sync_progress = '#';
+			#ifdef IMU_USE_CONTINUOUS_MODE
+				uart_tx(IMU_UART, "#o1#ob#s01"); //Continuous binary output and request syncing
+				tft_println("Ask: #o1#ob#s01");
+			#else
+				uart_tx(IMU_UART, "#o0#ob#s01"); //Discrete binary output upon sending #f, request syncing
+				tft_println("Ask: #o0#ob#s01");
+			#endif 
 		}
 	}else{
 		//If sync is finished
@@ -57,18 +64,17 @@ void IMU_receiver(u8 byte){
 
 void sync_with_imu(){
 	#ifdef IMU_USE_CONTINUOUS_MODE
-		uart_tx(COM3, "#o1#ob#s01"); //Continuous binary output and request syncing
-		tft_println("Ask: #o1#ob#s01");
+		uart_tx(IMU_UART, "#s01"); //Continuous binary output and request syncing
+		tft_println("Ask: #s01");
 	#else
-		uart_tx(COM3, "#o0#ob#s01"); //Discrete binary output upon sending #f, request syncing
-		tft_println("Ask: #o0#ob#s01");
-	#endif
+		uart_tx(IMU_UART, "#s01"); //Discrete binary output upon sending #f, request syncing
+		tft_println("Ask: #s01");
+	#endif 
 }
 
 void imu_init(){
-	uart_init(COM3,115200);
-	uart_interrupt(COM3);
-	uart_interrupt_init(COM3, IMU_receiver);
+	uart_init(IMU_UART, 115200);
+	uart_interrupt_init(IMU_UART, IMU_receiver);
 	synced = false;
 }
 

@@ -8,6 +8,8 @@
 #include "main.h"
 #include <stdbool.h>
 
+#define IMU_UART COM1
+
 //Warning: The current digital compass is disabled, to avoid the other teams use strong magnet
 //#define IMU_USE_CONTINUOUS_MODE
 
