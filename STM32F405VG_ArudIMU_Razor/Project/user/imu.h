@@ -10,7 +10,7 @@
 
 #define IMU_UART COM1
 
-extern bool synced;
+extern bool imu_synced;
 extern u8 imu_buffer[12];
 extern float yaw_pitch_roll[3]; 
 

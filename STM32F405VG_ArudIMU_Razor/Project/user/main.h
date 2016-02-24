@@ -27,7 +27,7 @@
 
 typedef enum{
 	ON_SLOPE = 0,
-	ON_GROUND
+	ON_GROUND = 1
 }CLIMBING_STATE;
 
 //Main loop
