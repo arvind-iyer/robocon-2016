@@ -1,69 +1,43 @@
 #include "flashsave.h"
-#include "lightsensor.h"
 
-uint32_t data_set[4][3] ={0}; //4 colour target, each have R G B
+uint32_t data_set[list_num][3] ={0}; //4 colour target, each have R G B
 uint32_t startAddress = 0x8009000; //0x8019000;
 
-extern Colour_Target RED_target[16];
-extern Colour_Target BLUE_target[16];
-extern Colour_Target YELLOW_target[16];
-extern Colour_Target WHITE_target[16];
+extern struct Reading* colour_list_ptr;
 
-void writeFlash(void){
-	u8 i,j;
+void writeFlash(void)
+{
 	FLASH_Unlock();
 	FLASH_ClearFlag(FLASH_FLAG_EOP|FLASH_FLAG_PGERR|FLASH_FLAG_WRPRTERR);
 	FLASH_ErasePage(startAddress);
 
-	for(i=0; i<16; i++){
-		FLASH_ProgramHalfWord((startAddress + (i*12+4)),RED_target[i].R);
-		FLASH_ProgramHalfWord((startAddress + (i*12+8)),RED_target[i].G);
-		FLASH_ProgramHalfWord((startAddress + (i*12+12)),RED_target[i].B);
-	}
-	for(i=0; i<16; i++){
-		FLASH_ProgramHalfWord((startAddress + 192 +(i*12+4)),BLUE_target[i].R);
-		FLASH_ProgramHalfWord((startAddress + 192 +(i*12+8)),BLUE_target[i].G);
-		FLASH_ProgramHalfWord((startAddress + 192 + (i*12+12)),BLUE_target[i].B);
-	}
-	for(i=0; i<16; i++){
-		FLASH_ProgramHalfWord((startAddress + 384 + (i*12+4)),YELLOW_target[i].R);
-		FLASH_ProgramHalfWord((startAddress + 384 + (i*12+8)),YELLOW_target[i].G);
-		FLASH_ProgramHalfWord((startAddress + 384 + (i*12+12)),YELLOW_target[i].B);
-	}
-	for(i=0; i<16; i++){
-		FLASH_ProgramHalfWord((startAddress + 576 + (i*12+4)),WHITE_target[i].R);
-		FLASH_ProgramHalfWord((startAddress + 576 + (i*12+8)),WHITE_target[i].G);
-		FLASH_ProgramHalfWord((startAddress + 576 + (i*12+12)),WHITE_target[i].B);
+	for(u8 i=0;i<list_num;i++)
+	{
+		for(u8 j=0; j<16; j++)
+		{
+			FLASH_ProgramHalfWord((startAddress + 192*i+(j*12+4)),(colour_list_ptr + i)->red_reading[j]);
+			FLASH_ProgramHalfWord((startAddress + 192*i+(j*12+8)),(colour_list_ptr + i)->blue_reading[j]);
+			FLASH_ProgramHalfWord((startAddress + 192*i+(j*12+12)),(colour_list_ptr + i)->green_reading[j]);
+		}
 	}
 	FLASH_Lock();
 }
 
 //store data from FLASH to the array(memory)
-void readFlash(void){
-  u32 i, j = 0;
+void readFlash(void)
+{
 		/*	for(i=0; i<16; i++){
 		printf("Sensor: %d	%d	", i, *(uint16_t *)(startAddress + (i*12+4)));
 		printf("%d	", *(uint16_t *)(startAddress + (i*12+8)));
 		printf("%d \n\r", *(uint16_t *)(startAddress + (i*12+12)));
 		*/
-	for(i=0; i<16; i++){
-		RED_target[i].R = *(uint16_t *)(startAddress + (i*12+4));
-		RED_target[i].G = *(uint16_t *)(startAddress + (i*12+8));
-		RED_target[i].B = *(uint16_t *)(startAddress + (i*12+12));
-	}
-	for(i=0; i<16; i++){
-		BLUE_target[i].R = *(uint16_t *)(startAddress + 192 +(i*12+4));
-		BLUE_target[i].G = *(uint16_t *)(startAddress + 192 +(i*12+8));
-		BLUE_target[i].B = *(uint16_t *)(startAddress + 192 +(i*12+12));
-	}
-	for(i=0; i<16; i++){
-		YELLOW_target[i].R = *(uint16_t *)(startAddress + 384 +(i*12+4));
-		YELLOW_target[i].G = *(uint16_t *)(startAddress + 384 +(i*12+8));
-		YELLOW_target[i].B = *(uint16_t *)(startAddress + 384 +(i*12+12));
-	}
-	for(i=0; i<16; i++){
-		WHITE_target[i].R = *(uint16_t *)(startAddress + 576 +(i*12+4));
-		WHITE_target[i].G = *(uint16_t *)(startAddress + 576 +(i*12+8));
-		WHITE_target[i].B = *(uint16_t *)(startAddress + 576 +(i*12+12));
+	for(u8 i=0;i<list_num;i++)
+	{
+		for(u8 j=0; j<16; j++)
+		{
+			(colour_list_ptr + i)->red_reading[j] = *(uint16_t *)(startAddress + 192*i + (j*12+4));
+			(colour_list_ptr + i)->green_reading[j] = *(uint16_t *)(startAddress + 192*i + (j*12+8));
+			(colour_list_ptr + i)->blue_reading[j] = *(uint16_t *)(startAddress + 192*i + (j*12+12));
+		}
 	}
 }

@@ -1,5 +1,3 @@
-
-
 #include "stm32f10x.h"
 #include "colour_list.h"
 #include "led.h"
@@ -11,11 +9,16 @@
 #define max_turn 20	//40 
 #define max_reading 2700 
 #define list_num 3 //the max number that the device remember
-#define white_tolerance 10 
-#define rgb_tolerance 100 //the tolerance for differentiate colours, decrease will provide a accuracy reading for one colour, vice verse
+#define white_tolerance 10
+#define rgb_tolerance_r 200
+#define rgb_tolerance_g 300 //the tolerance for differentiate colours, decrease will provide a accuracy reading for one colour, vice verse
+#define rgb_tolerance_b 100
 #define sample_time 20 //20
-#define delay_time 5 
+#define delay_time 1500
 #define ratio 1000
+
+void writeFlash(void);
+void readFlash(void);	
 
 void data_collect();
 void colour_init();
@@ -31,3 +34,4 @@ void read_colour();
 
 void rgb_to_hsv_degree(struct Reading* reading);
 void rgb_check_reading(struct Reading* reading);
+void rgb_colour_difference(struct Reading* reading);
