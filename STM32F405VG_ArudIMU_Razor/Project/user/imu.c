@@ -5,6 +5,7 @@ u8 sync_progress = '#';
 bool synced = false;
 u8 imu_buffer[12] = {0};
 u8 imu_buffer_pointer = 0;
+s32 yaw_pitch_roll[3] = {0}; 
 
 void IMU_receiver(u8 byte){
 	led_blink(LED_D2);
@@ -43,17 +44,17 @@ void IMU_receiver(u8 byte){
 				case '\n':
 					sync_progress = '#';
 					synced = true;
+					#ifdef IMU_USE_CONTINUOUS_MODE
+						uart_tx(IMU_UART, "#o1#ob#oe0"); //Continuous binary output and request syncing
+						tft_println("Ask: #o1#ob#oe0");
+					#else
+						uart_tx(IMU_UART, "#o0#ob#oe0"); //Discrete binary output upon sending #f, request syncing
+						tft_println("Ask: #o0#ob#oe0");
+					#endif 
 					break;
 			}
 		}else{
 			sync_progress = '#';
-			#ifdef IMU_USE_CONTINUOUS_MODE
-				uart_tx(IMU_UART, "#o1#ob#s01"); //Continuous binary output and request syncing
-				tft_println("Ask: #o1#ob#s01");
-			#else
-				uart_tx(IMU_UART, "#o0#ob#s01"); //Discrete binary output upon sending #f, request syncing
-				tft_println("Ask: #o0#ob#s01");
-			#endif 
 		}
 	}else{
 		//If sync is finished
@@ -63,13 +64,7 @@ void IMU_receiver(u8 byte){
 }
 
 void sync_with_imu(){
-	#ifdef IMU_USE_CONTINUOUS_MODE
-		uart_tx(IMU_UART, "#s01"); //Continuous binary output and request syncing
-		tft_println("Ask: #s01");
-	#else
-		uart_tx(IMU_UART, "#s01"); //Discrete binary output upon sending #f, request syncing
-		tft_println("Ask: #s01");
-	#endif 
+	uart_tx(IMU_UART, "#s01"); //Discrete binary output upon sending #f, request syncing
 }
 
 void imu_init(){
@@ -78,16 +73,29 @@ void imu_init(){
 	synced = false;
 }
 
+u8 sync_time_count = 0;
 void imu_update(){
 	tft_clear();
 	tft_println(synced?"SYNCED":"NOT SYNCED");
 	if (!synced){
-		sync_with_imu();
+		sync_time_count++;
+		if (sync_time_count>10){
+			sync_with_imu();
+			sync_time_count = 0;
+		}
+	}else{
+		uart_tx_byte(IMU_UART, '#');
+		uart_tx_byte(IMU_UART, 'f');
 	}
+	
+	for (u8 i=0; i<3; i++){
+		yaw_pitch_roll[i] = imu_buffer[i*4] + (imu_buffer[i*4+1] << 8) + (imu_buffer[i*4+2] << 16) + (imu_buffer[i*4+3] << 24);
+	}
+	
 	tft_println("This Loop: %d", this_loop_ticks);
 	tft_println("Interval: %d", this_loop_ticks - last_long_loop_ticks);
-	tft_println("%d %d %d", imu_buffer[0], imu_buffer[1], imu_buffer[2], imu_buffer[3]);
-	tft_println("%d %d %d", imu_buffer[4], imu_buffer[5], imu_buffer[6], imu_buffer[7]);
-	tft_println("%d %d %d", imu_buffer[8], imu_buffer[9], imu_buffer[10], imu_buffer[11]);
+	tft_println("Yaw: %d", yaw_pitch_roll[0]);
+	tft_println("Pit: %d", yaw_pitch_roll[1]);
+	tft_println("Rol: %d", yaw_pitch_roll[2]);
 	tft_update();
 }

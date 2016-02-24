@@ -39,17 +39,15 @@ void uart_init(COM_TypeDef COM, u32 br)
 	USART_InitTypeDef USART_InitStructure;
 
 	RCC_AHB1PeriphClockCmd(COM_TX_PORT_CLK[COM] | COM_RX_PORT_CLK[COM], ENABLE);
-	if (COM == COM1)
-	{
+	if (COM == COM1){
 		RCC_APB2PeriphClockCmd(COM_USART_CLK[COM], ENABLE);
-        GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_USART1);//Connect PA9 to USART1_Tx
-        GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART1);//Connect PA10 to USART1_Rx
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_USART1);//Connect PA9 to USART1_Tx
+    GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART1);//Connect PA10 to USART1_Rx
 	}
-	else
-	{
+	else{
 		RCC_APB1PeriphClockCmd(COM_USART_CLK[COM], ENABLE);
-        GPIO_PinAFConfig(GPIOB, GPIO_PinSource10, GPIO_AF_USART3);//Connect PB10 to USART1_Tx
-        GPIO_PinAFConfig(GPIOB, GPIO_PinSource11, GPIO_AF_USART3);//Connect PB11 to USART1_Rx
+		GPIO_PinAFConfig(GPIOB, GPIO_PinSource10, GPIO_AF_USART3);//Connect PB10 to USART1_Tx
+		GPIO_PinAFConfig(GPIOB, GPIO_PinSource11, GPIO_AF_USART3);//Connect PB11 to USART1_Rx
 	}
 
 	/* Configure USART Tx & USART Rx as alternate function push-pull */
@@ -72,8 +70,7 @@ void uart_init(COM_TypeDef COM, u32 br)
   * @param  COM: which USART to enable interrupt
   * @retval None
   */
-void uart_interrupt(COM_TypeDef COM)
-{
+void uart_interrupt(COM_TypeDef COM){
 	NVIC_InitTypeDef NVIC_InitStructure;
 
 	#ifdef VECT_TAB_RAM
@@ -96,8 +93,7 @@ void uart_interrupt(COM_TypeDef COM)
   * @param  COM: which USART to be used for Printf
   * @retval None
   */
-void uart_printf_enable(COM_TypeDef COM)
-{
+void uart_printf_enable(COM_TypeDef COM){
 	printf_COMx = COM;
 }
 
@@ -106,8 +102,7 @@ void uart_printf_enable(COM_TypeDef COM)
   * @param  None
   * @retval None
   */
-void uart_printf_disable(void)
-{
+void uart_printf_disable(void){
 	printf_COMx = COM_NULL;
 }
 
@@ -117,8 +112,7 @@ void uart_printf_disable(void)
   * @param  data: one byte data to be sent
   * @retval None
   */
-void uart_tx_byte(COM_TypeDef COM, uc8 data)
-{
+void uart_tx_byte(COM_TypeDef COM, uc8 data){
 	while (USART_GetFlagStatus(COM_USART[COM], USART_FLAG_TC) == RESET); 
 	USART_SendData(COM_USART[COM], (uint16_t)data);
 }
