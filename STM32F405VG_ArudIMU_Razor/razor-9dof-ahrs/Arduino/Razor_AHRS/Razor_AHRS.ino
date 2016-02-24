@@ -213,12 +213,12 @@ boolean output_errors = false;  // true or false
 // Put MIN/MAX and OFFSET readings for your board here!
 // Accelerometer
 // "accel x,y,z (min/max) = X_MIN/X_MAX  Y_MIN/Y_MAX  Z_MIN/Z_MAX"
-#define ACCEL_X_MIN ((float) -287)
-#define ACCEL_X_MAX ((float) 269)
-#define ACCEL_Y_MIN ((float) -277)
-#define ACCEL_Y_MAX ((float) 268)
+#define ACCEL_X_MIN ((float) -297)
+#define ACCEL_X_MAX ((float) 284)
+#define ACCEL_Y_MIN ((float) -282)
+#define ACCEL_Y_MAX ((float) 277)
 #define ACCEL_Z_MIN ((float) -313)
-#define ACCEL_Z_MAX ((float) 194)
+#define ACCEL_Z_MAX ((float) 198)
 
 // Magnetometer (standard calibration mode)
 // "magn x,y,z (min/max) = X_MIN/X_MAX  Y_MIN/Y_MAX  Z_MIN/Z_MAX"
@@ -237,9 +237,9 @@ const float magn_ellipsoid_transform[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
 
 // Gyroscope
 // "gyro x,y,z (current/average) = .../OFFSET_X  .../OFFSET_Y  .../OFFSET_Z
-#define GYRO_AVERAGE_OFFSET_X ((float) -18.20)
-#define GYRO_AVERAGE_OFFSET_Y ((float) -38.99)
-#define GYRO_AVERAGE_OFFSET_Z ((float) 100.96)
+#define GYRO_AVERAGE_OFFSET_X ((float) -15.47)
+#define GYRO_AVERAGE_OFFSET_Y ((float) -36.53)
+#define GYRO_AVERAGE_OFFSET_Z ((float) 87.18)
 
 /*
 // Calibration example:
@@ -280,7 +280,7 @@ const float magn_ellipsoid_transform[3][3] = {{0.879685, 0.000540833, -0.0106054
 // DEBUG OPTIONS
 /*****************************************************************/
 // When set to true, gyro drift correction will not be applied
-#define DEBUG__NO_DRIFT_CORRECTION false
+#define DEBUG__NO_DRIFT_CORRECTION true
 // Print elapsed time after each I/O loop
 #define DEBUG__PRINT_LOOP_TIME false
 

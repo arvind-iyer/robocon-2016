@@ -15,13 +15,23 @@ int main(void) {
 	//Initialize the 2 Servos' Pins (plz see TM_stm32f4_pwm.c for the channel and pinspack)
 	TM_SERVO_Init(&Servo1, TIM4, TM_PWM_Channel_3, TM_PWM_PinsPack_1);
 	TM_SERVO_Init(&Servo2, TIM4, TM_PWM_Channel_4, TM_PWM_PinsPack_1);
-	uart_init(COM1, 115200);
+	imu_init();
 	tft_easy_init(); //Init LCD
+	tft_put_logo(85, 120);
+	led_control(LED_D2, LED_ON);
     
 	while (1) { 
 		if(get_ticks() != this_loop_ticks){
 			this_loop_ticks = get_ticks();
 			
+			//Long loop action
+			if (this_loop_ticks - last_long_loop_ticks > LONG_LOOP_TICKS){
+				led_blink(LED_D1);
+				imu_update();
+				last_long_loop_ticks = this_loop_ticks;
+			}
+			
+			last_loop_ticks = this_loop_ticks;
 		}
 	}
 

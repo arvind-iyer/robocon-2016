@@ -23,13 +23,14 @@
 #include "encoder.h"
 #include "sensor_bar.h"
 #include "line_sensor.h"
+#include "imu.h"
 
 //Main loop
 extern u32 this_loop_ticks;
 extern u32 last_loop_ticks;
 
 //Larger loop
-#define LONG_LOOP_TICKS 20
+#define LONG_LOOP_TICKS 200
 #define SHORT_LOOP_TICKS 5
 extern u32 last_long_loop_ticks;
 extern u32 last_short_loop_ticks;

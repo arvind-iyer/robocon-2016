@@ -1,5 +1,7 @@
 #include "led.h"
 
+static u16 LED_GPIO_ARRAY[LED_COUNT] = {LED_1, LED_2, LED_3, LED_4, LED_5};
+
 u8 led_state = 0;
 
 u8 get_led_state(){
@@ -35,7 +37,7 @@ void led_control(LED led, LED_STATE state){
 
 	for (u8 i=0;i<LED_COUNT;i++){
 		if (led & (1 << i)) {
-			GPIO_WriteBit(LED_GPIO, LED_D3, (BitAction)state);
+			GPIO_WriteBit(LED_GPIO, LED_GPIO_ARRAY[i], (BitAction)state);
 		}
 	}
 }
@@ -47,7 +49,7 @@ void led_control(LED led, LED_STATE state){
 void led_blink(LED led){
 	for (u8 i=0;i<LED_COUNT;i++){
 		if (led & (1 << i)) {
-			led_control(LED_D1, (LED_STATE) !(led_state&LED_D1));
+			led_control(1 << i, (LED_STATE) !(led_state&LED_D1));
 		}
 	}
 }

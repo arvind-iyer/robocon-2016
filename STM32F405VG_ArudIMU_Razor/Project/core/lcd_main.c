@@ -574,7 +574,7 @@ void tft_prints(u8 x, u8 y, const char * pstr, ...){
 * @param pstr: Stuff to be printed
 **/
 
-void tft_append_line(const char * pstr, ...){
+void tft_println(const char * pstr, ...){
 	u8 buf[256], is_special = 0;
 	u8* fp = NULL;
 	u8 x = 0;

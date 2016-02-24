@@ -105,7 +105,7 @@ bool tft_char_is_changed(u8 x, u8 y);
 void tft_prints(u8 x, u8 y, const char * pstr, ...);
 void tft_update(void);
 u8 tft_get_orientation(void);
-void tft_append_line(const char * pstr, ...);
+void tft_println(const char * pstr, ...);
 void tft_stream(const char * pstr, ...);
 
 void tft_put_mega_ass_num(u8 x, u8 y, u8 character, u16 color);

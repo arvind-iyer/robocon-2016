@@ -129,8 +129,7 @@ void uart_tx_byte(COM_TypeDef COM, uc8 data)
   * @param  tx_buf: string to be sent
   * @retval None
   */
-void uart_tx(COM_TypeDef COM, const uc8 * tx_buf, ...)
-{
+void uart_tx(COM_TypeDef COM, const uc8 * tx_buf, ...){
 	va_list arglist;
 	u8 buf[255], *fp;
 	
@@ -142,6 +141,7 @@ void uart_tx(COM_TypeDef COM, const uc8 * tx_buf, ...)
 	while (*fp)
 		uart_tx_byte(COM, (uint16_t)*fp++);
 }
+
 /**
   * @brief  Receiving one byte of data via USART
   * @param  COM: which USART to be used for receiving data
