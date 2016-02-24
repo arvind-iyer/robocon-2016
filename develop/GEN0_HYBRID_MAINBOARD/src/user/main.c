@@ -28,7 +28,7 @@ int main(void) {
 
 	tft_put_logo(110, 90);            
 	CONTROL_STATE last_control_state = MANUAL_MODE;
-
+	
 	while(1){
 		this_loop_ticks = get_full_ticks();
 		

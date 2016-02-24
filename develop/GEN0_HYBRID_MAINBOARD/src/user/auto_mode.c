@@ -46,7 +46,6 @@ int ori_x, ori_y;
 
 //auto properties
 int cur_x, cur_y, cur_deg;
-int cor_x, cor_y;
 int vel[3];
 int degree, degree_diff, dist, speed;
 int start, passed;
@@ -343,12 +342,9 @@ void auto_menu_update() {
   */
 void auto_var_update() {
 	passed = auto_get_ticks() - start;
+	cur_x = get_pos()->x;
+	cur_y = get_pos()->y;
 	cur_deg = get_angle();
-	cor_x = 0;
-	cor_y = 0;
-	xy_rotate(&cor_x, &cor_y, (-1)*cur_deg);
-	cur_x = get_pos()->x + cor_x - 0;
-	cur_y = get_pos()->y + cor_y - 0;
 	
 	degree = tar_dir;
 	if (tar_queue[tar_end-1].curve < 0)
