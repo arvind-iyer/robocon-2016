@@ -28,6 +28,6 @@ typedef enum{
 } TRACK_LINE_STATE;
 
 u8 read_line_sensor(LINE_SENSOR);
-u8 get_line_sensor_all();
+u8 get_line_sensor_all(void);
 
 #endif

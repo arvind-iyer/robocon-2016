@@ -10,6 +10,10 @@
 
 #define IMU_UART COM1
 
+extern bool synced;
+extern u8 imu_buffer[12];
+extern float yaw_pitch_roll[3]; 
+
 //Warning: The current digital compass is disabled, to avoid the other teams use strong magnet
 //#define IMU_USE_CONTINUOUS_MODE
 

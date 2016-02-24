@@ -4,8 +4,8 @@
 u8 sync_progress = '#';
 bool synced = false;
 u8 imu_buffer[12] = {0};
-u8 imu_buffer_pointer = 0;
-s32 yaw_pitch_roll[3] = {0}; 
+s8 imu_buffer_pointer = 0;
+float yaw_pitch_roll[3] = {0}; 
 
 void IMU_receiver(u8 byte){
 	led_blink(LED_D2);
@@ -59,7 +59,8 @@ void IMU_receiver(u8 byte){
 	}else{
 		//If sync is finished
 		imu_buffer[imu_buffer_pointer] = byte;
-		imu_buffer_pointer = (imu_buffer_pointer + 1) % 12;
+		imu_buffer_pointer = (imu_buffer_pointer+1)%12;
+		
 	}
 }
 
@@ -76,7 +77,7 @@ void imu_init(){
 u8 sync_time_count = 0;
 void imu_update(){
 	tft_clear();
-	tft_println(synced?"SYNCED":"NOT SYNCED");
+	tft_println(synced?"[SYNCED]":"[NOT SYNCED]");
 	if (!synced){
 		sync_time_count++;
 		if (sync_time_count>10){
@@ -89,13 +90,26 @@ void imu_update(){
 	}
 	
 	for (u8 i=0; i<3; i++){
-		yaw_pitch_roll[i] = imu_buffer[i*4] + (imu_buffer[i*4+1] << 8) + (imu_buffer[i*4+2] << 16) + (imu_buffer[i*4+3] << 24);
+		union {
+			char chars[4];
+			float f;
+		} u;
+
+		for (u8 k = (i*4); k < (i*4) + 4; k++){
+			u.chars[3-(k%4)] = imu_buffer[k];
+		}
+//		for (u8 k = (i*4); k < (i*4) + 4; k++){
+//			u.chars[(k%4)] = imu_buffer[k];
+//		}
+		
+		yaw_pitch_roll[i] = u.f;
 	}
 	
 	tft_println("This Loop: %d", this_loop_ticks);
 	tft_println("Interval: %d", this_loop_ticks - last_long_loop_ticks);
-	tft_println("Yaw: %d", yaw_pitch_roll[0]);
-	tft_println("Pit: %d", yaw_pitch_roll[1]);
-	tft_println("Rol: %d", yaw_pitch_roll[2]);
+	tft_println("%d %d %d %d", imu_buffer[0], imu_buffer[1], imu_buffer[2], imu_buffer[3]);
+	tft_println("Yaw: %f", yaw_pitch_roll[0]);
+	tft_println("Pit: %f", yaw_pitch_roll[1]);
+	tft_println("Rol: %f", yaw_pitch_roll[2]);
 	tft_update();
 }

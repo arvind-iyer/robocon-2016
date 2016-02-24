@@ -25,6 +25,11 @@
 #include "line_sensor.h"
 #include "imu.h"
 
+typedef enum{
+	ON_SLOPE = 0,
+	ON_GROUND
+}CLIMBING_STATE;
+
 //Main loop
 extern u32 this_loop_ticks;
 extern u32 last_loop_ticks;

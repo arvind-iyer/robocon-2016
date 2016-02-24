@@ -79,6 +79,6 @@ void CAN1_TX_IRQHandler(void);
 u8 one_to_n_bytes(s32 num, u8 n);			// Encode
 s32 n_bytes_to_one(u8* array, u8 n);	// Decode
 
-void testing();
+void testing(void);
 
 #endif /* __CAN_PROTOCOL_H */
