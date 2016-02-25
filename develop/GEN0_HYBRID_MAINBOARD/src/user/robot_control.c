@@ -43,14 +43,14 @@ void climb_continue(){
 	if (get_emergency_lock() == LOCKED) return;
 	motor_set_vel(MOTOR4, CLIMBING_SPEED, OPEN_LOOP);
 	motor_set_vel(MOTOR5, CLIMBING_SPEED, OPEN_LOOP);
-	motor_set_vel(MOTOR6, CLIMBING_SPEED, OPEN_LOOP);
+	motor_set_vel(MOTOR6, -CLIMBING_SPEED, OPEN_LOOP);
 }
 
 void descend_continue(){
 	if (get_emergency_lock() == LOCKED) return;
 	motor_set_vel(MOTOR4, DESCEND_SPEED, OPEN_LOOP);
 	motor_set_vel(MOTOR5, DESCEND_SPEED, OPEN_LOOP);
-	motor_set_vel(MOTOR6, DESCEND_SPEED, OPEN_LOOP);
+	motor_set_vel(MOTOR6, -DESCEND_SPEED, OPEN_LOOP);
 }
 
 void stop_climbing(){

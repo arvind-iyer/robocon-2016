@@ -292,6 +292,7 @@ void auto_menu_update() {
 	tft_prints(2,1,"Straight");
 	tft_prints(2,2,"Circle");
 	tft_prints(2,3,"8-Figure");
+	tft_prints(2,4,"Demo");
 	tft_prints(0,path_id+1,">");	
 	tft_update();
 	
@@ -310,6 +311,9 @@ void auto_menu_update() {
 				case 2:
 					auto_tar_add_path(EIGHT_FIG);
 					break;
+				case 3:
+					auto_tar_add_path(DEM_PID);
+					break;
 			}
 		}
 	} else {
@@ -325,7 +329,7 @@ void auto_menu_update() {
 		up_pressed = false;
 	}
 	
-	if (button_pressed(BUTTON_XBC_S) && (path_id < 2)) {
+	if (button_pressed(BUTTON_XBC_S) && (path_id < 3)) {
 		if (!dn_pressed) {
 			dn_pressed = true;
 			path_id++;

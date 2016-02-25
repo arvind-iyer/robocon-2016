@@ -41,3 +41,14 @@ const TARGET EIGHT_FIG[] = {
 	{NODE_STOP, 0, 0, 0, 0.0},
 	{NODE_END}
 };
+
+const TARGET DEM_PID[] = {
+	{NODE_STOP, -2250, 0, 0, 0.0},
+	{NODE_STOP, -2250, 2000, 0, 0.0},
+	{NODE_PASS, -1450, 2800, -90, 1.25},
+	{NODE_STOP, -650, 2000, -90, 1.25},
+	{NODE_STOP, 600, 3250, 45, 0.0},
+	{NODE_STOP, 600, 5500, 90, 0.0},
+	{NODE_STOP, -1600, 5500, 90, 0.0},
+	{NODE_END}
+};

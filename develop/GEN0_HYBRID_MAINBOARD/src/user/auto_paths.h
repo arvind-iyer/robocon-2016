@@ -6,5 +6,6 @@
 extern const TARGET STRAIGHT[];
 extern const TARGET CIRCLE[];
 extern const TARGET EIGHT_FIG[];
+extern const TARGET DEM_PID[];
 
 #endif
