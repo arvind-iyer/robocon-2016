@@ -6,7 +6,7 @@ package com.dranithix.robocon.net;
  *
  */
 public enum NetworkEventOpcode {
-	MOTOR_CONTROL("MOTOR_CONTROL"), SERVO_CONTROL("SERVO_CONTROL");
+	MOTOR_CONTROL("MOTOR_CONTROL"), SERVO_CONTROL("SERVO_CONTROL"), PNEUMATIC_CONTROL("PNEUMATIC CONTROL");
 	
 	private String opcode;
 	

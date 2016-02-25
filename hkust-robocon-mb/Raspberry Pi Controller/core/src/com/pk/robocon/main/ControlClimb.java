@@ -9,7 +9,7 @@ public class ControlClimb extends Control {
 	/**
 	 * magnitude of wheel
 	 */
-	public void executeBrushless(int W) {
+	public void executeClimb(int W) {
 		super.setClimb(W);
 	}
 

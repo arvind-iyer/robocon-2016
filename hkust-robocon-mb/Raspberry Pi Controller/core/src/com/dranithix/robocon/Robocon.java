@@ -26,7 +26,9 @@ import com.dranithix.robocon.ui.PositionListView;
 import com.dranithix.robocon.ui.QueueChangeInterface;
 import com.dranithix.robocon.ui.QueueChangeListener;
 import com.pk.robocon.main.Control;
+import com.pk.robocon.main.ControlClimb;
 import com.pk.robocon.main.ControlPID;
+import com.pk.robocon.main.ControlPneumatics;
 import com.pk.robocon.system.Path;
 import com.pk.robocon.system.Position;
 import com.pk.robocon.system.Target;
@@ -50,6 +52,10 @@ public class Robocon extends ControllerAdapter
 	public ControlPID getControlPid() {
 		return this.controlPid;
 	}
+	
+	public ControlClimb controlClimbMotor = new ControlClimb();
+	
+	public ControlPneumatics controlClimbPneumatics = new ControlPneumatics();
 
 	private Stage stage;
 
@@ -154,7 +160,7 @@ public class Robocon extends ControllerAdapter
 		positionList.updateLabelsList(positionList.snapshotPath);
 		queueListener.update();
 		controlPid.sendMotorCommands();
-
+		
 		stage.act();
 		stage.draw();
 	}
@@ -171,6 +177,8 @@ public class Robocon extends ControllerAdapter
 	int brushlessMagnitude = 0;
 
 	boolean pidState = false;
+	boolean climbWheelState = false;
+	boolean climbPneumaticsState = false;
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonCode) {
@@ -189,10 +197,17 @@ public class Robocon extends ControllerAdapter
 			}
 			break;
 		case 1: // Button 2
+			climbWheelState = !climbWheelState;
+			if(climbWheelState) controlClimbMotor.executeClimb(ControlClimb.CLIMB_UP);
+			else controlClimbMotor.executeClimb(ControlClimb.CLIMB_STOP);
 			break;
 		case 2: // Button 3
 			controlPid.toggleOrientationLock();
 			System.out.println("BEARING LOCKED");
+			break;
+		case 3: //Button 4
+			climbPneumaticsState = !climbPneumaticsState;
+			controlClimbPneumatics.executePneumatics(climbPneumaticsState);
 			break;
 		case 4: // L1
 			brushlessStartCounter++;

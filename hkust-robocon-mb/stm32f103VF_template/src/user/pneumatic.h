@@ -7,4 +7,10 @@
 void pneumatic_init();
 void pneumatic_control(GPIO_TypeDef* PORT,u16 gpio_pin,u8 state);
 
+//typedef enum{
+//	PNEUMATIC_1 = 0,
+//	PNEUMATIC_2 = 1
+//	
+//}PNEUMATIC_ID;
+
 #endif

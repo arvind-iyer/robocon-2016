@@ -3,18 +3,22 @@ package com.pk.robocon.main;
 import com.badlogic.gdx.math.Vector2;
 import com.dranithix.robocon.RobotSerialManager;
 import com.dranithix.robocon.net.events.MotorControlEvent;
+import com.dranithix.robocon.net.events.PneumaticControlEvent;
+import com.dranithix.robocon.net.events.PneumaticControlEvent.PneumaticType;
 import com.dranithix.robocon.net.events.ServoControlEvent;
 import com.dranithix.robocon.net.events.ServoControlEvent.ServoType;
 import com.pk.robocon.robot.Brushless;
+import com.pk.robocon.robot.Pneumatics;
 import com.pk.robocon.robot.Wheel;
 import com.pk.robocon.system.Position;
 
 public class Control {
-	public static final int MAX_VELOCITY = 140;
+	public static final int MAX_VELOCITY = 200;
 
 	protected Wheel[] motorsPID = { new Wheel(1), new Wheel(2), new Wheel(3) };
 	protected Brushless[] motorsBrushless = { new Brushless(1), new Brushless(2) };
-	protected Wheel[] motorsClimb = { new Wheel(4), new Wheel(5), new Wheel(6) };
+	protected Wheel[] motorsClimb = { new Wheel(4), new Wheel(5), new Wheel(6), new Wheel(7) };
+	protected Pneumatics [] pneumaticsClimb = {new Pneumatics(1), new Pneumatics(2)};
 
 	public static Position currentPos;
 
@@ -35,6 +39,7 @@ public class Control {
 		this.motorsClimb[0].setVelocity(W);
 		this.motorsClimb[1].setVelocity(W);
 		this.motorsClimb[2].setVelocity(W);
+		this.motorsClimb[3].setVelocity(W);
 	}
 
 	public void setMotorValues(int M1, int M2, int M3) {
@@ -56,7 +61,7 @@ public class Control {
 		RobotSerialManager.getInstance()
 				.sendEvent(new MotorControlEvent(motorsPID[0].getVelocity(), motorsPID[1].getVelocity(),
 						motorsPID[2].getVelocity(), motorsClimb[0].getVelocity(), motorsClimb[1].getVelocity(),
-						motorsClimb[2].getVelocity()));
+						motorsClimb[2].getVelocity(), motorsClimb[3].getVelocity(),0));
 	}
 
 	/**
@@ -67,6 +72,27 @@ public class Control {
 				.sendEvent(new ServoControlEvent(ServoType.SERVO_1, motorsBrushless[0].getServo()));
 		RobotSerialManager.getInstance()
 				.sendEvent(new ServoControlEvent(ServoType.SERVO_2, motorsBrushless[1].getServo()));
+	}
+	
+	/**
+	 * sends pneumatic command for climbing pneumatics
+	 * @param state
+	 */
+	public void sendPneumatics(boolean state){
+		if (state){
+			RobotSerialManager.getInstance()
+			.sendEvent(new PneumaticControlEvent(PneumaticType.PNEUMATIC_1, 1));
+			System.out.println("Pneumatics On");
+			//RobotSerialManager.getInstance()
+			//.sendEvent(new PneumaticControlEvent(PneumaticType.PNEUMATIC_2, 1));
+		}
+		else{
+			RobotSerialManager.getInstance()
+			.sendEvent(new PneumaticControlEvent(PneumaticType.PNEUMATIC_1, 0));
+			System.out.println("Pneumatics Off");
+			//RobotSerialManager.getInstance()
+			//.sendEvent(new PneumaticControlEvent(PneumaticType.PNEUMATIC_2, 0));
+		}
 	}
 
 }

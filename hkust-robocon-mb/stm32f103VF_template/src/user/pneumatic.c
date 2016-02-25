@@ -3,6 +3,8 @@
 void pneumatic_init(){
 
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD,ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE,ENABLE);
 	
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
