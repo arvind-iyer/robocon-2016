@@ -29,6 +29,5 @@ typedef enum{
 
 u8 read_line_sensor(LINE_SENSOR);
 u8 get_line_sensor_all();
-u8 get_line_sensor_eco_robot();
 
 #endif

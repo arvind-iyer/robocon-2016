@@ -24,9 +24,3 @@ u8 get_line_sensor_all(){
 					(GPIO_ReadInputDataBit(LINE_SENSOR_GPIO, sensor_GPIO_Pins[1]) << 1) +
 					(GPIO_ReadInputDataBit(LINE_SENSOR_GPIO, sensor_GPIO_Pins[2])));
 }
-
-u8 get_line_sensor_eco_robot(){
-    return ((GPIO_ReadInputDataBit(LINE_SENSOR_GPIO, sensor_GPIO_Pins[0]) << 1) +
-			(GPIO_ReadInputDataBit(LINE_SENSOR_GPIO, sensor_GPIO_Pins[1])));
-
-}

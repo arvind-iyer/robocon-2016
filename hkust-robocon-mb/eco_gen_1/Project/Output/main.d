@@ -60,4 +60,7 @@
 .\output\main.o: ..\Project\encoder.h
 .\output\main.o: ..\Project\sensor_bar.h
 .\output\main.o: ..\Project\line_sensor.h
+.\output\main.o: ..\Project\buzzer.h
+.\output\main.o: ..\Project\buzzer_song.h
 .\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

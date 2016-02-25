@@ -23,13 +23,16 @@ TM_SERVO_Result_t TM_SERVO_Init(TM_SERVO_t* ServoStruct, TIM_TypeDef* TIMx, TM_P
 	if (TM_PWM_InitTimer(TIMx, &ServoStruct->PWM, 50) != TM_PWM_Result_Ok) {
 		/* Return error */
 		return TM_SERVO_Result_Error;
+        tft_prints(0,5,"%d",TM_SERVO_Result_Error);
 	}
 	
 	/* Initialize channel */
 	if (TM_PWM_InitChannel(&ServoStruct->PWM, PWMChannel, Pinspack) != TM_PWM_Result_Ok) {
 		/* Return Error */
 		return TM_SERVO_Result_Error;
+        tft_prints(0,5,"%d",TM_SERVO_Result_Error);
 	}
+    
 	
 	/* Fill settings */
 	ServoStruct->TIM = TIMx;
@@ -37,6 +40,7 @@ TM_SERVO_Result_t TM_SERVO_Init(TM_SERVO_t* ServoStruct, TIM_TypeDef* TIMx, TM_P
 	ServoStruct->Pinspack = Pinspack;
 	
 	/* Return OK */
+    tft_prints(0,5,"%d",TM_SERVO_Result_Ok);
 	return TM_SERVO_Result_Ok;
 }
 

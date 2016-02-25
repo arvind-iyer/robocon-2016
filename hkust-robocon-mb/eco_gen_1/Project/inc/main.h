@@ -49,6 +49,29 @@
 #include "encoder.h"
 #include "sensor_bar.h"
 #include "line_sensor.h"
+#include "buzzer.h"
+#include "buzzer_song.h"
+
+#define WILSON
+
+#ifdef WILSON
+#define SERVO_MICROS_MID 1150
+#define SERVO_MICROS_RIGHT 550
+#define SERVO_MICROS_LEFT 1750
+#endif
+
+#ifdef HITLER
+#define SERVO_MICROS_MID 1500
+#define SERVO_MICROS_RIGHT 2125
+#define SERVO_MICROS_LEFT 900
+#endif
+
+#ifdef BAJAJ
+#define SERVO_MICROS_MID 1300
+#define SERVO_MICROS_RIGHT 2000
+#define SERVO_MICROS_LEFT 600
+#endif
+
 
 
 #endif /* __MAIN_H */
