@@ -19,5 +19,5 @@ How to use (DO IT ONCE AFTER EVERY RESET):
 
 4)	After memorize all the colour you nedd, press B again to exit calibrate mode
 
-5)	Enjoy your sensor! It returns a u8 colour[16] via CAN.It gives the index number of your colour according to your 
-	init order. It gives '9' if not matched. (The array index is same as the sensor position, eg colour[0] = PD0)
+5)	Enjoy your sensor!
+

@@ -21,108 +21,65 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.17.0
 Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
-C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\(TEST)Sensorbar3.0_sensorboard\Project.uvprojx
-Project File Date:  02/24/2016
+C:\Users\BudiRyan\Downloads\robocon-2016-Ding\hkust-robocon-mb\(TEST)Sensorbar3.0_sensorboard\Project.uvprojx
+Project File Date:  02/25/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
-compiling battery.c...
-compiling can_protocol.c...
-src\user\can_protocol.c(281): warning:  #1-D: last line of file ends without a newline
-  }
-src\user\can_protocol.c: 1 warning, 0 errors
 compiling main.c...
 src\user\colour_list.h(20): warning:  #1-D: last line of file ends without a newline
   void reading_init(struct Reading* reading);
-src\user\colour_calculation.h(20): warning:  #1295-D: Deprecated declaration data_collect - give arg types
+src\user\colour_calculation.h(23): warning:  #1295-D: Deprecated declaration data_collect - give arg types
   void data_collect();
-src\user\colour_calculation.h(21): warning:  #1295-D: Deprecated declaration colour_init - give arg types
+src\user\colour_calculation.h(24): warning:  #1295-D: Deprecated declaration colour_init - give arg types
   void colour_init();
-src\user\colour_calculation.h(22): warning:  #1295-D: Deprecated declaration rgb_init - give arg types
+src\user\colour_calculation.h(25): warning:  #1295-D: Deprecated declaration rgb_init - give arg types
   void rgb_init();
-src\user\colour_calculation.h(23): warning:  #1295-D: Deprecated declaration reading_ratio - give arg types
+src\user\colour_calculation.h(26): warning:  #1295-D: Deprecated declaration reading_ratio - give arg types
   void reading_ratio();
-src\user\colour_calculation.h(30): warning:  #1295-D: Deprecated declaration read_colour - give arg types
+src\user\colour_calculation.h(33): warning:  #1295-D: Deprecated declaration read_colour - give arg types
   void read_colour();
-src\user\colour_calculation.h(33): warning:  #1-D: last line of file ends without a newline
-  void rgb_check_reading(struct Reading* reading);
-src\user\main.c(138): warning:  #177-D: variable "temp" was declared but never referenced
+src\user\colour_calculation.h(37): warning:  #1-D: last line of file ends without a newline
+  void rgb_colour_difference(struct Reading* reading);
+src\user\main.c(141): warning:  #177-D: variable "temp" was declared but never referenced
   	u8 temp = 100;
 src\user\main.c: 8 warnings, 0 errors
-compiling can.c...
-compiling crc.c...
-compiling led.c...
-src\user\led.c(134): warning:  #1-D: last line of file ends without a newline
-  }
-src\user\led.c: 1 warning, 0 errors
-compiling colour_list.c...
-src\user\colour_list.h(20): warning:  #1-D: last line of file ends without a newline
-  void reading_init(struct Reading* reading);
-src\user\colour_list.c(71): warning:  #1-D: last line of file ends without a newline
-  }
-src\user\colour_list.c: 2 warnings, 0 errors
-compiling approx_math.c...
 compiling colour_calculation.c...
 src\user\colour_list.h(20): warning:  #1-D: last line of file ends without a newline
   void reading_init(struct Reading* reading);
-src\user\colour_calculation.h(20): warning:  #1295-D: Deprecated declaration data_collect - give arg types
+src\user\colour_calculation.h(23): warning:  #1295-D: Deprecated declaration data_collect - give arg types
   void data_collect();
-src\user\colour_calculation.h(21): warning:  #1295-D: Deprecated declaration colour_init - give arg types
+src\user\colour_calculation.h(24): warning:  #1295-D: Deprecated declaration colour_init - give arg types
   void colour_init();
-src\user\colour_calculation.h(22): warning:  #1295-D: Deprecated declaration rgb_init - give arg types
+src\user\colour_calculation.h(25): warning:  #1295-D: Deprecated declaration rgb_init - give arg types
   void rgb_init();
-src\user\colour_calculation.h(23): warning:  #1295-D: Deprecated declaration reading_ratio - give arg types
+src\user\colour_calculation.h(26): warning:  #1295-D: Deprecated declaration reading_ratio - give arg types
   void reading_ratio();
-src\user\colour_calculation.h(30): warning:  #1295-D: Deprecated declaration read_colour - give arg types
+src\user\colour_calculation.h(33): warning:  #1295-D: Deprecated declaration read_colour - give arg types
   void read_colour();
-src\user\colour_calculation.h(33): warning:  #1-D: last line of file ends without a newline
-  void rgb_check_reading(struct Reading* reading);
-src\user\colour_calculation.c(64): warning:  #177-D: variable "finish" was declared but never referenced
+src\user\colour_calculation.h(37): warning:  #1-D: last line of file ends without a newline
+  void rgb_colour_difference(struct Reading* reading);
+src\user\colour_calculation.c(105): warning:  #177-D: variable "finish" was declared but never referenced
   	u8 finish = 0;
-src\user\colour_calculation.c(644): warning:  #1-D: last line of file ends without a newline
+src\user\colour_calculation.c(705): warning:  #175-D: subscript out of range
+  		if(min > delta[2])
+src\user\colour_calculation.c(711): warning:  #1-D: last line of file ends without a newline
   }
-src\user\colour_calculation.c: 9 warnings, 0 errors
-compiling delay.c...
-compiling ticks.c...
-compiling uart.c...
-compiling core_cm3.c...
-compiling misc.c...
-compiling stm32f10x_adc.c...
-compiling stm32f10x_bkp.c...
-compiling stm32f10x_cec.c...
-compiling stm32f10x_can.c...
-compiling stm32f10x_crc.c...
-compiling stm32f10x_dbgmcu.c...
-compiling stm32f10x_dac.c...
-compiling stm32f10x_dma.c...
-compiling stm32f10x_exti.c...
-compiling stm32f10x_flash.c...
-compiling stm32f10x_fsmc.c...
-compiling stm32f10x_gpio.c...
-compiling stm32f10x_i2c.c...
-compiling stm32f10x_iwdg.c...
-compiling stm32f10x_pwr.c...
-compiling stm32f10x_rtc.c...
-compiling stm32f10x_rcc.c...
-compiling stm32f10x_sdio.c...
-compiling stm32f10x_spi.c...
-compiling stm32f10x_usart.c...
-compiling stm32f10x_tim.c...
-compiling stm32f10x_wwdg.c...
-assembling startup_stm32f10x_xl.s...
-compiling system_stm32f10x.c...
+src\user\colour_calculation.c(711): warning: C4487E: read from variable 'delta' with offset out of bounds
+}^
+src\user\colour_calculation.c: 11 warnings, 0 errors
 linking...
-Program Size: Code=14424 RO-data=336 RW-data=120 ZI-data=4368  
+Program Size: Code=17036 RO-data=336 RW-data=476 ZI-data=5428  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 21 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 19 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\(TEST)Sensorbar3.0_sensorboard\RTE
+  C:\Users\BudiRyan\Downloads\robocon-2016-Ding\hkust-robocon-mb\(TEST)Sensorbar3.0_sensorboard\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

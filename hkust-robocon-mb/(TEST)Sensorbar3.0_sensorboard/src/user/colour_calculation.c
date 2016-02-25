@@ -3,7 +3,7 @@
 u8 turn = 0;
 u8 data_collect_flag;
 u8 cal_flag = 0;
-u16 colour_now[16] = {9};
+u8 colour_now[16] = {9};
 
 extern u8 LED_STATE;
 extern u8 buttonA, buttonB;
@@ -21,6 +21,46 @@ struct Reading* calculated_ptr = &calculated;
 struct Reading* hsv_ptr = &hsv;
 struct Reading* output_ptr = &output;
 struct Reading* colour_list_ptr = colour_list;
+
+uint32_t data_set[list_num][3] ={0}; //4 colour target, each have R G B
+uint32_t startAddress = 0x8009000; //0x8019000;
+
+void writeFlash(void)
+{
+	FLASH_Unlock();
+	FLASH_ClearFlag(FLASH_FLAG_EOP|FLASH_FLAG_PGERR|FLASH_FLAG_WRPRTERR);
+	FLASH_ErasePage(startAddress);
+
+	for(u8 i=0;i<list_num;i++)
+	{
+		for(u8 j=0; j<16; j++)
+		{
+			FLASH_ProgramHalfWord((startAddress + 192*i+(j*12+4)),(colour_list_ptr + i)->red_reading[j]);
+			FLASH_ProgramHalfWord((startAddress + 192*i+(j*12+8)),(colour_list_ptr + i)->blue_reading[j]);
+			FLASH_ProgramHalfWord((startAddress + 192*i+(j*12+12)),(colour_list_ptr + i)->green_reading[j]);
+		}
+	}
+	FLASH_Lock();
+}
+
+//store data from FLASH to the array(memory)
+void readFlash(void)
+{
+		/*	for(i=0; i<16; i++){
+		printf("Sensor: %d	%d	", i, *(uint16_t *)(startAddress + (i*12+4)));
+		printf("%d	", *(uint16_t *)(startAddress + (i*12+8)));
+		printf("%d \n\r", *(uint16_t *)(startAddress + (i*12+12)));
+		*/
+	for(u8 i=0;i<list_num;i++)
+	{
+		for(u8 j=0; j<16; j++)
+		{
+			(colour_list_ptr + i)->red_reading[j] = *(uint16_t *)(startAddress + 192*i + (j*12+4));
+			(colour_list_ptr + i)->green_reading[j] = *(uint16_t *)(startAddress + 192*i + (j*12+8));
+			(colour_list_ptr + i)->blue_reading[j] = *(uint16_t *)(startAddress + 192*i + (j*12+12));
+		}
+	}
+}
 
 /**
 	* @brief This function is used for sampling the ADC_val for nth times and take the mean of the readings, then convert the readings to hsv colour space
@@ -41,16 +81,17 @@ void data_collect()
 	if(turn==(max_turn - 1))
 	{
 		avg_temp_readings(temp_reading_ptr, calculated_ptr, max_turn);
-		reading_ratio(calculated_ptr);
+		//reading_ratio(calculated_ptr);
 		
 		if(cal_flag)
 		{
 			//rgb_normalization(calculated_ptr);
 			//rgb_to_hsv_degree(calculated_ptr);
-			rgb_check_reading(calculated_ptr);
+		    rgb_check_reading(calculated_ptr);
+			//rgb_colour_difference(calculated_ptr);
 		}
 		
-		//copy_readings(calculated_ptr, output_ptr,1);
+		copy_readings(calculated_ptr, output_ptr,1);
 		
 		turn = 0;
 		data_collect_flag = 1;
@@ -100,7 +141,7 @@ void rgb_init()
 	while(!data_collect_flag)
 	{
 		set_colour(LED_STATE);
-		_delay_ms(delay_time);
+		_delay_us(delay_time);
 		ADC_Cmd(ADC1, ENABLE);
 		
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
@@ -132,7 +173,7 @@ void set_colour_list(u8 index)
 	while(!data_collect_flag)
 	{
 		set_colour(LED_STATE);
-		_delay_ms(delay_time);
+		_delay_us(delay_time);
 		ADC_Cmd(ADC1, ENABLE);
 		
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
@@ -600,7 +641,7 @@ void rgb_check_reading(struct Reading* reading)
 				min[i] = reading->red_reading[i];
 				max[i] = (colour_list+j)->red_reading[i];
 			}
-			if((max[i] -min[i]) < rgb_tolerance)
+			if((max[i] -min[i]) < rgb_tolerance_r)
 				temp++;
 			
 			if(reading->green_reading[i] > (colour_list+j)->green_reading[i])
@@ -613,7 +654,7 @@ void rgb_check_reading(struct Reading* reading)
 				min[i] = reading->green_reading[i];
 				max[i] = (colour_list+j)->green_reading[i];
 			}
-			if((max[i] - min[i]) < rgb_tolerance)
+			if((max[i] - min[i]) < rgb_tolerance_g)
 				temp++;
 			
 			if(reading->blue_reading[i] > (colour_list+j)->blue_reading[j])
@@ -626,7 +667,7 @@ void rgb_check_reading(struct Reading* reading)
 				min[i] = reading->blue_reading[i];
 				max[i] = (colour_list+j)->blue_reading[i];
 			}
-			if((max[i] - min[i]) < rgb_tolerance)
+			if((max[i] - min[i]) < rgb_tolerance_b)
 				temp++;
 						
 			if(temp==3)
@@ -641,4 +682,30 @@ void rgb_check_reading(struct Reading* reading)
 			j++;
 		}
 	}
+}
+
+void rgb_colour_difference(struct Reading* reading)
+{
+	u16 delta[list_num];
+	for(u8 i=0;i<16;i++)
+	{
+		for(u8 j=0;j<list_num;j++)
+		{
+			s32 temp_r[2] = {reading->red_reading[i] , (colour_list+j)->red_reading[i]};
+			s32 temp_g[2] = {reading->green_reading[i] , (colour_list+j)->green_reading[i]};
+			s32 temp_b[2] = {reading->blue_reading[i] , (colour_list+j)->blue_reading[i]};
+
+			delta[j] = Sqrt(Sqr(temp_r[0] - temp_r[1]) + Sqr(temp_g[0] - temp_g[1]) + Sqr(temp_b[0] - temp_b[1]));
+		}
+		
+		u16 min = delta[0];
+		
+		if(min > delta[1])
+			colour_now[i] = 1;
+		if(min > delta[2])
+			colour_now[i] = 2;
+		else
+			colour_now[i] = 0;
+	}
+	IndicatorControl(0);
 }

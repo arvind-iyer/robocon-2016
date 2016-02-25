@@ -13,6 +13,8 @@ extern struct Reading* hsv_ptr;
 extern struct Reading* output_ptr;
 extern struct Reading* colour_list_ptr;
 
+
+
 void GPIO_init(void){
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC, ENABLE);
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -116,6 +118,7 @@ void system_init(){
 	ticks_init();
 	can_init();
 	can_rx_init();
+	//readFlash();
 	
 	LED_STATE = 0;
 	buttonA = 0;
@@ -144,6 +147,7 @@ int main(void)
 		{
 			while((!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14)) || (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15)));
 			colour_init();
+			//writeFlash();
 		}
 		
 		if((!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14)) && (GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_15)))
@@ -162,7 +166,7 @@ int main(void)
 		}
 		
 		set_colour(LED_STATE);
-		_delay_ms(delay_time);
+		_delay_us(delay_time);
 		ADC_Cmd(ADC1, ENABLE);	//start ADC convertion
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET)); //waiting for DMA is finished
 		data_collect();

@@ -14,13 +14,12 @@
 
 #include "stm32f10x.h"
 #include "uart.h"
-#include "can.h"
-#include "can_protocol.h"
+//#include "can.h"
+//#include "can_protocol.h"
 #include "stm32f10x_adc.h"
 #include "stm32f10x_dma.h"
 #include "ticks.h"
 #include "delay.h"
-#include "flashsave.h"
 #include "led.h"
 #include "colour_calculation.h"
 
