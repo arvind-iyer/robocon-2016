@@ -50,7 +50,7 @@ int main(void) {
 							}
 						}
 							
-						if (climbing_count>1 && cimbing_state==ON_GROUND){
+						if (climbing_count>2 && cimbing_state==ON_GROUND){
 							if (climbing_stage==1){
 								TM_SERVO_SetDegrees(&Servo1, 110);
 								climbing_stage++;
@@ -63,7 +63,7 @@ int main(void) {
 								climbing_stage++;
 								climbing_count = 0;
 							}
-						}else if(climbing_count>1 && cimbing_state==ON_SLOPE){
+						}else if(climbing_count>2 && cimbing_state==ON_SLOPE){
 							if (climbing_stage==0){
 								climbing_stage++;
 								climbing_count = 0;
