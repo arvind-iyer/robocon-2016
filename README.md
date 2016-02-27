@@ -1,5 +1,5 @@
-#ROBOCON 2016
-## Hybrid Robot
+#HKUST Robocon 2016 Code Repository
+## Team A+ - Hybrid Robot
 This is for anything related to the hybrid robot, including mainboard program/motor driver/controller program
 
 ###develop
