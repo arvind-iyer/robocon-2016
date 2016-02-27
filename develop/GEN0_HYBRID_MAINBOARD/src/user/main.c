@@ -30,6 +30,7 @@ int main(void) {
 	CONTROL_STATE last_control_state = MANUAL_MODE;
 	
 	while(1){
+		servo_control(SERVO1, 27);
 		this_loop_ticks = get_full_ticks();
 		
 		//Dont care if same ticks
