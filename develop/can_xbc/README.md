@@ -11,5 +11,5 @@ Can be used as-is for now.<br/>
 May aim to utillize buttons on the back in the future (e.g. toggle between mainboard and debug display)<br/>
 
 ###Contacts
-Pang	(Github: ferrophile, Email: hwpang@connect.ust.hk)<br/>
-Kenneth	(Github: Iamacm, Email: cmauaa@connect.ust.hk)<br/>
+Pang (Github: ferrophile, Email: hwpang@connect.ust.hk)<br/>
+Kenneth (Github: Iamacm, Email: cmauaa@connect.ust.hk)<br/>
