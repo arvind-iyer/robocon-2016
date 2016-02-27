@@ -14,10 +14,11 @@ static LOCK_STATE emergency_lock = UNLOCKED;
 static LOCK_STATE press_button_back = UNLOCKED;
 static LOCK_STATE press_button_XBOX = UNLOCKED;
 static CONTROL_STATE current_control_state = MANUAL_MODE;
-static CAN_XBC_CONNECTION_MODE last_connection_state = XBC_DISCONNECTED;
+static CAN_XBC_CONNECTION_MODE last_connection_state = CAN_XBC_DISCONNECTED;
 
 void xbc_global_update(){
 		
+	/*
 	//Check whether emergency lock is pressed
 	if (button_pressed(BUTTON_XBC_BACK)){
 		if (press_button_back == UNLOCKED){
@@ -34,6 +35,7 @@ void xbc_global_update(){
 	}else{
 			press_button_back = UNLOCKED;
 	}
+	*/
 	
 	//Turn on the emergency lock if the xbox controller is loose
 	CAN_XBC_CONNECTION_MODE this_connection_state = can_xbc_get_connection();

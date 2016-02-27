@@ -376,7 +376,6 @@ void auto_motor_update(){
 			auto_tar_dequeue();
 		} else {
 			auto_motor_stop();
-			is_running = false;
 		}
 	} else {
 		auto_track_path(degree, degree_diff, CONST_VEL, false);
@@ -392,4 +391,26 @@ void auto_motor_update(){
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
 	tft_update();
+	
+	//handle input
+	if (button_pressed(BUTTON_XBC_BACK)) {
+		if (!back_pressed) {
+			back_pressed = true;
+			auto_motor_stop();
+			is_running = false;
+		}
+	} else {
+		back_pressed = false;
+	}
+	
+	/*
+	if (button_pressed(BUTTON_XBC_START) && !auto_tar_queue_len()) {
+		if (!start_pressed) {
+			start_pressed = true;
+			//replay
+		}
+	} else {
+		start_pressed = false;
+	}
+	*/
 }
