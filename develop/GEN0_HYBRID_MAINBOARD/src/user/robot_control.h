@@ -17,6 +17,12 @@
 #define BRUSHLESS_MAX 1050
 #define BRUSHLESS_COUNT 2
 
+#define MOTOR4_FLIP 1
+#define MOTOR5_FLIP 1
+#define MOTOR6_FLIP -1
+#define MOTOR7_FLIP 1
+#define MOTOR8_FLIP 1
+
 typedef enum{
 	BRUSHLESS_1 = 0,
 	BRUSHLESS_2 = 1
