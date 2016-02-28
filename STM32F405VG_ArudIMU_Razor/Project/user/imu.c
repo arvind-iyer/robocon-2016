@@ -3,6 +3,8 @@
 //The IMU will send back #SYNCH01\r\n
 u8 sync_progress = '#';
 bool imu_synced = false;
+bool imu_staged = false;
+bool imu_pre_staged = false;
 u8 imu_buffer[12] = {0};
 s8 imu_buffer_pointer = 0;
 float yaw_pitch_roll[3] = {0}; 
@@ -48,8 +50,8 @@ void IMU_receiver(u8 byte){
 						uart_tx(IMU_UART, "#o1#ob#oe0"); //Continuous binary output and request syncing
 						tft_println("Ask: #o1#ob#oe0");
 					#else
-						uart_tx(IMU_UART, "#o0#ob#oe0"); //Discrete binary output upon sending #f, request syncing
-						tft_println("Ask: #o0#ob#oe0");
+						uart_tx(IMU_UART, "#o0#ob#oe0#f"); //Discrete binary output upon sending #f, request syncing
+						tft_println("Ask: #o0#ob#oe0#f");
 					#endif 
 					break;
 			}
@@ -59,8 +61,17 @@ void IMU_receiver(u8 byte){
 	}else{
 		//If sync is finished
 		imu_buffer[imu_buffer_pointer] = byte;
-		imu_buffer_pointer = (imu_buffer_pointer+1)%12;
-		
+		if (++imu_buffer_pointer == 11){
+			imu_buffer_pointer = 0;
+			#ifndef IMU_USE_CONTINUOUS_MODE
+				uart_tx_byte(IMU_UART, '#');
+				uart_tx_byte(IMU_UART, 'f');
+			#endif
+			if (imu_synced && !imu_staged){
+				imu_pre_staged = true;
+			}
+	
+		}
 	}
 }
 
@@ -83,26 +94,16 @@ void imu_update(){
 			sync_time_count = 0;
 		}
 	}else{
-		uart_tx_byte(IMU_UART, '#');
-		uart_tx_byte(IMU_UART, 'f');
+			for (u8 i=0; i<3; i++){
+				byte2float dataset;
+				for (u8 k = (i*4); k < (i*4) + 4; k++){
+					dataset.chars[(k%4)] = imu_buffer[k];
+				}
+				yaw_pitch_roll[i] = dataset.f;
+			}
+			if (imu_pre_staged && !imu_staged){
+				set_target(yaw_pitch_roll[0]);
+				imu_staged = true;
+			}
 	}
-	
-	typedef union {
-		u8 chars[4];
-		float f;
-	} byte2float;
-		
-	for (u8 i=0; i<3; i++){
-		byte2float dataset;
-
-//		for (u8 k = (i*4); k < (i*4) + 4; k++){
-//			dataset.chars[3-(k%4)] = imu_buffer[k];
-//		}
-		for (u8 k = (i*4); k < (i*4) + 4; k++){
-			dataset.chars[(k%4)] = imu_buffer[k];
-		}
-		
-		yaw_pitch_roll[i] = dataset.f;
-	}
-	
 }

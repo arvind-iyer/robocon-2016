@@ -24,6 +24,7 @@
 #include "sensor_bar.h"
 #include "line_sensor.h"
 #include "imu.h"
+#include "servo_targeting.h"
 
 typedef enum{
 	ON_SLOPE = 0,
