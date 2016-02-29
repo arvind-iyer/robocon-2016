@@ -1,3 +1,5 @@
+import org.ejml.simple.*;
+
 /******************************************************************************************
 * Magnetometer Sampling Sketch for Razor AHRS v1.4.2
 * 9 Degree of Measurement Attitude and Heading Reference System
@@ -49,7 +51,7 @@ import processing.opengl.*;
 import processing.serial.*;
 import java.io.*;
 
-final static int SERIAL_PORT_BAUD_RATE = 57600;
+final static int SERIAL_PORT_BAUD_RATE = 115200;
 
 final static int NUM_MAGN_SAMPLES = 10000;
 float magnetom[][] = new float[NUM_MAGN_SAMPLES][3];
