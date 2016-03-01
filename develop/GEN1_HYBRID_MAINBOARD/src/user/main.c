@@ -72,12 +72,14 @@ int main(void) {
 				if (control_state == MANUAL_MODE){
 					manual_interval_update();
 				}else{
-					if (auto_get_state()) {
+					if (auto_get_state() == RUNNING_MODE) {
 						auto_var_update();			
 						auto_motor_update();
 						//auto_calibrate();
-					} else {
+					} else if (auto_get_state() == MENU_MODE) {
 						auto_menu_update();
+					} else if (auto_get_state() == DATA_MODE) {
+						auto_data_update();
 					}
 				}
 				can_xbc_mb_lcd_tx();

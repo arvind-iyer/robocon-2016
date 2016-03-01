@@ -8,8 +8,8 @@
   *                                                                
   * @file    auto_mode.c
   * @author  Pang Hong Wing
-  * @version V1.0.0
-  * @date    11 Feb, 2016
+  * @version V0.3.0
+  * @date    25 Feb, 2016
   * @brief   Library for hybrid auto movement mode, in particular for PID
   *          movement tracking.
   ******************************************************************************
@@ -20,20 +20,16 @@
 #define THRESHOLD 10
 #define CONST_VEL 50
 
-/*
-struct target {
-	int x;
-	int y;
-	int deg;
-	double curve; //curvature scaled up by 1000
-	bool stop;
-};
-*/
-
 //mode variables
-bool is_running;
-bool up_pressed, dn_pressed, start_pressed, back_pressed;
+PID_MODE pid_state;
+bool pid_stopped;
+bool up_pressed, dn_pressed, right_pressed, left_pressed, start_pressed, back_pressed;
 int path_id;
+
+//debug list
+COORD3 coord_list[500];
+u16 coord_list_len;
+u16 coord_list_pos;
 
 //path target queue
 TARGET tar_queue[50];
@@ -134,11 +130,15 @@ int auto_get_ticks(){
   * @retval None
   */
 void auto_init() {
-	is_running = false;
+	pid_state = MENU_MODE;
+	path_id = 0;
+	
 	up_pressed = false;
 	dn_pressed = false;
+	left_pressed = false;
+	right_pressed = false;
 	start_pressed = false;
-	path_id = 0;
+	back_pressed = false;
 }
 
 /**
@@ -147,6 +147,7 @@ void auto_init() {
   * @retval None
   */
 void auto_reset() {
+	//reset variables
 	tar_head = 0;
 	tar_end = 0;
 	err_d = 0;
@@ -154,8 +155,14 @@ void auto_reset() {
 	degree_diff = 0;
 	tar_x = 0;
 	tar_y = 0;
-	auto_ticks = get_full_ticks();
 	start = 0;
+	pid_stopped = false;
+	coord_list_len = 0;
+	
+	//reset local timer
+	auto_ticks = get_full_ticks();
+	
+	//reset gyro location
 	gyro_pos_set(0,0,0);
 }
 
@@ -164,8 +171,8 @@ void auto_reset() {
   * @param  None
   * @retval True if hybrid is in PID mode
   */
-bool auto_get_state() {
-	return is_running;
+PID_MODE auto_get_state() {
+	return pid_state;
 }
 
 /**
@@ -300,7 +307,7 @@ void auto_menu_update() {
 		if (!start_pressed) {
 			start_pressed = true;
 			auto_reset();
-			is_running = true;
+			pid_state = RUNNING_MODE;
 			switch (path_id) {
 				case 0:
 					auto_tar_add_path(STRAIGHT);
@@ -362,7 +369,14 @@ void auto_var_update() {
 	if (degree_diff > 180)
 		degree_diff -= 360;
 	
-	dist = Sqrt(Sqr(tar_x - cur_x) + Sqr(tar_y - cur_y));		
+	dist = Sqrt(Sqr(tar_x - cur_x) + Sqr(tar_y - cur_y));
+	
+	if (!pid_stopped) {
+		coord_list[coord_list_len].x = cur_x;
+		coord_list[coord_list_len].y = cur_y;
+		coord_list[coord_list_len].deg = cur_deg;
+		coord_list_len++;
+	}
 }
 
 /**
@@ -375,6 +389,7 @@ void auto_motor_update(){
 		if (auto_tar_queue_len()) {
 			auto_tar_dequeue();
 		} else {
+			pid_stopped = true;
 			auto_motor_stop();
 		}
 	} else {
@@ -397,7 +412,7 @@ void auto_motor_update(){
 		if (!back_pressed) {
 			back_pressed = true;
 			auto_motor_stop();
-			is_running = false;
+			pid_state = MENU_MODE;
 		}
 	} else {
 		back_pressed = false;
@@ -413,4 +428,58 @@ void auto_motor_update(){
 		start_pressed = false;
 	}
 	*/
+	
+	if (button_pressed(BUTTON_XBC_E) && pid_stopped) {
+		if (!right_pressed) {
+			right_pressed = true;
+			coord_list_pos = 0;
+			pid_state = DATA_MODE;
+		}
+	} else {
+		right_pressed = false;
+	}
+}
+
+/**
+  * @brief  Update following actions for displaying coordinates for debugging
+  * @param  None
+  * @retval None
+  */
+void auto_data_update(){
+	u16 pos;
+	tft_clear();
+	tft_prints(0,0,"[AUTO MODE]");
+	for (u8 i = 0; i < 8; i++) {
+		u16 pos = coord_list_pos + i;
+		tft_prints(0, i+1, "|%5d %5d %3d", coord_list[pos+i].x, coord_list[pos+i].y, coord_list[pos+i].deg/10);
+	}
+	tft_prints(0, 1, "-");
+	tft_update();
+	
+	if (button_pressed(BUTTON_XBC_W)) {
+		if (!left_pressed) {
+			left_pressed = true;
+			pid_state = RUNNING_MODE;
+		}
+	} else {
+		left_pressed = false;
+	}
+	
+	if (button_pressed(BUTTON_XBC_N) && (coord_list_pos > 0)) {
+		if (!up_pressed) {
+			up_pressed = true;
+			coord_list_pos--;
+		}
+	} else {
+		up_pressed = false;
+	}
+	
+	if (button_pressed(BUTTON_XBC_S) && (coord_list_pos+8 < coord_list_len)) {
+		if (!dn_pressed) {
+			dn_pressed = true;
+			coord_list_pos++;
+		}
+	} else {
+		dn_pressed = false;
+	}
 }
