@@ -8,6 +8,8 @@
 #include "main.h"
 #include <stdbool.h>
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
 #include "tm_stm32f4_servo.h"
 #include "servo_targeting.h"
 
@@ -15,6 +17,6 @@
 #define PROGRESS_COUNT_MAX 1
 
 void path_init(float* ypr);
-void path_update();
+void path_update(void);
 
 #endif

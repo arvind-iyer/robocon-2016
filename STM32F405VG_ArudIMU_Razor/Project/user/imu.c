@@ -1,7 +1,7 @@
 #include "imu.h"
 
 //The IMU will send back #SYNCH01\r\n
-u8 sync_progress = '#';
+static u8 sync_progress = '#';
 bool imu_synced = false;
 bool imu_staged = false;
 bool imu_pre_staged = false;
@@ -110,7 +110,7 @@ void imu_update(){
 			if (imu_pre_staged && !imu_staged){
 				//This part of code should only run once asap after pre staged(set after syncing)
 				set_target(yaw_pitch_roll[0]);
-				path_init(yaw_pitch_roll[0]);
+				path_init(yaw_pitch_roll);
 				imu_staged = true;
 			}
 	}

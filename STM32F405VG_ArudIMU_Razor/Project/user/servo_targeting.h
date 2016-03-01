@@ -21,6 +21,8 @@
 
 extern float target_yaw;
 extern TM_SERVO_t dragon_servo;
+
+void servo_init(void);
 void targeting_update(float current_yaw);
 void set_target(float in_target_yaw);
 

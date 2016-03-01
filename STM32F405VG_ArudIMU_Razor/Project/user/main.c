@@ -1,5 +1,4 @@
 #include "main.h"
-#include <string.h>
 
 u32 last_loop_ticks = 0;
 u32 last_long_loop_ticks = 0;
