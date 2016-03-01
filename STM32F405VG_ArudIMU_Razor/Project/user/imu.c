@@ -92,8 +92,8 @@ void imu_init(){
 u8 sync_time_count = 0;
 void imu_update(){
 	if (!imu_synced){
-		sync_time_count++;
-		if (sync_time_count>10){
+		sync_time_count += last_long_loop_ticks - this_loop_ticks;
+		if (sync_time_count > SYNC_TIMEOUT){
 			//If not synced, request syncing
 			sync_with_imu();
 			sync_time_count = 0;

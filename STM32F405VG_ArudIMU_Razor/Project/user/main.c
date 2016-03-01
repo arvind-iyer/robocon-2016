@@ -26,7 +26,7 @@ int main(void) {
 				path_update();
 				
 				if (imu_synced && imu_staged){
-					tft_println("[Ready]");
+					tft_println("[I'm Hot Ready!]");
 					targeting_update(yaw_pitch_roll[0]);
 				}else if(!imu_synced){
 					tft_println("[Not synced]");

@@ -14,7 +14,7 @@
 #include "servo_targeting.h"
 
 #define ROLLING_PITCH_SIZE 3
-#define PROGRESS_COUNT_MAX 1
+#define PROGRESS_TICKS_MAX 200
 
 void path_init(float* ypr);
 void path_update(void);
