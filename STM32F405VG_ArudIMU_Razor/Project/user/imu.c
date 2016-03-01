@@ -96,7 +96,7 @@ void imu_update(){
 	}else{
 			for (u8 i=0; i<3; i++){
 				byte2float dataset;
-				for (u8 k = (i*4); k < (i*4) + 4; k++){
+				for (u8 k = (i*4); k < (i*4 + 4); k++){
 					dataset.chars[(k%4)] = imu_buffer[k];
 				}
 				yaw_pitch_roll[i] = dataset.f;

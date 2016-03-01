@@ -22,6 +22,11 @@ float targeting_pid(float current_yaw){
 	
 	float corr = sqrt(fabs(yaw_diff)) * SERVO_Kp * (yaw_diff>0?1:-1)/ 1000;
 
+	tft_println("TY: %f", target_yaw);
+	tft_println("YD: %f", yaw_diff);
+	tft_println("CR: %f", corr);
+	tft_println("SV: %f", dragon_servo.Degrees);
+	
 	float new_servo_deg = SERVO_MED_DEG + corr;
 	return new_servo_deg>SERVO_MED_DEG?new_servo_deg : (new_servo_deg<SERVO_MIN_DEG?SERVO_MIN_DEG:new_servo_deg);
 }
