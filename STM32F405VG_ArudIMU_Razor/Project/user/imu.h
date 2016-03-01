@@ -8,6 +8,7 @@
 #include "main.h"
 #include "servo_targeting.h"
 #include <stdbool.h>
+#include "path.h"
 
 #define IMU_UART COM1
 

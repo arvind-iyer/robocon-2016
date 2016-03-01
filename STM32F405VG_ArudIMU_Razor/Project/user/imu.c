@@ -44,6 +44,7 @@ void IMU_receiver(u8 byte){
 					sync_progress = '\n';
 					break;
 				case '\n':
+					//Finish syncing, init other parts
 					sync_progress = '#';
 					imu_synced = true;
 					#ifdef IMU_USE_CONTINUOUS_MODE
@@ -61,13 +62,16 @@ void IMU_receiver(u8 byte){
 	}else{
 		//If sync is finished
 		imu_buffer[imu_buffer_pointer] = byte;
+		//Put received byte into a array, waiting to be resolved
 		if (++imu_buffer_pointer == 11){
 			imu_buffer_pointer = 0;
 			#ifndef IMU_USE_CONTINUOUS_MODE
+				//Request an additional frame when discrete mode is used
 				uart_tx_byte(IMU_UART, '#');
 				uart_tx_byte(IMU_UART, 'f');
 			#endif
 			if (imu_synced && !imu_staged){
+				//Notify the main loop that syncing is ready
 				imu_pre_staged = true;
 			}
 	
@@ -90,6 +94,7 @@ void imu_update(){
 	if (!imu_synced){
 		sync_time_count++;
 		if (sync_time_count>10){
+			//If not synced, request syncing
 			sync_with_imu();
 			sync_time_count = 0;
 		}
@@ -97,12 +102,15 @@ void imu_update(){
 			for (u8 i=0; i<3; i++){
 				byte2float dataset;
 				for (u8 k = (i*4); k < (i*4 + 4); k++){
+					//Make 4 bytes into one float
 					dataset.chars[(k%4)] = imu_buffer[k];
 				}
 				yaw_pitch_roll[i] = dataset.f;
 			}
 			if (imu_pre_staged && !imu_staged){
+				//This part of code should only run once asap after pre staged(set after syncing)
 				set_target(yaw_pitch_roll[0]);
+				path_init(yaw_pitch_roll[0]);
 				imu_staged = true;
 			}
 	}

@@ -24,6 +24,7 @@ int main(void) {
 				led_blink(LED_D1);
 				tft_clear();
 				imu_update();
+				path_update();
 				
 				if (imu_synced && imu_staged){
 					tft_println("[Ready]");
