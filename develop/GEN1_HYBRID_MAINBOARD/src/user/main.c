@@ -29,6 +29,8 @@ int main(void) {
 	tft_put_logo(85, 120);            
 	CONTROL_STATE last_control_state = MANUAL_MODE;
 	
+	servo_control(SERVO3, 450);
+	
 	while(1){
 		this_loop_ticks = get_full_ticks();
 		

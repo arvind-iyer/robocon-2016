@@ -27,9 +27,9 @@ bool up_pressed, dn_pressed, right_pressed, left_pressed, start_pressed, back_pr
 int path_id;
 
 //debug list
-COORD3 coord_list[500];
-u16 coord_list_len;
-u16 coord_list_pos;
+u16 error_list[500];
+u16 error_list_len;
+u16 error_list_pos;
 
 //path target queue
 TARGET tar_queue[50];
@@ -157,7 +157,7 @@ void auto_reset() {
 	tar_y = 0;
 	start = 0;
 	pid_stopped = false;
-	coord_list_len = 0;
+	error_list_len = 0;
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -243,6 +243,10 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	motor_set_vel(MOTOR3, vel[2], CLOSE_LOOP);
 	
 	err_d = err;
+	if (!pid_stopped) {
+		error_list[error_list_len] = err;
+		error_list_len++;
+	}
 }
 
 /**
@@ -370,13 +374,6 @@ void auto_var_update() {
 		degree_diff -= 360;
 	
 	dist = Sqrt(Sqr(tar_x - cur_x) + Sqr(tar_y - cur_y));
-	
-	if (!pid_stopped) {
-		coord_list[coord_list_len].x = cur_x;
-		coord_list[coord_list_len].y = cur_y;
-		coord_list[coord_list_len].deg = cur_deg;
-		coord_list_len++;
-	}
 }
 
 /**
@@ -432,7 +429,7 @@ void auto_motor_update(){
 	if (button_pressed(BUTTON_XBC_E) && pid_stopped) {
 		if (!right_pressed) {
 			right_pressed = true;
-			coord_list_pos = 0;
+			error_list_pos = 0;
 			pid_state = DATA_MODE;
 		}
 	} else {
@@ -450,10 +447,10 @@ void auto_data_update(){
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
 	for (u8 i = 0; i < 8; i++) {
-		u16 pos = coord_list_pos + i;
-		tft_prints(0, i+1, "|%5d %5d %3d", coord_list[pos+i].x, coord_list[pos+i].y, coord_list[pos+i].deg/10);
+		u16 pos = error_list_pos + i;
+		tft_prints(0, i+1, "%3d: %3d", pos, error_list[pos]);
 	}
-	tft_prints(0, 1, "-");
+	tft_prints(0, 9, "%3d / %3d", error_list_pos, error_list_len);
 	tft_update();
 	
 	if (button_pressed(BUTTON_XBC_W)) {
@@ -465,19 +462,19 @@ void auto_data_update(){
 		left_pressed = false;
 	}
 	
-	if (button_pressed(BUTTON_XBC_N) && (coord_list_pos > 0)) {
+	if (button_pressed(BUTTON_XBC_N) && (error_list_pos > 0)) {
 		if (!up_pressed) {
 			up_pressed = true;
-			coord_list_pos--;
+			error_list_pos--;
 		}
 	} else {
 		up_pressed = false;
 	}
 	
-	if (button_pressed(BUTTON_XBC_S) && (coord_list_pos+8 < coord_list_len)) {
+	if (button_pressed(BUTTON_XBC_S) && (error_list_pos+8 < error_list_len)) {
 		if (!dn_pressed) {
 			dn_pressed = true;
-			coord_list_pos++;
+			error_list_pos++;
 		}
 	} else {
 		dn_pressed = false;
