@@ -1,5 +1,5 @@
-.\output\approx_math.o: approx_math.c
-.\output\approx_math.o: approx_math.h
+.\output\approx_math.o: src\approx_math.c
+.\output\approx_math.o: .\inc\approx_math.h
 .\output\approx_math.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\output\approx_math.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\approx_math.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h

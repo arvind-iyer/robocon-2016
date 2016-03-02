@@ -1,5 +1,5 @@
-.\output\encoder.o: encoder.c
-.\output\encoder.o: encoder.h
+.\output\encoder.o: src\encoder.c
+.\output\encoder.o: .\inc\encoder.h
 .\output\encoder.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\output\encoder.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\encoder.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h

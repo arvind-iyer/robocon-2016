@@ -373,7 +373,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER, STM32F4XX,USE_STM32F405VG</Define>
               <Undefine></Undefine>
-              <IncludePath>.\inc;..\STM32F4xx_StdPeriph_Driver;..\STM32F4xx_StdPeriph_Driver\inc;..\Device\ST\STM32F4xx;..\Device\ST\STM32F4xx\Include;..\Project</IncludePath>
+              <IncludePath>.\inc;..\STM32F4xx_StdPeriph_Driver;..\STM32F4xx_StdPeriph_Driver\inc;..\Device\ST\STM32F4xx;..\Device\ST\STM32F4xx\Include;..\Project;.\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -427,94 +427,99 @@
               <FilePath>.\src\main.c</FilePath>
             </File>
             <File>
-              <FileName>tm_stm32f4_stdio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\tm_stm32f4_stdio.c</FilePath>
-            </File>
-            <File>
-              <FileName>tm_stm32f4_timer_properties.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\tm_stm32f4_timer_properties.c</FilePath>
-            </File>
-            <File>
-              <FileName>tm_stm32f4_gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\tm_stm32f4_gpio.c</FilePath>
-            </File>
-            <File>
-              <FileName>tm_stm32f4_servo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\tm_stm32f4_servo.c</FilePath>
-            </File>
-            <File>
-              <FileName>tm_stm32f4_pwm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\tm_stm32f4_pwm.c</FilePath>
-            </File>
-            <File>
-              <FileName>tm_stm32f4_delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\tm_stm32f4_delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>defines.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\defines.h</FilePath>
-            </File>
-            <File>
-              <FileName>attributes.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\attributes.h</FilePath>
-            </File>
-            <File>
-              <FileName>lcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\lcd.c</FilePath>
-            </File>
-            <File>
               <FileName>approx_math.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\approx_math.c</FilePath>
+              <FilePath>.\src\approx_math.c</FilePath>
             </File>
             <File>
-              <FileName>gyro.c</FileName>
+              <FileName>buzzer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\gyro.c</FilePath>
+              <FilePath>.\src\buzzer.c</FilePath>
             </File>
             <File>
-              <FileName>tm_stm32f4_i2c.c</FileName>
+              <FileName>buzzer_song.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\tm_stm32f4_i2c.c</FilePath>
-            </File>
-            <File>
-              <FileName>can_protocol.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\can_protocol.c</FilePath>
-            </File>
-            <File>
-              <FileName>encoder.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\encoder.c</FilePath>
-            </File>
-            <File>
-              <FileName>usart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\usart.c</FilePath>
+              <FilePath>.\src\buzzer_song.c</FilePath>
             </File>
             <File>
               <FileName>can_motor.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\can_motor.c</FilePath>
+              <FilePath>.\src\can_motor.c</FilePath>
             </File>
             <File>
-              <FileName>sensor_bar.c</FileName>
+              <FileName>can_protocol.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\sensor_bar.c</FilePath>
+              <FilePath>.\src\can_protocol.c</FilePath>
+            </File>
+            <File>
+              <FileName>encoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\encoder.c</FilePath>
+            </File>
+            <File>
+              <FileName>gyro.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\gyro.c</FilePath>
+            </File>
+            <File>
+              <FileName>infrared_sensor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\infrared_sensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>lcd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\lcd.c</FilePath>
             </File>
             <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\line_sensor.c</FilePath>
+              <FilePath>.\src\line_sensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>sensor_bar.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\sensor_bar.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\tm_stm32f4_delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\tm_stm32f4_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\tm_stm32f4_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_pwm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\tm_stm32f4_pwm.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_servo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\tm_stm32f4_servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_stdio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\tm_stm32f4_stdio.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_timer_properties.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\tm_stm32f4_timer_properties.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\usart.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -530,6 +535,116 @@
               <FileName>main.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\inc\main.h</FilePath>
+            </File>
+            <File>
+              <FileName>approx_math.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\approx_math.h</FilePath>
+            </File>
+            <File>
+              <FileName>attributes.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\attributes.h</FilePath>
+            </File>
+            <File>
+              <FileName>buzzer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\buzzer.h</FilePath>
+            </File>
+            <File>
+              <FileName>buzzer_song.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\buzzer_song.h</FilePath>
+            </File>
+            <File>
+              <FileName>can_motor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\can_motor.h</FilePath>
+            </File>
+            <File>
+              <FileName>can_protocol.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\can_protocol.h</FilePath>
+            </File>
+            <File>
+              <FileName>defines.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\defines.h</FilePath>
+            </File>
+            <File>
+              <FileName>encoder.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\encoder.h</FilePath>
+            </File>
+            <File>
+              <FileName>gyro.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\gyro.h</FilePath>
+            </File>
+            <File>
+              <FileName>infrared_sensor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\infrared_sensor.h</FilePath>
+            </File>
+            <File>
+              <FileName>lcd.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\lcd.h</FilePath>
+            </File>
+            <File>
+              <FileName>lcd_font.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\lcd_font.h</FilePath>
+            </File>
+            <File>
+              <FileName>line_sensor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\line_sensor.h</FilePath>
+            </File>
+            <File>
+              <FileName>sensor_bar.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\sensor_bar.h</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_delay.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\tm_stm32f4_delay.h</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_gpio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\tm_stm32f4_gpio.h</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_i2c.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\tm_stm32f4_i2c.h</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_pwm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\tm_stm32f4_pwm.h</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_servo.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\tm_stm32f4_servo.h</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_stdio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\tm_stm32f4_stdio.h</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_timer_properties.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\tm_stm32f4_timer_properties.h</FilePath>
+            </File>
+            <File>
+              <FileName>usart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\inc\usart.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,5 +1,5 @@
-.\output\tm_stm32f4_gpio.o: tm_stm32f4_gpio.c
-.\output\tm_stm32f4_gpio.o: tm_stm32f4_gpio.h
+.\output\tm_stm32f4_gpio.o: src\tm_stm32f4_gpio.c
+.\output\tm_stm32f4_gpio.o: .\inc\tm_stm32f4_gpio.h
 .\output\tm_stm32f4_gpio.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\output\tm_stm32f4_gpio.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\tm_stm32f4_gpio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -35,4 +35,4 @@
 .\output\tm_stm32f4_gpio.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h
 .\output\tm_stm32f4_gpio.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h
 .\output\tm_stm32f4_gpio.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
-.\output\tm_stm32f4_gpio.o: defines.h
+.\output\tm_stm32f4_gpio.o: .\inc\defines.h

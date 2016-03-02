@@ -49,6 +49,9 @@
 #include "encoder.h"
 #include "sensor_bar.h"
 #include "line_sensor.h"
+#include "buzzer_song.h"
+#include "buzzer.h"
+#include "infrared_sensor.h"
 
 
 #endif /* __MAIN_H */

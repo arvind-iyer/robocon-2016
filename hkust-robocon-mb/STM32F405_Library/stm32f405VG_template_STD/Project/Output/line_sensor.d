@@ -1,5 +1,5 @@
-.\output\line_sensor.o: line_sensor.c
-.\output\line_sensor.o: line_sensor.h
+.\output\line_sensor.o: src\line_sensor.c
+.\output\line_sensor.o: .\inc\line_sensor.h
 .\output\line_sensor.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\output\line_sensor.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\line_sensor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -35,5 +35,5 @@
 .\output\line_sensor.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h
 .\output\line_sensor.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h
 .\output\line_sensor.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
-.\output\line_sensor.o: tm_stm32f4_gpio.h
-.\output\line_sensor.o: defines.h
+.\output\line_sensor.o: .\inc\tm_stm32f4_gpio.h
+.\output\line_sensor.o: .\inc\defines.h

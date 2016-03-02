@@ -1,5 +1,5 @@
-.\output\lcd.o: lcd.c
-.\output\lcd.o: lcd.h
+.\output\lcd.o: src\lcd.c
+.\output\lcd.o: .\inc\lcd.h
 .\output\lcd.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\output\lcd.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\lcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -35,12 +35,12 @@
 .\output\lcd.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h
 .\output\lcd.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h
 .\output\lcd.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
-.\output\lcd.o: tm_stm32f4_delay.h
-.\output\lcd.o: defines.h
-.\output\lcd.o: attributes.h
-.\output\lcd.o: tm_stm32f4_timer_properties.h
+.\output\lcd.o: .\inc\tm_stm32f4_delay.h
+.\output\lcd.o: .\inc\defines.h
+.\output\lcd.o: .\inc\attributes.h
+.\output\lcd.o: .\inc\tm_stm32f4_timer_properties.h
 .\output\lcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\output\lcd.o: lcd.h
+.\output\lcd.o: .\inc\lcd.h
 .\output\lcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\lcd.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\output\lcd.o: lcd_font.h
+.\output\lcd.o: .\inc\lcd_font.h
