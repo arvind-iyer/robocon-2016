@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
 C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1\Project\project.uvprojx
-Project File Date:  02/20/2016
+Project File Date:  03/02/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
@@ -38,19 +38,21 @@ compiling main.c...
   u8 get_line_sensor_all();
 ..\Project\line_sensor.h(33): warning:  #1-D: last line of file ends without a newline
   #endif
-src\main.c(119): warning:  #111-D: statement is unreachable
+src\main.c(134): warning:  #111-D: statement is unreachable
   	return 0;
-src\main.c(61): warning:  #177-D: variable "length_state" was declared but never referenced
+src\main.c(56): warning:  #177-D: variable "ticks_ms_img" was declared but never referenced
+      u32 ticks_ms_img = 0;
+src\main.c(64): warning:  #177-D: variable "length_state" was declared but never referenced
       int length_state = 0;
-src\main.c(67): warning:  #177-D: variable "factor" was declared but never referenced
+src\main.c(70): warning:  #177-D: variable "factor" was declared but never referenced
       float factor = 0;
-src\main.c(126): warning:  #1-D: last line of file ends without a newline
+src\main.c(141): warning:  #1-D: last line of file ends without a newline
   }
-src\main.c: 9 warnings, 0 errors
+src\main.c: 10 warnings, 0 errors
 linking...
-Program Size: Code=23380 RO-data=976 RW-data=2116 ZI-data=36092  
+Program Size: Code=23556 RO-data=992 RW-data=2116 ZI-data=36092  
 FromELF: creating hex file...
-".\Output\project.hex" - 0 Error(s), 9 Warning(s).
+".\Output\project.hex" - 0 Error(s), 10 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -76,12 +78,12 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:4.3.0
 
    * Component: Keil::Device:Startup:2.4.2
+      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f405xx.s
       Source file:   MDK\Device\Source\ARM\STM32F40xxx_41xxx_OPT.s
       Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
-      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

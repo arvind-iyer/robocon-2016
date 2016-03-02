@@ -52,7 +52,7 @@
 #include "buzzer.h"
 #include "buzzer_song.h"
 
-#define WILSON
+#define BAJAJ
 
 #ifdef WILSON
 #define SERVO_MICROS_MID 1150
@@ -62,14 +62,14 @@
 
 #ifdef HITLER
 #define SERVO_MICROS_MID 1500
-#define SERVO_MICROS_RIGHT 2125
+#define SERVO_MICROS_RIGHT 2100
 #define SERVO_MICROS_LEFT 900
 #endif
 
 #ifdef BAJAJ
 #define SERVO_MICROS_MID 1300
-#define SERVO_MICROS_RIGHT 2000
-#define SERVO_MICROS_LEFT 600
+#define SERVO_MICROS_RIGHT 1900
+#define SERVO_MICROS_LEFT 700
 #endif
 
 

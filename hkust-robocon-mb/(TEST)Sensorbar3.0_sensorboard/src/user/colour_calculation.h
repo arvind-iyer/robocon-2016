@@ -6,7 +6,7 @@
 #include "delay.h"
 #include "stm32f10x_adc.h"
 
-#define max_turn 30	//40 
+#define max_turn 40	//40 
 #define max_reading 2700 
 #define list_num 2 //the max number that the device remember
 #define white_tolerance 10

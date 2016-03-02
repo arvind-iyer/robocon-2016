@@ -86,7 +86,7 @@ int main(void) {
                 //2 3.5
                 print_array();
                 tft_prints(0,4,"length: %d",length);
-                if (get_full_ticks() - lastTurn >= 250) {
+                if (get_full_ticks() - lastTurn >= 800) {
                     if (length >= 3 && length <= 6) {
                         float factor = ((begin + end) / 2) / (float) 16;
                         tft_prints(0,3,"factor=%f",factor);
