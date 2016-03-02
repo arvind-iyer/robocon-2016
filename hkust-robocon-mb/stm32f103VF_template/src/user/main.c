@@ -5,10 +5,11 @@
 
 #define BLUETOOTH_MODE false
 
-char stringBuffer[512];
+char packetQueue[30][128];
+char stringBuffer[128];
 int buffPos = 0;
+int queuePos = 0;
 
-uint8_t bufferFull = false;
 uint8_t piReady = false;
 
 int w1 = 0, w2 = 0, w3 = 0;
@@ -34,7 +35,7 @@ void handleCommand() {
 
 		int contents[16];
 
-		for (char * data = strtok(stringBuffer, "|"); data != NULL;
+		for (char * data = strtok(packetQueue[0], "|"); data != NULL;
 				data = strtok(NULL, "|")) {
 			if (dataIndex == 0) {
 				header = data;
@@ -76,10 +77,16 @@ void handleCommand() {
 				servo_control(1, fan_2_speed);
 			}
 			if (strcmp(header, "SERVO_CONTROL") == 0 && contentIndex == 2) { // Servo Control [ID, Magnitude]
-					int servoId = contents[0];
+				int servoId = contents[0];
 				int servoPwm = contents[1];
 				servo_control(servoId, servoPwm);
     }
+			if(strcmp(header, "FAN_SERVO_CONTROL") == 0 && contentIndex == 2){
+				int servoPwm1 = contents[0];
+				int servoPwm2 = contents[1];
+				servo_control(SERVO3, servoPwm1);
+				servo_control(SERVO4, servoPwm2);
+			}
 		if(strcmp(header, "PNEUMATIC_CONTROL") == 0 && contentIndex == 2){
 				int pneumaticId = contents[0];
 				int pneumaticState = contents[1];
@@ -98,9 +105,13 @@ void handleCommand() {
 				piReady = true;
 				uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "PONG\n");
 		}
-		stringBuffer[0] = '\0';
-		bufferFull = false;
-    buffPos = 0;
+		
+		for (int i = 1; i < 30; i++) {
+			for (int z = 0; z < 128; z++) {
+				packetQueue[i - 1][z] = packetQueue[i][z];
+			}
+		}
+		queuePos--;
 }
 
 void fan_init(){
@@ -141,44 +152,16 @@ int main(void) {
 		//servo_control(SERVO2, 450);
 		//servo_control(SERVO3, 450);
 		//servo_control(SERVO4, 450);
+		
+		if (queuePos > 0) {
+				handleCommand();
+			}
 	
 		if (get_full_ticks() - lastStateUpdate >= 10) {
 			uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "STATE|%d|%d|%d\n", get_pos()->x, get_pos()->y, get_pos()->angle);
 			
-			if (bufferFull == true) {
-				handleCommand();
-			}
-			
-			
-			
 			tft_clear();
 			
-//		if(get_full_ticks()%10000 > 0 && get_full_ticks()%1000<=5000){
-//			tft_prints(0,4,"ON");
-//			pneumatic_control(GPIOE, GPIO_Pin_12,1);
-//			pneumatic_control(GPIOE, GPIO_Pin_13,1);
-//			pneumatic_control(GPIOE, GPIO_Pin_14,1);
-//			pneumatic_control(GPIOE, GPIO_Pin_15,1);
-//			pneumatic_control(GPIOD, GPIO_Pin_8,1);
-//			pneumatic_control(GPIOD, GPIO_Pin_9,1);
-//			pneumatic_control(GPIOD, GPIO_Pin_10,1);
-//			pneumatic_control(GPIOD, GPIO_Pin_11,1);
-//			pneumatic_control(GPIOB, GPIO_Pin_9,1);
-
-//		}
-//		if(get_full_ticks()%10000 > 5000 && get_full_ticks()%1000<=9999){
-//			tft_prints(0,4,"OFF");
-//			pneumatic_control(GPIOE, GPIO_Pin_12,0);
-//			pneumatic_control(GPIOE, GPIO_Pin_13,0);
-//			pneumatic_control(GPIOE, GPIO_Pin_14,0);
-//			pneumatic_control(GPIOE, GPIO_Pin_15,0);
-//			pneumatic_control(GPIOD, GPIO_Pin_8,0);
-//			pneumatic_control(GPIOD, GPIO_Pin_9,0);
-//			pneumatic_control(GPIOD, GPIO_Pin_10,0);
-//			pneumatic_control(GPIOD, GPIO_Pin_11,0);
-//			pneumatic_control(GPIOB, GPIO_Pin_9,0);
-
-//		}
 			
 			// Display TFT to insure screen is on.
 			tft_prints(0, 0, "X: %d", get_pos()->x);
@@ -198,15 +181,18 @@ int main(void) {
 void handleController() {
 	if (USART_GetITStatus(BLUETOOTH_MODE ? USART2 : USART1, USART_IT_RXNE) != RESET){
 		const uint8_t byte = USART_ReceiveData(BLUETOOTH_MODE ? USART2 : USART1);
-		if (bufferFull == false) {
-			if (byte == '\n') {
-					stringBuffer[buffPos] = '\0';
-					bufferFull = true;
-			} else {
-				//if (isalnum(byte) || byte == '|') {
-					stringBuffer[buffPos++] = byte;
-				//}
-			}
+		if (byte == '\n') {
+				stringBuffer[buffPos] = '\0';
+			
+				for (int i = 0; i < 128; i++) {
+					packetQueue[queuePos][i] = stringBuffer[i];
+				}
+				queuePos++;
+
+				stringBuffer[0] = '\0';
+				buffPos = 0;
+		} else {
+				stringBuffer[buffPos++] = byte;
 		}
 		USART_ClearITPendingBit(BLUETOOTH_MODE ? USART2 : USART1, USART_IT_RXNE);
 	}
