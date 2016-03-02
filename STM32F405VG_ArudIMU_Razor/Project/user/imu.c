@@ -63,7 +63,7 @@ void IMU_receiver(u8 byte){
 		//If sync is finished
 		imu_buffer[imu_buffer_pointer] = byte;
 		//Put received byte into a array, waiting to be resolved
-		if (++imu_buffer_pointer == 11){
+		if (++imu_buffer_pointer == 12){
 			imu_buffer_pointer = 0;
 			#ifndef IMU_USE_CONTINUOUS_MODE
 				//Request an additional frame when discrete mode is used
@@ -105,11 +105,13 @@ void imu_update(){
 					dataset.chars[(k%4)] = imu_buffer[k];
 				}
 				yaw_pitch_roll[i] = dataset.f;
+				//Map the reading from -1~-179 and 0~179 to 0~360
+				yaw_pitch_roll[i] = yaw_pitch_roll[i]<0?yaw_pitch_roll[i]+360:yaw_pitch_roll[i];
 			}
 			if (imu_pre_staged && !imu_staged){
 				//This part of code should only run once asap after pre staged(set after syncing)
 				set_target(yaw_pitch_roll[0]);
-				path_init(yaw_pitch_roll);
+				path_up_init(yaw_pitch_roll);
 				imu_staged = true;
 			}
 	}

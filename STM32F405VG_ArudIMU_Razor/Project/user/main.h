@@ -1,5 +1,3 @@
-
-
 #ifndef __MAIN_H
 #define __MAIN_H
 
@@ -25,11 +23,16 @@
 #include "line_sensor.h"
 #include "imu.h"
 #include "servo_targeting.h"
+#include "path_upslope.h"
+#include "path_downslope.h"
 
 typedef enum{
-	ON_SLOPE = 0,
-	ON_GROUND = 1
-}CLIMBING_STATE;
+	SYSTEM_WAITING = 0,
+	CLIMBING_SLOPE = 1,
+	CROSSING_RIVER = 2,
+	GOING_DOWN_HILL = 3,
+	WINNING_THE_GAME = 4
+}GAME_STAGE;
 
 //Main loop
 extern u32 this_loop_ticks;

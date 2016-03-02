@@ -8,7 +8,7 @@
 #include "main.h"
 #include "servo_targeting.h"
 #include <stdbool.h>
-#include "path.h"
+#include "path_upslope.h"
 
 #define IMU_UART COM1
 
