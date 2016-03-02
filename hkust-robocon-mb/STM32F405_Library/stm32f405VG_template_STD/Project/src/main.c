@@ -52,6 +52,9 @@ int main(void) {
     //Initialize buzzer
     buzzer_init();
     
+    //Initialize encoder
+    encoder_init();
+    
 	while (1) {
         if(get_ticks() != ticks_ms_img){
             ticks_ms_img = get_ticks();

@@ -21,9 +21,7 @@ void encoder_init(void){
 		
 		// Clock source enable
 		RCC_APB1PeriphClockCmd(encoder[encoder_id].clock_source, ENABLE);																// Enable Timer Clock Source
-		//RCC_APB2PeriphClockCmd(encoder[encoder_id].GPIO_clock_source | RCC_APB2Periph_AFIO, ENABLE);	
-        // Enable GPIO, clock
-        GPIO_PinAFConfig(GPIOA, GPIO_PinSource0 |GPIO_PinSource1, GPIO_AF_TIM5);
+        GPIO_PinAFConfig(GPIOA, GPIO_PinSource0 |GPIO_PinSource1, GPIO_AF_TIM2);
         GPIO_PinAFConfig(GPIOD, GPIO_PinSource12 | GPIO_PinSource13, GPIO_AF_TIM4);
 		
 		// GPIO init

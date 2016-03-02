@@ -15,16 +15,16 @@ typedef struct {
 } Encoder_Typedef[];
 
 
-//Encoder 1: PA0 TIM5_CH1
-//           PA1 TIM5_CH2
+//Encoder 1: PA0 TIM2_CH1
+//           PA1 TIM2_CH2
              
-//Encoder 2: PD12 TIM4_CH2
-//           PD13 TIM4_CH1
+//Encoder 2: PD12 TIM4_CH1
+//           PD13 TIM4_CH2
 // define
 #define ENCODER_NO												2
 // Encoder 1 details
-#define ENCODER_TIMER1										TIM5
-#define ENCODER_TIMER1_CLOCK_SOURCE				RCC_APB1Periph_TIM5						// in APB 1
+#define ENCODER_TIMER1										TIM2
+#define ENCODER_TIMER1_CLOCK_SOURCE				RCC_APB1Periph_TIM2						// in APB 1
 #define ENCODER_TIMER1_GPIO_CLOCK_SOURCE	    RCC_AHB1Periph_GPIOA					// in APB 2
 #define ENCODER_TIMER1_PORT1							GPIO_Pin_0
 #define ENCODER_TIMER1_PORT2							GPIO_Pin_1
@@ -33,8 +33,8 @@ typedef struct {
 #define ENCODER_TIMER2										TIM4
 #define ENCODER_TIMER2_CLOCK_SOURCE				RCC_APB1Periph_TIM4						// in APB 1
 #define ENCODER_TIMER2_GPIO_CLOCK_SOURCE	    RCC_AHB1Periph_GPIOD					// in APB 2
-#define ENCODER_TIMER2_PORT1							GPIO_Pin_13
-#define ENCODER_TIMER2_PORT2							GPIO_Pin_12
+#define ENCODER_TIMER2_PORT1							GPIO_Pin_12
+#define ENCODER_TIMER2_PORT2							GPIO_Pin_13
 #define ENCODER_TIMER2_GPIOx							GPIOD
 
 #define ENCODER_MAX_CHANGE								20000
