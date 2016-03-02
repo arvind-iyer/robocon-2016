@@ -74,7 +74,6 @@ void IMU_receiver(u8 byte){
 				//Notify the main loop that syncing is ready
 				imu_pre_staged = true;
 			}
-	
 		}
 	}
 }

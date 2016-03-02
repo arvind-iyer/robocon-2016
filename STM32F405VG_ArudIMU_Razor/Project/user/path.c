@@ -57,8 +57,10 @@ void path_update(){
 	}
 	
 	if (progress_ticks>PROGRESS_TICKS_MAX){
+		progress_ticks = 0;
 		//progress when it is the right time
-		targeting_yaw += path_yaw[path_pointer++];
+		targeting_yaw += path_yaw[path_pointer ++];
 		awaiting_pitch += path_pitch[path_pointer];
 	}
+	tft_println("PP: %d", path_pointer);
 }
