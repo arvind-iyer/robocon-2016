@@ -18,7 +18,6 @@ int main(void) {
 	
 	while (1) { 
 		if(get_ticks() != this_loop_ticks){
-			
 			this_loop_ticks = get_ticks();
 			
 			//Long loop action
@@ -26,7 +25,6 @@ int main(void) {
 				led_blink(LED_D1);
 				tft_clear();
 				imu_update();
-				path_up_update();
 				
 				if (game_stage == SYSTEM_WAITING){
 					if (imu_synced && imu_staged){
@@ -41,12 +39,17 @@ int main(void) {
 					switch(game_stage){
 						case CLIMBING_SLOPE:
 							tft_println("[CLIMBING]");
+							targeting_update(yaw_pitch_roll[0]);
+							path_up_update();
 							break;
 						case CROSSING_RIVER:
 							tft_println("[RIVERING]");
+							targeting_update(yaw_pitch_roll[0]);
 							break;
 						case GOING_DOWN_HILL:
 							tft_println("[GOING DOWN]");
+							targeting_update(yaw_pitch_roll[0]);
+							path_down_update();
 							break;
 						case WINNING_THE_GAME:
 							tft_println("[WIN OR FUCK UP]");
@@ -57,15 +60,13 @@ int main(void) {
 				}
 				
 				tft_println("Loop: %d %d", this_loop_ticks, this_loop_ticks-last_long_loop_ticks);
-				tft_println("Yaw: %f", yaw_pitch_roll[0]);
-				tft_println("Pit: %f", yaw_pitch_roll[1]);
-				tft_println("Rol: %f", yaw_pitch_roll[2]);
+				tft_println("YPR %d %d %d", (int)roundf(yaw_pitch_roll[0]*10), (int)roundf(yaw_pitch_roll[1]*10), (int)roundf(yaw_pitch_roll[2]*10));
 				tft_update();
 				last_long_loop_ticks = this_loop_ticks;
 				
 			}else if (this_loop_ticks - last_short_loop_ticks > SHORT_LOOP_TICKS){
 				//Short loop action, does not run twice when long loop is also ran
-				imu_update();
+				//imu_update();
 				path_up_update();
 				if (imu_synced && imu_staged){
 					targeting_update(yaw_pitch_roll[0]);

@@ -79,7 +79,7 @@ void IMU_receiver(u8 byte){
 }
 
 void sync_with_imu(){
-	uart_tx(IMU_UART, "#s01"); //Discrete binary output upon sending #f, request syncing
+	uart_tx(IMU_UART, "#s01"); //Request syncing
 }
 
 void imu_init(){

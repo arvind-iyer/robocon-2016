@@ -26,14 +26,6 @@
 #include "path_upslope.h"
 #include "path_downslope.h"
 
-typedef enum{
-	SYSTEM_WAITING = 0,
-	CLIMBING_SLOPE = 1,
-	CROSSING_RIVER = 2,
-	GOING_DOWN_HILL = 3,
-	WINNING_THE_GAME = 4
-}GAME_STAGE;
-
 //Main loop
 extern u32 this_loop_ticks;
 extern u32 last_loop_ticks;
