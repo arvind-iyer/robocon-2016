@@ -239,7 +239,7 @@ void SystemInit(void)
   */
 void SystemCoreClockUpdate(void)
 {
-  uint32_t tmp = 8, pllvco = 1, pllp = 2, pllsource = 0, pllm = 8;
+  uint32_t tmp = 0x08, pllvco = 1, pllp = 2, pllsource = 1, pllm = 8;
   
   /* Get SYSCLK source -------------------------------------------------------*/
   tmp = RCC->CFGR & RCC_CFGR_SWS;
