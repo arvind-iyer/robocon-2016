@@ -18,12 +18,9 @@ int main(void) {
     //Initiate LED
 	led_init();
     
-
-
 	//Ticks initialization
 	TM_DELAY_Init();
     
-
 	//Initialize the 2 Servos' Pins (plz see TM_stm32f4_pwm.c for the channel and pinspack)
 	TM_SERVO_Init(&Servo1, TIM3, TM_PWM_Channel_2, TM_PWM_PinsPack_1);
  
