@@ -1,6 +1,6 @@
-.\output\infrared_sensor.o: infrared_sensor.c
-.\output\infrared_sensor.o: infrared_sensor.h
-.\output\infrared_sensor.o: tm_stm32f4_gpio.h
+.\output\infrared_sensor.o: src\infrared_sensor.c
+.\output\infrared_sensor.o: .\inc\infrared_sensor.h
+.\output\infrared_sensor.o: .\inc\tm_stm32f4_gpio.h
 .\output\infrared_sensor.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\output\infrared_sensor.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\infrared_sensor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -36,4 +36,4 @@
 .\output\infrared_sensor.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h
 .\output\infrared_sensor.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h
 .\output\infrared_sensor.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
-.\output\infrared_sensor.o: defines.h
+.\output\infrared_sensor.o: .\inc\defines.h

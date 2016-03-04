@@ -47,10 +47,10 @@
 #include "can_protocol.h"
 #include "can_motor.h"
 #include "encoder.h"
-#include "sensor_bar.h"
 #include "line_sensor.h"
-#include "buzzer.h"
 #include "buzzer_song.h"
+#include "buzzer.h"
+#include "infrared_sensor.h"
 
 #define BAJAJ
 
@@ -71,7 +71,6 @@
 #define SERVO_MICROS_RIGHT 1900
 #define SERVO_MICROS_LEFT 700
 #endif
-
 
 
 #endif /* __MAIN_H */

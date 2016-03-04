@@ -1,5 +1,5 @@
-.\output\tm_stm32f4_delay.o: tm_stm32f4_delay.c
-.\output\tm_stm32f4_delay.o: tm_stm32f4_delay.h
+.\output\tm_stm32f4_delay.o: src\tm_stm32f4_delay.c
+.\output\tm_stm32f4_delay.o: .\inc\tm_stm32f4_delay.h
 .\output\tm_stm32f4_delay.o: ..\Device\ST\STM32F4xx\Include\stm32f4xx.h
 .\output\tm_stm32f4_delay.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\tm_stm32f4_delay.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -35,11 +35,11 @@
 .\output\tm_stm32f4_delay.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h
 .\output\tm_stm32f4_delay.o: ..\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h
 .\output\tm_stm32f4_delay.o: ..\STM32F4xx_StdPeriph_Driver\inc\misc.h
-.\output\tm_stm32f4_delay.o: defines.h
-.\output\tm_stm32f4_delay.o: attributes.h
-.\output\tm_stm32f4_delay.o: tm_stm32f4_timer_properties.h
+.\output\tm_stm32f4_delay.o: .\inc\defines.h
+.\output\tm_stm32f4_delay.o: .\inc\attributes.h
+.\output\tm_stm32f4_delay.o: .\inc\tm_stm32f4_timer_properties.h
 .\output\tm_stm32f4_delay.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-.\output\tm_stm32f4_delay.o: lcd.h
-.\output\tm_stm32f4_delay.o: tm_stm32f4_delay.h
+.\output\tm_stm32f4_delay.o: .\inc\lcd.h
+.\output\tm_stm32f4_delay.o: .\inc\tm_stm32f4_delay.h
 .\output\tm_stm32f4_delay.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\tm_stm32f4_delay.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
 C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1\Project\project.uvprojx
-Project File Date:  03/02/2016
+Project File Date:  03/04/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
@@ -30,29 +30,31 @@ Build target 'STM32F4_ROBOCON'
 compiling main.c...
 .\inc\led.h(20): warning:  #1-D: last line of file ends without a newline
   #endif
-..\Project\gyro.h(61): warning:  #1-D: last line of file ends without a newline
+.\inc\gyro.h(61): warning:  #1-D: last line of file ends without a newline
   #endif		/* __GYRO_H */
-..\Project\can_protocol.h(82): warning:  #1295-D: Deprecated declaration testing - give arg types
+.\inc\can_protocol.h(82): warning:  #1295-D: Deprecated declaration testing - give arg types
   void testing();
-..\Project\line_sensor.h(31): warning:  #1295-D: Deprecated declaration get_line_sensor_all - give arg types
+.\inc\line_sensor.h(31): warning:  #1295-D: Deprecated declaration get_line_sensor_all - give arg types
   u8 get_line_sensor_all();
-..\Project\line_sensor.h(33): warning:  #1-D: last line of file ends without a newline
+.\inc\line_sensor.h(33): warning:  #1-D: last line of file ends without a newline
   #endif
-src\main.c(134): warning:  #111-D: statement is unreachable
+.\inc\infrared_sensor.h(22): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\main.c(143): warning:  #111-D: statement is unreachable
   	return 0;
-src\main.c(56): warning:  #177-D: variable "ticks_ms_img" was declared but never referenced
+src\main.c(57): warning:  #177-D: variable "ticks_ms_img" was declared but never referenced
       u32 ticks_ms_img = 0;
-src\main.c(64): warning:  #177-D: variable "length_state" was declared but never referenced
+src\main.c(68): warning:  #177-D: variable "length_state" was declared but never referenced
       int length_state = 0;
-src\main.c(70): warning:  #177-D: variable "factor" was declared but never referenced
+src\main.c(74): warning:  #177-D: variable "factor" was declared but never referenced
       float factor = 0;
-src\main.c(141): warning:  #1-D: last line of file ends without a newline
+src\main.c(150): warning:  #1-D: last line of file ends without a newline
   }
-src\main.c: 10 warnings, 0 errors
+src\main.c: 11 warnings, 0 errors
 linking...
-Program Size: Code=23556 RO-data=992 RW-data=2116 ZI-data=36092  
+Program Size: Code=23676 RO-data=992 RW-data=2120 ZI-data=36088  
 FromELF: creating hex file...
-".\Output\project.hex" - 0 Error(s), 10 Warning(s).
+".\Output\project.hex" - 0 Error(s), 11 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -78,12 +80,12 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:4.3.0
 
    * Component: Keil::Device:Startup:2.4.2
-      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
-      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f405xx.s
       Source file:   MDK\Device\Source\ARM\STM32F40xxx_41xxx_OPT.s
+      Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f405xx.s
       Source file:   MDK\Device\Source\ARM\STM32F4xx_OTP.s
+      Include file:  Drivers\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
       Source file:   Drivers\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

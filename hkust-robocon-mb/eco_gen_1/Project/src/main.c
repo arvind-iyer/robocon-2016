@@ -52,6 +52,7 @@ int main(void) {
     
     //LCD Initialization
     tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED); //Init LCD
+    
     //Initialize timer variable  
     u32 ticks_ms_img = 0;
     
@@ -61,6 +62,9 @@ int main(void) {
     can_rx_add_filter(0x0C5, CAN_RX_MASK_EXACT,receive);
     can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
     
+    //Init Infrared
+    infrared_sensor_init();
+    
     int length_state = 0;
     int begin = -1;
     int end = 0;
@@ -69,10 +73,7 @@ int main(void) {
     int lastTurn = 0;
     float factor = 0;
     buzzer_init();
-    
-    RCC_ClocksTypeDef a;
-    RCC_GetClocksFreq(&a);
-    //TM_SERVO_SetMicros(&Servo1,SERVO_MICROS_MID);
+ 
     
 	while (1) {
 
@@ -83,6 +84,8 @@ int main(void) {
       
       
       tft_prints(0,2,"Count: %d",get_ticks());
+      tft_prints(0,5,"IR left: %d",read_infrared_sensor(INFRARED_SENSOR_1));
+      tft_prints(0,6,"IR right: %d",read_infrared_sensor(INFRARED_SENSOR_2));
       for (int k = 0; k < 16; k++) { 
         if(sensorbar_result[k] == 9)sensorbar_result[k] = 0;
             int el = sensorbar_result[k];
@@ -97,7 +100,13 @@ int main(void) {
         tft_prints(0,4,"length: %d",length);
         print_array();
         if (get_ticks() - lastTurn >= 250) {
-            
+            if(read_infrared_sensor(INFRARED_SENSOR_1) == 1){
+                lastMovement = SERVO_MICROS_RIGHT;
+            }
+            else if(read_infrared_sensor(INFRARED_SENSOR_2) == 1){
+                lastMovement = SERVO_MICROS_LEFT;
+            }
+            else{
             if(begin < 3 && length != 0 ){
                 lastMovement = SERVO_MICROS_LEFT;
             }
@@ -122,11 +131,11 @@ int main(void) {
             }
             lastTurn = get_ticks();
         }
+    }
         TM_SERVO_SetMicros(&Servo1,lastMovement);
         begin = -1;
     }
         length = 0;
-        tft_prints(0,5,"Speed: %d",a.SYSCLK_Frequency);
         tft_update();
         
 	}
