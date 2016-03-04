@@ -151,9 +151,9 @@ Another way is to use ARM compiler.
  - attribute.h
 @endverbatim
  */
-#define TM_DELAY_TIM				TIM2
-#define TM_DELAY_TIM_IRQ			TIM2_IRQn
-#define TM_DELAY_TIM_IRQ_HANDLER	TIM2_IRQHandler
+#define TM_DELAY_TIM				TIM5
+#define TM_DELAY_TIM_IRQ			TIM5_IRQn
+#define TM_DELAY_TIM_IRQ_HANDLER	TIM5_IRQHandler
 #include "stm32f4xx.h"
 #include "stm32f4xx_rcc.h"
 #include "defines.h"
@@ -326,6 +326,14 @@ void TM_DELAY_Init(void);
  *
  */
 uint32_t get_ticks(void);
+
+/**
+ *  @brief Gets the current time (in second)
+ *  @param None
+ *  @retval Current time in seconds
+ *
+ */
+uint32_t get_seconds(void);
 
 /**
  * @brief  Gets the TM_Time variable value

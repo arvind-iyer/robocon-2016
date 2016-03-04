@@ -293,3 +293,7 @@ TM_DELAY_Timer_t* TM_DELAY_TimerAutoReloadValue(TM_DELAY_Timer_t* Timer, uint32_
 uint32_t get_ticks(){
     return TM_Time;
 }
+
+uint32_t get_seconds(){
+    return TM_Time/1000;
+}

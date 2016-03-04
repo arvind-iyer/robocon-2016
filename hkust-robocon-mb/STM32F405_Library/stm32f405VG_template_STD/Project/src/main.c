@@ -17,10 +17,12 @@ int main(void) {
     
     //Initiate LED
 	led_init();
+    
+
 
 	//Ticks initialization
 	TM_DELAY_Init();
-	
+    
 
 	//Initialize the 2 Servos' Pins (plz see TM_stm32f4_pwm.c for the channel and pinspack)
 	TM_SERVO_Init(&Servo1, TIM3, TM_PWM_Channel_2, TM_PWM_PinsPack_1);
@@ -55,12 +57,15 @@ int main(void) {
     //Initialize encoder
     encoder_init();
     
+    
 	while (1) {
         if(get_ticks() != ticks_ms_img){
             ticks_ms_img = get_ticks();
             tft_clear();
             tft_prints(0,3,"Count: %d",get_ticks());
             tft_prints(0,4,"Output: %d",read_infrared_sensor(INFRARED_1_PIN));
+            tft_prints(0,5,"Second: %d",get_seconds());
+            tft_prints(0,6,"Encoder1: %d",get_count(ENCODER1));
             tft_update();
         }
 	}
