@@ -106,7 +106,7 @@ void imu_update(){
 				}
 				yaw_pitch_roll[i] = dataset.f;
 				//Map the reading from -1~-179 and 0~179 to 0~360
-				yaw_pitch_roll[i] = yaw_pitch_roll[i]<0?yaw_pitch_roll[i]+360:yaw_pitch_roll[i];
+				yaw_pitch_roll[i] = yaw_pitch_roll[i]<0.0f?yaw_pitch_roll[i]+360.0f:yaw_pitch_roll[i];
 			}
 			if (imu_pre_staged && !imu_staged){
 				//This part of code should only run once asap after pre staged(set after syncing)
