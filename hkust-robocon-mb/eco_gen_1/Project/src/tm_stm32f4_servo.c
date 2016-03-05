@@ -30,6 +30,7 @@ TM_SERVO_Result_t TM_SERVO_Init(TM_SERVO_t* ServoStruct, TIM_TypeDef* TIMx, TM_P
 		/* Return Error */
 		return TM_SERVO_Result_Error;
 	}
+    
 	
 	/* Fill settings */
 	ServoStruct->TIM = TIMx;

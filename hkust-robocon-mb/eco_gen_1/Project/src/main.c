@@ -46,9 +46,8 @@ int main(void) {
 	TM_DELAY_Init();
     
 	//Initialize the 2 Servos' Pins (plz see TM_stm32f4_pwm.c for the channel and pinspack)
-    TM_SERVO_t Servo1, Servo2;
+    TM_SERVO_t Servo1;
     TM_SERVO_Init(&Servo1, TIM3, TM_PWM_Channel_2, TM_PWM_PinsPack_1);
-    TM_SERVO_Init(&Servo2, TIM3, TM_PWM_Channel_1, TM_PWM_PinsPack_1);
     
     //LCD Initialization
     tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED); //Init LCD
@@ -62,8 +61,11 @@ int main(void) {
     can_rx_add_filter(0x0C5, CAN_RX_MASK_EXACT,receive);
     can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
     
-    //Init Infrared
+    //Init Infrared sensor
     infrared_sensor_init();
+    
+    //Init encoder
+    encoder_init();
     
     int length_state = 0;
     int begin = -1;
@@ -74,7 +76,6 @@ int main(void) {
     float factor = 0;
     buzzer_init();
  
-    
 	while (1) {
 
       //if(get_ticks() % 100 == 0)tft_clear();

@@ -295,5 +295,5 @@ uint32_t get_ticks(){
 }
 
 uint32_t get_seconds(){
-    return TM_Time/1000;
+    return get_ticks()/1000;
 }
