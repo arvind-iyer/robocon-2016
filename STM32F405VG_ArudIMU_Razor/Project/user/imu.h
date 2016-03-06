@@ -22,7 +22,7 @@ extern bool imu_staged;
 extern u8 imu_buffer[12];
 extern float yaw_pitch_roll[3]; 
 
-//#define IMU_USE_CONTINUOUS_MODE
+#define IMU_USE_CONTINUOUS_MODE
 #define SYNC_TIMEOUT 200
 
 void imu_init(void);

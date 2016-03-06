@@ -76,10 +76,9 @@ extern u16 curr_bg_color;
 extern u16 curr_text_color;
 extern u16 curr_text_color_sp;
 
-extern char text						[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+extern char text						[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
 extern u16 text_color				[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
 extern u16 bg_color					[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-extern u8 text_bg_color_prev[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY]; // for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color
 
 void tft_spi_init(void);
 void tft_write_command(u8 command);
@@ -112,5 +111,4 @@ void tft_put_mega_ass_num(u8 x, u8 y, u8 character, u16 color);
 void tft_mega_update(void);
 void tft_put_logo(u8 x, u8 y);
 
-#endif
-
+#endif		/* __LCD_RED_H */

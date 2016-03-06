@@ -20,11 +20,12 @@ float targeting_pid(float current_yaw){
 	//Find the diffence in yaw
 	float yaw_diff = current_yaw - target_yaw;
 	//Convert the yaw difference into a proper range
-	yaw_diff = yaw_diff>180.0 ? yaw_diff-360 : (yaw_diff<-180.0 ? -(yaw_diff+360.0) : yaw_diff);
+	yaw_diff = yaw_diff>180.0f ? yaw_diff-360.0f : (yaw_diff<-180.0f ? -(yaw_diff+360.0f) : yaw_diff);
+	
 	//Find the correction needed to the servo by the a curve where y=k*sqrt(x)
-	float corr = sqrt(fabs(yaw_diff)) * SERVO_Kp * (yaw_diff>0?1:-1)/ 1000;
+	float corr = sqrtf(fabs(yaw_diff)) * SERVO_Kp * (yaw_diff>0?1.0f:-1.0f) / 1000.0f;
 
-	tft_println("TY:%d SV:%d", round(target_yaw)*10, round(dragon_servo.Degrees)*10);
+	tft_println("TY:%d SV:%d", (int)(target_yaw*10),  (int)(dragon_servo.Degrees*10));
 	
 	float new_servo_deg = SERVO_MED_DEG + corr;
 	//Limit the servo range

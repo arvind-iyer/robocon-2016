@@ -11,9 +11,7 @@ s32 SHIFT_Y = -73; // -73 //-280
 static POSITION gyro_pos = {0, 0, 0};
 static POSITION gyro_pos_raw = {0, 0, 0};
 static u8 rx_state = 0; 
-static u8 max_state = 0;
 static u8 rx_command = 0;
-static u8 min_command = 255;
 static u8 buf_rec = 0;
 static u8 buf_data[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 

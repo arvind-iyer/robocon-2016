@@ -10,7 +10,6 @@ s8 imu_buffer_pointer = 0;
 float yaw_pitch_roll[3] = {0}; 
 
 void IMU_receiver(u8 byte){
-	led_blink(LED_D2);
 	//Sync with the IMU
 	if (imu_synced == false){
 		//Match the sync sequence
@@ -47,12 +46,11 @@ void IMU_receiver(u8 byte){
 					//Finish syncing, init other parts
 					sync_progress = '#';
 					imu_synced = true;
+					led_control(LED_D3, LED_ON);
 					#ifdef IMU_USE_CONTINUOUS_MODE
 						uart_tx(IMU_UART, "#o1#ob#oe0"); //Continuous binary output and request syncing
-						tft_println("Ask: #o1#ob#oe0");
 					#else
 						uart_tx(IMU_UART, "#o0#ob#oe0#f"); //Discrete binary output upon sending #f, request syncing
-						tft_println("Ask: #o0#ob#oe0#f");
 					#endif 
 					break;
 			}
@@ -91,7 +89,7 @@ void imu_init(){
 u8 sync_time_count = 0;
 void imu_update(){
 	if (!imu_synced){
-		sync_time_count += last_long_loop_ticks - this_loop_ticks;
+		sync_time_count += any_loop_diff;
 		if (sync_time_count > SYNC_TIMEOUT){
 			//If not synced, request syncing
 			sync_with_imu();
@@ -108,6 +106,10 @@ void imu_update(){
 				//Map the reading from -1~-179 and 0~179 to 0~360
 				yaw_pitch_roll[i] = yaw_pitch_roll[i]<0.0f?yaw_pitch_roll[i]+360.0f:yaw_pitch_roll[i];
 			}
+			//For pitch and roll, map the values such that 1800 is the med pos
+			yaw_pitch_roll[1] = yaw_pitch_roll[1] < 180.0f ? yaw_pitch_roll[1]+180.0f : (yaw_pitch_roll[1] > 180.0f ? yaw_pitch_roll[1] - 180.0f : 0);
+			yaw_pitch_roll[2] = yaw_pitch_roll[2] < 180.0f ? yaw_pitch_roll[2]+180.0f : (yaw_pitch_roll[2] > 180.0f ? yaw_pitch_roll[2] - 180.0f : 0);
+			
 			if (imu_pre_staged && !imu_staged){
 				//This part of code should only run once asap after pre staged(set after syncing)
 				set_target(yaw_pitch_roll[0]);

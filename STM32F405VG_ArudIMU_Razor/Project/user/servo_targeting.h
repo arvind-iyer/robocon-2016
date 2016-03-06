@@ -11,7 +11,7 @@
 #include "tm_stm32f4_servo.h"
 
 //Scaled by 1000
-#define SERVO_Kp 3000.0
+#define SERVO_Kp 3000.0f
 
 #define SERVO_MED_DEG 90
 #define SERVO_INC_DEG 40

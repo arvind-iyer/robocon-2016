@@ -15,7 +15,7 @@
 #include "path.h"
 
 #define ROLLING_PITCH_SIZE 5
-#define PROGRESS_TICKS_MAX 10
+#define PROGRESS_TICKS_MAX 150
 
 void path_up_init(float* ypr);
 GAME_STAGE path_up_update(void);

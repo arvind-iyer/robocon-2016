@@ -4,6 +4,7 @@ u32 last_loop_ticks = 0;
 u32 last_long_loop_ticks = 0;
 u32 this_loop_ticks = 0;
 u32 last_short_loop_ticks = 0;
+u32 any_loop_diff = 0;
 
 int main(void) {
 	led_init();
@@ -21,7 +22,8 @@ int main(void) {
 			this_loop_ticks = get_ticks();
 			
 			//Long loop action
-			if (this_loop_ticks - last_long_loop_ticks > LONG_LOOP_TICKS){
+			any_loop_diff = this_loop_ticks - last_long_loop_ticks;
+			if (any_loop_diff > LONG_LOOP_TICKS){
 				led_blink(LED_D1);
 				tft_clear();
 				imu_update();
@@ -59,21 +61,11 @@ int main(void) {
 					}
 				}
 				
-				tft_println("Loop: %d %d", this_loop_ticks, this_loop_ticks-last_long_loop_ticks);
+				tft_println("Loop: %d %d", this_loop_ticks, any_loop_diff);
 				tft_println("YPR %d %d %d", (int)roundf(yaw_pitch_roll[0]*10), (int)roundf(yaw_pitch_roll[1]*10), (int)roundf(yaw_pitch_roll[2]*10));
 				tft_update();
 				last_long_loop_ticks = this_loop_ticks;
-				
-			}else if (this_loop_ticks - last_short_loop_ticks > SHORT_LOOP_TICKS){
-				//Short loop action, does not run twice when long loop is also ran
-				//imu_update();
-				path_up_update();
-				if (imu_synced && imu_staged){
-					targeting_update(yaw_pitch_roll[0]);
-				}
-				last_short_loop_ticks = this_loop_ticks;
 			}
-			
 			last_loop_ticks = this_loop_ticks;
 		}
 	}
