@@ -41,17 +41,15 @@ int main(void) {
 					switch(game_stage){
 						case CLIMBING_SLOPE:
 							tft_println("[CLIMBING]");
-							targeting_update(yaw_pitch_roll[0]);
-							path_up_update();
+							game_stage = path_up_update(); 
 							break;
 						case CROSSING_RIVER:
 							tft_println("[RIVERING]");
-							targeting_update(yaw_pitch_roll[0]);
+							game_stage = path_river_update();
 							break;
 						case GOING_DOWN_HILL:
 							tft_println("[GOING DOWN]");
-							targeting_update(yaw_pitch_roll[0]);
-							path_down_update();
+							game_stage = path_down_update();
 							break;
 						case WINNING_THE_GAME:
 							tft_println("[WIN OR FUCK UP]");

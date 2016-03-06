@@ -23,9 +23,10 @@ Section Cross References
     .\output\main.o(i.main) refers to .\output\lcd_main.o(i.tft_clear) for tft_clear
     .\output\main.o(i.main) refers to .\output\imu.o(i.imu_update) for imu_update
     .\output\main.o(i.main) refers to .\output\lcd_main.o(i.tft_println) for tft_println
-    .\output\main.o(i.main) refers to .\output\servo_targeting.o(i.targeting_update) for targeting_update
     .\output\main.o(i.main) refers to .\output\path_upslope.o(i.path_up_update) for path_up_update
+    .\output\main.o(i.main) refers to .\output\path_river.o(i.path_river_update) for path_river_update
     .\output\main.o(i.main) refers to .\output\path_downslope.o(i.path_down_update) for path_down_update
+    .\output\main.o(i.main) refers to .\output\servo_targeting.o(i.targeting_update) for targeting_update
     .\output\main.o(i.main) refers to C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\m_wm.l(roundf.o)(i.__hardfp_roundf) for __hardfp_roundf
     .\output\main.o(i.main) refers to .\output\lcd_main.o(i.tft_update) for tft_update
     .\output\main.o(i.main) refers to .\output\imu.o(.data) for imu_synced
@@ -408,6 +409,7 @@ Section Cross References
     .\output\servo_targeting.o(i.servo_init) refers to .\output\tm_stm32f4_servo.o(i.TM_SERVO_SetDegrees) for TM_SERVO_SetDegrees
     .\output\servo_targeting.o(i.servo_init) refers to .\output\servo_targeting.o(.bss) for .bss
     .\output\servo_targeting.o(i.set_target) refers to .\output\servo_targeting.o(.data) for .data
+    .\output\servo_targeting.o(i.targeting_pid) refers to .\output\imu_math.o(i.abs_diff) for abs_diff
     .\output\servo_targeting.o(i.targeting_pid) refers to C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\m_wm.l(sqrtf.o)(i.__hardfp_sqrtf) for __hardfp_sqrtf
     .\output\servo_targeting.o(i.targeting_pid) refers to .\output\lcd_main.o(i.tft_println) for tft_println
     .\output\servo_targeting.o(i.targeting_pid) refers to .\output\servo_targeting.o(.data) for .data
@@ -415,9 +417,13 @@ Section Cross References
     .\output\servo_targeting.o(i.targeting_update) refers to .\output\servo_targeting.o(i.targeting_pid) for targeting_pid
     .\output\servo_targeting.o(i.targeting_update) refers to .\output\tm_stm32f4_servo.o(i.TM_SERVO_SetDegrees) for TM_SERVO_SetDegrees
     .\output\servo_targeting.o(i.targeting_update) refers to .\output\servo_targeting.o(.bss) for .bss
-    .\output\path_upslope.o(i.path_up_init) refers to .\output\path_upslope.o(.bss) for .bss
+    .\output\path_upslope.o(i.path_up_init) refers to .\output\imu_math.o(i.abs_diff) for abs_diff
     .\output\path_upslope.o(i.path_up_init) refers to .\output\path_upslope.o(.data) for .data
+    .\output\path_upslope.o(i.path_up_init) refers to .\output\imu.o(.bss) for start_ypr
+    .\output\path_upslope.o(i.path_up_init) refers to .\output\path_upslope.o(.bss) for .bss
+    .\output\path_upslope.o(i.path_up_update) refers to .\output\imu_math.o(i.abs_diff) for abs_diff
     .\output\path_upslope.o(i.path_up_update) refers to .\output\servo_targeting.o(i.set_target) for set_target
+    .\output\path_upslope.o(i.path_up_update) refers to .\output\servo_targeting.o(i.targeting_update) for targeting_update
     .\output\path_upslope.o(i.path_up_update) refers to .\output\lcd_main.o(i.tft_println) for tft_println
     .\output\path_upslope.o(i.path_up_update) refers to C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(f2d.o)(x$fpl$f2d) for __aeabi_f2d
     .\output\path_upslope.o(i.path_up_update) refers to .\output\imu.o(.bss) for yaw_pitch_roll
@@ -1292,6 +1298,13 @@ Removing Unused input sections from the image.
     Removing .\output\path_downslope.o(.rrx_text), (6 bytes).
     Removing .\output\path_downslope.o(i.path_down_init), (16 bytes).
     Removing .\output\path_downslope.o(.bss), (12 bytes).
+    Removing .\output\path_river.o(.rev16_text), (4 bytes).
+    Removing .\output\path_river.o(.revsh_text), (4 bytes).
+    Removing .\output\path_river.o(.rrx_text), (6 bytes).
+    Removing .\output\path_river.o(.data), (1 bytes).
+    Removing .\output\imu_math.o(.rev16_text), (4 bytes).
+    Removing .\output\imu_math.o(.revsh_text), (4 bytes).
+    Removing .\output\imu_math.o(.rrx_text), (6 bytes).
     Removing .\output\misc.o(.rev16_text), (4 bytes).
     Removing .\output\misc.o(.revsh_text), (4 bytes).
     Removing .\output\misc.o(.rrx_text), (6 bytes).
@@ -2080,7 +2093,7 @@ Removing Unused input sections from the image.
     Removing .\output\system_stm32f4xx.o(i.SystemCoreClockUpdate), (120 bytes).
     Removing .\output\system_stm32f4xx.o(.constdata), (16 bytes).
 
-993 unused section(s) (total 33135 bytes) removed from the image.
+1000 unused section(s) (total 33164 bytes) removed from the image.
 
 ==============================================================================
 
@@ -2090,155 +2103,155 @@ Image Symbol Table
 
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
+    ../clib/angel/boardlib.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(boardinit3.o) ABSOLUTE
+    ../clib/angel/boardlib.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(boardinit2.o) ABSOLUTE
     ../clib/angel/boardlib.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(boardinit1.o) ABSOLUTE
     ../clib/angel/boardlib.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(boardshut.o) ABSOLUTE
-    ../clib/angel/boardlib.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(boardinit2.o) ABSOLUTE
-    ../clib/angel/boardlib.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(boardinit3.o) ABSOLUTE
     ../clib/angel/dczerorl2.s                0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__dczerorl2.o) ABSOLUTE
     ../clib/angel/handlers.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__scatter_zi.o) ABSOLUTE
-    ../clib/angel/kernel.s                   0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry4.o) ABSOLUTE
     ../clib/angel/kernel.s                   0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rtexit2.o) ABSOLUTE
-    ../clib/angel/kernel.s                   0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry.o) ABSOLUTE
     ../clib/angel/kernel.s                   0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry2.o) ABSOLUTE
+    ../clib/angel/kernel.s                   0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry.o) ABSOLUTE
     ../clib/angel/kernel.s                   0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rtexit.o) ABSOLUTE
+    ../clib/angel/kernel.s                   0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry4.o) ABSOLUTE
+    ../clib/angel/rt.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_errno_addr_intlibspace.o) ABSOLUTE
+    ../clib/angel/rt.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_heap_descriptor.o) ABSOLUTE
     ../clib/angel/rt.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_heap_descriptor_intlibspace.o) ABSOLUTE
+    ../clib/angel/rt.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_raise.o) ABSOLUTE
+    ../clib/angel/rt.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_ctype_table.o) ABSOLUTE
     ../clib/angel/rt.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_locale_intlibspace.o) ABSOLUTE
     ../clib/angel/rt.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_locale.o) ABSOLUTE
-    ../clib/angel/rt.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_ctype_table.o) ABSOLUTE
-    ../clib/angel/rt.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_heap_descriptor.o) ABSOLUTE
-    ../clib/angel/rt.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_raise.o) ABSOLUTE
     ../clib/angel/rt.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_errno_addr.o) ABSOLUTE
-    ../clib/angel/rt.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_errno_addr_intlibspace.o) ABSOLUTE
     ../clib/angel/scatter.s                  0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__scatter.o) ABSOLUTE
     ../clib/angel/startup.s                  0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__main.o) ABSOLUTE
-    ../clib/angel/sys.s                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(sys_stackheap_outer.o) ABSOLUTE
+    ../clib/angel/sys.s                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(mutex_dummy.o) ABSOLUTE
     ../clib/angel/sys.s                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libspace.o) ABSOLUTE
     ../clib/angel/sys.s                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(use_no_semi.o) ABSOLUTE
+    ../clib/angel/sys.s                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(sys_stackheap_outer.o) ABSOLUTE
     ../clib/angel/sys.s                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(indicate_semi.o) ABSOLUTE
-    ../clib/angel/sys.s                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(mutex_dummy.o) ABSOLUTE
     ../clib/angel/sysapp.c                   0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(sys_exit.o) ABSOLUTE
-    ../clib/angel/sysapp.c                   0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(sys_command.o) ABSOLUTE
     ../clib/angel/sysapp.c                   0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(sys_wrch.o) ABSOLUTE
-    ../clib/armsys.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(argv_veneer.o) ABSOLUTE
+    ../clib/angel/sysapp.c                   0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(sys_command.o) ABSOLUTE
     ../clib/armsys.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_get_argv_nomalloc.o) ABSOLUTE
-    ../clib/armsys.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_get_argv.o) ABSOLUTE
     ../clib/armsys.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(no_argv.o) ABSOLUTE
     ../clib/armsys.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(argv_veneer.o) ABSOLUTE
+    ../clib/armsys.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(argv_veneer.o) ABSOLUTE
+    ../clib/armsys.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_get_argv.o) ABSOLUTE
     ../clib/bigflt.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(bigflt0.o) ABSOLUTE
     ../clib/btod.s                           0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o) ABSOLUTE
     ../clib/fenv.c                           0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_rserrno.o) ABSOLUTE
-    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_init_mt.o) ABSOLUTE
-    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_init.o) ABSOLUTE
-    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_free.o) ABSOLUTE
-    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_alloc.o) ABSOLUTE
-    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_final.o) ABSOLUTE
     ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_extend.o) ABSOLUTE
+    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_alloc.o) ABSOLUTE
+    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_free.o) ABSOLUTE
     ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_extend_mt.o) ABSOLUTE
-    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_final_mt.o) ABSOLUTE
-    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_free_mt.o) ABSOLUTE
+    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_init_mt.o) ABSOLUTE
     ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_alloc_mt.o) ABSOLUTE
-    ../clib/heap2.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(heap2.o) ABSOLUTE
+    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_free_mt.o) ABSOLUTE
+    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_init.o) ABSOLUTE
+    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_final_mt.o) ABSOLUTE
+    ../clib/heap1.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(h1_final.o) ABSOLUTE
     ../clib/heap2.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(heap2mt.o) ABSOLUTE
     ../clib/heap2.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(fdtree.o) ABSOLUTE
-    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(heapstubs.o) ABSOLUTE
-    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(init_alloc.o) ABSOLUTE
-    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(maybetermalloc1.o) ABSOLUTE
-    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(maybetermalloc2.o) ABSOLUTE
-    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(hrguard.o) ABSOLUTE
-    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(term_alloc.o) ABSOLUTE
-    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(free.o) ABSOLUTE
-    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(maybetermalloc2.o) ABSOLUTE
+    ../clib/heap2.c                          0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(heap2.o) ABSOLUTE
     ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(malloc.o) ABSOLUTE
     ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(hguard.o) ABSOLUTE
+    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(init_alloc.o) ABSOLUTE
+    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(term_alloc.o) ABSOLUTE
+    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(maybetermalloc2.o) ABSOLUTE
     ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(maybetermalloc1.o) ABSOLUTE
+    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(hrguard.o) ABSOLUTE
+    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(maybetermalloc1.o) ABSOLUTE
+    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(maybetermalloc2.o) ABSOLUTE
+    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(free.o) ABSOLUTE
+    ../clib/heapalloc.c                      0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(heapstubs.o) ABSOLUTE
     ../clib/heapaux.c                        0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(heapauxa.o) ABSOLUTE
     ../clib/heapaux.c                        0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(heapauxi.o) ABSOLUTE
-    ../clib/libinit.s                        0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit.o) ABSOLUTE
-    ../clib/libinit.s                        0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o) ABSOLUTE
     ../clib/libinit.s                        0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown.o) ABSOLUTE
+    ../clib/libinit.s                        0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o) ABSOLUTE
     ../clib/libinit.s                        0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o) ABSOLUTE
+    ../clib/libinit.s                        0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit.o) ABSOLUTE
     ../clib/locale.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_wcrtomb.o) ABSOLUTE
-    ../clib/locale.s                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o) ABSOLUTE
     ../clib/locale.s                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o) ABSOLUTE
+    ../clib/locale.s                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o) ABSOLUTE
     ../clib/longlong.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lludiv10.o) ABSOLUTE
-    ../clib/memcpset.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(strcmpv7m.o) ABSOLUTE
     ../clib/memcpset.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_memcpy_w.o) ABSOLUTE
+    ../clib/memcpset.s                       0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(strcmpv7m.o) ABSOLUTE
     ../clib/misc.s                           0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(printf_stubs.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_ll_ptr.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll_ptr.o) ABSOLUTE
     ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags.o) ABSOLUTE
     ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_ss.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ptr.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_ptr.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_ll.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_hex.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_oct_int_ll.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_oct_int.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_oct_ll.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wctomb.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_sputc.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_char_common.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_charcount.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_dec.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_str.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wchar.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_char.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_nopercent.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_dec.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_intcommon.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_truncate.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_ss.o) ABSOLUTE
     ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf.o) ABSOLUTE
     ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_pad.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_infnan.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_longlong_dec.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_truncate.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_str.o) ABSOLUTE
     ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(vsprintf.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_ss_wp.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_ss_wp.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_dec.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_charcount.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_char_common.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_char.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_sputc.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_longlong_dec.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_oct_int.o) ABSOLUTE
     ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_wp.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_ll.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_ptr.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_ss_wp.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_ss_wp.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wchar.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_nopercent.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_hex.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_dec.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_oct_int_ll.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wctomb.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_intcommon.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_oct_ll.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_infnan.o) ABSOLUTE
+    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ptr.o) ABSOLUTE
     ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_wp.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_ss.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll_ptr.o) ABSOLUTE
-    ../clib/printf.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_ll_ptr.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_l.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_ll.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_llu.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_lli.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_lld.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_percent.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_f.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_percent_end.o) ABSOLUTE
     ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_g.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_llo.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_llx.o) ABSOLUTE
     ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_a.o) ABSOLUTE
     ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_e.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_percent_end.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_f.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_ls.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_u.o) ABSOLUTE
     ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_c.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_i.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_o.o) ABSOLUTE
     ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_p.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_x.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_n.o) ABSOLUTE
-    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_s.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_percent.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_lli.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_lld.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_llu.o) ABSOLUTE
     ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_d.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_ll.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_l.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_s.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_ls.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_o.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_i.o) ABSOLUTE
     ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_lc.o) ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_fpe_inner.o) ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_general.o) ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__raise.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_u.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_llo.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_llx.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_n.o) ABSOLUTE
+    ../clib/printf_percent.s                 0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_x.o) ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_cppl_inner.o) ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_other.o) ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_segv_inner.o) ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_cppl_inner.o) ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_abrt_outer.o) ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_abrt_formal.o) ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_pvfn_inner.o) ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_stak_inner.o) ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_rtred_inner.o) ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_rtmem_inner.o) ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_general.o) ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__raise.o) ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_rtmem_formal.o) ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_rtmem_outer.o) ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_abrt_inner.o) ABSOLUTE
     ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_exit.o) ABSOLUTE
-    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_rtred_inner.o) ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_fpe_inner.o) ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_abrt_formal.o) ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_abrt_outer.o) ABSOLUTE
+    ../clib/signal.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_abrt_inner.o) ABSOLUTE
     ../clib/signal.s                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig.o) ABSOLUTE
     ../clib/stdlib.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(abort.o) ABSOLUTE
     ../clib/stdlib.c                         0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(exit.o) ABSOLUTE
@@ -2381,16 +2394,20 @@ Image Symbol Table
     core\usart.c                             0x00000000   Number         0  .\output\usart.o ABSOLUTE
     dc.s                                     0x00000000   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(dc.o) ABSOLUTE
     user\\imu.c                              0x00000000   Number         0  .\output\imu.o ABSOLUTE
+    user\\imu_math.c                         0x00000000   Number         0  .\output\imu_math.o ABSOLUTE
     user\\line_sensor.c                      0x00000000   Number         0  .\output\line_sensor.o ABSOLUTE
     user\\main.c                             0x00000000   Number         0  .\output\main.o ABSOLUTE
     user\\path_downslope.c                   0x00000000   Number         0  .\output\path_downslope.o ABSOLUTE
+    user\\path_river.c                       0x00000000   Number         0  .\output\path_river.o ABSOLUTE
     user\\path_upslope.c                     0x00000000   Number         0  .\output\path_upslope.o ABSOLUTE
     user\\sensor_bar.c                       0x00000000   Number         0  .\output\sensor_bar.o ABSOLUTE
     user\\servo_targeting.c                  0x00000000   Number         0  .\output\servo_targeting.o ABSOLUTE
     user\imu.c                               0x00000000   Number         0  .\output\imu.o ABSOLUTE
+    user\imu_math.c                          0x00000000   Number         0  .\output\imu_math.o ABSOLUTE
     user\line_sensor.c                       0x00000000   Number         0  .\output\line_sensor.o ABSOLUTE
     user\main.c                              0x00000000   Number         0  .\output\main.o ABSOLUTE
     user\path_downslope.c                    0x00000000   Number         0  .\output\path_downslope.o ABSOLUTE
+    user\path_river.c                        0x00000000   Number         0  .\output\path_river.o ABSOLUTE
     user\path_upslope.c                      0x00000000   Number         0  .\output\path_upslope.o ABSOLUTE
     user\sensor_bar.c                        0x00000000   Number         0  .\output\sensor_bar.o ABSOLUTE
     user\servo_targeting.c                   0x00000000   Number         0  .\output\servo_targeting.o ABSOLUTE
@@ -2607,105 +2624,107 @@ Image Symbol Table
     i.__hardfp_roundf                        0x08003878   Section        0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\m_wm.l(roundf.o)(i.__hardfp_roundf)
     i.__hardfp_sqrtf                         0x08003912   Section        0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\m_wm.l(sqrtf.o)(i.__hardfp_sqrtf)
     i._is_digit                              0x0800394c   Section        0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_wp.o)(i._is_digit)
-    i.can_empty_mailbox                      0x0800395c   Section        0  .\output\can_protocol.o(i.can_empty_mailbox)
-    i.can_tx_dequeue                         0x0800397c   Section        0  .\output\can_protocol.o(i.can_tx_dequeue)
-    i.can_tx_queue_empty                     0x08003a14   Section        0  .\output\can_protocol.o(i.can_tx_queue_empty)
-    i.get_ticks                              0x08003a2c   Section        0  .\output\tm_stm32f4_delay.o(i.get_ticks)
-    i.imu_init                               0x08003a38   Section        0  .\output\imu.o(i.imu_init)
-    i.imu_update                             0x08003a5c   Section        0  .\output\imu.o(i.imu_update)
-    i.int_cos                                0x08003b60   Section        0  .\output\approx_math.o(i.int_cos)
-    i.int_sin                                0x08003b68   Section        0  .\output\approx_math.o(i.int_sin)
-    i.led_blink                              0x08003be4   Section        0  .\output\led.o(i.led_blink)
-    i.led_control                            0x08003c18   Section        0  .\output\led.o(i.led_control)
-    i.led_init                               0x08003c64   Section        0  .\output\led.o(i.led_init)
-    i.main                                   0x08003cac   Section        0  .\output\main.o(i.main)
-    i.path_down_update                       0x08003e74   Section        0  .\output\path_downslope.o(i.path_down_update)
-    i.path_up_init                           0x08003e78   Section        0  .\output\path_upslope.o(i.path_up_init)
+    i.abs_diff                               0x0800395c   Section        0  .\output\imu_math.o(i.abs_diff)
+    i.can_empty_mailbox                      0x08003998   Section        0  .\output\can_protocol.o(i.can_empty_mailbox)
+    i.can_tx_dequeue                         0x080039b8   Section        0  .\output\can_protocol.o(i.can_tx_dequeue)
+    i.can_tx_queue_empty                     0x08003a50   Section        0  .\output\can_protocol.o(i.can_tx_queue_empty)
+    i.get_ticks                              0x08003a68   Section        0  .\output\tm_stm32f4_delay.o(i.get_ticks)
+    i.imu_init                               0x08003a74   Section        0  .\output\imu.o(i.imu_init)
+    i.imu_update                             0x08003a98   Section        0  .\output\imu.o(i.imu_update)
+    i.int_cos                                0x08003ba4   Section        0  .\output\approx_math.o(i.int_cos)
+    i.int_sin                                0x08003bac   Section        0  .\output\approx_math.o(i.int_sin)
+    i.led_blink                              0x08003c28   Section        0  .\output\led.o(i.led_blink)
+    i.led_control                            0x08003c5c   Section        0  .\output\led.o(i.led_control)
+    i.led_init                               0x08003ca8   Section        0  .\output\led.o(i.led_init)
+    i.main                                   0x08003cf0   Section        0  .\output\main.o(i.main)
+    i.path_down_update                       0x08003eb0   Section        0  .\output\path_downslope.o(i.path_down_update)
+    i.path_river_update                      0x08003eb4   Section        0  .\output\path_river.o(i.path_river_update)
+    i.path_up_init                           0x08003eb8   Section        0  .\output\path_upslope.o(i.path_up_init)
     i.path_up_update                         0x08003f28   Section        0  .\output\path_upslope.o(i.path_up_update)
-    i.servo_init                             0x08004104   Section        0  .\output\servo_targeting.o(i.servo_init)
-    i.set_target                             0x0800412c   Section        0  .\output\servo_targeting.o(i.set_target)
-    i.sync_with_imu                          0x08004138   Section        0  .\output\imu.o(i.sync_with_imu)
-    i.targeting_pid                          0x08004148   Section        0  .\output\servo_targeting.o(i.targeting_pid)
-    i.targeting_update                       0x0800423c   Section        0  .\output\servo_targeting.o(i.targeting_update)
-    i.tft_char_is_changed                    0x08004250   Section        0  .\output\lcd_main.o(i.tft_char_is_changed)
-    i.tft_clear                              0x08004274   Section        0  .\output\lcd_main.o(i.tft_clear)
-    i.tft_clear_line                         0x08004294   Section        0  .\output\lcd_main.o(i.tft_clear_line)
-    i.tft_config                             0x080042e8   Section        0  .\output\lcd_main.o(i.tft_config)
-    i.tft_easy_init                          0x080044fe   Section        0  .\output\lcd_main.o(i.tft_easy_init)
-    i.tft_fill_color                         0x0800451e   Section        0  .\output\lcd_main.o(i.tft_fill_color)
-    i.tft_init                               0x08004588   Section        0  .\output\lcd_main.o(i.tft_init)
-    i.tft_println                            0x08004634   Section        0  .\output\lcd_main.o(i.tft_println)
-    i.tft_put_logo                           0x080046f4   Section        0  .\output\lcd_main.o(i.tft_put_logo)
-    i.tft_put_pixel                          0x08005904   Section        0  .\output\lcd_main.o(i.tft_put_pixel)
-    i.tft_reset                              0x0800595c   Section        0  .\output\lcd_main.o(i.tft_reset)
-    i.tft_set_char_pos                       0x08005994   Section        0  .\output\lcd_main.o(i.tft_set_char_pos)
-    i.tft_set_pixel_pos                      0x080059e6   Section        0  .\output\lcd_main.o(i.tft_set_pixel_pos)
-    i.tft_spi_init                           0x08005a38   Section        0  .\output\lcd_main.o(i.tft_spi_init)
-    i.tft_update                             0x08005b58   Section        0  .\output\lcd_main.o(i.tft_update)
-    i.tft_write_command                      0x08005f8c   Section        0  .\output\lcd_main.o(i.tft_write_command)
-    i.tft_write_data                         0x08005fe8   Section        0  .\output\lcd_main.o(i.tft_write_data)
-    i.uart_init                              0x08006044   Section        0  .\output\usart.o(i.uart_init)
-    i.uart_interrupt                         0x08006110   Section        0  .\output\usart.o(i.uart_interrupt)
-    i.uart_interrupt_init                    0x08006158   Section        0  .\output\usart.o(i.uart_interrupt_init)
-    i.uart_tx                                0x08006180   Section        0  .\output\usart.o(i.uart_tx)
-    i.uart_tx_byte                           0x080061ac   Section        0  .\output\usart.o(i.uart_tx_byte)
-    locale$$code                             0x080061d4   Section       44  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$code)
-    locale$$code                             0x08006200   Section       44  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$code)
-    x$fpl$dcmpinf                            0x0800622c   Section       24  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dcmpi.o)(x$fpl$dcmpinf)
-    $v0                                      0x0800622c   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dcmpi.o)(x$fpl$dcmpinf)
-    x$fpl$ddiv                               0x08006244   Section      688  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(ddiv.o)(x$fpl$ddiv)
-    $v0                                      0x08006244   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(ddiv.o)(x$fpl$ddiv)
-    ddiv_entry                               0x0800624b   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(ddiv.o)(x$fpl$ddiv)
-    x$fpl$deqf                               0x080064f4   Section      120  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(deqf.o)(x$fpl$deqf)
-    $v0                                      0x080064f4   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(deqf.o)(x$fpl$deqf)
-    x$fpl$dfixu                              0x0800656c   Section       90  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dfixu.o)(x$fpl$dfixu)
-    $v0                                      0x0800656c   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dfixu.o)(x$fpl$dfixu)
-    x$fpl$dfltu                              0x080065c6   Section       38  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dflt_clz.o)(x$fpl$dfltu)
-    $v0                                      0x080065c6   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dflt_clz.o)(x$fpl$dfltu)
-    x$fpl$dleqf                              0x080065ec   Section      120  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dleqf.o)(x$fpl$dleqf)
-    $v0                                      0x080065ec   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dleqf.o)(x$fpl$dleqf)
-    x$fpl$dnaninf                            0x08006664   Section      156  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dnaninf.o)(x$fpl$dnaninf)
-    $v0                                      0x08006664   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dnaninf.o)(x$fpl$dnaninf)
-    x$fpl$dretinf                            0x08006700   Section       12  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dretinf.o)(x$fpl$dretinf)
-    $v0                                      0x08006700   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dretinf.o)(x$fpl$dretinf)
-    x$fpl$f2d                                0x0800670c   Section       86  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(f2d.o)(x$fpl$f2d)
-    $v0                                      0x0800670c   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(f2d.o)(x$fpl$f2d)
-    x$fpl$fnaninf                            0x08006762   Section      140  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fnaninf.o)(x$fpl$fnaninf)
-    $v0                                      0x08006762   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fnaninf.o)(x$fpl$fnaninf)
-    x$fpl$fpinit                             0x080067ee   Section       10  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fpinit.o)(x$fpl$fpinit)
-    $v0                                      0x080067ee   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fpinit.o)(x$fpl$fpinit)
-    x$fpl$frnd                               0x080067f8   Section       96  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(frnd.o)(x$fpl$frnd)
-    $v0                                      0x080067f8   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(frnd.o)(x$fpl$frnd)
-    x$fpl$printf1                            0x08006858   Section        4  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf1.o)(x$fpl$printf1)
-    $v0                                      0x08006858   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf1.o)(x$fpl$printf1)
-    x$fpl$printf2                            0x0800685c   Section        4  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf2.o)(x$fpl$printf2)
-    $v0                                      0x0800685c   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf2.o)(x$fpl$printf2)
-    .constdata                               0x08006860   Section       56  .\output\usart.o(.constdata)
-    x$fpl$usenofp                            0x08006860   Section        0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(usenofp.o)(x$fpl$usenofp)
-    .constdata                               0x08006898   Section        8  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wctomb.o)(.constdata)
-    initial_mbstate                          0x08006898   Data           8  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wctomb.o)(.constdata)
-    .constdata                               0x080068a0   Section       40  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll_ptr.o)(.constdata)
-    uc_hextab                                0x080068a0   Data          20  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll_ptr.o)(.constdata)
-    lc_hextab                                0x080068b4   Data          20  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll_ptr.o)(.constdata)
-    .constdata                               0x080068c8   Section       17  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_ss_wp.o)(.constdata)
-    maptable                                 0x080068c8   Data          17  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_ss_wp.o)(.constdata)
-    .constdata                               0x080068d9   Section       38  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_hex.o)(.constdata)
-    lc_hextab                                0x080068d9   Data          19  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_hex.o)(.constdata)
-    uc_hextab                                0x080068ec   Data          19  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_hex.o)(.constdata)
-    .constdata                               0x08006900   Section      148  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(bigflt0.o)(.constdata)
-    tenpwrs_x                                0x08006900   Data          60  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(bigflt0.o)(.constdata)
-    tenpwrs_i                                0x0800693c   Data          64  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(bigflt0.o)(.constdata)
-    locale$$data                             0x080069b4   Section       28  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
-    __lcnum_c_name                           0x080069b8   Data           2  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
-    __lcnum_c_start                          0x080069c0   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
-    __lcnum_c_point                          0x080069cc   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
-    __lcnum_c_thousands                      0x080069ce   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
-    __lcnum_c_grouping                       0x080069cf   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
-    locale$$data                             0x080069d0   Section      272  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$data)
-    __lcnum_c_end                            0x080069d0   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
-    __lcctype_c_name                         0x080069d4   Data           2  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$data)
-    __lcctype_c_start                        0x080069dc   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$data)
-    __lcctype_c_end                          0x08006ae0   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$data)
+    i.servo_init                             0x08004084   Section        0  .\output\servo_targeting.o(i.servo_init)
+    i.set_target                             0x080040ac   Section        0  .\output\servo_targeting.o(i.set_target)
+    i.sync_with_imu                          0x080040b8   Section        0  .\output\imu.o(i.sync_with_imu)
+    i.targeting_pid                          0x080040c8   Section        0  .\output\servo_targeting.o(i.targeting_pid)
+    i.targeting_update                       0x0800418c   Section        0  .\output\servo_targeting.o(i.targeting_update)
+    i.tft_char_is_changed                    0x080041a0   Section        0  .\output\lcd_main.o(i.tft_char_is_changed)
+    i.tft_clear                              0x080041c4   Section        0  .\output\lcd_main.o(i.tft_clear)
+    i.tft_clear_line                         0x080041e4   Section        0  .\output\lcd_main.o(i.tft_clear_line)
+    i.tft_config                             0x08004238   Section        0  .\output\lcd_main.o(i.tft_config)
+    i.tft_easy_init                          0x0800444e   Section        0  .\output\lcd_main.o(i.tft_easy_init)
+    i.tft_fill_color                         0x0800446e   Section        0  .\output\lcd_main.o(i.tft_fill_color)
+    i.tft_init                               0x080044d8   Section        0  .\output\lcd_main.o(i.tft_init)
+    i.tft_println                            0x08004584   Section        0  .\output\lcd_main.o(i.tft_println)
+    i.tft_put_logo                           0x08004644   Section        0  .\output\lcd_main.o(i.tft_put_logo)
+    i.tft_put_pixel                          0x08005854   Section        0  .\output\lcd_main.o(i.tft_put_pixel)
+    i.tft_reset                              0x080058ac   Section        0  .\output\lcd_main.o(i.tft_reset)
+    i.tft_set_char_pos                       0x080058e4   Section        0  .\output\lcd_main.o(i.tft_set_char_pos)
+    i.tft_set_pixel_pos                      0x08005936   Section        0  .\output\lcd_main.o(i.tft_set_pixel_pos)
+    i.tft_spi_init                           0x08005988   Section        0  .\output\lcd_main.o(i.tft_spi_init)
+    i.tft_update                             0x08005aa8   Section        0  .\output\lcd_main.o(i.tft_update)
+    i.tft_write_command                      0x08005edc   Section        0  .\output\lcd_main.o(i.tft_write_command)
+    i.tft_write_data                         0x08005f38   Section        0  .\output\lcd_main.o(i.tft_write_data)
+    i.uart_init                              0x08005f94   Section        0  .\output\usart.o(i.uart_init)
+    i.uart_interrupt                         0x08006060   Section        0  .\output\usart.o(i.uart_interrupt)
+    i.uart_interrupt_init                    0x080060a8   Section        0  .\output\usart.o(i.uart_interrupt_init)
+    i.uart_tx                                0x080060d0   Section        0  .\output\usart.o(i.uart_tx)
+    i.uart_tx_byte                           0x080060fc   Section        0  .\output\usart.o(i.uart_tx_byte)
+    locale$$code                             0x08006124   Section       44  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$code)
+    locale$$code                             0x08006150   Section       44  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$code)
+    x$fpl$dcmpinf                            0x0800617c   Section       24  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dcmpi.o)(x$fpl$dcmpinf)
+    $v0                                      0x0800617c   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dcmpi.o)(x$fpl$dcmpinf)
+    x$fpl$ddiv                               0x08006194   Section      688  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(ddiv.o)(x$fpl$ddiv)
+    $v0                                      0x08006194   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(ddiv.o)(x$fpl$ddiv)
+    ddiv_entry                               0x0800619b   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(ddiv.o)(x$fpl$ddiv)
+    x$fpl$deqf                               0x08006444   Section      120  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(deqf.o)(x$fpl$deqf)
+    $v0                                      0x08006444   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(deqf.o)(x$fpl$deqf)
+    x$fpl$dfixu                              0x080064bc   Section       90  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dfixu.o)(x$fpl$dfixu)
+    $v0                                      0x080064bc   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dfixu.o)(x$fpl$dfixu)
+    x$fpl$dfltu                              0x08006516   Section       38  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dflt_clz.o)(x$fpl$dfltu)
+    $v0                                      0x08006516   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dflt_clz.o)(x$fpl$dfltu)
+    x$fpl$dleqf                              0x0800653c   Section      120  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dleqf.o)(x$fpl$dleqf)
+    $v0                                      0x0800653c   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dleqf.o)(x$fpl$dleqf)
+    x$fpl$dnaninf                            0x080065b4   Section      156  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dnaninf.o)(x$fpl$dnaninf)
+    $v0                                      0x080065b4   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dnaninf.o)(x$fpl$dnaninf)
+    x$fpl$dretinf                            0x08006650   Section       12  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dretinf.o)(x$fpl$dretinf)
+    $v0                                      0x08006650   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dretinf.o)(x$fpl$dretinf)
+    x$fpl$f2d                                0x0800665c   Section       86  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(f2d.o)(x$fpl$f2d)
+    $v0                                      0x0800665c   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(f2d.o)(x$fpl$f2d)
+    x$fpl$fnaninf                            0x080066b2   Section      140  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fnaninf.o)(x$fpl$fnaninf)
+    $v0                                      0x080066b2   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fnaninf.o)(x$fpl$fnaninf)
+    x$fpl$fpinit                             0x0800673e   Section       10  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fpinit.o)(x$fpl$fpinit)
+    $v0                                      0x0800673e   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fpinit.o)(x$fpl$fpinit)
+    x$fpl$frnd                               0x08006748   Section       96  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(frnd.o)(x$fpl$frnd)
+    $v0                                      0x08006748   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(frnd.o)(x$fpl$frnd)
+    x$fpl$printf1                            0x080067a8   Section        4  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf1.o)(x$fpl$printf1)
+    $v0                                      0x080067a8   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf1.o)(x$fpl$printf1)
+    x$fpl$printf2                            0x080067ac   Section        4  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf2.o)(x$fpl$printf2)
+    $v0                                      0x080067ac   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf2.o)(x$fpl$printf2)
+    .constdata                               0x080067b0   Section       56  .\output\usart.o(.constdata)
+    x$fpl$usenofp                            0x080067b0   Section        0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(usenofp.o)(x$fpl$usenofp)
+    .constdata                               0x080067e8   Section        8  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wctomb.o)(.constdata)
+    initial_mbstate                          0x080067e8   Data           8  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wctomb.o)(.constdata)
+    .constdata                               0x080067f0   Section       40  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll_ptr.o)(.constdata)
+    uc_hextab                                0x080067f0   Data          20  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll_ptr.o)(.constdata)
+    lc_hextab                                0x08006804   Data          20  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll_ptr.o)(.constdata)
+    .constdata                               0x08006818   Section       17  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_ss_wp.o)(.constdata)
+    maptable                                 0x08006818   Data          17  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_ss_wp.o)(.constdata)
+    .constdata                               0x08006829   Section       38  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_hex.o)(.constdata)
+    lc_hextab                                0x08006829   Data          19  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_hex.o)(.constdata)
+    uc_hextab                                0x0800683c   Data          19  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_hex.o)(.constdata)
+    .constdata                               0x08006850   Section      148  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(bigflt0.o)(.constdata)
+    tenpwrs_x                                0x08006850   Data          60  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(bigflt0.o)(.constdata)
+    tenpwrs_i                                0x0800688c   Data          64  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(bigflt0.o)(.constdata)
+    locale$$data                             0x08006904   Section       28  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
+    __lcnum_c_name                           0x08006908   Data           2  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
+    __lcnum_c_start                          0x08006910   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
+    __lcnum_c_point                          0x0800691c   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
+    __lcnum_c_thousands                      0x0800691e   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
+    __lcnum_c_grouping                       0x0800691f   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
+    locale$$data                             0x08006920   Section      272  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$data)
+    __lcnum_c_end                            0x08006920   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$data)
+    __lcctype_c_name                         0x08006924   Data           2  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$data)
+    __lcctype_c_start                        0x0800692c   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$data)
+    __lcctype_c_end                          0x08006a30   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$data)
     .data                                    0x20000000   Section       12  .\output\led.o(.data)
     LED_GPIO_ARRAY                           0x20000002   Data          10  .\output\led.o(.data)
     .data                                    0x2000000c   Section       16  .\output\main.o(.data)
@@ -2749,11 +2768,10 @@ Image Symbol Table
     .bss                                     0x20000d58   Section    32000  .\output\can_protocol.o(.bss)
     .bss                                     0x20008a58   Section      128  .\output\can_protocol.o(.bss)
     can_recent_rx                            0x20008a58   Data          16  .\output\can_protocol.o(.bss)
-    .bss                                     0x20008ad8   Section       24  .\output\imu.o(.bss)
-    .bss                                     0x20008af0   Section       56  .\output\servo_targeting.o(.bss)
-    .bss                                     0x20008b28   Section       32  .\output\path_upslope.o(.bss)
-    rolling_pitch                            0x20008b28   Data          20  .\output\path_upslope.o(.bss)
-    start_ypr                                0x20008b3c   Data          12  .\output\path_upslope.o(.bss)
+    .bss                                     0x20008ad8   Section       36  .\output\imu.o(.bss)
+    .bss                                     0x20008afc   Section       56  .\output\servo_targeting.o(.bss)
+    .bss                                     0x20008b34   Section       20  .\output\path_upslope.o(.bss)
+    rolling_pitch                            0x20008b34   Data          20  .\output\path_upslope.o(.bss)
     .bss                                     0x20008b48   Section       96  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libspace.o)(.bss)
     HEAP                                     0x20008ba8   Section      512  .\output\startup_stm32f405xx.o(HEAP)
     Heap_Mem                                 0x20008ba8   Data         512  .\output\startup_stm32f405xx.o(HEAP)
@@ -3116,83 +3134,85 @@ Image Symbol Table
     __hardfp_roundf                          0x08003879   Thumb Code   154  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\m_wm.l(roundf.o)(i.__hardfp_roundf)
     __hardfp_sqrtf                           0x08003913   Thumb Code    58  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\m_wm.l(sqrtf.o)(i.__hardfp_sqrtf)
     _is_digit                                0x0800394d   Thumb Code    14  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_wp.o)(i._is_digit)
-    can_empty_mailbox                        0x0800395d   Thumb Code    26  .\output\can_protocol.o(i.can_empty_mailbox)
-    can_tx_dequeue                           0x0800397d   Thumb Code   142  .\output\can_protocol.o(i.can_tx_dequeue)
-    can_tx_queue_empty                       0x08003a15   Thumb Code    18  .\output\can_protocol.o(i.can_tx_queue_empty)
-    get_ticks                                0x08003a2d   Thumb Code     6  .\output\tm_stm32f4_delay.o(i.get_ticks)
-    imu_init                                 0x08003a39   Thumb Code    28  .\output\imu.o(i.imu_init)
-    imu_update                               0x08003a5d   Thumb Code   230  .\output\imu.o(i.imu_update)
-    int_cos                                  0x08003b61   Thumb Code     8  .\output\approx_math.o(i.int_cos)
-    int_sin                                  0x08003b69   Thumb Code   120  .\output\approx_math.o(i.int_sin)
-    led_blink                                0x08003be5   Thumb Code    46  .\output\led.o(i.led_blink)
-    led_control                              0x08003c19   Thumb Code    68  .\output\led.o(i.led_control)
-    led_init                                 0x08003c65   Thumb Code    68  .\output\led.o(i.led_init)
-    main                                     0x08003cad   Thumb Code   306  .\output\main.o(i.main)
-    path_down_update                         0x08003e75   Thumb Code     4  .\output\path_downslope.o(i.path_down_update)
-    path_up_init                             0x08003e79   Thumb Code   152  .\output\path_upslope.o(i.path_up_init)
-    path_up_update                           0x08003f29   Thumb Code   400  .\output\path_upslope.o(i.path_up_update)
-    servo_init                               0x08004105   Thumb Code    28  .\output\servo_targeting.o(i.servo_init)
-    set_target                               0x0800412d   Thumb Code     8  .\output\servo_targeting.o(i.set_target)
-    sync_with_imu                            0x08004139   Thumb Code     8  .\output\imu.o(i.sync_with_imu)
-    targeting_pid                            0x08004149   Thumb Code   184  .\output\servo_targeting.o(i.targeting_pid)
-    targeting_update                         0x0800423d   Thumb Code    16  .\output\servo_targeting.o(i.targeting_update)
-    tft_char_is_changed                      0x08004251   Thumb Code    30  .\output\lcd_main.o(i.tft_char_is_changed)
-    tft_clear                                0x08004275   Thumb Code    26  .\output\lcd_main.o(i.tft_clear)
-    tft_clear_line                           0x08004295   Thumb Code    74  .\output\lcd_main.o(i.tft_clear_line)
-    tft_config                               0x080042e9   Thumb Code   534  .\output\lcd_main.o(i.tft_config)
-    tft_easy_init                            0x080044ff   Thumb Code    32  .\output\lcd_main.o(i.tft_easy_init)
-    tft_fill_color                           0x0800451f   Thumb Code   104  .\output\lcd_main.o(i.tft_fill_color)
-    tft_init                                 0x08004589   Thumb Code   162  .\output\lcd_main.o(i.tft_init)
-    tft_println                              0x08004635   Thumb Code   174  .\output\lcd_main.o(i.tft_println)
-    tft_put_logo                             0x080046f5   Thumb Code  4622  .\output\lcd_main.o(i.tft_put_logo)
-    tft_put_pixel                            0x08005905   Thumb Code    84  .\output\lcd_main.o(i.tft_put_pixel)
-    tft_reset                                0x0800595d   Thumb Code    46  .\output\lcd_main.o(i.tft_reset)
-    tft_set_char_pos                         0x08005995   Thumb Code    82  .\output\lcd_main.o(i.tft_set_char_pos)
-    tft_set_pixel_pos                        0x080059e7   Thumb Code    80  .\output\lcd_main.o(i.tft_set_pixel_pos)
-    tft_spi_init                             0x08005a39   Thumb Code   274  .\output\lcd_main.o(i.tft_spi_init)
-    tft_update                               0x08005b59   Thumb Code  1074  .\output\lcd_main.o(i.tft_update)
-    tft_write_command                        0x08005f8d   Thumb Code    80  .\output\lcd_main.o(i.tft_write_command)
-    tft_write_data                           0x08005fe9   Thumb Code    80  .\output\lcd_main.o(i.tft_write_data)
-    uart_init                                0x08006045   Thumb Code   188  .\output\usart.o(i.uart_init)
-    uart_interrupt                           0x08006111   Thumb Code    62  .\output\usart.o(i.uart_interrupt)
-    uart_interrupt_init                      0x08006159   Thumb Code    34  .\output\usart.o(i.uart_interrupt_init)
-    uart_tx                                  0x08006181   Thumb Code    44  .\output\usart.o(i.uart_tx)
-    uart_tx_byte                             0x080061ad   Thumb Code    36  .\output\usart.o(i.uart_tx_byte)
-    _get_lc_numeric                          0x080061d5   Thumb Code    44  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$code)
-    _get_lc_ctype                            0x08006201   Thumb Code    44  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$code)
-    __fpl_dcmp_Inf                           0x0800622d   Thumb Code    24  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dcmpi.o)(x$fpl$dcmpinf)
-    __aeabi_ddiv                             0x08006245   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(ddiv.o)(x$fpl$ddiv)
-    _ddiv                                    0x08006245   Thumb Code   552  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(ddiv.o)(x$fpl$ddiv)
-    __aeabi_cdcmpeq                          0x080064f5   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(deqf.o)(x$fpl$deqf)
-    _dcmpeq                                  0x080064f5   Thumb Code   120  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(deqf.o)(x$fpl$deqf)
-    __aeabi_d2uiz                            0x0800656d   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dfixu.o)(x$fpl$dfixu)
-    _dfixu                                   0x0800656d   Thumb Code    90  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dfixu.o)(x$fpl$dfixu)
-    __aeabi_ui2d                             0x080065c7   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dflt_clz.o)(x$fpl$dfltu)
-    _dfltu                                   0x080065c7   Thumb Code    38  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dflt_clz.o)(x$fpl$dfltu)
-    __aeabi_cdcmple                          0x080065ed   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dleqf.o)(x$fpl$dleqf)
-    _dcmple                                  0x080065ed   Thumb Code   120  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dleqf.o)(x$fpl$dleqf)
-    __fpl_dcmple_InfNaN                      0x0800664f   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dleqf.o)(x$fpl$dleqf)
-    __fpl_dnaninf                            0x08006665   Thumb Code   156  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dnaninf.o)(x$fpl$dnaninf)
-    __fpl_dretinf                            0x08006701   Thumb Code    12  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dretinf.o)(x$fpl$dretinf)
-    __aeabi_f2d                              0x0800670d   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(f2d.o)(x$fpl$f2d)
-    _f2d                                     0x0800670d   Thumb Code    86  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(f2d.o)(x$fpl$f2d)
-    __fpl_fnaninf                            0x08006763   Thumb Code   140  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fnaninf.o)(x$fpl$fnaninf)
-    _fp_init                                 0x080067ef   Thumb Code    10  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fpinit.o)(x$fpl$fpinit)
-    __fplib_config_fpu_vfp                   0x080067f7   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fpinit.o)(x$fpl$fpinit)
-    __fplib_config_pureend_doubles           0x080067f7   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fpinit.o)(x$fpl$fpinit)
-    _frnd                                    0x080067f9   Thumb Code    96  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(frnd.o)(x$fpl$frnd)
-    _printf_fp_dec                           0x08006859   Thumb Code     4  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf1.o)(x$fpl$printf1)
-    _printf_fp_hex                           0x0800685d   Thumb Code     4  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf2.o)(x$fpl$printf2)
-    COM_TX_PIN                               0x08006860   Data           6  .\output\usart.o(.constdata)
-    __I$use$fp                               0x08006860   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(usenofp.o)(x$fpl$usenofp)
-    COM_RX_PIN                               0x08006866   Data           6  .\output\usart.o(.constdata)
-    COM_IRQ                                  0x0800686c   Data           6  .\output\usart.o(.constdata)
-    COM_USART_CLK                            0x08006874   Data          12  .\output\usart.o(.constdata)
-    COM_TX_PORT_CLK                          0x08006880   Data          12  .\output\usart.o(.constdata)
-    COM_RX_PORT_CLK                          0x0800688c   Data          12  .\output\usart.o(.constdata)
-    Region$$Table$$Base                      0x08006994   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x080069b4   Number         0  anon$$obj.o(Region$$Table)
-    __ctype                                  0x080069dd   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$data)
+    abs_diff                                 0x0800395d   Thumb Code    44  .\output\imu_math.o(i.abs_diff)
+    can_empty_mailbox                        0x08003999   Thumb Code    26  .\output\can_protocol.o(i.can_empty_mailbox)
+    can_tx_dequeue                           0x080039b9   Thumb Code   142  .\output\can_protocol.o(i.can_tx_dequeue)
+    can_tx_queue_empty                       0x08003a51   Thumb Code    18  .\output\can_protocol.o(i.can_tx_queue_empty)
+    get_ticks                                0x08003a69   Thumb Code     6  .\output\tm_stm32f4_delay.o(i.get_ticks)
+    imu_init                                 0x08003a75   Thumb Code    28  .\output\imu.o(i.imu_init)
+    imu_update                               0x08003a99   Thumb Code   240  .\output\imu.o(i.imu_update)
+    int_cos                                  0x08003ba5   Thumb Code     8  .\output\approx_math.o(i.int_cos)
+    int_sin                                  0x08003bad   Thumb Code   120  .\output\approx_math.o(i.int_sin)
+    led_blink                                0x08003c29   Thumb Code    46  .\output\led.o(i.led_blink)
+    led_control                              0x08003c5d   Thumb Code    68  .\output\led.o(i.led_control)
+    led_init                                 0x08003ca9   Thumb Code    68  .\output\led.o(i.led_init)
+    main                                     0x08003cf1   Thumb Code   298  .\output\main.o(i.main)
+    path_down_update                         0x08003eb1   Thumb Code     4  .\output\path_downslope.o(i.path_down_update)
+    path_river_update                        0x08003eb5   Thumb Code     4  .\output\path_river.o(i.path_river_update)
+    path_up_init                             0x08003eb9   Thumb Code   100  .\output\path_upslope.o(i.path_up_init)
+    path_up_update                           0x08003f29   Thumb Code   300  .\output\path_upslope.o(i.path_up_update)
+    servo_init                               0x08004085   Thumb Code    28  .\output\servo_targeting.o(i.servo_init)
+    set_target                               0x080040ad   Thumb Code     8  .\output\servo_targeting.o(i.set_target)
+    sync_with_imu                            0x080040b9   Thumb Code     8  .\output\imu.o(i.sync_with_imu)
+    targeting_pid                            0x080040c9   Thumb Code   150  .\output\servo_targeting.o(i.targeting_pid)
+    targeting_update                         0x0800418d   Thumb Code    16  .\output\servo_targeting.o(i.targeting_update)
+    tft_char_is_changed                      0x080041a1   Thumb Code    30  .\output\lcd_main.o(i.tft_char_is_changed)
+    tft_clear                                0x080041c5   Thumb Code    26  .\output\lcd_main.o(i.tft_clear)
+    tft_clear_line                           0x080041e5   Thumb Code    74  .\output\lcd_main.o(i.tft_clear_line)
+    tft_config                               0x08004239   Thumb Code   534  .\output\lcd_main.o(i.tft_config)
+    tft_easy_init                            0x0800444f   Thumb Code    32  .\output\lcd_main.o(i.tft_easy_init)
+    tft_fill_color                           0x0800446f   Thumb Code   104  .\output\lcd_main.o(i.tft_fill_color)
+    tft_init                                 0x080044d9   Thumb Code   162  .\output\lcd_main.o(i.tft_init)
+    tft_println                              0x08004585   Thumb Code   174  .\output\lcd_main.o(i.tft_println)
+    tft_put_logo                             0x08004645   Thumb Code  4622  .\output\lcd_main.o(i.tft_put_logo)
+    tft_put_pixel                            0x08005855   Thumb Code    84  .\output\lcd_main.o(i.tft_put_pixel)
+    tft_reset                                0x080058ad   Thumb Code    46  .\output\lcd_main.o(i.tft_reset)
+    tft_set_char_pos                         0x080058e5   Thumb Code    82  .\output\lcd_main.o(i.tft_set_char_pos)
+    tft_set_pixel_pos                        0x08005937   Thumb Code    80  .\output\lcd_main.o(i.tft_set_pixel_pos)
+    tft_spi_init                             0x08005989   Thumb Code   274  .\output\lcd_main.o(i.tft_spi_init)
+    tft_update                               0x08005aa9   Thumb Code  1074  .\output\lcd_main.o(i.tft_update)
+    tft_write_command                        0x08005edd   Thumb Code    80  .\output\lcd_main.o(i.tft_write_command)
+    tft_write_data                           0x08005f39   Thumb Code    80  .\output\lcd_main.o(i.tft_write_data)
+    uart_init                                0x08005f95   Thumb Code   188  .\output\usart.o(i.uart_init)
+    uart_interrupt                           0x08006061   Thumb Code    62  .\output\usart.o(i.uart_interrupt)
+    uart_interrupt_init                      0x080060a9   Thumb Code    34  .\output\usart.o(i.uart_interrupt_init)
+    uart_tx                                  0x080060d1   Thumb Code    44  .\output\usart.o(i.uart_tx)
+    uart_tx_byte                             0x080060fd   Thumb Code    36  .\output\usart.o(i.uart_tx_byte)
+    _get_lc_numeric                          0x08006125   Thumb Code    44  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)(locale$$code)
+    _get_lc_ctype                            0x08006151   Thumb Code    44  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$code)
+    __fpl_dcmp_Inf                           0x0800617d   Thumb Code    24  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dcmpi.o)(x$fpl$dcmpinf)
+    __aeabi_ddiv                             0x08006195   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(ddiv.o)(x$fpl$ddiv)
+    _ddiv                                    0x08006195   Thumb Code   552  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(ddiv.o)(x$fpl$ddiv)
+    __aeabi_cdcmpeq                          0x08006445   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(deqf.o)(x$fpl$deqf)
+    _dcmpeq                                  0x08006445   Thumb Code   120  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(deqf.o)(x$fpl$deqf)
+    __aeabi_d2uiz                            0x080064bd   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dfixu.o)(x$fpl$dfixu)
+    _dfixu                                   0x080064bd   Thumb Code    90  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dfixu.o)(x$fpl$dfixu)
+    __aeabi_ui2d                             0x08006517   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dflt_clz.o)(x$fpl$dfltu)
+    _dfltu                                   0x08006517   Thumb Code    38  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dflt_clz.o)(x$fpl$dfltu)
+    __aeabi_cdcmple                          0x0800653d   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dleqf.o)(x$fpl$dleqf)
+    _dcmple                                  0x0800653d   Thumb Code   120  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dleqf.o)(x$fpl$dleqf)
+    __fpl_dcmple_InfNaN                      0x0800659f   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dleqf.o)(x$fpl$dleqf)
+    __fpl_dnaninf                            0x080065b5   Thumb Code   156  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dnaninf.o)(x$fpl$dnaninf)
+    __fpl_dretinf                            0x08006651   Thumb Code    12  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dretinf.o)(x$fpl$dretinf)
+    __aeabi_f2d                              0x0800665d   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(f2d.o)(x$fpl$f2d)
+    _f2d                                     0x0800665d   Thumb Code    86  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(f2d.o)(x$fpl$f2d)
+    __fpl_fnaninf                            0x080066b3   Thumb Code   140  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fnaninf.o)(x$fpl$fnaninf)
+    _fp_init                                 0x0800673f   Thumb Code    10  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fpinit.o)(x$fpl$fpinit)
+    __fplib_config_fpu_vfp                   0x08006747   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fpinit.o)(x$fpl$fpinit)
+    __fplib_config_pureend_doubles           0x08006747   Thumb Code     0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fpinit.o)(x$fpl$fpinit)
+    _frnd                                    0x08006749   Thumb Code    96  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(frnd.o)(x$fpl$frnd)
+    _printf_fp_dec                           0x080067a9   Thumb Code     4  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf1.o)(x$fpl$printf1)
+    _printf_fp_hex                           0x080067ad   Thumb Code     4  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf2.o)(x$fpl$printf2)
+    COM_TX_PIN                               0x080067b0   Data           6  .\output\usart.o(.constdata)
+    __I$use$fp                               0x080067b0   Number         0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(usenofp.o)(x$fpl$usenofp)
+    COM_RX_PIN                               0x080067b6   Data           6  .\output\usart.o(.constdata)
+    COM_IRQ                                  0x080067bc   Data           6  .\output\usart.o(.constdata)
+    COM_USART_CLK                            0x080067c4   Data          12  .\output\usart.o(.constdata)
+    COM_TX_PORT_CLK                          0x080067d0   Data          12  .\output\usart.o(.constdata)
+    COM_RX_PORT_CLK                          0x080067dc   Data          12  .\output\usart.o(.constdata)
+    Region$$Table$$Base                      0x080068e4   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08006904   Number         0  anon$$obj.o(Region$$Table)
+    __ctype                                  0x0800692d   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)(locale$$data)
     led_state                                0x20000000   Data           1  .\output\led.o(.data)
     last_loop_ticks                          0x2000000c   Data           4  .\output\main.o(.data)
     last_long_loop_ticks                     0x20000010   Data           4  .\output\main.o(.data)
@@ -3245,7 +3265,8 @@ Image Symbol Table
     CAN_Rx_Handlers                          0x20008a68   Data         112  .\output\can_protocol.o(.bss)
     imu_buffer                               0x20008ad8   Data          12  .\output\imu.o(.bss)
     yaw_pitch_roll                           0x20008ae4   Data          12  .\output\imu.o(.bss)
-    dragon_servo                             0x20008af0   Data          56  .\output\servo_targeting.o(.bss)
+    start_ypr                                0x20008af0   Data          12  .\output\imu.o(.bss)
+    dragon_servo                             0x20008afc   Data          56  .\output\servo_targeting.o(.bss)
     __libspace_start                         0x20008b48   Data          96  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libspace.o)(.bss)
     __temporary_stack_top$libspace           0x20008ba8   Data           0  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libspace.o)(.bss)
 
@@ -3257,309 +3278,311 @@ Memory Map of the image
 
   Image Entry point : 0x08000189
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x0000734c, Max: 0x00100000, ABSOLUTE, COMPRESSED[0x00006f54])
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x0000729c, Max: 0x00100000, ABSOLUTE, COMPRESSED[0x00006ea4])
 
-    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00006ae0, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00006a30, Max: 0x00100000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x08000000   0x00000188   Data   RO         6944    RESET               .\output\startup_stm32f405xx.o
-    0x08000188   0x00000008   Code   RO         7058  * !!!main             C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__main.o)
-    0x08000190   0x00000034   Code   RO         7482    !!!scatter          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__scatter.o)
-    0x080001c4   0x0000005a   Code   RO         7480    !!dczerorl2         C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__dczerorl2.o)
+    0x08000000   0x00000188   Data   RO         7005    RESET               .\output\startup_stm32f405xx.o
+    0x08000188   0x00000008   Code   RO         7119  * !!!main             C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__main.o)
+    0x08000190   0x00000034   Code   RO         7543    !!!scatter          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__scatter.o)
+    0x080001c4   0x0000005a   Code   RO         7541    !!dczerorl2         C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__dczerorl2.o)
     0x0800021e   0x00000002   PAD
-    0x08000220   0x0000001c   Code   RO         7484    !!handler_zi        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__scatter_zi.o)
-    0x0800023c   0x00000000   Code   RO         7209    .ARM.Collect$$_printf_percent$$00000000  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_percent.o)
-    0x0800023c   0x00000006   Code   RO         7198    .ARM.Collect$$_printf_percent$$00000001  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_n.o)
-    0x08000242   0x00000006   Code   RO         7200    .ARM.Collect$$_printf_percent$$00000002  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_p.o)
-    0x08000248   0x00000006   Code   RO         7205    .ARM.Collect$$_printf_percent$$00000003  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_f.o)
-    0x0800024e   0x00000006   Code   RO         7206    .ARM.Collect$$_printf_percent$$00000004  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_e.o)
-    0x08000254   0x00000006   Code   RO         7207    .ARM.Collect$$_printf_percent$$00000005  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_g.o)
-    0x0800025a   0x00000006   Code   RO         7208    .ARM.Collect$$_printf_percent$$00000006  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_a.o)
-    0x08000260   0x0000000a   Code   RO         7213    .ARM.Collect$$_printf_percent$$00000007  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_ll.o)
-    0x0800026a   0x00000006   Code   RO         7202    .ARM.Collect$$_printf_percent$$00000008  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_i.o)
-    0x08000270   0x00000006   Code   RO         7203    .ARM.Collect$$_printf_percent$$00000009  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_d.o)
-    0x08000276   0x00000006   Code   RO         7204    .ARM.Collect$$_printf_percent$$0000000A  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_u.o)
-    0x0800027c   0x00000006   Code   RO         7201    .ARM.Collect$$_printf_percent$$0000000B  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_o.o)
-    0x08000282   0x00000006   Code   RO         7199    .ARM.Collect$$_printf_percent$$0000000C  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_x.o)
-    0x08000288   0x00000006   Code   RO         7210    .ARM.Collect$$_printf_percent$$0000000D  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_lli.o)
-    0x0800028e   0x00000006   Code   RO         7211    .ARM.Collect$$_printf_percent$$0000000E  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_lld.o)
-    0x08000294   0x00000006   Code   RO         7212    .ARM.Collect$$_printf_percent$$0000000F  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_llu.o)
-    0x0800029a   0x00000006   Code   RO         7217    .ARM.Collect$$_printf_percent$$00000010  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_llo.o)
-    0x080002a0   0x00000006   Code   RO         7218    .ARM.Collect$$_printf_percent$$00000011  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_llx.o)
-    0x080002a6   0x0000000a   Code   RO         7214    .ARM.Collect$$_printf_percent$$00000012  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_l.o)
-    0x080002b0   0x00000006   Code   RO         7196    .ARM.Collect$$_printf_percent$$00000013  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_c.o)
-    0x080002b6   0x00000006   Code   RO         7197    .ARM.Collect$$_printf_percent$$00000014  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_s.o)
-    0x080002bc   0x00000006   Code   RO         7215    .ARM.Collect$$_printf_percent$$00000015  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_lc.o)
-    0x080002c2   0x00000006   Code   RO         7216    .ARM.Collect$$_printf_percent$$00000016  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_ls.o)
-    0x080002c8   0x00000004   Code   RO         7342    .ARM.Collect$$_printf_percent$$00000017  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_percent_end.o)
-    0x080002cc   0x00000002   Code   RO         7418    .ARM.Collect$$libinit$$00000000  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit.o)
-    0x080002ce   0x00000004   Code   RO         7225    .ARM.Collect$$libinit$$00000001  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002d2   0x00000000   Code   RO         7228    .ARM.Collect$$libinit$$00000004  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002d2   0x00000000   Code   RO         7231    .ARM.Collect$$libinit$$0000000A  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002d2   0x00000000   Code   RO         7233    .ARM.Collect$$libinit$$0000000C  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002d2   0x00000000   Code   RO         7235    .ARM.Collect$$libinit$$0000000E  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002d2   0x00000006   Code   RO         7236    .ARM.Collect$$libinit$$0000000F  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002d8   0x00000000   Code   RO         7238    .ARM.Collect$$libinit$$00000011  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002d8   0x0000000c   Code   RO         7239    .ARM.Collect$$libinit$$00000012  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002e4   0x00000000   Code   RO         7240    .ARM.Collect$$libinit$$00000013  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002e4   0x00000000   Code   RO         7242    .ARM.Collect$$libinit$$00000015  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002e4   0x0000000a   Code   RO         7243    .ARM.Collect$$libinit$$00000016  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000000   Code   RO         7244    .ARM.Collect$$libinit$$00000017  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000000   Code   RO         7246    .ARM.Collect$$libinit$$00000019  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000000   Code   RO         7248    .ARM.Collect$$libinit$$0000001B  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000000   Code   RO         7250    .ARM.Collect$$libinit$$0000001D  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000000   Code   RO         7252    .ARM.Collect$$libinit$$0000001F  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000000   Code   RO         7254    .ARM.Collect$$libinit$$00000021  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000000   Code   RO         7256    .ARM.Collect$$libinit$$00000023  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000000   Code   RO         7258    .ARM.Collect$$libinit$$00000025  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000000   Code   RO         7262    .ARM.Collect$$libinit$$0000002C  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000000   Code   RO         7264    .ARM.Collect$$libinit$$0000002E  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000000   Code   RO         7266    .ARM.Collect$$libinit$$00000030  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000000   Code   RO         7268    .ARM.Collect$$libinit$$00000032  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002ee   0x00000002   Code   RO         7269    .ARM.Collect$$libinit$$00000033  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
-    0x080002f0   0x00000002   Code   RO         7477    .ARM.Collect$$libshutdown$$00000000  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown.o)
-    0x080002f2   0x00000000   Code   RO         7439    .ARM.Collect$$libshutdown$$00000002  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
-    0x080002f2   0x00000000   Code   RO         7441    .ARM.Collect$$libshutdown$$00000004  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
-    0x080002f2   0x00000000   Code   RO         7444    .ARM.Collect$$libshutdown$$00000007  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
-    0x080002f2   0x00000000   Code   RO         7447    .ARM.Collect$$libshutdown$$0000000A  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
-    0x080002f2   0x00000000   Code   RO         7449    .ARM.Collect$$libshutdown$$0000000C  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
-    0x080002f2   0x00000000   Code   RO         7452    .ARM.Collect$$libshutdown$$0000000F  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
-    0x080002f2   0x00000002   Code   RO         7453    .ARM.Collect$$libshutdown$$00000010  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
-    0x080002f4   0x00000000   Code   RO         7100    .ARM.Collect$$rtentry$$00000000  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry.o)
-    0x080002f4   0x00000000   Code   RO         7298    .ARM.Collect$$rtentry$$00000002  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry2.o)
-    0x080002f4   0x00000006   Code   RO         7310    .ARM.Collect$$rtentry$$00000004  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry4.o)
-    0x080002fa   0x00000000   Code   RO         7300    .ARM.Collect$$rtentry$$00000009  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry2.o)
-    0x080002fa   0x00000004   Code   RO         7301    .ARM.Collect$$rtentry$$0000000A  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry2.o)
-    0x080002fe   0x00000000   Code   RO         7303    .ARM.Collect$$rtentry$$0000000C  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry2.o)
-    0x080002fe   0x00000008   Code   RO         7304    .ARM.Collect$$rtentry$$0000000D  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry2.o)
-    0x08000306   0x00000002   Code   RO         7425    .ARM.Collect$$rtexit$$00000000  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rtexit.o)
-    0x08000308   0x00000000   Code   RO         7455    .ARM.Collect$$rtexit$$00000002  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rtexit2.o)
-    0x08000308   0x00000004   Code   RO         7456    .ARM.Collect$$rtexit$$00000003  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rtexit2.o)
-    0x0800030c   0x00000006   Code   RO         7457    .ARM.Collect$$rtexit$$00000004  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rtexit2.o)
+    0x08000220   0x0000001c   Code   RO         7545    !!handler_zi        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__scatter_zi.o)
+    0x0800023c   0x00000000   Code   RO         7270    .ARM.Collect$$_printf_percent$$00000000  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_percent.o)
+    0x0800023c   0x00000006   Code   RO         7259    .ARM.Collect$$_printf_percent$$00000001  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_n.o)
+    0x08000242   0x00000006   Code   RO         7261    .ARM.Collect$$_printf_percent$$00000002  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_p.o)
+    0x08000248   0x00000006   Code   RO         7266    .ARM.Collect$$_printf_percent$$00000003  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_f.o)
+    0x0800024e   0x00000006   Code   RO         7267    .ARM.Collect$$_printf_percent$$00000004  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_e.o)
+    0x08000254   0x00000006   Code   RO         7268    .ARM.Collect$$_printf_percent$$00000005  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_g.o)
+    0x0800025a   0x00000006   Code   RO         7269    .ARM.Collect$$_printf_percent$$00000006  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_a.o)
+    0x08000260   0x0000000a   Code   RO         7274    .ARM.Collect$$_printf_percent$$00000007  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_ll.o)
+    0x0800026a   0x00000006   Code   RO         7263    .ARM.Collect$$_printf_percent$$00000008  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_i.o)
+    0x08000270   0x00000006   Code   RO         7264    .ARM.Collect$$_printf_percent$$00000009  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_d.o)
+    0x08000276   0x00000006   Code   RO         7265    .ARM.Collect$$_printf_percent$$0000000A  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_u.o)
+    0x0800027c   0x00000006   Code   RO         7262    .ARM.Collect$$_printf_percent$$0000000B  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_o.o)
+    0x08000282   0x00000006   Code   RO         7260    .ARM.Collect$$_printf_percent$$0000000C  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_x.o)
+    0x08000288   0x00000006   Code   RO         7271    .ARM.Collect$$_printf_percent$$0000000D  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_lli.o)
+    0x0800028e   0x00000006   Code   RO         7272    .ARM.Collect$$_printf_percent$$0000000E  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_lld.o)
+    0x08000294   0x00000006   Code   RO         7273    .ARM.Collect$$_printf_percent$$0000000F  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_llu.o)
+    0x0800029a   0x00000006   Code   RO         7278    .ARM.Collect$$_printf_percent$$00000010  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_llo.o)
+    0x080002a0   0x00000006   Code   RO         7279    .ARM.Collect$$_printf_percent$$00000011  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_llx.o)
+    0x080002a6   0x0000000a   Code   RO         7275    .ARM.Collect$$_printf_percent$$00000012  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_l.o)
+    0x080002b0   0x00000006   Code   RO         7257    .ARM.Collect$$_printf_percent$$00000013  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_c.o)
+    0x080002b6   0x00000006   Code   RO         7258    .ARM.Collect$$_printf_percent$$00000014  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_s.o)
+    0x080002bc   0x00000006   Code   RO         7276    .ARM.Collect$$_printf_percent$$00000015  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_lc.o)
+    0x080002c2   0x00000006   Code   RO         7277    .ARM.Collect$$_printf_percent$$00000016  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_ls.o)
+    0x080002c8   0x00000004   Code   RO         7403    .ARM.Collect$$_printf_percent$$00000017  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_percent_end.o)
+    0x080002cc   0x00000002   Code   RO         7479    .ARM.Collect$$libinit$$00000000  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit.o)
+    0x080002ce   0x00000004   Code   RO         7286    .ARM.Collect$$libinit$$00000001  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002d2   0x00000000   Code   RO         7289    .ARM.Collect$$libinit$$00000004  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002d2   0x00000000   Code   RO         7292    .ARM.Collect$$libinit$$0000000A  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002d2   0x00000000   Code   RO         7294    .ARM.Collect$$libinit$$0000000C  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002d2   0x00000000   Code   RO         7296    .ARM.Collect$$libinit$$0000000E  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002d2   0x00000006   Code   RO         7297    .ARM.Collect$$libinit$$0000000F  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002d8   0x00000000   Code   RO         7299    .ARM.Collect$$libinit$$00000011  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002d8   0x0000000c   Code   RO         7300    .ARM.Collect$$libinit$$00000012  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002e4   0x00000000   Code   RO         7301    .ARM.Collect$$libinit$$00000013  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002e4   0x00000000   Code   RO         7303    .ARM.Collect$$libinit$$00000015  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002e4   0x0000000a   Code   RO         7304    .ARM.Collect$$libinit$$00000016  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000000   Code   RO         7305    .ARM.Collect$$libinit$$00000017  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000000   Code   RO         7307    .ARM.Collect$$libinit$$00000019  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000000   Code   RO         7309    .ARM.Collect$$libinit$$0000001B  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000000   Code   RO         7311    .ARM.Collect$$libinit$$0000001D  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000000   Code   RO         7313    .ARM.Collect$$libinit$$0000001F  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000000   Code   RO         7315    .ARM.Collect$$libinit$$00000021  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000000   Code   RO         7317    .ARM.Collect$$libinit$$00000023  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000000   Code   RO         7319    .ARM.Collect$$libinit$$00000025  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000000   Code   RO         7323    .ARM.Collect$$libinit$$0000002C  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000000   Code   RO         7325    .ARM.Collect$$libinit$$0000002E  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000000   Code   RO         7327    .ARM.Collect$$libinit$$00000030  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000000   Code   RO         7329    .ARM.Collect$$libinit$$00000032  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002ee   0x00000002   Code   RO         7330    .ARM.Collect$$libinit$$00000033  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libinit2.o)
+    0x080002f0   0x00000002   Code   RO         7538    .ARM.Collect$$libshutdown$$00000000  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown.o)
+    0x080002f2   0x00000000   Code   RO         7500    .ARM.Collect$$libshutdown$$00000002  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
+    0x080002f2   0x00000000   Code   RO         7502    .ARM.Collect$$libshutdown$$00000004  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
+    0x080002f2   0x00000000   Code   RO         7505    .ARM.Collect$$libshutdown$$00000007  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
+    0x080002f2   0x00000000   Code   RO         7508    .ARM.Collect$$libshutdown$$0000000A  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
+    0x080002f2   0x00000000   Code   RO         7510    .ARM.Collect$$libshutdown$$0000000C  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
+    0x080002f2   0x00000000   Code   RO         7513    .ARM.Collect$$libshutdown$$0000000F  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
+    0x080002f2   0x00000002   Code   RO         7514    .ARM.Collect$$libshutdown$$00000010  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libshutdown2.o)
+    0x080002f4   0x00000000   Code   RO         7161    .ARM.Collect$$rtentry$$00000000  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry.o)
+    0x080002f4   0x00000000   Code   RO         7359    .ARM.Collect$$rtentry$$00000002  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry2.o)
+    0x080002f4   0x00000006   Code   RO         7371    .ARM.Collect$$rtentry$$00000004  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry4.o)
+    0x080002fa   0x00000000   Code   RO         7361    .ARM.Collect$$rtentry$$00000009  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry2.o)
+    0x080002fa   0x00000004   Code   RO         7362    .ARM.Collect$$rtentry$$0000000A  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry2.o)
+    0x080002fe   0x00000000   Code   RO         7364    .ARM.Collect$$rtentry$$0000000C  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry2.o)
+    0x080002fe   0x00000008   Code   RO         7365    .ARM.Collect$$rtentry$$0000000D  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__rtentry2.o)
+    0x08000306   0x00000002   Code   RO         7486    .ARM.Collect$$rtexit$$00000000  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rtexit.o)
+    0x08000308   0x00000000   Code   RO         7516    .ARM.Collect$$rtexit$$00000002  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rtexit2.o)
+    0x08000308   0x00000004   Code   RO         7517    .ARM.Collect$$rtexit$$00000003  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rtexit2.o)
+    0x0800030c   0x00000006   Code   RO         7518    .ARM.Collect$$rtexit$$00000004  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rtexit2.o)
     0x08000312   0x00000002   PAD
-    0x08000314   0x00000040   Code   RO         6945    .text               .\output\startup_stm32f405xx.o
-    0x08000354   0x00000024   Code   RO         7050    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(vsprintf.o)
-    0x08000378   0x00000016   Code   RO         7052    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(abort.o)
-    0x0800038e   0x00000064   Code   RO         7054    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_memcpy_w.o)
-    0x080003f2   0x00000006   Code   RO         7056    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(heapauxi.o)
-    0x080003f8   0x0000000c   Code   RO         7096    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(sys_exit.o)
-    0x08000404   0x00000016   Code   RO         7126    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_rserrno.o)
-    0x0800041a   0x0000004e   Code   RO         7130    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_pad.o)
-    0x08000468   0x00000024   Code   RO         7132    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_truncate.o)
-    0x0800048c   0x00000052   Code   RO         7134    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_str.o)
+    0x08000314   0x00000040   Code   RO         7006    .text               .\output\startup_stm32f405xx.o
+    0x08000354   0x00000024   Code   RO         7111    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(vsprintf.o)
+    0x08000378   0x00000016   Code   RO         7113    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(abort.o)
+    0x0800038e   0x00000064   Code   RO         7115    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_memcpy_w.o)
+    0x080003f2   0x00000006   Code   RO         7117    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(heapauxi.o)
+    0x080003f8   0x0000000c   Code   RO         7157    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(sys_exit.o)
+    0x08000404   0x00000016   Code   RO         7187    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_rserrno.o)
+    0x0800041a   0x0000004e   Code   RO         7191    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_pad.o)
+    0x08000468   0x00000024   Code   RO         7193    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_truncate.o)
+    0x0800048c   0x00000052   Code   RO         7195    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_str.o)
     0x080004de   0x00000002   PAD
-    0x080004e0   0x00000078   Code   RO         7136    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_dec.o)
-    0x08000558   0x00000028   Code   RO         7138    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_charcount.o)
-    0x08000580   0x00000030   Code   RO         7140    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_char_common.o)
-    0x080005b0   0x0000000a   Code   RO         7142    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_sputc.o)
+    0x080004e0   0x00000078   Code   RO         7197    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_dec.o)
+    0x08000558   0x00000028   Code   RO         7199    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_charcount.o)
+    0x08000580   0x00000030   Code   RO         7201    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_char_common.o)
+    0x080005b0   0x0000000a   Code   RO         7203    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_sputc.o)
     0x080005ba   0x00000002   PAD
-    0x080005bc   0x000000bc   Code   RO         7144    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wctomb.o)
-    0x08000678   0x0000007c   Code   RO         7147    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_longlong_dec.o)
-    0x080006f4   0x00000070   Code   RO         7153    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_oct_int_ll.o)
-    0x08000764   0x00000094   Code   RO         7173    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll_ptr.o)
-    0x080007f8   0x00000188   Code   RO         7193    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_ss_wp.o)
-    0x08000980   0x0000000e   Code   RO         7219    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_abrt_outer.o)
+    0x080005bc   0x000000bc   Code   RO         7205    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wctomb.o)
+    0x08000678   0x0000007c   Code   RO         7208    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_longlong_dec.o)
+    0x080006f4   0x00000070   Code   RO         7214    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_oct_int_ll.o)
+    0x08000764   0x00000094   Code   RO         7234    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll_ptr.o)
+    0x080007f8   0x00000188   Code   RO         7254    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_ss_wp.o)
+    0x08000980   0x0000000e   Code   RO         7280    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_abrt_outer.o)
     0x0800098e   0x00000002   PAD
-    0x08000990   0x00000008   Code   RO         7291    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libspace.o)
-    0x08000998   0x00000002   Code   RO         7294    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(use_no_semi.o)
-    0x0800099a   0x00000000   Code   RO         7296    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(indicate_semi.o)
+    0x08000990   0x00000008   Code   RO         7352    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libspace.o)
+    0x08000998   0x00000002   Code   RO         7355    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(use_no_semi.o)
+    0x0800099a   0x00000000   Code   RO         7357    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(indicate_semi.o)
     0x0800099a   0x00000002   PAD
-    0x0800099c   0x00000008   Code   RO         7317    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_errno_addr_intlibspace.o)
-    0x080009a4   0x0000008a   Code   RO         7327    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lludiv10.o)
-    0x08000a2e   0x000000b2   Code   RO         7329    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_intcommon.o)
-    0x08000ae0   0x0000041a   Code   RO         7331    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_dec.o)
+    0x0800099c   0x00000008   Code   RO         7378    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_errno_addr_intlibspace.o)
+    0x080009a4   0x0000008a   Code   RO         7388    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lludiv10.o)
+    0x08000a2e   0x000000b2   Code   RO         7390    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_intcommon.o)
+    0x08000ae0   0x0000041a   Code   RO         7392    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_dec.o)
     0x08000efa   0x00000002   PAD
-    0x08000efc   0x000002fc   Code   RO         7333    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_hex.o)
-    0x080011f8   0x0000002c   Code   RO         7338    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_char.o)
-    0x08001224   0x0000002c   Code   RO         7340    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wchar.o)
-    0x08001250   0x00000040   Code   RO         7343    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_wcrtomb.o)
-    0x08001290   0x0000000a   Code   RO         7345    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_exit.o)
+    0x08000efc   0x000002fc   Code   RO         7394    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_hex.o)
+    0x080011f8   0x0000002c   Code   RO         7399    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_char.o)
+    0x08001224   0x0000002c   Code   RO         7401    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wchar.o)
+    0x08001250   0x00000040   Code   RO         7404    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_wcrtomb.o)
+    0x08001290   0x0000000a   Code   RO         7406    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_exit.o)
     0x0800129a   0x00000002   PAD
-    0x0800129c   0x00000030   Code   RO         7347    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_abrt_inner.o)
-    0x080012cc   0x0000004a   Code   RO         7360    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(sys_stackheap_outer.o)
+    0x0800129c   0x00000030   Code   RO         7408    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_abrt_inner.o)
+    0x080012cc   0x0000004a   Code   RO         7421    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(sys_stackheap_outer.o)
     0x08001316   0x00000002   PAD
-    0x08001318   0x00000010   Code   RO         7362    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_ctype_table.o)
-    0x08001328   0x00000008   Code   RO         7367    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_locale_intlibspace.o)
-    0x08001330   0x00000080   Code   RO         7371    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_infnan.o)
-    0x080013b0   0x000000dc   Code   RO         7373    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(bigflt0.o)
-    0x0800148c   0x00000012   Code   RO         7401    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(exit.o)
-    0x0800149e   0x00000032   Code   RO         7405    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_general.o)
-    0x080014d0   0x0000000e   Code   RO         7423    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(sys_wrch.o)
+    0x08001318   0x00000010   Code   RO         7423    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_ctype_table.o)
+    0x08001328   0x00000008   Code   RO         7428    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(rt_locale_intlibspace.o)
+    0x08001330   0x00000080   Code   RO         7432    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_infnan.o)
+    0x080013b0   0x000000dc   Code   RO         7434    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(bigflt0.o)
+    0x0800148c   0x00000012   Code   RO         7462    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(exit.o)
+    0x0800149e   0x00000032   Code   RO         7466    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(defsig_general.o)
+    0x080014d0   0x0000000e   Code   RO         7484    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(sys_wrch.o)
     0x080014de   0x00000002   PAD
-    0x080014e0   0x00000080   Code   RO         7436    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(strcmpv7m.o)
-    0x08001560   0x0000003e   Code   RO         7376    CL$$btod_d2e        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
-    0x0800159e   0x00000046   Code   RO         7378    CL$$btod_d2e_denorm_low  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
-    0x080015e4   0x00000060   Code   RO         7377    CL$$btod_d2e_norm_op1  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
-    0x08001644   0x00000338   Code   RO         7386    CL$$btod_div_common  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
-    0x0800197c   0x000000c6   Code   RO         7383    CL$$btod_e2e        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
-    0x08001a42   0x00000028   Code   RO         7380    CL$$btod_ediv       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
-    0x08001a6a   0x00000028   Code   RO         7379    CL$$btod_emul       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
-    0x08001a92   0x00000244   Code   RO         7385    CL$$btod_mult_common  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
+    0x080014e0   0x00000080   Code   RO         7497    .text               C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(strcmpv7m.o)
+    0x08001560   0x0000003e   Code   RO         7437    CL$$btod_d2e        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
+    0x0800159e   0x00000046   Code   RO         7439    CL$$btod_d2e_denorm_low  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
+    0x080015e4   0x00000060   Code   RO         7438    CL$$btod_d2e_norm_op1  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
+    0x08001644   0x00000338   Code   RO         7447    CL$$btod_div_common  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
+    0x0800197c   0x000000c6   Code   RO         7444    CL$$btod_e2e        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
+    0x08001a42   0x00000028   Code   RO         7441    CL$$btod_ediv       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
+    0x08001a6a   0x00000028   Code   RO         7440    CL$$btod_emul       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
+    0x08001a92   0x00000244   Code   RO         7446    CL$$btod_mult_common  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(btod.o)
     0x08001cd6   0x00000002   PAD
-    0x08001cd8   0x00000090   Code   RO         1362    i.CAN1_RX0_IRQHandler  .\output\can_protocol.o
-    0x08001d68   0x00000028   Code   RO         1363    i.CAN1_TX_IRQHandler  .\output\can_protocol.o
-    0x08001d90   0x00000078   Code   RO         2272    i.CAN_ClearITPendingBit  .\output\stm32f4xx_can.o
-    0x08001e08   0x000000a8   Code   RO         2278    i.CAN_GetITStatus   .\output\stm32f4xx_can.o
-    0x08001eb0   0x0000008e   Code   RO         2286    i.CAN_Receive       .\output\stm32f4xx_can.o
-    0x08001f3e   0x000000a4   Code   RO         2291    i.CAN_Transmit      .\output\stm32f4xx_can.o
-    0x08001fe2   0x0000000c   Code   RO         2294    i.CheckITStatus     .\output\stm32f4xx_can.o
+    0x08001cd8   0x00000090   Code   RO         1368    i.CAN1_RX0_IRQHandler  .\output\can_protocol.o
+    0x08001d68   0x00000028   Code   RO         1369    i.CAN1_TX_IRQHandler  .\output\can_protocol.o
+    0x08001d90   0x00000078   Code   RO         2333    i.CAN_ClearITPendingBit  .\output\stm32f4xx_can.o
+    0x08001e08   0x000000a8   Code   RO         2339    i.CAN_GetITStatus   .\output\stm32f4xx_can.o
+    0x08001eb0   0x0000008e   Code   RO         2347    i.CAN_Receive       .\output\stm32f4xx_can.o
+    0x08001f3e   0x000000a4   Code   RO         2352    i.CAN_Transmit      .\output\stm32f4xx_can.o
+    0x08001fe2   0x0000000c   Code   RO         2355    i.CheckITStatus     .\output\stm32f4xx_can.o
     0x08001fee   0x00000002   PAD
-    0x08001ff0   0x00000030   Code   RO          805    i.Delayms           .\output\lcd_main.o
-    0x08002020   0x00000078   Code   RO         3830    i.GPIO_Init         .\output\stm32f4xx_gpio.o
-    0x08002098   0x00000020   Code   RO         3831    i.GPIO_PinAFConfig  .\output\stm32f4xx_gpio.o
-    0x080020b8   0x00000004   Code   RO         3837    i.GPIO_ResetBits    .\output\stm32f4xx_gpio.o
-    0x080020bc   0x00000004   Code   RO         3838    i.GPIO_SetBits      .\output\stm32f4xx_gpio.o
-    0x080020c0   0x0000000a   Code   RO         3842    i.GPIO_WriteBit     .\output\stm32f4xx_gpio.o
+    0x08001ff0   0x00000030   Code   RO          811    i.Delayms           .\output\lcd_main.o
+    0x08002020   0x00000078   Code   RO         3891    i.GPIO_Init         .\output\stm32f4xx_gpio.o
+    0x08002098   0x00000020   Code   RO         3892    i.GPIO_PinAFConfig  .\output\stm32f4xx_gpio.o
+    0x080020b8   0x00000004   Code   RO         3898    i.GPIO_ResetBits    .\output\stm32f4xx_gpio.o
+    0x080020bc   0x00000004   Code   RO         3899    i.GPIO_SetBits      .\output\stm32f4xx_gpio.o
+    0x080020c0   0x0000000a   Code   RO         3903    i.GPIO_WriteBit     .\output\stm32f4xx_gpio.o
     0x080020ca   0x00000002   PAD
-    0x080020cc   0x000000b4   Code   RO         1803    i.IMU_receiver      .\output\imu.o
-    0x08002180   0x00000064   Code   RO         1976    i.NVIC_Init         .\output\misc.o
-    0x080021e4   0x00000014   Code   RO         1978    i.NVIC_SetVectorTable  .\output\misc.o
-    0x080021f8   0x00000018   Code   RO         4756    i.RCC_AHB1PeriphClockCmd  .\output\stm32f4xx_rcc.o
-    0x08002210   0x00000018   Code   RO         4765    i.RCC_APB1PeriphClockCmd  .\output\stm32f4xx_rcc.o
-    0x08002228   0x00000018   Code   RO         4766    i.RCC_APB1PeriphClockLPModeCmd  .\output\stm32f4xx_rcc.o
-    0x08002240   0x00000018   Code   RO         4768    i.RCC_APB2PeriphClockCmd  .\output\stm32f4xx_rcc.o
-    0x08002258   0x00000090   Code   RO         4777    i.RCC_GetClocksFreq  .\output\stm32f4xx_rcc.o
-    0x080022e8   0x00000014   Code   RO         5913    i.SPI_CalculateCRC  .\output\stm32f4xx_spi.o
-    0x080022fc   0x00000014   Code   RO         5914    i.SPI_Cmd           .\output\stm32f4xx_spi.o
-    0x08002310   0x0000000e   Code   RO         5922    i.SPI_I2S_GetFlagStatus  .\output\stm32f4xx_spi.o
-    0x0800231e   0x00000004   Code   RO         5925    i.SPI_I2S_ReceiveData  .\output\stm32f4xx_spi.o
-    0x08002322   0x00000004   Code   RO         5926    i.SPI_I2S_SendData  .\output\stm32f4xx_spi.o
-    0x08002326   0x00000038   Code   RO         5927    i.SPI_Init          .\output\stm32f4xx_spi.o
-    0x0800235e   0x00000014   Code   RO         5929    i.SPI_SSOutputCmd   .\output\stm32f4xx_spi.o
+    0x080020cc   0x000000b4   Code   RO         1809    i.IMU_receiver      .\output\imu.o
+    0x08002180   0x00000064   Code   RO         2037    i.NVIC_Init         .\output\misc.o
+    0x080021e4   0x00000014   Code   RO         2039    i.NVIC_SetVectorTable  .\output\misc.o
+    0x080021f8   0x00000018   Code   RO         4817    i.RCC_AHB1PeriphClockCmd  .\output\stm32f4xx_rcc.o
+    0x08002210   0x00000018   Code   RO         4826    i.RCC_APB1PeriphClockCmd  .\output\stm32f4xx_rcc.o
+    0x08002228   0x00000018   Code   RO         4827    i.RCC_APB1PeriphClockLPModeCmd  .\output\stm32f4xx_rcc.o
+    0x08002240   0x00000018   Code   RO         4829    i.RCC_APB2PeriphClockCmd  .\output\stm32f4xx_rcc.o
+    0x08002258   0x00000090   Code   RO         4838    i.RCC_GetClocksFreq  .\output\stm32f4xx_rcc.o
+    0x080022e8   0x00000014   Code   RO         5974    i.SPI_CalculateCRC  .\output\stm32f4xx_spi.o
+    0x080022fc   0x00000014   Code   RO         5975    i.SPI_Cmd           .\output\stm32f4xx_spi.o
+    0x08002310   0x0000000e   Code   RO         5983    i.SPI_I2S_GetFlagStatus  .\output\stm32f4xx_spi.o
+    0x0800231e   0x00000004   Code   RO         5986    i.SPI_I2S_ReceiveData  .\output\stm32f4xx_spi.o
+    0x08002322   0x00000004   Code   RO         5987    i.SPI_I2S_SendData  .\output\stm32f4xx_spi.o
+    0x08002326   0x00000038   Code   RO         5988    i.SPI_Init          .\output\stm32f4xx_spi.o
+    0x0800235e   0x00000014   Code   RO         5990    i.SPI_SSOutputCmd   .\output\stm32f4xx_spi.o
     0x08002372   0x00000002   PAD
-    0x08002374   0x00000054   Code   RO         6953    i.SystemInit        .\output\system_stm32f4xx.o
-    0x080023c8   0x0000006c   Code   RO          697    i.TIM2_IRQHandler   .\output\tm_stm32f4_delay.o
-    0x08002434   0x00000014   Code   RO         6138    i.TIM_ARRPreloadConfig  .\output\stm32f4xx_tim.o
-    0x08002448   0x00000016   Code   RO         6152    i.TIM_CtrlPWMOutputs  .\output\stm32f4xx_tim.o
+    0x08002374   0x00000054   Code   RO         7014    i.SystemInit        .\output\system_stm32f4xx.o
+    0x080023c8   0x0000006c   Code   RO          703    i.TIM2_IRQHandler   .\output\tm_stm32f4_delay.o
+    0x08002434   0x00000014   Code   RO         6199    i.TIM_ARRPreloadConfig  .\output\stm32f4xx_tim.o
+    0x08002448   0x00000016   Code   RO         6213    i.TIM_CtrlPWMOutputs  .\output\stm32f4xx_tim.o
     0x0800245e   0x00000002   PAD
-    0x08002460   0x00000060   Code   RO         6179    i.TIM_OC1Init       .\output\stm32f4xx_tim.o
-    0x080024c0   0x0000000c   Code   RO         6182    i.TIM_OC1PreloadConfig  .\output\stm32f4xx_tim.o
-    0x080024cc   0x00000080   Code   RO         6184    i.TIM_OC2Init       .\output\stm32f4xx_tim.o
-    0x0800254c   0x00000014   Code   RO         6187    i.TIM_OC2PreloadConfig  .\output\stm32f4xx_tim.o
-    0x08002560   0x0000007c   Code   RO         6189    i.TIM_OC3Init       .\output\stm32f4xx_tim.o
-    0x080025dc   0x0000000c   Code   RO         6192    i.TIM_OC3PreloadConfig  .\output\stm32f4xx_tim.o
-    0x080025e8   0x00000060   Code   RO         6194    i.TIM_OC4Init       .\output\stm32f4xx_tim.o
-    0x08002648   0x00000014   Code   RO         6196    i.TIM_OC4PreloadConfig  .\output\stm32f4xx_tim.o
-    0x0800265c   0x0000007c   Code   RO         6222    i.TIM_TimeBaseInit  .\output\stm32f4xx_tim.o
-    0x080026d8   0x00000094   Code   RO          700    i.TM_DELAY_INT_InitTIM  .\output\tm_stm32f4_delay.o
-    0x0800276c   0x00000014   Code   RO          701    i.TM_DELAY_Init     .\output\tm_stm32f4_delay.o
-    0x08002780   0x00000010   Code   RO          411    i.TM_GPIO_GetPortSource  .\output\tm_stm32f4_gpio.o
-    0x08002790   0x00000018   Code   RO          414    i.TM_GPIO_INT_EnableClock  .\output\tm_stm32f4_gpio.o
-    0x080027a8   0x00000088   Code   RO          415    i.TM_GPIO_INT_Init  .\output\tm_stm32f4_gpio.o
-    0x08002830   0x00000026   Code   RO          416    i.TM_GPIO_Init      .\output\tm_stm32f4_gpio.o
-    0x08002856   0x0000005c   Code   RO          417    i.TM_GPIO_InitAlternate  .\output\tm_stm32f4_gpio.o
+    0x08002460   0x00000060   Code   RO         6240    i.TIM_OC1Init       .\output\stm32f4xx_tim.o
+    0x080024c0   0x0000000c   Code   RO         6243    i.TIM_OC1PreloadConfig  .\output\stm32f4xx_tim.o
+    0x080024cc   0x00000080   Code   RO         6245    i.TIM_OC2Init       .\output\stm32f4xx_tim.o
+    0x0800254c   0x00000014   Code   RO         6248    i.TIM_OC2PreloadConfig  .\output\stm32f4xx_tim.o
+    0x08002560   0x0000007c   Code   RO         6250    i.TIM_OC3Init       .\output\stm32f4xx_tim.o
+    0x080025dc   0x0000000c   Code   RO         6253    i.TIM_OC3PreloadConfig  .\output\stm32f4xx_tim.o
+    0x080025e8   0x00000060   Code   RO         6255    i.TIM_OC4Init       .\output\stm32f4xx_tim.o
+    0x08002648   0x00000014   Code   RO         6257    i.TIM_OC4PreloadConfig  .\output\stm32f4xx_tim.o
+    0x0800265c   0x0000007c   Code   RO         6283    i.TIM_TimeBaseInit  .\output\stm32f4xx_tim.o
+    0x080026d8   0x00000094   Code   RO          706    i.TM_DELAY_INT_InitTIM  .\output\tm_stm32f4_delay.o
+    0x0800276c   0x00000014   Code   RO          707    i.TM_DELAY_Init     .\output\tm_stm32f4_delay.o
+    0x08002780   0x00000010   Code   RO          417    i.TM_GPIO_GetPortSource  .\output\tm_stm32f4_gpio.o
+    0x08002790   0x00000018   Code   RO          420    i.TM_GPIO_INT_EnableClock  .\output\tm_stm32f4_gpio.o
+    0x080027a8   0x00000088   Code   RO          421    i.TM_GPIO_INT_Init  .\output\tm_stm32f4_gpio.o
+    0x08002830   0x00000026   Code   RO          422    i.TM_GPIO_Init      .\output\tm_stm32f4_gpio.o
+    0x08002856   0x0000005c   Code   RO          423    i.TM_GPIO_InitAlternate  .\output\tm_stm32f4_gpio.o
     0x080028b2   0x00000002   PAD
-    0x080028b4   0x00000044   Code   RO          577    i.TM_PWM_INT_InitTIM10Pins  .\output\tm_stm32f4_pwm.o
-    0x080028f8   0x00000044   Code   RO          578    i.TM_PWM_INT_InitTIM11Pins  .\output\tm_stm32f4_pwm.o
-    0x0800293c   0x00000074   Code   RO          579    i.TM_PWM_INT_InitTIM12Pins  .\output\tm_stm32f4_pwm.o
-    0x080029b0   0x00000044   Code   RO          580    i.TM_PWM_INT_InitTIM13Pins  .\output\tm_stm32f4_pwm.o
-    0x080029f4   0x00000044   Code   RO          581    i.TM_PWM_INT_InitTIM14Pins  .\output\tm_stm32f4_pwm.o
-    0x08002a38   0x000000dc   Code   RO          582    i.TM_PWM_INT_InitTIM1Pins  .\output\tm_stm32f4_pwm.o
-    0x08002b14   0x000000c4   Code   RO          583    i.TM_PWM_INT_InitTIM2Pins  .\output\tm_stm32f4_pwm.o
-    0x08002bd8   0x000000e0   Code   RO          584    i.TM_PWM_INT_InitTIM3Pins  .\output\tm_stm32f4_pwm.o
-    0x08002cb8   0x000000b8   Code   RO          585    i.TM_PWM_INT_InitTIM4Pins  .\output\tm_stm32f4_pwm.o
-    0x08002d70   0x000000b8   Code   RO          586    i.TM_PWM_INT_InitTIM5Pins  .\output\tm_stm32f4_pwm.o
-    0x08002e28   0x000000b4   Code   RO          587    i.TM_PWM_INT_InitTIM8Pins  .\output\tm_stm32f4_pwm.o
-    0x08002edc   0x0000006c   Code   RO          588    i.TM_PWM_INT_InitTIM9Pins  .\output\tm_stm32f4_pwm.o
-    0x08002f48   0x000000dc   Code   RO          589    i.TM_PWM_InitChannel  .\output\tm_stm32f4_pwm.o
-    0x08003024   0x00000114   Code   RO          590    i.TM_PWM_InitTimer  .\output\tm_stm32f4_pwm.o
-    0x08003138   0x000000d8   Code   RO          591    i.TM_PWM_SetChannel  .\output\tm_stm32f4_pwm.o
-    0x08003210   0x0000001e   Code   RO          592    i.TM_PWM_SetChannelMicros  .\output\tm_stm32f4_pwm.o
+    0x080028b4   0x00000044   Code   RO          583    i.TM_PWM_INT_InitTIM10Pins  .\output\tm_stm32f4_pwm.o
+    0x080028f8   0x00000044   Code   RO          584    i.TM_PWM_INT_InitTIM11Pins  .\output\tm_stm32f4_pwm.o
+    0x0800293c   0x00000074   Code   RO          585    i.TM_PWM_INT_InitTIM12Pins  .\output\tm_stm32f4_pwm.o
+    0x080029b0   0x00000044   Code   RO          586    i.TM_PWM_INT_InitTIM13Pins  .\output\tm_stm32f4_pwm.o
+    0x080029f4   0x00000044   Code   RO          587    i.TM_PWM_INT_InitTIM14Pins  .\output\tm_stm32f4_pwm.o
+    0x08002a38   0x000000dc   Code   RO          588    i.TM_PWM_INT_InitTIM1Pins  .\output\tm_stm32f4_pwm.o
+    0x08002b14   0x000000c4   Code   RO          589    i.TM_PWM_INT_InitTIM2Pins  .\output\tm_stm32f4_pwm.o
+    0x08002bd8   0x000000e0   Code   RO          590    i.TM_PWM_INT_InitTIM3Pins  .\output\tm_stm32f4_pwm.o
+    0x08002cb8   0x000000b8   Code   RO          591    i.TM_PWM_INT_InitTIM4Pins  .\output\tm_stm32f4_pwm.o
+    0x08002d70   0x000000b8   Code   RO          592    i.TM_PWM_INT_InitTIM5Pins  .\output\tm_stm32f4_pwm.o
+    0x08002e28   0x000000b4   Code   RO          593    i.TM_PWM_INT_InitTIM8Pins  .\output\tm_stm32f4_pwm.o
+    0x08002edc   0x0000006c   Code   RO          594    i.TM_PWM_INT_InitTIM9Pins  .\output\tm_stm32f4_pwm.o
+    0x08002f48   0x000000dc   Code   RO          595    i.TM_PWM_InitChannel  .\output\tm_stm32f4_pwm.o
+    0x08003024   0x00000114   Code   RO          596    i.TM_PWM_InitTimer  .\output\tm_stm32f4_pwm.o
+    0x08003138   0x000000d8   Code   RO          597    i.TM_PWM_SetChannel  .\output\tm_stm32f4_pwm.o
+    0x08003210   0x0000001e   Code   RO          598    i.TM_PWM_SetChannelMicros  .\output\tm_stm32f4_pwm.o
     0x0800322e   0x00000002   PAD
-    0x08003230   0x00000040   Code   RO          523    i.TM_SERVO_Init     .\output\tm_stm32f4_servo.o
-    0x08003270   0x00000058   Code   RO          524    i.TM_SERVO_SetDegrees  .\output\tm_stm32f4_servo.o
-    0x080032c8   0x00000108   Code   RO          364    i.TM_TIMER_PROPERTIES_EnableClock  .\output\tm_stm32f4_timer_properties.o
-    0x080033d0   0x000000b4   Code   RO          365    i.TM_TIMER_PROPERTIES_GenerateDataForWorkingFrequency  .\output\tm_stm32f4_timer_properties.o
-    0x08003484   0x000000bc   Code   RO          366    i.TM_TIMER_PROPERTIES_GetTimerProperties  .\output\tm_stm32f4_timer_properties.o
-    0x08003540   0x0000003c   Code   RO         1526    i.USART1_IRQHandler  .\output\usart.o
-    0x0800357c   0x00000174   Code   RO         1099    i.USART3_IRQHandler  .\output\gyro.o
-    0x080036f0   0x0000000c   Code   RO         6688    i.USART_ClearITPendingBit  .\output\stm32f4xx_usart.o
-    0x080036fc   0x00000014   Code   RO         6691    i.USART_Cmd         .\output\stm32f4xx_usart.o
-    0x08003710   0x0000000e   Code   RO         6694    i.USART_GetFlagStatus  .\output\stm32f4xx_usart.o
-    0x0800371e   0x0000003e   Code   RO         6695    i.USART_GetITStatus  .\output\stm32f4xx_usart.o
-    0x0800375c   0x00000030   Code   RO         6697    i.USART_ITConfig    .\output\stm32f4xx_usart.o
-    0x0800378c   0x000000ac   Code   RO         6698    i.USART_Init        .\output\stm32f4xx_usart.o
-    0x08003838   0x00000008   Code   RO         6705    i.USART_ReceiveData  .\output\stm32f4xx_usart.o
-    0x08003840   0x00000008   Code   RO         6708    i.USART_SendData    .\output\stm32f4xx_usart.o
-    0x08003848   0x00000030   Code   RO         7421    i.__ARM_fpclassify  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\m_wm.l(fpclassify.o)
-    0x08003878   0x0000009a   Code   RO         7092    i.__hardfp_roundf   C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\m_wm.l(roundf.o)
-    0x08003912   0x0000003a   Code   RO         7080    i.__hardfp_sqrtf    C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\m_wm.l(sqrtf.o)
-    0x0800394c   0x0000000e   Code   RO         7186    i._is_digit         C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_wp.o)
+    0x08003230   0x00000040   Code   RO          529    i.TM_SERVO_Init     .\output\tm_stm32f4_servo.o
+    0x08003270   0x00000058   Code   RO          530    i.TM_SERVO_SetDegrees  .\output\tm_stm32f4_servo.o
+    0x080032c8   0x00000108   Code   RO          370    i.TM_TIMER_PROPERTIES_EnableClock  .\output\tm_stm32f4_timer_properties.o
+    0x080033d0   0x000000b4   Code   RO          371    i.TM_TIMER_PROPERTIES_GenerateDataForWorkingFrequency  .\output\tm_stm32f4_timer_properties.o
+    0x08003484   0x000000bc   Code   RO          372    i.TM_TIMER_PROPERTIES_GetTimerProperties  .\output\tm_stm32f4_timer_properties.o
+    0x08003540   0x0000003c   Code   RO         1532    i.USART1_IRQHandler  .\output\usart.o
+    0x0800357c   0x00000174   Code   RO         1105    i.USART3_IRQHandler  .\output\gyro.o
+    0x080036f0   0x0000000c   Code   RO         6749    i.USART_ClearITPendingBit  .\output\stm32f4xx_usart.o
+    0x080036fc   0x00000014   Code   RO         6752    i.USART_Cmd         .\output\stm32f4xx_usart.o
+    0x08003710   0x0000000e   Code   RO         6755    i.USART_GetFlagStatus  .\output\stm32f4xx_usart.o
+    0x0800371e   0x0000003e   Code   RO         6756    i.USART_GetITStatus  .\output\stm32f4xx_usart.o
+    0x0800375c   0x00000030   Code   RO         6758    i.USART_ITConfig    .\output\stm32f4xx_usart.o
+    0x0800378c   0x000000ac   Code   RO         6759    i.USART_Init        .\output\stm32f4xx_usart.o
+    0x08003838   0x00000008   Code   RO         6766    i.USART_ReceiveData  .\output\stm32f4xx_usart.o
+    0x08003840   0x00000008   Code   RO         6769    i.USART_SendData    .\output\stm32f4xx_usart.o
+    0x08003848   0x00000030   Code   RO         7482    i.__ARM_fpclassify  C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\m_wm.l(fpclassify.o)
+    0x08003878   0x0000009a   Code   RO         7153    i.__hardfp_roundf   C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\m_wm.l(roundf.o)
+    0x08003912   0x0000003a   Code   RO         7141    i.__hardfp_sqrtf    C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\m_wm.l(sqrtf.o)
+    0x0800394c   0x0000000e   Code   RO         7247    i._is_digit         C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_wp.o)
     0x0800395a   0x00000002   PAD
-    0x0800395c   0x00000020   Code   RO         1364    i.can_empty_mailbox  .\output\can_protocol.o
-    0x0800397c   0x00000098   Code   RO         1370    i.can_tx_dequeue    .\output\can_protocol.o
-    0x08003a14   0x00000018   Code   RO         1373    i.can_tx_queue_empty  .\output\can_protocol.o
-    0x08003a2c   0x0000000c   Code   RO          709    i.get_ticks         .\output\tm_stm32f4_delay.o
-    0x08003a38   0x00000024   Code   RO         1804    i.imu_init          .\output\imu.o
-    0x08003a5c   0x00000104   Code   RO         1805    i.imu_update        .\output\imu.o
-    0x08003b60   0x00000008   Code   RO         1012    i.int_cos           .\output\approx_math.o
-    0x08003b68   0x0000007c   Code   RO         1013    i.int_sin           .\output\approx_math.o
-    0x08003be4   0x00000034   Code   RO            5    i.led_blink         .\output\led.o
-    0x08003c18   0x0000004c   Code   RO            6    i.led_control       .\output\led.o
-    0x08003c64   0x00000048   Code   RO            7    i.led_init          .\output\led.o
-    0x08003cac   0x000001c8   Code   RO          165    i.main              .\output\main.o
-    0x08003e74   0x00000004   Code   RO         1945    i.path_down_update  .\output\path_downslope.o
-    0x08003e78   0x000000b0   Code   RO         1911    i.path_up_init      .\output\path_upslope.o
-    0x08003f28   0x000001dc   Code   RO         1912    i.path_up_update    .\output\path_upslope.o
-    0x08004104   0x00000028   Code   RO         1857    i.servo_init        .\output\servo_targeting.o
-    0x0800412c   0x0000000c   Code   RO         1858    i.set_target        .\output\servo_targeting.o
-    0x08004138   0x00000010   Code   RO         1806    i.sync_with_imu     .\output\imu.o
-    0x08004148   0x000000f4   Code   RO         1859    i.targeting_pid     .\output\servo_targeting.o
-    0x0800423c   0x00000014   Code   RO         1860    i.targeting_update  .\output\servo_targeting.o
-    0x08004250   0x00000024   Code   RO          806    i.tft_char_is_changed  .\output\lcd_main.o
-    0x08004274   0x00000020   Code   RO          807    i.tft_clear         .\output\lcd_main.o
-    0x08004294   0x00000054   Code   RO          808    i.tft_clear_line    .\output\lcd_main.o
-    0x080042e8   0x00000216   Code   RO          809    i.tft_config        .\output\lcd_main.o
-    0x080044fe   0x00000020   Code   RO          811    i.tft_easy_init     .\output\lcd_main.o
-    0x0800451e   0x00000068   Code   RO          813    i.tft_fill_color    .\output\lcd_main.o
-    0x08004586   0x00000002   PAD
-    0x08004588   0x000000ac   Code   RO          816    i.tft_init          .\output\lcd_main.o
-    0x08004634   0x000000c0   Code   RO          817    i.tft_println       .\output\lcd_main.o
-    0x080046f4   0x0000120e   Code   RO          819    i.tft_put_logo      .\output\lcd_main.o
-    0x08005902   0x00000002   PAD
-    0x08005904   0x00000058   Code   RO          820    i.tft_put_pixel     .\output\lcd_main.o
-    0x0800595c   0x00000038   Code   RO          821    i.tft_reset         .\output\lcd_main.o
-    0x08005994   0x00000052   Code   RO          823    i.tft_set_char_pos  .\output\lcd_main.o
-    0x080059e6   0x00000050   Code   RO          824    i.tft_set_pixel_pos  .\output\lcd_main.o
-    0x08005a36   0x00000002   PAD
-    0x08005a38   0x00000120   Code   RO          827    i.tft_spi_init      .\output\lcd_main.o
-    0x08005b58   0x00000432   Code   RO          829    i.tft_update        .\output\lcd_main.o
-    0x08005f8a   0x00000002   PAD
-    0x08005f8c   0x0000005c   Code   RO          830    i.tft_write_command  .\output\lcd_main.o
-    0x08005fe8   0x0000005c   Code   RO          831    i.tft_write_data    .\output\lcd_main.o
-    0x08006044   0x000000cc   Code   RO         1527    i.uart_init         .\output\usart.o
-    0x08006110   0x00000048   Code   RO         1528    i.uart_interrupt    .\output\usart.o
-    0x08006158   0x00000028   Code   RO         1529    i.uart_interrupt_init  .\output\usart.o
-    0x08006180   0x0000002c   Code   RO         1533    i.uart_tx           .\output\usart.o
-    0x080061ac   0x00000028   Code   RO         1534    i.uart_tx_byte      .\output\usart.o
-    0x080061d4   0x0000002c   Code   RO         7399    locale$$code        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)
-    0x08006200   0x0000002c   Code   RO         7432    locale$$code        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)
-    0x0800622c   0x00000018   Code   RO         7270    x$fpl$dcmpinf       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dcmpi.o)
-    0x08006244   0x000002b0   Code   RO         7061    x$fpl$ddiv          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(ddiv.o)
-    0x080064f4   0x00000078   Code   RO         7064    x$fpl$deqf          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(deqf.o)
-    0x0800656c   0x0000005a   Code   RO         7066    x$fpl$dfixu         C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dfixu.o)
-    0x080065c6   0x00000026   Code   RO         7070    x$fpl$dfltu         C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dflt_clz.o)
-    0x080065ec   0x00000078   Code   RO         7076    x$fpl$dleqf         C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dleqf.o)
-    0x08006664   0x0000009c   Code   RO         7272    x$fpl$dnaninf       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dnaninf.o)
-    0x08006700   0x0000000c   Code   RO         7274    x$fpl$dretinf       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dretinf.o)
-    0x0800670c   0x00000056   Code   RO         7078    x$fpl$f2d           C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(f2d.o)
-    0x08006762   0x0000008c   Code   RO         7276    x$fpl$fnaninf       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fnaninf.o)
-    0x080067ee   0x0000000a   Code   RO         7358    x$fpl$fpinit        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fpinit.o)
-    0x080067f8   0x00000060   Code   RO         7278    x$fpl$frnd          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(frnd.o)
-    0x08006858   0x00000004   Code   RO         7280    x$fpl$printf1       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf1.o)
-    0x0800685c   0x00000004   Code   RO         7282    x$fpl$printf2       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf2.o)
-    0x08006860   0x00000000   Code   RO         7288    x$fpl$usenofp       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(usenofp.o)
-    0x08006860   0x00000038   Data   RO         1536    .constdata          .\output\usart.o
-    0x08006898   0x00000008   Data   RO         7145    .constdata          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wctomb.o)
-    0x080068a0   0x00000028   Data   RO         7174    .constdata          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll_ptr.o)
-    0x080068c8   0x00000011   Data   RO         7194    .constdata          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_ss_wp.o)
-    0x080068d9   0x00000026   Data   RO         7334    .constdata          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_hex.o)
-    0x080068ff   0x00000001   PAD
-    0x08006900   0x00000094   Data   RO         7374    .constdata          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(bigflt0.o)
-    0x08006994   0x00000020   Data   RO         7478    Region$$Table       anon$$obj.o
-    0x080069b4   0x0000001c   Data   RO         7398    locale$$data        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)
-    0x080069d0   0x00000110   Data   RO         7431    locale$$data        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)
+    0x0800395c   0x0000003c   Code   RO         2013    i.abs_diff          .\output\imu_math.o
+    0x08003998   0x00000020   Code   RO         1370    i.can_empty_mailbox  .\output\can_protocol.o
+    0x080039b8   0x00000098   Code   RO         1376    i.can_tx_dequeue    .\output\can_protocol.o
+    0x08003a50   0x00000018   Code   RO         1379    i.can_tx_queue_empty  .\output\can_protocol.o
+    0x08003a68   0x0000000c   Code   RO          715    i.get_ticks         .\output\tm_stm32f4_delay.o
+    0x08003a74   0x00000024   Code   RO         1810    i.imu_init          .\output\imu.o
+    0x08003a98   0x0000010c   Code   RO         1811    i.imu_update        .\output\imu.o
+    0x08003ba4   0x00000008   Code   RO         1018    i.int_cos           .\output\approx_math.o
+    0x08003bac   0x0000007c   Code   RO         1019    i.int_sin           .\output\approx_math.o
+    0x08003c28   0x00000034   Code   RO            5    i.led_blink         .\output\led.o
+    0x08003c5c   0x0000004c   Code   RO            6    i.led_control       .\output\led.o
+    0x08003ca8   0x00000048   Code   RO            7    i.led_init          .\output\led.o
+    0x08003cf0   0x000001c0   Code   RO          165    i.main              .\output\main.o
+    0x08003eb0   0x00000004   Code   RO         1951    i.path_down_update  .\output\path_downslope.o
+    0x08003eb4   0x00000004   Code   RO         1986    i.path_river_update  .\output\path_river.o
+    0x08003eb8   0x00000070   Code   RO         1917    i.path_up_init      .\output\path_upslope.o
+    0x08003f28   0x0000015c   Code   RO         1918    i.path_up_update    .\output\path_upslope.o
+    0x08004084   0x00000028   Code   RO         1863    i.servo_init        .\output\servo_targeting.o
+    0x080040ac   0x0000000c   Code   RO         1864    i.set_target        .\output\servo_targeting.o
+    0x080040b8   0x00000010   Code   RO         1812    i.sync_with_imu     .\output\imu.o
+    0x080040c8   0x000000c4   Code   RO         1865    i.targeting_pid     .\output\servo_targeting.o
+    0x0800418c   0x00000014   Code   RO         1866    i.targeting_update  .\output\servo_targeting.o
+    0x080041a0   0x00000024   Code   RO          812    i.tft_char_is_changed  .\output\lcd_main.o
+    0x080041c4   0x00000020   Code   RO          813    i.tft_clear         .\output\lcd_main.o
+    0x080041e4   0x00000054   Code   RO          814    i.tft_clear_line    .\output\lcd_main.o
+    0x08004238   0x00000216   Code   RO          815    i.tft_config        .\output\lcd_main.o
+    0x0800444e   0x00000020   Code   RO          817    i.tft_easy_init     .\output\lcd_main.o
+    0x0800446e   0x00000068   Code   RO          819    i.tft_fill_color    .\output\lcd_main.o
+    0x080044d6   0x00000002   PAD
+    0x080044d8   0x000000ac   Code   RO          822    i.tft_init          .\output\lcd_main.o
+    0x08004584   0x000000c0   Code   RO          823    i.tft_println       .\output\lcd_main.o
+    0x08004644   0x0000120e   Code   RO          825    i.tft_put_logo      .\output\lcd_main.o
+    0x08005852   0x00000002   PAD
+    0x08005854   0x00000058   Code   RO          826    i.tft_put_pixel     .\output\lcd_main.o
+    0x080058ac   0x00000038   Code   RO          827    i.tft_reset         .\output\lcd_main.o
+    0x080058e4   0x00000052   Code   RO          829    i.tft_set_char_pos  .\output\lcd_main.o
+    0x08005936   0x00000050   Code   RO          830    i.tft_set_pixel_pos  .\output\lcd_main.o
+    0x08005986   0x00000002   PAD
+    0x08005988   0x00000120   Code   RO          833    i.tft_spi_init      .\output\lcd_main.o
+    0x08005aa8   0x00000432   Code   RO          835    i.tft_update        .\output\lcd_main.o
+    0x08005eda   0x00000002   PAD
+    0x08005edc   0x0000005c   Code   RO          836    i.tft_write_command  .\output\lcd_main.o
+    0x08005f38   0x0000005c   Code   RO          837    i.tft_write_data    .\output\lcd_main.o
+    0x08005f94   0x000000cc   Code   RO         1533    i.uart_init         .\output\usart.o
+    0x08006060   0x00000048   Code   RO         1534    i.uart_interrupt    .\output\usart.o
+    0x080060a8   0x00000028   Code   RO         1535    i.uart_interrupt_init  .\output\usart.o
+    0x080060d0   0x0000002c   Code   RO         1539    i.uart_tx           .\output\usart.o
+    0x080060fc   0x00000028   Code   RO         1540    i.uart_tx_byte      .\output\usart.o
+    0x08006124   0x0000002c   Code   RO         7460    locale$$code        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)
+    0x08006150   0x0000002c   Code   RO         7493    locale$$code        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)
+    0x0800617c   0x00000018   Code   RO         7331    x$fpl$dcmpinf       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dcmpi.o)
+    0x08006194   0x000002b0   Code   RO         7122    x$fpl$ddiv          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(ddiv.o)
+    0x08006444   0x00000078   Code   RO         7125    x$fpl$deqf          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(deqf.o)
+    0x080064bc   0x0000005a   Code   RO         7127    x$fpl$dfixu         C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dfixu.o)
+    0x08006516   0x00000026   Code   RO         7131    x$fpl$dfltu         C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dflt_clz.o)
+    0x0800653c   0x00000078   Code   RO         7137    x$fpl$dleqf         C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dleqf.o)
+    0x080065b4   0x0000009c   Code   RO         7333    x$fpl$dnaninf       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dnaninf.o)
+    0x08006650   0x0000000c   Code   RO         7335    x$fpl$dretinf       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(dretinf.o)
+    0x0800665c   0x00000056   Code   RO         7139    x$fpl$f2d           C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(f2d.o)
+    0x080066b2   0x0000008c   Code   RO         7337    x$fpl$fnaninf       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fnaninf.o)
+    0x0800673e   0x0000000a   Code   RO         7419    x$fpl$fpinit        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(fpinit.o)
+    0x08006748   0x00000060   Code   RO         7339    x$fpl$frnd          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(frnd.o)
+    0x080067a8   0x00000004   Code   RO         7341    x$fpl$printf1       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf1.o)
+    0x080067ac   0x00000004   Code   RO         7343    x$fpl$printf2       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(printf2.o)
+    0x080067b0   0x00000000   Code   RO         7349    x$fpl$usenofp       C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\fz_wm.l(usenofp.o)
+    0x080067b0   0x00000038   Data   RO         1542    .constdata          .\output\usart.o
+    0x080067e8   0x00000008   Data   RO         7206    .constdata          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_wctomb.o)
+    0x080067f0   0x00000028   Data   RO         7235    .constdata          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_hex_int_ll_ptr.o)
+    0x08006818   0x00000011   Data   RO         7255    .constdata          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(__printf_flags_ss_wp.o)
+    0x08006829   0x00000026   Data   RO         7395    .constdata          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(_printf_fp_hex.o)
+    0x0800684f   0x00000001   PAD
+    0x08006850   0x00000094   Data   RO         7435    .constdata          C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(bigflt0.o)
+    0x080068e4   0x00000020   Data   RO         7539    Region$$Table       anon$$obj.o
+    0x08006904   0x0000001c   Data   RO         7459    locale$$data        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_numeric_c.o)
+    0x08006920   0x00000110   Data   RO         7492    locale$$data        C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(lc_ctype_c.o)
 
 
     Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x000091a8, Max: 0x00020000, ABSOLUTE, COMPRESSED[0x00000474])
@@ -3568,33 +3591,33 @@ Memory Map of the image
 
     0x20000000   0x0000000c   Data   RW            8    .data               .\output\led.o
     0x2000000c   0x00000010   Data   RW          166    .data               .\output\main.o
-    0x2000001c   0x0000000c   Data   RW          712    .data               .\output\tm_stm32f4_delay.o
-    0x20000028   0x0000060e   Data   RW          833    .data               .\output\lcd_main.o
-    0x20000636   0x0000016c   Data   RW         1017    .data               .\output\approx_math.o
+    0x2000001c   0x0000000c   Data   RW          718    .data               .\output\tm_stm32f4_delay.o
+    0x20000028   0x0000060e   Data   RW          839    .data               .\output\lcd_main.o
+    0x20000636   0x0000016c   Data   RW         1023    .data               .\output\approx_math.o
     0x200007a2   0x00000002   PAD
-    0x200007a4   0x00000024   Data   RW         1116    .data               .\output\gyro.o
-    0x200007c8   0x00000014   Data   RW         1381    .data               .\output\can_protocol.o
-    0x200007dc   0x00000024   Data   RW         1538    .data               .\output\usart.o
-    0x20000800   0x00000006   Data   RW         1808    .data               .\output\imu.o
+    0x200007a4   0x00000024   Data   RW         1122    .data               .\output\gyro.o
+    0x200007c8   0x00000014   Data   RW         1387    .data               .\output\can_protocol.o
+    0x200007dc   0x00000024   Data   RW         1544    .data               .\output\usart.o
+    0x20000800   0x00000006   Data   RW         1814    .data               .\output\imu.o
     0x20000806   0x00000002   PAD
-    0x20000808   0x00000004   Data   RW         1862    .data               .\output\servo_targeting.o
-    0x2000080c   0x0000004c   Data   RW         1914    .data               .\output\path_upslope.o
-    0x20000858   0x00000010   Data   RW         4809    .data               .\output\stm32f4xx_rcc.o
-    0x20000868   0x00000004   Data   RW         6955    .data               .\output\system_stm32f4xx.o
-    0x2000086c   0x00000016   Zero   RW          424    .bss                .\output\tm_stm32f4_gpio.o
+    0x20000808   0x00000004   Data   RW         1868    .data               .\output\servo_targeting.o
+    0x2000080c   0x0000004c   Data   RW         1920    .data               .\output\path_upslope.o
+    0x20000858   0x00000010   Data   RW         4870    .data               .\output\stm32f4xx_rcc.o
+    0x20000868   0x00000004   Data   RW         7016    .data               .\output\system_stm32f4xx.o
+    0x2000086c   0x00000016   Zero   RW          430    .bss                .\output\tm_stm32f4_gpio.o
     0x20000882   0x00000002   PAD
-    0x20000884   0x00000018   Zero   RW          710    .bss                .\output\tm_stm32f4_delay.o
-    0x2000089c   0x000004b0   Zero   RW          832    .bss                .\output\lcd_main.o
-    0x20000d4c   0x0000000a   Zero   RW         1115    .bss                .\output\gyro.o
+    0x20000884   0x00000018   Zero   RW          716    .bss                .\output\tm_stm32f4_delay.o
+    0x2000089c   0x000004b0   Zero   RW          838    .bss                .\output\lcd_main.o
+    0x20000d4c   0x0000000a   Zero   RW         1121    .bss                .\output\gyro.o
     0x20000d56   0x00000002   PAD
-    0x20000d58   0x00007d00   Zero   RW         1379    .bss                .\output\can_protocol.o
-    0x20008a58   0x00000080   Zero   RW         1380    .bss                .\output\can_protocol.o
-    0x20008ad8   0x00000018   Zero   RW         1807    .bss                .\output\imu.o
-    0x20008af0   0x00000038   Zero   RW         1861    .bss                .\output\servo_targeting.o
-    0x20008b28   0x00000020   Zero   RW         1913    .bss                .\output\path_upslope.o
-    0x20008b48   0x00000060   Zero   RW         7292    .bss                C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libspace.o)
-    0x20008ba8   0x00000200   Zero   RW         6943    HEAP                .\output\startup_stm32f405xx.o
-    0x20008da8   0x00000400   Zero   RW         6942    STACK               .\output\startup_stm32f405xx.o
+    0x20000d58   0x00007d00   Zero   RW         1385    .bss                .\output\can_protocol.o
+    0x20008a58   0x00000080   Zero   RW         1386    .bss                .\output\can_protocol.o
+    0x20008ad8   0x00000024   Zero   RW         1813    .bss                .\output\imu.o
+    0x20008afc   0x00000038   Zero   RW         1867    .bss                .\output\servo_targeting.o
+    0x20008b34   0x00000014   Zero   RW         1919    .bss                .\output\path_upslope.o
+    0x20008b48   0x00000060   Zero   RW         7353    .bss                C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(libspace.o)
+    0x20008ba8   0x00000200   Zero   RW         7004    HEAP                .\output\startup_stm32f405xx.o
+    0x20008da8   0x00000400   Zero   RW         7003    STACK               .\output\startup_stm32f405xx.o
 
 
 ==============================================================================
@@ -3607,14 +3630,16 @@ Image component sizes
        132          4          0        364          0       1782   .\output\approx_math.o
        392         42          0         20      32128       4207   .\output\can_protocol.o
        372         18          0         36         10       2639   .\output\gyro.o
-       492         66          0          6         24       3847   .\output\imu.o
+       500         64          0          6         36       3897   .\output\imu.o
+        60         16          0          0          0        667   .\output\imu_math.o
       7708        122          0       1550       1200      26889   .\output\lcd_main.o
        200         18          0         12          0     296657   .\output\led.o
-       456        150          0         16          0      12742   .\output\main.o
+       448        150          0         16          0      12738   .\output\main.o
        120         12          0          0          0       1714   .\output\misc.o
          4          0          0          0          0        491   .\output\path_downslope.o
-       652        100          0         76         32       2504   .\output\path_upslope.o
-       316         80          0          4         56       2651   .\output\servo_targeting.o
+         4          0          0          0          0        484   .\output\path_river.o
+       460         60          0         76         20       2280   .\output\path_upslope.o
+       268         66          0          4         56       2623   .\output\servo_targeting.o
         64         26        392          0       1536        876   .\output\startup_stm32f405xx.o
        606         10          0          0          0       4795   .\output\stm32f4xx_can.o
        170          0          0          0          0       3747   .\output\stm32f4xx_gpio.o
@@ -3631,7 +3656,7 @@ Image component sizes
        460         44         56         36          0       6116   .\output\usart.o
 
     ----------------------------------------------------------------------
-     17448       1220        480       2156      35036     429433   Object Totals
+     17272       1180        480       2156      35036     430378   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         20          0          0          4          4          0   (incl. Padding)
 
@@ -3762,15 +3787,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     26328       1692       1032       2156      35132     420993   Grand Totals
-     26328       1692       1032       1140      35132     420993   ELF Image Totals (compressed)
-     26328       1692       1032       1140          0          0   ROM Totals
+     26152       1652       1032       2156      35132     421738   Grand Totals
+     26152       1652       1032       1140      35132     421738   ELF Image Totals (compressed)
+     26152       1652       1032       1140          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                27360 (  26.72kB)
+    Total RO  Size (Code + RO Data)                27184 (  26.55kB)
     Total RW  Size (RW Data + ZI Data)             37288 (  36.41kB)
-    Total ROM Size (Code + RO Data + RW Data)      28500 (  27.83kB)
+    Total ROM Size (Code + RO Data + RW Data)      28324 (  27.66kB)
 
 ==============================================================================
 

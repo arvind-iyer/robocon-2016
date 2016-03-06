@@ -8,6 +8,7 @@ bool imu_pre_staged = false;
 u8 imu_buffer[12] = {0};
 s8 imu_buffer_pointer = 0;
 float yaw_pitch_roll[3] = {0}; 
+float start_ypr[3];
 
 void IMU_receiver(u8 byte){
 	//Sync with the IMU
@@ -113,7 +114,9 @@ void imu_update(){
 			if (imu_pre_staged && !imu_staged){
 				//This part of code should only run once asap after pre staged(set after syncing)
 				set_target(yaw_pitch_roll[0]);
-				path_up_init(yaw_pitch_roll);
+				//Copy the starting yaw pitch roll to a private array
+				memcpy(start_ypr, yaw_pitch_roll, 3 * sizeof(float));
+				path_up_init();
 				imu_staged = true;
 			}
 	}

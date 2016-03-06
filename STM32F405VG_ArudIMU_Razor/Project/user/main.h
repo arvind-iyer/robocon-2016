@@ -23,8 +23,11 @@
 #include "line_sensor.h"
 #include "imu.h"
 #include "servo_targeting.h"
+
+//path files
 #include "path_upslope.h"
 #include "path_downslope.h"
+#include "path_river.h"
 
 //Main loop
 extern u32 this_loop_ticks;

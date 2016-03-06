@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include "tm_stm32f4_servo.h"
+#include "imu_math.h"
 
 //Scaled by 1000
 #define SERVO_Kp 3000.0f

@@ -1,5 +1,5 @@
-#ifndef _PATH_UP_H
-#define _PATH_UP_H
+#ifndef _PATH_RIVER_H
+#define _PATH_RIVER_H
 
 #include "stm32f4xx.h"
 #include "main.h"
@@ -14,10 +14,6 @@
 #include "servo_targeting.h"
 #include "path.h"
 
-#define ROLLING_PITCH_SIZE 5
-#define PROGRESS_TICKS_MAX 60
-
-void path_up_init();
-GAME_STAGE path_up_update(void);
+GAME_STAGE path_river_update(void);
 
 #endif
