@@ -1,7 +1,7 @@
 .\obj\stm32f10x_rcc.o: FWlib\SRC\stm32f10x_rcc.c
 .\obj\stm32f10x_rcc.o: .\FWlib\inc\stm32f10x_rcc.h
 .\obj\stm32f10x_rcc.o: .\FWlib\inc\stm32f10x.h
-.\obj\stm32f10x_rcc.o: .\user\core_cm3.h
+.\obj\stm32f10x_rcc.o: .\FWlib\inc\core_cm3.h
 .\obj\stm32f10x_rcc.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\obj\stm32f10x_rcc.o: .\FWlib\inc\system_stm32f10x.h
 .\obj\stm32f10x_rcc.o: .\FWlib\inc\stm32f10x_conf.h
