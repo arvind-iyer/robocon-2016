@@ -27,7 +27,7 @@ bool up_pressed, dn_pressed, right_pressed, left_pressed, start_pressed, back_pr
 int path_id;
 
 //debug list
-s16 error_list[500];
+u16 error_list[500];
 u16 error_list_len;
 u16 error_list_pos;
 
@@ -430,7 +430,6 @@ void auto_motor_update(){
 		if (!right_pressed) {
 			right_pressed = true;
 			error_list_pos = 0;
-			tft_clear();
 			pid_state = DATA_MODE;
 		}
 	} else {
@@ -444,26 +443,15 @@ void auto_motor_update(){
   * @retval None
   */
 void auto_data_update(){
-	u8 x, y;
 	u16 pos;
-	//tft_prints(0,0,"[AUTO MODE]");
-	//tft_prints(0, 9, "%3d / %3d", error_list_pos, error_list_len);
-	for (y = 16; y < 144; y++) {
-		for (x = 0; x < 128; x++) {
-			if (x == 63)
-				tft_put_pixel(x, y, GREY);
-			else
-				tft_put_pixel(x, y, DARK_GREY);
-		}
-	}
-	tft_update();
-	/*
+	tft_clear();
+	tft_prints(0,0,"[AUTO MODE]");
 	for (u8 i = 0; i < 8; i++) {
 		u16 pos = error_list_pos + i;
 		tft_prints(0, i+1, "%3d: %3d", pos, error_list[pos]);
 	}
-	*/
-	
+	tft_prints(0, 9, "%3d / %3d", error_list_pos, error_list_len);
+	tft_update();
 	
 	if (button_pressed(BUTTON_XBC_W)) {
 		if (!left_pressed) {
@@ -475,12 +463,20 @@ void auto_data_update(){
 	}
 	
 	if (button_pressed(BUTTON_XBC_N) && (error_list_pos > 0)) {
-		up_pressed = true;
-		error_list_pos--;
+		if (!up_pressed) {
+			up_pressed = true;
+			error_list_pos--;
+		}
+	} else {
+		up_pressed = false;
 	}
 	
 	if (button_pressed(BUTTON_XBC_S) && (error_list_pos+8 < error_list_len)) {
-		dn_pressed = true;
-		error_list_pos++;
+		if (!dn_pressed) {
+			dn_pressed = true;
+			error_list_pos++;
+		}
+	} else {
+		dn_pressed = false;
 	}
 }
