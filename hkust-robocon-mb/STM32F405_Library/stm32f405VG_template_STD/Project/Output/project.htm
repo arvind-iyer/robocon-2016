@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Output\project.hex]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Output\project.hex</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Sat Mar 05 03:41:49 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Sun Mar 06 18:07:01 2016
 <BR><P>
 <H3>Maximum Stack Usage =        472 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -744,7 +744,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__assert_puts
 <LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abort
 </UL>
-<BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt_init
+<BR>[Called By]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt_init
 </UL>
 
 <P><STRONG><a name="[173]"></a>__assert</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, C:\Keil_v5\ARM\ARMCC\Bin\..\lib\armlib\c_w.l(assert.o)(.text), UNUSED)
@@ -1295,18 +1295,18 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = GPIO_PinAFConfig
 </UL>
 <BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
 <LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 </UL>
 
 <P><STRONG><a name="[129]"></a>GPIO_ReadInputDataBit</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, .\output\stm32f4xx_gpio.o(i.GPIO_ReadInputDataBit))
-<BR><BR>[Called By]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_infrared_sensor
+<BR><BR>[Called By]<UL><LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_infrared_sensor
 </UL>
 
-<P><STRONG><a name="[11f]"></a>GPIO_ResetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, .\output\stm32f4xx_gpio.o(i.GPIO_ResetBits))
-<BR><BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
+<P><STRONG><a name="[121]"></a>GPIO_ResetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, .\output\stm32f4xx_gpio.o(i.GPIO_ResetBits))
+<BR><BR>[Called By]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
 <LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
 <LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 <LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_reset
@@ -1328,23 +1328,23 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_init
 <LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 <LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DELAY_INT_InitTIM
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt
 </UL>
 
 <P><STRONG><a name="[142]"></a>NVIC_SetVectorTable</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, .\output\misc.o(i.NVIC_SetVectorTable))
-<BR><BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt
+<BR><BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt
 </UL>
 
 <P><STRONG><a name="[ff]"></a>RCC_AHB1PeriphClockCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, .\output\stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd))
 <BR><BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 </UL>
 
 <P><STRONG><a name="[102]"></a>RCC_APB1PeriphClockCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, .\output\stm32f4xx_rcc.o(i.RCC_APB1PeriphClockCmd))
 <BR><BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
 <LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
@@ -1360,7 +1360,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[140]"></a>RCC_APB2PeriphClockCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, .\output\stm32f4xx_rcc.o(i.RCC_APB2PeriphClockCmd))
-<BR><BR>[Called By]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<BR><BR>[Called By]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 </UL>
 
 <P><STRONG><a name="[d4]"></a>RCC_APB2PeriphResetCmd</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, .\output\stm32f4xx_rcc.o(i.RCC_APB2PeriphResetCmd))
@@ -1407,7 +1407,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 </UL>
 
-<P><STRONG><a name="[120]"></a>SystemCoreClockUpdate</STRONG> (Thumb, 170 bytes, Stack size 16 bytes, .\output\system_stm32f4xx.o(i.SystemCoreClockUpdate))
+<P><STRONG><a name="[122]"></a>SystemCoreClockUpdate</STRONG> (Thumb, 170 bytes, Stack size 16 bytes, .\output\system_stm32f4xx.o(i.SystemCoreClockUpdate))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = SystemCoreClockUpdate
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1531,9 +1531,9 @@ Global Symbols
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_GPIO_INT_EnableClock
 </UL>
 <BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
-<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;infrared_sensor_init
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;infrared_sensor_init
+<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
 </UL>
 
 <P><STRONG><a name="[e0]"></a>TM_GPIO_InitAlternate</STRONG> (Thumb, 110 bytes, Stack size 40 bytes, .\output\tm_stm32f4_gpio.o(i.TM_GPIO_InitAlternate))
@@ -1751,7 +1751,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[141]"></a>USART_Cmd</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, .\output\stm32f4xx_usart.o(i.USART_Cmd))
-<BR><BR>[Called By]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<BR><BR>[Called By]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 </UL>
 
 <P><STRONG><a name="[f8]"></a>USART_GetITStatus</STRONG> (Thumb, 84 bytes, Stack size 16 bytes, .\output\stm32f4xx_usart.o(i.USART_GetITStatus))
@@ -1764,7 +1764,7 @@ Global Symbols
 <P><STRONG><a name="[143]"></a>USART_ITConfig</STRONG> (Thumb, 74 bytes, Stack size 20 bytes, .\output\stm32f4xx_usart.o(i.USART_ITConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = USART_ITConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt
+<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt
 </UL>
 
 <P><STRONG><a name="[fd]"></a>USART_Init</STRONG> (Thumb, 204 bytes, Stack size 48 bytes, .\output\stm32f4xx_usart.o(i.USART_Init))
@@ -1772,7 +1772,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_GetClocksFreq
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<BR>[Called By]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 </UL>
 
 <P><STRONG><a name="[f9]"></a>USART_ReceiveData</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, .\output\stm32f4xx_usart.o(i.USART_ReceiveData))
@@ -1838,7 +1838,7 @@ Global Symbols
 <LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_GPIO_Init
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorbar_init
+<BR>[Called By]<UL><LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorbar_init
 </UL>
 
 <P><STRONG><a name="[10c]"></a>can_rx_add_filter</STRONG> (Thumb, 100 bytes, Stack size 32 bytes, .\output\can_protocol.o(i.can_rx_add_filter))
@@ -1846,7 +1846,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_FilterInit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorbar_init
+<BR>[Called By]<UL><LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorbar_init
 </UL>
 
 <P><STRONG><a name="[10e]"></a>can_rx_init</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, .\output\can_protocol.o(i.can_rx_init))
@@ -1855,7 +1855,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_ITConfig
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorbar_init
+<BR>[Called By]<UL><LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorbar_init
 </UL>
 
 <P><STRONG><a name="[cf]"></a>can_tx_dequeue</STRONG> (Thumb, 142 bytes, Stack size 48 bytes, .\output\can_protocol.o(i.can_tx_dequeue))
@@ -1900,24 +1900,29 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[127]"></a>get_seconds</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, .\output\tm_stm32f4_delay.o(i.get_seconds))
-<BR><BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<P><STRONG><a name="[11a]"></a>get_seconds</STRONG> (Thumb, 16 bytes, Stack size 4 bytes, .\output\tm_stm32f4_delay.o(i.get_seconds))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = get_seconds
 </UL>
-
-<P><STRONG><a name="[124]"></a>get_ticks</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, .\output\tm_stm32f4_delay.o(i.get_ticks))
-<BR><BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
-
-<P><STRONG><a name="[11a]"></a>gyro_init</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, .\output\gyro.o(i.gyro_init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = gyro_init &rArr; uart_init &rArr; USART_Init &rArr; RCC_GetClocksFreq
-</UL>
-<BR>[Calls]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
-<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt
+<BR>[Calls]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_ticks
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[11d]"></a>infrared_sensor_init</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, .\output\infrared_sensor.o(i.infrared_sensor_init))
+<P><STRONG><a name="[11b]"></a>get_ticks</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, .\output\tm_stm32f4_delay.o(i.get_ticks))
+<BR><BR>[Called By]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_seconds
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[11c]"></a>gyro_init</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, .\output\gyro.o(i.gyro_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = gyro_init &rArr; uart_init &rArr; USART_Init &rArr; RCC_GetClocksFreq
+</UL>
+<BR>[Calls]<UL><LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt
+</UL>
+<BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[11f]"></a>infrared_sensor_init</STRONG> (Thumb, 26 bytes, Stack size 16 bytes, .\output\infrared_sensor.o(i.infrared_sensor_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = infrared_sensor_init &rArr; TM_GPIO_Init &rArr; TM_GPIO_INT_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_GPIO_Init
@@ -1940,11 +1945,11 @@ Global Symbols
 <LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART3_IRQHandler
 </UL>
 
-<P><STRONG><a name="[11e]"></a>led_init</STRONG> (Thumb, 64 bytes, Stack size 16 bytes, .\output\led.o(i.led_init))
+<P><STRONG><a name="[120]"></a>led_init</STRONG> (Thumb, 64 bytes, Stack size 16 bytes, .\output\led.o(i.led_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = led_init &rArr; TM_GPIO_Init &rArr; TM_GPIO_INT_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_GPIO_Init
-<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1953,31 +1958,31 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 472 + Unknown Stack Size
 <LI>Call Chain = main &rArr; buzzer_init &rArr; buzzer_off &rArr; tft_prints &rArr; vsprintf &rArr; _printf_char_common &rArr; __printf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt_init
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<BR>[Calls]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt_init
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
-<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
-<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear
-<LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorbar_init
-<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_infrared_sensor
-<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;infrared_sensor_init
-<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gyro_init
-<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_ticks
-<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_seconds
+<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
+<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorbar_init
+<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_infrared_sensor
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;infrared_sensor_init
+<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gyro_init
+<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_ticks
+<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_seconds
 <LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
 <LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
 <LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_SERVO_Init
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DELAY_Init
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
-<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
+<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
+<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
 </UL>
 
-<P><STRONG><a name="[126]"></a>read_infrared_sensor</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, .\output\infrared_sensor.o(i.read_infrared_sensor))
+<P><STRONG><a name="[127]"></a>read_infrared_sensor</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, .\output\infrared_sensor.o(i.read_infrared_sensor))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = read_infrared_sensor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
@@ -1995,7 +2000,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> sensor_bar.o(i.sensorbar_init)
 </UL>
-<P><STRONG><a name="[123]"></a>sensorbar_init</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, .\output\sensor_bar.o(i.sensorbar_init))
+<P><STRONG><a name="[125]"></a>sensorbar_init</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, .\output\sensor_bar.o(i.sensorbar_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = sensorbar_init &rArr; can_init &rArr; TM_GPIO_Init &rArr; TM_GPIO_INT_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_init
@@ -2011,7 +2016,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 </UL>
 
-<P><STRONG><a name="[125]"></a>tft_clear</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, .\output\lcd.o(i.tft_clear))
+<P><STRONG><a name="[126]"></a>tft_clear</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, .\output\lcd.o(i.tft_clear))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = tft_clear &rArr; tft_clear_line
 </UL>
 <BR>[Calls]<UL><LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear_line
@@ -2022,7 +2027,7 @@ Global Symbols
 <P><STRONG><a name="[12a]"></a>tft_clear_line</STRONG> (Thumb, 68 bytes, Stack size 8 bytes, .\output\lcd.o(i.tft_clear_line))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = tft_clear_line
 </UL>
-<BR>[Called By]<UL><LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear
+<BR>[Called By]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear
 </UL>
 
 <P><STRONG><a name="[12b]"></a>tft_config</STRONG> (Thumb, 532 bytes, Stack size 8 bytes, .\output\lcd.o(i.tft_config))
@@ -2032,7 +2037,7 @@ Global Symbols
 <LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delayms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
+<BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
 <P><STRONG><a name="[12f]"></a>tft_fill_color</STRONG> (Thumb, 98 bytes, Stack size 16 bytes, .\output\lcd.o(i.tft_fill_color))
@@ -2041,10 +2046,10 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
 <LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 </UL>
-<BR>[Called By]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
+<BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
-<P><STRONG><a name="[122]"></a>tft_init</STRONG> (Thumb, 218 bytes, Stack size 32 bytes, .\output\lcd.o(i.tft_init))
+<P><STRONG><a name="[124]"></a>tft_init</STRONG> (Thumb, 218 bytes, Stack size 32 bytes, .\output\lcd.o(i.tft_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = tft_init &rArr; tft_spi_init &rArr; GPIO_PinAFConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
@@ -2073,14 +2078,14 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = tft_reset &rArr; Delayms
 </UL>
 <BR>[Calls]<UL><LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 <LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delayms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
+<BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
 <P><STRONG><a name="[132]"></a>tft_set_bg_color</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, .\output\lcd.o(i.tft_set_bg_color))
-<BR><BR>[Called By]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
+<BR><BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
 <P><STRONG><a name="[136]"></a>tft_set_char_pos</STRONG> (Thumb, 82 bytes, Stack size 24 bytes, .\output\lcd.o(i.tft_set_char_pos))
@@ -2093,11 +2098,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[134]"></a>tft_set_special_color</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, .\output\lcd.o(i.tft_set_special_color))
-<BR><BR>[Called By]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
+<BR><BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
 <P><STRONG><a name="[133]"></a>tft_set_text_color</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, .\output\lcd.o(i.tft_set_text_color))
-<BR><BR>[Called By]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
+<BR><BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
 <P><STRONG><a name="[130]"></a>tft_spi_init</STRONG> (Thumb, 304 bytes, Stack size 32 bytes, .\output\lcd.o(i.tft_spi_init))
@@ -2113,7 +2118,7 @@ Global Symbols
 <LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_CalculateCRC
 <LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockLPModeCmd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
+<BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
 <P><STRONG><a name="[128]"></a>tft_update</STRONG> (Thumb, 1450 bytes, Stack size 40 bytes, .\output\lcd.o(i.tft_update))
@@ -2130,12 +2135,12 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = tft_write_command
 </UL>
 <BR>[Calls]<UL><LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 <LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_SendData
 <LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_ReceiveData
 <LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_GetFlagStatus
 </UL>
-<BR>[Called By]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
+<BR>[Called By]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 <LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_char_pos
 <LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_fill_color
 <LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
@@ -2145,7 +2150,7 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = tft_write_data
 </UL>
 <BR>[Calls]<UL><LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
-<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 <LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_SendData
 <LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_ReceiveData
 <LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_GetFlagStatus
@@ -2156,7 +2161,7 @@ Global Symbols
 <LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
 </UL>
 
-<P><STRONG><a name="[11b]"></a>uart_init</STRONG> (Thumb, 190 bytes, Stack size 40 bytes, .\output\usart.o(i.uart_init))
+<P><STRONG><a name="[11d]"></a>uart_init</STRONG> (Thumb, 190 bytes, Stack size 40 bytes, .\output\usart.o(i.uart_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 108<LI>Call Chain = uart_init &rArr; USART_Init &rArr; RCC_GetClocksFreq
 </UL>
 <BR>[Calls]<UL><LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
@@ -2167,26 +2172,26 @@ Global Symbols
 <LI><a href="#[141]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Cmd
 <LI><a href="#[140]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gyro_init
+<BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gyro_init
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[11c]"></a>uart_interrupt</STRONG> (Thumb, 62 bytes, Stack size 16 bytes, .\output\usart.o(i.uart_interrupt))
+<P><STRONG><a name="[11e]"></a>uart_interrupt</STRONG> (Thumb, 62 bytes, Stack size 16 bytes, .\output\usart.o(i.uart_interrupt))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = uart_interrupt &rArr; USART_ITConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
 <LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITConfig
 <LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_SetVectorTable
 </UL>
-<BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt_init
-<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gyro_init
+<BR>[Called By]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt_init
+<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gyro_init
 </UL>
 
-<P><STRONG><a name="[121]"></a>uart_interrupt_init</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, .\output\usart.o(i.uart_interrupt_init))
+<P><STRONG><a name="[123]"></a>uart_interrupt_init</STRONG> (Thumb, 56 bytes, Stack size 16 bytes, .\output\usart.o(i.uart_interrupt_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 80 + Unknown Stack Size
 <LI>Call Chain = uart_interrupt_init &rArr; __aeabi_assert &rArr; abort &rArr; __rt_SIGABRT &rArr; __rt_SIGABRT_inner &rArr; __default_signal_display &rArr; _ttywrch
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt
+<BR>[Calls]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
