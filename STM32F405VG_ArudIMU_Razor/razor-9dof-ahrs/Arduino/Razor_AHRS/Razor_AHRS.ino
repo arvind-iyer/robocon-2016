@@ -417,7 +417,8 @@ void reset_sensor_fusion() {
   
   // GET YAW
   Compass_Heading();
-  yaw = MAG_Heading;
+  //yaw = MAG_Heading;
+  yaw = 0;
   
   // Init rotation matrix
   init_rotation_matrix(DCM_Matrix, yaw, pitch, roll);

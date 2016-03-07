@@ -13,7 +13,6 @@ int main(void) {
 	servo_init();
 	tft_easy_init(); //Init LCD
 	tft_put_logo(85, 120);
-	led_control(LED_D2, LED_ON);
 	
 	GAME_STAGE game_stage = SYSTEM_WAITING;
 	
@@ -60,7 +59,7 @@ int main(void) {
 				}
 				
 				tft_println("Loop: %d %d", this_loop_ticks, any_loop_diff);
-				tft_println("YPR %d %d %d", (int)roundf(yaw_pitch_roll[0]*10), (int)roundf(yaw_pitch_roll[1]*10), (int)roundf(yaw_pitch_roll[2]*10));
+				tft_println("%d %d %d", (int)roundf(yaw_pitch_roll[0]*10), (int)roundf(yaw_pitch_roll[1]*10), (int)roundf(yaw_pitch_roll[2]*10));
 				tft_update();
 				last_long_loop_ticks = this_loop_ticks;
 			}

@@ -8,8 +8,10 @@ static float targeting_yaw;
 static float awaiting_pitch;
 static float last_pitch;
 #define TOTAL_PATH_SIZE 7
-//This mark the increment and decrement of yaw and pitch
-static float path_yaw_change[TOTAL_PATH_SIZE] = {0.0f, 20.0f, 20.0f, 20.0f, -20.0f, -20.0f, -120.0f};
+
+//This array marks the CHANGE in yaw, with repesct to the last value
+static float path_yaw_change[TOTAL_PATH_SIZE] = {0.0f, 20.0f, 20.0f, 20.0f, -25.0f, -25.0f, -120.0f};
+//This array marks the pitch of the slope, with repesct to starting pitch
 static float path_pitch_change[TOTAL_PATH_SIZE] = {0.0f, -6.0f, 0.0f, -6.0f, 0.0f, -6.0f, 0.0f};
 static uint8_t path_pointer = 0;
 static float pitch_change = 0;
@@ -70,6 +72,7 @@ GAME_STAGE path_up_update(){
 		if (path_pointer >= TOTAL_PATH_SIZE){
 			return (GAME_STAGE) (CLIMBING_SLOPE + 1);
 		}
+		led_blink(LED_D3);
 	}
 	
 	targeting_update(yaw_pitch_roll[0]);

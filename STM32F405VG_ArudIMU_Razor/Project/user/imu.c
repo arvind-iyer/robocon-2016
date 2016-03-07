@@ -47,7 +47,6 @@ void IMU_receiver(u8 byte){
 					//Finish syncing, init other parts
 					sync_progress = '#';
 					imu_synced = true;
-					led_control(LED_D3, LED_ON);
 					#ifdef IMU_USE_CONTINUOUS_MODE
 						uart_tx(IMU_UART, "#o1#ob#oe0"); //Continuous binary output and request syncing
 					#else
@@ -105,7 +104,7 @@ void imu_update(){
 				}
 				yaw_pitch_roll[i] = dataset.f;
 				//Map the reading from -1~-179 and 0~179 to 0~360
-				yaw_pitch_roll[i] = yaw_pitch_roll[i]<0.0f?yaw_pitch_roll[i]+360.0f:yaw_pitch_roll[i];
+				//yaw_pitch_roll[i] = yaw_pitch_roll[i]<0.0f?yaw_pitch_roll[i]+360.0f:yaw_pitch_roll[i];
 			}
 			//For pitch and roll, map the values such that 1800 is the med pos
 			yaw_pitch_roll[1] = yaw_pitch_roll[1] < 180.0f ? yaw_pitch_roll[1]+180.0f : (yaw_pitch_roll[1] > 180.0f ? yaw_pitch_roll[1] - 180.0f : 0);
@@ -117,7 +116,9 @@ void imu_update(){
 				//Copy the starting yaw pitch roll to a private array
 				memcpy(start_ypr, yaw_pitch_roll, 3 * sizeof(float));
 				path_up_init();
+				path_river_init();
 				imu_staged = true;
+				led_control(LED_D2, LED_ON);
 			}
 	}
 }
