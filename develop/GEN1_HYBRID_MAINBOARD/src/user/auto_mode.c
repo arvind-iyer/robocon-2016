@@ -163,7 +163,9 @@ void auto_reset() {
 	auto_ticks = get_full_ticks();
 	
 	//reset gyro location
-	gyro_pos_set(0,0,0);
+	//gyro_pos_set(0,0,0);
+	gyro_pos_set(0,-2870,0);
+	auto_tar_dequeue();
 }
 
 /**
