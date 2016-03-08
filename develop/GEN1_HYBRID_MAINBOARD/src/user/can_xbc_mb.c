@@ -175,9 +175,9 @@ void can_xbc_mb_lcd_tx(void)
     for (u8 x = 0; x < CHAR_MAX_X_VERTICAL; ++x) {
       XBC_LCD_DATA* data = &xbc_lcd_data[x][y];
       
-      data->color = text_color[x][y];
-      data->bg_color = bg_color[x][y];
-      data->text = text[x][y];
+      data->color = text_color[pointer_to_curr_screen][x][y];
+      data->bg_color = bg_color[pointer_to_curr_screen][x][y];
+      data->text = text[pointer_to_curr_screen][x][y];
       
       // TEXT OF THE SAME COLOR AND SAME BG_COLOR WILL BE PACKED INSIDE THE SAME PACKAGE
       if (text_in_package == 0 || msg.length >= 8 || xbc_lcd_data_color_diff(last_tx_data, data)) {

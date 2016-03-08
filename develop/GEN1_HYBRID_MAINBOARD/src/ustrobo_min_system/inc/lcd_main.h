@@ -68,10 +68,11 @@ extern u16 curr_bg_color;
 extern u16 curr_text_color;
 extern u16 curr_text_color_sp;
 
-extern char text						[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-extern u16 text_color				[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-extern u16 bg_color					[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+extern char text						[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+extern u16 text_color				[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+extern u16 bg_color					[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
 extern u8 text_bg_color_prev[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY]; // for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color
+extern u8 pointer_to_curr_screen;
 
 typedef enum {
 	PIN_ON_TOP = 0,
