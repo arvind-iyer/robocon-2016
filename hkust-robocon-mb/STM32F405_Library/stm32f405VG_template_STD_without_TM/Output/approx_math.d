@@ -1,11 +1,12 @@
 .\output\approx_math.o: src\approx_math.c
 .\output\approx_math.o: .\inc\approx_math.h
 .\output\approx_math.o: .\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
-.\output\approx_math.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cm4.h
+.\output\approx_math.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\approx_math.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\output\approx_math.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmInstr.h
-.\output\approx_math.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmFunc.h
-.\output\approx_math.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmSimd.h
+.\output\approx_math.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h
+.\output\approx_math.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h
+.\output\approx_math.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h
+.\output\approx_math.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h
 .\output\approx_math.o: .\Libraries\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
 .\output\approx_math.o: .\Libraries\STM32F4xx_StdPeriph_Driver\stm32f4xx_conf.h
 .\output\approx_math.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h

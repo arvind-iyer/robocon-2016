@@ -4,11 +4,12 @@
 .\output\sensor_bar.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\sensor_bar.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\output\sensor_bar.o: .\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
-.\output\sensor_bar.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cm4.h
+.\output\sensor_bar.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\sensor_bar.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\output\sensor_bar.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmInstr.h
-.\output\sensor_bar.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmFunc.h
-.\output\sensor_bar.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmSimd.h
+.\output\sensor_bar.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h
+.\output\sensor_bar.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h
+.\output\sensor_bar.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h
+.\output\sensor_bar.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h
 .\output\sensor_bar.o: .\Libraries\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
 .\output\sensor_bar.o: .\Libraries\STM32F4xx_StdPeriph_Driver\stm32f4xx_conf.h
 .\output\sensor_bar.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h

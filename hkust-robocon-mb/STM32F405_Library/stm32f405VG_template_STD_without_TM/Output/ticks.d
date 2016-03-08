@@ -2,11 +2,12 @@
 .\output\ticks.o: .\inc\ticks.h
 .\output\ticks.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_tim.h
 .\output\ticks.o: .\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
-.\output\ticks.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cm4.h
+.\output\ticks.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\ticks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\output\ticks.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmInstr.h
-.\output\ticks.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmFunc.h
-.\output\ticks.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmSimd.h
+.\output\ticks.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h
+.\output\ticks.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h
+.\output\ticks.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h
+.\output\ticks.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h
 .\output\ticks.o: .\Libraries\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
 .\output\ticks.o: .\Libraries\STM32F4xx_StdPeriph_Driver\stm32f4xx_conf.h
 .\output\ticks.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h

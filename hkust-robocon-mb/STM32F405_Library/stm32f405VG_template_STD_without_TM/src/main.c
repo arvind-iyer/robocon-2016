@@ -6,7 +6,7 @@ int main(void) {
 	ticks_init();		//Ticks initialization
   tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED);     //LCD Initialization
 	buzzer_init();	//Initialize buzzer
-	
+	encoder_init();
 	//Initialize the CAN protocol for motor
 	//    can_init();
 	//    can_rx_init();

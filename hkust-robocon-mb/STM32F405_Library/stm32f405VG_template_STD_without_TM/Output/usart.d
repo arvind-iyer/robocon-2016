@@ -2,11 +2,12 @@
 .\output\usart.o: .\inc\usart.h
 .\output\usart.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h
 .\output\usart.o: .\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h
-.\output\usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cm4.h
+.\output\usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h
 .\output\usart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\output\usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmInstr.h
-.\output\usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmFunc.h
-.\output\usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cmSimd.h
+.\output\usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h
+.\output\usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h
+.\output\usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h
+.\output\usart.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h
 .\output\usart.o: .\Libraries\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h
 .\output\usart.o: .\Libraries\STM32F4xx_StdPeriph_Driver\stm32f4xx_conf.h
 .\output\usart.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h

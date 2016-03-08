@@ -23,7 +23,7 @@ typedef struct {
 // define
 #define ENCODER_NO												2
 // Encoder 1 details
-#define ENCODER_TIMER1										TIM2
+#define ENCODER_TIMER1						    TIM2
 #define ENCODER_TIMER1_AF                       GPIO_AF_TIM2
 #define ENCODER_TIMER1_CLOCK_SOURCE				RCC_APB1Periph_TIM2						// in APB 1
 #define ENCODER_TIMER1_GPIO_CLOCK_SOURCE	    RCC_AHB1Periph_GPIOA					// in APB 2
