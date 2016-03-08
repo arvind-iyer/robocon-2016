@@ -41,8 +41,8 @@ void servo_init(void){
 	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
 
 	//------------------------------//
-	TIM_TimeBaseStructure.TIM_Prescaler = 15;												//clk=72M/(71+1)= Hz, interval=?
-	TIM_TimeBaseStructure.TIM_Period = 5000;												//pulse cycle= 20000
+	TIM_TimeBaseStructure.TIM_Prescaler = 83;												//clk=84M/(83+1)=1 MHz, Freq = 1000000 / 20000 = 50Hz Interval = 20ms
+	TIM_TimeBaseStructure.TIM_Period = 20000;												//pulse cycle= 20000 
 	//------------------------------//
 
 	TIM_TimeBaseInit(SERVO_TIM, &TIM_TimeBaseStructure);
@@ -57,7 +57,7 @@ void servo_init(void){
 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;  	// this part enable the output
 	TIM_OCInitStructure.TIM_OutputNState = TIM_OutputState_Disable; // this part disable the Nstate
 	//------------------------------//
-	TIM_OCInitStructure.TIM_Pulse = 2500;														// this part sets the initial CCR value
+	TIM_OCInitStructure.TIM_Pulse = 1000;														// this part sets the initial CCR value ,CCR = ExpPulseWidth * 1000
 	//------------------------------//
 	
 	// OC Init

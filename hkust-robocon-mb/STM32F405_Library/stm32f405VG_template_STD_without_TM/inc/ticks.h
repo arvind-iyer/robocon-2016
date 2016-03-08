@@ -5,7 +5,7 @@
 
 #define TICKS_TIM							TIM2
 #define TICKS_RCC							RCC_APB1Periph_TIM2
-#define TICKS_CLKFreq					42000000
+#define TICKS_CLKFreq					84000000
 #define TICKS_IRQn						TIM2_IRQn
 #define TICKS_IRQHandler			void TIM2_IRQHandler(void)
 

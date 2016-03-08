@@ -27,7 +27,7 @@ int main(void) {
 			tft_prints(0,3,"PCLK2:%d",rcc_clocks.PCLK2_Frequency);
 			tft_prints(0,4,"Count: %d",get_ticks());
 			tft_prints(0,5,"Second: %d",get_seconds());
-			if(get_seconds()>15)servo_control(SERVO1,4000);
+			if(get_seconds()>15)servo_control(SERVO1,2000);
 			tft_update();
 		}
 	}

@@ -54,9 +54,9 @@
   *-----------------------------------------------------------------------------
   *        APB2 Prescaler                         | 2
   *-----------------------------------------------------------------------------
-  *        HSE Frequency(Hz)                      | 25000000  //8000000 for Robotics
+  *        HSE Frequency(Hz)                      | 25000000
   *-----------------------------------------------------------------------------
-  *        PLL_M                                  | 25				//16 if 8MHz HSE is used
+  *        PLL_M                                  | 25
   *-----------------------------------------------------------------------------
   *        PLL_N                                  | 336
   *-----------------------------------------------------------------------------
@@ -348,9 +348,9 @@
      through STLINK MCO pin of STM32F103 microcontroller. The frequency cannot be changed
      and is fixed at 8 MHz. 
      Hardware configuration needed for Nucleo Board:
-     – SB54, SB55 OFF
-     – R35 removed
-     – SB16, SB50 ON */
+     ? SB54, SB55 OFF
+     ? R35 removed
+     ? SB16, SB50 ON */
 /* #define USE_HSE_BYPASS */
 
 #if defined(USE_HSE_BYPASS)     
@@ -366,13 +366,51 @@
 /******************************************************************************/
 
 /************************* PLL Parameters *************************************/
+#if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F401xx) || defined(STM32F469_479xx)
+ /* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLL_M) * PLL_N */
+ #define PLL_M      8
+#elif defined (STM32F446xx)
+ #define PLL_M      8
+#elif defined (STM32F410xx) || defined (STM32F411xE)
+ #if defined(USE_HSE_BYPASS)
+  #define PLL_M      8    
+ #else /* !USE_HSE_BYPASS */
+  #define PLL_M      16
+ #endif /* USE_HSE_BYPASS */
+#else
+#endif /* STM32F40_41xxx || STM32F427_437xx || STM32F429_439xx || STM32F401xx || STM32F469_479xx */  
 
 /* USB OTG FS, SDIO and RNG Clock =  PLL_VCO / PLLQ */
 #define PLL_Q      7
-#define PLL_M      16
+
+#if defined(STM32F446xx)
+/* PLL division factor for I2S, SAI, SYSTEM and SPDIF: Clock =  PLL_VCO / PLLR */
+#define PLL_R      7
+#endif /* STM32F446xx */ 
+
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F446xx) || defined(STM32F469_479xx)
+#define PLL_N      360
+/* SYSCLK = PLL_VCO / PLL_P */
+#define PLL_P      2
+#endif /* STM32F427_437x || STM32F429_439xx || STM32F446xx || STM32F469_479xx */
+
+#if defined (STM32F40_41xxx)
 #define PLL_N      336
 /* SYSCLK = PLL_VCO / PLL_P */
 #define PLL_P      2
+#endif /* STM32F40_41xxx */
+
+#if defined(STM32F401xx)
+#define PLL_N      336
+/* SYSCLK = PLL_VCO / PLL_P */
+#define PLL_P      4
+#endif /* STM32F401xx */
+
+#if defined(STM32F410xx) || defined(STM32F411xE)
+#define PLL_N      400
+/* SYSCLK = PLL_VCO / PLL_P */
+#define PLL_P      4   
+#endif /* STM32F410xx || STM32F411xE */
 
 /******************************************************************************/
 
@@ -392,7 +430,21 @@
   * @{
   */
 
+#if defined(STM32F40_41xxx)
   uint32_t SystemCoreClock = 168000000;
+#endif /* STM32F40_41xxx */
+
+#if defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F446xx) || defined(STM32F469_479xx)
+  uint32_t SystemCoreClock = 180000000;
+#endif /* STM32F427_437x || STM32F429_439xx || STM32F446xx || STM32F469_479xx */
+
+#if defined(STM32F401xx)
+  uint32_t SystemCoreClock = 84000000;
+#endif /* STM32F401xx */
+
+#if defined(STM32F410xx) || defined(STM32F411xE)
+  uint32_t SystemCoreClock = 100000000;
+#endif /* STM32F410xx || STM32F401xE */
 
 __I uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
 
@@ -623,8 +675,6 @@ static void SetSysClock(void)
     HSEStatus = (uint32_t)0x00;
   }
 
-  if (HSEStatus == (uint32_t)0x01)
-  {
     /* Select regulator voltage output Scale 1 mode */
     RCC->APB1ENR |= RCC_APB1ENR_PWREN;
     PWR->CR |= PWR_CR_VOS;
@@ -650,14 +700,31 @@ static void SetSysClock(void)
 
 #if defined(STM32F40_41xxx) || defined(STM32F427_437xx) || defined(STM32F429_439xx) || defined(STM32F401xx) || defined(STM32F469_479xx)    
     /* Configure the main PLL */
-    RCC->PLLCFGR = PLL_M | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
-                   (RCC_PLLCFGR_PLLSRC_HSE) | (PLL_Q << 24);
+		if (HSEStatus == (uint32_t)0x01) {
+			RCC->PLLCFGR = PLL_M | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
+										(RCC_PLLCFGR_PLLSRC_HSE) | (PLL_Q << 24);
+		} else {
+			/* If HSE fails to start-up, the application will have wrong clock
+         configuration. User can add here some code to deal with this error */
+			// PLL_M now is 16 for HSI value, as internal oscillator is 16MHz, external default is 8MHz, so multiply 2
+			RCC->PLLCFGR = PLL_M*2 | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
+										(RCC_PLLCFGR_PLLSRC_HSI) | (PLL_Q << 24);
+			
+		}
 #endif /* STM32F40_41xxx || STM32F401xx || STM32F427_437x || STM32F429_439xx || STM32F469_479xx */
 
 #if defined(STM32F446xx)
     /* Configure the main PLL */
-    RCC->PLLCFGR = PLL_M | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
-                   (RCC_PLLCFGR_PLLSRC_HSE) | (PLL_Q << 24) | (PLL_R << 28);
+		if (HSEStatus == (uint32_t)0x01) {
+			RCC->PLLCFGR = PLL_M | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
+										 (RCC_PLLCFGR_PLLSRC_HSE) | (PLL_Q << 24) | (PLL_R << 28);
+		} else {
+			/* If HSE fails to start-up, the application will have wrong clock
+         configuration. User can add here some code to deal with this error */
+			// PLL_M now is 16 for HSI value, as internal oscillator is 16MHz, external default is 8MHz, so multiply 2
+			RCC->PLLCFGR = PLL_M*2 | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
+										 (RCC_PLLCFGR_PLLSRC_HSI) | (PLL_Q << 24) | (PLL_R << 28);
+		}
 #endif /* STM32F446xx */    
     
     /* Enable the main PLL */
@@ -700,53 +767,7 @@ static void SetSysClock(void)
     while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS ) != RCC_CFGR_SWS_PLL);
     {
     }
-  }
-  else
-  { /* If HSE fails to start-up, the application will have wrong clock
-         configuration. User can add here some code to deal with this error */
-		
-		/* Select regulator voltage output Scale 1 mode */
-    RCC->APB1ENR |= RCC_APB1ENR_PWREN;
-    PWR->CR |= PWR_CR_VOS;
 
-    /* HCLK = SYSCLK / 1*/
-    RCC->CFGR |= RCC_CFGR_HPRE_DIV1;
-		
-		    /* PCLK2 = HCLK / 2*/
-    RCC->CFGR |= RCC_CFGR_PPRE2_DIV2;
-    
-    /* PCLK1 = HCLK / 4*/
-    RCC->CFGR |= RCC_CFGR_PPRE1_DIV4;
-		
-		
-    /* Configure the main PLL */
-    RCC->PLLCFGR = PLL_M | (PLL_N << 6) | (((PLL_P >> 1) -1) << 16) |
-                   (RCC_PLLCFGR_PLLSRC_HSI) | (PLL_Q << 24);
-		
-    /* Enable the main PLL */
-    RCC->CR |= RCC_CR_PLLON;
-
-    /* Wait till the main PLL is ready */
-    while((RCC->CR & RCC_CR_PLLRDY) == 0)
-    {
-    }
-   		
-    /* Configure Flash prefetch, Instruction cache, Data cache and wait state */
-    FLASH->ACR = FLASH_ACR_PRFTEN | FLASH_ACR_ICEN |FLASH_ACR_DCEN |FLASH_ACR_LATENCY_5WS;
-
-    /* Select the main PLL as system clock source */
-    RCC->CFGR &= (uint32_t)((uint32_t)~(RCC_CFGR_SW));
-    RCC->CFGR |= RCC_CFGR_SW_PLL;
-
-    /* Wait till the main PLL is used as system clock source */
-    while ((RCC->CFGR & (uint32_t)RCC_CFGR_SWS ) != RCC_CFGR_SWS_PLL);
-    {
-    }		
-		
-		
-		
-		
-  }
 #elif defined(STM32F410xx) || defined(STM32F411xE)
 #if defined(USE_HSE_BYPASS) 
 /******************************************************************************/

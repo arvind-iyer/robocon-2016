@@ -45,7 +45,7 @@ void ticks_init(void) {
 //	TICKS_TIM->CR1 = 1;
 	
 	TIM_TimeBaseStructure.TIM_Period = 1000;	                 				       // Timer period, 1000 ticks in one second
-	TIM_TimeBaseStructure.TIM_Prescaler = TICKS_CLKFreq / 1000000 - 1;     // 42M/1M - 1 = 41
+	TIM_TimeBaseStructure.TIM_Prescaler = TICKS_CLKFreq / 1000000 - 1;     // 84M/1M - 1 = 83
 	TIM_TimeBaseInit(TICKS_TIM, &TIM_TimeBaseStructure);      							 // this part feeds the parameter we set above
 	
 	TIM_ClearITPendingBit(TICKS_TIM, TIM_IT_Update);												 // Clear Interrupt bits

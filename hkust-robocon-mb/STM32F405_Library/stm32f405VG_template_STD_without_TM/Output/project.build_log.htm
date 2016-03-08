@@ -21,30 +21,20 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.17.0
 Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
-C:\Users\Simon\Desktop\Github\STM32F4_Robocon\Project.uvprojx
+C:\Users\Simon\Desktop\Github\robocon-2016\hkust-robocon-mb\STM32F405_Library\stm32f405VG_template_STD_without_TM\Project.uvprojx
 Project File Date:  03/07/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F4_Robocon'
-compiling main.c...
-compiling buzzer.c...
-compiling stm32f4xx_it.c...
-compiling buzzer_song.c...
-compiling can_motor.c...
-compiling gyro.c...
-src\gyro.c(14): warning:  #177-D: variable "max_state" was declared but never referenced
-  static u8 max_state = 0;
-src\gyro.c(16): warning:  #177-D: variable "min_command" was declared but never referenced
-  static u8 min_command = 255;
-src\gyro.c: 2 warnings, 0 errors
-compiling sensor_bar.c...
-compiling ticks.c...
-compiling tft_display.c...
+compiling system_stm32f4xx.c...
+Libraries\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c(1236): warning:  #1-D: last line of file ends without a newline
+  /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+Libraries\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c: 1 warning, 0 errors
 linking...
-Program Size: Code=11480 RO-data=424 RW-data=4740 ZI-data=35420  
+Program Size: Code=11396 RO-data=424 RW-data=4740 ZI-data=35420  
 FromELF: creating hex file...
-".\Output\project.hex" - 0 Error(s), 2 Warning(s).
+".\Output\project.hex" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -55,14 +45,14 @@ Package Vendor: ARM
    * Component: CORE Version: 4.1.0
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\Simon\Desktop\Github\STM32F4_Robocon\RTE
+  C:\Users\Simon\Desktop\Github\robocon-2016\hkust-robocon-mb\STM32F405_Library\stm32f405VG_template_STD_without_TM\RTE
   C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include
   C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:4.1.0
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:09
 </pre>
 </body>
 </html>
