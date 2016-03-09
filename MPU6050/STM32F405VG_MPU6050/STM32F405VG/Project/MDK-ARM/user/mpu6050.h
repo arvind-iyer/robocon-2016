@@ -14,7 +14,8 @@
 #define MPU_SDA_PIN					GPIO_Pin_11
 #define MPU_I2C 						I2C2
 
-#define MPU_ADDRESS									(0x68)<<1 //When AD0 is low
+#define MPU_ADDRESS									(0x68)<<1 //When AD0 is low, i.e. connected to ground
+
 #define MPU6050_RA_XG_OFFS_TC       0x00 //[7] PWR_MODE, [6:1] XG_OFFS_TC, [0] OTP_BNK_VLD
 #define MPU6050_RA_YG_OFFS_TC       0x01 //[7] PWR_MODE, [6:1] YG_OFFS_TC, [0] OTP_BNK_VLD
 #define MPU6050_RA_ZG_OFFS_TC       0x02 //[7] PWR_MODE, [6:1] ZG_OFFS_TC, [0] OTP_BNK_VLD
