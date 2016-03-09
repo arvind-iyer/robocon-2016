@@ -243,7 +243,7 @@ void xbc_tft_transmit(void){
 					SPI_I2S_SendData(XBC_SPI , text_bg_color_prev[xbc_tft_x_pos-1][xbc_tft_y] );
 				}
 				else{
-					SPI_I2S_SendData(XBC_SPI , text[xbc_tft_x_pos-1][xbc_tft_y] );
+					SPI_I2S_SendData(XBC_SPI , text[pointer_to_curr_screen][xbc_tft_x_pos-1][xbc_tft_y] );
 
 				}
 			//	printf("W:%x ",text[xbc_tft_y][xbc_tft_x_pos-1]);

@@ -11,10 +11,10 @@ u8 tft_width = 0, tft_height = 0;
 u8 tft_y_index = 0;
 u8 char_max_x, char_max_y;
 
-char text							[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-static bool tft_unit_changed	[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-u16 text_color				[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-u16 bg_color					[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+char text							[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+u16 text_color				[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+u16 bg_color					[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+u8 pointer_to_curr_screen = 0;
 u8 text_bg_color_prev	[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];/*for transmit for xbc, msb 4bits: text color, lsb 4bits: bg color*/
 static u16 tft_mega_pre[32][25];
 static u16 tft_mega_storage[32][25];
@@ -264,6 +264,7 @@ void tft_init(TFT_ORIENTATION orientation, u16 in_bg_color, u16 in_text_color, u
 {
 	u8 x, y;
 	tft_y_index = 0;
+	pointer_to_curr_screen = 0;
 	tft_spi_init();
 	tft_reset();
 	tft_config();
@@ -286,13 +287,13 @@ void tft_init(TFT_ORIENTATION orientation, u16 in_bg_color, u16 in_text_color, u
 		char_max_y = CHAR_MAX_Y_VERTICAL;
 	}
 
-	for (x = 0; x <= CHAR_MAX_X_ANY; x++) {
-		for (y = 0; y <= CHAR_MAX_Y_ANY; y++) {
-			text[x][y] = ' ';
-			text_color[x][y] = in_text_color;
-			bg_color[x][y] = in_bg_color;
-
-			tft_unit_changed[x][y] = true;
+	for (u8 pointer = 0; pointer<2; pointer++){
+		for (x = 0; x <= CHAR_MAX_X_ANY; x++) {
+			for (y = 0; y <= CHAR_MAX_Y_ANY; y++) {
+				text[pointer][x][y] = ' ';
+				text_color[pointer][x][y] = in_text_color;
+				bg_color[pointer][x][y] = in_bg_color;
+			}
 		}
 	}
 	
@@ -415,11 +416,9 @@ void tft_force_clear(void)
 	u8 x, y;
 	for (x = 0; x <= CHAR_MAX_X_ANY; x++) {
 		for (y = 0; y <= CHAR_MAX_Y_ANY; y++) {
-			if (text[x][y]==' ' && text_color[x][y]==curr_text_color && bg_color[x][y]==curr_bg_color){
-				tft_unit_changed[x][y] = false;
-			}else{
-				tft_unit_changed[x][y] = true;
-			}
+			text[pointer_to_curr_screen][x][y] = ' ';
+			text_color[pointer_to_curr_screen][x][y] = curr_text_color;
+			bg_color[pointer_to_curr_screen][x][y] = curr_bg_color;
 		}
 	}
 	tft_fill_color(curr_bg_color);
@@ -432,14 +431,9 @@ void tft_force_clear(void)
   */
 void tft_clear_line(u8 line){
 	for (u8 x = 0; x < CHAR_MAX_X_ANY; x++) {
-		if (text[x][line]==' ' && text_color[x][line]==curr_text_color && bg_color[x][line]==curr_bg_color){
-			tft_unit_changed[x][line] = false;
-		}else{
-			tft_unit_changed[x][line] = true;
-		}
-		text[x][line] = ' ';
-		text_color[x][line] = curr_text_color;
-		bg_color[x][line] = curr_bg_color;
+		text[pointer_to_curr_screen][x][line] = ' ';
+		text_color[pointer_to_curr_screen][x][line] = curr_text_color;
+		bg_color[pointer_to_curr_screen][x][line] = curr_bg_color;
 	}
 }
 
@@ -512,9 +506,9 @@ void tft_fill_color(u16 color)
 }
 
 bool tft_char_is_changed(u8 x, u8 y){
-	bool re = tft_unit_changed[x][y];
-	tft_unit_changed[x][y] = false;
-	return re;
+	return !((text[pointer_to_curr_screen][x][y] == text[(pointer_to_curr_screen+1)%2][x][y])
+						&& (text_color[pointer_to_curr_screen][x][y] == text_color[(pointer_to_curr_screen+1)%2][x][y])
+						&& (bg_color[pointer_to_curr_screen][x][y] == bg_color[(pointer_to_curr_screen+1)%2][x][y]));
 }
 
 /**
@@ -546,17 +540,10 @@ void tft_prints(u8 x, u8 y, const char * pstr, ...){
 			if (x > char_max_x || y > char_max_y) {
 				break;
 			}
-
-			char temp_text = *fp++;
-			u16 temp_text_color = is_special ? curr_text_color_sp : curr_text_color;
 			
-			if (text[x][y] != temp_text || text_color[x][y] != temp_text_color || bg_color[x][y] != curr_bg_color){
-				tft_unit_changed[x][y] = true;
-			}
-			
-			text[x][y] = temp_text;
-			text_color[x][y] = temp_text_color;
-			bg_color[x][y] = curr_bg_color;	
+			text[pointer_to_curr_screen][x][y] = *fp++;
+			text_color[pointer_to_curr_screen][x][y] = is_special ? curr_text_color_sp : curr_text_color;
+			bg_color[pointer_to_curr_screen][x][y] = curr_bg_color;	
 			x++;
 		}
 	}
@@ -595,17 +582,10 @@ void tft_append_line(const char * pstr, ...){
 			if (x > char_max_x || tft_y_index > (char_max_y)) {
 				break;
 			}
-
-			char temp_text = *fp++;
-			u16 temp_text_color = is_special ? curr_text_color_sp : curr_text_color;
 			
-			if (text[x][tft_y_index] != temp_text || text_color[x][tft_y_index] != temp_text_color || bg_color[x][tft_y_index] != curr_bg_color){
-				tft_unit_changed[x][tft_y_index] = true;
-			}
-			
-			text[x][tft_y_index] = temp_text;
-			text_color[x][tft_y_index] = temp_text_color;
-			bg_color[x][tft_y_index] = curr_bg_color;	
+			text[pointer_to_curr_screen][x][tft_y_index] = *fp++;
+			text_color[pointer_to_curr_screen][x][tft_y_index] = is_special ? curr_text_color_sp : curr_text_color;
+			bg_color[pointer_to_curr_screen][x][tft_y_index] = curr_bg_color;	
 			x++;
 		}
 	}
@@ -633,8 +613,13 @@ void tft_update(void)
 	
 	for (y = 0; y < 10; y++) {
 		for (x = 0; x < 16; x++) {
-			text_bg_color_prev[x][y] = (text_color[x][y] & 0x8000 ? 0x40 : 0) | (text_color[x][y] & 0x0400 ? 0x20 : 0) | (text_color[x][y] & 0x0010 ? 0x10 : 0); //text:red green blue
-			text_bg_color_prev[x][y] = text_bg_color_prev[x][y] | (bg_color[x][y] & 0x8000 ? 0x04 : 0) | (bg_color[x][y] & 0x0400 ? 0x02 : 0) | (bg_color[x][y] & 0x0010 ? 0x01 : 0); //bg :red green blue
+			text_bg_color_prev[x][y] = (text_color[pointer_to_curr_screen][x][y] & 0x8000 ? 0x40 : 0) 
+						| (text_color[pointer_to_curr_screen][x][y] & 0x0400 ? 0x20 : 0) 
+						| (text_color[pointer_to_curr_screen][x][y] & 0x0010 ? 0x10 : 0); //text:red green blue
+			
+			text_bg_color_prev[x][y] = text_bg_color_prev[x][y] | (bg_color[pointer_to_curr_screen][x][y] & 0x8000 ? 0x04 : 0)
+						| (bg_color[pointer_to_curr_screen][x][y] & 0x0400 ? 0x02 : 0)
+						| (bg_color[pointer_to_curr_screen][x][y] & 0x0010 ? 0x01 : 0); //bg :red green blue
 		}
 	}
 
@@ -656,7 +641,7 @@ void tft_update(void)
 						for (py = 0; py < CHAR_HEIGHT; py++) {
 							for (px = 0; px < char_n*CHAR_WIDTH; px++) {
 								x2 = x+px/CHAR_WIDTH;
-								clr = ascii_8x16[((text[x2][y2] - 32) * CHAR_HEIGHT) + py] & (0x80 >> (px % CHAR_WIDTH)) ? text_color[x2][y2] : bg_color[x2][y2];
+								clr = ascii_8x16[((text[pointer_to_curr_screen][x2][y2] - 32) * CHAR_HEIGHT) + py] & (0x80 >> (px % CHAR_WIDTH)) ? text_color[pointer_to_curr_screen][x2][y2] : bg_color[pointer_to_curr_screen][x2][y2];
 								tft_write_data(clr >> 8);
 								tft_write_data(clr);
 							}
@@ -683,7 +668,7 @@ void tft_update(void)
 						for (px = 0; px < CHAR_WIDTH; px++) {
 							for (py = 0; py < char_n*CHAR_HEIGHT; py++) {
 								y2 = y-py/CHAR_HEIGHT;
-								clr = ascii_8x16[((text[x2][y2] - 32) * CHAR_HEIGHT) + CHAR_HEIGHT-(py % CHAR_HEIGHT)-1] & (0x80 >> px) ? text_color[x2][y2] : bg_color[x2][y2];
+								clr = ascii_8x16[((text[pointer_to_curr_screen][x2][y2] - 32) * CHAR_HEIGHT) + CHAR_HEIGHT-(py % CHAR_HEIGHT)-1] & (0x80 >> px) ? text_color[pointer_to_curr_screen][x2][y2] : bg_color[pointer_to_curr_screen][x2][y2];
 								tft_write_data(clr >> 8);
 								tft_write_data(clr);
 							}
@@ -710,7 +695,7 @@ void tft_update(void)
 						for (py = 0; py < CHAR_HEIGHT; py++) {
 							for (px = 0; px < char_n*CHAR_WIDTH; px++) {
 								x2 = x-px/CHAR_WIDTH;
-								clr = ascii_8x16[((text[x2][y2] - 32) * CHAR_HEIGHT) + (CHAR_HEIGHT-py-1)] & (0x80 >> (CHAR_WIDTH-(px % CHAR_WIDTH)-1)) ? text_color[x2][y2] : bg_color[x2][y2];
+								clr = ascii_8x16[((text[pointer_to_curr_screen][x2][y2] - 32) * CHAR_HEIGHT) + (CHAR_HEIGHT-py-1)] & (0x80 >> (CHAR_WIDTH-(px % CHAR_WIDTH)-1)) ? text_color[pointer_to_curr_screen][x2][y2] : bg_color[pointer_to_curr_screen][x2][y2];
 								tft_write_data(clr >> 8);
 								tft_write_data(clr);
 							}
@@ -737,7 +722,7 @@ void tft_update(void)
 						for (px = 0; px < CHAR_WIDTH; px++) {
 							for (py = 0; py < char_n*CHAR_HEIGHT; py++) {
 								y2 = y+py/CHAR_HEIGHT;
-								clr = ascii_8x16[((text[x2][y2] - 32) * CHAR_HEIGHT) + (py % CHAR_HEIGHT)] & (0x80 >> (CHAR_WIDTH-px-1)) ? text_color[x2][y2] : bg_color[x2][y2];
+								clr = ascii_8x16[((text[pointer_to_curr_screen][x2][y2] - 32) * CHAR_HEIGHT) + (py % CHAR_HEIGHT)] & (0x80 >> (CHAR_WIDTH-px-1)) ? text_color[pointer_to_curr_screen][x2][y2] : bg_color[pointer_to_curr_screen][x2][y2];
 								tft_write_data(clr >> 8);
 								tft_write_data(clr);
 							}
@@ -748,6 +733,7 @@ void tft_update(void)
 			}
 			break;
 	}
+	pointer_to_curr_screen = (pointer_to_curr_screen+1) % 2;
 }
 
 
