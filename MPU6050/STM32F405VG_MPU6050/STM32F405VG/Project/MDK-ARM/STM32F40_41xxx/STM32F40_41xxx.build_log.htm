@@ -27,7 +27,16 @@ Project File Date:  03/09/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F40_41xxx'
-"STM32F40_41xxx\STM32F40_41xxx.axf" - 0 Error(s), 0 Warning(s).
+compiling mpu6050.c...
+user\mpu6050.h(371): warning:  #1295-D: Deprecated declaration mpu_wake_up - give arg types
+  void mpu_wake_up();
+user\mpu6050.h(373): warning:  #1-D: last line of file ends without a newline
+  #endif
+user\mpu6050.c: 2 warnings, 0 errors
+linking...
+Program Size: Code=18448 RO-data=424 RW-data=2080 ZI-data=34416  
+FromELF: creating hex file...
+"STM32F40_41xxx\STM32F40_41xxx.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -45,7 +54,7 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:4.2.0
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

@@ -365,9 +365,9 @@
 #define MPU6050_DMP_MEMORY_CHUNK_SIZE   16
 
 void mpu_init(void);
-void mpu_buffer_read(u8 deviceAdd, u8* buffer, u8 readAdd, u16 numOfByte);
+void mpu_buffer_read(u8* buffer, u8 readAdd, u16 numOfByte);
 void getRawAccelGyro(s16* AccelGyro);
-void mpu_write_byte(u8 slaveAddr, u8* pBuffer, u8 writeAddr);
+void mpu_write_byte(u8* pBuffer, u8 writeAddr);
 void mpu_wake_up();
 
 #endif
