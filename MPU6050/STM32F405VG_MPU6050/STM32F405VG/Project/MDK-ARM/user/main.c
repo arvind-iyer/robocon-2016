@@ -10,12 +10,8 @@ int main(void) {
 	SystemCoreClockUpdate();
 	led_init();
 	TM_DELAY_Init();
-	imu_init();
-	servo_init();
 	tft_easy_init(); //Init LCD
 	tft_put_logo(85, 120);
-	
-	GAME_STAGE game_stage = SYSTEM_WAITING;
 	
 	while (1) { 
 		if(get_ticks() != this_loop_ticks){
