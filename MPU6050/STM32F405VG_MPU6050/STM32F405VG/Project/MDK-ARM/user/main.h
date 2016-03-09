@@ -21,6 +21,7 @@
 #include "encoder.h"
 #include "sensor_bar.h"
 #include "line_sensor.h"
+#include "mpu6050.h"
 
 //Main loop
 extern u32 this_loop_ticks;
