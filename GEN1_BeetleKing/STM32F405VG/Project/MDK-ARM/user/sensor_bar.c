@@ -1,39 +1,22 @@
 #include "sensor_bar.h"
-u16 data1[8];
-u16 data2[8];
-u16 sensorbar_result[16];
 
+u16 sensorbar_value[16] = {0};
 
-void receive(CanRxMsg msg){
+void receive_a(CanRxMsg msg){
     for(int i = 0; i < 8 ;i++){
-        data1[i] = msg.Data[i];
+        sensorbar_value[i] = msg.Data[i];
     }
 }
 
-void receive2(CanRxMsg msg2){
+void receive_b(CanRxMsg msg){
     for(int i = 0; i < 8 ; i++){
-        data2[i] = msg2.Data[i]; 
-    }
-}
-void fill_sensorbar_array(){
-    for(int i = 0; i < 8; i++){
-        sensorbar_result[i] = data2[7-i];
-    }
-    for(int i = 0; i < 8; i++){
-        sensorbar_result[8+i] = data1[7-i];
+        sensorbar_value[8+i] = msg.Data[i]; 
     }
 }
 
 void sensorbar_init(void){
     can_init();
     can_rx_init();
-    can_rx_add_filter(ADDRESS1,CAN_RX_MASK_EXACT,receive);
-    can_rx_add_filter(ADDRESS2,CAN_RX_MASK_EXACT,receive2);
-}
-
-void print_sensorbar_array(){
-    tft_prints(0,0,"Sensor output");
-    for(int i = 0; i < 16 ;i++){
-        tft_prints(i,1,"%d",sensorbar_result[i]);
-    }
+    can_rx_add_filter(SENSOR_BAR_FILTER_1, CAN_RX_MASK_EXACT, receive_a);
+    can_rx_add_filter(SENSOR_BAR_FILTER_2, CAN_RX_MASK_EXACT, receive_b);
 }
