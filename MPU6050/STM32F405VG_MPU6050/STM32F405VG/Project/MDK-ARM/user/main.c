@@ -18,7 +18,6 @@ int main(void) {
 		
 	while (1) {
 		this_loop_ticks = get_ticks();
-		
 		getRawAccelGyro(IMU_Buffer);   
 		tft_clear();
 		tft_println("%d", get_ticks());
