@@ -6,6 +6,28 @@ u32 this_loop_ticks = 0;
 u32 last_short_loop_ticks = 0;
 u32 any_loop_diff = 0;
 
+u16 sensorbar_value[16] = {0};
+
+void receive_a(CanRxMsg msg){
+	for(int i = 0; i < 8 ;i++){
+		sensorbar_value[i] = msg.Data[i];
+	}
+}
+
+void receive_b(CanRxMsg msg){
+	for(int i = 0; i < 8 ; i++){
+		sensorbar_value[8+i] = msg.Data[i]; 
+	}
+}
+
+void sensorbar_init(void){
+	can_init();
+  can_rx_init();
+  can_rx_add_filter(SENSOR_BAR_FILTER_1, CAN_RX_MASK_EXACT, receive_a);
+  can_rx_add_filter(SENSOR_BAR_FILTER_2, CAN_RX_MASK_EXACT, receive_b);
+}
+
+
 int main(void) {
 	led_init();
 	TM_DELAY_Init();
@@ -63,8 +85,8 @@ int main(void) {
 				
 				tft_println("Loop: %d %d", this_loop_ticks, any_loop_diff);
 				tft_println("%d %d %d", (int)roundf(yaw_pitch_roll[0]*10), (int)roundf(yaw_pitch_roll[1]*10), (int)roundf(yaw_pitch_roll[2]*10));
-				for (u8 i=0; i<3; i++){
-					tft_println("%d %d %d %d", sensorbar_value[i], sensorbar_value[i+1], sensorbar_value[i+2], sensorbar_value[i+3]);
+				for (u8 i=0; i<16; i++){
+					tft_prints(i, 9, "%d", sensorbar_value[i]);
 				}
 				tft_update();
 				last_long_loop_ticks = this_loop_ticks;
