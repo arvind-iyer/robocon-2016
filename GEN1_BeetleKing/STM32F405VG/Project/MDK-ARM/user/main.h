@@ -19,7 +19,7 @@
 #include "can_protocol.h"
 #include "can_motor.h"
 #include "encoder.h"
-#include "line_sensor.h"
+#include "sensor_bar.h"
 #include "imu.h"
 #include "servo_targeting.h"
 
@@ -27,9 +27,6 @@
 #include "path_upslope.h"
 #include "path_downslope.h"
 #include "path_river.h"
-
-#define SENSOR_BAR_FILTER_1 0x0C5
-#define SENSOR_BAR_FILTER_2 0x0C6 
 
 //Main loop
 extern u32 this_loop_ticks;

@@ -7,8 +7,7 @@
 #include <stm32f4xx_can.h>
 #include <stm32f4xx_rcc.h>
 #include <misc.h>
-#include <tm_stm32f4_gpio.h>
-#include "lcd_main.h"
+#include <stm32f4xx_gpio.h>
 
 /*** CAN Config ***/
 #define	CANn							CAN1
@@ -78,7 +77,5 @@ void CAN1_TX_IRQHandler(void);
 /*** Protocol Encoding / Decoding ***/
 u8 one_to_n_bytes(s32 num, u8 n);			// Encode
 s32 n_bytes_to_one(u8* array, u8 n);	// Decode
-
-void testing(void);
 
 #endif /* __CAN_PROTOCOL_H */

@@ -40,7 +40,7 @@
 #include "can_protocol.h"
 #include "can_motor.h"
 #include "encoder.h"
-#include "sensor_bar.h"
+//#include "sensor_bar.h"
 #include "line_sensor.h"
 #include "buzzer_song.h"
 #include "buzzer.h"

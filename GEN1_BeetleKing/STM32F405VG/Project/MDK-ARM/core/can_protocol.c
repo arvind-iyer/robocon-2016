@@ -18,7 +18,6 @@
   */
 	
 #include <can_protocol.h>
-#include <stm32f4xx_can.h>
 
 struct CAN_MESSAGE CAN_Tx_Queue_Array[CAN_TX_QUEUE_MAX_SIZE];
 struct CAN_QUEUE CAN_Tx_Queue = {0, 0, CAN_TX_QUEUE_MAX_SIZE, CAN_Tx_Queue_Array};
@@ -48,16 +47,24 @@ void can_init(void)
 
 	/* CAN GPIO init */
 	// CAN_Rx Pin
-    TM_GPIO_Init(CAN_GPIO, CAN_Rx_GPIO, TM_GPIO_Mode_AF, TM_GPIO_OType_PP, TM_GPIO_PuPd_UP, TM_GPIO_Speed_Fast);
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+	GPIO_InitStructure.GPIO_Pin = CAN_Rx_GPIO;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_Init(CAN_GPIO, &GPIO_InitStructure);
     
 	// CAN_Tx Pin
-    TM_GPIO_Init(CAN_GPIO, CAN_Tx_GPIO, TM_GPIO_Mode_AF, TM_GPIO_OType_PP, TM_GPIO_PuPd_NOPULL, TM_GPIO_Speed_Fast);
-    
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	GPIO_InitStructure.GPIO_Pin = CAN_Tx_GPIO;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_Init(CAN_GPIO, &GPIO_InitStructure);
 
 	/** CAN alternate function configuration **/
 	GPIO_PinAFConfig(CAN_GPIO, GPIO_PinSource11, GPIO_AF_CAN1);
 	GPIO_PinAFConfig(CAN_GPIO, GPIO_PinSource12, GPIO_AF_CAN1);
-
 
 	/* CAN register init */
 	CAN_DeInit(CANn);
@@ -75,11 +82,11 @@ void can_init(void)
 	/** CAN Baudrate = 1 MBPS **/
 	/** Baudrate = CAN_Clock_Speed / (CAN_Prescaler * (CAN_SJW + CAN_BS1 + CAN_BS2)) **/
 	/** CAN_Clock_Speed is defined as CAN_RCC **/
-	/** APB1 = MCU_Clock_Speed / 4, APB2 = MCU_Clock_Speed / 2, AHB1 = MCU_Clock_Speed **/
+	/** APB1 = MCU_Clock_Speed / 4 , APB2 = MCU_Clock_Speed / 2, AHB1 = MCU_Clock_Speed **/
 	CAN_InitStructure.CAN_SJW = CAN_SJW_1tq;
-	CAN_InitStructure.CAN_BS1 = CAN_BS1_4tq;
+	CAN_InitStructure.CAN_BS1 = CAN_BS1_3tq;
 	CAN_InitStructure.CAN_BS2 = CAN_BS2_3tq;
-	CAN_InitStructure.CAN_Prescaler = 2;
+	CAN_InitStructure.CAN_Prescaler = 6;
 	while (CAN_Init(CANn, &CAN_InitStructure) != CAN_InitStatus_Success);
 	
 	/* CAN Transmission Mailbox Empty interrupt enable */ 
@@ -92,8 +99,6 @@ void can_init(void)
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 4;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
-
-
 }
 
 
