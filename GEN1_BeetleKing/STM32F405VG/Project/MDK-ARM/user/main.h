@@ -22,6 +22,7 @@
 #include "sensor_bar.h"
 #include "imu.h"
 #include "servo_targeting.h"
+#include "buzzer.h"
 
 //path files
 #include "path_upslope.h"
