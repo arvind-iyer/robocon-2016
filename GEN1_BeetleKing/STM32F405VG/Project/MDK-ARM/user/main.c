@@ -32,6 +32,7 @@ int main(void) {
 				if (game_stage == SYSTEM_WAITING){
 					if (imu_synced && imu_staged){
 						game_stage = CLIMBING_SLOPE;
+							buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 						set_target(yaw_pitch_roll[0]);
 					}else if(!imu_synced){
 						tft_println("[Not synced]");
@@ -65,7 +66,7 @@ int main(void) {
 				tft_println("Loop: %d %d", this_loop_ticks, any_loop_diff);
 				tft_println("%d %d %d", (int)roundf(yaw_pitch_roll[0]*10), (int)roundf(yaw_pitch_roll[1]*10), (int)roundf(yaw_pitch_roll[2]*10));
 				for (u8 i=0; i<16; i++){
-					tft_prints(i, 9, "%d", sensorbar_value[i]);
+					tft_prints(i, 6, "%d", sensorbar_value[i]);
 				}
 				tft_update();
 				last_long_loop_ticks = this_loop_ticks;

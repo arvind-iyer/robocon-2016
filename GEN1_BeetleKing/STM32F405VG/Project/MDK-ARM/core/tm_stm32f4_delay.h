@@ -165,6 +165,7 @@ Another way is to use ARM compiler.
 #endif
 #include "stdlib.h"
 #include "lcd_main.h"
+#include "buzzer.h"
 
 /**
  * @defgroup TM_DELAY_Typedefs

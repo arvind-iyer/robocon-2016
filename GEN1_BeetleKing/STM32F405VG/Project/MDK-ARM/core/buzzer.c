@@ -7,7 +7,7 @@ static u16 buzzer_time_ms = 0;		                  /*!< The time left (in millise
 static u8 buzzer_count = 0;                         /*!< Storing the buzzer buzzing count for buzzer_control */
 
 /* Note frequency related */
-static u8 buzzer_volume = 25;	                	    /*!< Volume percentage for the buzzer, 0 - 100 (101 for full buzz) */
+static u8 buzzer_volume = 50;	                	    /*!< Volume percentage for the buzzer, 0 - 100 (101 for full buzz) */
 static u16 buzzer_note_period = 1;                  /*!< The current buzzer musical note period (in microsecond) */
 
 // Musical note period (1/freq) of the 0th octave in macroseconds (us), array to be completed through buzzer_init
@@ -54,7 +54,7 @@ void buzzer_init(void)
 	
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;    													// counter will count up (from 0 to FFFF)
   TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV2;        													// timer clock = dead-time and sampling clock 	
-  TIM_TimeBaseStructure.TIM_Prescaler = BUZZER_CLKFreq / BUZZER_COUNT_PER_SECOND - 1;    // 1MHz
+  TIM_TimeBaseStructure.TIM_Prescaler = SystemCoreClock / BUZZER_COUNT_PER_SECOND - 1;    // 1MHz
   TIM_TimeBaseStructure.TIM_Period = buzzer_note_period;	                    
   TIM_TimeBaseInit(BUZZER_TIM, &TIM_TimeBaseStructure);           // this part feeds the parameter we set above
 	
@@ -112,7 +112,6 @@ void buzzer_off(void)
   */
 void buzzer_check(void)
 {
-	tft_prints(0,2,"Buzzer Check");
   /* Checking for buzzer_control triggered action */
 	if (buzzer_on_flag > 0 || buzzer_count > 0) {
 		--buzzer_time_ms;
@@ -128,7 +127,6 @@ void buzzer_check(void)
 		}
 	} else if (buzzer_song_flag) {
     
-		tft_prints(0,2,"Mario Party");
 		/* Checking for buzzer_play_song triggered action */
 		MUSIC_NOTE current_note = buzzer_current_song[buzzer_current_song_note_id];
 	

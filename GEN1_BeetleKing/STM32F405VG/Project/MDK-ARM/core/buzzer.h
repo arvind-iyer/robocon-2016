@@ -10,14 +10,13 @@
 
 #define BUZZER_TIM				TIM8
 #define BUZZER_TIM_RCC		RCC_APB2Periph_TIM8
-#define BUZZER_CLKFreq		84000000
 
 #define BUZZER_COUNT_PER_SECOND 1000000	/*!< Buzzer timer period, used for prescaling and relavant calculation */
 #define BUZZER_TIM_OC_INIT			TIM_OC1Init
 #define	BUZZER_TIM_SETCOMPARE		TIM_SetCompare1
 #define BUZZER_TIM_OCPreloadConfig TIM_OC1PreloadConfig
 
-#define	C0_PERIOD			                61158     
+#define	C0_PERIOD			                61158   
 #define TWELFTH_ROOT_OF_TWOx10000     10595
 #define BUZZER_QUEUE_SIZE 						12
 

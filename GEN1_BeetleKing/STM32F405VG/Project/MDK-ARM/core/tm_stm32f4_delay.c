@@ -48,6 +48,7 @@ void SysTick_Handler(void) {
 	uint8_t i;
 	
 	TM_Time++;
+	buzzer_check();
 	if (TM_Time2 != 0x00) {
 		TM_Time2--;
 	}
