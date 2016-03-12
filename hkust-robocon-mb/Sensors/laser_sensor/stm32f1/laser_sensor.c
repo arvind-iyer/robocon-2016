@@ -1,8 +1,8 @@
 /**
 *	Laser Sensor for stm32f103
-*	@desciption This is the library for the SICK DT50 laser sensor, which mesaures the distance from 200mm to 5000mm with 3.5% error from the board
-*	
-*	@Author James Mok
+*	@Desciption This is the library for the SICK DT50 laser sensor, which mesaures the distance from 200mm to 5000mm with 3.5% error from the board
+*	@Reminder 	A 220nF capacitor must be presented at the adc port in order to filter out the noise
+*	@Author 		James Mok
 **/
 
 #include "laser_sensor.h"
@@ -81,7 +81,11 @@ u32 get_ls_reading()
 	
 	
 	if(ls_reading>=min_adc)
+	{
 		ls_reading1 = (ls_reading - min_adc) * max_dis / max_adc + min_dis;
+		if(ls_reading1 >= max_dis)
+			ls_reading1 = max_dis;
+	}
 	else
 		ls_reading1 = 0;
 	
