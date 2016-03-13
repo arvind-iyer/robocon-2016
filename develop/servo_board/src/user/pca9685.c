@@ -32,30 +32,30 @@
   * @retval None
   */
 void i2c_init() {
-	GPIO_InitTypeDef GPIO_InitStructure;
-	I2C_InitTypeDef  I2C_InitStructure;
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
-	
-	GPIO_StructInit(&GPIO_InitStructure);
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
+  GPIO_InitTypeDef GPIO_InitStructure;
+  I2C_InitTypeDef  I2C_InitStructure;
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+  
+  GPIO_StructInit(&GPIO_InitStructure);
+  RCC_APB1PeriphClockCmd(RCC_APB1Periph_I2C2, ENABLE);
+  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10 | GPIO_Pin_11;
+  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_OD;
+  GPIO_Init(GPIOB, &GPIO_InitStructure);
 
-	RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C2, ENABLE);
-	RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C2, DISABLE);
-	
-	I2C_StructInit(&I2C_InitStructure);
-	I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
-	I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
-	I2C_InitStructure.I2C_OwnAddress1 = MASTER_ADDRESS;
-	I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
-	I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
-	I2C_InitStructure.I2C_ClockSpeed = SCL_CLK;
+  RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C2, ENABLE);
+  RCC_APB1PeriphResetCmd(RCC_APB1Periph_I2C2, DISABLE);
+  
+  I2C_StructInit(&I2C_InitStructure);
+  I2C_InitStructure.I2C_Mode = I2C_Mode_I2C;
+  I2C_InitStructure.I2C_DutyCycle = I2C_DutyCycle_2;
+  I2C_InitStructure.I2C_OwnAddress1 = MASTER_ADDRESS;
+  I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;
+  I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+  I2C_InitStructure.I2C_ClockSpeed = SCL_CLK;
 
-	I2C_Init(I2C2, &I2C_InitStructure);
-	I2C_Cmd(I2C2, ENABLE);
+  I2C_Init(I2C2, &I2C_InitStructure);
+  I2C_Cmd(I2C2, ENABLE);
 }
 
 /**
@@ -64,53 +64,53 @@ void i2c_init() {
   * @retval 0 = success initialization; 1 = error occurred
   */
 u8 pca9685_init() {
-	__IO uint32_t Timeout = 0;
-	
-	//Set device to sleep mode (in order to set PWM)
-	Timed(I2C_GetFlagStatus(I2C2, I2C_FLAG_BUSY));
-	I2C_GenerateSTART(I2C2, ENABLE);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
-	I2C_Send7bitAddress(I2C2, SLAVE_ADDRESS, I2C_Direction_Transmitter);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+  __IO uint32_t Timeout = 0;
+  
+  //Set device to sleep mode (in order to set PWM)
+  Timed(I2C_GetFlagStatus(I2C2, I2C_FLAG_BUSY));
+  I2C_GenerateSTART(I2C2, ENABLE);
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
+  I2C_Send7bitAddress(I2C2, SLAVE_ADDRESS, I2C_Direction_Transmitter);
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
 
-	I2C_SendData(I2C2, MODE1);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-	I2C_SendData(I2C2, (1 << MODE1_SLEEP));
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-	
-	I2C_GenerateSTOP(I2C2, ENABLE);
-	
-	//Set PWM to 333Hz
-	Timed(I2C_GetFlagStatus(I2C2, I2C_FLAG_BUSY));
-	I2C_GenerateSTART(I2C2, ENABLE);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
-	I2C_Send7bitAddress(I2C2, SLAVE_ADDRESS, I2C_Direction_Transmitter);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+  I2C_SendData(I2C2, MODE1);
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  I2C_SendData(I2C2, (1 << MODE1_SLEEP));
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  
+  I2C_GenerateSTOP(I2C2, ENABLE);
+  
+  //Set PWM to 333Hz
+  Timed(I2C_GetFlagStatus(I2C2, I2C_FLAG_BUSY));
+  I2C_GenerateSTART(I2C2, ENABLE);
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
+  I2C_Send7bitAddress(I2C2, SLAVE_ADDRESS, I2C_Direction_Transmitter);
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
 
-	I2C_SendData(I2C2, PRE_SCALE);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-	I2C_SendData(I2C2, PRESCALER);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  I2C_SendData(I2C2, PRE_SCALE);
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  I2C_SendData(I2C2, PRESCALER);
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
 
-	I2C_GenerateSTOP(I2C2, ENABLE);
+  I2C_GenerateSTOP(I2C2, ENABLE);
 
-	//Set AI and ALLCALL flags; reset SLEEP flag to wake device up
-	Timed(I2C_GetFlagStatus(I2C2, I2C_FLAG_BUSY));
-	I2C_GenerateSTART(I2C2, ENABLE);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
-	I2C_Send7bitAddress(I2C2, SLAVE_ADDRESS, I2C_Direction_Transmitter);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+  //Set AI and ALLCALL flags; reset SLEEP flag to wake device up
+  Timed(I2C_GetFlagStatus(I2C2, I2C_FLAG_BUSY));
+  I2C_GenerateSTART(I2C2, ENABLE);
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
+  I2C_Send7bitAddress(I2C2, SLAVE_ADDRESS, I2C_Direction_Transmitter);
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
 
-	I2C_SendData(I2C2, MODE1);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-	I2C_SendData(I2C2, ((1 << MODE1_AI) | (1 << MODE1_ALLCALL)));
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  I2C_SendData(I2C2, MODE1);
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  I2C_SendData(I2C2, ((1 << MODE1_AI) | (1 << MODE1_ALLCALL)));
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
 
-	I2C_GenerateSTOP(I2C2, ENABLE);
+  I2C_GenerateSTOP(I2C2, ENABLE);
 
-	return 0;
-	errReturn:
-	return 1;
+  return 0;
+  errReturn:
+  return 1;
 }
 
 /**
@@ -121,29 +121,29 @@ u8 pca9685_init() {
   * @retval 0 = success initialization; 1 = error occurred
   */
 u8 pca9685_set_pwm(u8 servoID, u16 val) {
-	val = ((val <= MAX_PWM) ? ((val >= MIN_PWM) ? val : MIN_PWM) : MAX_PWM);
-	
+  val = ((val <= MAX_PWM) ? ((val >= MIN_PWM) ? val : MIN_PWM) : MAX_PWM);
+  
   __IO uint32_t Timeout = 0;
-	
+  
   Timed(I2C_GetFlagStatus(I2C2, I2C_FLAG_BUSY));
   I2C_GenerateSTART(I2C2, ENABLE);
   Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
   I2C_Send7bitAddress(I2C2, SLAVE_ADDRESS, I2C_Direction_Transmitter);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
-	
-	I2C_SendData(I2C2, PWM_BASE + (servoID * 4));
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-	
-	I2C_SendData(I2C2, (val & 0xFF));
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-	I2C_SendData(I2C2, ((val >> 8) & 0x0F));
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-	
-	I2C_GenerateSTOP(I2C2, ENABLE);
-	
-	return 0;
-	errReturn:
-	return 1;
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+  
+  I2C_SendData(I2C2, PWM_BASE + (servoID * 4));
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  
+  I2C_SendData(I2C2, (val & 0xFF));
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  I2C_SendData(I2C2, ((val >> 8) & 0x0F));
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  
+  I2C_GenerateSTOP(I2C2, ENABLE);
+  
+  return 0;
+  errReturn:
+  return 1;
 }
 
 /**
@@ -153,24 +153,24 @@ u8 pca9685_set_pwm(u8 servoID, u16 val) {
   */
 u8 pca9685_reset_pwm() {
   __IO uint32_t Timeout = 0;
-	
+  
   Timed(I2C_GetFlagStatus(I2C2, I2C_FLAG_BUSY));
   I2C_GenerateSTART(I2C2, ENABLE);
   Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
   I2C_Send7bitAddress(I2C2, SLAVE_ADDRESS, I2C_Direction_Transmitter);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
-	
-	I2C_SendData(I2C2, ALL_LED_OFF_L);
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-	
-	I2C_SendData(I2C2, (MED_PWM & 0xFF));
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-	I2C_SendData(I2C2, ((MED_PWM >> 8) & 0x0F));
-	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-	
-	I2C_GenerateSTOP(I2C2, ENABLE);
-	
-	return 0;
-	errReturn:
-	return 1;	
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+  
+  I2C_SendData(I2C2, ALL_LED_OFF_L);
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  
+  I2C_SendData(I2C2, (MED_PWM & 0xFF));
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  I2C_SendData(I2C2, ((MED_PWM >> 8) & 0x0F));
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+  
+  I2C_GenerateSTOP(I2C2, ENABLE);
+  
+  return 0;
+  errReturn:
+  return 1;  
 }
