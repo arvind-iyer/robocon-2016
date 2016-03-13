@@ -4,6 +4,7 @@
 #include <string.h>
 
 u32 this_loop_ticks = 0;
+u8 init = 0;
 u8 state = 0;
 
 int main(void) {
@@ -22,17 +23,19 @@ int main(void) {
 	tft_put_logo(85, 120);            
 	CONTROL_STATE last_control_state = MANUAL_MODE;
 	
-	pca9685_init();
-	state = pca9685_set_pwm(0x3E, 0x99);
+	i2c_init();
+	init = pca9685_init();
 	
 	while(1){
 		this_loop_ticks = get_full_ticks();
 		
+		state = pca9685_set_pwm();
 		
 		tft_clear();
 		tft_prints(0,0,"Hello!");
 		tft_prints(0,1,"%d",this_loop_ticks);
-		tft_prints(0,2,"%d",state);
+		tft_prints(0,2,"INIT: %d",init);
+		tft_prints(0,3,"SET:  %d",state);
 		tft_update();
 	}
 }

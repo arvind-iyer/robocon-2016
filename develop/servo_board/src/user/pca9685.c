@@ -7,7 +7,7 @@
 
 #define Timed(x) Timeout = 0xFFFF; while (x) { if (Timeout-- == 0) goto errReturn;}
 
-void pca9685_init() {
+void i2c_init() {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	I2C_InitTypeDef  I2C_InitStructure;
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
@@ -34,7 +34,33 @@ void pca9685_init() {
 	I2C_Cmd(I2C2, ENABLE);
 }
 
-u8 pca9685_set_pwm(u8 reg, u8 val) {
+u8 pca9685_init() {
+	__IO uint32_t Timeout = 0;
+	
+	//Check if bus is idle
+  Timed(I2C_GetFlagStatus(I2C2, I2C_FLAG_BUSY));
+	
+	//Send START bit, Check EV5
+  I2C_GenerateSTART(I2C2, ENABLE);
+  Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_MODE_SELECT));
+	
+	//Send slave address, Check EV6
+  I2C_Send7bitAddress(I2C2, SLAVE_ADDRESS, I2C_Direction_Transmitter);
+	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
+	
+	I2C_SendData(I2C2, MODE1);
+	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+	I2C_SendData(I2C2, ((1 << MODE1_AI) | (1 << MODE1_ALLCALL)));
+	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+	
+	I2C_GenerateSTOP(I2C2, ENABLE);
+	
+	return 0;
+	errReturn:
+	return 1;
+}
+
+u8 pca9685_set_pwm() {
   __IO uint32_t Timeout = 0;
 	
 	//Check if bus is idle
@@ -48,9 +74,16 @@ u8 pca9685_set_pwm(u8 reg, u8 val) {
   I2C_Send7bitAddress(I2C2, SLAVE_ADDRESS, I2C_Direction_Transmitter);
 	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED));
 	
-	I2C_SendData(I2C2, reg); //register
+	I2C_SendData(I2C2, LED14_ON_L);
 	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
-	I2C_SendData(I2C2, val); //data
+	
+	I2C_SendData(I2C2, 0x99);
+	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+	I2C_SendData(I2C2, 0x01);
+	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+	I2C_SendData(I2C2, 0xCC);
+	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
+	I2C_SendData(I2C2, 0x04);
 	Timed(!I2C_CheckEvent(I2C2, I2C_EVENT_MASTER_BYTE_TRANSMITTED));
 	
 	I2C_GenerateSTOP(I2C2, ENABLE);
