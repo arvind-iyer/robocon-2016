@@ -29,7 +29,7 @@ int main(void) {
 	tft_put_logo(85, 120);            
 	CONTROL_STATE last_control_state = MANUAL_MODE;
 	
-	servo_control(SERVO3, 1000);
+	//servo_control(SERVO3, 1500);
 	
 	while(1){
 		this_loop_ticks = get_full_ticks();
@@ -64,12 +64,19 @@ int main(void) {
 					//manual_fast_update();
 			}
 		}
-			
+		/*
+		if (this_loop_ticks > 2500) {
+			motor_set_vel(MOTOR7, 0, OPEN_LOOP);
+		} else if (this_loop_ticks > 2000) {
+			motor_set_vel(MOTOR7, 20, OPEN_LOOP);
+		}
+		*/
 		if ((this_loop_ticks - last_long_loop_ticks)>LONG_LOOP_TICKS){
 			led_blink(LED_D1);
 			
-			servo_control(SERVO3, (Abs((this_loop_ticks % 10000) - 5000) / 5 + 1000));
-			
+			servo_control(SERVO3, 1500);
+			//servo_control(SERVO3, (Abs((this_loop_ticks % 10000) - 5000) / 5 + 1000));
+				
 			//Update with longer update interval here
 			if (get_emergency_lock() == UNLOCKED){
 				led_blink(LED_D2);

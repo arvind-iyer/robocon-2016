@@ -8,7 +8,7 @@
 
 #define MENU_ADD_GYRO_TEST menu_add(5, "Position Test", position_test)
 
-#define GYRO_UART  COM3
+#define GYRO_UART  COM4
 
 /*** Command List ***/
 #define GYRO_WAKEUP				0x01
