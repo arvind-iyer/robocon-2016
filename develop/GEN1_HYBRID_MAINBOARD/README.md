@@ -6,7 +6,8 @@ Mainboard program for Generation 1 Hybrid Robot.<br/>
 MCU used: STM32F103VF<br/>
 
 ###Goals
-To be able to finish at least pole climbing and brushless control, as well as propeller gripping depending on Mech progress.<br/>
+Perform PID path at competition speed by next demo.<br/>
+Finish pole climbing and propeller gripping depending on Mech progress.<br/>
 Demo date: 17th March 2016<br/>
 
 ###Contacts
