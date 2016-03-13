@@ -26,16 +26,28 @@ int main(void) {
 	i2c_init();
 	init = pca9685_init();
 	
+	pca9685_reset_pwm();
+	/*
+	state |= pca9685_set_pwm(6, 1366);
+	state |= pca9685_set_pwm(10, 2048);
+	state |= pca9685_set_pwm(14, 2730);
+	*/
+	
 	while(1){
 		this_loop_ticks = get_full_ticks();
-		
-		state = pca9685_set_pwm();
 		
 		tft_clear();
 		tft_prints(0,0,"Hello!");
 		tft_prints(0,1,"%d",this_loop_ticks);
-		tft_prints(0,2,"INIT: %d",init);
-		tft_prints(0,3,"SET:  %d",state);
+		if (init) {
+			tft_prints(0,2,"Init failed...");
+		} else {
+			tft_prints(0,2,"Intialized.");
+			if (state)
+				tft_prints(0,3,"PWM failed...");
+			else
+				tft_prints(0,3,"PWM set!");
+		}
 		tft_update();
 	}
 }
