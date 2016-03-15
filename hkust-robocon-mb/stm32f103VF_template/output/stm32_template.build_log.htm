@@ -21,20 +21,49 @@ Target DLL:      UL2CM3.DLL V1.156.1.0
 Dialog DLL:      TCM.DLL V1.14.6.0
  
 <h2>Project:</h2>
-D:\OneDrive\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\Project.uvprojx
-Project File Date:  02/01/2016
+C:\Users\USER\Documents\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\Project.uvprojx
+Project File Date:  03/15/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
-".\output\stm32_template.axf" - 0 Error(s), 0 Warning(s).
+compiling main.c...
+.\src\ustrobo_min_system\inc\lcd_main.h(89): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
+  void tft_easy_init();
+.\src\ustrobo_min_system\inc\lcd_main.h(110): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
+  void tft_mega_update();
+.\src\ustrobo_min_system\inc\servo.h(39): warning:  #1-D: last line of file ends without a newline
+  #endif		/*  _SERVO_H_ */
+src\user\position.h(24): warning:  #1295-D: Deprecated declaration pursueTarget - give arg types
+  void pursueTarget();
+src\user\position.h(26): warning:  #1295-D: Deprecated declaration lockAllMotors - give arg types
+  void lockAllMotors();
+src\user\position.h(28): warning:  #1-D: last line of file ends without a newline
+  void setTargetLocation(int x, int y);
+src\user\pneumatic.h(7): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
+  void pneumatic_init();
+src\user\pneumatic.h(10): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\main.c(5): warning:  #1295-D: Deprecated declaration _updateScreen - give arg types
+  void _updateScreen();
+src\user\main.c(7): warning:  #1295-D: Deprecated declaration _getX - give arg types
+  int _getX();
+src\user\main.c(8): warning:  #1295-D: Deprecated declaration _getY - give arg types
+  int _getY();
+src\user\main.c(9): warning:  #1295-D: Deprecated declaration _getAngle - give arg types
+  int _getAngle();
+src\user\main.c: 12 warnings, 0 errors
+linking...
+Program Size: Code=25588 RO-data=436 RW-data=2104 ZI-data=41712  
+FromELF: creating hex file...
+".\output\stm32_template.axf" - 0 Error(s), 12 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  D:\OneDrive\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE
+  C:\Users\USER\Documents\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

@@ -33,7 +33,6 @@
 #include "position.h"
 #include "pneumatic.h"
 
-
 extern u16 ticks_img;
 extern u16 seconds_img;
 
