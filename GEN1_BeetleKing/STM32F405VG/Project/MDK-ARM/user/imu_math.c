@@ -3,10 +3,10 @@
 float abs_diff(float minuend, float subtrahend){
 	float diff = minuend - subtrahend;
 	while(diff >= 180.0f){
-		diff -= 360.0f;
+		diff = 360.0f - diff;
 	}
 	while(diff <= -180.0f){
-		diff = -(diff+360.0f);
+		diff = diff + 360.0f;
 	}
 	return diff;
 }

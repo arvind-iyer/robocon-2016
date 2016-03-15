@@ -2,12 +2,12 @@
 "stm32f40_41xxx\stm32f4xx_dcmi.o"
 "stm32f40_41xxx\stm32f4xx_syscfg.o"
 "stm32f40_41xxx\stm32f4xx_rcc.o"
+"stm32f40_41xxx\stm32f4xx_wwdg.o"
 "stm32f40_41xxx\stm32f4xx_cryp_tdes.o"
 "stm32f40_41xxx\stm32f4xx_dma2d.o"
 "stm32f40_41xxx\stm32f4xx_sdio.o"
 "stm32f40_41xxx\stm32f4xx_cryp_aes.o"
 "stm32f40_41xxx\stm32f4xx_cryp_des.o"
-"stm32f40_41xxx\stm32f4xx_wwdg.o"
 "stm32f40_41xxx\stm32f4xx_sai.o"
 "stm32f40_41xxx\stm32f4xx_crc.o"
 "stm32f40_41xxx\stm32f4xx_exti.o"
@@ -60,6 +60,7 @@
 "stm32f40_41xxx\tm_stm32f4_stdio.o"
 "stm32f40_41xxx\tm_stm32f4_timer_properties.o"
 "stm32f40_41xxx\usart.o"
+"stm32f40_41xxx\buzzer.o"
 --library_type=microlib --nodebug --strict --scatter "STM32F40_41xxx\STM32F40_41xxx.sct"
 --diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -1425,8 +1425,8 @@ I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x56E3B854
 I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x56E3B854)
 I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x56E3B854)
 I (..\main.h)(0x56E3B855)
-F (.\user\imu.c)(0x56E3B854)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\imu.o --omf_browse stm32f40_41xxx\imu.crf --depend stm32f40_41xxx\imu.d)
-I (user\imu.h)(0x56E3B854)
+F (.\user\imu.c)(0x56E81D43)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\imu.o --omf_browse stm32f40_41xxx\imu.crf --depend stm32f40_41xxx\imu.d)
+I (user\imu.h)(0x56E81B37)
 I (..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56E3B835)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cm4.h)(0x55D51904)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
@@ -1468,7 +1468,7 @@ I (.\core\lcd_main.h)(0x56E3B854)
 I (.\core\tm_stm32f4_delay.h)(0x56E3B98A)
 I (.\core\tm_stm32f4_timer_properties.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
-I (.\core\buzzer.h)(0x56E3C5D5)
+I (.\core\buzzer.h)(0x56E80549)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -1485,16 +1485,16 @@ I (.\core\can_protocol.h)(0x56E3B854)
 I (.\core\can_motor.h)(0x56E3B854)
 I (.\core\encoder.h)(0x56E3B854)
 I (user\sensor_bar.h)(0x56E3B854)
-I (user\servo_targeting.h)(0x56E3B854)
+I (user\servo_targeting.h)(0x56E81E31)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\math.h)(0x55AEF5F2)
 I (user\imu_math.h)(0x56E3B854)
 I (user\buzzer_song.h)(0x56E3C89D)
 I (user\path_upslope.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\string.h)(0x55AEF5F2)
 I (user\path.h)(0x56E3B854)
-I (user\path_downslope.h)(0x56E3B854)
+I (user\path_downslope.h)(0x56E81D89)
 I (user\path_river.h)(0x56E3B854)
-F (.\user\imu_math.c)(0x56E3B854)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\imu_math.o --omf_browse stm32f40_41xxx\imu_math.crf --depend stm32f40_41xxx\imu_math.d)
+F (.\user\imu_math.c)(0x56E80E38)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\imu_math.o --omf_browse stm32f40_41xxx\imu_math.crf --depend stm32f40_41xxx\imu_math.d)
 I (user\imu_math.h)(0x56E3B854)
 I (..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56E3B835)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cm4.h)(0x55D51904)
@@ -1570,7 +1570,7 @@ I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x56E3B854
 I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x56E3B854)
 I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x56E3B854)
 I (.\core\tm_stm32f4_gpio.h)(0x56E3B854)
-F (.\user\main.c)(0x56E3C92F)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\main.o --omf_browse stm32f40_41xxx\main.crf --depend stm32f40_41xxx\main.d)
+F (.\user\main.c)(0x56E81D35)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\main.o --omf_browse stm32f40_41xxx\main.crf --depend stm32f40_41xxx\main.d)
 I (user\main.h)(0x56E3C7F8)
 I (..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56E3B835)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cm4.h)(0x55D51904)
@@ -1613,7 +1613,7 @@ I (.\core\lcd_main.h)(0x56E3B854)
 I (.\core\tm_stm32f4_delay.h)(0x56E3B98A)
 I (.\core\tm_stm32f4_timer_properties.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
-I (.\core\buzzer.h)(0x56E3C5D5)
+I (.\core\buzzer.h)(0x56E80549)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -1629,18 +1629,18 @@ I (.\core\can_protocol.h)(0x56E3B854)
 I (.\core\can_motor.h)(0x56E3B854)
 I (.\core\encoder.h)(0x56E3B854)
 I (user\sensor_bar.h)(0x56E3B854)
-I (user\imu.h)(0x56E3B854)
-I (user\servo_targeting.h)(0x56E3B854)
+I (user\imu.h)(0x56E81B37)
+I (user\servo_targeting.h)(0x56E81E31)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\math.h)(0x55AEF5F2)
 I (user\imu_math.h)(0x56E3B854)
 I (user\path_upslope.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\string.h)(0x55AEF5F2)
 I (user\path.h)(0x56E3B854)
 I (user\buzzer_song.h)(0x56E3C89D)
-I (user\path_downslope.h)(0x56E3B854)
+I (user\path_downslope.h)(0x56E81D89)
 I (user\path_river.h)(0x56E3B854)
-F (.\user\path_downslope.c)(0x56E3B854)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\path_downslope.o --omf_browse stm32f40_41xxx\path_downslope.crf --depend stm32f40_41xxx\path_downslope.d)
-I (user\path_downslope.h)(0x56E3B854)
+F (.\user\path_downslope.c)(0x56E81E77)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\path_downslope.o --omf_browse stm32f40_41xxx\path_downslope.crf --depend stm32f40_41xxx\path_downslope.d)
+I (user\path_downslope.h)(0x56E81D89)
 I (..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56E3B835)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cm4.h)(0x55D51904)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
@@ -1683,7 +1683,7 @@ I (.\core\lcd_main.h)(0x56E3B854)
 I (.\core\tm_stm32f4_delay.h)(0x56E3B98A)
 I (.\core\tm_stm32f4_timer_properties.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
-I (.\core\buzzer.h)(0x56E3C5D5)
+I (.\core\buzzer.h)(0x56E80549)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -1699,8 +1699,8 @@ I (.\core\can_protocol.h)(0x56E3B854)
 I (.\core\can_motor.h)(0x56E3B854)
 I (.\core\encoder.h)(0x56E3B854)
 I (user\sensor_bar.h)(0x56E3B854)
-I (user\imu.h)(0x56E3B854)
-I (user\servo_targeting.h)(0x56E3B854)
+I (user\imu.h)(0x56E81B37)
+I (user\servo_targeting.h)(0x56E81E31)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\math.h)(0x55AEF5F2)
 I (user\imu_math.h)(0x56E3B854)
 I (user\path_upslope.h)(0x56E3B854)
@@ -1708,7 +1708,7 @@ I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\string.h)(0x55AEF5F2)
 I (user\path.h)(0x56E3B854)
 I (user\buzzer_song.h)(0x56E3C89D)
 I (user\path_river.h)(0x56E3B854)
-F (.\user\path_river.c)(0x56E3B854)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\path_river.o --omf_browse stm32f40_41xxx\path_river.crf --depend stm32f40_41xxx\path_river.d)
+F (.\user\path_river.c)(0x56E81B41)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\path_river.o --omf_browse stm32f40_41xxx\path_river.crf --depend stm32f40_41xxx\path_river.d)
 I (user\path_river.h)(0x56E3B854)
 I (..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56E3B835)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cm4.h)(0x55D51904)
@@ -1752,7 +1752,7 @@ I (.\core\lcd_main.h)(0x56E3B854)
 I (.\core\tm_stm32f4_delay.h)(0x56E3B98A)
 I (.\core\tm_stm32f4_timer_properties.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
-I (.\core\buzzer.h)(0x56E3C5D5)
+I (.\core\buzzer.h)(0x56E80549)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -1768,16 +1768,16 @@ I (.\core\can_protocol.h)(0x56E3B854)
 I (.\core\can_motor.h)(0x56E3B854)
 I (.\core\encoder.h)(0x56E3B854)
 I (user\sensor_bar.h)(0x56E3B854)
-I (user\imu.h)(0x56E3B854)
-I (user\servo_targeting.h)(0x56E3B854)
+I (user\imu.h)(0x56E81B37)
+I (user\servo_targeting.h)(0x56E81E31)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\math.h)(0x55AEF5F2)
 I (user\imu_math.h)(0x56E3B854)
 I (user\path_upslope.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\string.h)(0x55AEF5F2)
 I (user\path.h)(0x56E3B854)
 I (user\buzzer_song.h)(0x56E3C89D)
-I (user\path_downslope.h)(0x56E3B854)
-F (.\user\path_upslope.c)(0x56E3B854)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\path_upslope.o --omf_browse stm32f40_41xxx\path_upslope.crf --depend stm32f40_41xxx\path_upslope.d)
+I (user\path_downslope.h)(0x56E81D89)
+F (.\user\path_upslope.c)(0x56E81B3C)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\path_upslope.o --omf_browse stm32f40_41xxx\path_upslope.crf --depend stm32f40_41xxx\path_upslope.d)
 I (user\path_upslope.h)(0x56E3B854)
 I (..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56E3B835)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cm4.h)(0x55D51904)
@@ -1821,7 +1821,7 @@ I (.\core\lcd_main.h)(0x56E3B854)
 I (.\core\tm_stm32f4_delay.h)(0x56E3B98A)
 I (.\core\tm_stm32f4_timer_properties.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
-I (.\core\buzzer.h)(0x56E3C5D5)
+I (.\core\buzzer.h)(0x56E80549)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -1837,12 +1837,12 @@ I (.\core\can_protocol.h)(0x56E3B854)
 I (.\core\can_motor.h)(0x56E3B854)
 I (.\core\encoder.h)(0x56E3B854)
 I (user\sensor_bar.h)(0x56E3B854)
-I (user\imu.h)(0x56E3B854)
-I (user\servo_targeting.h)(0x56E3B854)
+I (user\imu.h)(0x56E81B37)
+I (user\servo_targeting.h)(0x56E81E31)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\math.h)(0x55AEF5F2)
 I (user\imu_math.h)(0x56E3B854)
 I (user\buzzer_song.h)(0x56E3C89D)
-I (user\path_downslope.h)(0x56E3B854)
+I (user\path_downslope.h)(0x56E81D89)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\string.h)(0x55AEF5F2)
 I (user\path.h)(0x56E3B854)
 I (user\path_river.h)(0x56E3B854)
@@ -1886,8 +1886,8 @@ I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x56E3B854
 I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x56E3B854)
 I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x56E3B854)
 I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x56E3B854)
-F (.\user\servo_targeting.c)(0x56E3B854)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\servo_targeting.o --omf_browse stm32f40_41xxx\servo_targeting.crf --depend stm32f40_41xxx\servo_targeting.d)
-I (user\servo_targeting.h)(0x56E3B854)
+F (.\user\servo_targeting.c)(0x56E817B5)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\servo_targeting.o --omf_browse stm32f40_41xxx\servo_targeting.crf --depend stm32f40_41xxx\servo_targeting.d)
+I (user\servo_targeting.h)(0x56E81E31)
 I (..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56E3B835)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cm4.h)(0x55D51904)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
@@ -1929,7 +1929,7 @@ I (.\core\lcd_main.h)(0x56E3B854)
 I (.\core\tm_stm32f4_delay.h)(0x56E3B98A)
 I (.\core\tm_stm32f4_timer_properties.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
-I (.\core\buzzer.h)(0x56E3C5D5)
+I (.\core\buzzer.h)(0x56E80549)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -1946,18 +1946,18 @@ I (.\core\can_protocol.h)(0x56E3B854)
 I (.\core\can_motor.h)(0x56E3B854)
 I (.\core\encoder.h)(0x56E3B854)
 I (user\sensor_bar.h)(0x56E3B854)
-I (user\imu.h)(0x56E3B854)
+I (user\imu.h)(0x56E81B37)
 I (user\path_upslope.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\math.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\string.h)(0x55AEF5F2)
 I (user\path.h)(0x56E3B854)
 I (user\buzzer_song.h)(0x56E3C89D)
-I (user\path_downslope.h)(0x56E3B854)
+I (user\path_downslope.h)(0x56E81D89)
 I (user\path_river.h)(0x56E3B854)
 I (user\imu_math.h)(0x56E3B854)
 F (.\user\buzzer_song.c)(0x56E3C916)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\buzzer_song.o --omf_browse stm32f40_41xxx\buzzer_song.crf --depend stm32f40_41xxx\buzzer_song.d)
 I (user\buzzer_song.h)(0x56E3C89D)
-I (.\core\buzzer.h)(0x56E3C5D5)
+I (.\core\buzzer.h)(0x56E80549)
 I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h)(0x56E3B854)
 I (..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56E3B835)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cm4.h)(0x55D51904)
@@ -2200,7 +2200,7 @@ I (core\lcd_main.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
-I (core\buzzer.h)(0x56E3C5D5)
+I (core\buzzer.h)(0x56E80549)
 I (core\tm_stm32f4_gpio.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\assert.h)(0x55AEF5F2)
 I (core\approx_math.h)(0x56E3B854)
@@ -2244,7 +2244,7 @@ I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x56E3B85
 I (core\tm_stm32f4_delay.h)(0x56E3B98A)
 I (core\tm_stm32f4_timer_properties.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
-I (core\buzzer.h)(0x56E3C5D5)
+I (core\buzzer.h)(0x56E80549)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -2330,7 +2330,7 @@ I (core\lcd_main.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
-I (core\buzzer.h)(0x56E3C5D5)
+I (core\buzzer.h)(0x56E80549)
 F (.\core\tm_stm32f4_gpio.c)(0x56E3B854)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\tm_stm32f4_gpio.o --omf_browse stm32f40_41xxx\tm_stm32f4_gpio.crf --depend stm32f40_41xxx\tm_stm32f4_gpio.d)
 I (core\tm_stm32f4_gpio.h)(0x56E3B854)
 I (..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56E3B835)
@@ -2488,7 +2488,7 @@ I (core\tm_stm32f4_gpio.h)(0x56E3B854)
 I (core\lcd_main.h)(0x56E3B854)
 I (core\tm_stm32f4_delay.h)(0x56E3B98A)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
-I (core\buzzer.h)(0x56E3C5D5)
+I (core\buzzer.h)(0x56E80549)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
@@ -2611,11 +2611,11 @@ I (core\lcd_main.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
-I (core\buzzer.h)(0x56E3C5D5)
+I (core\buzzer.h)(0x56E80549)
 I (core\tm_stm32f4_gpio.h)(0x56E3B854)
 I (C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\include\assert.h)(0x55AEF5F2)
-F (.\core\buzzer.c)(0x56E3C942)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\buzzer.o --omf_browse stm32f40_41xxx\buzzer.crf --depend stm32f40_41xxx\buzzer.d)
-I (core\buzzer.h)(0x56E3C5D5)
+F (.\core\buzzer.c)(0x56E8060E)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O3 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99-I C:\WorkBench\Robo\robocon-2016\GEN1_BeetleKing\STM32F405VG\Project\MDK-ARM\RTE-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o stm32f40_41xxx\buzzer.o --omf_browse stm32f40_41xxx\buzzer.crf --depend stm32f40_41xxx\buzzer.d)
+I (core\buzzer.h)(0x56E80549)
 I (..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h)(0x56E3B854)
 I (..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56E3B835)
 I (C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include\core_cm4.h)(0x55D51904)

@@ -14,7 +14,7 @@
 #include "servo_targeting.h"
 #include "path.h"
 
-void path_down_init(float* ypr);
+void path_down_init(void);
 GAME_STAGE path_down_update(void);
 
 #endif

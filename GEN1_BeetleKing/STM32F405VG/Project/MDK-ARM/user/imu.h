@@ -20,7 +20,8 @@ typedef union {
 extern bool imu_synced;
 extern bool imu_staged;
 extern u8 imu_buffer[12];
-extern float yaw_pitch_roll[3]; 
+extern float out_ypr[3]; 
+extern float cal_ypr[3]; 
 extern float start_ypr[3];
 
 #define IMU_USE_CONTINUOUS_MODE

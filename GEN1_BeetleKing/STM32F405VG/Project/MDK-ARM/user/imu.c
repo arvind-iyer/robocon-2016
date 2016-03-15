@@ -7,7 +7,8 @@ bool imu_staged = false;
 bool imu_pre_staged = false;
 u8 imu_buffer[12] = {0};
 s8 imu_buffer_pointer = 0;
-float yaw_pitch_roll[3] = {0}; 
+float out_ypr[3] = {0}; 
+float cal_ypr[3] = {0}; 
 float start_ypr[3];
 
 void IMU_receiver(u8 byte){
@@ -102,21 +103,21 @@ void imu_update(){
 					//Make 4 bytes into one float
 					dataset.chars[(k%4)] = imu_buffer[k];
 				}
-				yaw_pitch_roll[i] = dataset.f;
-				//Map the reading from -1~-179 and 0~179 to 0~360
-				//yaw_pitch_roll[i] = yaw_pitch_roll[i]<0.0f?yaw_pitch_roll[i]+360.0f:yaw_pitch_roll[i];
+				cal_ypr[i] += abs_diff(dataset.f, out_ypr[i]);
+				out_ypr[i] = dataset.f;
 			}
 			//For pitch and roll, map the values such that 1800 is the med pos
-			yaw_pitch_roll[1] = yaw_pitch_roll[1] < 180.0f ? yaw_pitch_roll[1]+180.0f : (yaw_pitch_roll[1] > 180.0f ? yaw_pitch_roll[1] - 180.0f : 0);
-			yaw_pitch_roll[2] = yaw_pitch_roll[2] < 180.0f ? yaw_pitch_roll[2]+180.0f : (yaw_pitch_roll[2] > 180.0f ? yaw_pitch_roll[2] - 180.0f : 0);
+			cal_ypr[1] = cal_ypr[1] < 180.0f ? cal_ypr[1]+180.0f : (cal_ypr[1] > 180.0f ? cal_ypr[1] - 180.0f : 0);
+			cal_ypr[2] = cal_ypr[2] < 180.0f ? cal_ypr[2]+180.0f : (cal_ypr[2] > 180.0f ? cal_ypr[2] - 180.0f : 0);
 			
 			if (imu_pre_staged && !imu_staged){
 				//This part of code should only run once asap after pre staged(set after syncing)
-				set_target(yaw_pitch_roll[0]);
+				set_target(cal_ypr[0]);
 				//Copy the starting yaw pitch roll to a private array
-				memcpy(start_ypr, yaw_pitch_roll, 3 * sizeof(float));
+				memcpy(start_ypr, cal_ypr, 3 * sizeof(float));
 				path_up_init();
 				path_river_init();
+				path_down_init();
 				imu_staged = true;
 				led_control(LED_D2, LED_ON);
 			}

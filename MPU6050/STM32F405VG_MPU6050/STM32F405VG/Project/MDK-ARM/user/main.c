@@ -12,24 +12,24 @@ int main(void) {
 	tft_easy_init(); //Init LCD
 	tft_put_logo(85, 120);
 	mpu_init();
-	s16 IMU_Buffer[6]={0x00};
+	buzzer_init();
 	
 	mpu_wake_up();
 		
 	while (1) {
 		this_loop_ticks = get_ticks();
-		getRawAccelGyro(IMU_Buffer);   
-		tft_clear();
-		tft_println("%d", get_ticks());
-		for (u8 i=0;i<6;i++){
-			tft_println("%d", IMU_Buffer[i]);
-		}
-		tft_update();
-		
 		if(last_loop_ticks != this_loop_ticks){
+			getRawAccelGyro(IMU_Buffer);   
+			tft_clear();
+			tft_println("%d", get_ticks());
+			for (u8 i=0;i<6;i++){
+				tft_println("%d", IMU_Buffer[i]);
+			}
+			tft_update();
+		
 			if ((this_loop_ticks - last_long_loop_ticks) > LONG_LOOP_TICKS){
-				this_loop_ticks = last_long_loop_ticks;
 				led_blink(LED_D1);
+				last_long_loop_ticks = this_loop_ticks;
 			}
 			last_loop_ticks = this_loop_ticks;
 		}

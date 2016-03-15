@@ -4,6 +4,7 @@
 #include "stm32f4xx.h"
 #include "tm_stm32f4_gpio.h"
 
+//To display a byte in binary format, use println(BYTETOBINARYPATTERN, BYTETOBINARY(get_led_state()));
 #define BYTETOBINARYPATTERN "%d%d%d%d%d%d%d%d"
 #define BYTETOBINARY(byte)  \
   (byte & 0x80 ? 1 : 0), \

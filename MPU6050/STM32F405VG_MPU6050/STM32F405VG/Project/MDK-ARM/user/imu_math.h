@@ -3,8 +3,10 @@
 
 #include "stm32f4xx.h"
 #include <stdbool.h>
+#include "mpu6050.h"
 
-float abs_diff(float minuend, float subtrahend);
-float range_remap(float to_be_mapped);
+extern s32 ypr[3];
+
+void calcIMU();
 
 #endif

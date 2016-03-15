@@ -11,6 +11,8 @@
 
 #include "mpu6050.h"
 
+s16 IMU_Buffer[6]={0x00};
+
 void mpu_init(){
 	GPIO_InitTypeDef GPIO_InitStruct;
 	
@@ -47,16 +49,16 @@ void mpu_init(){
 ** Get the raw acceleration and angular velocity from the MPU6050
 ** @param buffer: The pointer to the buffer of size 6 in which raw data should be stored
 **/
-void getRawAccelGyro(s16* buffer){
+void getRawAccelGyro(){
     u8 tmpBuffer[14];
     mpu_buffer_read(tmpBuffer, MPU6050_RA_ACCEL_XOUT_H, 14);
     //Obtain acceleration
     for (u8 i = 0; i < 3; i++){
-        buffer[i] = ((s16) ((u16) tmpBuffer[2 * i] << 8) + tmpBuffer[2 * i + 1]);
+        IMU_Buffer[i] = ((s16) ((u16) tmpBuffer[2 * i] << 8) + tmpBuffer[2 * i + 1]);
 		}
     //Obtain angular velocity
     for (u8 i = 4; i < 7; i++)
-        buffer[i - 1] = ((s16) ((u16) tmpBuffer[2 * i] << 8) + tmpBuffer[2 * i + 1]);
+        IMU_Buffer[i - 1] = ((s16) ((u16) tmpBuffer[2 * i] << 8) + tmpBuffer[2 * i + 1]);
 }
 
 /**

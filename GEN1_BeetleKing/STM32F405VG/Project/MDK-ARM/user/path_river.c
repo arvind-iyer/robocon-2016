@@ -22,15 +22,15 @@ bool readIR(u8 id){
 
 GAME_STAGE path_river_update(){
 	if(river_stage == 0){
-		if (abs_diff(yaw_pitch_roll[0], river_straight_yaw) < -10.0f){
-			force_set_angle(160.0f);
+		if (abs_diff(river_straight_yaw, cal_ypr[0]) < -10.0f){
+			force_set_angle(SERVO_MED_DEG + 60.0f);
 		}else{
 			river_stage = 1;
 			set_target(river_straight_yaw);
-			targeting_update(yaw_pitch_roll[0]);
+			targeting_update(cal_ypr[0]);
 		}
 	}else if(river_stage == 1){
-		targeting_update(yaw_pitch_roll[0]);
+		targeting_update(cal_ypr[0]);
 		for (u8 i=0; i<2; i++){
 			if (readIR(i)){
 				islands_count[i]++;

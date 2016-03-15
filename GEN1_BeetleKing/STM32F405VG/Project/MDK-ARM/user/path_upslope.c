@@ -32,7 +32,7 @@ void path_up_init(){
 GAME_STAGE path_up_update(){
 	//Going up slope
 	//Update the rolling average of pitch value
-	rolling_pitch[rolling_pitch_index++] = yaw_pitch_roll[1];
+	rolling_pitch[rolling_pitch_index++] = cal_ypr[1];
 	rolling_pitch_index = rolling_pitch_index % ROLLING_PITCH_SIZE;
 	
 	//Find the rolling average
@@ -75,7 +75,7 @@ GAME_STAGE path_up_update(){
 		led_blink(LED_D3);
 	}
 	
-	targeting_update(yaw_pitch_roll[0]);
+	targeting_update(cal_ypr[0]);
 	tft_println("PP:%d", path_pointer);
 	tft_println("AP:%f", awaiting_pitch);
 	tft_println("AV:%f", average_pitch);
