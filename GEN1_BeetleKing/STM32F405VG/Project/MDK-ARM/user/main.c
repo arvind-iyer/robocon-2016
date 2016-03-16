@@ -27,6 +27,7 @@ int main(void) {
 			if (any_loop_diff > LONG_LOOP_TICKS){
 				led_blink(LED_D1);
 				tft_clear();
+				tft_println("[~BEETLE KING~]");
 				imu_update();
 
 				if (game_stage == SYSTEM_WAITING){
@@ -65,7 +66,7 @@ int main(void) {
 				tft_println("Loop: %d %d", this_loop_ticks, any_loop_diff);
 				tft_println("%d %d %d", (int)roundf(cal_ypr[0]*10), (int)roundf(cal_ypr[1]*10), (int)roundf(cal_ypr[2]*10));
 				for (u8 i=0; i<16; i++){
-					//tft_prints(i, 8, "%d", sensorbar_value[i]);
+					tft_prints(i, 8, "%d", sensorbar_value[i]);
 				}
 				tft_update();
 				last_long_loop_ticks = this_loop_ticks;

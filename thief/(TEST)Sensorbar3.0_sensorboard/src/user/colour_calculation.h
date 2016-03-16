@@ -8,7 +8,7 @@
 
 #define max_turn 40	//40 
 #define max_reading 2700 
-#define list_num 2 //the max number that the device remember
+#define list_num 4 //the max number that the device remember
 #define white_tolerance 10
 #define rgb_tolerance_r 300
 #define rgb_tolerance_g 300 //the tolerance for differentiate colours, decrease will provide a accuracy reading for one colour, vice verse

@@ -19,6 +19,7 @@ int main(void) {
 	while (1) {
 		this_loop_ticks = get_ticks();
 		if(last_loop_ticks != this_loop_ticks){
+			any_loop_diff = last_loop_ticks - this_loop_ticks;
 			getRawAccelGyro(IMU_Buffer);   
 			tft_clear();
 			tft_println("%d", get_ticks());
@@ -28,6 +29,7 @@ int main(void) {
 			tft_update();
 		
 			if ((this_loop_ticks - last_long_loop_ticks) > LONG_LOOP_TICKS){
+				any_loop_diff = last_long_loop_ticks - this_loop_ticks;
 				led_blink(LED_D1);
 				last_long_loop_ticks = this_loop_ticks;
 			}
