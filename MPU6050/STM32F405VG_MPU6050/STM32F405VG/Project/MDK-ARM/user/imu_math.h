@@ -9,10 +9,13 @@
 #include <cstring>
 #include "main.h"
 
-#define GYRO_GAIN 32768/2000 
+#define GYRO_GAIN (5)
 
-extern s32 ypr[3];
+#define GYRO_TRUST 10
 
-void calcIMU();
+extern float ypr[3];
+
+void calc_init(void);
+void calcIMU(void);
 
 #endif

@@ -369,8 +369,8 @@ extern s16 IMU_Buffer[6];
 
 void mpu_init(void);
 void mpu_buffer_read(u8* buffer, u8 readAdd, u16 numOfByte);
-void getRawAccelGyro(s16* AccelGyro);
+void getRawAccelGyro(void);
 void mpu_write_byte(u8* pBuffer, u8 writeAddr);
-void mpu_wake_up();
+void mpu_wake_up(void);
 
 #endif
