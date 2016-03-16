@@ -33,16 +33,16 @@ int main()
 		generatePID_M();
 		generatePID_bearing();
 		generatePID_W();
-		tuneErrM();
-		tuneErrW();
-		parseMotorValues();
-		accelClamp();
-		if (Abs(get_ticks() - delayCount) > 50)
+		if (!completed(5, 5))
 		{
-			delayCount = get_ticks();
-		}
-		if (!completed(50, 10))
-		{
+			if (Abs(get_ticks() - delayCount) > 50)
+			{
+				tuneErrM();
+				tuneErrW();
+				parseMotorValues();
+				delayCount = get_ticks();
+			}
+			accelClamp();
 			M1 = getMotor1();
 			M2 = getMotor2();
 			M3 = getMotor3();
