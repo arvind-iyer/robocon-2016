@@ -15,3 +15,5 @@
 .\output\pid.o: .\src\stm32f10x_std\inc\stm32f10x_spi.h
 .\output\pid.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\pid.o: .\src\stm32f10x_std\inc\misc.h
+.\output\pid.o: src\user\pid.h
+.\output\pid.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

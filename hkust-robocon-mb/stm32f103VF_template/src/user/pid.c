@@ -1,20 +1,5 @@
 #include "approx_math.h"
-
-#define PI 3.1415926535897932
-
-#define MAX_VELOCITY 140
-#define MAX_ROTATION 80
-#define STOP_DISTANCE 2000
-#define ERR_INCREMENT 0.01
-#define ERR_DECREMENT 0.2
-#define ACCELERATION 10
-
-typedef struct
-{
-	int x;
-	int y;
-}
-Vector;
+#include "pid.h"
 
 Vector newVector(int x, int y)
 {
@@ -24,13 +9,6 @@ Vector newVector(int x, int y)
 	return temp;
 }
 
-typedef struct
-{
-	Vector vector;
-	int orientation;
-}
-Position;
-
 Position newPosition(Vector vector, int orientation)
 {
 	Position temp;
@@ -39,13 +17,6 @@ Position newPosition(Vector vector, int orientation)
 	return temp;
 }
 
-typedef struct
-{
-	Position position;
-	int velocity;
-}
-Target;
-
 Target newTarget(Position position, int velocity)
 {
 	Target temp;
@@ -53,14 +24,6 @@ Target newTarget(Position position, int velocity)
 	temp.velocity = velocity;
 	return temp;
 }
-
-typedef struct
-{
-	int M1;
-	int M2;
-	int M3;
-}
-Motors;
 
 Motors newMotors(int M1, int M2, int M3)
 {
@@ -125,7 +88,7 @@ int lastAngleDiff;
 float errDist;
 float errAngle;
 
-void init()
+void pid_init()
 {
 	motors = newMotors(0, 0, 0);
 	lastMotors = motors;
@@ -141,6 +104,31 @@ void init()
 	lastAngleDiff = 0;
 	errDist = 1.00;
 	errAngle = 1.00;
+}
+
+int getLastM()
+{
+	return lastM;
+}
+
+int getLastBearing()
+{
+	return lastBearing;
+}
+
+int getLastW()
+{
+	return lastW;
+}
+
+float getErrDist()
+{
+	return errDist;
+}
+
+float getErrAngle()
+{
+	return errAngle;
 }
 
 int getMotor1()
@@ -159,6 +147,11 @@ int getMotor3()
 {
 	lastMotors.M3 = motors.M3;
 	return motors.M3;
+}
+
+Target getLockedTarget()
+{
+	return target;
 }
 
 void updateCurrentPos(Position pos)
@@ -223,6 +216,10 @@ void generatePID_bearing()
 void generatePID_W()
 {
 	int W = Sqr(angleDiff(currentPos.orientation, target.position.orientation)) * 100 / Sqr(180);
+	if (angleDiff(currentPos.orientation, target.position.orientation) < 0)
+	{
+		W = -W;
+	}
 	if (angleDiff(currentPos.orientation, target.position.orientation) != 0 && W == 0)
 	{
 		if (angleDiff(currentPos.orientation, target.position.orientation) > 0)
@@ -269,6 +266,10 @@ void tuneErrM()
 	{
         errDist = 20;
     }
+	if (currentDist == 0)
+	{
+		errDist = 1;
+	}
 }
 
 void tuneErrW()
@@ -286,6 +287,10 @@ void tuneErrW()
 	{
         errAngle = 100;
     }
+	if (currentAngleDiff == 0)
+	{
+		errAngle = 1;
+	}
 }
 
 void parseMotorValues()
@@ -294,9 +299,9 @@ void parseMotorValues()
     int finalW = lastW * errAngle;
     int xComponent = int_sin(lastBearing * 10) * MAX_VELOCITY * finalM / 100 / 10000;
     int yComponent = int_cos(lastBearing * 10) * MAX_VELOCITY * finalM / 100 / 10000;
-    int M1 = (-finalW - xComponent * 2) / 3;
-    int M2 = ((-finalW * 0.5774 + xComponent * 0.5774 - yComponent) / 1.7321);
-    int M3 = -finalW - M1 - M2;
+    float M1 = (-finalW - xComponent * 2) / 3;
+    float M2 = ((-finalW * 0.5774 + xComponent * 0.5774 - yComponent) / 1.7321);
+    float M3 = -finalW - M1 - M2;
     motors.M1 = M1;
     motors.M2 = M2;
     motors.M3 = M3;
@@ -325,4 +330,13 @@ void accelClamp()
     motors.M1 = lastMotors.M1 + M1_diff / clampFactor;
     motors.M2 = lastMotors.M2 + M2_diff / clampFactor;
     motors.M3 = lastMotors.M3 + M3_diff / clampFactor;
+}
+
+bool completed(int dist, int angle)
+{
+	if (pathDist(currentPos.vector, target.position.vector) <= dist && angleDiff(currentPos.orientation, target.position.orientation) <= angle)
+	{
+		return true;
+	}
+	return false;
 }
