@@ -25,7 +25,14 @@ int main()
 	_delay(5);
 	//start
 	pid_init();
-	lockTarget(newVector(0, 3000), 0, 0);
+	
+	int queue = 0;
+	Checkpoint target[] = {
+		newCheckpoint(newPosition(newVector(0, 2000), 0), 0, 5, 5),
+		newCheckpoint(newPosition(newVector(0, 1000), 0), 0, 5, 5)
+	};
+	
+	lockTarget(target[0].position.vector, target[0].position.orientation, target[0].velocity);
 	while (1)
 	{
 		_updateScreen();
@@ -57,7 +64,6 @@ int main()
 		motor_set_vel(MOTOR2, M2, CLOSE_LOOP);
 		motor_set_vel(MOTOR3, M3, CLOSE_LOOP);
 	}
-	
 }
 
 void _updateScreen()

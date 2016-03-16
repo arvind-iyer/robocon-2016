@@ -34,6 +34,16 @@ Motors newMotors(int M1, int M2, int M3)
 	return temp;
 }
 
+Checkpoint newCheckpoint(Position position, int velocity, int dist_threshold, int angle_threshold)
+{
+	Checkpoint temp;
+	temp.position = position;
+	temp.velocity = velocity;
+	temp.dist_threshold = dist_threshold;
+	temp.angle_threshold = angle_threshold;
+	return temp;
+}
+
 int pathDist(Vector origin, Vector target)
 {
 	return (int) (Sqrt(Sqr(target.y - origin.y) + Sqr(target.x - origin.x)));

@@ -36,10 +36,20 @@ typedef struct
 }
 Motors;
 
+typedef struct
+{
+	Position position;
+	int velocity;
+	int dist_threshold;
+	int angle_threshold;
+}
+Checkpoint;
+
 Vector newVector(int x, int y);
 Position newPosition(Vector vector, int orientation);
 Target newTarget(Position position, int velocity);
 Motors newMotors(int M1, int M2, int M3);
+Checkpoint newCheckpoint(Position position, int velocity, int dist_threshold, int angle_threshold);
 
 int pathDist(Vector origin, Vector target);
 int targetBearing(Position origin, Vector target);
