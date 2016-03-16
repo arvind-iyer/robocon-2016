@@ -18,8 +18,8 @@ void set_target(float in_target_yaw){
 
 float targeting_pid(float current_yaw){
 	//Find the diffence in yaw
-	//Convert the yaw difference into a proper range
-	float yaw_diff = abs_diff(target_yaw, current_yaw);
+	//float yaw_diff = abs_diff(target_yaw, current_yaw);
+	float yaw_diff = target_yaw - current_yaw;
 	
 	//Find the correction needed to the servo by the a curve where y=k*sqrt(x)
 	float corr = -sqrtf(fabs(yaw_diff)) * SERVO_Kp * (yaw_diff>0?1.0f:-1.0f) / 1000.0f;

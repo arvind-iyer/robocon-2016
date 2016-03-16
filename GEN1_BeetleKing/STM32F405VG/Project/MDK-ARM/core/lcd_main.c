@@ -303,8 +303,8 @@ void tft_init(TFT_ORIENTATION orientation, u16 in_bg_color, u16 in_text_color, u
 /**
   * @brief  Easy init for easy reading
   */
-void tft_easy_init(){
-	tft_init(PIN_ON_BOTTOM, BLACK, WHITE, RED);
+void tft_easy_init(TFT_ORIENTATION orientation){
+	tft_init(orientation, BLACK, WHITE, RED);
 	tft_set_char_pos(50, 50, 100, 92);
 }
 

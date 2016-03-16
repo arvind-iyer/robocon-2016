@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Wed Mar 16 11:00:09 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Thu Mar 17 01:24:44 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -397,7 +397,7 @@ Global Symbols
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_TIMER_PROPERTIES_GenerateDataForWorkingFrequency
 </UL>
 
-<P><STRONG><a name="[e1]"></a>__aeabi_f2d</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, f2d.o(.text))
+<P><STRONG><a name="[e0]"></a>__aeabi_f2d</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, f2d.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 </UL>
@@ -425,10 +425,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6b]"></a>__aeabi_llsr</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, llushr.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
-<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
+<BR><BR>[Called By]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
 </UL>
 
 <P><STRONG><a name="[6e]"></a>_frnd</STRONG> (Thumb, 60 bytes, Stack size 0 bytes, frnd.o(.text))
@@ -438,9 +438,9 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[67]"></a>_double_round</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, depilogue.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
-<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<BR><BR>[Called By]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+<LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 </UL>
 
 <P><STRONG><a name="[69]"></a>_double_epilogue</STRONG> (Thumb, 156 bytes, Stack size 0 bytes, depilogue.o(.text))
@@ -448,9 +448,9 @@ Global Symbols
 <LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
 </UL>
-<BR>[Called By]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
-<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
 </UL>
 
 <P><STRONG><a name="[70]"></a>__aeabi_dadd</STRONG> (Thumb, 322 bytes, Stack size 0 bytes, dadd.o(.text), UNUSED)
@@ -496,10 +496,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6d]"></a>__aeabi_llsl</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, llshl.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
-<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<BR><BR>[Called By]<UL><LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+<LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
 </UL>
 
 <P><STRONG><a name="[71]"></a>__aeabi_lasr</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, llsshr.o(.text), UNUSED)
@@ -588,7 +588,7 @@ Global Symbols
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 </UL>
 
-<P><STRONG><a name="[e0]"></a>GPIO_ReadInputDataBit</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_ReadInputDataBit))
+<P><STRONG><a name="[df]"></a>GPIO_ReadInputDataBit</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_ReadInputDataBit))
 <BR><BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 </UL>
 
@@ -915,7 +915,7 @@ Global Symbols
 <P><STRONG><a name="[9f]"></a>TM_SERVO_SetDegrees</STRONG> (Thumb, 74 bytes, Stack size 0 bytes, tm_stm32f4_servo.o(i.TM_SERVO_SetDegrees))
 <BR><BR>[Calls]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_PWM_SetChannelMicros
 </UL>
-<BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
+<BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
 <LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;force_set_angle
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 </UL>
@@ -1022,7 +1022,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_pid
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
 </UL>
 
 <P><STRONG><a name="[ab]"></a>__set_errno</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, errno.o(i.__set_errno))
@@ -1032,8 +1032,6 @@ Global Symbols
 <P><STRONG><a name="[c8]"></a>abs_diff</STRONG> (Thumb, 58 bytes, Stack size 0 bytes, imu_math.o(i.abs_diff))
 <BR><BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_init
 <LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_update
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_pid
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 </UL>
@@ -1110,6 +1108,10 @@ Global Symbols
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 </UL>
 
+<P><STRONG><a name="[e1]"></a>get_median_of_five</STRONG> (Thumb, 756 bytes, Stack size 0 bytes, quick_math.o(i.get_median_of_five))
+<BR><BR>[Called By]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
+</UL>
+
 <P><STRONG><a name="[d6]"></a>get_ticks</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tm_stm32f4_delay.o(i.get_ticks))
 <BR><BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1121,7 +1123,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[c7]"></a>imu_update</STRONG> (Thumb, 368 bytes, Stack size 0 bytes, imu.o(i.imu_update))
+<P><STRONG><a name="[c7]"></a>imu_update</STRONG> (Thumb, 282 bytes, Stack size 0 bytes, imu.o(i.imu_update))
 <BR><BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_init
@@ -1197,19 +1199,18 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[cb]"></a>path_river_init</STRONG> (Thumb, 62 bytes, Stack size 0 bytes, path_river.o(i.path_river_init))
+<P><STRONG><a name="[cb]"></a>path_river_init</STRONG> (Thumb, 58 bytes, Stack size 0 bytes, path_river.o(i.path_river_init))
 <BR><BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_GPIO_Init
-<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;range_remap
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_update
 </UL>
 
-<P><STRONG><a name="[da]"></a>path_river_update</STRONG> (Thumb, 266 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
+<P><STRONG><a name="[da]"></a>path_river_update</STRONG> (Thumb, 396 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
 <BR><BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs_diff
-<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
+<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;force_set_angle
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
@@ -1222,19 +1223,16 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_update
 </UL>
 
-<P><STRONG><a name="[d9]"></a>path_up_update</STRONG> (Thumb, 322 bytes, Stack size 0 bytes, path_upslope.o(i.path_up_update))
+<P><STRONG><a name="[d9]"></a>path_up_update</STRONG> (Thumb, 286 bytes, Stack size 0 bytes, path_upslope.o(i.path_up_update))
 <BR><BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs_diff
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_median_of_five
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
+<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_blink
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
-
-<P><STRONG><a name="[de]"></a>range_remap</STRONG> (Thumb, 58 bytes, Stack size 0 bytes, imu_math.o(i.range_remap))
-<BR><BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_init
 </UL>
 
 <P><STRONG><a name="[62]"></a>receive_a</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, sensor_bar.o(i.receive_a))
@@ -1269,15 +1267,13 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx
 </UL>
 
-<P><STRONG><a name="[e3]"></a>targeting_pid</STRONG> (Thumb, 176 bytes, Stack size 0 bytes, servo_targeting.o(i.targeting_pid), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs_diff
-<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
+<P><STRONG><a name="[e3]"></a>targeting_pid</STRONG> (Thumb, 168 bytes, Stack size 0 bytes, servo_targeting.o(i.targeting_pid), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 
-<P><STRONG><a name="[df]"></a>targeting_update</STRONG> (Thumb, 178 bytes, Stack size 0 bytes, servo_targeting.o(i.targeting_update))
-<BR><BR>[Calls]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs_diff
-<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
+<P><STRONG><a name="[de]"></a>targeting_update</STRONG> (Thumb, 170 bytes, Stack size 0 bytes, servo_targeting.o(i.targeting_update))
+<BR><BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_SERVO_SetDegrees
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
@@ -1296,7 +1292,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
-<P><STRONG><a name="[d4]"></a>tft_easy_init</STRONG> (Thumb, 96 bytes, Stack size 0 bytes, lcd_main.o(i.tft_easy_init))
+<P><STRONG><a name="[d4]"></a>tft_easy_init</STRONG> (Thumb, 94 bytes, Stack size 0 bytes, lcd_main.o(i.tft_easy_init))
 <BR><BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
@@ -1319,7 +1315,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_pid
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
@@ -1428,12 +1424,12 @@ Global Symbols
 Local Symbols
 </H3>
 <P><STRONG><a name="[ac]"></a>_fp_digits</STRONG> (Thumb, 334 bytes, Stack size 0 bytes, printfa.o(i._fp_digits), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<BR><BR>[Calls]<UL><LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
-<LI><a href="#[66]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
-<LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
 </UL>

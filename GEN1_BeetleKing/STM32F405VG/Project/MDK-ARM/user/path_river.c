@@ -3,9 +3,10 @@
 u8 river_stage = 0;
 float river_straight_yaw;
 u8 islands_count[2] = {0};
+u8 last_IR_state[2] = {0};
 
 void path_river_init(){
-	river_straight_yaw = range_remap(start_ypr[0] - 220.0f);
+	river_straight_yaw = start_ypr[0] - 180.0f;
 	river_stage = 0;
 	islands_count[0] = 0;
 	islands_count[1] = 0;
@@ -21,22 +22,44 @@ bool readIR(u8 id){
 }
 
 GAME_STAGE path_river_update(){
-	if(river_stage == 0){
-		if (abs_diff(river_straight_yaw, cal_ypr[0]) < -10.0f){
-			force_set_angle(SERVO_MED_DEG + 60.0f);
-		}else{
-			river_stage = 1;
-			set_target(river_straight_yaw);
-			targeting_update(cal_ypr[0]);
-		}
-	}else if(river_stage == 1){
-		targeting_update(cal_ypr[0]);
-		for (u8 i=0; i<2; i++){
-			if (readIR(i)){
-				islands_count[i]++;
-				set_target(river_straight_yaw + i*40 + (i-1)*40);
+	switch(river_stage){
+		case 0:
+			if (abs_diff(river_straight_yaw, cal_ypr[0]) < -5.0f){
+				force_set_angle(SERVO_MED_DEG + 60.0f);
+			}else{
+				river_stage++;
+				set_target(river_straight_yaw);
+				targeting_update(cal_ypr[0]);
 			}
-		}
+			break;
+		case 1:
+			for (u8 i=0; i<2; i++){
+				if (readIR(i)){
+					if (last_IR_state[i] == 0){
+						last_IR_state[i] = 1;
+					}
+					set_target(river_straight_yaw + readIR(0)*-40 + readIR(1)*40);
+				}else{
+					//Only counts when IR signal is lost for a buffer time
+					if (last_IR_state[i] > 0){
+						last_IR_state[i]++;
+						if (last_IR_state[i] >= IR_BUFFER_LENGTH){
+							last_IR_state[i] = 0;
+							islands_count[i]++;
+							if (islands_count[1] >= 2){
+								river_stage++;
+								set_target(river_straight_yaw + 45);
+							}
+						}
+					}
+				}
+			}
+			targeting_update(cal_ypr[0]);
+			break;
+		case 2:
+			set_target(river_straight_yaw + 45);
+			targeting_update(cal_ypr[0]);
+			break;
 	}
 	tft_println("RS:%d IR:%d %d", river_stage, readIR(0), readIR(1));
 	tft_println("IC: %d %d", islands_count[0], islands_count[1]);

@@ -10,7 +10,7 @@ static float last_pitch;
 #define TOTAL_PATH_SIZE 7
 
 //This array marks the CHANGE in yaw, with repesct to the last value
-static float path_yaw_change[TOTAL_PATH_SIZE] = {0.0f, 20.0f, 20.0f, 20.0f, -25.0f, -25.0f, -120.0f};
+static float path_yaw_change[TOTAL_PATH_SIZE] = {0.0f, 27.0f, 27.0f, 27.0f, -35.0f, -30.0f, -120.0f};
 //This array marks the pitch of the slope, with repesct to starting pitch
 static float path_pitch_change[TOTAL_PATH_SIZE] = {0.0f, -6.0f, 0.0f, -6.0f, 0.0f, -6.0f, 0.0f};
 static uint8_t path_pointer = 0;
@@ -35,14 +35,9 @@ GAME_STAGE path_up_update(){
 	rolling_pitch[rolling_pitch_index++] = cal_ypr[1];
 	rolling_pitch_index = rolling_pitch_index % ROLLING_PITCH_SIZE;
 	
-	//Find the rolling average
-	float average_pitch = 0.0f;
-	for (uint8_t i=0; i<ROLLING_PITCH_SIZE; i++){
-		average_pitch += rolling_pitch[i];
-	}
-	average_pitch /= ROLLING_PITCH_SIZE;
+	float median_pitch = get_median_of_five(rolling_pitch[0], rolling_pitch[1], rolling_pitch[2], rolling_pitch[3], rolling_pitch[4]);
 	
-	float curr_pitch_diff = abs_diff(average_pitch, awaiting_pitch);
+	float curr_pitch_diff = abs_diff(median_pitch, awaiting_pitch);
 	
 	if (pitch_change > 0){
 		//If pitch suppose to go up
@@ -78,6 +73,6 @@ GAME_STAGE path_up_update(){
 	targeting_update(cal_ypr[0]);
 	tft_println("PP:%d", path_pointer);
 	tft_println("AP:%f", awaiting_pitch);
-	tft_println("AV:%f", average_pitch);
+	tft_println("AV:%f", median_pitch);
 	return CLIMBING_SLOPE;
 }

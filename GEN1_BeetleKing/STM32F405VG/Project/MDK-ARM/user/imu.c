@@ -107,8 +107,8 @@ void imu_update(){
 				out_ypr[i] = dataset.f;
 			}
 			//For pitch and roll, map the values such that 1800 is the med pos
-			cal_ypr[1] = cal_ypr[1] < 180.0f ? cal_ypr[1]+180.0f : (cal_ypr[1] > 180.0f ? cal_ypr[1] - 180.0f : 0);
-			cal_ypr[2] = cal_ypr[2] < 180.0f ? cal_ypr[2]+180.0f : (cal_ypr[2] > 180.0f ? cal_ypr[2] - 180.0f : 0);
+			//cal_ypr[1] = cal_ypr[1] < 180.0f ? cal_ypr[1]+180.0f : (cal_ypr[1] > 180.0f ? cal_ypr[1] - 180.0f : 0);
+			//cal_ypr[2] = cal_ypr[2] < 180.0f ? cal_ypr[2]+180.0f : (cal_ypr[2] > 180.0f ? cal_ypr[2] - 180.0f : 0);
 			
 			if (imu_pre_staged && !imu_staged){
 				//This part of code should only run once asap after pre staged(set after syncing)

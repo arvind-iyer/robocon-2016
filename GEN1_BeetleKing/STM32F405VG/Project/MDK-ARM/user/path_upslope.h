@@ -13,11 +13,15 @@
 #include "tm_stm32f4_servo.h"
 #include "servo_targeting.h"
 #include "path.h"
+#include "quick_math.h"
+
+#define MAX(a, b) (a<b)?a:b
+#define MIN(a, b) (a<b)?a:b
 
 #define ROLLING_PITCH_SIZE 5
-#define PROGRESS_TICKS_MAX 60
+#define PROGRESS_TICKS_MAX 150
 
-void path_up_init();
+void path_up_init(void);
 GAME_STAGE path_up_update(void);
 
 #endif

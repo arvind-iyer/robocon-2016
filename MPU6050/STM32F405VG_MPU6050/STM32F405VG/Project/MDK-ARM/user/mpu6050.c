@@ -6,7 +6,7 @@
 **
 ** Author:	Rex Cheng
 ** Contact:	hkchengad@connect.ust.hk
-**
+** March 2016
 *******************************************************/
 
 #include "mpu6050.h"

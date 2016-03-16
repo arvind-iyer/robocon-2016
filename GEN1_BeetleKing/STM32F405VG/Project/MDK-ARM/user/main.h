@@ -30,6 +30,20 @@
 #include "path_downslope.h"
 #include "path_river.h"
 
+#define BLUE_FIELD
+//#define RED_FIELD
+
+#ifdef RED_FIELD
+	#ifdef BLUE_FIELD
+		#error FIELD COLOR BOTH DEFINED
+	#endif
+#else
+	#ifndef BLUE_FIELD
+		#error FIELD COLOR NOT YET DEFINED
+	#endif
+#endif
+
+
 //Main loop
 extern u32 this_loop_ticks;
 extern u32 last_loop_ticks;

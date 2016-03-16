@@ -18,6 +18,8 @@
 #define IR_1_Pin GPIO_Pin_10
 #define IR_2_Pin GPIO_Pin_11
 
+#define IR_BUFFER_LENGTH 5
+
 void path_river_init(void);
 GAME_STAGE path_river_update(void);
 

@@ -14,7 +14,7 @@
 //Scaled by 1000
 #define SERVO_Kp 3000.0f
 
-#define SERVO_MED_DEG 90
+#define SERVO_MED_DEG 100
 #define SERVO_INC_DEG 40
 #define SERVO_DEC_DEG 40
 #define SERVO_MAX_DEG SERVO_MED_DEG + SERVO_INC_DEG
