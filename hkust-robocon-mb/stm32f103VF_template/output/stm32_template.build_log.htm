@@ -27,138 +27,14 @@ Project File Date:  03/16/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
-compiling pid.c...
-src\user\pid.h(58): warning:  #1295-D: Deprecated declaration pid_init - give arg types
-  void pid_init();
-src\user\pid.h(60): warning:  #1295-D: Deprecated declaration getLastM - give arg types
-  int getLastM();
-src\user\pid.h(61): warning:  #1295-D: Deprecated declaration getLastBearing - give arg types
-  int getLastBearing();
-src\user\pid.h(62): warning:  #1295-D: Deprecated declaration getLastW - give arg types
-  int getLastW();
-src\user\pid.h(64): warning:  #1295-D: Deprecated declaration getErrDist - give arg types
-  float getErrDist();
-src\user\pid.h(65): warning:  #1295-D: Deprecated declaration getErrAngle - give arg types
-  float getErrAngle();
-src\user\pid.h(67): warning:  #1295-D: Deprecated declaration getMotor1 - give arg types
-  int getMotor1();
-src\user\pid.h(68): warning:  #1295-D: Deprecated declaration getMotor2 - give arg types
-  int getMotor2();
-src\user\pid.h(69): warning:  #1295-D: Deprecated declaration getMotor3 - give arg types
-  int getMotor3();
-src\user\pid.h(71): warning:  #1295-D: Deprecated declaration getLockedTarget - give arg types
-  Target getLockedTarget();
-src\user\pid.h(75): warning:  #1295-D: Deprecated declaration updateTarget - give arg types
-  void updateTarget();
-src\user\pid.h(77): warning:  #1295-D: Deprecated declaration lockCurrentVector - give arg types
-  void lockCurrentVector();
-src\user\pid.h(78): warning:  #1295-D: Deprecated declaration lockCurrentOrientation - give arg types
-  void lockCurrentOrientation();
-src\user\pid.h(80): warning:  #1295-D: Deprecated declaration generatePID_M - give arg types
-  void generatePID_M();
-src\user\pid.h(81): warning:  #1295-D: Deprecated declaration generatePID_bearing - give arg types
-  void generatePID_bearing();
-src\user\pid.h(82): warning:  #1295-D: Deprecated declaration generatePID_W - give arg types
-  void generatePID_W();
-src\user\pid.h(88): warning:  #1295-D: Deprecated declaration tuneErrM - give arg types
-  void tuneErrM();
-src\user\pid.h(89): warning:  #1295-D: Deprecated declaration tuneErrW - give arg types
-  void tuneErrW();
-src\user\pid.h(91): warning:  #1295-D: Deprecated declaration parseMotorValues - give arg types
-  void parseMotorValues();
-src\user\pid.h(92): warning:  #1295-D: Deprecated declaration accelClamp - give arg types
-  void accelClamp();
-src\user\pid.c: 20 warnings, 0 errors
-compiling main.c...
-.\src\ustrobo_min_system\inc\lcd_main.h(89): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
-  void tft_easy_init();
-.\src\ustrobo_min_system\inc\lcd_main.h(110): warning:  #1295-D: Deprecated declaration tft_mega_update - give arg types
-  void tft_mega_update();
-.\src\ustrobo_min_system\inc\servo.h(39): warning:  #1-D: last line of file ends without a newline
-  #endif		/*  _SERVO_H_ */
-src\user\position.h(24): warning:  #1295-D: Deprecated declaration pursueTarget - give arg types
-  void pursueTarget();
-src\user\position.h(26): warning:  #1295-D: Deprecated declaration lockAllMotors - give arg types
-  void lockAllMotors();
-src\user\position.h(28): warning:  #1-D: last line of file ends without a newline
-  void setTargetLocation(int x, int y);
-src\user\pneumatic.h(7): warning:  #1295-D: Deprecated declaration pneumatic_init - give arg types
-  void pneumatic_init();
-src\user\pneumatic.h(10): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\pid.h(3): warning:  #47-D: incompatible redefinition of macro "MAX_VELOCITY" (declared at line 5 of "src\user\position.h")
-  #define MAX_VELOCITY 140
-src\user\pid.h(58): warning:  #1295-D: Deprecated declaration pid_init - give arg types
-  void pid_init();
-src\user\pid.h(60): warning:  #1295-D: Deprecated declaration getLastM - give arg types
-  int getLastM();
-src\user\pid.h(61): warning:  #1295-D: Deprecated declaration getLastBearing - give arg types
-  int getLastBearing();
-src\user\pid.h(62): warning:  #1295-D: Deprecated declaration getLastW - give arg types
-  int getLastW();
-src\user\pid.h(64): warning:  #1295-D: Deprecated declaration getErrDist - give arg types
-  float getErrDist();
-src\user\pid.h(65): warning:  #1295-D: Deprecated declaration getErrAngle - give arg types
-  float getErrAngle();
-src\user\pid.h(67): warning:  #1295-D: Deprecated declaration getMotor1 - give arg types
-  int getMotor1();
-src\user\pid.h(68): warning:  #1295-D: Deprecated declaration getMotor2 - give arg types
-  int getMotor2();
-src\user\pid.h(69): warning:  #1295-D: Deprecated declaration getMotor3 - give arg types
-  int getMotor3();
-src\user\pid.h(71): warning:  #1295-D: Deprecated declaration getLockedTarget - give arg types
-  Target getLockedTarget();
-src\user\pid.h(75): warning:  #1295-D: Deprecated declaration updateTarget - give arg types
-  void updateTarget();
-src\user\pid.h(77): warning:  #1295-D: Deprecated declaration lockCurrentVector - give arg types
-  void lockCurrentVector();
-src\user\pid.h(78): warning:  #1295-D: Deprecated declaration lockCurrentOrientation - give arg types
-  void lockCurrentOrientation();
-src\user\pid.h(80): warning:  #1295-D: Deprecated declaration generatePID_M - give arg types
-  void generatePID_M();
-src\user\pid.h(81): warning:  #1295-D: Deprecated declaration generatePID_bearing - give arg types
-  void generatePID_bearing();
-src\user\pid.h(82): warning:  #1295-D: Deprecated declaration generatePID_W - give arg types
-  void generatePID_W();
-src\user\pid.h(88): warning:  #1295-D: Deprecated declaration tuneErrM - give arg types
-  void tuneErrM();
-src\user\pid.h(89): warning:  #1295-D: Deprecated declaration tuneErrW - give arg types
-  void tuneErrW();
-src\user\pid.h(91): warning:  #1295-D: Deprecated declaration parseMotorValues - give arg types
-  void parseMotorValues();
-src\user\pid.h(92): warning:  #1295-D: Deprecated declaration accelClamp - give arg types
-  void accelClamp();
-src\user\main.c(7): warning:  #1295-D: Deprecated declaration _updateScreen - give arg types
-  void _updateScreen();
-src\user\main.c(9): warning:  #1295-D: Deprecated declaration _getX - give arg types
-  int _getX();
-src\user\main.c(10): warning:  #1295-D: Deprecated declaration _getY - give arg types
-  int _getY();
-src\user\main.c(11): warning:  #1295-D: Deprecated declaration _getAngle - give arg types
-  int _getAngle();
-src\user\main.c(63): warning:  #188-D: enumerated type mixed with another type
-  		motor_set_vel(
-OTOR1, M1, CLOSE_LOOP);
-src\user\main.c(64): warning:  #188-D: enumerated type mixed with another type
-  		motor_set_vel(
-OTOR2, M2, CLOSE_LOOP);
-src\user\main.c(65): warning:  #188-D: enumerated type mixed with another type
-  		motor_set_vel(
-OTOR3, M3, CLOSE_LOOP);
-src\user\main.c(29): warning:  #177-D: variable "queue" was declared but never referenced
-  	int queue = 0;
-src\user\main.c: 37 warnings, 0 errors
-linking...
-Program Size: Code=28032 RO-data=436 RW-data=2164 ZI-data=41764  
-FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 57 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\Users\USER\Documents\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

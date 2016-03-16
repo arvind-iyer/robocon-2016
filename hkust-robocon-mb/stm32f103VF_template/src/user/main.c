@@ -14,6 +14,8 @@ int M1;
 int M2;
 int M3;
 
+int queue = 0;
+
 int main()
 {
 	delayCount = 0;
@@ -26,13 +28,16 @@ int main()
 	//start
 	pid_init();
 	
-	int queue = 0;
 	Checkpoint target[] = {
-		newCheckpoint(newPosition(newVector(0, 2000), 0), 0, 5, 5),
-		newCheckpoint(newPosition(newVector(0, 1000), 0), 0, 5, 5)
+		newCheckpoint(newPosition(newVector(0, 1000), 0), 0, 50, 5),
+		newCheckpoint(newPosition(newVector(0, 2000), 180), 0, 50, 5),
+		newCheckpoint(newPosition(newVector(0, 0), 180), 0, 50, 5),
+		newCheckpoint(newPosition(newVector(0, 0), 0), 0, 50, 5)
 	};
-	
 	lockTarget(target[0].position.vector, target[0].position.orientation, target[0].velocity);
+	
+	_delay(2);
+	
 	while (1)
 	{
 		_updateScreen();
@@ -40,7 +45,7 @@ int main()
 		generatePID_M();
 		generatePID_bearing();
 		generatePID_W();
-		if (!completed(5, 5))
+		if (!completed(target[queue].dist_threshold, target[queue].angle_threshold))
 		{
 			if (Abs(get_ticks() - delayCount) > 50)
 			{
@@ -59,6 +64,15 @@ int main()
 			M1 = 0;
 			M2 = 0;
 			M3 = 0;
+			if (queue < sizeof(target) / sizeof(Checkpoint))
+			{
+				queue++;
+			}
+			if (queue != sizeof(target) / sizeof(Checkpoint))
+			{
+				lockTarget(target[queue].position.vector, target[queue].position.orientation, target[queue].velocity);
+				_delay(2);
+			}
 		}
 		motor_set_vel(MOTOR1, M1, CLOSE_LOOP);
 		motor_set_vel(MOTOR2, M2, CLOSE_LOOP);
@@ -70,8 +84,8 @@ void _updateScreen()
 {
 	tft_clear();
 	tft_prints(16, 0, "%d", get_ticks());
-	tft_prints(0, 1, "Current: %d %d [%d]", _getX(), _getY(), _getAngle()/10);
-	tft_prints(0, 2, " Target: %d %d [%d]", getLockedTarget().position.vector.x, getLockedTarget().position.vector.y, getLockedTarget().position.orientation);
+	tft_prints(0, 1, " Current: %d %d [%d]", _getX(), _getY(), _getAngle()/10);
+	tft_prints(0, 2, "Target-[%d]: %d %d [%d]", queue, getLockedTarget().position.vector.x, getLockedTarget().position.vector.y, getLockedTarget().position.orientation);
 	tft_prints(0, 4, "parse: %d [%d] %d", getLastM(), getLastBearing(), getLastW());
 	tft_prints(0, 6, "motors: %d %d %d", M1, M2, M3);
 	tft_update();

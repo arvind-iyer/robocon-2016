@@ -3,9 +3,9 @@
 #define MAX_VELOCITY 140
 #define MAX_ROTATION 80
 #define STOP_DISTANCE 2000
-#define ERR_INCREMENT 0.01
-#define ERR_DECREMENT 0.7
-#define ACCELERATION 5
+#define ERR_INCREMENT 0.001
+#define ERR_DECREMENT 0.5
+#define ACCELERATION 10
 
 typedef struct
 {
