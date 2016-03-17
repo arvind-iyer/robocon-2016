@@ -18,7 +18,6 @@ void infrared_sensor_init(){
 	GPIO_InitStructure.GPIO_Pin = INFRARED_1_PIN|INFRARED_2_PIN;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_Init(INFRARED_SENSOR_GPIO, &GPIO_InitStructure);
-  
 }
 
 /**

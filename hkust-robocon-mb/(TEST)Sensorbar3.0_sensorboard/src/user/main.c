@@ -21,21 +21,21 @@ void GPIO_init(void){
 	
 	//Buttons
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14 | GPIO_Pin_15;       
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;	 
-  GPIO_Init(GPIOB, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;	 
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
 
 	//ADC
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
-  GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
 	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
-  GPIO_Init(GPIOB, &GPIO_InitStructure);
+    GPIO_Init(GPIOB, &GPIO_InitStructure);
 	
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN;
-  GPIO_Init(GPIOC, &GPIO_InitStructure);
+    GPIO_Init(GPIOC, &GPIO_InitStructure);
 }
 
 void ADC_init(void){
@@ -43,16 +43,16 @@ void ADC_init(void){
 	ADC_InitTypeDef ADC_InitStructure;
 	
 	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
-  ADC_InitStructure.ADC_ScanConvMode = ENABLE;
+    ADC_InitStructure.ADC_ScanConvMode = ENABLE;
 	ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
-  ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
-  ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-  ADC_InitStructure.ADC_NbrOfChannel = 16;
-  ADC_Init(ADC1, &ADC_InitStructure);
+    ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+    ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+    ADC_InitStructure.ADC_NbrOfChannel = 16;
+    ADC_Init(ADC1, &ADC_InitStructure);
 	
 	RCC_ADCCLKConfig(RCC_PCLK2_Div8);
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 1, ADC_SampleTime_55Cycles5);
-  ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 2, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 2, ADC_SampleTime_55Cycles5);
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_2, 3, ADC_SampleTime_55Cycles5);
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_3, 4, ADC_SampleTime_55Cycles5);
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_4, 5, ADC_SampleTime_55Cycles5);
@@ -60,7 +60,7 @@ void ADC_init(void){
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_6, 7, ADC_SampleTime_55Cycles5);
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_7, 8, ADC_SampleTime_55Cycles5);
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_8, 9, ADC_SampleTime_55Cycles5);
-  ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 10, ADC_SampleTime_55Cycles5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_9, 10, ADC_SampleTime_55Cycles5);
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_10, 11, ADC_SampleTime_55Cycles5);
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 12, ADC_SampleTime_55Cycles5);
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_12, 13, ADC_SampleTime_55Cycles5);
@@ -83,18 +83,18 @@ void DMA_init(void){
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
 	DMA_InitTypeDef  DMA_InitStructure;
 	DMA_DeInit(DMA1_Channel1);
-  DMA_InitStructure.DMA_PeripheralBaseAddr = ADC1_DR_Address;
-  DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)ADC_val;
-  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
-  DMA_InitStructure.DMA_BufferSize = 16; //8
-  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
-  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
-  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;	
-  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
-  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
-  DMA_InitStructure.DMA_Priority = DMA_Priority_High;
-  DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-  DMA_Init(DMA1_Channel1, &DMA_InitStructure);
+    DMA_InitStructure.DMA_PeripheralBaseAddr = ADC1_DR_Address;
+    DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t)ADC_val;
+    DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
+    DMA_InitStructure.DMA_BufferSize = 16; //8
+    DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+    DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+    DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;	
+    DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+    DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+    DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+    DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
+    DMA_Init(DMA1_Channel1, &DMA_InitStructure);
 	DMA_ITConfig(DMA1_Channel1, DMA_IT_TC, ENABLE);
 	
 	ADC_DMACmd(ADC1, ENABLE);
@@ -165,8 +165,9 @@ int main(void)
 				buttonB = 0;
 		}
 		
-		set_colour(LED_STATE);
-		_delay_us(delay_time);
+		set_colour(LED_STATE); //Set the LED color
+		
+        _delay_us(delay_time);
 		ADC_Cmd(ADC1, ENABLE);	//start ADC convertion
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET)); //waiting for DMA is finished
 		data_collect();
@@ -178,6 +179,6 @@ int main(void)
 		
 		//read_reading(output_ptr, buttonA, buttonB);
 		//flag_test(temp);
-		read_colour();
+		read_colour(); //Send the data
 	}
 }

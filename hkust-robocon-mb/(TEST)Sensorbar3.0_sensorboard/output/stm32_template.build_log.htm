@@ -22,19 +22,40 @@ Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
 C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\(TEST)Sensorbar3.0_sensorboard\Project.uvprojx
-Project File Date:  02/25/2016
+Project File Date:  03/10/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
-".\output\stm32_template.axf" - 0 Error(s), 0 Warning(s).
+compiling main.c...
+src\user\colour_list.h(20): warning:  #1-D: last line of file ends without a newline
+  void reading_init(struct Reading* reading);
+src\user\colour_calculation.h(23): warning:  #1295-D: Deprecated declaration data_collect - give arg types
+  void data_collect();
+src\user\colour_calculation.h(24): warning:  #1295-D: Deprecated declaration colour_init - give arg types
+  void colour_init();
+src\user\colour_calculation.h(25): warning:  #1295-D: Deprecated declaration rgb_init - give arg types
+  void rgb_init();
+src\user\colour_calculation.h(26): warning:  #1295-D: Deprecated declaration reading_ratio - give arg types
+  void reading_ratio();
+src\user\colour_calculation.h(33): warning:  #1295-D: Deprecated declaration read_colour - give arg types
+  void read_colour();
+src\user\colour_calculation.h(37): warning:  #1-D: last line of file ends without a newline
+  void rgb_colour_difference(struct Reading* reading);
+src\user\main.c(141): warning:  #177-D: variable "temp" was declared but never referenced
+  	u8 temp = 100;
+src\user\main.c: 8 warnings, 0 errors
+linking...
+Program Size: Code=17036 RO-data=336 RW-data=476 ZI-data=6580  
+FromELF: creating hex file...
+".\output\stm32_template.axf" - 0 Error(s), 8 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\(TEST)Sensorbar3.0_sensorboard\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:06
 </pre>
 </body>
 </html>

@@ -22,10 +22,10 @@ typedef struct {
 } SERVO_PWM_STRUCT[];
 
 typedef enum {
-  SERVO1,
-  SERVO2,
-  SERVO3,
-  SERVO4
+  SERVO1, //0
+  SERVO2, //1
+  SERVO3, //2
+  SERVO4 //3
 } SERVO_ID;
 
 
