@@ -155,6 +155,7 @@ void auto_reset() {
 	degree_diff = 0;
 	tar_x = 0;
 	tar_y = 0;
+	tar_deg = 0;
 	start = 0;
 	pid_stopped = false;
 	error_list_len = 0;
@@ -163,9 +164,7 @@ void auto_reset() {
 	auto_ticks = get_full_ticks();
 	
 	//reset gyro location
-	//gyro_pos_set(0,0,0);
-	gyro_pos_set(0,-2870,0);
-	auto_tar_dequeue();
+	gyro_pos_set(0,0,0);
 }
 
 /**

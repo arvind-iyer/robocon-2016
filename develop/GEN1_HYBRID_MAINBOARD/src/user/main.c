@@ -64,13 +64,7 @@ int main(void) {
 					//manual_fast_update();
 			}
 		}
-		/*
-		if (this_loop_ticks > 2500) {
-			motor_set_vel(MOTOR7, 0, OPEN_LOOP);
-		} else if (this_loop_ticks > 2000) {
-			motor_set_vel(MOTOR7, 20, OPEN_LOOP);
-		}
-		*/
+		
 		if ((this_loop_ticks - last_long_loop_ticks)>LONG_LOOP_TICKS){
 			led_blink(LED_D1);
 			
