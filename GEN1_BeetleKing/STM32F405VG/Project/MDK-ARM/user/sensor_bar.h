@@ -7,6 +7,7 @@
 #define SENSOR_BAR_FILTER_2 0x0C6 
 
 void sensorbar_init(void);
+void sensor_bar_update(void);
 
 extern u16 sensorbar_value[16];
 

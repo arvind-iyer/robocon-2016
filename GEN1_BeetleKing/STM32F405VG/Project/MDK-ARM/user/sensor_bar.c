@@ -14,9 +14,12 @@ void receive_b(CanRxMsg msg){
 	}
 }
 
-void sensorbar_init(void){
+void sensorbar_init(){
 	can_init();
   can_rx_init();
   can_rx_add_filter(SENSOR_BAR_FILTER_1, CAN_RX_MASK_EXACT, receive_a);
   can_rx_add_filter(SENSOR_BAR_FILTER_2, CAN_RX_MASK_EXACT, receive_b);
+}
+
+void sensor_bar_update(){
 }
