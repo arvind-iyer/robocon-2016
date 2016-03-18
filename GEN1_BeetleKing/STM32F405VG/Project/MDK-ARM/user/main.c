@@ -12,7 +12,7 @@ int main(void) {
 	imu_init();
 	sensorbar_init();
 	servo_init();
-	tft_easy_init(PIN_ON_TOP); //Init LCD
+	tft_easy_init(PIN_ON_BOTTOM); //Init LCD
 	buzzer_init();
 	tft_put_logo(85, 120);
 	
@@ -32,8 +32,8 @@ int main(void) {
 
 				if (game_stage == SYSTEM_WAITING){
 					if (imu_synced && imu_staged){
-						//game_stage = CLIMBING_SLOPE;
 						game_stage = CLIMBING_SLOPE;
+						//game_stage = PURE_SENSOR_BAR;
 						buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 						set_target(cal_ypr[0]);
 					}else if(!imu_synced){
@@ -57,6 +57,9 @@ int main(void) {
 							break;
 						case WINNING_THE_GAME:
 							tft_println("[WIN OR FUCK UP]");
+							break;
+						case PURE_SENSOR_BAR:
+							sensor_bar_track();
 							break;
 						default:
 							tft_println("[WTF MAN]");

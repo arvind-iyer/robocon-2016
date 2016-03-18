@@ -9,10 +9,18 @@ static float awaiting_pitch;
 static float last_pitch;
 #define TOTAL_PATH_SIZE 7
 
-//This array marks the CHANGE in yaw, with repesct to the last value
-static float path_yaw_change[TOTAL_PATH_SIZE] = {0.0f, 27.0f, 27.0f, 27.0f, -35.0f, -30.0f, -120.0f};
-//This array marks the pitch of the slope, with repesct to starting pitch
-static float path_pitch_change[TOTAL_PATH_SIZE] = {0.0f, -6.0f, 0.0f, -6.0f, 0.0f, -6.0f, 0.0f};
+#ifdef BLUE_FIELD
+	//This array marks the CHANGE in yaw, with repesct to the last value
+	static float path_yaw_change[TOTAL_PATH_SIZE] = {0.0f, 27.0f, 27.0f, 27.0f, -35.0f, -30.0f, -120.0f};
+	//This array marks the pitch of the slope, with repesct to starting pitch
+	static float path_pitch_change[TOTAL_PATH_SIZE] = {0.0f, -6.0f, 0.0f, -6.0f, 0.0f, -6.0f, 0.0f};
+#else
+	//This array marks the CHANGE in yaw, with repesct to the last value
+	static float path_yaw_change[TOTAL_PATH_SIZE] = {0.0f, -30.0f, -30.0f, -30.0f, 30.0f, 30.0f, 120.0f};
+	//This array marks the pitch of the slope, with repesct to starting pitch
+	static float path_pitch_change[TOTAL_PATH_SIZE] = {0.0f, -6.0f, 0.0f, -6.0f, 0.0f, -6.0f, 0.0f};
+#endif
+
 static uint8_t path_pointer = 0;
 static float pitch_change = 0;
 	

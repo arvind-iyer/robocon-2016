@@ -30,8 +30,8 @@
 #include "path_downslope.h"
 #include "path_river.h"
 
-#define BLUE_FIELD
-//#define RED_FIELD
+//#define BLUE_FIELD
+#define RED_FIELD
 
 #ifdef RED_FIELD
 	#ifdef BLUE_FIELD
