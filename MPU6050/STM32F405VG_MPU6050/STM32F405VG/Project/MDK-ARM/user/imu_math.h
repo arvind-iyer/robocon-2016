@@ -9,11 +9,14 @@
 #include <cstring>
 #include "main.h"
 
-#define GYRO_GAIN (5)
-
-#define GYRO_TRUST 10
+#define pie 3.14159265358979f
+#define GYRO_TRUST 0
 
 extern float ypr[3];
+extern float Rest[3];
+
+void normalise_vector_float(float* v);
+float sqr(float num);
 
 void calc_init(void);
 void calcIMU(void);

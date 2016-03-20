@@ -32,8 +32,9 @@ int main(void) {
 
 				if (game_stage == SYSTEM_WAITING){
 					if (imu_synced && imu_staged){
-						game_stage = CLIMBING_SLOPE;
+						//game_stage = CLIMBING_SLOPE;
 						//game_stage = PURE_SENSOR_BAR;
+						game_stage = GOING_DOWN_HILL;
 						buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 						set_target(cal_ypr[0]);
 					}else if(!imu_synced){

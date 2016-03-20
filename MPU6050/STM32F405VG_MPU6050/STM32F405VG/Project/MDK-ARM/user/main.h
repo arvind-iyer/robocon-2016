@@ -23,6 +23,7 @@
 #include "line_sensor.h"
 #include "mpu6050.h"
 #include "buzzer.h"
+#include "buzzer_song.h"
 #include "imu_math.h"
 #include <stdbool.h>
 
@@ -31,7 +32,7 @@ extern u32 this_loop_ticks;
 extern u32 last_loop_ticks;
 
 //Larger loop
-#define LONG_LOOP_TICKS 100
+#define LONG_LOOP_TICKS 20
 #define SHORT_LOOP_TICKS 5
 extern u32 last_long_loop_ticks;
 extern u32 last_short_loop_ticks;
