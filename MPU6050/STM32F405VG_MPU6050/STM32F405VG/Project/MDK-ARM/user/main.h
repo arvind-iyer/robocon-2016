@@ -39,6 +39,7 @@ extern u32 last_short_loop_ticks;
 
 //Different in ticks for any loop except main loop
 extern u32 any_loop_diff;
+extern bool init_good;
 
 void TimingDelay_Decrement(void);
 

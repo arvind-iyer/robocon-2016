@@ -3,6 +3,21 @@
 
 #include "stm32f4xx.h"
 #include "stm32f4xx_i2c.h"
+#include <cstring>
+#include <stdbool.h>
+
+#define ACCEL_RANGE 1
+/* 0 -> +- 2g, resolution = 2^16/4g
+** 1 -> +- 4g, resolution = 2^16/8g
+** 2 -> +- 8g, resolution = 2^16/16g
+** 3 -> +- 16g, resolution = 2^16/32g */
+
+#define GYRO_RANGE 1
+/* 0 -> +- 250 deg/s, resolution = 2^16/500
+** 1 -> +- 500 deg/s, resolution = 2^16/1000
+** 2 -> +- 1000 deg/s, resolution = 2^16/2000
+** 3 -> +- 2000 deg/s, resolution = 2^16/4000 */
+
 
 #define MPU_GPIO						GPIOB
 #define MPU_GPIO_RCC 				RCC_AHB1Periph_GPIOB
@@ -367,10 +382,21 @@
 
 extern s16 IMU_Buffer[6];
 
-void mpu_init(void);
+//Basic functions
+bool mpu_init(void);
+void mpu_i2c_init(void);
 void mpu_buffer_read(u8* buffer, u8 readAdd, u16 numOfByte);
-void getRawAccelGyro(void);
 void mpu_write_byte(u8* pBuffer, u8 writeAddr);
+void mpu_write_bit(u8 reg_add, u8 bit_pos, u8 data);
+void mpu_write_bits(u8 reg_add, u8 bit_pos, u8 bit_len, u8 data);
+void mpu_read_bits(u8 reg_add, u8 bit_pos, u8 bit_len, u8 *data);
+
+//Applicational functions
+void getRawAccelGyro(void);
+void mpu_set_max_accel(uint8_t range);
+void mpu_set_max_angular_vel(u8 range);
+u8 mpu_get_max_angular_vel(void);
+u8 mpu_get_max_accel(void);
 void mpu_wake_up(void);
 
 #endif

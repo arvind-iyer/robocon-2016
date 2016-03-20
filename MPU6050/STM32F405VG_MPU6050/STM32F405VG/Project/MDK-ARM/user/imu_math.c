@@ -38,7 +38,7 @@ void calcIMU(){
 	
 	normalise_vector_float(Racc);//Normalise the acceleration vector(first 3 in the array)
 	
-	if (fabs(Rest[2] < 0.01)){
+	if (fabs(Rest[2] < 0.01f)){
 		//When Rz is too small, error induced to Axz and Ayz is significant
 		//Therefore we skip it here
 		for (u8 i=0; i<3; i++){

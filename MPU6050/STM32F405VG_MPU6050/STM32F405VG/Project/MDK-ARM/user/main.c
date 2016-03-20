@@ -6,20 +6,23 @@ u32 this_loop_ticks = 0;
 u32 last_short_loop_ticks = 0;
 u32 any_loop_diff = 0;
 bool imu_calc_init = false;
+bool init_good = true;
 
 int main(void) {
 	led_init();
 	TM_DELAY_Init();
 	tft_easy_init(); //Init LCD
 	tft_put_logo(85, 120);
-	mpu_init();
-	getRawAccelGyro();  
 	buzzer_init();
 	
-	mpu_wake_up();
+	init_good = mpu_init();
 	
 	Delayms(500);
-	buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
+	if (init_good){
+		buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
+	}else{
+		buzzer_play_song(FAIL_SOUND, 100, 0);
+	}
 		
 	while (1) {
 		this_loop_ticks = get_ticks();
