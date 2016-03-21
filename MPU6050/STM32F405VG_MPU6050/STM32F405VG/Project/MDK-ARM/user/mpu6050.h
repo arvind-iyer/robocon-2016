@@ -12,12 +12,35 @@
 ** 2 -> +- 8g, resolution = 2^16/16g
 ** 3 -> +- 16g, resolution = 2^16/32g */
 
+#if ACCEL_RANGE == 0
+	#define ACCEL_FACTOR 16384 //32768/2
+#elif ACCEL_RANGE == 1
+	#define ACCEL_FACTOR 8192 //32768/4
+#elif ACCEL_RANGE == 2
+	#define ACCEL_FACTOR 4096 //32768/8
+#elif ACCEL_RANGE == 3
+	#define ACCEL_FACTOR 2048 //32768/16
+#else
+	#error Acceleration range is not correct
+#endif
+
 #define GYRO_RANGE 1
 /* 0 -> +- 250 deg/s, resolution = 2^16/500
 ** 1 -> +- 500 deg/s, resolution = 2^16/1000
 ** 2 -> +- 1000 deg/s, resolution = 2^16/2000
 ** 3 -> +- 2000 deg/s, resolution = 2^16/4000 */
 
+#if GYRO_RANGE == 0
+	#define GYRO_FACTOR 131.072f //32768/250
+#elif GYRO_RANGE == 1
+	#define GYRO_FACTOR 65.536f //32768/500
+#elif GYRO_RANGE == 2
+	#define GYRO_FACTOR 32.768f //32768/1000
+#elif GYRO_RANGE == 3
+	#define GYRO_FACTOR 16.384f //32768/2000
+#else
+	#error Gyro range is not correct
+#endif
 
 #define MPU_GPIO						GPIOB
 #define MPU_GPIO_RCC 				RCC_AHB1Periph_GPIOB

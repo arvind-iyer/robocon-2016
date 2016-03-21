@@ -72,11 +72,11 @@ void getRawAccelGyro(){
 	
 	//Obtain acceleration
 	for (u8 i = 0; i < 3; i++){
-		IMU_Buffer[i] = (s16) ((buffer[2 * i] << 8) | buffer[2 * i + 1]);
+		IMU_Buffer[i] = ((buffer[2 * i] << 8) | buffer[2 * i + 1]);
 	}
 	//Obtain angular velocity
 	for (u8 i = 4; i < 7; i++){
-		IMU_Buffer[i - 1] = (s16) ((buffer[2 * i] << 8) | buffer[2 * i + 1]);
+		IMU_Buffer[i - 1] = ((buffer[2 * i] << 8) | buffer[2 * i + 1]);
 	}
 }
 

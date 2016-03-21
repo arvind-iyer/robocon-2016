@@ -10,7 +10,7 @@
 #include "main.h"
 
 #define pie 3.14159265358979f
-#define GYRO_TRUST 0
+#define GYRO_TRUST 10
 
 extern float ypr[3];
 extern float Rest[3];

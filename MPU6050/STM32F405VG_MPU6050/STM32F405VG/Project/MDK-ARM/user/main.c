@@ -15,7 +15,7 @@ int main(void) {
 	tft_put_logo(85, 120);
 	buzzer_init();
 	
-	init_good = mpu_init();
+	init_good |= mpu_init();
 	
 	Delayms(500);
 	if (init_good){
@@ -43,11 +43,11 @@ int main(void) {
 				tft_println("Rx: %f", Rest[0]);
 				tft_println("Ry: %f", Rest[1]);
 				tft_println("Rz: %f", Rest[2]);
-//				tft_println("Yaw: %f", ypr[0]);
-//				tft_println("Pit: %f", ypr[1]);
-//				tft_println("Rol: %f", ypr[2]);
+				tft_println("Yaw: %f", ypr[0]);
+				tft_println("Pit: %f", ypr[1]);
+				tft_println("Rol: %f", ypr[2]);
 				for (u8 i=0;i<3;i++){
-					tft_println("%d %d", IMU_Buffer[i*2], IMU_Buffer[i*2+1]);
+					//tft_println("%d %d", IMU_Buffer[i*2], IMU_Buffer[i*2+1]);
 				}
 				tft_update();
 				last_long_loop_ticks = this_loop_ticks;

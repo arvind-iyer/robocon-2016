@@ -27,18 +27,18 @@ void calcIMU(){
 	float RGyro[3] = {0}; //Vector given by gyro
 	float gyro_raw[3] = {0};
 	
-	for (u8 i=0;i<3;i++){
-		Racc[i] = (float)IMU_Buffer[i]; //First three elements are acceleration
-		gyro_raw[i] = (float)IMU_Buffer[i+3]; //Last three elements are angular velocity
-	}
-	
-//	u32 interval = get_ticks() - last_ticks; //Calculate its own ticks interval
-//	last_ticks = get_ticks();
+	//	u32 interval = get_ticks() - last_ticks; //Calculate its own ticks interval
+	//	last_ticks = get_ticks();
 	u32 interval = any_loop_diff; //use global loop diff
+	
+	for (u8 i=0;i<3;i++){
+		Racc[i] = (float)IMU_Buffer[i]/ACCEL_FACTOR; //First three elements are acceleration
+		gyro_raw[i] = (float)IMU_Buffer[i+3]*interval/1000.0f/GYRO_FACTOR; //Last three elements are angular velocity
+	}
 	
 	normalise_vector_float(Racc);//Normalise the acceleration vector(first 3 in the array)
 	
-	if (fabs(Rest[2] < 0.01f)){
+	if (fabsf(Rest[2] < 0.1f)){
 		//When Rz is too small, error induced to Axz and Ayz is significant
 		//Therefore we skip it here
 		for (u8 i=0; i<3; i++){
@@ -48,24 +48,28 @@ void calcIMU(){
 		//Get the angles between projection of R on the zx/zy plane with \
 		//readings from the gyro and last estimated reading
 		for (u8 i=0; i<2; i++){
-			gyro_raw[i] *= interval / 1000.0f; //Ingrate with repesct to time
-			Awz[i] = atan2(Rest[i], Rest[2]) * 180 / pie; //Convert from radian to degree
+			Awz[i] = atan2(Rest[i], Rest[2]) * 180.0f / pie; //Convert from radian to degree
 			Awz[i] += gyro_raw[i];
 		}
 		
 		//Detemine the sign of RzGyro based on the quadrant of Axz
-		s8 sign_of_RzGyro = (Awz[0]<90.0f && Awz[0]>-90.0f) ? 1 : -1;
+		s8 sign_of_RzGyro = (cos(Awz[0]*pie/180.0f)>=0) ? 1: -1;
 		for (u8 i=0; i<2; i++){
-			RGyro[i] = sin(Awz[i]*pie/180);
-			RGyro[i] /= sqrtf(1 + sqr(cos(Awz[i])*pie/180)*sqr(tan(Awz[1-i])*pie/180));
+			RGyro[i] = sin(Awz[i]*pie/180.0f);
+			RGyro[i] /= sqrtf(1 + sqr(cos(Awz[i]*pie/180.0f)) * sqr(tan(Awz[1-i]*pie/180.0f)));
 		}
 		RGyro[2] = sign_of_RzGyro * sqrt(1 - sqr(RGyro[0]) - sqr(RGyro[1]));
+		//normalise_vector_float(RGyro);
 	}
 	
 	//Complementary filter
 	for (u8 i=0; i<2; i++){
 		Rest[i] = (Racc[i] + RGyro[i] * GYRO_TRUST) / (1 + GYRO_TRUST);
 	}
+	
+	ypr[0] += gyro_raw[2];
+	ypr[1] = atan2(Rest[0], sqrt(sqr(Rest[1]) + sqr(Rest[2])))*180.0f/pie; //pitch
+	ypr[2] = atan2(-Rest[1], Rest[2])*180.0f/pie; //roll
 	
 	normalise_vector_float(Rest); //Normalise the vector again
 }
