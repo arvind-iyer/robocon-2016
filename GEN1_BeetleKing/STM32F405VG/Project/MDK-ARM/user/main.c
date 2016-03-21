@@ -32,15 +32,18 @@ int main(void) {
 
 				if (game_stage == SYSTEM_WAITING){
 					if (imu_synced && imu_staged){
-						//game_stage = CLIMBING_SLOPE;
-						//game_stage = PURE_SENSOR_BAR;
-						game_stage = GOING_DOWN_HILL;
-						buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
+						game_stage++;
+						buzzer_play_song(START_UP, 50, 0);
 						set_target(cal_ypr[0]);
 					}else if(!imu_synced){
 						tft_println("[Not synced]");
 					}else if(!imu_staged){
 						tft_println("[Not staged]");
+					}
+				}else if(game_stage == SYSTEM_CALI){
+					game_stage = imu_cali();
+					if (game_stage != SYSTEM_CALI){
+						buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 					}
 				}else{
 					switch(game_stage){
@@ -68,9 +71,10 @@ int main(void) {
 				}
 				
 				tft_println("Loop: %d %d", this_loop_ticks, any_loop_diff);
+				tft_println("%f", yaw_bias);
 				tft_println("%d %d %d", (int)roundf(cal_ypr[0]*10), (int)roundf(cal_ypr[1]*10), (int)roundf(cal_ypr[2]*10));
 				for (u8 i=0; i<16; i++){
-					tft_prints(i, 8, "%d", sensorbar_value[i]);
+					//tft_prints(i, 8, "%d", sensorbar_value[i]);
 				}
 				tft_update();
 				last_long_loop_ticks = this_loop_ticks;

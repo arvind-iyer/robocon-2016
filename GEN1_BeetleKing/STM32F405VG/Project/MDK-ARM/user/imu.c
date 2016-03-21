@@ -11,6 +11,10 @@ float out_ypr[3] = {0};
 float cal_ypr[3] = {0}; 
 float start_ypr[3];
 
+static float yaw_samples[SAMPLE_SIZE] = {0};
+static u8 sample_size = 0;
+float yaw_bias = 0;
+
 void IMU_receiver(u8 byte){
 	//Sync with the IMU
 	if (imu_synced == false){
@@ -77,6 +81,16 @@ void IMU_receiver(u8 byte){
 	}
 }
 
+//Elimate static error
+GAME_STAGE imu_cali(){
+	if (sample_size>=SAMPLE_SIZE){
+		yaw_bias = (yaw_samples[SAMPLE_SIZE-1] - yaw_samples[0]) / SAMPLE_SIZE;
+		return SYSTEM_CALI + 1;
+	}
+	//yaw_samples[sample_size++] = out_ypr[0]; //This will be done in imu_update instead
+	return SYSTEM_CALI;
+}
+
 void sync_with_imu(){
 	uart_tx(IMU_UART, "#s01"); //Request syncing
 }
@@ -106,6 +120,7 @@ void imu_update(){
 				cal_ypr[i] += abs_diff(dataset.f, out_ypr[i]);
 				out_ypr[i] = dataset.f;
 			}
+			cal_ypr[0] -= yaw_bias;
 			//For pitch and roll, map the values such that 1800 is the med pos
 			//cal_ypr[1] = cal_ypr[1] < 180.0f ? cal_ypr[1]+180.0f : (cal_ypr[1] > 180.0f ? cal_ypr[1] - 180.0f : 0);
 			//cal_ypr[2] = cal_ypr[2] < 180.0f ? cal_ypr[2]+180.0f : (cal_ypr[2] > 180.0f ? cal_ypr[2] - 180.0f : 0);
@@ -120,6 +135,8 @@ void imu_update(){
 				path_down_init();
 				imu_staged = true;
 				led_control(LED_D2, LED_ON);
+			}else if(sample_size < SAMPLE_SIZE){
+				yaw_samples[sample_size++] = out_ypr[0];
 			}
 	}
 }
