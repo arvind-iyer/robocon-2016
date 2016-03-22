@@ -77,8 +77,8 @@ extern u16 curr_text_color;
 extern u16 curr_text_color_sp;
 
 extern char text						[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-extern u16 text_color				[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-extern u16 bg_color					[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+extern u16 text_color				[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+extern u16 bg_color					[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
 
 void tft_spi_init(void);
 void tft_write_command(u8 command);
@@ -87,7 +87,7 @@ void tft_config(void);
 void tft_reset(void);
 
 void tft_init(TFT_ORIENTATION orientation, u16 bg_color, u16 text_color, u16 sp_color);
-void tft_easy_init(void);
+void tft_easy_init(TFT_ORIENTATION orientation);
 void tft_enable(void);
 void tft_disable(void);
 void tft_set_bg_color(u16 in_bg_color);

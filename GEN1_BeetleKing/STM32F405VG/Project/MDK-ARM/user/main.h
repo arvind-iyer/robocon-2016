@@ -1,10 +1,31 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx.h"
 #include "led.h"
 #include "lcd_main.h"
+
+//#define BLUE_FIELD
+#define RED_FIELD
+
+#ifdef RED_FIELD
+	#ifdef BLUE_FIELD
+		#error FIELD COLOR BOTH DEFINED
+	#endif
+#else
+	#ifndef BLUE_FIELD
+		#error FIELD COLOR NOT YET DEFINED
+	#endif
+#endif
+
+//	PIN_ON_TOP = 		0
+//	PIN_ON_LEFT = 	1
+//	PIN_ON_BOTTOM =	2
+//	PIN_ON_RIGHT = 	3
+#define ORIENTATION_SETTING 2
+
 #include "stm32f4xx_gpio.h"
 #include "tm_stm32f4_stdio.h"
 #include "tm_stm32f4_timer_properties.h"
@@ -22,6 +43,7 @@
 #include "sensor_bar.h"
 #include "imu.h"
 #include "servo_targeting.h"
+#include "button.h"
 #include "buzzer.h"
 #include "buzzer_song.h"
 
@@ -29,20 +51,6 @@
 #include "path_upslope.h"
 #include "path_downslope.h"
 #include "path_river.h"
-
-//#define BLUE_FIELD
-#define RED_FIELD
-
-#ifdef RED_FIELD
-	#ifdef BLUE_FIELD
-		#error FIELD COLOR BOTH DEFINED
-	#endif
-#else
-	#ifndef BLUE_FIELD
-		#error FIELD COLOR NOT YET DEFINED
-	#endif
-#endif
-
 
 //Main loop
 extern u32 this_loop_ticks;

@@ -13,8 +13,8 @@ u8 char_max_x, char_max_y;
 
 char text							[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
 u8 pointer_to_text = 0;
-u16 text_color				[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-u16 bg_color					[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+u16 text_color				[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+u16 bg_color					[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
 u16 print_pos = 0;
 
 u8 tft_get_orientation(){
@@ -290,12 +290,13 @@ void tft_init(TFT_ORIENTATION orientation, u16 in_bg_color, u16 in_text_color, u
 		char_max_y = CHAR_MAX_Y_VERTICAL;
 	}
 
-	for (x = 0; x <= CHAR_MAX_X_ANY; x++) {
-		for (y = 0; y <= CHAR_MAX_Y_ANY; y++) {
-			text[0][x][y] = ' ';
-			text[1][x][y] = ' ';
-			text_color[x][y] = in_text_color;
-			bg_color[x][y] = in_bg_color;
+	for (u8 pointer = 0; pointer<2; pointer++){
+		for (x = 0; x <= CHAR_MAX_X_ANY; x++) {
+			for (y = 0; y <= CHAR_MAX_Y_ANY; y++) {
+				text[pointer][x][y] = ' ';
+				text_color[pointer][x][y] = in_text_color;
+				bg_color[pointer][x][y] = in_bg_color;
+			}
 		}
 	}
 }
@@ -304,11 +305,7 @@ void tft_init(TFT_ORIENTATION orientation, u16 in_bg_color, u16 in_text_color, u
   * @brief  Easy init for easy reading
   */
 void tft_easy_init(TFT_ORIENTATION orientation){
-	#ifdef BLUE_FIELD
-		tft_init(orientation, WHITE, BLACK, BLUE);
-	#else
-			tft_init(orientation, BLACK, WHITE, RED);
-	#endif
+	tft_init(orientation, BLACK, WHITE, RED);
 	tft_set_char_pos(50, 50, 100, 92);
 }
 
@@ -431,8 +428,8 @@ void tft_force_clear(void)
 void tft_clear_line(u8 line){
 	for (u8 x = 0; x < CHAR_MAX_X_ANY; x++) {
 		text[pointer_to_text][x][line] = ' ';
-		text_color[x][line] = curr_text_color;
-		bg_color[x][line] = curr_bg_color;
+		text_color[pointer_to_text][x][line] = curr_text_color;
+		bg_color[pointer_to_text][x][line] = curr_bg_color;
 	}
 }
 
@@ -539,8 +536,8 @@ void tft_prints(u8 x, u8 y, const char * pstr, ...){
 			}
 		
 			text[pointer_to_text][x][y] = *fp++;
-			text_color[x][y] = is_special ? curr_text_color_sp : curr_text_color;
-			bg_color[x][y] = curr_bg_color;	
+			text_color[pointer_to_text][x][y] = is_special ? curr_text_color_sp : curr_text_color;
+			bg_color[pointer_to_text][x][y] = curr_bg_color;	
 			x++;
 		}
 	}
@@ -581,8 +578,8 @@ void tft_println(const char * pstr, ...){
 			}
 			
 			text[pointer_to_text][x][tft_y_index] = *fp++;
-			text_color[x][tft_y_index] = is_special ? curr_text_color_sp : curr_text_color;
-			bg_color[x][tft_y_index] = curr_bg_color;	
+			text_color[pointer_to_text][x][tft_y_index] = is_special ? curr_text_color_sp : curr_text_color;
+			bg_color[pointer_to_text][x][tft_y_index] = curr_bg_color;	
 			x++;
 		}
 	}
@@ -626,7 +623,8 @@ void tft_update(void)
 						for (py = 0; py < CHAR_HEIGHT; py++) {
 							for (px = 0; px < char_n*CHAR_WIDTH; px++) {
 								x2 = x+px/CHAR_WIDTH;
-								clr = ascii_8x16[((text[pointer_to_text][x2][y2] - 32) * CHAR_HEIGHT) + py] & (0x80 >> (px % CHAR_WIDTH)) ? text_color[x2][y2] : bg_color[x2][y2];
+								clr = ascii_8x16[((text[pointer_to_text][x2][y2] - 32) * CHAR_HEIGHT) + py] & (0x80 >> (px % CHAR_WIDTH)) ?
+									text_color[pointer_to_text][x2][y2] : bg_color[pointer_to_text][x2][y2];
 								tft_write_data(clr >> 8);
 								tft_write_data(clr);
 							}
@@ -653,7 +651,8 @@ void tft_update(void)
 						for (px = 0; px < CHAR_WIDTH; px++) {
 							for (py = 0; py < char_n*CHAR_HEIGHT; py++) {
 								y2 = y-py/CHAR_HEIGHT;
-								clr = ascii_8x16[((text[pointer_to_text][x2][y2] - 32) * CHAR_HEIGHT) + CHAR_HEIGHT-(py % CHAR_HEIGHT)-1] & (0x80 >> px) ? text_color[x2][y2] : bg_color[x2][y2];
+								clr = ascii_8x16[((text[pointer_to_text][x2][y2] - 32) * CHAR_HEIGHT) + CHAR_HEIGHT-(py % CHAR_HEIGHT)-1] & (0x80 >> px) ?
+									text_color[pointer_to_text][x2][y2] : bg_color[pointer_to_text][x2][y2];
 								tft_write_data(clr >> 8);
 								tft_write_data(clr);
 							}
@@ -680,7 +679,8 @@ void tft_update(void)
 						for (py = 0; py < CHAR_HEIGHT; py++) {
 							for (px = 0; px < char_n*CHAR_WIDTH; px++) {
 								x2 = x-px/CHAR_WIDTH;
-								clr = ascii_8x16[((text[pointer_to_text][x2][y2] - 32) * CHAR_HEIGHT) + (CHAR_HEIGHT-py-1)] & (0x80 >> (CHAR_WIDTH-(px % CHAR_WIDTH)-1)) ? text_color[x2][y2] : bg_color[x2][y2];
+								clr = ascii_8x16[((text[pointer_to_text][x2][y2] - 32) * CHAR_HEIGHT) + (CHAR_HEIGHT-py-1)] & (0x80 >> (CHAR_WIDTH-(px % CHAR_WIDTH)-1)) ?
+									text_color[pointer_to_text][x2][y2] : bg_color[pointer_to_text][x2][y2];
 								tft_write_data(clr >> 8);
 								tft_write_data(clr);
 							}
@@ -707,7 +707,8 @@ void tft_update(void)
 						for (px = 0; px < CHAR_WIDTH; px++) {
 							for (py = 0; py < char_n*CHAR_HEIGHT; py++) {
 								y2 = y+py/CHAR_HEIGHT;
-								clr = ascii_8x16[((text[pointer_to_text][x2][y2] - 32) * CHAR_HEIGHT) + (py % CHAR_HEIGHT)] & (0x80 >> (CHAR_WIDTH-px-1)) ? text_color[x2][y2] : bg_color[x2][y2];
+								clr = ascii_8x16[((text[pointer_to_text][x2][y2] - 32) * CHAR_HEIGHT) + (py % CHAR_HEIGHT)] & (0x80 >> (CHAR_WIDTH-px-1)) ?
+									text_color[pointer_to_text][x2][y2] : bg_color[pointer_to_text][x2][y2];
 								tft_write_data(clr >> 8);
 								tft_write_data(clr);
 							}

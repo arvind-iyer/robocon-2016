@@ -76,8 +76,8 @@ extern u16 curr_text_color;
 extern u16 curr_text_color_sp;
 
 extern char text						[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-extern u16 text_color				[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
-extern u16 bg_color					[CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+extern u16 text_color				[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
+extern u16 bg_color					[2][CHAR_MAX_X_ANY][CHAR_MAX_Y_ANY];
 
 void tft_spi_init(void);
 void tft_write_command(u8 command);

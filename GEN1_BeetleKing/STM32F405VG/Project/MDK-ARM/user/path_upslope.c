@@ -11,14 +11,14 @@ static float last_pitch;
 
 #ifdef BLUE_FIELD
 	//This array marks the CHANGE in yaw, with repesct to the last value
-	static float path_yaw_change[TOTAL_PATH_SIZE] = {0.0f, 27.0f, 27.0f, 27.0f, -35.0f, -30.0f, -120.0f};
+	static const float path_yaw_change[TOTAL_PATH_SIZE] = {0.0f, 27.0f, 27.0f, 27.0f, -35.0f, -30.0f, -120.0f};
 	//This array marks the pitch of the slope, with repesct to starting pitch
-	static float path_pitch_change[TOTAL_PATH_SIZE] = {0.0f, -6.0f, 0.0f, -6.0f, 0.0f, -6.0f, 0.0f};
+	static const float path_pitch_change[TOTAL_PATH_SIZE] = {0.0f, -6.0f, 0.0f, -6.0f, 0.0f, -6.0f, 0.0f};
 #else
 	//This array marks the CHANGE in yaw, with repesct to the last value
-	static float path_yaw_change[TOTAL_PATH_SIZE] = {0.0f, -30.0f, -30.0f, -30.0f, 30.0f, 30.0f, 120.0f};
+	static const float path_yaw_change[TOTAL_PATH_SIZE] = {0.0f, -30.0f, -30.0f, -30.0f, 30.0f, 30.0f, 120.0f};
 	//This array marks the pitch of the slope, with repesct to starting pitch
-	static float path_pitch_change[TOTAL_PATH_SIZE] = {0.0f, -6.0f, 0.0f, -6.0f, 0.0f, -6.0f, 0.0f};
+	static const float path_pitch_change[TOTAL_PATH_SIZE] = {0.0f, -6.0f, 0.0f, -6.0f, 0.0f, -6.0f, 0.0f};
 #endif
 
 static uint8_t path_pointer = 0;
@@ -80,7 +80,7 @@ GAME_STAGE path_up_update(){
 	
 	targeting_update(cal_ypr[0]);
 	tft_println("PP:%d", path_pointer);
-	tft_println("AP:%f", awaiting_pitch);
-	tft_println("AV:%f", median_pitch);
+//	tft_println("AP:%f", awaiting_pitch);
+//	tft_println("AV:%f", median_pitch);
 	return CLIMBING_SLOPE;
 }

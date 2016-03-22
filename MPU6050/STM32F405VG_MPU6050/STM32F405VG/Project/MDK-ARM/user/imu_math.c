@@ -67,11 +67,11 @@ void calcIMU(){
 		Rest[i] = (Racc[i] + RGyro[i] * GYRO_TRUST) / (1 + GYRO_TRUST);
 	}
 	
+	normalise_vector_float(Rest); //Normalise the vector again
+	
 	ypr[0] += gyro_raw[2];
 	ypr[1] = atan2(Rest[0], sqrt(sqr(Rest[1]) + sqr(Rest[2])))*180.0f/pie; //roll
 	ypr[2] = atan2(-Rest[1], Rest[2])*180.0f/pie; //pitch
-	
-	normalise_vector_float(Rest); //Normalise the vector again
 }
 
 float sqr(float num){

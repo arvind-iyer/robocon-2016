@@ -11,7 +11,7 @@ bool init_good = true;
 int main(void) {
 	led_init();
 	TM_DELAY_Init();
-	tft_easy_init(); //Init LCD
+	tft_easy_init(PIN_ON_BOTTOM); //Init LCD
 	tft_put_logo(85, 120);
 	buzzer_init();
 	

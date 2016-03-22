@@ -5,6 +5,7 @@ u32 last_long_loop_ticks = 0;
 u32 this_loop_ticks = 0;
 u32 last_short_loop_ticks = 0;
 u32 any_loop_diff = 0;
+bool in_menu = true;
 
 int main(void) {
 	led_init();
@@ -12,8 +13,9 @@ int main(void) {
 	imu_init();
 	sensorbar_init();
 	servo_init();
-	tft_easy_init(PIN_ON_BOTTOM); //Init LCD
+	tft_easy_init(ORIENTATION_SETTING); //Init LCD
 	buzzer_init();
+	button_init();
 	tft_put_logo(85, 120);
 	
 	GAME_STAGE game_stage = SYSTEM_WAITING;
@@ -30,51 +32,63 @@ int main(void) {
 				tft_println("[~BEETLE KING~]");
 				imu_update();
 
-				if (game_stage == SYSTEM_WAITING){
-					if (imu_synced && imu_staged){
-						game_stage++;
-						buzzer_play_song(START_UP, 50, 0);
-						set_target(cal_ypr[0]);
-					}else if(!imu_synced){
-						tft_println("[Not synced]");
-					}else if(!imu_staged){
-						tft_println("[Not staged]");
-					}
-				}else if(game_stage == SYSTEM_CALI){
-					game_stage = imu_cali();
-					if (game_stage != SYSTEM_CALI){
-						buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
-					}
-				}else{
-					switch(game_stage){
-						case CLIMBING_SLOPE:
-							tft_println("[CLIMBING]");
-							game_stage = path_up_update(); 
-							break;
-						case CROSSING_RIVER:
-							tft_println("[RIVERING]");
-							game_stage = path_river_update();
-							break;
-						case GOING_DOWN_HILL:
-							tft_println("[GOING DOWN]");
-							game_stage = path_down_update();
-							break;
-						case WINNING_THE_GAME:
-							tft_println("[WIN OR FUCK UP]");
-							break;
-						case PURE_SENSOR_BAR:
-							sensor_bar_track();
-							break;
-						default:
-							tft_println("[WTF MAN]");
-					}
+				switch(game_stage){
+					case IN_MENU:
+						break;
+					
+					case SYSTEM_WAITING:
+						if (imu_synced && imu_staged){
+							game_stage++;
+							buzzer_play_song(START_UP, 50, 0);
+							set_target(cal_ypr[0]);
+						}else if(!imu_synced){
+							tft_println("[Not synced]");
+						}else if(!imu_staged){
+							tft_println("[Not staged]");
+						}
+						break;
+						
+					case SYSTEM_CALI:
+						game_stage = imu_cali();
+						if (game_stage != SYSTEM_CALI){
+							buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
+						}
+						break;
+						
+					case CLIMBING_SLOPE:
+						tft_println("[CLIMBING]");
+						game_stage = path_up_update(); 
+						break;
+					
+					case CROSSING_RIVER:
+						tft_println("[RIVERING]");
+						game_stage = path_river_update();
+						break;
+					
+					case GOING_DOWN_HILL:
+						tft_println("[GOING DOWN]");
+						game_stage = path_down_update();
+						break;
+					
+					case WINNING_THE_GAME:
+						tft_println("[WIN OR FUCK UP]");
+						break;
+					
+					case PURE_SENSOR_BAR:
+						sensor_bar_track();
+						break;
+					
+					default:
+						tft_println("[WTF]");
 				}
 				
 				tft_println("Loop: %d %d", this_loop_ticks, any_loop_diff);
-				tft_println("%f", yaw_bias);
+				tft_println("%d %d %d %d %d", button_pressed(BUTTON_JS_UP), button_pressed(BUTTON_JS_DOWN),
+						button_pressed(BUTTON_JS_LEFT), button_pressed(BUTTON_JS_RIGHT), button_pressed(BUTTON_JS_CENTRE));
 				tft_println("%d %d %d", (int)roundf(cal_ypr[0]*10), (int)roundf(cal_ypr[1]*10), (int)roundf(cal_ypr[2]*10));
+				
 				for (u8 i=0; i<16; i++){
-					//tft_prints(i, 8, "%d", sensorbar_value[i]);
+					tft_prints(i, 8, "%d", sensorbar_value[i]);
 				}
 				tft_update();
 				last_long_loop_ticks = this_loop_ticks;
