@@ -85,7 +85,7 @@ void IMU_receiver(u8 byte){
 GAME_STAGE imu_cali(){
 	if (sample_size>=SAMPLE_SIZE){
 		yaw_bias = (yaw_samples[SAMPLE_SIZE-1] - yaw_samples[0]) / SAMPLE_SIZE;
-		return SYSTEM_CALI + 1;
+		return (GAME_STAGE) (SYSTEM_CALI + 1);
 	}
 	//yaw_samples[sample_size++] = out_ypr[0]; //This will be done in imu_update instead
 	return SYSTEM_CALI;
@@ -130,7 +130,7 @@ void imu_update(){
 				set_target(cal_ypr[0]);
 				//Copy the starting yaw pitch roll to a private array
 				memcpy(start_ypr, cal_ypr, 3 * sizeof(float));
-				path_up_init();
+				path_up_init(0);
 				path_river_init();
 				path_down_init();
 				imu_staged = true;

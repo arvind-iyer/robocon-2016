@@ -5,7 +5,6 @@ u32 last_long_loop_ticks = 0;
 u32 this_loop_ticks = 0;
 u32 last_short_loop_ticks = 0;
 u32 any_loop_diff = 0;
-bool in_menu = true;
 
 int main(void) {
 	led_init();
@@ -13,7 +12,7 @@ int main(void) {
 	imu_init();
 	sensorbar_init();
 	servo_init();
-	tft_easy_init(ORIENTATION_SETTING); //Init LCD
+	tft_easy_init((TFT_ORIENTATION)ORIENTATION_SETTING); //Init LCD
 	buzzer_init();
 	button_init();
 	tft_put_logo(85, 120);
@@ -32,8 +31,14 @@ int main(void) {
 				tft_println("[~BEETLE KING~]");
 				imu_update();
 
+				if (button_pressed(BUTTON_JS_CENTRE)){
+					game_stage = IN_MENU;
+					menu_init();
+				}
+				
 				switch(game_stage){
 					case IN_MENU:
+						game_stage = menu_update();
 						break;
 					
 					case SYSTEM_WAITING:
@@ -82,15 +87,15 @@ int main(void) {
 						tft_println("[WTF]");
 				}
 				
-				tft_println("Loop: %d %d", this_loop_ticks, any_loop_diff);
-				tft_println("%d %d %d %d %d", button_pressed(BUTTON_JS_UP), button_pressed(BUTTON_JS_DOWN),
-						button_pressed(BUTTON_JS_LEFT), button_pressed(BUTTON_JS_RIGHT), button_pressed(BUTTON_JS_CENTRE));
-				tft_println("%d %d %d", (int)roundf(cal_ypr[0]*10), (int)roundf(cal_ypr[1]*10), (int)roundf(cal_ypr[2]*10));
-				
-				for (u8 i=0; i<16; i++){
-					tft_prints(i, 8, "%d", sensorbar_value[i]);
+				if (game_stage != IN_MENU){
+					tft_println("Loop: %d %d", this_loop_ticks, any_loop_diff);
+					tft_println("%d %d %d", (int)roundf(cal_ypr[0]*10), (int)roundf(cal_ypr[1]*10), (int)roundf(cal_ypr[2]*10));
+					
+					for (u8 i=0; i<16; i++){
+						tft_prints(i, 8, "%d", sensorbar_value[i]);
+					}
+					tft_update();
 				}
-				tft_update();
 				last_long_loop_ticks = this_loop_ticks;
 			}
 			last_loop_ticks = this_loop_ticks;

@@ -7,5 +7,5 @@ void button_init(){
 }
 
 bool button_pressed(BUTTON button){
-	return TM_GPIO_GetInputPinValue(BUTTON_JS_GPIO, button);
+	return !TM_GPIO_GetInputPinValue(BUTTON_JS_GPIO, button);
 }

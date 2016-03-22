@@ -46,6 +46,7 @@
 #include "button.h"
 #include "buzzer.h"
 #include "buzzer_song.h"
+#include "menu.h"
 
 //path files
 #include "path_upslope.h"

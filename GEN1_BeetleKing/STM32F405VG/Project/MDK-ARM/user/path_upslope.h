@@ -21,7 +21,7 @@
 #define ROLLING_PITCH_SIZE 5
 #define PROGRESS_TICKS_MAX 150
 
-void path_up_init(void);
+void path_up_init(u8 stage);
 GAME_STAGE path_up_update(void);
 
 #endif

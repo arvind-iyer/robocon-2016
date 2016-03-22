@@ -24,8 +24,9 @@ static float last_pitch;
 static uint8_t path_pointer = 0;
 static float pitch_change = 0;
 	
-void path_up_init(){
-	path_pointer = rolling_pitch_index = progress_ticks = 0;
+void path_up_init(u8 stage){
+	path_pointer = rolling_pitch_index = stage*2;
+	progress_ticks = 0;
 	
 	for (uint8_t i=0;i<ROLLING_PITCH_SIZE;i++){
 		rolling_pitch[i] = start_ypr[1];
