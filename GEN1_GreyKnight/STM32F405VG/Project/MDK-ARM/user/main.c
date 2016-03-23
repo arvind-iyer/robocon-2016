@@ -48,7 +48,7 @@ int main(void) {
 				tft_println("%d", servo_val);
 				
 				if (cali_done){
-					//sensor_bar_track();
+					sensor_bar_track();
 				}
 			
 				last_long_loop_ticks = this_loop_ticks;

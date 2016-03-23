@@ -11,7 +11,10 @@
 
 #define WHITE_LINE_WIDTH 3
 #define SENSOR_BAR_MID 8
-#define SENSOR_BAR_KP 16
+
+//Scaled by 100
+#define SENSOR_BAR_KP 1500
+#define SENSOR_BAR_KD 7500
 
 void sensorbar_init(void);
 void sensor_bar_track(void);
