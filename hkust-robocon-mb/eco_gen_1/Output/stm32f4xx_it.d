@@ -37,6 +37,7 @@
 .\output\stm32f4xx_it.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 .\output\stm32f4xx_it.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
 .\output\stm32f4xx_it.o: .\inc\main.h
+.\output\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\output\stm32f4xx_it.o: .\inc\led.h
 .\output\stm32f4xx_it.o: .\inc\tft_display.h
 .\output\stm32f4xx_it.o: .\inc\1.8 TFT_ascii.h

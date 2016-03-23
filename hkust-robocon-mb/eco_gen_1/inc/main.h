@@ -30,6 +30,7 @@
 #define __MAIN_H
 
 /* Includes ------------------------------------------------------------------*/
+#include <stdbool.h>
 #include "stm32f4xx.h"
 #include "led.h"
 #include "tft_display.h"
@@ -48,7 +49,7 @@
 #include "ticks.h"
 #include "servo.h"
 
-#define HITLER
+#define BAJAJ
 
 #ifdef WILSON
 #define SERVO_MICROS_MID 1150

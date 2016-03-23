@@ -15,10 +15,12 @@ void receive2(CanRxMsg msg){
 }
 void fill_sensorbar_array(){
     for(int i = 0; i < 8; i++){
-        sensorbar_result[i] = data2[7-i];
+        //sensorbar_result[i] = data2[7-i];
+        sensorbar_result[i] = data1[i];
     }
     for(int i = 0; i < 8; i++){
-        sensorbar_result[8+i] = data1[7-i];
+        //sensorbar_result[8+i] = data1[7-i];
+        sensorbar_result[i+8] = data2[i];
     }
 }
 
@@ -42,7 +44,8 @@ int main(void) {
     can_rx_init();
     can_rx_add_filter(0x0C5, CAN_RX_MASK_EXACT,receive);
     can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
-	//    can_motor_init();
+	
+    bool fullWhite = false;
     
     //Get Clock information
     RCC_ClocksTypeDef  rcc_clocks;
@@ -62,16 +65,13 @@ int main(void) {
     int lastMovement = SERVO_MICROS_LEFT;
     int lastTurn = 0;
     float factor = 0;
-    int allWhiteCount = 0;
-    //servo_control(SERVO2,SERVO_MICROS_MID);
 	while (1) {
             //Initial processing and shit
             tft_clear();
             fill_sensorbar_array();
-            encoder_init();
             tft_prints(0,2,"Count: %d",get_full_ticks());
-            tft_prints(0,5,"IR left: %d",read_infrared_sensor(INFRARED_SENSOR_1));
-            tft_prints(0,6,"IR right: %d",read_infrared_sensor(INFRARED_SENSOR_2));
+            //tft_prints(0,5,"IR left: %d",read_infrared_sensor(INFRARED_SENSOR_1));
+            //tft_prints(0,6,"IR right: %d",read_infrared_sensor(INFRARED_SENSOR_2));
             for(int k = 0; k < 16; k++) { 
                 //if(sensorbar_result[k] == 9)sensorbar_result[k] = 0; //Convert noise to 1
                 int el = sensorbar_result[k];
@@ -85,49 +85,61 @@ int main(void) {
             }
             tft_prints(0,4,"length: %d",length);
             print_array();
-            if (get_full_ticks() - lastTurn >= 500) {
-                if(read_infrared_sensor(INFRARED_SENSOR_1) == 1){
-                    lastMovement = SERVO_MICROS_RIGHT;
-                }
-                else if(read_infrared_sensor(INFRARED_SENSOR_2) == 1){
-                    lastMovement = SERVO_MICROS_LEFT;
-                }
-                else{
-                    if (length == 15){
+            if (get_full_ticks() - lastTurn >= 800) {
+                
+                //Emergency turning using infrared sensor
+//                if(read_infrared_sensor(INFRARED_SENSOR_1) == 1 && read_infrared_sensor(INFRARED_SENSOR_2) == 0){
+//                    lastMovement = SERVO_MICROS_RIGHT;
+//                }
+//                else if(read_infrared_sensor(INFRARED_SENSOR_2) == 1 && read_infrared_sensor(INFRARED_SENSOR_1) == 0){
+//                    lastMovement = SERVO_MICROS_LEFT;
+//                }
+                
+                //Using the sensorbar
+                //else{
+                    if(length >= 14 && fullWhite == false){
+                        lastMovement = SERVO_MICROS_RIGHT;
+                        fullWhite = true;
+                        lastTurn = get_full_ticks();
+                    }
+                    
+                    else if (length >= 13 && fullWhite == true){
                         lastMovement = SERVO_MICROS_MID;
+                        lastTurn = get_full_ticks() - 200;
                     }
-                    else if(begin < 2 && length != 0 ){
-                        lastMovement = SERVO_MICROS_LEFT + 100;
-                    }
-                    else if(end > 13 && length != 0 ){
-                        lastMovement = SERVO_MICROS_RIGHT - 100;
-                    }
+//                    else if(begin == 1 && length != 0 ){
+//                        lastMovement = SERVO_MICROS_LEFT + 100;
+//                    }
+//                    else if(begin == 15 && length != 0 ){
+//                        lastMovement = SERVO_MICROS_RIGHT - 100;
+//                    }
 
-                    else if (length >= 2&& length <= 6) {
+                    else if (length >= 1 && length <= 5) {
                         float factor = ((begin + end) / 2) / (float) 16;
-                        //tft_prints(0,3,"factor=%f",factor);
                         lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                     } 
 
                     //((begin + end)/2) < 6
-                    else if (length > 5){ // 90 degree turnnnzzz
-                        if ((begin + end) / 2 < 8) {
+                    else if (length > 5 && length < 14){ // 90 degree turnnnzzz
+                        if (begin == 0 && end != 15){
                             lastMovement = SERVO_MICROS_LEFT;
-                        } 
-                        else if((begin + end) / 2 >= 8){
+                        }
+                        else if(end == 15 && begin != 0 ) {
                             lastMovement = SERVO_MICROS_RIGHT;
                         }
-                        
-                        else lastMovement = SERVO_MICROS_MID;
+                        else {
+                            lastMovement = SERVO_MICROS_MID;
+                        }
                         lastTurn = get_full_ticks();
-                    }
-                    
-                    begin = -1;
-            }
-            length = 0;
-            servo_control(HITLER_SERVO,lastMovement);
-            tft_prints(0,7,"Servo: %d ",lastMovement);
+                    }  
+            //}
+            begin = -1;
+            servo_control(SERVO2,lastMovement);
         }
+    tft_prints(0,6,"fullwhite:%d",fullWhite);
+    tft_prints(0,7,"Servo: %d ",lastMovement);
+    tft_prints(0,8,"b: %d,e: %d",begin,end);
+    length = 0;
     tft_update();
     }
     return 0;

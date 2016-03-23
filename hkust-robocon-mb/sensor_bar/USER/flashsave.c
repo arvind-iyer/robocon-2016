@@ -4,6 +4,9 @@
 uint32_t data_set[4][3] ={0}; //4 colour target, each have R G B
 uint32_t startAddress = 0x8009000; //0x8019000;
 
+//134254592
+//134320128
+
 extern Colour_Target RED_target[16];
 extern Colour_Target BLUE_target[16];
 extern Colour_Target YELLOW_target[16];
