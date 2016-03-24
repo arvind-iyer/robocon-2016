@@ -44,8 +44,10 @@ GAME_STAGE menu_update(){
 				return CLIMBING_SLOPE;
 			case 3:
 				path_river_init();
+				disable_sensor_bar();
 				return CROSSING_RIVER;
 			case 4:
+				enable_sensor_bar(DOWN_SLOPE_SENSOR_BAR_TRUST, 1);
 				path_down_init();
 				return GOING_DOWN_HILL;
 			case 5:

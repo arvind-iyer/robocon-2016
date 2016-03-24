@@ -7,9 +7,9 @@ u8 last_IR_state[2] = {0};
 
 void path_river_init(){
 	#ifdef BLUE_FIELD
-		river_straight_yaw = start_ypr[0] - 150.0f;
+		river_straight_yaw = start_ypr[0] - 140.0f;
 	#else
-		river_straight_yaw = start_ypr[0] + 150.0f;
+		river_straight_yaw = start_ypr[0] + 140.0f;
 	#endif
 	river_stage = 0;
 	islands_count[0] = 0;
@@ -84,7 +84,7 @@ GAME_STAGE path_river_update(){
 				set_target(river_straight_yaw - 45);
 			#endif
 			targeting_update(cal_ypr[0]);
-			break;
+			return (GAME_STAGE) (CROSSING_RIVER + 1);
 	}
 	tft_println("RS:%d IR:%d %d", river_stage, readIR(0), readIR(1));
 	tft_println("IC: %d %d", islands_count[0], islands_count[1]);

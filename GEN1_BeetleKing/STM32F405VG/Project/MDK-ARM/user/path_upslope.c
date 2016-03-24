@@ -36,6 +36,7 @@ void path_up_init(u8 stage){
 	targeting_yaw += path_yaw_change[path_pointer++];
 	awaiting_pitch += path_pitch_change[path_pointer];
 	pitch_change = abs_diff(last_pitch, awaiting_pitch);
+	enable_sensor_bar(UP_SLOPE_SENSOR_BAR_TRUST, 3); //Use the third power
 }
 
 GAME_STAGE path_up_update(){
@@ -74,6 +75,7 @@ GAME_STAGE path_up_update(){
 		
 		set_target(targeting_yaw);
 		if (path_pointer >= TOTAL_PATH_SIZE){
+			disable_sensor_bar();
 			return (GAME_STAGE) (CLIMBING_SLOPE + 1);
 		}
 		led_blink(LED_D3);

@@ -26,6 +26,9 @@
 //	PIN_ON_RIGHT = 	3
 #define ORIENTATION_SETTING 2
 
+#define UP_SLOPE_SENSOR_BAR_TRUST 15 //Scaled by 100
+#define DOWN_SLOPE_SENSOR_BAR_TRUST 100 //Scaled by 100
+
 #include "stm32f4xx_gpio.h"
 #include "tm_stm32f4_stdio.h"
 #include "tm_stm32f4_timer_properties.h"

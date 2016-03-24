@@ -15,8 +15,8 @@
 #define SERVO_Kp 3000.0f
 
 #define SERVO_MED_DEG 100
-#define SERVO_INC_DEG 40
-#define SERVO_DEC_DEG 40
+#define SERVO_INC_DEG 60
+#define SERVO_DEC_DEG 60
 #define SERVO_MAX_DEG SERVO_MED_DEG + SERVO_INC_DEG
 #define SERVO_MIN_DEG SERVO_MED_DEG - SERVO_DEC_DEG
 
@@ -27,5 +27,7 @@ void servo_init(void);
 void targeting_update(float current_yaw);
 void force_set_angle(float angle);
 void set_target(float in_target_yaw);
+void enable_sensor_bar(u16 trust, u8 power);
+void disable_sensor_bar(void);
 
 #endif
