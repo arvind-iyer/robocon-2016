@@ -97,15 +97,15 @@ int main(void) {
                 
                 //Using the sensorbar
                 //else{
-                    if(length >= 14 && fullWhite == false){
+                    if(length >= 16 && fullWhite == false){
                         lastMovement = SERVO_MICROS_RIGHT;
                         fullWhite = true;
                         lastTurn = get_full_ticks();
                     }
                     
-                    else if (length >= 13 && fullWhite == true){
+                    else if (length >= 16 && fullWhite == true){
                         lastMovement = SERVO_MICROS_MID;
-                        lastTurn = get_full_ticks() - 200;
+                        lastTurn = get_full_ticks() - 600;
                     }
 //                    else if(begin == 1 && length != 0 ){
 //                        lastMovement = SERVO_MICROS_LEFT + 100;
@@ -114,23 +114,20 @@ int main(void) {
 //                        lastMovement = SERVO_MICROS_RIGHT - 100;
 //                    }
 
-                    else if (length >= 1 && length <= 5) {
+                    else if (length >= 2 && length <= 5) {
                         float factor = ((begin + end) / 2) / (float) 16;
                         lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                     } 
 
                     //((begin + end)/2) < 6
-                    else if (length > 5 && length < 14){ // 90 degree turnnnzzz
+                    else if (length > 5 && length < 16){
                         if (begin == 0 && end != 15){
                             lastMovement = SERVO_MICROS_LEFT;
                         }
-                        else if(end == 15 && begin != 0 ) {
-                            lastMovement = SERVO_MICROS_RIGHT;
+                        else{
+                            lastMovement = SERVO_MICROS_RIGHT ;
                         }
-                        else {
-                            lastMovement = SERVO_MICROS_MID;
-                        }
-                        lastTurn = get_full_ticks();
+                        //lastTurn = get_full_ticks();
                     }  
             //}
             begin = -1;

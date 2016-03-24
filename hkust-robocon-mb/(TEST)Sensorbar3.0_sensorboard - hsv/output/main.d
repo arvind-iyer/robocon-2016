@@ -15,6 +15,7 @@
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_spi.h
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\main.o: .\src\stm32f10x_std\inc\misc.h
+.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\output\main.o: .\src\ustrobo_min_system\inc\uart.h
 .\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
@@ -27,8 +28,7 @@
 .\output\main.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\main.o: src\user\can.h
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_adc.h
-.\output\main.o: src\user\colour_calculation.h
-.\output\main.o: src\user\led.h
-.\output\main.o: .\src\ustrobo_min_system\inc\approx_math.h
 .\output\main.o: .\src\ustrobo_min_system\inc\delay.h
-.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\output\main.o: src\user\led.h
+.\output\main.o: src\user\flashMem.h
+.\output\main.o: src\user\lightSensor.h
