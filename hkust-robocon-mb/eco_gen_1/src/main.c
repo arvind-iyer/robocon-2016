@@ -2,6 +2,7 @@
 u8 data1[8];
 u8 data2[8];
 u8 sensorbar_result[16];
+u8 river;
 
 void receive(CanRxMsg msg){
     for(int i = 0; i < 8 ;i++){
@@ -13,6 +14,11 @@ void receive2(CanRxMsg msg){
         data2[i] = msg.Data[i]; 
     }
 }
+
+void receive3(CanRxMsg msg){
+    river = msg.Data[0];
+}
+
 void fill_sensorbar_array(){
     for(int i = 0; i < 8; i++){
         //sensorbar_result[i] = data2[7-i];
@@ -44,6 +50,7 @@ int main(void) {
     can_rx_init();
     can_rx_add_filter(0x0C5, CAN_RX_MASK_EXACT,receive);
     can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
+    can_rx_add_filter(0x0C7,CAN_RX_MASK_EXACT,receive3);
 	
     bool fullWhite = false;
     
@@ -62,9 +69,10 @@ int main(void) {
     int begin = -1;
     int end = 0;
     int length = 0;
-    int lastMovement = SERVO_MICROS_LEFT;
+    int lastMovement = SERVO_MICROS_MID;
     int lastTurn = 0;
     float factor = 0;
+    int prev;
 	while (1) {
             //Initial processing and shit
             tft_clear();
@@ -72,20 +80,19 @@ int main(void) {
             tft_prints(0,2,"Count: %d",get_full_ticks());
             //tft_prints(0,5,"IR left: %d",read_infrared_sensor(INFRARED_SENSOR_1));
             //tft_prints(0,6,"IR right: %d",read_infrared_sensor(INFRARED_SENSOR_2));
-            for(int k = 0; k < 16; k++) { 
-                //if(sensorbar_result[k] == 9)sensorbar_result[k] = 0; //Convert noise to 1
+            for(int k = 0; k < 16; k++) {
                 int el = sensorbar_result[k];
                 if (el == 1) {
                     if (begin == -1) begin = k; 
                     else {
                         end = k;
-                        length++;
                     }
+                    length++;
                 }   
             }
             tft_prints(0,4,"length: %d",length);
             print_array();
-            if (get_full_ticks() - lastTurn >= 800) {
+            if (get_full_ticks() - lastTurn >= 500){
                 
                 //Emergency turning using infrared sensor
 //                if(read_infrared_sensor(INFRARED_SENSOR_1) == 1 && read_infrared_sensor(INFRARED_SENSOR_2) == 0){
@@ -97,15 +104,15 @@ int main(void) {
                 
                 //Using the sensorbar
                 //else{
-                    if(length >= 16 && fullWhite == false){
+                    if(length == 16 && fullWhite == false){
                         lastMovement = SERVO_MICROS_RIGHT;
                         fullWhite = true;
                         lastTurn = get_full_ticks();
                     }
                     
-                    else if (length >= 16 && fullWhite == true){
+                    else if (length == 16 && fullWhite == true){
                         lastMovement = SERVO_MICROS_MID;
-                        lastTurn = get_full_ticks() - 600;
+                        //lastTurn = get_full_ticks();
                     }
 //                    else if(begin == 1 && length != 0 ){
 //                        lastMovement = SERVO_MICROS_LEFT + 100;
@@ -114,25 +121,26 @@ int main(void) {
 //                        lastMovement = SERVO_MICROS_RIGHT - 100;
 //                    }
 
-                    else if (length >= 2 && length <= 5) {
+                    else if (length >= 2 && length <= 6) {
                         float factor = ((begin + end) / 2) / (float) 16;
                         lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                     } 
 
                     //((begin + end)/2) < 6
-                    else if (length > 5 && length < 16){
-                        if (begin == 0 && end != 15){
+                    else if (length > 6 && length < 15){
+                        if ((begin + end) / 2 < 8 ){
                             lastMovement = SERVO_MICROS_LEFT;
                         }
                         else{
                             lastMovement = SERVO_MICROS_RIGHT ;
                         }
-                        //lastTurn = get_full_ticks();
+                        if(river)lastTurn = get_full_ticks(); //Put delay only in river area
                     }  
             //}
             begin = -1;
             servo_control(SERVO2,lastMovement);
         }
+        tft_prints(0,3,"river:%d",river);
     tft_prints(0,6,"fullwhite:%d",fullWhite);
     tft_prints(0,7,"Servo: %d ",lastMovement);
     tft_prints(0,8,"b: %d,e: %d",begin,end);
