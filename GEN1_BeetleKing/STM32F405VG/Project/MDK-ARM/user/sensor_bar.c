@@ -1,7 +1,7 @@
 #include "sensor_bar.h"
 
 u16 sensorbar_value[16] = {0};
-u8 last_mid = SENSOR_BAR_MID;
+static u8 last_mid = SENSOR_BAR_MID;
 
 void receive_a(CanRxMsg msg){
 	for(int i = 0; i < 8 ;i++){

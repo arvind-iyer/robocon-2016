@@ -45,3 +45,7 @@ float get_median_of_five(float a, float b, float c, float d, float e){
                                          : a < e ? b < e ? b : e
                                                  : d < a ? d : a;
 }
+
+s16 s16_abs(s16 in_num){
+	return in_num<0?in_num*-1:in_num;
+}

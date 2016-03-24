@@ -28,6 +28,7 @@ void targeting_update(float current_yaw);
 void force_set_angle(float angle);
 void set_target(float in_target_yaw);
 void enable_sensor_bar(u16 trust, u8 power);
+float targeting_pid(float current_yaw);
 void disable_sensor_bar(void);
 
 #endif

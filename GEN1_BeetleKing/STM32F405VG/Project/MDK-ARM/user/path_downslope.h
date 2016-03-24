@@ -13,6 +13,7 @@
 #include "tm_stm32f4_servo.h"
 #include "servo_targeting.h"
 #include "path.h"
+#include "path_downslope.h"
 
 void path_down_init(void);
 GAME_STAGE path_down_update(void);

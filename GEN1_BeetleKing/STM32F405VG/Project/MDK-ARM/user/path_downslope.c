@@ -10,60 +10,59 @@ u16 time_count = 0;
 
 GAME_STAGE path_down_update(){
 	tft_println("DOWN STATE: %d", down_state);
+	sensor_bar_track(2);
 	
-	time_count += any_loop_diff;
-	
-	switch(down_state){
-		case 0:
-			force_set_angle(SERVO_MED_DEG + 10.0f);
-			if (time_count>1500){
-				time_count = 0;
-				down_state++;
-			}
-			break;
-		case 1:
-			force_set_angle(SERVO_MED_DEG + 5.0f);
-			if (time_count>1){
-				time_count = 0;
-				down_state++;
-			}
-			break;
-		case 2:
-			force_set_angle(SERVO_MED_DEG);
-			if (time_count>650){
-				time_count = 0;
-				down_state++;
-			}
-			break;
-		case 3:
-			force_set_angle(SERVO_MED_DEG - 15.0f);
-			if (time_count>1500){
-				time_count = 0;
-				down_state++;
-			}
-			break;
-		case 4:
-			force_set_angle(SERVO_MED_DEG);
-			if (time_count>1500){
-				time_count = 0;
-				down_state++;
-			}
-			break;
-		case 5:
-			force_set_angle(SERVO_MED_DEG + 15);
-			if (time_count>500){
-				time_count = 0;
-				down_state++;
-			}
-			break;
-		case 6:
-			force_set_angle(SERVO_MED_DEG);
-			if (time_count>2500){
-				time_count = 0;
-				down_state++;
-			}
-			break;
-	}
+//	switch(down_state){
+//		case 0:
+//			force_set_angle(SERVO_MED_DEG + 10.0f);
+//			if (time_count>1500){
+//				time_count = 0;
+//				down_state++;
+//			}
+//			break;
+//		case 1:
+//			force_set_angle(SERVO_MED_DEG + 5.0f);
+//			if (time_count>1){
+//				time_count = 0;
+//				down_state++;
+//			}
+//			break;
+//		case 2:
+//			force_set_angle(SERVO_MED_DEG);
+//			if (time_count>650){
+//				time_count = 0;
+//				down_state++;
+//			}
+//			break;
+//		case 3:
+//			force_set_angle(SERVO_MED_DEG - 15.0f);
+//			if (time_count>1500){
+//				time_count = 0;
+//				down_state++;
+//			}
+//			break;
+//		case 4:
+//			force_set_angle(SERVO_MED_DEG);
+//			if (time_count>1500){
+//				time_count = 0;
+//				down_state++;
+//			}
+//			break;
+//		case 5:
+//			force_set_angle(SERVO_MED_DEG + 15);
+//			if (time_count>500){
+//				time_count = 0;
+//				down_state++;
+//			}
+//			break;
+//		case 6:
+//			force_set_angle(SERVO_MED_DEG);
+//			if (time_count>2500){
+//				time_count = 0;
+//				down_state++;
+//			}
+//			break;
+//	}
 	
 //	switch (down_state){
 //		#ifdef BLUE_FIELD

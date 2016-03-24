@@ -52,9 +52,9 @@ GAME_STAGE path_river_update(){
 						last_IR_state[i] = 1;
 					}
 					#ifdef BLUE_FIELD
-						set_target(river_straight_yaw + readIR(0)*-40 + readIR(1)*40);
+						set_target(river_straight_yaw + readIR(0)*-60 + readIR(1)*60);
 					#else
-						set_target(river_straight_yaw + readIR(0)*40 + readIR(1)*-40);
+						set_target(river_straight_yaw + readIR(0)*60 + readIR(1)*-60);
 					#endif
 				}else{
 					//Only counts when IR signal is lost for a buffer time
