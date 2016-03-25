@@ -268,11 +268,15 @@ void manual_interval_update(){
 					brushless_pressed_time[i] = 10000;
 				}
 				
-				//If less than 0.7 seconds, grow linearly to 50%
-				u16 Iamjustatempvariable = 80 + (brushless_pressed_time[i]-700)/40;
-				Iamjustatempvariable = Iamjustatempvariable>100?100:Iamjustatempvariable;
-				brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
-				tft_append_line("%d%", Iamjustatempvariable);
+				if (brushless_pressed_time[i]<1000){
+					brushless_control((BRUSHLESS_ID)i, 80, true);
+					tft_append_line("%d%", 80);
+				}else{
+					u16 Iamjustatempvariable = 80 + (brushless_pressed_time[i]-1000)/500;
+					Iamjustatempvariable = Iamjustatempvariable>100?100:Iamjustatempvariable;
+					brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
+					tft_append_line("%d%", Iamjustatempvariable);
+				}
 			}
 		}
 	}else if (button_pressed(BUTTON_XBC_LB) && button_pressed(BUTTON_XBC_RB)){

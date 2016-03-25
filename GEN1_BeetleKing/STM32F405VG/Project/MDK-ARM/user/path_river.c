@@ -1,15 +1,15 @@
 #include "path_river.h"
 
 u8 river_stage = 0;
-float river_straight_yaw;
 u8 islands_count[2] = {0};
 u8 last_IR_state[2] = {0};
+float river_straight_yaw = 0;
 
 void path_river_init(){
 	#ifdef BLUE_FIELD
-		river_straight_yaw = start_ypr[0] - 140.0f;
+		river_straight_yaw = start_ypr[0] - 180.0f;
 	#else
-		river_straight_yaw = start_ypr[0] + 140.0f;
+		river_straight_yaw = start_ypr[0] + 180.0f;
 	#endif
 	river_stage = 0;
 	islands_count[0] = 0;
@@ -19,6 +19,7 @@ void path_river_init(){
 
 bool readIR(u8 id){
 	//Invert the 2 IR when switch game field
+	//Aftering inverting, id=0 is the first island it encounters
 	#ifdef BLUE_FIELD
 		if (id == 0){
 			return GPIO_ReadInputDataBit(IR_GPIO, IR_1_Pin);
@@ -34,56 +35,71 @@ bool readIR(u8 id){
 	#endif
 }
 
+void IR_update(){
+	for (u8 i=0; i<2; i++){
+		if (readIR(i)){
+			if (last_IR_state[i] == 0){
+				last_IR_state[i] = 1;
+			}
+		}else{
+			//Only counts when IR signal is lost for a buffer time
+			if (last_IR_state[i] > 0){
+				last_IR_state[i]++;
+				if (last_IR_state[i] >= IR_BUFFER_LENGTH){
+					last_IR_state[i] = 0;
+					islands_count[i]++;
+				}
+			}
+		}
+	}
+}
+
 GAME_STAGE path_river_update(){
 	switch(river_stage){
+		//case 0 first turn 90-degree
 		case 0:
-			if (fabs(river_straight_yaw - cal_ypr[0]) < -5.0f){
-				force_set_angle(SERVO_MED_DEG + 60.0f);
+			if (fabs(river_straight_yaw - cal_ypr[0]) > 5.0f){
+				#ifdef RED_FIELD
+					force_set_angle(SERVO_MAX_DEG);
+				#else
+					force_set_angle(SERVO_MIN_DEG);
+				#endif
 			}else{
 				river_stage++;
-				set_target(river_straight_yaw);
+				enable_sensor_bar(RIVER_SENSOR_BAR_TRUST, RIVER_SENSOR_BAR_POWER, RIVER_SENSOR_BAR_Kp);
+				#ifdef RED_FIELD
+					set_target(river_straight_yaw + 30.0f);
+				#else
+					set_target(river_straight_yaw - 30.0f);
+				#endif
 				targeting_update(cal_ypr[0]);
 			}
 			break;
+			
+		//case 1 follow white line til first island
 		case 1:
-			for (u8 i=0; i<2; i++){
-				if (readIR(i)){
-					if (last_IR_state[i] == 0){
-						last_IR_state[i] = 1;
-					}
-					#ifdef BLUE_FIELD
-						set_target(river_straight_yaw + readIR(0)*-60 + readIR(1)*60);
-					#else
-						set_target(river_straight_yaw + readIR(0)*60 + readIR(1)*-60);
-					#endif
-				}else{
-					//Only counts when IR signal is lost for a buffer time
-					if (last_IR_state[i] > 0){
-						last_IR_state[i]++;
-						if (last_IR_state[i] >= IR_BUFFER_LENGTH){
-							last_IR_state[i] = 0;
-							islands_count[i]++;
-							if (islands_count[1] >= 2){
-								river_stage++;
-									#ifdef BLUE_FIELD
-										set_target(river_straight_yaw + 60);
-									#else
-										set_target(river_straight_yaw - 60);
-									#endif
-							}
-						}
-					}
-				}
+			IR_update();
+			//When it reaches the first island
+			if (islands_count[0] >= 1){
+				river_stage++;
+				disable_sensor_bar();
+			}
+			
+			//Track the white line with imu/sensor bar
+			targeting_update(cal_ypr[0]);
+			break;
+			
+		//case 2 go straight until it reaches the last island
+		case 2:
+			IR_update();
+			//When it reaches the last island
+			if (islands_count[1] >= 2){
+				river_stage++;
+				disable_sensor_bar();
 			}
 			targeting_update(cal_ypr[0]);
 			break;
-		case 2:
-			#ifdef BLUE_FIELD
-				set_target(river_straight_yaw + 45);
-			#else
-				set_target(river_straight_yaw - 45);
-			#endif
-			targeting_update(cal_ypr[0]);
+		case 3:
 			return (GAME_STAGE) (CROSSING_RIVER + 1);
 	}
 	tft_println("RS:%d IR:%d %d", river_stage, readIR(0), readIR(1));
