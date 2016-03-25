@@ -220,14 +220,11 @@ void manual_interval_update(){
 	** Control Manual: 
 	** first 20% -> No respond
 	** 20% ~ 33% -> Able to make eco start moving (constant across)
-	** 33% ~ 100% -> grow linearly to 50%
+	** 33% ~ 100% -> grow linearly to 80%
 	** Keep 100% -> Continue grow to max power wih respect to time
 	*/
 	if (brushless_lock == UNLOCKED){
 		//Run the brushless
-		//tft_append_line("B:%d %d", xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
-		//brushless_control(BRUSHLESS_1, xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
-		//brushless_control(BRUSHLESS_2, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
 
 		//If not quite pressed, count time
 		if (xbc_get_joy(brushless_joy_sticks[0]) < (brushless_stick_max/10) && xbc_get_joy(brushless_joy_sticks[1]) < (brushless_stick_max/10)){
@@ -248,17 +245,17 @@ void manual_interval_update(){
 			if (pressed_power < (brushless_stick_max*2/10)){
 				brushless_pressed_time[i] = 0;
 				brushless_control((BRUSHLESS_ID)i, 0, true);
-				tft_append_line("%d%", 0);
+				tft_append_line("B%d Z: %d%", i, 0);
 				
 			}else if(pressed_power < (brushless_stick_max*3/10)){
 				brushless_pressed_time[i] = 0;
 				brushless_control((BRUSHLESS_ID)i, 40, true);
-				tft_append_line("%d%", 40);
+				tft_append_line("B%d C:%d%", i, 40);
 				
-			}else if(pressed_power < (brushless_stick_max*99/100)){
+			}else if(pressed_power <= (brushless_stick_max*9/10)){
 				brushless_pressed_time[i] = 0;
-				brushless_control((BRUSHLESS_ID)i, 40 + (pressed_power-brushless_stick_max*3/10)*40/(brushless_stick_max*(99-30)), true);
-				tft_append_line("%d%", 40 + (pressed_power-brushless_stick_max*3/10)/(brushless_stick_max*(99-30)/100)*100);
+				brushless_control((BRUSHLESS_ID)i, 40 + (pressed_power-brushless_stick_max*3/10)*40/(brushless_stick_max*(99-30)/100), true);
+				tft_append_line("B%d L:%dK", i, 40 + (pressed_power-brushless_stick_max*3/10)*40/(brushless_stick_max*(99-30)/100));
 				
 			}else{
 				//Cap the brushless_pressed_time to avoid overflow
@@ -270,12 +267,12 @@ void manual_interval_update(){
 				
 				if (brushless_pressed_time[i]<1000){
 					brushless_control((BRUSHLESS_ID)i, 80, true);
-					tft_append_line("%d%", 80);
+					tft_append_line("B%d C:%d%", i, 80);
 				}else{
-					u16 Iamjustatempvariable = 80 + (brushless_pressed_time[i]-1000)/500;
+					u16 Iamjustatempvariable = 80 + (brushless_pressed_time[i]-1000)/100;
 					Iamjustatempvariable = Iamjustatempvariable>100?100:Iamjustatempvariable;
 					brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
-					tft_append_line("%d%", Iamjustatempvariable);
+					tft_append_line("B%d G:%d%", i, Iamjustatempvariable);
 				}
 			}
 		}
