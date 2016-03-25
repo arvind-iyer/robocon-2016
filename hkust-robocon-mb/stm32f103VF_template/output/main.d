@@ -17,8 +17,8 @@
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\main.o: .\src\stm32f10x_std\inc\misc.h
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_crc.h
-.\output\main.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\main.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
+.\output\main.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\main.o: .\src\ustrobo_min_system\inc\buzzer.h
 .\output\main.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\main.o: .\src\ustrobo_min_system\inc\battery.h

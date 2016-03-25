@@ -12,7 +12,7 @@
 #define RADIUS 150
 #define LSB 0.07326	// degree
 #define Encoder_Count 2000 
-#define Encoder_Circumference 160.2212253//in mm
+#define Encoder_Circumference 159.77 //mm
 #define Sampling_time 0.003908
 
 #define PI 3.14159265
