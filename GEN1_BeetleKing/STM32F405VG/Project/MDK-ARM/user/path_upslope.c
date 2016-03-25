@@ -37,7 +37,6 @@ void path_up_init(u8 stage){
 	targeting_yaw += path_yaw_change[path_pointer++];
 	awaiting_pitch += path_pitch_change[path_pointer];
 	pitch_change = abs_diff(last_pitch, awaiting_pitch);
-	//enable_sensor_bar(UP_SLOPE_SENSOR_BAR_TRUST, 3); //Use the third power
 }
 
 GAME_STAGE path_up_update(){
@@ -83,14 +82,14 @@ GAME_STAGE path_up_update(){
 	}
 	
 //	targeting_update(cal_ypr[0]);
-	if (!using_sensor_bar && s16_abs(sensor_bar_get_corr(3)) > 70){
+	if (!using_sensor_bar && s16_abs(sensor_bar_get_corr(UP_SENSOR_BAR_POWER, UP_SENSOR_BAR_Kp)) > UP_SENSOR_BAR_ON){
 		using_sensor_bar = true;
-	}else if(using_sensor_bar && s16_abs(sensor_bar_get_corr(3)) < 20){
+	}else if(using_sensor_bar && s16_abs(sensor_bar_get_corr(UP_SENSOR_BAR_POWER, UP_SENSOR_BAR_Kp)) < UP_SENSOR_BAR_OFF){
 		using_sensor_bar = false;
 	}
 	
 	if (using_sensor_bar){
-		force_set_angle(targeting_pid(cal_ypr[0]) + sensor_bar_get_corr(3) *UP_SLOPE_SENSOR_BAR_TRUST /100);
+		force_set_angle(targeting_pid(cal_ypr[0]) + sensor_bar_get_corr(UP_SENSOR_BAR_POWER, UP_SENSOR_BAR_Kp) *UP_SENSOR_BAR_TRUST /100);
 	}else{
 		force_set_angle(targeting_pid(cal_ypr[0]));
 	}

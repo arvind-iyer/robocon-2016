@@ -22,7 +22,7 @@ void sensorbar_init(){
   can_rx_add_filter(SENSOR_BAR_FILTER_2, CAN_RX_MASK_EXACT, receive_b);
 }
 
-s16 sensor_bar_get_corr(u8 power){
+s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp){
 	s8 best_start_index = 0;
 	s8 best_end_index = 0;
 	s8 max_width = 0;
@@ -76,7 +76,7 @@ s16 sensor_bar_get_corr(u8 power){
 		for (u8 i=0;i<power;i++){
 			powered_error *= abs_error;
 		}
-		corr_angle = SENSOR_BAR_MULT*powered_error*sign_of_error/100; //Unscale it
+		corr_angle = sensor_bar_Kp*powered_error*sign_of_error/100; //Unscale it
 		corr_angle = (corr_angle>180)?180:(corr_angle<-180?-180:corr_angle);
 	}else{
 		last_mid = SENSOR_BAR_MID;
@@ -85,8 +85,8 @@ s16 sensor_bar_get_corr(u8 power){
 	return corr_angle;
 }
 
-void sensor_bar_track(u8 power){
-	force_set_angle(SERVO_MED_DEG + sensor_bar_get_corr(power));
+void sensor_bar_track(u8 power, u16 sensor_bar_Kp){
+	force_set_angle(SERVO_MED_DEG + sensor_bar_get_corr(power, sensor_bar_Kp));
 	for (u8 i=0; i<16; i++){
 		//tft_prints(i, 5, "%d", sensorbar_value[i]);
 	}

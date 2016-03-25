@@ -13,15 +13,14 @@
 #define SENSOR_BAR_MID 8
 
 //Scaled by 100
-#define SENSOR_BAR_MULT 350
 #define SERVO_SENSOR_MAX 140
 #define SERVO_SENSOR_MIN 40
 
 void sensorbar_init(void);
 
 //Use which shape for the correction, like error^2, error^3
-void sensor_bar_track(u8 power);
-s16 sensor_bar_get_corr(u8 power);
+void sensor_bar_track(u8 power, u16 sensor_bar_Kp);
+s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp);
 
 extern u16 sensorbar_value[16];
 

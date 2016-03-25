@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Thu Mar 24 22:53:30 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri Mar 25 13:07:37 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1111,12 +1111,12 @@ Global Symbols
 <LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_TX_IRQHandler
 </UL>
 
-<P><STRONG><a name="[e6]"></a>disable_sensor_bar</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, servo_targeting.o(i.disable_sensor_bar))
+<P><STRONG><a name="[e6]"></a>disable_sensor_bar</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, servo_targeting.o(i.disable_sensor_bar))
 <BR><BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
-<P><STRONG><a name="[e7]"></a>enable_sensor_bar</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, servo_targeting.o(i.enable_sensor_bar))
+<P><STRONG><a name="[e7]"></a>enable_sensor_bar</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, servo_targeting.o(i.enable_sensor_bar))
 <BR><BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
@@ -1188,7 +1188,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[5d]"></a>main</STRONG> (Thumb, 416 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[5d]"></a>main</STRONG> (Thumb, 420 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Calls]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_update
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_init
@@ -1223,7 +1223,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[dc]"></a>menu_update</STRONG> (Thumb, 282 bytes, Stack size 0 bytes, menu.o(i.menu_update))
+<P><STRONG><a name="[dc]"></a>menu_update</STRONG> (Thumb, 286 bytes, Stack size 0 bytes, menu.o(i.menu_update))
 <BR><BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_init
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_init
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_init
@@ -1246,7 +1246,7 @@ Global Symbols
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
-<P><STRONG><a name="[e0]"></a>path_down_update</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_update))
+<P><STRONG><a name="[e0]"></a>path_down_update</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_update))
 <BR><BR>[Calls]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
 </UL>
@@ -1278,7 +1278,7 @@ Global Symbols
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
-<P><STRONG><a name="[de]"></a>path_up_update</STRONG> (Thumb, 348 bytes, Stack size 0 bytes, path_upslope.o(i.path_up_update))
+<P><STRONG><a name="[de]"></a>path_up_update</STRONG> (Thumb, 360 bytes, Stack size 0 bytes, path_upslope.o(i.path_up_update))
 <BR><BR>[Calls]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs_diff
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_pid
@@ -1303,7 +1303,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
 </UL>
 
-<P><STRONG><a name="[ec]"></a>sensor_bar_get_corr</STRONG> (Thumb, 268 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr))
+<P><STRONG><a name="[ec]"></a>sensor_bar_get_corr</STRONG> (Thumb, 252 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr))
 <BR><BR>[Calls]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_pid
@@ -1345,7 +1345,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx
 </UL>
 
-<P><STRONG><a name="[ee]"></a>targeting_pid</STRONG> (Thumb, 218 bytes, Stack size 0 bytes, servo_targeting.o(i.targeting_pid))
+<P><STRONG><a name="[ee]"></a>targeting_pid</STRONG> (Thumb, 220 bytes, Stack size 0 bytes, servo_targeting.o(i.targeting_pid))
 <BR><BR>[Calls]<UL><LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println

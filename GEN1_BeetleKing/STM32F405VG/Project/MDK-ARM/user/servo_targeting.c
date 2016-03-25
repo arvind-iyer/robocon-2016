@@ -5,22 +5,26 @@ TM_SERVO_t dragon_servo;
 bool using_sensor_bar = false;
 u16 sensor_bar_trust = 0;
 u8 power = 1;
+//Scaled by 100
+u16 sensor_bar_Kp = 100;
 
 void servo_init(){
 	TM_SERVO_Init(&dragon_servo, TIM3, TM_PWM_Channel_2, TM_PWM_PinsPack_1);
 	TM_SERVO_SetDegrees(&dragon_servo, SERVO_MED_DEG);
 }
 
-void enable_sensor_bar(u16 new_sensor_bar_trust, u8 new_power){
+void enable_sensor_bar(u16 new_sensor_bar_trust, u8 new_power, u16 new_sensor_bar_Kp){
 	using_sensor_bar = true;
 	sensor_bar_trust = new_sensor_bar_trust;
 	power = new_power;
+	sensor_bar_Kp = new_sensor_bar_Kp;
 }
 
 void disable_sensor_bar(){
 	using_sensor_bar = false;
 	sensor_bar_trust = 0;
 	power = 1;
+	sensor_bar_Kp = 100;
 }
 
 void force_set_angle(float angle){
@@ -44,7 +48,7 @@ float targeting_pid(float current_yaw){
 	
 	float new_servo_deg = SERVO_MED_DEG;
 	if (using_sensor_bar){
-		new_servo_deg = SERVO_MED_DEG + corr + sensor_bar_get_corr(power) * sensor_bar_trust /100;
+		new_servo_deg = SERVO_MED_DEG + corr + sensor_bar_get_corr(power, sensor_bar_Kp) * sensor_bar_trust /100;
 	}else{
 		new_servo_deg = SERVO_MED_DEG + corr;
 	}

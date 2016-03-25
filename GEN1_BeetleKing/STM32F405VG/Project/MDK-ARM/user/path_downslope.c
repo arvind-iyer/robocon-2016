@@ -10,7 +10,7 @@ u16 time_count = 0;
 
 GAME_STAGE path_down_update(){
 	tft_println("DOWN STATE: %d", down_state);
-	sensor_bar_track(2);
+	sensor_bar_track(DOWN_SENSOR_BAR_POWER, DOWN_SENSOR_BAR_Kp);
 	
 //	switch(down_state){
 //		case 0:

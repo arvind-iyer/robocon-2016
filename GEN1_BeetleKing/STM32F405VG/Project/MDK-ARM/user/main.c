@@ -80,7 +80,7 @@ int main(void) {
 						break;
 					
 					case PURE_SENSOR_BAR:
-						sensor_bar_track(2);
+						sensor_bar_track(2, 350);
 						break;
 					
 					default:

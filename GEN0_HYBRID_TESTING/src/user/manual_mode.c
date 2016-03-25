@@ -218,9 +218,9 @@ void manual_interval_update(){
 	** This part provide the safety lock and control for the brushless motors
 	**
 	** Control Manual: 
-	** first 30% -> No respond
-	** 30% ~ 50% -> Able to make eco start moving (constant across)
-	** 50% ~ 100% -> grow linearly to 50%
+	** first 20% -> No respond
+	** 20% ~ 33% -> Able to make eco start moving (constant across)
+	** 33% ~ 100% -> grow linearly to 50%
 	** Keep 100% -> Continue grow to max power wih respect to time
 	*/
 	if (brushless_lock == UNLOCKED){
@@ -240,19 +240,25 @@ void manual_interval_update(){
 		}else{
 			brushless_lock_timeout = 0;
 		}
-			
 		
 		for (u8 i=0;i<BRUSHLESS_COUNT;i++){
 
-			if (xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max*3/10)){
+			u16 pressed_power = xbc_get_joy(brushless_joy_sticks[i]);
+			
+			if (pressed_power < (brushless_stick_max*2/10)){
 				brushless_pressed_time[i] = 0;
 				brushless_control((BRUSHLESS_ID)i, 0, true);
 				tft_append_line("%d%", 0);
 				
-			}else if(xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max/2)){
+			}else if(pressed_power < (brushless_stick_max*3/10)){
 				brushless_pressed_time[i] = 0;
-				brushless_control((BRUSHLESS_ID)i, 35, true);
-				tft_append_line("%d%", 35);
+				brushless_control((BRUSHLESS_ID)i, 40, true);
+				tft_append_line("%d%", 40);
+				
+			}else if(pressed_power < (brushless_stick_max*99/100)){
+				brushless_pressed_time[i] = 0;
+				brushless_control((BRUSHLESS_ID)i, 40 + (pressed_power-brushless_stick_max*3/10)*40/(brushless_stick_max*(99-30)), true);
+				tft_append_line("%d%", 40 + (pressed_power-brushless_stick_max*3/10)/(brushless_stick_max*(99-30)/100)*100);
 				
 			}else{
 				//Cap the brushless_pressed_time to avoid overflow
@@ -263,16 +269,10 @@ void manual_interval_update(){
 				}
 				
 				//If less than 0.7 seconds, grow linearly to 50%
-				if (brushless_pressed_time[i]<700){
-					u16 Iamjustatempvariable = 35 + (xbc_get_joy(brushless_joy_sticks[i] - brushless_stick_max/2))*15/128;
-					brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
-					tft_append_line("%d%", Iamjustatempvariable);
-				}else{
-					u16 Iamjustatempvariable = 50 + (brushless_pressed_time[i]-700)/20;
-					Iamjustatempvariable = Iamjustatempvariable>100?100:Iamjustatempvariable;
-					brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
-					tft_append_line("%d%", Iamjustatempvariable);
-				}
+				u16 Iamjustatempvariable = 80 + (brushless_pressed_time[i]-700)/40;
+				Iamjustatempvariable = Iamjustatempvariable>100?100:Iamjustatempvariable;
+				brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
+				tft_append_line("%d%", Iamjustatempvariable);
 			}
 		}
 	}else if (button_pressed(BUTTON_XBC_LB) && button_pressed(BUTTON_XBC_RB)){
