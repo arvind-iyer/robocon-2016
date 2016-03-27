@@ -33,7 +33,7 @@ typedef	struct {
 	int x;
 	int y;
 	int deg;
-	double curve;
+	int curve;
 } TARGET;
 
 #include "auto_paths.h"
