@@ -20,6 +20,64 @@ uint8_t elevationCorrected = false;
 
 int w1 = 0, w2 = 0, w3 = 0;
 
+void servo_adc_init(void) {
+	GPIO_InitTypeDef SERVO_GPIO_InitStructure;
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+	TIM_OCInitTypeDef TIM_OCInitStructure;
+	
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
+	
+	SERVO_GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+ 	SERVO_GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	SERVO_GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7;
+	GPIO_Init(GPIOA, &SERVO_GPIO_InitStructure);
+	
+	//-------------TimeBase Initialization-----------//
+  TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;			// counter will count up (from 0 to FFFF)
+  TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV2;					//timer clock = dead-time and sampling clock 	
+ 	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
+ 
+ 	//------------------------------//
+ 	TIM_TimeBaseStructure.TIM_Prescaler = 143;												//clk=72M/(71+1)= Hz, interval=?
+  TIM_TimeBaseStructure.TIM_Period = 10000;												//pulse cycle= 20000
+  //------------------------------//
+	
+	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+	
+	// ------------OC Init Configuration------------//
+ 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;   		// set "high" to be effective output
+ 	TIM_OCInitStructure.TIM_OCNPolarity = TIM_OCPolarity_High;   		// set "high" to be effective output
+ 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;	           		// produce output when counter < CCR
+ 	TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Reset;		// Reset OC Idle state
+ 	TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCNIdleState_Reset;	// Reset OC NIdle state
+ 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;  	// this part enable the output
+ 	TIM_OCInitStructure.TIM_OutputNState = TIM_OutputState_Disable; // this part disable the Nstate
+ 	//------------------------------//
+  TIM_OCInitStructure.TIM_Pulse = 6667;														// this part sets the initial CCR value
+  //------------------------------//
+  
+	TIM_OC1Init(TIM3, &TIM_OCInitStructure);
+  TIM_OC1PreloadConfig(TIM3, ENABLE); 
+
+	TIM_OC2Init(TIM3, &TIM_OCInitStructure);
+  TIM_OC2PreloadConfig(TIM3, ENABLE);
+
+	TIM_ARRPreloadConfig(TIM3, ENABLE);
+  TIM_Cmd(TIM3, ENABLE);
+  TIM_CtrlPWMOutputs(TIM3, ENABLE);
+}
+
+void adc_servo_control(int id, u16 val){
+	switch (id){
+		case 0:
+			TIM_SetCompare1(TIM3, val);
+			break;
+		case 1:
+			TIM_SetCompare2(TIM3, val);
+			break;
+	}
+}
+
 int custom_atoi(char *s)
 {
 	 int minus = 0;
@@ -79,6 +137,7 @@ void handleCommand() {
 				int fan_1_speed = contents[0];
 				int fan_2_speed = contents[1];
 				servo_control(SERVO2, fan_1_speed);
+				adc_servo_control(1, fan_2_speed);
 				//servo_control(1, fan_2_speed);
 		} else if (strcmp(header, "SERVO_CONTROL") == 0 && contentIndex == 2) { // Servo Control [ID, Magnitude]
 				int servoId = contents[0];
@@ -88,7 +147,7 @@ void handleCommand() {
 				int servoPwm1 = contents[0];
 				int servoPwm2 = contents[1];
 				servo_control(SERVO1, servoPwm1);
-				TIM_SetCompare3(TIM3, servoPwm2);
+				adc_servo_control(0, servoPwm2);
 		} else if (strcmp(header, "PNEUMATIC_CONTROL") == 0 && contentIndex == 2){
 				int pneumaticId = contents[0];
 				int pneumaticState = contents[1];
@@ -138,11 +197,11 @@ void limitSwitchCheck(){
 
 int main(void) {
 	tft_easy_init();
-	
 	ticks_init();
 	buzzer_init();
 	gyro_init();
 	servo_init();
+	servo_adc_init();
 	pneumatic_init();
 	
 	// Limit switch GPIO initiaization.
