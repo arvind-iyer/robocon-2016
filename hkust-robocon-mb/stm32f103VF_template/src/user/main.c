@@ -16,109 +16,9 @@ uint8_t piReady = false;
 uint8_t switchState = false;
 uint8_t counterState = false;
 uint8_t finishState = false;
+uint8_t elevationCorrected = false;
 
 int w1 = 0, w2 = 0, w3 = 0;
-
-//void servo_adc_init(void){
-
-//	GPIO_InitTypeDef SERVO_GPIO_InitStructure;
-//	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
-//	TIM_OCInitTypeDef  TIM_OCInitStructure;
-//	u8 servo_id;
-
-//	RCC_APB2PeriphClockCmd(SERVO_TIM_RCC, ENABLE);
-//	RCC_APB2PeriphClockCmd(SERVO_GPIO_RCC | RCC_APB2Periph_AFIO, ENABLE);	// Enable bus
-
-//	SERVO_GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;						// Push-Pull Output Alternate-function
-//	SERVO_GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-//		
-//	//-------------TimeBase Initialization-----------//
-//	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;			// counter will count up (from 0 to FFFF)
-//	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV2;					//timer clock = dead-time and sampling clock 	
-//	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
-
-//	//------------------------------//
-//	TIM_TimeBaseStructure.TIM_Prescaler = 143;												//clk=72M/(71+1)= Hz, interval=?
-//	TIM_TimeBaseStructure.TIM_Period = 10000;												//pulse cycle= 20000
-//	//------------------------------//
-
-//	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
-//	
-//	
-//	// ------------OC Init Configuration------------//
-//	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;   		// set "high" to be effective output
-//	TIM_OCInitStructure.TIM_OCNPolarity = TIM_OCPolarity_High;   		// set "high" to be effective output
-//	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;	           		// produce output when counter < CCR
-//	TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Reset;		// Reset OC Idle state
-//	TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCNIdleState_Reset;	// Reset OC NIdle state
-//	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;  	// this part enable the output
-//	TIM_OCInitStructure.TIM_OutputNState = TIM_OutputState_Disable; // this part disable the Nstate
-//	//------------------------------//
-//	TIM_OCInitStructure.TIM_Pulse = 6667;														// this part sets the initial CCR value
-//	//------------------------------//
-//	
-//	// OC Init
-//	TIM_OC2Init(SERVO_TIM, &TIM_OCInitStructure);
-//	TIM_OC2PreloadConfig(SERVO_TIM, ENABLE);
-//	
-//	TIM_OC3Init(SERVO_TIM, &TIM_OCInitStructure);
-//	TIM_OC3PreloadConfig(SERVO_TIM, ENABLE);
-//	
-//	TIM_ARRPreloadConfig(SERVO_TIM, ENABLE);
-//	TIM_Cmd(SERVO_TIM, ENABLE);	
-//	TIM_CtrlPWMOutputs(SERVO_TIM, ENABLE);
-//	
-//	// TODO: TIM SetCompare
-//	
-//	GPIO_Init(SERVO_PORT, &SERVO_GPIO_InitStructure);	
-//}
-
-void servo_adc_init(void){
-	GPIO_InitTypeDef SERVO_GPIO_InitStructure;
-	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
-	TIM_OCInitTypeDef TIM_OCInitStructure;
-	
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-	
-	SERVO_GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-	SERVO_GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	
-	//-------------TimeBase Initialization-----------//
-	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;			// counter will count up (from 0 to FFFF)
-	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV2;					//timer clock = dead-time and sampling clock 	
-	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
-
-	//------------------------------//
-	TIM_TimeBaseStructure.TIM_Prescaler = 143;												//clk=72M/(71+1)= Hz, interval=?
-	TIM_TimeBaseStructure.TIM_Period = 10000;												//pulse cycle= 20000
-	//------------------------------//
-
-	TIM_TimeBaseInit(SERVO_TIM, &TIM_TimeBaseStructure);
-	
-	
-	// ------------OC Init Configuration------------//
-	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;   		// set "high" to be effective output
-	TIM_OCInitStructure.TIM_OCNPolarity = TIM_OCPolarity_High;   		// set "high" to be effective output
-	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;	           		// produce output when counter < CCR
-	TIM_OCInitStructure.TIM_OCIdleState = TIM_OCIdleState_Reset;		// Reset OC Idle state
-	TIM_OCInitStructure.TIM_OCNIdleState = TIM_OCNIdleState_Reset;	// Reset OC NIdle state
-	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;  	// this part enable the output
-	TIM_OCInitStructure.TIM_OutputNState = TIM_OutputState_Disable; // this part disable the Nstate
-	//------------------------------//
-	TIM_OCInitStructure.TIM_Pulse = 6667;														// this part sets the initial CCR value
-	//------------------------------//
-	
-	TIM_OC2Init(TIM3, &TIM_OCInitStructure);
-	TIM_OC2PreloadConfig(TIM3, ENABLE); //adc7 --> GPIOB
-	
-	TIM_OC3Init(TIM3, &TIM_OCInitStructure);
-	TIM_OC3PreloadConfig(TIM3, ENABLE); //adc8 --> GPIOA
-	
-	TIM_ARRPreloadConfig(TIM3, ENABLE);
-	TIM_Cmd(TIM3, ENABLE);
-	TIM_CtrlPWMOutputs(TIM3, ENABLE);
-}
-
 
 int custom_atoi(char *s)
 {
@@ -200,24 +100,11 @@ void handleCommand() {
 						pneumatic_control(GPIOE, GPIO_Pin_13, pneumaticState);
 						break;
 				}
-		}
-		if (strcmp(header, "SHIFT_X_UP") == 0){
-			plus_x();
-		}
-		if (strcmp(header, "SHIFT_X_DOWN") == 0){
-			minus_x();
-		}
-		if (strcmp(header, "SHIFT_Y_UP") == 0){
-			plus_y();
-		}
-		if (strcmp(header, "SHIFT_Y_DOWN") == 0){
-			minus_y();
-		}
-		if (strcmp(header, "PING") == 0 && contentIndex == 1) {
+		} else if (strcmp(header, "PING") == 0 && contentIndex == 1) {
 			if (contents[0] == 100)
 				GPIO_SetBits(GPIOE, GPIO_Pin_11);
-				piReady = true;
-				uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "PONG|%d|%d|%d\n",get_pos()->x, get_pos()->y, get_pos()->angle);
+			piReady = true;
+			uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "PONG|%d|%d|%d\n",get_pos()->x, get_pos()->y, get_pos()->angle);
 		}
 		
 		for (int i = 1; i < 30; i++) {
@@ -230,21 +117,19 @@ void handleCommand() {
 
 void limitSwitchCheck(){
 	s32 time;
-	if(!GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_6) && !GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_7)){
+	if(!gpio_read_input(&PE6) && !gpio_read_input(&PE7)){
 		if(counterState == false) {
 			time = get_full_ticks();
 			counterState = true;
 		}
 		if(time - get_full_ticks() >= 20) finishState = true;
-	}
-		else if(!GPIO_ReadInputDataBit(GPIOE, GPIO_Pin_8)){
+	} else if (!gpio_read_input(&PE8)) {
 		if(counterState == false) {
 			time = get_full_ticks();
 			counterState = true;
 		}
 		if(time - get_full_ticks() >= 20) switchState = true;
-	}
-	else {
+	} else {
 		counterState = false;
 		switchState = false;
 		finishState = false;
@@ -259,13 +144,17 @@ int main(void) {
 	gyro_init();
 	servo_init();
 	pneumatic_init();
-	//gpio_init(PI_LED, GPIO_Speed_2MHz, GPIO_Mode_Out_PP, 1);
+	
+	// Limit switch GPIO initiaization.
 	gpio_init(&PE6, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
 	gpio_init(&PE7, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
 	gpio_init(&PE8, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
-	gpio_init(&PC0, GPIO_Speed_50MHz, GPIO_Mode_AF_PP, 1);
 	
-	//fan_init();
+	// IR Sensor GPIO initialization.
+	gpio_init(&PE9, GPIO_Speed_50MHz, GPIO_Mode_IPD, 1);
+	
+	// ?
+	gpio_init(&PC0, GPIO_Speed_50MHz, GPIO_Mode_AF_PP, 1);
 	
 	// Initialize Bluetooth/rPi Mode.
 	uart_init(BLUETOOTH_MODE ? COM2 : COM1, 115200);
@@ -279,23 +168,17 @@ int main(void) {
 	
 	while (1) {
 		// Send robot state to Raspberry Pi/Bluetooth.
-		//servo_control(SERVO1, 450);
-		//servo_control(SERVO2, 450);
-		//servo_control(SERVO3, 450);
-		//servo_control(SERVO4, 450);
+		uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "STATE|%d|%d|%d|%d\n", get_pos()->x, get_pos()->y, get_pos()->angle, elevationCorrected);
 		
 		if (queuePos > 0) {
-				handleCommand();
-			}
-		
-			uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "STATE|%d|%d|%d|%d|%d\n", get_pos()->x, get_pos()->y, get_pos()->angle, gyro_get_shift_x(), gyro_get_shift_y());
+			handleCommand();
+		}
 			
 	
 		if (get_full_ticks() - lastStateUpdate >= 10) {
 			
-			tft_clear();
-			
 			limitSwitchCheck();
+			elevationCorrected = gpio_read_input(&PE9);
 
 			if(finishState == true) {
 				motor_set_vel(MOTOR4, 0, OPEN_LOOP);
@@ -305,6 +188,8 @@ int main(void) {
 			}
 					
 			// Display TFT to insure screen is on.
+			tft_clear();
+			
 			tft_prints(0, 0, "X: %d", get_pos()->x);
 			tft_prints(0, 1, "Y: %d", get_pos()->y);
 			tft_prints(0, 2, "A: %d", get_pos()->angle);
@@ -312,6 +197,7 @@ int main(void) {
 			if(piReady) {
 				tft_prints(0 , 4, "Pi Ready");
 			}
+			
 			tft_update();
 			
 			lastStateUpdate = get_full_ticks();
