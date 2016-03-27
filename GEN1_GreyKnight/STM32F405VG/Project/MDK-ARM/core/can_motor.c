@@ -179,14 +179,6 @@ void motor_lock(MOTOR_ID motor_id)
 //		return;
 //	}
 //}
-void display_value(int x){
-    tft_prints(0,6,"msg.StdId: %d",x);
-}
-
-void display_value2(int y){
-    tft_prints(0,7,"Data: %d",y);
-}
-
 
 void can_motor_feedback(CanRxMsg msg){
 	switch (msg.Data[0]) {

@@ -82,14 +82,16 @@ GAME_STAGE path_up_update(){
 	}
 	
 //	targeting_update(cal_ypr[0]);
-	if (!using_sensor_bar && s16_abs(sensor_bar_get_corr(UP_SENSOR_BAR_POWER, UP_SENSOR_BAR_Kp)) > UP_SENSOR_BAR_ON){
+	s16 correction = 0;
+	SENSOR_BAR_FLAG flag = sensor_bar_get_corr(UP_SENSOR_BAR_POWER, UP_SENSOR_BAR_Kp, &correction);
+	if (!using_sensor_bar && s16_abs(correction) > UP_SENSOR_BAR_ON){
 		using_sensor_bar = true;
-	}else if(using_sensor_bar && s16_abs(sensor_bar_get_corr(UP_SENSOR_BAR_POWER, UP_SENSOR_BAR_Kp)) < UP_SENSOR_BAR_OFF){
+	}else if(using_sensor_bar && s16_abs(correction) < UP_SENSOR_BAR_OFF){
 		using_sensor_bar = false;
 	}
 	
 	if (using_sensor_bar){
-		force_set_angle(targeting_pid(cal_ypr[0]) + sensor_bar_get_corr(UP_SENSOR_BAR_POWER, UP_SENSOR_BAR_Kp) *UP_SENSOR_BAR_TRUST /100);
+		force_set_angle(targeting_pid(cal_ypr[0]) + correction *UP_SENSOR_BAR_TRUST /100);
 	}else{
 		force_set_angle(targeting_pid(cal_ypr[0]));
 	}

@@ -48,7 +48,9 @@ float targeting_pid(float current_yaw){
 	
 	float new_servo_deg = SERVO_MED_DEG;
 	if (using_sensor_bar){
-		new_servo_deg = SERVO_MED_DEG + corr + sensor_bar_get_corr(power, sensor_bar_Kp) * sensor_bar_trust /100;
+		s16 correction = 0;
+		SENSOR_BAR_FLAG flag = sensor_bar_get_corr(power, sensor_bar_Kp, &correction);
+		new_servo_deg = SERVO_MED_DEG + corr + correction * sensor_bar_trust /100;
 	}else{
 		new_servo_deg = SERVO_MED_DEG + corr;
 	}

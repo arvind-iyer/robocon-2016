@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri Mar 25 15:06:31 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri Mar 25 18:27:02 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1253,7 +1253,7 @@ Global Symbols
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
-<P><STRONG><a name="[e2]"></a>path_down_update</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_update))
+<P><STRONG><a name="[e2]"></a>path_down_update</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_update))
 <BR><BR>[Calls]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
 </UL>
@@ -1267,7 +1267,7 @@ Global Symbols
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
-<P><STRONG><a name="[e1]"></a>path_river_update</STRONG> (Thumb, 238 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
+<P><STRONG><a name="[e1]"></a>path_river_update</STRONG> (Thumb, 252 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
 <BR><BR>[Calls]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 <LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
@@ -1288,7 +1288,7 @@ Global Symbols
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
-<P><STRONG><a name="[e0]"></a>path_up_update</STRONG> (Thumb, 354 bytes, Stack size 0 bytes, path_upslope.o(i.path_up_update))
+<P><STRONG><a name="[e0]"></a>path_up_update</STRONG> (Thumb, 342 bytes, Stack size 0 bytes, path_upslope.o(i.path_up_update))
 <BR><BR>[Calls]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs_diff
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_pid
@@ -1313,7 +1313,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
 </UL>
 
-<P><STRONG><a name="[ed]"></a>sensor_bar_get_corr</STRONG> (Thumb, 252 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr))
+<P><STRONG><a name="[ed]"></a>sensor_bar_get_corr</STRONG> (Thumb, 286 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr))
 <BR><BR>[Calls]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_pid
@@ -1321,7 +1321,7 @@ Global Symbols
 <LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
 </UL>
 
-<P><STRONG><a name="[e3]"></a>sensor_bar_track</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_track))
+<P><STRONG><a name="[e3]"></a>sensor_bar_track</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_track))
 <BR><BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;force_set_angle
 </UL>
@@ -1355,7 +1355,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx
 </UL>
 
-<P><STRONG><a name="[ef]"></a>targeting_pid</STRONG> (Thumb, 220 bytes, Stack size 0 bytes, servo_targeting.o(i.targeting_pid))
+<P><STRONG><a name="[ef]"></a>targeting_pid</STRONG> (Thumb, 238 bytes, Stack size 0 bytes, servo_targeting.o(i.targeting_pid))
 <BR><BR>[Calls]<UL><LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrtf
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println

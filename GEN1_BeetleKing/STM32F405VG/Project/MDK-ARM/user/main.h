@@ -28,17 +28,17 @@
 
 #define UP_SENSOR_BAR_TRUST 15 //Scaled by 100
 #define UP_SENSOR_BAR_POWER 3
-#define UP_SENSOR_BAR_Kp 200 //Scaled by 100
+#define UP_SENSOR_BAR_Kp 350 //Scaled by 100
 #define UP_SENSOR_BAR_ON 70
 #define UP_SENSOR_BAR_OFF 20
 
 #define DOWN_SENSOR_BAR_TRUST 100 //Scaled by 100
-#define DOWN_SENSOR_BAR_POWER 2
-#define DOWN_SENSOR_BAR_Kp 350 //Scaled by 100
+#define DOWN_SENSOR_BAR_POWER 1
+#define DOWN_SENSOR_BAR_Kp 250 //Scaled by 100
 
 #define RIVER_SENSOR_BAR_TRUST 100 //Scaled by 100
-#define RIVER_SENSOR_BAR_POWER 2
-#define RIVER_SENSOR_BAR_Kp 350 //Scaled by 100
+#define RIVER_SENSOR_BAR_POWER 1
+#define RIVER_SENSOR_BAR_Kp 420 //Scaled by 100
 
 #include "stm32f4xx_gpio.h"
 #include "tm_stm32f4_stdio.h"

@@ -1195,6 +1195,16 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
+              <FileName>imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu_math.c</FilePath>
+            </File>
+            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -1205,9 +1215,29 @@
               <FilePath>.\user\main.c</FilePath>
             </File>
             <File>
+              <FileName>path_downslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_downslope.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_river.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_river.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_upslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_upslope.c</FilePath>
+            </File>
+            <File>
               <FileName>sensor_bar.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\sensor_bar.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo_targeting.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\servo_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -1220,9 +1250,9 @@
               <FilePath>.\user\path.h</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>menu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\menu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2515,6 +2545,16 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
+              <FileName>imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu_math.c</FilePath>
+            </File>
+            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -2525,9 +2565,29 @@
               <FilePath>.\user\main.c</FilePath>
             </File>
             <File>
+              <FileName>path_downslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_downslope.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_river.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_river.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_upslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_upslope.c</FilePath>
+            </File>
+            <File>
               <FileName>sensor_bar.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\sensor_bar.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo_targeting.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\servo_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -2540,9 +2600,9 @@
               <FilePath>.\user\path.h</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>menu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\menu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3836,6 +3896,16 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
+              <FileName>imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu_math.c</FilePath>
+            </File>
+            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -3846,9 +3916,29 @@
               <FilePath>.\user\main.c</FilePath>
             </File>
             <File>
+              <FileName>path_downslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_downslope.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_river.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_river.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_upslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_upslope.c</FilePath>
+            </File>
+            <File>
               <FileName>sensor_bar.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\sensor_bar.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo_targeting.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\servo_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -3861,9 +3951,9 @@
               <FilePath>.\user\path.h</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>menu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\menu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5203,6 +5293,16 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
+              <FileName>imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu_math.c</FilePath>
+            </File>
+            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -5213,9 +5313,29 @@
               <FilePath>.\user\main.c</FilePath>
             </File>
             <File>
+              <FileName>path_downslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_downslope.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_river.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_river.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_upslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_upslope.c</FilePath>
+            </File>
+            <File>
               <FileName>sensor_bar.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\sensor_bar.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo_targeting.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\servo_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -5228,9 +5348,9 @@
               <FilePath>.\user\path.h</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>menu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\menu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -6523,6 +6643,16 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
+              <FileName>imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu_math.c</FilePath>
+            </File>
+            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -6533,9 +6663,29 @@
               <FilePath>.\user\main.c</FilePath>
             </File>
             <File>
+              <FileName>path_downslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_downslope.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_river.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_river.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_upslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_upslope.c</FilePath>
+            </File>
+            <File>
               <FileName>sensor_bar.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\sensor_bar.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo_targeting.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\servo_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -6548,9 +6698,9 @@
               <FilePath>.\user\path.h</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>menu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\menu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -7749,6 +7899,16 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
+              <FileName>imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu_math.c</FilePath>
+            </File>
+            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -7759,9 +7919,29 @@
               <FilePath>.\user\main.c</FilePath>
             </File>
             <File>
+              <FileName>path_downslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_downslope.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_river.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_river.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_upslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_upslope.c</FilePath>
+            </File>
+            <File>
               <FileName>sensor_bar.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\sensor_bar.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo_targeting.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\servo_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -7774,9 +7954,9 @@
               <FilePath>.\user\path.h</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>menu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\menu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -8975,6 +9155,16 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
+              <FileName>imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu_math.c</FilePath>
+            </File>
+            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -8985,9 +9175,29 @@
               <FilePath>.\user\main.c</FilePath>
             </File>
             <File>
+              <FileName>path_downslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_downslope.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_river.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_river.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_upslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_upslope.c</FilePath>
+            </File>
+            <File>
               <FileName>sensor_bar.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\sensor_bar.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo_targeting.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\servo_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -9000,9 +9210,9 @@
               <FilePath>.\user\path.h</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>menu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\menu.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -10154,6 +10364,16 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
+              <FileName>imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\imu_math.c</FilePath>
+            </File>
+            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -10164,9 +10384,29 @@
               <FilePath>.\user\main.c</FilePath>
             </File>
             <File>
+              <FileName>path_downslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_downslope.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_river.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_river.c</FilePath>
+            </File>
+            <File>
+              <FileName>path_upslope.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\path_upslope.c</FilePath>
+            </File>
+            <File>
               <FileName>sensor_bar.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\sensor_bar.c</FilePath>
+            </File>
+            <File>
+              <FileName>servo_targeting.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\servo_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -10179,9 +10419,9 @@
               <FilePath>.\user\path.h</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>menu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\menu.c</FilePath>
             </File>
           </Files>
         </Group>

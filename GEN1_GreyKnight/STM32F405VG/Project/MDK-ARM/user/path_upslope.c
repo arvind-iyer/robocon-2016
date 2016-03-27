@@ -7,6 +7,7 @@ static uint16_t progress_ticks = 0;
 static float targeting_yaw;
 static float awaiting_pitch;
 static float last_pitch;
+static bool using_sensor_bar = false;
 #define TOTAL_PATH_SIZE 7
 
 #ifdef BLUE_FIELD
@@ -74,13 +75,27 @@ GAME_STAGE path_up_update(){
 		
 		set_target(targeting_yaw);
 		if (path_pointer >= TOTAL_PATH_SIZE){
+			disable_sensor_bar();
 			return (GAME_STAGE) (CLIMBING_SLOPE + 1);
 		}
 		led_blink(LED_D3);
 	}
 	
-	targeting_update(cal_ypr[0]);
-	tft_println("PP:%d", path_pointer);
+//	targeting_update(cal_ypr[0]);
+	s16 correction = 0;
+	SENSOR_BAR_FLAG flag = sensor_bar_get_corr(UP_SENSOR_BAR_POWER, UP_SENSOR_BAR_Kp, &correction);
+	if (!using_sensor_bar && s16_abs(correction) > UP_SENSOR_BAR_ON){
+		using_sensor_bar = true;
+	}else if(using_sensor_bar && s16_abs(correction) < UP_SENSOR_BAR_OFF){
+		using_sensor_bar = false;
+	}
+	
+	if (using_sensor_bar){
+		force_set_angle(targeting_pid(cal_ypr[0]) + correction *UP_SENSOR_BAR_TRUST /100);
+	}else{
+		force_set_angle(targeting_pid(cal_ypr[0]));
+	}
+	tft_println("PP:%d ST:%d", path_pointer, using_sensor_bar?1:0);
 //	tft_println("AP:%f", awaiting_pitch);
 //	tft_println("AV:%f", median_pitch);
 	return CLIMBING_SLOPE;

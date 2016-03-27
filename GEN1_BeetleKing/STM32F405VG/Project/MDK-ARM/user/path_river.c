@@ -59,7 +59,7 @@ GAME_STAGE path_river_update(){
 		//case 0 first turn 90-degree
 		case 0:
 			if (fabs(river_straight_yaw - cal_ypr[0]) > 5.0f){
-				#ifdef RED_FIELD
+				#ifdef BLUE_FIELD
 					force_set_angle(SERVO_MAX_DEG);
 				#else
 					force_set_angle(SERVO_MIN_DEG);
@@ -67,7 +67,7 @@ GAME_STAGE path_river_update(){
 			}else{
 				river_stage++;
 				enable_sensor_bar(RIVER_SENSOR_BAR_TRUST, RIVER_SENSOR_BAR_POWER, RIVER_SENSOR_BAR_Kp);
-				#ifdef RED_FIELD
+				#ifdef BLUE_FIELD
 					set_target(river_straight_yaw + 30.0f);
 				#else
 					set_target(river_straight_yaw - 30.0f);
@@ -83,6 +83,11 @@ GAME_STAGE path_river_update(){
 			if (islands_count[0] >= 1){
 				river_stage++;
 				disable_sensor_bar();
+				#ifdef BLUE_FIELD
+					set_target(river_straight_yaw);
+				#else
+					set_target(river_straight_yaw);
+				#endif
 			}
 			
 			//Track the white line with imu/sensor bar

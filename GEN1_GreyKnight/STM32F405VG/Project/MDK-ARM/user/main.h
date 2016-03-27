@@ -26,6 +26,20 @@
 //	PIN_ON_RIGHT = 	3
 #define ORIENTATION_SETTING 2
 
+#define UP_SENSOR_BAR_TRUST 15 //Scaled by 100
+#define UP_SENSOR_BAR_POWER 3
+#define UP_SENSOR_BAR_Kp 350 //Scaled by 100
+#define UP_SENSOR_BAR_ON 70
+#define UP_SENSOR_BAR_OFF 20
+
+#define DOWN_SENSOR_BAR_TRUST 100 //Scaled by 100
+#define DOWN_SENSOR_BAR_POWER 1
+#define DOWN_SENSOR_BAR_Kp 250 //Scaled by 100
+
+#define RIVER_SENSOR_BAR_TRUST 100 //Scaled by 100
+#define RIVER_SENSOR_BAR_POWER 1
+#define RIVER_SENSOR_BAR_Kp 420 //Scaled by 100
+
 #include "stm32f4xx_gpio.h"
 #include "tm_stm32f4_stdio.h"
 #include "tm_stm32f4_timer_properties.h"
@@ -38,19 +52,27 @@
 #include "approx_math.h"
 #include "gyro.h"
 #include "can_protocol.h"
+#include "can_motor.h"
 #include "encoder.h"
 #include "sensor_bar.h"
+#include "imu.h"
 #include "servo_targeting.h"
 #include "button.h"
 #include "buzzer.h"
 #include "buzzer_song.h"
+#include "menu.h"
+
+//path files
+#include "path_upslope.h"
+#include "path_downslope.h"
+#include "path_river.h"
 
 //Main loop
 extern u32 this_loop_ticks;
 extern u32 last_loop_ticks;
 
 //Larger loop
-#define LONG_LOOP_TICKS 100
+#define LONG_LOOP_TICKS 20
 #define SHORT_LOOP_TICKS 5
 extern u32 last_long_loop_ticks;
 extern u32 last_short_loop_ticks;
