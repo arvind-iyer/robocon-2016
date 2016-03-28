@@ -84,9 +84,9 @@ GAME_STAGE path_up_update(){
 //	targeting_update(cal_ypr[0]);
 	s16 correction = 0;
 	SENSOR_BAR_FLAG flag = sensor_bar_get_corr(UP_SENSOR_BAR_POWER, UP_SENSOR_BAR_Kp, &correction);
-	if (!using_sensor_bar && s16_abs(correction) > UP_SENSOR_BAR_ON){
+	if (!using_sensor_bar && abs(correction) > UP_SENSOR_BAR_ON){
 		using_sensor_bar = true;
-	}else if(using_sensor_bar && s16_abs(correction) < UP_SENSOR_BAR_OFF){
+	}else if(using_sensor_bar && abs(correction) < UP_SENSOR_BAR_OFF){
 		using_sensor_bar = false;
 	}
 	

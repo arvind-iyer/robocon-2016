@@ -13,10 +13,6 @@ s16 cos_val[91] = {
 5446,5299,5150,5000,4848,4695,4540,4384,4226,4067,3907,3746,3584,3420,3256,3090,2924,2756,2588,
 2419,2250,2079,1908,1736,1564,1392,1219,1045,872,698,523,349,175,0};
 
-
-
-
-
 /**
   * @brief  Approximation of sin function
   * @param  a: angle in degree scaled by 10 (0-3600)
@@ -89,7 +85,7 @@ s16 int_arc_sin(s16 sin_val)
 
 
 	if (sin_val < 0)	neg_val = 1;
-	sin_val = Abs(sin_val);
+	sin_val = abs(sin_val);
 
 	while (1)
 	{
@@ -198,16 +194,6 @@ void xy_rotate(s32 *x, s32 *y, s32 w) {
 s32 p_mod(s32 dividor, s32 divisor) {
 		while (dividor < 0) {dividor += divisor;}
 		return dividor % divisor;
-}
-
-/**
-  * @brief  Absolute value function
-  * @param  v: input
-  * @retval absolute value |v|
-  */
-s32 Abs(s32 v)
-{
-	return v < 0 ? -v : v;
 }
 
 /**

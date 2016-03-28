@@ -10,17 +10,10 @@
 #include <math.h>
 #include "servo.h"
 #include "imu_math.h"
+#include "servo_interface.h"
 
 //Scaled by 1000
 #define SERVO_Kp 3000.0f
-
-#define SERVO_MED_PWM 1500
-#define SERVO_INC_PWM 400
-#define SERVO_DEC_PWM 400
-#define SERVO_MAX_PWM SERVO_MED_PWM + SERVO_INC_PWM
-#define SERVO_MIN_PWM SERVO_MED_PWM - SERVO_DEC_PWM
-
-#define DRAGON_SERVO SERVO1
 
 extern float target_yaw;
 
