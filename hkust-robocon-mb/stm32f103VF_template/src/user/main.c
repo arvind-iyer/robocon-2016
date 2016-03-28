@@ -21,16 +21,10 @@ uint8_t elevationCorrected = false;
 int w1 = 0, w2 = 0, w3 = 0;
 
 void servo_adc_init(void) {
-	GPIO_InitTypeDef SERVO_GPIO_InitStructure;
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
 	TIM_OCInitTypeDef TIM_OCInitStructure;
 	
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
-	
-	SERVO_GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
- 	SERVO_GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	SERVO_GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6|GPIO_Pin_7;
-	GPIO_Init(GPIOA, &SERVO_GPIO_InitStructure);
 	
 	//-------------TimeBase Initialization-----------//
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;			// counter will count up (from 0 to FFFF)
@@ -43,6 +37,10 @@ void servo_adc_init(void) {
   //------------------------------//
 	
 	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure);
+	
+	TIM_ARRPreloadConfig(TIM3, ENABLE);
+  TIM_Cmd(TIM3, ENABLE);
+  TIM_CtrlPWMOutputs(TIM3, ENABLE);
 	
 	// ------------OC Init Configuration------------//
  	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;   		// set "high" to be effective output
@@ -57,14 +55,10 @@ void servo_adc_init(void) {
   //------------------------------//
   
 	TIM_OC1Init(TIM3, &TIM_OCInitStructure);
-  TIM_OC1PreloadConfig(TIM3, ENABLE); 
+  TIM_OC1PreloadConfig(TIM3, TIM_OCPreload_Enable); 
 
 	TIM_OC2Init(TIM3, &TIM_OCInitStructure);
-  TIM_OC2PreloadConfig(TIM3, ENABLE);
-
-	TIM_ARRPreloadConfig(TIM3, ENABLE);
-  TIM_Cmd(TIM3, ENABLE);
-  TIM_CtrlPWMOutputs(TIM3, ENABLE);
+  TIM_OC2PreloadConfig(TIM3, TIM_OCPreload_Enable);
 }
 
 void adc_servo_control(int id, u16 val){
@@ -159,10 +153,10 @@ void handleCommand() {
 						pneumatic_control(GPIOE, GPIO_Pin_13, pneumaticState);
 						break;
 				}
-		} else if (strcmp(header, "PING") == 0 && contentIndex == 1) {
-			if (contents[0] == 100)
-				GPIO_SetBits(GPIOE, GPIO_Pin_11);
+		} else if (strcmp(header, "PING") == 0 && contentIndex == 2) {
 			piReady = true;
+			gyro_set_shift_x(contents[0]);
+			gyro_set_shift_y(contents[1]);
 			uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "PONG|%d|%d|%d\n",get_pos()->x, get_pos()->y, get_pos()->angle);
 		}
 		
@@ -196,13 +190,7 @@ void limitSwitchCheck(){
 }
 
 int main(void) {
-	tft_easy_init();
-	ticks_init();
-	buzzer_init();
-	gyro_init();
-	servo_init();
-	servo_adc_init();
-	pneumatic_init();
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 	
 	// Limit switch GPIO initiaization.
 	gpio_init(&PE6, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
@@ -212,8 +200,20 @@ int main(void) {
 	// IR Sensor GPIO initialization.
 	gpio_init(&PE9, GPIO_Speed_50MHz, GPIO_Mode_IPD, 1);
 	
+	// ADC Servo initialization.
+	gpio_init(&PA6, GPIO_Speed_50MHz, GPIO_Mode_AF_PP, 1);
+	gpio_init(&PA7, GPIO_Speed_50MHz, GPIO_Mode_AF_PP, 1);
+	
 	// ?
 	gpio_init(&PC0, GPIO_Speed_50MHz, GPIO_Mode_AF_PP, 1);
+	
+	tft_easy_init();
+	ticks_init();
+	buzzer_init();
+	gyro_init();
+	servo_init();
+	servo_adc_init();
+	pneumatic_init();
 	
 	// Initialize Bluetooth/rPi Mode.
 	uart_init(BLUETOOTH_MODE ? COM2 : COM1, 115200);

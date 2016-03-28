@@ -32,8 +32,8 @@ typedef struct {
 } POSITION;
 
 
-#define	X_FLIP						-1
-#define	Y_FLIP						1
+#define	X_FLIP						1 // TEAM A: 1
+#define	Y_FLIP						-1 // TEAM A: -1
 /** Varies along robots (depends on the encoder position) **/
 
 extern volatile u8 gyro_available;
@@ -42,6 +42,8 @@ void plus_x(void);
 void minus_x(void);
 void plus_y(void);
 void minus_y(void);
+void gyro_set_shift_x(int x);
+void gyro_set_shift_y(int y);
 s32 gyro_get_shift_x(void);
 s32 gyro_get_shift_y(void);
 
