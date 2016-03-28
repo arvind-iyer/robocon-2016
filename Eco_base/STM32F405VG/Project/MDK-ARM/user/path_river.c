@@ -7,9 +7,9 @@ float river_straight_yaw = 0;
 
 void path_river_init(){
 	#ifdef BLUE_FIELD
-		river_straight_yaw = start_ypr[0] - 180.0f;
+		river_straight_yaw = ardu_start_ypr[0] - 180.0f;
 	#else
-		river_straight_yaw = start_ypr[0] + 180.0f;
+		river_straight_yaw = ardu_start_ypr[0] + 180.0f;
 	#endif
 	river_stage = 0;
 	islands_count[0] = 0;
@@ -58,7 +58,7 @@ GAME_STAGE path_river_update(){
 	switch(river_stage){
 		//case 0 first turn 90-degree
 		case 0:
-			if (fabs(river_straight_yaw - cal_ypr[0]) > 5.0f){
+			if (fabs(river_straight_yaw - ardu_cal_ypr[0]) > 5.0f){
 				#ifdef BLUE_FIELD
 					force_set_angle(SERVO_MAX_PWM);
 				#else
@@ -72,7 +72,7 @@ GAME_STAGE path_river_update(){
 				#else
 					set_target(river_straight_yaw - 30.0f);
 				#endif
-				targeting_update(cal_ypr[0]);
+				targeting_update(ardu_cal_ypr[0]);
 			}
 			break;
 			
@@ -91,7 +91,7 @@ GAME_STAGE path_river_update(){
 			}
 			
 			//Track the white line with imu/sensor bar
-			targeting_update(cal_ypr[0]);
+			targeting_update(ardu_cal_ypr[0]);
 			break;
 			
 		//case 2 go straight until it reaches the last island
@@ -102,7 +102,7 @@ GAME_STAGE path_river_update(){
 				river_stage++;
 				disable_sensor_bar();
 			}
-			targeting_update(cal_ypr[0]);
+			targeting_update(ardu_cal_ypr[0]);
 			break;
 		case 3:
 			return (GAME_STAGE) (CROSSING_RIVER + 1);

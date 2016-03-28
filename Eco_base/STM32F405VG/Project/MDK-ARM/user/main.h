@@ -53,7 +53,7 @@
 #include "can_motor.h"
 #include "encoder.h"
 #include "sensor_bar.h"
-#include "imu.h"
+#include "ardu_imu_adp.h"
 #include "servo_targeting.h"
 #include "button.h"
 #include "buzzer.h"

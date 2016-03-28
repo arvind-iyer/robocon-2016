@@ -30,10 +30,10 @@ void path_up_init(u8 stage){
 	progress_ticks = 0;
 	
 	for (uint8_t i=0;i<ROLLING_PITCH_SIZE;i++){
-		rolling_pitch[i] = start_ypr[1];
+		rolling_pitch[i] = ardu_start_ypr[1];
 	}
-	targeting_yaw = start_ypr[0];
-	awaiting_pitch = last_pitch = start_ypr[1];
+	targeting_yaw = ardu_start_ypr[0];
+	awaiting_pitch = last_pitch = ardu_start_ypr[1];
 	targeting_yaw += path_yaw_change[path_pointer++];
 	awaiting_pitch += path_pitch_change[path_pointer];
 	pitch_change = abs_diff(last_pitch, awaiting_pitch);
@@ -42,7 +42,7 @@ void path_up_init(u8 stage){
 GAME_STAGE path_up_update(){
 	//Going up slope
 	//Update the rolling average of pitch value
-	rolling_pitch[rolling_pitch_index++] = cal_ypr[1];
+	rolling_pitch[rolling_pitch_index++] = ardu_cal_ypr[1];
 	rolling_pitch_index = rolling_pitch_index % ROLLING_PITCH_SIZE;
 	
 	float median_pitch = get_median_of_five(rolling_pitch[0], rolling_pitch[1], rolling_pitch[2], rolling_pitch[3], rolling_pitch[4]);
@@ -70,7 +70,7 @@ GAME_STAGE path_up_update(){
 		//progress when it is the right time
 		targeting_yaw += path_yaw_change[path_pointer++];
 		last_pitch = awaiting_pitch;
-		awaiting_pitch = start_ypr[1] + path_pitch_change[path_pointer];
+		awaiting_pitch = ardu_start_ypr[1] + path_pitch_change[path_pointer];
 		pitch_change = abs_diff(last_pitch, awaiting_pitch);
 		
 		set_target(targeting_yaw);
@@ -91,9 +91,9 @@ GAME_STAGE path_up_update(){
 	}
 	
 	if (using_sensor_bar){
-		force_set_angle(targeting_pid(cal_ypr[0]) + correction *UP_SENSOR_BAR_TRUST /100);
+		force_set_angle(targeting_pid(ardu_cal_ypr[0]) + correction *UP_SENSOR_BAR_TRUST /100);
 	}else{
-		force_set_angle(targeting_pid(cal_ypr[0]));
+		force_set_angle(targeting_pid(ardu_cal_ypr[0]));
 	}
 	tft_println("PP:%d ST:%d", path_pointer, using_sensor_bar?1:0);
 //	tft_println("AP:%f", awaiting_pitch);

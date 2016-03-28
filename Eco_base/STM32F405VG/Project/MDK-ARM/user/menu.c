@@ -54,7 +54,7 @@ GAME_STAGE menu_update(){
 			case 6:
 				tft_println("HI THERE");
 				buzzer_play_song(MARIO_BEGIN, 50, 0);
-				return SYSTEM_CALI;
+				return SYSTEM_WAITING;
 		}
 	}
 	

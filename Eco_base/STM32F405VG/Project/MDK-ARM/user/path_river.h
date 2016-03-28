@@ -13,6 +13,7 @@
 #include "servo.h"
 #include "servo_targeting.h"
 #include "path.h"
+#include "ardu_imu_adp.h"
 
 #define IR_GPIO GPIOE
 #define IR_1_Pin GPIO_Pin_10
