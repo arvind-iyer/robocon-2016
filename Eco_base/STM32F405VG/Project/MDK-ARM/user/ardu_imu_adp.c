@@ -10,10 +10,12 @@ void ardu_adapter_init(){
 	ardu_imu_init();
 }
 
+//A flag to indicate whether everything is ready and the robot is ready to run
 bool ardu_all_ready(){
 	return ardu_imu_staged && ardu_imu_calibrated;
 }
 
+//To be called ~20ms, handle most of the things
 void ardu_imu_update(){
 	ardu_imu_value_update();
 	

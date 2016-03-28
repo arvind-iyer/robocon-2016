@@ -39,6 +39,10 @@ static float yaw_samples[SAMPLE_SIZE] = {0};
 static u8 sample_size = 0;
 static float yaw_bias = 0;
 
+/**
+** Receiver function for the imu
+** Also handle the synchronizing with the imu
+**/
 void ardu_imu_receiver(u8 byte){
 	//Sync with the IMU
 	if (ardu_imu_synced == false){
@@ -105,6 +109,7 @@ void ardu_imu_receiver(u8 byte){
 	}
 }
 
+//Try to synchronize with the imu, often take multiple times
 void ardu_imu_try_sync(){
 	uart_tx(ARDU_IMU_UART, "#s01"); //Request syncing
 }
@@ -117,6 +122,8 @@ void ardu_imu_init(){
 	yaw_bias = 0;
 }
 
+
+//Update the values in array
 void ardu_imu_value_update(){
 	if (!ardu_imu_synced){
 		ardu_imu_try_sync();
