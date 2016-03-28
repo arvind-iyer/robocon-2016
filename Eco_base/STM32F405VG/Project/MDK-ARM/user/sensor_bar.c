@@ -77,12 +77,8 @@ SENSOR_BAR_FLAG sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, s16* corr){
 		s8 sign_of_error = (line_mid-SENSOR_BAR_MID)>0?1:-1;
 		u16 abs_error = (line_mid-SENSOR_BAR_MID)*sign_of_error;
 		u16 powered_error = 1;
-		if (power==0){
-			
-		}else{
-			for (u8 i=0;i<power;i++){
-				powered_error *= abs_error;
-			}
+		for (u8 i=0;i<power;i++){
+			powered_error *= abs_error;
 		}
 		corr_angle = sensor_bar_Kp*powered_error*sign_of_error/100; //Unscale it
 		corr_angle = (corr_angle>180)?180:(corr_angle<-180?-180:corr_angle);
@@ -99,7 +95,7 @@ SENSOR_BAR_FLAG sensor_bar_track(u8 power, u16 sensor_bar_Kp){
 	s16 correction = 0;
 	SENSOR_BAR_FLAG flag = sensor_bar_get_corr(power, sensor_bar_Kp, &correction);
 	if (flag != SENSOR_BAR_NTH){
-		force_set_angle(SERVO_MED_DEG + correction);
+		force_set_angle(SERVO_MED_PWM + correction);
 	}
 	return flag;
 }

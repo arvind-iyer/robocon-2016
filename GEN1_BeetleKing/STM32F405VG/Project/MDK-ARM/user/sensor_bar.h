@@ -24,7 +24,7 @@ typedef enum{
 
 void sensorbar_init(void);
 
-//Use which shape for the correction, like error^2, error^3
+//Use which shape for the correction, like error^2, error^3, if =0, it means sqrt
 SENSOR_BAR_FLAG sensor_bar_track(u8 power, u16 sensor_bar_Kp);
 SENSOR_BAR_FLAG sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, s16* corr);
 
