@@ -39,6 +39,7 @@ s32 tar_head, tar_end;
 s32 tar_x, tar_y, tar_deg, tar_dir;
 s32 tar_rad, tar_cen_x, tar_cen_y;
 s32 ori_x, ori_y;
+double deg_ratio;
 
 //auto properties
 s32 cur_x, cur_y, cur_deg;
@@ -48,8 +49,9 @@ int start, passed;
 int err_d;
 int auto_ticks = 0;
 
-int curState = 0;
-TARGET test;
+int pythag(int a1, int a2, int b1, int b2) {
+	return Sqrt(Sqr(b1 - a1) + Sqr(b2 - a2));
+}
 
 /**
   * @brief  Add target to queue
@@ -95,7 +97,7 @@ void auto_tar_dequeue() {
 	
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
-	tar_deg = tar_queue[tar_end].deg;
+	//tar_deg = tar_queue[tar_end].deg;
 	tar_dir = 90 - int_arc_tan2(tar_y - ori_y, tar_x - ori_x);
 	
 	tar_rad = 0;
@@ -118,6 +120,20 @@ void auto_tar_dequeue() {
   */
 int auto_tar_queue_len() {
 	return tar_head - tar_end;
+}
+
+TARGET auto_tar_ret(int id) {
+	if (id < 0) {
+		TARGET null;
+		null.type = NODE_STOP;
+		null.x = 0;
+		null.y = 0;
+		null.deg = 0;
+		null.curve = 0;
+		return null;
+	} else {
+		return tar_queue[id];
+	}
 }
 
 /**
@@ -161,6 +177,7 @@ void auto_reset() {
 	tar_x = 0;
 	tar_y = 0;
 	tar_deg = 0;
+	deg_ratio = 0;
 	start = 0;
 	pid_stopped = false;
 	error_list_len = 0;
@@ -311,9 +328,10 @@ void auto_menu_update() {
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
 	tft_prints(2,1,"Straight");
-	tft_prints(2,2,"Circle");
-	tft_prints(2,3,"8-Figure");
-	tft_prints(2,4,"Demo");
+	tft_prints(2,2,"Right");
+	tft_prints(2,3,"Circle");
+	tft_prints(2,4,"8-Figure");
+	tft_prints(2,5,"Demo");
 	tft_prints(0,path_id+1,">");	
 	tft_update();
 	
@@ -327,12 +345,15 @@ void auto_menu_update() {
 					auto_tar_add_path(STRAIGHT);
 					break;
 				case 1:
-					auto_tar_add_path(CIRCLE);
+					auto_tar_add_path(RIGHT);
 					break;
 				case 2:
-					auto_tar_add_path(EIGHT_FIG);
+					auto_tar_add_path(CIRCLE);
 					break;
 				case 3:
+					auto_tar_add_path(EIGHT_FIG);
+					break;
+				case 4:
 					auto_tar_add_path(DEM_PID);
 					break;
 			}
@@ -350,7 +371,7 @@ void auto_menu_update() {
 		up_pressed = false;
 	}
 	
-	if (button_pressed(BUTTON_XBC_S) && (path_id < 3)) {
+	if (button_pressed(BUTTON_XBC_S) && (path_id < 4)) {
 		if (!dn_pressed) {
 			dn_pressed = true;
 			path_id++;
@@ -371,15 +392,15 @@ void auto_var_update() {
 	cur_y = get_pos()->y;
 	cur_deg = get_angle();
 	
+	//temp adjustment
+	//cur_x += (cur_y / 10);
+	
 	if (tar_queue[tar_end-1].curve == 0) {
 		degree = tar_dir;
-		curState = 1;
 	} else if (tar_queue[tar_end-1].curve < 0) {
 		degree = 180 - int_arc_tan2(tar_cen_y - cur_y, tar_cen_x - cur_x);
-		curState = 2;
 	} else if (tar_queue[tar_end-1].curve > 0) {
 		degree = 0 - int_arc_tan2(tar_cen_y - cur_y, tar_cen_x - cur_x);
-		curState = 3;
 	}
 	degree -= (cur_deg/10);
 	
@@ -388,7 +409,19 @@ void auto_var_update() {
 	if (degree_diff > 180)
 		degree_diff -= 360;
 	
-	dist = Sqrt(Sqr(tar_x - cur_x) + Sqr(tar_y - cur_y));
+	dist = pythag(cur_x, cur_y, tar_x, tar_y);
+	
+	//set target degree
+	int diff = auto_tar_ret(tar_end-1).deg - auto_tar_ret(tar_end-2).deg;
+	if (diff) {
+		if (diff > 180)
+			diff -= 360;
+		if (diff < -180)
+			diff += 360;		
+		deg_ratio = (pythag(ori_x, ori_y, tar_x, tar_y) - dist)*diff;
+		deg_ratio /= pythag(ori_x, ori_y, tar_x, tar_y);
+		tar_deg = auto_tar_ret(tar_end-2).deg + (int)deg_ratio;
+	}
 }
 
 /**
@@ -417,9 +450,6 @@ void auto_motor_update(){
 	tft_prints(0,4,">> %2d / %2d",tar_end,tar_head);
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
-	tft_prints(0,7,"%5d",degree);
-	tft_prints(0,8,"%5d",curState);
-	tft_prints(0,9,"%5d",tar_queue[tar_end-1].curve);
 	tft_update();
 	
 	//handle input
