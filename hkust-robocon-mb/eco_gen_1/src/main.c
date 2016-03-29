@@ -3,6 +3,8 @@ u8 data1[8];
 u8 data2[8];
 u8 sensorbar_result[16];
 u8 river;
+u8 hueAvg;
+u8 border;
 
 void receive(CanRxMsg msg){
     for(int i = 0; i < 8 ;i++){
@@ -17,16 +19,16 @@ void receive2(CanRxMsg msg){
 
 void receive3(CanRxMsg msg){
     river = msg.Data[0];
+    hueAvg = msg.Data[1];
+    border = msg.Data[2];
 }
 
 void fill_sensorbar_array(){
     for(int i = 0; i < 8; i++){
-        //sensorbar_result[i] = data2[7-i];
-        sensorbar_result[i] = data1[i];
+        sensorbar_result[i] = data2[7-i];
     }
     for(int i = 0; i < 8; i++){
-        //sensorbar_result[8+i] = data1[7-i];
-        sensorbar_result[i+8] = data2[i];
+        sensorbar_result[8+i] = data1[7-i];
     }
 }
 
@@ -43,6 +45,10 @@ int main(void) {
 	ticks_init();		//Ticks initialization
     tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED);     //LCD Initialization
 	buzzer_init();	//Initialize buzzer
+    servo_init();
+    us_init(); //Initialize Ultra-sonic sensor
+    
+    encoder_init();
 	
 
 	//Initialize the CAN protocol for motor
@@ -62,7 +68,6 @@ int main(void) {
     infrared_sensor_init();
     
     //Initialize servo
-	servo_init();
 	u32 ticks_ms_img = 0;
     
     int length_state = 0;
@@ -73,13 +78,14 @@ int main(void) {
     int lastTurn = 0;
     float factor = 0;
     int prev;
+    //servo_control(SERVO4,SERVO_MICROS_RIGHT);
 	while (1) {
-            //Initial processing and shit
+//            //Initial processing and shit
             tft_clear();
             fill_sensorbar_array();
             tft_prints(0,2,"Count: %d",get_full_ticks());
-            //tft_prints(0,5,"IR left: %d",read_infrared_sensor(INFRARED_SENSOR_1));
-            //tft_prints(0,6,"IR right: %d",read_infrared_sensor(INFRARED_SENSOR_2));
+            tft_prints(0,5,"IR left: %d",read_infrared_sensor(INFRARED_SENSOR_1));
+            tft_prints(0,6,"IR right: %d",read_infrared_sensor(INFRARED_SENSOR_2));
             for(int k = 0; k < 16; k++) {
                 int el = sensorbar_result[k];
                 if (el == 1) {
@@ -138,12 +144,12 @@ int main(void) {
                     }  
             //}
             begin = -1;
-            servo_control(SERVO2,lastMovement);
+            servo_control(SERVO3,lastMovement);
         }
-        tft_prints(0,3,"river:%d",river);
+    tft_prints(0,3,"river:%d",river);
     tft_prints(0,6,"fullwhite:%d",fullWhite);
     tft_prints(0,7,"Servo: %d ",lastMovement);
-    tft_prints(0,8,"b: %d,e: %d",begin,end);
+    tft_prints(0,8,"h:%d b:%d",hueAvg,border);
     length = 0;
     tft_update();
     }

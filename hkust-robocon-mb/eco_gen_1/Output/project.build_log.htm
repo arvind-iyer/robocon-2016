@@ -22,12 +22,31 @@ Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
 C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1\Project.uvprojx
-Project File Date:  03/08/2016
+Project File Date:  03/28/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F4_Robocon'
-".\Output\project.hex" - 0 Error(s), 0 Warning(s).
+compiling main.c...
+.\ultra_sonic.h(35): warning:  #1295-D: Deprecated declaration us_init - give arg types
+  void us_init();
+.\ultra_sonic.h(39): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\main.c(156): warning:  #111-D: statement is unreachable
+      return 0;
+src\main.c(71): warning:  #177-D: variable "ticks_ms_img" was declared but never referenced
+  	u32 ticks_ms_img = 0;
+src\main.c(73): warning:  #177-D: variable "length_state" was declared but never referenced
+      int length_state = 0;
+src\main.c(79): warning:  #177-D: variable "factor" was declared but never referenced
+      float factor = 0;
+src\main.c(80): warning:  #177-D: variable "prev" was declared but never referenced
+      int prev;
+src\main.c: 7 warnings, 0 errors
+linking...
+Program Size: Code=14488 RO-data=424 RW-data=4784 ZI-data=35432  
+FromELF: creating hex file...
+".\Output\project.hex" - 0 Error(s), 7 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -45,7 +64,7 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:4.3.0
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

@@ -58,3 +58,4 @@
 .\output\stm32f4xx_it.o: .\inc\buzzer.h
 .\output\stm32f4xx_it.o: .\inc\infrared_sensor.h
 .\output\stm32f4xx_it.o: .\inc\servo.h
+.\output\stm32f4xx_it.o: .\ultra_sonic.h

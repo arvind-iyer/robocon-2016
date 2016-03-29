@@ -195,13 +195,13 @@ void sendData(){
     hueAverage /= 16;
     
     //Dark blue
-    if(hueAverage >= 201 && hueAverage <= 230)border = 47;
+    if(hueAverage >= 201 && hueAverage <= 250)border = 47;
     
     //Orange
     else if(hueAverage <= 30)border = 55;
     
     //Light green
-    else if(hueAverage >= 80 && hueAverage <= 100) border = 40;
+    else if(hueAverage >= 80 && hueAverage <= 100) border = 35;
     
     //Dark green
     else if(hueAverage >= 160 && hueAverage <= 200) border = 45;
@@ -229,6 +229,15 @@ void sendData(){
 	msg1.length = 8;
 	for(int i=0;i<8;i++)msg1.data[i] = sat[i+8];
 	can_tx_enqueue(msg1);
+    
+    CAN_MESSAGE msg2;
+    msg2.id = 0x0C7;
+    msg2.length = 3;
+    msg2.data[1] = hueAverage;
+    msg2.data[2] = border;
+    if(hueAverage >= 201 && hueAverage <= 250)msg2.data[0] = 1;
+    else msg2.data[0] = 0;
+    can_tx_enqueue(msg2);
 }
 
 

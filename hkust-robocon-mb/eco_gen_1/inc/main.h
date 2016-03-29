@@ -48,6 +48,7 @@
 #include "infrared_sensor.h"
 #include "ticks.h"
 #include "servo.h"
+#include "ultra_sonic.h"
 
 #define BAJAJ
 
@@ -66,8 +67,8 @@
 
 #ifdef BAJAJ
 #define SERVO_MICROS_MID 1500
-#define SERVO_MICROS_RIGHT 2100
-#define SERVO_MICROS_LEFT 900
+#define SERVO_MICROS_RIGHT 2000
+#define SERVO_MICROS_LEFT 1000
 #define BAJAJ_SERVO  SERVO3
 #endif
 
