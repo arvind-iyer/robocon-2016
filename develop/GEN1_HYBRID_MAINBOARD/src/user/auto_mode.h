@@ -30,10 +30,10 @@ typedef struct {
 
 typedef	struct {
 	PATH_NODE_TYPE type;
-	int x;
-	int y;
-	int deg;
-	int curve;
+	s32 x;
+	s32 y;
+	s32 deg;
+	s32 curve;
 } TARGET;
 
 #include "auto_paths.h"

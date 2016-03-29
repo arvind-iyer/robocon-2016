@@ -33,15 +33,15 @@ u16 error_list_pos;
 
 //path target queue
 TARGET tar_queue[50];
-int tar_head, tar_end;
+s32 tar_head, tar_end;
 
 //path target variables
-int tar_x, tar_y, tar_deg, tar_dir;
-int tar_rad, tar_cen_x, tar_cen_y;
-int ori_x, ori_y;
+s32 tar_x, tar_y, tar_deg, tar_dir;
+s32 tar_rad, tar_cen_x, tar_cen_y;
+s32 ori_x, ori_y;
 
 //auto properties
-int cur_x, cur_y, cur_deg;
+s32 cur_x, cur_y, cur_deg;
 int vel[3];
 int degree, degree_diff, dist, speed;
 int start, passed;
@@ -49,6 +49,7 @@ int err_d;
 int auto_ticks = 0;
 
 int curState = 0;
+TARGET test;
 
 /**
   * @brief  Add target to queue
@@ -83,6 +84,7 @@ void auto_tar_dequeue() {
 	int mid_length;
 	if (tar_end && (tar_queue[tar_end-1].type == NODE_STOP))
 		start = auto_get_ticks();
+	
 	if (tar_end) {
 		ori_x = tar_queue[tar_end-1].x;
 		ori_y = tar_queue[tar_end-1].y;
@@ -90,6 +92,7 @@ void auto_tar_dequeue() {
 		ori_x = 0;
 		ori_y = 0;
 	}
+	
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
 	tar_deg = tar_queue[tar_end].deg;
@@ -246,10 +249,14 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	motor_set_vel(MOTOR3, vel[2], CLOSE_LOOP);
 	
 	err_d = err;
+	
+	//temp disable error list to solve memory bug
+	/*
 	if (!pid_stopped) {
 		error_list[error_list_len] = err;
 		error_list_len++;
 	}
+	*/
 }
 
 /**
@@ -403,7 +410,6 @@ void auto_motor_update(){
 	
 	//print debug info
 	tft_clear();
-	/*
 	tft_prints(0,0,"[AUTO MODE]");
 	tft_prints(0,1,"X %5d -> %5d",cur_x,tar_x);
 	tft_prints(0,2,"Y %5d -> %5d",cur_y,tar_y);
@@ -413,18 +419,7 @@ void auto_motor_update(){
 	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
 	tft_prints(0,7,"%5d",degree);
 	tft_prints(0,8,"%5d",curState);
-	tft_prints(0,9,"%5d",tar_queue[tar_end-1].curve);	
-	*/
-	tft_prints(0,0,"%5d",tar_queue[0].curve);
-	tft_prints(0,1,"%5d",tar_queue[1].curve);
-	tft_prints(0,2,"%5d",tar_queue[2].curve);
-	tft_prints(0,3,"%5d",tar_queue[3].curve);
-	tft_prints(0,4,"%5d",tar_queue[4].curve);
-	tft_prints(0,5,"%5d",tar_queue[5].curve);
-	tft_prints(0,7,"%5d",degree);
-	tft_prints(0,8,"%5d",curState);
-	tft_prints(0,9,"%5d",tar_queue[tar_end-1].curve);	
-	
+	tft_prints(0,9,"%5d",tar_queue[tar_end-1].curve);
 	tft_update();
 	
 	//handle input
