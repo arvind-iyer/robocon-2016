@@ -1,4 +1,5 @@
 #include "main.h"
+
 u8 data1[8];
 u8 data2[8];
 u8 sensorbar_result[16];
@@ -8,10 +9,11 @@ u8 border;
 u8 globalState = NOT_RIVER;
 u8 prevStage = NOT_RIVER;
 bool inBlue = false;
+bool sensorIsFlipped = true;
 
 void receive(CanRxMsg msg){
     for(int i = 0; i < 8 ;i++){
-        data1[i] = msg.Data[i];
+        data1[i] = msg.Data[i];       
     }
 }
 void receive2(CanRxMsg msg){
@@ -28,16 +30,19 @@ void receive3(CanRxMsg msg){
 
 void fill_sensorbar_array(){
     for(int i = 0; i < 8; i++){
-        sensorbar_result[i] = data2[7-i];
+        if(sensorIsFlipped) sensorbar_result[i] = data2[7-i];
+        else sensorbar_result[i] = data1[i];
     }
     for(int i = 0; i < 8; i++){
-        sensorbar_result[8+i] = data1[7-i];
+        if(sensorIsFlipped) sensorbar_result[8+i] = data1[7-i];
+        else sensorbar_result[8+i] = data2[i];
     }
 }
 
 void print_array(){
     tft_prints(0,0,"Sensor output");
     for(int i = 0; i < 16 ;i++){
+        
         tft_prints(i,1,"%d",sensorbar_result[i]);
     }
 }
