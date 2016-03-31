@@ -61,6 +61,7 @@
 ".\output\ultra_sonic.o"
 ".\output\imu.o"
 ".\output\imu_math.o"
+".\output\bajaj.o"
 --library_type=microlib --strict --scatter ".\Output\project.sct"
 --diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

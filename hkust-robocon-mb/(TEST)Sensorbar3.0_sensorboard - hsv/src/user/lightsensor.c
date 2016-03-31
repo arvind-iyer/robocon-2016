@@ -235,7 +235,7 @@ void sendData(){
     msg2.length = 3;
     msg2.data[1] = hueAverage;
     msg2.data[2] = border;
-    if(hueAverage >= 201 && hueAverage <= 250)msg2.data[0] = 1;
+    if(hueAverage >= 170 && hueAverage <= 250)msg2.data[0] = 1;
     else msg2.data[0] = 0;
     can_tx_enqueue(msg2);
 }

@@ -51,30 +51,10 @@
 #include "ultra_sonic.h"
 #include "imu.h"
 #include "imu_math.h"
+#include "bajaj.h"
 
-#define BAJAJ
 
-#ifdef WILSON
-#define SERVO_MICROS_MID 1150
-#define SERVO_MICROS_RIGHT 550
-#define SERVO_MICROS_LEFT 1750
-#endif
 
-#ifdef HITLER
-#define SERVO_MICROS_MID 1500
-#define SERVO_MICROS_RIGHT 2100
-#define SERVO_MICROS_LEFT 1000
-#define HITLER_SERVO SERVO2
-#endif
-
-#ifdef BAJAJ
-#define SERVO_MICROS_MID 1300
-#define SERVO_MICROS_RIGHT 2000
-#define SERVO_MICROS_LEFT 600
-#define BAJAJ_SERVO  SERVO3
-#endif
-
-enum{NOT_RIVER = 0, STAGE1 = 1, STAGE2 = 2, STAGE3 = 3};
 
 #endif /* __MAIN_H */
 

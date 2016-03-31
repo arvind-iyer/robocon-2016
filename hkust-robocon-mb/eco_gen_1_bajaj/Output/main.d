@@ -60,5 +60,4 @@
 .\output\main.o: .\inc\ultra_sonic.h
 .\output\main.o: .\inc\imu.h
 .\output\main.o: .\inc\imu_math.h
-.\output\main.o: .\inc\main.h
-.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\output\main.o: .\inc\bajaj.h
