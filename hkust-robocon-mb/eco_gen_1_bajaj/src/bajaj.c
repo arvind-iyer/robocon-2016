@@ -1,24 +1,5 @@
 #include "bajaj.h"
 
-//extern u8 data1[8];
-//extern u8 data2[8];
-//extern u8 sensorbar_result[16];
-//extern u8 river;
-//extern u8 hueAvg;
-//extern u8 border;
-//extern u8 globalState;
-
-//extern int begin;
-//extern int end;
-//extern int length;
-//extern int lastMovement;
-//extern int lastTurn;
-//extern float factor;
-
-//extern bool inBlue;
-//extern bool sensorIsFlipped;
-//extern bool fullWhite;
-
 extern u8 data1[8];
 extern u8 data2[8];
 extern u8 sensorbar_result[16];

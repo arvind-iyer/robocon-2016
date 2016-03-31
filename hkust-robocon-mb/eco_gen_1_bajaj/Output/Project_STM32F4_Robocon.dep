@@ -1547,7 +1547,7 @@ I (.\inc\servo.h)(0x56F8433F)
 I (.\inc\ultra_sonic.h)(0x56F84196)
 I (.\inc\imu.h)(0x56FCEDF0)
 I (.\inc\imu_math.h)(0x56F844E7)
-I (.\inc\bajaj.h)(0x56FCF040)
+I (.\inc\bajaj.h)(0x56FD2D89)
 F (.\Libraries\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c)(0x56FCF039)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\system_stm32f4xx.o --omf_browse .\output\system_stm32f4xx.crf --depend .\output\system_stm32f4xx.d)
 I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56DEC51A)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x5625B70C)
@@ -1647,7 +1647,7 @@ I (.\inc\servo.h)(0x56F8433F)
 I (.\inc\ultra_sonic.h)(0x56F84196)
 I (.\inc\imu.h)(0x56FCEDF0)
 I (.\inc\imu_math.h)(0x56F844E7)
-I (.\inc\bajaj.h)(0x56FCF040)
+I (.\inc\bajaj.h)(0x56FD2D89)
 F (.\src\approx_math.c)(0x56DEC51E)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\approx_math.o --omf_browse .\output\approx_math.crf --depend .\output\approx_math.d)
 I (.\inc\approx_math.h)(0x56DEC51E)
 I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56DEC51A)
@@ -2279,8 +2279,8 @@ I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x56DEC51C)
 I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x56DEC51C)
 I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x56DEC51C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
-F (.\src\bajaj.c)(0x56FCEF15)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\bajaj.o --omf_browse .\output\bajaj.crf --depend .\output\bajaj.d)
-I (.\inc\bajaj.h)(0x56FCF040)
+F (.\src\bajaj.c)(0x56FD2D9F)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\bajaj.o --omf_browse .\output\bajaj.crf --depend .\output\bajaj.d)
+I (.\inc\bajaj.h)(0x56FD2D89)
 I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56DEC51A)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x5625B70C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)

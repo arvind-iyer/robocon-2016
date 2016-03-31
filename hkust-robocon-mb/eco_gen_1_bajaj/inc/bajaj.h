@@ -37,9 +37,6 @@
 #define BAJAJ_SERVO  SERVO3
 #endif
 
-
-
-
 enum{NOT_RIVER = 0, STAGE1 = 1, STAGE2 = 2, STAGE3 = 3};
 
 void receive(CanRxMsg msg);
