@@ -4,7 +4,8 @@
 #include "stm32f4xx.h"
 #include <stdbool.h>
 
-float abs_diff(float minuend, float subtrahend);
+s16 abs_diff(s16 minuend, s16 subtrahend);
+float fabs_diff(float minuend, float subtrahend);
 float range_remap(float to_be_mapped);
 
 #endif

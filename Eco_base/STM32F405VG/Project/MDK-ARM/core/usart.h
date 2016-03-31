@@ -2,7 +2,6 @@
 #define __USART_H
 
 #include "stm32f4xx_usart.h"
-#include "ticks.h"
 #include "tm_stm32f4_gpio.h"
 
 #include <stdio.h>

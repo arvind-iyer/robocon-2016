@@ -4,7 +4,7 @@
 #include "can_protocol.h"
 #include "lcd_main.h"
 #include <stdbool.h>
-#include "servo_targeting.h"
+#include "servo_interface.h"
 
 #define SENSOR_BAR_FILTER_1 0x0C5
 #define SENSOR_BAR_FILTER_2 0x0C6
@@ -26,7 +26,8 @@ void sensorbar_init(void);
 
 //Use which shape for the correction, like error^2, error^3
 SENSOR_BAR_FLAG sensor_bar_track(u8 power, u16 sensor_bar_Kp);
-SENSOR_BAR_FLAG sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, s16* corr);
+s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag);
+s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp);
 
 extern u16 sensorbar_value[16];
 

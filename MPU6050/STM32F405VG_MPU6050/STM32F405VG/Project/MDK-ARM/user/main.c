@@ -40,9 +40,6 @@ int main(void) {
 				tft_clear();
 				calcIMU();
 				tft_println("%d %d", get_ticks(), any_loop_diff);
-				tft_println("Rx: %f", Rest[0]);
-				tft_println("Ry: %f", Rest[1]);
-				tft_println("Rz: %f", Rest[2]);
 				tft_println("Yaw: %f", ypr[0]);
 				tft_println("Pit: %f", ypr[1]);
 				tft_println("Rol: %f", ypr[2]);

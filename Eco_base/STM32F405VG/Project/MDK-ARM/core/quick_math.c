@@ -13,7 +13,7 @@
 ** Speed is the heart of battle. ~Dark Seer
 *******************************************************/
 
-float get_median_of_five(float a, float b, float c, float d, float e){
+s16 get_median_of_five(s16 a, s16 b, s16 c, s16 d, s16 e){
     return b < a ? d < c ? b < d ? a < e ? a < d ? e < d ? e : d
                                                  : c < a ? c : a
                                          : e < d ? a < d ? a : d

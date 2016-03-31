@@ -9,6 +9,9 @@
 #define TICKS_IRQn						TIM5_IRQn
 #define TICKS_IRQHandler			void TIM5_IRQHandler(void)
 
+//extern volatile u16 ticks;
+//extern volatile u16 seconds;
+
 u16 get_ticks(void);
 u16 get_seconds(void);
 u32 get_full_ticks(void);

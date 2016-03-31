@@ -138,9 +138,11 @@ void tft_write_data(u8 data)
 void tft_config(void)
 {
 	tft_write_command(0x01);   //Sofeware setting
-	_delay_ms(10);
+	//_delay_ms(10);
+	Delayms(10);
 	tft_write_command(0x11);//Sleep out
-	_delay_ms(120);
+	//_delay_ms(120);
+	Delayms(120);
 	
 	//ST7735R Frame Rate
 	tft_write_command(0xB1);
@@ -234,7 +236,8 @@ void tft_config(void)
 	tft_write_data(0x05);  
 	tft_write_command(0x29);//Display on
 
-	_delay_ms(10);
+	//_delay_ms(10);
+	Delayms(10);
 }
 
 /**
@@ -246,9 +249,11 @@ void tft_reset(void)
 {
 	tft_y_index = 0;
  	GPIO_ResetBits(TFT_RST_PORT, TFT_RST_PIN);
-	_delay_ms(100);
+	//_delay_ms(100);
+	Delayms(100);
 	GPIO_SetBits(TFT_RST_PORT, TFT_RST_PIN);
-	_delay_ms(100);
+	//_delay_ms(100);
+	Delayms(100);
 }
 
 /**

@@ -3,13 +3,13 @@
 u8 river_stage = 0;
 u8 islands_count[2] = {0};
 u8 last_IR_state[2] = {0};
-float river_straight_yaw = 0;
+s16 river_straight_yaw = 0;
 
 void path_river_init(){
 	#ifdef BLUE_FIELD
-		river_straight_yaw = ardu_start_ypr[0] - 180.0f;
+		river_straight_yaw = ardu_int_ypr[0] - 1800;
 	#else
-		river_straight_yaw = ardu_start_ypr[0] + 180.0f;
+		river_straight_yaw = ardu_int_ypr[0] + 1800;
 	#endif
 	river_stage = 0;
 	islands_count[0] = 0;
@@ -58,21 +58,21 @@ GAME_STAGE path_river_update(){
 	switch(river_stage){
 		//case 0 first turn 90-degree
 		case 0:
-			if (fabs(river_straight_yaw - ardu_cal_ypr[0]) > 5.0f){
+			if (abs(river_straight_yaw - ardu_int_ypr[0]) > 50){
+				si_clear();
 				#ifdef BLUE_FIELD
-					force_set_angle(SERVO_MAX_PWM);
+					si_set_pwm(SERVO_MAX_PWM);
 				#else
-					force_set_angle(SERVO_MIN_PWM);
+					si_set_pwm(SERVO_MIN_PWM);
 				#endif
+				si_execute();
 			}else{
 				river_stage++;
-				enable_sensor_bar(RIVER_SENSOR_BAR_TRUST, RIVER_SENSOR_BAR_POWER, RIVER_SENSOR_BAR_Kp);
 				#ifdef BLUE_FIELD
-					set_target(river_straight_yaw + 30.0f);
+					set_target(river_straight_yaw + 300);
 				#else
-					set_target(river_straight_yaw - 30.0f);
+					set_target(river_straight_yaw - 300);
 				#endif
-				targeting_update(ardu_cal_ypr[0]);
 			}
 			break;
 			
@@ -82,7 +82,6 @@ GAME_STAGE path_river_update(){
 			//When it reaches the first island
 			if (islands_count[0] >= 1){
 				river_stage++;
-				disable_sensor_bar();
 				#ifdef BLUE_FIELD
 					set_target(river_straight_yaw);
 				#else
@@ -90,8 +89,11 @@ GAME_STAGE path_river_update(){
 				#endif
 			}
 			
+			si_clear();
 			//Track the white line with imu/sensor bar
-			targeting_update(ardu_cal_ypr[0]);
+			si_add_pwm_bias(sensor_bar_get_corr_nf(RIVER_SENSOR_BAR_POWER, RIVER_SENSOR_BAR_Kp));
+			targeting_update(ardu_int_ypr[0]);
+			si_execute();
 			break;
 			
 		//case 2 go straight until it reaches the last island
@@ -100,15 +102,16 @@ GAME_STAGE path_river_update(){
 			//When it reaches the last island
 			if (islands_count[1] >= 2){
 				river_stage++;
-				disable_sensor_bar();
 			}
-			targeting_update(ardu_cal_ypr[0]);
+			si_clear();
+			targeting_update(ardu_int_ypr[0]);
+			si_execute();
 			break;
 		case 3:
 			return (GAME_STAGE) (CROSSING_RIVER + 1);
 	}
 	tft_println("RS:%d IR:%d %d", river_stage, readIR(0), readIR(1));
 	tft_println("IC: %d %d", islands_count[0], islands_count[1]);
-	tft_println("SY: %f", river_straight_yaw);
+	tft_println("SY: %d", river_straight_yaw);
 	return CROSSING_RIVER;
 }

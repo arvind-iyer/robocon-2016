@@ -26,25 +26,29 @@
 //	PIN_ON_RIGHT = 	3
 #define ORIENTATION_SETTING 2
 
-#define UP_SENSOR_BAR_TRUST 15 //Scaled by 100
-#define UP_SENSOR_BAR_POWER 3
-#define UP_SENSOR_BAR_Kp 350 //Scaled by 100
-#define UP_SENSOR_BAR_ON 70
-#define UP_SENSOR_BAR_OFF 20
+#define UP_SENSOR_BAR_TRUST 		15 //Scaled by 100
+#define UP_SENSOR_BAR_POWER 		3
+#define UP_SENSOR_BAR_Kp 				350 //Scaled by 100
+#define UP_SENSOR_BAR_ON 				70
+#define UP_SENSOR_BAR_OFF 			20
 
-#define DOWN_SENSOR_BAR_TRUST 100 //Scaled by 100
-#define DOWN_SENSOR_BAR_POWER 1
-#define DOWN_SENSOR_BAR_Kp 250 //Scaled by 100
+#define DOWN_SENSOR_BAR_TRUST 	100 //Scaled by 100
+#define DOWN_SENSOR_BAR_POWER 	1
+#define DOWN_SENSOR_BAR_Kp 			250 //Scaled by 100
 
-#define RIVER_SENSOR_BAR_TRUST 100 //Scaled by 100
-#define RIVER_SENSOR_BAR_POWER 1
-#define RIVER_SENSOR_BAR_Kp 420 //Scaled by 100
+#define RIVER_SENSOR_BAR_TRUST 	100 //Scaled by 100
+#define RIVER_SENSOR_BAR_POWER 	1
+#define RIVER_SENSOR_BAR_Kp 		420 //Scaled by 100
+
+#define PURE_SENSOR_BAR_POWER		2
+#define PURE_SENSOR_BAR_Kp			350 //Scaled by 100
 
 #include "stm32f4xx_gpio.h"
 #include "tm_stm32f4_stdio.h"
 #include "tm_stm32f4_gpio.h"
 #include "servo.h"
-#include "ticks.h"
+//#include "ticks.h"
+#include "tm_stm32f4_delay.h"
 #include "usart.h"
 #include "tm_stm32f4_i2c.h"
 #include "approx_math.h"
@@ -54,7 +58,7 @@
 #include "encoder.h"
 #include "sensor_bar.h"
 #include "ardu_imu_adp.h"
-#include "servo_targeting.h"
+#include "imu_targeting.h"
 #include "button.h"
 #include "buzzer.h"
 #include "buzzer_song.h"

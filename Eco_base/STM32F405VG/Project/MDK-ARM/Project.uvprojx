@@ -963,9 +963,9 @@
               <FilePath>.\user\sensor_bar.c</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>imu_targeting.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\imu_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -1006,11 +1006,6 @@
               <FileName>approx_math.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\approx_math.c</FilePath>
-            </File>
-            <File>
-              <FileName>can_motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\can_motor.c</FilePath>
             </File>
             <File>
               <FileName>can_protocol.c</FileName>
@@ -1073,14 +1068,19 @@
               <FilePath>.\core\quick_math.c</FilePath>
             </File>
             <File>
-              <FileName>ticks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\ticks.c</FilePath>
-            </File>
-            <File>
               <FileName>servo.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_timer_properties.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_timer_properties.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2046,9 +2046,9 @@
               <FilePath>.\user\sensor_bar.c</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>imu_targeting.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\imu_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -2089,11 +2089,6 @@
               <FileName>approx_math.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\approx_math.c</FilePath>
-            </File>
-            <File>
-              <FileName>can_motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\can_motor.c</FilePath>
             </File>
             <File>
               <FileName>can_protocol.c</FileName>
@@ -2156,14 +2151,19 @@
               <FilePath>.\core\quick_math.c</FilePath>
             </File>
             <File>
-              <FileName>ticks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\ticks.c</FilePath>
-            </File>
-            <File>
               <FileName>servo.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_timer_properties.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_timer_properties.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3093,9 +3093,9 @@
               <FilePath>.\user\sensor_bar.c</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>imu_targeting.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\imu_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -3136,11 +3136,6 @@
               <FileName>approx_math.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\approx_math.c</FilePath>
-            </File>
-            <File>
-              <FileName>can_motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\can_motor.c</FilePath>
             </File>
             <File>
               <FileName>can_protocol.c</FileName>
@@ -3203,14 +3198,19 @@
               <FilePath>.\core\quick_math.c</FilePath>
             </File>
             <File>
-              <FileName>ticks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\ticks.c</FilePath>
-            </File>
-            <File>
               <FileName>servo.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_timer_properties.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_timer_properties.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -4223,9 +4223,9 @@
               <FilePath>.\user\sensor_bar.c</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>imu_targeting.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\imu_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -4266,11 +4266,6 @@
               <FileName>approx_math.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\approx_math.c</FilePath>
-            </File>
-            <File>
-              <FileName>can_motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\can_motor.c</FilePath>
             </File>
             <File>
               <FileName>can_protocol.c</FileName>
@@ -4333,14 +4328,19 @@
               <FilePath>.\core\quick_math.c</FilePath>
             </File>
             <File>
-              <FileName>ticks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\ticks.c</FilePath>
-            </File>
-            <File>
               <FileName>servo.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_timer_properties.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_timer_properties.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5306,9 +5306,9 @@
               <FilePath>.\user\sensor_bar.c</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>imu_targeting.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\imu_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -5349,11 +5349,6 @@
               <FileName>approx_math.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\approx_math.c</FilePath>
-            </File>
-            <File>
-              <FileName>can_motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\can_motor.c</FilePath>
             </File>
             <File>
               <FileName>can_protocol.c</FileName>
@@ -5416,14 +5411,19 @@
               <FilePath>.\core\quick_math.c</FilePath>
             </File>
             <File>
-              <FileName>ticks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\ticks.c</FilePath>
-            </File>
-            <File>
               <FileName>servo.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_timer_properties.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_timer_properties.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -6295,9 +6295,9 @@
               <FilePath>.\user\sensor_bar.c</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>imu_targeting.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\imu_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -6338,11 +6338,6 @@
               <FileName>approx_math.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\approx_math.c</FilePath>
-            </File>
-            <File>
-              <FileName>can_motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\can_motor.c</FilePath>
             </File>
             <File>
               <FileName>can_protocol.c</FileName>
@@ -6405,14 +6400,19 @@
               <FilePath>.\core\quick_math.c</FilePath>
             </File>
             <File>
-              <FileName>ticks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\ticks.c</FilePath>
-            </File>
-            <File>
               <FileName>servo.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_timer_properties.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_timer_properties.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -7284,9 +7284,9 @@
               <FilePath>.\user\sensor_bar.c</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>imu_targeting.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\imu_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -7327,11 +7327,6 @@
               <FileName>approx_math.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\approx_math.c</FilePath>
-            </File>
-            <File>
-              <FileName>can_motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\can_motor.c</FilePath>
             </File>
             <File>
               <FileName>can_protocol.c</FileName>
@@ -7394,14 +7389,19 @@
               <FilePath>.\core\quick_math.c</FilePath>
             </File>
             <File>
-              <FileName>ticks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\ticks.c</FilePath>
-            </File>
-            <File>
               <FileName>servo.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_timer_properties.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_timer_properties.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -8226,9 +8226,9 @@
               <FilePath>.\user\sensor_bar.c</FilePath>
             </File>
             <File>
-              <FileName>servo_targeting.c</FileName>
+              <FileName>imu_targeting.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\user\servo_targeting.c</FilePath>
+              <FilePath>.\user\imu_targeting.c</FilePath>
             </File>
             <File>
               <FileName>buzzer_song.c</FileName>
@@ -8269,11 +8269,6 @@
               <FileName>approx_math.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\approx_math.c</FilePath>
-            </File>
-            <File>
-              <FileName>can_motor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\can_motor.c</FilePath>
             </File>
             <File>
               <FileName>can_protocol.c</FileName>
@@ -8336,14 +8331,19 @@
               <FilePath>.\core\quick_math.c</FilePath>
             </File>
             <File>
-              <FileName>ticks.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\ticks.c</FilePath>
-            </File>
-            <File>
               <FileName>servo.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\servo.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32f4_timer_properties.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\core\tm_stm32f4_timer_properties.c</FilePath>
             </File>
           </Files>
         </Group>

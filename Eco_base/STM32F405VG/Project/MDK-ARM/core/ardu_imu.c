@@ -13,6 +13,7 @@
 ** Communication is simply UART.
 ** I uses the SparkFun 9DOF Razor IMU firmware here.
 ** Follow the instruction in the firmware's github page to calibrate and setup it.
+** Use a FTDI to flash program inside.
 ** Note that I uses static calibration on startup for yaw, but this should be done on the chip for angular acceleration instead
 ** But well I am too lazy, this is good enough.
 ** 
@@ -122,11 +123,16 @@ void ardu_imu_init(){
 	yaw_bias = 0;
 }
 
-
+static u8 sync_count = 0;
 //Update the values in array
 void ardu_imu_value_update(){
 	if (!ardu_imu_synced){
-		ardu_imu_try_sync();
+		if (sync_count > 5){
+			ardu_imu_try_sync();
+			sync_count = 0;
+		}else{
+			sync_count++;
+		}
 	}else{
 		for (u8 i=0; i<3; i++){
 			byte2float dataset;
@@ -134,10 +140,9 @@ void ardu_imu_value_update(){
 				//Make 4 bytes into one float
 				dataset.chars[(k%4)] = ardu_imu_buffer[k];
 			}
-			ardu_cal_ypr[i] += abs_diff(dataset.f, ardu_out_ypr[i]);
+			ardu_cal_ypr[i] += fabs_diff(dataset.f, ardu_out_ypr[i]);
 			ardu_out_ypr[i] = dataset.f;
 		}
-		ardu_cal_ypr[0] -= yaw_bias;
 		
 		if(!ardu_imu_calibrated){
 			yaw_samples[sample_size++] = ardu_out_ypr[0];
@@ -145,6 +150,8 @@ void ardu_imu_value_update(){
 				yaw_bias = (yaw_samples[SAMPLE_SIZE-1] - yaw_samples[0]) / SAMPLE_SIZE;
 				ardu_imu_calibrated = true;
 			}
+		}else{
+			ardu_cal_ypr[0] -= yaw_bias;
 		}
 	}
 }

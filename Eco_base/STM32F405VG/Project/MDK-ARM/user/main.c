@@ -7,11 +7,14 @@ u32 last_short_loop_ticks = 0;
 u32 any_loop_diff = 0;
 
 int main(void) {
+	SystemCoreClockUpdate();
 	led_init();
-	ticks_init();
+	//ticks_init();
+	TM_DELAY_Init();
 	ardu_adapter_init();
 	sensorbar_init();
 	servo_init();
+	si_init();
 	tft_easy_init((TFT_ORIENTATION)ORIENTATION_SETTING); //Init LCD
 	buzzer_init();
 	button_init();
@@ -20,8 +23,8 @@ int main(void) {
 	GAME_STAGE game_stage = SYSTEM_WAITING;
 	
 	while (1) { 
-		if(get_full_ticks() != this_loop_ticks){
-			this_loop_ticks = get_full_ticks();
+		this_loop_ticks = get_ticks();
+		if(this_loop_ticks != last_loop_ticks){
 			
 			//Long loop action
 			any_loop_diff = this_loop_ticks - last_long_loop_ticks;
@@ -69,7 +72,7 @@ int main(void) {
 						break;
 					
 					case PURE_SENSOR_BAR:
-						sensor_bar_track(2, 350);
+						sensor_bar_track(PURE_SENSOR_BAR_POWER, PURE_SENSOR_BAR_Kp);
 						break;
 					
 					default:

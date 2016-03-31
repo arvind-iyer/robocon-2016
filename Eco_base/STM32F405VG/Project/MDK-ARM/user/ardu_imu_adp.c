@@ -1,7 +1,7 @@
 #include "ardu_imu_adp.h"
 
 float ardu_start_ypr[3];
-u16 ardu_int_ypr[3];
+s16 ardu_int_ypr[3];
 
 static bool sync_music_played = false;
 static bool cali_music_played = false;
@@ -20,7 +20,7 @@ void ardu_imu_update(){
 	ardu_imu_value_update();
 	
 	for (u8 i=0;i<3;i++){
-		ardu_int_ypr[i] = (u16) roundf(ardu_cal_ypr[i]*10);
+		ardu_int_ypr[i] = (s16) roundf(ardu_cal_ypr[i]*10);
 	}
 	
 	if (ardu_imu_pre_staged && !ardu_imu_staged){

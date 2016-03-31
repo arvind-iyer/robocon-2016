@@ -4,18 +4,20 @@
 #include "stm32f4xx.h"
 #include "servo.h"
 #include "quick_math.h"
+#include "lcd_main.h"
 
-#define SERVO_MED_PWM 1500
-#define SERVO_INC_PWM 400
-#define SERVO_DEC_PWM 400
+#define SERVO_MED_PWM 15000
+#define SERVO_INC_PWM 4000
+#define SERVO_DEC_PWM 4000
 #define SERVO_MAX_PWM SERVO_MED_PWM + SERVO_INC_PWM
 #define SERVO_MIN_PWM SERVO_MED_PWM - SERVO_DEC_PWM
 
-#define DRAGON_SERVO SERVO1
+#define DRAGON_SERVO SERVO2
 
 extern s16 current_servo_pwm;
 extern s16 pending_servo_pwm;
 
+//All pwm and angle are scaled by 10
 void si_init(void);
 void si_set_st_deg_bias(s16 angle_bias);
 void si_set_st_pwm_bias(s16 pwm_bias);

@@ -5,13 +5,13 @@
 #include "main.h"
 #include "led.h"
 #include "lcd_main.h"
-#include "usart.h"
 #include <stdbool.h>
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include "servo.h"
-#include "servo_targeting.h"
+#include "imu_targeting.h"
+#include "sensor_bar.h"
+#include "servo_interface.h"
 #include "path.h"
 #include "path_downslope.h"
 

@@ -13,9 +13,10 @@
 #define GYRO_TRUST 10
 
 extern float ypr[3];
+extern float Rest[3];
 
 void normalise_vector_float(float* v);
-s16 sqr(s16 num);
+float sqr(float num);
 
 void calc_init(void);
 void calcIMU(void);
