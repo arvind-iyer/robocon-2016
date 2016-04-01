@@ -4,16 +4,19 @@ int main(void) {
 	SystemCoreClockUpdate();
 	led_init();			//Initiate LED
 	ticks_init();		//Ticks initialization
-  tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED);     //LCD Initialization
+    tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED);     //LCD Initialization
 	buzzer_init();	//Initialize buzzer
 	encoder_init();
-	//Initialize the CAN protocol for motor
+	
+    //Initialize the CAN protocol for motor
 	//    can_init();
 	//    can_rx_init();
 	//    can_motor_init();
-  RCC_ClocksTypeDef  rcc_clocks;
+    
+    RCC_ClocksTypeDef  rcc_clocks;
 	RCC_GetClocksFreq(&rcc_clocks);
-	//Initialize timer variable  
+	
+    //Initialize timer variable  
 	servo_init();
 	u32 ticks_ms_img = 0;
 	while (1) {

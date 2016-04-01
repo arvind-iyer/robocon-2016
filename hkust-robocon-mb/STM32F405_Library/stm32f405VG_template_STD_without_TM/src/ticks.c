@@ -37,13 +37,6 @@ void ticks_init(void) {
 
 	RCC_APB1PeriphClockCmd(TICKS_RCC , ENABLE);
 	
-//	TICKS_TIM->PSC = SystemCoreClock / 1000000 - 1;		// Prescaler
-//	TICKS_TIM->ARR = 1000;
-//	TICKS_TIM->EGR = 1;
-//	TICKS_TIM->SR = 0;
-//	TICKS_TIM->DIER = 1;
-//	TICKS_TIM->CR1 = 1;
-	
 	TIM_TimeBaseStructure.TIM_Period = 1000;	                 				       // Timer period, 1000 ticks in one second
 	TIM_TimeBaseStructure.TIM_Prescaler = TICKS_CLKFreq / 1000000 - 1;     // 84M/1M - 1 = 83
 	TIM_TimeBaseInit(TICKS_TIM, &TIM_TimeBaseStructure);      							 // this part feeds the parameter we set above

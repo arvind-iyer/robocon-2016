@@ -56,3 +56,4 @@
 .\output\main.o: .\inc\buzzer.h
 .\output\main.o: .\inc\infrared_sensor.h
 .\output\main.o: .\inc\servo.h
+.\output\main.o: .\inc\ultra_sonic.h

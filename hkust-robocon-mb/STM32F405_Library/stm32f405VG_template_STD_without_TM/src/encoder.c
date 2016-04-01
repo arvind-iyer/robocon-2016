@@ -7,7 +7,7 @@ static Encoder_Typedef encoder = {{ENCODER_TIMER1,ENCODER_TIMER1_CLOCK_SOURCE,EN
 
 /**
   * @brief  Initialization of encoder
-  * @param  None
+  * @param  Nonea
   * @retval None
   */
 void encoder_init(void){
@@ -15,30 +15,34 @@ void encoder_init(void){
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 
     //Alternate function enable: Encoder 1
-    RCC_APB1PeriphClockCmd(ENCODER_TIMER1_CLOCK_SOURCE , ENABLE);																// Enable Timer Clock Source
-    GPIO_PinAFConfig(ENCODER_TIMER1_GPIOx, ENCODER_TIMER1_GPIO_PINSOURCE1 |ENCODER_TIMER1_GPIO_PINSOURCE2, ENCODER_TIMER1_AF);
-
+    RCC_APB1PeriphClockCmd(ENCODER_TIMER1_CLOCK_SOURCE , ENABLE);
+    RCC_AHB1PeriphClockCmd(ENCODER_TIMER1_GPIO_CLOCK_SOURCE, ENABLE);
+    // Enable Timer Clock Source
+    GPIO_PinAFConfig(ENCODER_TIMER1_GPIOx, ENCODER_TIMER1_GPIO_PINSOURCE1, ENCODER_TIMER1_AF);
+    GPIO_PinAFConfig(ENCODER_TIMER1_GPIOx, ENCODER_TIMER1_GPIO_PINSOURCE2, ENCODER_TIMER1_AF);
 
     //Alternate function enable: Encoder 2
     RCC_APB1PeriphClockCmd(ENCODER_TIMER2_CLOCK_SOURCE , ENABLE);
-    GPIO_PinAFConfig(ENCODER_TIMER2_GPIOx, ENCODER_TIMER2_GPIO_PINSOURCE1 | ENCODER_TIMER2_GPIO_PINSOURCE2, ENCODER_TIMER2_AF);
-
+    RCC_AHB1PeriphClockCmd(ENCODER_TIMER2_GPIO_CLOCK_SOURCE , ENABLE);
+    // Enable Timer Clock Source
+    GPIO_PinAFConfig(ENCODER_TIMER2_GPIOx, ENCODER_TIMER2_GPIO_PINSOURCE1, ENCODER_TIMER2_AF);
+    GPIO_PinAFConfig(ENCODER_TIMER2_GPIOx, ENCODER_TIMER2_GPIO_PINSOURCE2, ENCODER_TIMER2_AF);
     // GPIO init Encoder 1
     GPIO_StructInit(&GPIO_InitStructure);																														// Set to default
     GPIO_InitStructure.GPIO_Pin = ENCODER_TIMER1_PORT1 | ENCODER_TIMER1_PORT2;						
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Low_Speed;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
     GPIO_Init(ENCODER_TIMER1_GPIOx, &GPIO_InitStructure);	
 
     //GPIO Init Encoder 2
     GPIO_StructInit(&GPIO_InitStructure);																														// Set to default
     GPIO_InitStructure.GPIO_Pin = ENCODER_TIMER2_PORT1 | ENCODER_TIMER2_PORT2;						
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
     GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Low_Speed;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
     GPIO_Init(ENCODER_TIMER2_GPIOx, &GPIO_InitStructure);
 
     // Timer init Encoder 1
@@ -83,3 +87,9 @@ void encoder_init(void){
 u32 get_count(ENCODER ENCODERx){
 	return TIM_GetCounter(encoder[ENCODERx].timer);
 }
+
+void reset_all_encoder(){
+    TIM_SetCounter(ENCODER_TIMER1,0);
+    TIM_SetCounter(ENCODER_TIMER2,0);
+}
+

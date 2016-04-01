@@ -2,10 +2,8 @@
 
 
 /* Config the servo here, DISABLE the servo if not used */
-static SERVO_PWM_STRUCT servo_pwm = {{TIM_Channel_1, GPIOA, GPIO_Pin_6, GPIO_PinSource6, ENABLE, TIM_OC1Init, TIM_SetCompare1},
-																		{TIM_Channel_2, GPIOA, GPIO_Pin_7, GPIO_PinSource7, ENABLE, TIM_OC2Init, TIM_SetCompare2},
-																		{TIM_Channel_3, GPIOB, GPIO_Pin_0, GPIO_PinSource0, ENABLE, TIM_OC3Init, TIM_SetCompare3},
-																		{TIM_Channel_4, GPIOB, GPIO_Pin_1, GPIO_PinSource1, ENABLE, TIM_OC4Init, TIM_SetCompare4}};
+static SERVO_PWM_STRUCT servo_pwm = {{TIM_Channel_3, GPIOB, GPIO_Pin_0, GPIO_PinSource0, ENABLE, TIM_OC3Init, TIM_SetCompare3},
+									{TIM_Channel_4, GPIOB, GPIO_Pin_1, GPIO_PinSource1, ENABLE, TIM_OC4Init, TIM_SetCompare4}};
 
 /**
   * @brief  Servo initialization
@@ -25,10 +23,10 @@ void servo_init(void){
 	SERVO_GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;						// Push-Pull Output Alternate-function
 	SERVO_GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	
-	for (servo_id = 0; servo_id < 4; ++servo_id){
+	for (servo_id = 0; servo_id < SERVO_COUNT; ++servo_id){
 		if (servo_pwm[servo_id].state == DISABLE) {
 				continue;
-			}
+		}
 		SERVO_GPIO_InitStructure.GPIO_Pin=servo_pwm[servo_id].servo_pin;
 		GPIO_Init(servo_pwm[servo_id].GPIOx , &SERVO_GPIO_InitStructure);	
 		GPIO_PinAFConfig(servo_pwm[servo_id].GPIOx, servo_pwm[servo_id].GPIO_PinSource, GPIO_AF_TIM3);
@@ -61,12 +59,6 @@ void servo_init(void){
 	//------------------------------//
 	
 	// OC Init
-	TIM_OC1Init(SERVO_TIM, &TIM_OCInitStructure);
-	TIM_OC1PreloadConfig(SERVO_TIM, ENABLE);
-
-	TIM_OC2Init(SERVO_TIM, &TIM_OCInitStructure);
-	TIM_OC2PreloadConfig(SERVO_TIM, ENABLE);
-	
 	TIM_OC3Init(SERVO_TIM, &TIM_OCInitStructure);
 	TIM_OC3PreloadConfig(SERVO_TIM, ENABLE);
 	
@@ -81,8 +73,8 @@ void servo_init(void){
 
 /**
   * @brief  Controlling the PWM for servos
-  * @param  servo_id: Port of Motor to be used (MOTOR1, MOTOR2, MOTOR3, MOTOR4)
-  * @param  val: Value from 0 to 1000
+  * @param  servo_id: Port of Motor to be used (SERVO1, SERVO2, SERVO3, SERVO4)
+  * @param  val: Value from 0 to 2000
   * @retval None
   */
 void servo_control(SERVO_ID servo_id , u16 val) {

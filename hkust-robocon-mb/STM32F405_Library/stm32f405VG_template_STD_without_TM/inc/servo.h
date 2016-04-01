@@ -5,11 +5,10 @@
 #include "stm32f4xx_gpio.h"	  
 #include "stm32f4xx_tim.h"
 
-#define SERVO_COUNT     4
+#define SERVO_COUNT     2
 #define SERVO_TIM				TIM3
-#define SERVO_PORT			GPIOA
 #define SERVO_TIM_RCC		RCC_APB1Periph_TIM3
-#define SERVO_GPIO_RCC	RCC_AHB1Periph_GPIOA|RCC_AHB1Periph_GPIOB
+#define SERVO_GPIO_RCC	    RCC_AHB1Periph_GPIOB
 
 typedef struct {
 	u16 servo_tim_ch;
@@ -22,10 +21,8 @@ typedef struct {
 } SERVO_PWM_STRUCT[];
 
 typedef enum {
-  SERVO1,
-  SERVO2,
-  SERVO3,
-  SERVO4
+  SERVO1, //0
+  SERVO2, //1
 } SERVO_ID;
 
 

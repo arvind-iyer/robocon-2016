@@ -176,7 +176,7 @@
             <Capability>1</Capability>
             <DriverSelection>4103</DriverSelection>
           </Flash1>
-          <bUseTDR>0</bUseTDR>
+          <bUseTDR>1</bUseTDR>
           <Flash2>STLink\ST-LINKIII-KEIL_SWO.dll</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
@@ -740,6 +740,16 @@
               <FileName>tft_display.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\tft_display.c</FilePath>
+            </File>
+            <File>
+              <FileName>ultra_sonic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\ultra_sonic.c</FilePath>
+            </File>
+            <File>
+              <FileName>button.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\button.c</FilePath>
             </File>
           </Files>
         </Group>

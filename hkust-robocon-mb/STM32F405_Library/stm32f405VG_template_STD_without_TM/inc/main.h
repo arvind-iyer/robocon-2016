@@ -47,6 +47,7 @@
 #include "infrared_sensor.h"
 #include "ticks.h"
 #include "servo.h"
+#include "ultra_sonic.h"
 
 
 #endif /* __MAIN_H */
