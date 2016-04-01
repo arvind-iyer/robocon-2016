@@ -62,3 +62,5 @@
 .\output\stm32f4xx_it.o: .\inc\imu.h
 .\output\stm32f4xx_it.o: .\inc\imu_math.h
 .\output\stm32f4xx_it.o: .\inc\bajaj.h
+.\output\stm32f4xx_it.o: .\inc\button.h
+.\output\stm32f4xx_it.o: .\inc\main.h

@@ -61,3 +61,5 @@
 .\output\main.o: .\inc\imu.h
 .\output\main.o: .\inc\imu_math.h
 .\output\main.o: .\inc\bajaj.h
+.\output\main.o: .\inc\button.h
+.\output\main.o: .\inc\main.h

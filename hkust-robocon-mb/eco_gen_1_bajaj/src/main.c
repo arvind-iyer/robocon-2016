@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 //extern variables
 u8 data1[8];
 u8 data2[8];

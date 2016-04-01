@@ -22,32 +22,27 @@ Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
 C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\Project.uvprojx
-Project File Date:  03/31/2016
+Project File Date:  04/01/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F4_Robocon'
-compiling main.c...
+compiling button.c...
 .\inc\ultra_sonic.h(35): warning:  #1295-D: Deprecated declaration us_init - give arg types
   void us_init();
 .\inc\ultra_sonic.h(39): warning:  #1-D: last line of file ends without a newline
   #endif
-src\main.c(56): warning:  #111-D: statement is unreachable
-  return 0;
-src\main.c(58): warning:  #1-D: last line of file ends without a newline
-  	
-src\main.c: 4 warnings, 0 errors
-compiling bajaj.c...
-compiling stm32f4xx_it.c...
-.\inc\ultra_sonic.h(35): warning:  #1295-D: Deprecated declaration us_init - give arg types
-  void us_init();
-.\inc\ultra_sonic.h(39): warning:  #1-D: last line of file ends without a newline
+.\inc\button.h(51): warning:  #1-D: last line of file ends without a newline
   #endif
-Libraries\STM32F4xx_StdPeriph_Driver\stm32f4xx_it.c: 2 warnings, 0 errors
+.\inc\button.h(51): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\button.c(15): warning:  #1-D: last line of file ends without a newline
+  }
+src\button.c: 5 warnings, 0 errors
 linking...
 Program Size: Code=13936 RO-data=424 RW-data=4784 ZI-data=35432  
 FromELF: creating hex file...
-".\Output\project.hex" - 0 Error(s), 6 Warning(s).
+".\Output\project.hex" - 0 Error(s), 5 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -65,7 +60,7 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:4.3.0
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
