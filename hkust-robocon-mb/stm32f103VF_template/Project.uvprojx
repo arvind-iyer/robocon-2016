@@ -10,6 +10,7 @@
       <TargetName>stm32_template</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060020::V5.06 (build 20)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F103VF</Device>
@@ -168,7 +169,7 @@
         </DebugOption>
         <Utilities>
           <Flash1>
-            <UseTargetDll>1</UseTargetDll>
+            <UseTargetDll>0</UseTargetDll>
             <UseExternalTool>1</UseExternalTool>
             <RunIndependent>1</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
@@ -177,7 +178,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>Segger\JL2CM3.dll</Flash2>
-          <Flash3>"flash.bat" (./output/@H.hex 30 256000 STM32F1_XL-density_768K)</Flash3>
+          <Flash3>"flash.bat" (./output/@H.hex 3 256000 STM32F1_XL-density_768K)</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -362,7 +363,7 @@
             <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
-            <uC99>0</uC99>
+            <uC99>1</uC99>
             <useXO>0</useXO>
             <v6Lang>0</v6Lang>
             <v6LangP>0</v6LangP>
@@ -372,7 +373,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER, STM32F10X_XL, USE_STM3210B_EVAL</Define>
               <Undefine></Undefine>
-              <IncludePath>.\src;.\src\stm32f10x_std\inc;.\src\ustrobo_min_system\inc;.\src\user</IncludePath>
+              <IncludePath>.\src;.\src\stm32f10x_std\inc;.\src\ustrobo_min_system\inc;.\src\user;.\src\baselibc\include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -444,6 +445,11 @@
               <FileName>crc.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\user\crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\pid.c</FilePath>
             </File>
             <File>
               <FileName>position.c</FileName>
@@ -660,11 +666,6 @@
               <FileName>uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\ustrobo_min_system\src\uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>xbc_mb.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\ustrobo_min_system\src\xbc_mb.c</FilePath>
             </File>
             <File>
               <FileName>led.c</FileName>

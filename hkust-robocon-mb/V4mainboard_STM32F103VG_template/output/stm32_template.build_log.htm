@@ -1,0 +1,74 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: £gVision V5.16a
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Simon Tam, --, LIC=585FW-QI7SR-NNDAF-6R8U5-0JQCG-MB672
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Standard  Version: 5.16a
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 (build 20)
+Assembler:       Armasm.exe V5.06 (build 20)
+Linker/Locator:  ArmLink.exe V5.06 (build 20)
+Library Manager: ArmAr.exe V5.06 (build 20)
+Hex Converter:   FromElf.exe V5.06 (build 20)
+CPU DLL:         SARMCM3.DLL V5.16a
+Dialog DLL:      DCM.DLL V1.13.2.0
+Target DLL:      UL2CM3.DLL V1.155.12.0
+Dialog DLL:      TCM.DLL V1.14.5.0
+ 
+<h2>Project:</h2>
+C:\Users\Simon\Desktop\Github\robocon-2016_F4Lib\hkust-robocon-mb\V4mainboard_STM32F103VG_template\Project.uvprojx
+Project File Date:  04/02/2016
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'stm32_template'
+compiling main.c...
+.\src\ustrobo_min_system\inc\led.h(38): warning:  #1295-D: Deprecated declaration get_led_state - give arg types
+  u8 get_led_state();
+.\src\ustrobo_min_system\inc\lcd_main.h(76): warning:  #1295-D: Deprecated declaration tft_easy_init - give arg types
+  void tft_easy_init();
+src\user\can_motor.h(52): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\MPU6050.h(394): warning:  #1295-D: Deprecated declaration MPU6050_Initialize - give arg types
+  void MPU6050_Initialize();
+src\user\MPU6050.h(395): warning:  #1295-D: Deprecated declaration MPU6050_TestConnection - give arg types
+  u8 MPU6050_TestConnection();
+src\user\MPU6050.h(398): warning:  #1295-D: Deprecated declaration MPU6050_GetFullScaleGyroRange - give arg types
+  uint8_t MPU6050_GetFullScaleGyroRange();
+src\user\MPU6050.h(401): warning:  #1295-D: Deprecated declaration MPU6050_GetFullScaleAccelRange - give arg types
+  uint8_t MPU6050_GetFullScaleAccelRange();
+src\user\MPU6050.h(405): warning:  #1295-D: Deprecated declaration MPU6050_GetSleepModeStatus - give arg types
+  u8 MPU6050_GetSleepModeStatus();
+src\user\MPU6050.h(409): warning:  #1295-D: Deprecated declaration MPU6050_GetDeviceID - give arg types
+  uint8_t MPU6050_GetDeviceID();
+src\user\MPU6050.h(418): warning:  #1295-D: Deprecated declaration MPU6050_I2C_Init - give arg types
+  void MPU6050_I2C_Init();
+src\user\laser_range_finder.h(20): warning:  #1295-D: Deprecated declaration LRF_send_cmd - give arg types
+  LRF_stat LRF_send_cmd();
+src\user\main.c(7): warning:  #188-D: enumerated type mixed with another type
+  	tft_init(1,
+LACK,
+HITE,
+HITE);
+src\user\main.c(5): warning:  #177-D: variable "val" was declared but never referenced
+  	s16 val[6];
+src\user\main.c: 13 warnings, 0 errors
+linking...
+Program Size: Code=21440 RO-data=460 RW-data=1744 ZI-data=35528  
+FromELF: creating hex file...
+".\output\stm32_template.axf" - 0 Error(s), 13 Warning(s).
+
+<h2>Collection of Component include folders:</h2>
+  C:\Users\Simon\Desktop\Github\robocon-2016_F4Lib\hkust-robocon-mb\V4mainboard_STM32F103VG_template\RTE
+  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:02
+</pre>
+</body>
+</html>

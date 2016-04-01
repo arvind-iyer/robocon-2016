@@ -1,0 +1,9 @@
+.\output\vsscanf.o: src\baselibc\src\vsscanf.c
+.\output\vsscanf.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+.\output\vsscanf.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\vsscanf.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\output\vsscanf.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
+.\output\vsscanf.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\vsscanf.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\output\vsscanf.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
+.\output\vsscanf.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
