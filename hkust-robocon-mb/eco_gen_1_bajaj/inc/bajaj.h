@@ -12,6 +12,7 @@
 #include "led.h"
 #include "buzzer_song.h"
 #include "buzzer.h"
+#include "button.h"
 
 
 //CHOOSE YOUR CAR
@@ -38,6 +39,8 @@
 #endif
 
 enum{NOT_RIVER = 0, STAGE1 = 1, STAGE2 = 2, STAGE3 = 3};
+
+enum{OFF = 0 , ON = 1};
 
 void receive(CanRxMsg msg);
 void receive2(CanRxMsg msg);

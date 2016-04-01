@@ -7,7 +7,7 @@
 #include "tft_display.h"
 #include "main.h"
 
-#define ORIENTATION_SETTING 0
+#define ORIENTATION_SETTING 3
 
 //Rotate the joystick to match the lcd orientation
 #if ORIENTATION_SETTING == 0 //PIN ON TOP

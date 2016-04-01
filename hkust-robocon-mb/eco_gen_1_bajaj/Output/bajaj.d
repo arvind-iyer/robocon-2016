@@ -50,3 +50,17 @@
 .\output\bajaj.o: .\inc\led.h
 .\output\bajaj.o: .\inc\buzzer_song.h
 .\output\bajaj.o: .\inc\buzzer.h
+.\output\bajaj.o: .\inc\button.h
+.\output\bajaj.o: .\inc\main.h
+.\output\bajaj.o: .\inc\usart.h
+.\output\bajaj.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
+.\output\bajaj.o: .\inc\approx_math.h
+.\output\bajaj.o: .\inc\gyro.h
+.\output\bajaj.o: .\inc\can_motor.h
+.\output\bajaj.o: .\inc\sensor_bar.h
+.\output\bajaj.o: .\inc\line_sensor.h
+.\output\bajaj.o: .\inc\ultra_sonic.h
+.\output\bajaj.o: .\inc\imu.h
+.\output\bajaj.o: .\inc\imu_math.h
+.\output\bajaj.o: .\inc\bajaj.h
+.\output\bajaj.o: .\inc\button.h

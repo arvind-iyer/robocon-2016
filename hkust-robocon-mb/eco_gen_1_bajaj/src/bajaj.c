@@ -17,6 +17,7 @@ extern float factor;
 extern bool inBlue;
 extern bool sensorIsFlipped;
 extern bool fullWhite;
+extern bool systemOn;
 
 
 void systemInit(){
@@ -27,6 +28,7 @@ void systemInit(){
 	buzzer_init();	//Initialize buzzer
     servo_init();
     buzzer_init();
+    button_init();
     
     encoder_init();
     infrared_sensor_init();
@@ -77,7 +79,7 @@ void print_data(){
     tft_prints(0,6,"e1:%d e2:%d",get_count(ENCODER1),get_count(ENCODER2));
     tft_prints(0,7,"state: %d",globalState);
     tft_prints(0,8,"riv:%d inB:%d",river,inBlue);
-    tft_prints(0,9,"h: %d b: %d",hueAvg,border);    
+    tft_prints(0,9,"system: %d",systemOn);    
 }
 
 void process_array(){
@@ -116,7 +118,7 @@ void goNormal(void){
                 lastMovement = SERVO_MICROS_LEFT;
             }
             else if((begin + end) / 2 >= 8 && river && inBlue){
-                lastMovement = SERVO_MICROS_RIGHT - 200;
+                lastMovement = SERVO_MICROS_RIGHT - 150;
                 globalState = STAGE1;
             }
             else lastMovement = SERVO_MICROS_RIGHT;
@@ -128,14 +130,14 @@ void goNormal(void){
 
 void goFindWall(void){
     if(!read_infrared_sensor(INFRARED_SENSOR_1)){
-        servo_control(SERVO1,SERVO_MICROS_MID - 100);
+        servo_control(SERVO1,SERVO_MICROS_MID - 150);
         globalState = STAGE2;
         reset_all_encoder();
     }
 }
 
 void goStraightYolo(void){
-    if(get_count(ENCODER1) > 45000){
+    if(get_count(ENCODER1) > 43000){
         globalState = NOT_RIVER;
         inBlue = false;
     }

@@ -27,20 +27,20 @@ Project File Date:  04/01/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F4_Robocon'
-compiling button.c...
+compiling main.c...
 .\inc\ultra_sonic.h(35): warning:  #1295-D: Deprecated declaration us_init - give arg types
   void us_init();
 .\inc\ultra_sonic.h(39): warning:  #1-D: last line of file ends without a newline
   #endif
 .\inc\button.h(51): warning:  #1-D: last line of file ends without a newline
   #endif
-.\inc\button.h(51): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\button.c(15): warning:  #1-D: last line of file ends without a newline
-  }
-src\button.c: 5 warnings, 0 errors
+src\main.c(69): warning:  #111-D: statement is unreachable
+  return 0;
+src\main.c(71): warning:  #1-D: last line of file ends without a newline
+  	
+src\main.c: 5 warnings, 0 errors
 linking...
-Program Size: Code=13936 RO-data=424 RW-data=4784 ZI-data=35432  
+Program Size: Code=14060 RO-data=424 RW-data=4788 ZI-data=35436  
 FromELF: creating hex file...
 ".\Output\project.hex" - 0 Error(s), 5 Warning(s).
 
@@ -60,7 +60,7 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:4.3.0
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
