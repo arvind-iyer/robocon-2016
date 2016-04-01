@@ -1,17 +1,17 @@
 #include "sensor_bar.h"
 
-u16 sensorbar_value[16] = {0};
-static u8 last_mid = SENSOR_BAR_MID;
+u16 sensor_bar_value[16] = {0};
+u8 sensor_bar_mid = SENSOR_BAR_MID;
 
 static void receive_part_a(CanRxMsg msg){
 	for(int i = 0; i < 8 ;i++){
-		sensorbar_value[i] = msg.Data[i];
+		sensor_bar_value[i] = msg.Data[i];
 	}
 }
 
 static void receive_part_b(CanRxMsg msg){
 	for(int i = 0; i < 8 ; i++){
-		sensorbar_value[8+i] = msg.Data[i]; 
+		sensor_bar_value[8+i] = msg.Data[i]; 
 	}
 }
 
@@ -31,7 +31,7 @@ s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
 	bool in_line = false;
 	
 	for (u8 index=0; index<16; index++){
-		if (sensorbar_value[index] == 1){
+		if (sensor_bar_value[index] == 1){
 			if (in_line){
 				end_index = index;
 			}else{
@@ -40,7 +40,7 @@ s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
 			}
 		}else if(in_line){
 			//Can skip a 0 digit
-			if (index==15 || sensorbar_value[index+1]!=1){
+			if (index==15 || sensor_bar_value[index+1]!=1){
 				in_line = false;
 				if (end_index-start_index >= max_width){
 					max_width = end_index-start_index;
@@ -69,6 +69,7 @@ s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
 	
 	s16 corr_angle = 0;
 	if (line_mid!=0){
+		sensor_bar_mid = line_mid;
 		//Square the difference while maintaining sign
 		s8 sign_of_error = (line_mid-SENSOR_BAR_MID)>0?1:-1;
 		u16 abs_error = (line_mid-SENSOR_BAR_MID)*sign_of_error;
@@ -79,7 +80,7 @@ s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
 		corr_angle = sensor_bar_Kp*powered_error*sign_of_error/100; //Unscale it
 		corr_angle = (corr_angle>180)?180:(corr_angle<-180?-180:corr_angle);
 	}else{
-		last_mid = SENSOR_BAR_MID;
+		sensor_bar_mid = SENSOR_BAR_MID;
 	}
 	tft_println("SE: %d %d %d %d", best_start_index, best_end_index, line_mid, corr_angle);
 	return corr_angle;
@@ -95,7 +96,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 	SENSOR_BAR_FLAG flag = SENSOR_BAR_NORM;
 	
 	for (u8 index=0; index<16; index++){
-		if (sensorbar_value[index] == 1){
+		if (sensor_bar_value[index] == 1){
 			if (in_line){
 				end_index = index;
 			}else{
@@ -104,7 +105,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 			}
 		}else if(in_line){
 			//Can skip a 0 digit
-			if (index==15 || sensorbar_value[index+1]!=1){
+			if (index==15 || sensor_bar_value[index+1]!=1){
 				in_line = false;
 				if (end_index-start_index >= max_width){
 					max_width = end_index-start_index;
@@ -136,6 +137,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 		flag = SENSOR_BAR_EXT;
 	}
 	if (line_mid!=0){
+		sensor_bar_mid = line_mid;
 		//Square the difference while maintaining sign
 		s8 sign_of_error = (line_mid-SENSOR_BAR_MID)>0?1:-1;
 		u16 abs_error = (line_mid-SENSOR_BAR_MID)*sign_of_error;
@@ -146,7 +148,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 		corr_angle = sensor_bar_Kp*powered_error*sign_of_error / 10; //Unscale it
 		corr_angle = (corr_angle>180)?180:(corr_angle<-180?-180:corr_angle);
 	}else{
-		last_mid = SENSOR_BAR_MID;
+		sensor_bar_mid = SENSOR_BAR_MID;
 		flag = SENSOR_BAR_NTH;
 	}
 	tft_println("SE: %d %d %d %d", best_start_index, best_end_index, line_mid, corr_angle);

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Thu Mar 31 11:36:24 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri Apr 01 15:33:37 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1204,7 +1204,7 @@ Global Symbols
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_update
 </UL>
 
-<P><STRONG><a name="[d7]"></a>path_up_update</STRONG> (Thumb, 330 bytes, Stack size 0 bytes, path_upslope.o(i.path_up_update))
+<P><STRONG><a name="[d7]"></a>path_up_update</STRONG> (Thumb, 370 bytes, Stack size 0 bytes, path_upslope.o(i.path_up_update))
 <BR><BR>[Calls]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs_diff
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_pid
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
@@ -1224,14 +1224,14 @@ Global Symbols
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_init
 </UL>
 
-<P><STRONG><a name="[e7]"></a>sensor_bar_get_corr</STRONG> (Thumb, 274 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr))
+<P><STRONG><a name="[e7]"></a>sensor_bar_get_corr</STRONG> (Thumb, 278 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr))
 <BR><BR>[Calls]<UL><LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 <BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
 </UL>
 
-<P><STRONG><a name="[e1]"></a>sensor_bar_get_corr_nf</STRONG> (Thumb, 252 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr_nf))
+<P><STRONG><a name="[e1]"></a>sensor_bar_get_corr_nf</STRONG> (Thumb, 256 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr_nf))
 <BR><BR>[Calls]<UL><LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 <BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
@@ -1318,13 +1318,13 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 </UL>
 
-<P><STRONG><a name="[e8]"></a>targeting_pid</STRONG> (Thumb, 82 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_pid))
+<P><STRONG><a name="[e8]"></a>targeting_pid</STRONG> (Thumb, 84 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_pid))
 <BR><BR>[Calls]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;u16_sqrt
 </UL>
 <BR>[Called By]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
 </UL>
 
-<P><STRONG><a name="[e3]"></a>targeting_update</STRONG> (Thumb, 88 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_update))
+<P><STRONG><a name="[e3]"></a>targeting_update</STRONG> (Thumb, 90 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_update))
 <BR><BR>[Calls]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;u16_sqrt
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_add_pwm_bias
 </UL>

@@ -6,7 +6,7 @@
 #include "quick_math.h"
 #include "lcd_main.h"
 
-#define SERVO_MED_PWM 15000
+#define SERVO_MED_PWM 15500
 #define SERVO_INC_PWM 4000
 #define SERVO_DEC_PWM 4000
 #define SERVO_MAX_PWM SERVO_MED_PWM + SERVO_INC_PWM

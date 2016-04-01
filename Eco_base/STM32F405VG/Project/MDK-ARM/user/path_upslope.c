@@ -7,7 +7,6 @@ static u16 progress_ticks = 0;
 static s16 targeting_yaw;
 static s16 awaiting_pitch;
 static s16 last_pitch;
-static bool using_sensor_bar = false;
 #define TOTAL_PATH_SIZE 7
 
 #ifdef BLUE_FIELD
@@ -42,7 +41,7 @@ void path_up_init(u8 stage){
 GAME_STAGE path_up_update(){
 	//Going up slope
 	//Update the rolling average of pitch value
-	rolling_pitch[rolling_pitch_index++] = ardu_cal_ypr[1];
+	rolling_pitch[rolling_pitch_index++] = ardu_int_ypr[1];
 	rolling_pitch_index = rolling_pitch_index % ROLLING_PITCH_SIZE;
 	
 	s16 median_pitch = get_median_of_five(rolling_pitch[0], rolling_pitch[1], rolling_pitch[2], rolling_pitch[3], rolling_pitch[4]);
@@ -70,7 +69,7 @@ GAME_STAGE path_up_update(){
 		//progress when it is the right time
 		targeting_yaw += path_yaw_change[path_pointer++];
 		last_pitch = awaiting_pitch;
-		awaiting_pitch = ardu_start_ypr[1] + path_pitch_change[path_pointer];
+		awaiting_pitch = ardu_start_ypr[1]*10 + path_pitch_change[path_pointer];
 		pitch_change = abs_diff(last_pitch, awaiting_pitch);
 		
 		set_target(targeting_yaw);
@@ -82,21 +81,42 @@ GAME_STAGE path_up_update(){
 	
 	SENSOR_BAR_FLAG flag;
 	s16 correction = sensor_bar_get_corr(UP_SENSOR_BAR_POWER, UP_SENSOR_BAR_Kp, &flag);
-	if (!using_sensor_bar && abs(correction) > UP_SENSOR_BAR_ON){
-		using_sensor_bar = true;
-	}else if(using_sensor_bar && abs(correction) < UP_SENSOR_BAR_OFF){
-		using_sensor_bar = false;
+
+	u16 sensorbar_trust = 0; //Scaled by 100
+	switch(abs((s8)sensor_bar_mid - SENSOR_BAR_MID)){
+		case 0:
+		case 1:
+			sensorbar_trust = 0;
+			break;
+		case 2:
+			sensorbar_trust = 5;
+			break;
+		case 3:
+			sensorbar_trust = 10;
+			break;
+		case 4:
+			sensorbar_trust = 15;
+			break;
+		case 5:
+			sensorbar_trust = 35;
+			break;
+		case 6:
+			sensorbar_trust = 60;
+			break;
+		case 7:
+			sensorbar_trust = 80;
+			break;
+		case 8:
+			sensorbar_trust = 100;
+			break;
 	}
 	
 	si_clear();
 	si_add_pwm_bias(targeting_pid(ardu_int_ypr[0]));
-	tft_println("%d", targeting_pid(ardu_int_ypr[0]));
-	if (using_sensor_bar){
-		si_add_pwm_bias(correction);
-	}
+	si_add_pwm_bias(correction*sensorbar_trust/100);
 	si_execute();
-	tft_println("PP:%d ST:%d", path_pointer, using_sensor_bar?1:0);
-//	tft_println("AP:%f", awaiting_pitch);
-//	tft_println("AV:%f", median_pitch);
+	tft_println("PP:%d ST:%d MD:%d", path_pointer, sensorbar_trust, abs((s8)sensor_bar_mid - SENSOR_BAR_MID));
+//	tft_println("AP:%d", awaiting_pitch);
+//	tft_println("AV:%d", median_pitch);
 	return CLIMBING_SLOPE;
 }

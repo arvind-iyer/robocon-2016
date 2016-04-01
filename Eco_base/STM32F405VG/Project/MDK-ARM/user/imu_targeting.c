@@ -14,7 +14,7 @@ s16 targeting_pid(s16 current_yaw){
 	
 	//tft_println("TY:%d SV:%d", (int)(target_yaw*10),  current_pwm);
 
-	return u16_sqrt((u16)abs(yaw_diff)) * SERVO_Kp * (yaw_diff>0?1:-1) / 100;
+	return -u16_sqrt((u16)abs(yaw_diff)) * SERVO_Kp * (yaw_diff>0?1:-1) / 10;
 }
 
 void targeting_update(s16 current_yaw){
