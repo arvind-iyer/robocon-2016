@@ -81,20 +81,6 @@ void auto_tar_enqueue(TARGET target) {
 }
 
 /**
-  * @brief  Add array of targets to queue
-  * @param  path: Array of targets
-  * @retval No. of targets
-  */
-int auto_tar_add_path(const TARGET* path) {
-	int i = 0;
-	while (path[i].type != NODE_END) {
-		auto_tar_enqueue(path[i]);
-		i++;
-	}
-	return i;
-}
-
-/**
   * @brief  Execute topmost target in queue
   * @param  None
   * @retval None
@@ -354,7 +340,7 @@ void auto_menu_update() {
 		tft_prints(0,5,"Load path now");
 	tft_update();
 	
-	if (button_pressed(BUTTON_XBC_START)){
+	if (button_pressed(BUTTON_XBC_START) && is_loaded){
 		if (!start_pressed) {
 			start_pressed = true;
 			auto_reset();
@@ -441,6 +427,7 @@ void auto_motor_update(){
 		if (!back_pressed) {
 			back_pressed = true;
 			auto_motor_stop();
+			auto_init();
 			pid_state = MENU_MODE;
 		}
 	} else {

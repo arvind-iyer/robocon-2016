@@ -36,12 +36,9 @@ typedef	struct {
 	s32 curve;
 } TARGET;
 
-#include "auto_paths.h"
-
 int pythag(int a1, int a2, int b1, int b2);
 
 void auto_tar_enqueue(TARGET target);
-int auto_tar_add_path(const TARGET* path);
 void auto_tar_dequeue(void);
 int auto_tar_queue_len(void);
 TARGET auto_tar_ret(int id);
