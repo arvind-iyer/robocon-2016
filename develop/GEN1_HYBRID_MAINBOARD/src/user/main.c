@@ -17,6 +17,7 @@ int main(void) {
 	can_rx_init();
 	can_motor_init();
 	uart_init(COM1, 115200);
+	uart_interrupt(COM1);
 	manual_init();
 	pneumatic_init();
 	buzzer_init();

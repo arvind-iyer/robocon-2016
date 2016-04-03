@@ -49,6 +49,22 @@ int start, passed;
 int err_d;
 int auto_ticks = 0;
 
+u8 rx_state = 0;
+uint8_t rx_buffer[4] = {0,0,0,0};
+
+void rx_reset(void) {
+	rx_state = 0;
+}
+
+s32 rx_merge(void) {
+	s32 val = 0;
+	val |= rx_buffer[0] << 0;
+	val |= rx_buffer[1] << 8;
+	val |= rx_buffer[2] << 16;
+	val |= rx_buffer[3] << 24;
+	return val;
+}
+
 int pythag(int a1, int a2, int b1, int b2) {
 	return Sqrt(Sqr(b1 - a1) + Sqr(b2 - a2));
 }
@@ -332,6 +348,7 @@ void auto_menu_update() {
 	tft_prints(2,3,"Circle");
 	tft_prints(2,4,"8-Figure");
 	tft_prints(2,5,"Demo");
+	tft_prints(2,9,"%d",rx_merge());
 	tft_prints(0,path_id+1,">");	
 	tft_update();
 	
@@ -362,6 +379,7 @@ void auto_menu_update() {
 		start_pressed = false;
 	}
 	
+	/*
 	if (button_pressed(BUTTON_XBC_N) && (path_id > 0)) {
 		if (!up_pressed) {
 			up_pressed = true;
@@ -379,6 +397,7 @@ void auto_menu_update() {
 	} else {
 		dn_pressed = false;
 	}
+	*/
 }
 
 /**
@@ -526,5 +545,16 @@ void auto_data_update(){
 		}
 	} else {
 		dn_pressed = false;
+	}
+}
+
+void USART1_IRQHandler(void) {
+	if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET){
+		const uint8_t byte = USART_ReceiveData(USART1);
+		
+		rx_buffer[rx_state] = byte;
+		rx_state = (rx_state+1)%4;
+		
+		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
 	}
 }

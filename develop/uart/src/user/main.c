@@ -6,11 +6,21 @@
 u32 this_loop_ticks = 0;
 u8 init = 0;
 u8 state = 0;
-	
-uint8_t data;
 
-s32 rx_dword(void) {
-	//do something
+u8 rx_state = 0;
+uint8_t rx_buffer[4] = {0,0,0,0};
+
+void rx_reset(void) {
+	rx_state = 0;
+}
+
+s32 rx_merge(void) {
+	s32 val = 0;
+	val |= rx_buffer[0] << 0;
+	val |= rx_buffer[1] << 8;
+	val |= rx_buffer[2] << 16;
+	val |= rx_buffer[3] << 24;
+	return val;
 }
 
 int main(void) {
@@ -28,12 +38,12 @@ int main(void) {
 	uart_init(COM1, 115200);
 	uart_interrupt(COM1);
 
-	tft_put_logo(85, 120);            
+	tft_put_logo(85, 120);       
 	CONTROL_STATE last_control_state = MANUAL_MODE;
 	
 	while(1){
 		tft_clear();
-		tft_prints(0,0,"RX: %d",data);
+		tft_prints(0,0,"%d",rx_merge());
 		tft_update();
 	}
 }
@@ -41,7 +51,10 @@ int main(void) {
 void USART1_IRQHandler(void) {
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET){
 		const uint8_t byte = USART_ReceiveData(USART1);
-		data = byte;
+		
+		rx_buffer[rx_state] = byte;
+		rx_state = (rx_state+1)%4;
+		
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
 	}
 }
