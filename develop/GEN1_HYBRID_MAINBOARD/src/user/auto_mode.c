@@ -49,12 +49,13 @@ int start, passed;
 int err_d;
 int auto_ticks = 0;
 
-u8 rx_state = 0;
+//UART receiver
+u8 rx_count = 0;
+u8 rx_pointer = 0;
+TARGET rx_node;
 uint8_t rx_buffer[4] = {0,0,0,0};
+bool is_loaded = false;
 
-void rx_reset(void) {
-	rx_state = 0;
-}
 
 s32 rx_merge(void) {
 	s32 val = 0;
@@ -176,6 +177,10 @@ void auto_init() {
 	right_pressed = false;
 	start_pressed = false;
 	back_pressed = false;
+	
+	tar_head = 0;
+	tar_end = 0;
+	is_loaded = false;
 }
 
 /**
@@ -185,8 +190,6 @@ void auto_init() {
   */
 void auto_reset() {
 	//reset variables
-	tar_head = 0;
-	tar_end = 0;
 	err_d = 0;
 	dist = 0;
 	degree_diff = 0;
@@ -343,13 +346,12 @@ void auto_calibrate(){
 void auto_menu_update() {
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
-	tft_prints(2,1,"Straight");
-	tft_prints(2,2,"Right");
-	tft_prints(2,3,"Circle");
-	tft_prints(2,4,"8-Figure");
-	tft_prints(2,5,"Demo");
-	tft_prints(2,9,"%d",rx_merge());
-	tft_prints(0,path_id+1,">");	
+	tft_prints(0,1,"%d",tar_head);
+	tft_prints(0,2,"State: %d %d",rx_count, rx_pointer);
+	if (is_loaded)
+		tft_prints(0,9,"Path Loaded!");
+	else
+		tft_prints(0,9,"Waiting...");
 	tft_update();
 	
 	if (button_pressed(BUTTON_XBC_START)){
@@ -357,47 +359,10 @@ void auto_menu_update() {
 			start_pressed = true;
 			auto_reset();
 			pid_state = RUNNING_MODE;
-			switch (path_id) {
-				case 0:
-					auto_tar_add_path(STRAIGHT);
-					break;
-				case 1:
-					auto_tar_add_path(RIGHT);
-					break;
-				case 2:
-					auto_tar_add_path(CIRCLE);
-					break;
-				case 3:
-					auto_tar_add_path(EIGHT_FIG);
-					break;
-				case 4:
-					auto_tar_add_path(DEM_PID);
-					break;
-			}
 		}
 	} else {
 		start_pressed = false;
 	}
-	
-	/*
-	if (button_pressed(BUTTON_XBC_N) && (path_id > 0)) {
-		if (!up_pressed) {
-			up_pressed = true;
-			path_id--;
-		}
-	} else {
-		up_pressed = false;
-	}
-	
-	if (button_pressed(BUTTON_XBC_S) && (path_id < 4)) {
-		if (!dn_pressed) {
-			dn_pressed = true;
-			path_id++;
-		}
-	} else {
-		dn_pressed = false;
-	}
-	*/
 }
 
 /**
@@ -551,10 +516,37 @@ void auto_data_update(){
 void USART1_IRQHandler(void) {
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET){
 		const uint8_t byte = USART_ReceiveData(USART1);
-		
-		rx_buffer[rx_state] = byte;
-		rx_state = (rx_state+1)%4;
-		
+		rx_buffer[rx_count] = byte;
+		rx_count++;
+		if (rx_count == 4) {
+			rx_count = 0;
+			switch(rx_pointer) {
+				case 0:
+					if (rx_merge())
+						rx_node.type = NODE_STOP;
+					else
+						rx_node.type = NODE_PASS;
+					break;
+				case 1:
+					rx_node.x = rx_merge();
+					break;
+				case 2:
+					rx_node.y = rx_merge();
+					break;
+				case 3:
+					rx_node.deg = rx_merge();
+					break;
+				case 4:
+					rx_node.curve = rx_merge();
+					break;
+			}
+			rx_pointer++;
+		}
+		if (rx_pointer == 5) {
+			rx_pointer = 0;
+			auto_tar_enqueue(rx_node);
+			is_loaded = true;
+		}
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
 	}
 }
