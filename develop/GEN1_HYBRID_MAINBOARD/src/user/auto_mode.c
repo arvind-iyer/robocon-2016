@@ -349,9 +349,9 @@ void auto_menu_update() {
 	tft_prints(0,1,"%d",tar_head);
 	tft_prints(0,2,"State: %d %d",rx_count, rx_pointer);
 	if (is_loaded)
-		tft_prints(0,9,"Path Loaded!");
+		tft_prints(0,5,"Press Start!");
 	else
-		tft_prints(0,9,"Waiting...");
+		tft_prints(0,5,"Load path now");
 	tft_update();
 	
 	if (button_pressed(BUTTON_XBC_START)){
