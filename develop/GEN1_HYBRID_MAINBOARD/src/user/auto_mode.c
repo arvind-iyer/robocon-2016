@@ -363,7 +363,9 @@ void auto_var_update() {
 	cur_deg = get_angle();
 	
 	//temp adjustment
-	//cur_x += (cur_y / 10);
+	cur_y = (int)((float)cur_y * 0.99);
+	cur_x = (int)(cur_x - ((float)cur_y * 0.05));
+	//cur_x = (int)(cur_x - ((float)cur_y * 0.06));
 	
 	if (tar_queue[tar_end-1].curve == 0) {
 		degree = tar_dir;

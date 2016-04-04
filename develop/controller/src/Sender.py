@@ -3,7 +3,7 @@ import serial
 import ctypes
 import PathLoad
 
-msgTitle = "WarDragon"
+msgTitle = "controller"
 msgSent = "Sent!"
 msgError = "Failed to send message.\nPlease check UART connection."
 
