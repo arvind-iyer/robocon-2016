@@ -9,12 +9,15 @@ def load():
     own = cont.owner
     pathnameMsg = cont.sensors['pathnameMsg']
     if pathnameMsg.positive:
+        for x in range(len(nodes)):
+            nodes.pop() #reset global var
         filename = pathnameMsg.bodies[0]
         i = 0
         file = open(path+filename,'r')
         for line in file:
             nodes.append([int(x) for x in line.split(',')])
             i += 1
+        own['added'] = False
 
 def getNodes():
     return nodes

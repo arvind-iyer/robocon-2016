@@ -332,12 +332,13 @@ void auto_calibrate(){
 void auto_menu_update() {
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
-	tft_prints(0,1,"%d",tar_head);
 	tft_prints(0,2,"State: %d %d",rx_count, rx_pointer);
-	if (is_loaded)
+	if (is_loaded) {
 		tft_prints(0,5,"Press Start!");
-	else
+		tft_prints(0,6,"Length: %d",tar_head);
+	} else {
 		tft_prints(0,5,"Load path now");
+	}
 	tft_update();
 	
 	if (button_pressed(BUTTON_XBC_START) && is_loaded){
@@ -363,8 +364,8 @@ void auto_var_update() {
 	cur_deg = get_angle();
 	
 	//temp adjustment
-	cur_y = (int)((float)cur_y * 0.99);
-	cur_x = (int)(cur_x - ((float)cur_y * 0.05));
+	//cur_y = (int)((float)cur_y * 0.99);
+	//cur_x = (int)(cur_x - ((float)cur_y * 0.05));
 	//cur_x = (int)(cur_x - ((float)cur_y * 0.06));
 	
 	if (tar_queue[tar_end-1].curve == 0) {

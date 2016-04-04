@@ -1,8 +1,10 @@
 import bge
 
-def setFont():
+def main():
 
     cont = bge.logic.getCurrentController()
     own = cont.owner
 
     own.resolution = 8
+
+main()
