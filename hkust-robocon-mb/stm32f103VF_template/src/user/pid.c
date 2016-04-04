@@ -280,6 +280,7 @@ void tuneErrM()
 	{
 		errDist = 1;
 	}
+	lastDist = currentDist;
 }
 
 void tuneErrW()
@@ -301,6 +302,8 @@ void tuneErrW()
 	{
 		errAngle = 1;
 	}
+	lastAngleDiff = currentAngleDiff;
+	
 }
 
 void parseMotorValues()
