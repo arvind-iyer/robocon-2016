@@ -58,8 +58,8 @@
 .\output\main.o: .\inc\infrared_sensor.h
 .\output\main.o: .\inc\servo.h
 .\output\main.o: .\inc\ultra_sonic.h
-.\output\main.o: .\inc\imu.h
-.\output\main.o: .\inc\imu_math.h
 .\output\main.o: .\inc\bajaj.h
 .\output\main.o: .\inc\button.h
 .\output\main.o: .\inc\main.h
+.\output\main.o: .\inc\ardu_imu.h
+.\output\main.o: .\inc\imu_math.h

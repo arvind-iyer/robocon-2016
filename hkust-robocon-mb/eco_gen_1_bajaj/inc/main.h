@@ -49,10 +49,9 @@
 #include "ticks.h"
 #include "servo.h"
 #include "ultra_sonic.h"
-#include "imu.h"
-#include "imu_math.h"
 #include "bajaj.h"
 #include "button.h"
+#include "ardu_imu.h"
 
 
 

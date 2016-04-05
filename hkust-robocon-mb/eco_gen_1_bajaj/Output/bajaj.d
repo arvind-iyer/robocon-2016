@@ -60,7 +60,7 @@
 .\output\bajaj.o: .\inc\sensor_bar.h
 .\output\bajaj.o: .\inc\line_sensor.h
 .\output\bajaj.o: .\inc\ultra_sonic.h
-.\output\bajaj.o: .\inc\imu.h
-.\output\bajaj.o: .\inc\imu_math.h
 .\output\bajaj.o: .\inc\bajaj.h
 .\output\bajaj.o: .\inc\button.h
+.\output\bajaj.o: .\inc\ardu_imu.h
+.\output\bajaj.o: .\inc\imu_math.h

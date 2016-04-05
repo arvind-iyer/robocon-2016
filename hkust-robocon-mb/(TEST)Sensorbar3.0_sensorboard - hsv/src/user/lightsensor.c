@@ -195,7 +195,7 @@ void sendData(){
     hueAverage /= 16;
     
     //Dark blue
-    if(hueAverage >= 201 && hueAverage <= 250)border = 47;
+    if(hueAverage >= 201 && hueAverage <= 250)border = 50;
     
     //Orange
     else if(hueAverage <= 30)border = 55;
@@ -204,7 +204,7 @@ void sendData(){
     else if(hueAverage >= 80 && hueAverage <= 100) border = 35;
     
     //Dark green
-    else if(hueAverage >= 160 && hueAverage <= 200) border = 45;
+    else if(hueAverage >= 160 && hueAverage <= 200) border = 42;
     
     //Pink
     else if(hueAverage > 300) border = 45;
@@ -214,8 +214,8 @@ void sendData(){
         
     for(int i=0;i < 16;i++)
     {
-        if(now.s[i] < border) sat[i] = 1; //White color
-        else sat[i] = 0; //Dark color
+        if(now.s[i] >  (border + 5)) sat[i] = 0; //White color
+        else sat[i] = 1; //Dark color
     }
     
 	CAN_MESSAGE msg;

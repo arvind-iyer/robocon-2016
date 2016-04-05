@@ -59,7 +59,7 @@
 .\output\button.o: .\inc\infrared_sensor.h
 .\output\button.o: .\inc\servo.h
 .\output\button.o: .\inc\ultra_sonic.h
-.\output\button.o: .\inc\imu.h
-.\output\button.o: .\inc\imu_math.h
 .\output\button.o: .\inc\bajaj.h
 .\output\button.o: .\inc\button.h
+.\output\button.o: .\inc\ardu_imu.h
+.\output\button.o: .\inc\imu_math.h

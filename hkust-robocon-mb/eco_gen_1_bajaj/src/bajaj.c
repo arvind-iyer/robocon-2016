@@ -19,6 +19,11 @@ extern bool sensorIsFlipped;
 extern bool fullWhite;
 extern bool systemOn;
 
+extern int yaw_of_imu;
+
+float imuFactor;
+int imuMovement;
+
 
 void systemInit(){
     SystemCoreClockUpdate();
@@ -32,7 +37,7 @@ void systemInit(){
     
     encoder_init();
     infrared_sensor_init();
-    
+      
 	//Initialize the CAN protocol for motor
     can_init();
     can_rx_init();
@@ -72,7 +77,7 @@ void fill_sensorbar_array(){
 void print_data(){
     tft_prints(0,0,"Sensor output");
     for(int i = 0; i < 16 ;i++) tft_prints(i,1,"%d",sensorbar_result[i]);
-    tft_prints(0,2,"count :%d",get_full_ticks());
+    tft_prints(0,2,"yaw :%d cal:%d",yaw_of_imu,ardu_imu_calibrated);
     tft_prints(0,3,"i1:%d i2:%d",read_infrared_sensor(INFRARED_SENSOR_1),read_infrared_sensor(INFRARED_SENSOR_2));
     tft_prints(0,4,"length: %d",length);
     tft_prints(0,5,"fullwhite:%d",fullWhite);
@@ -86,24 +91,33 @@ void process_array(){
     for(int k = 0; k < 16; k++) {
         int el = sensorbar_result[k];
         if (el == 1) {
+            length++;
             if (begin == -1) begin = k; 
+            
+            //Add more conditioning here
+            else if(sensorbar_result[k+1] > 15){
+                end = 15;
+            }
+            else if(sensorbar_result[k+1] == 0){
+                end = k; //If the rest is zero, regards others as noise
+                break;
+            }
             else {
                 end = k;
-            }
-        length++;
+            }  
         }   
     }
 }
 
 void goNormal(void){
     if (get_full_ticks() - lastTurn >= 500){
-        if(length == 16 && fullWhite == false){
+        if(length >= 15 && fullWhite == false){
             lastMovement = SERVO_MICROS_RIGHT;
             fullWhite = true;
             lastTurn = get_full_ticks();
         }
         
-        else if (length == 16 && fullWhite == true){
+        else if (length >= 15 && fullWhite == true){
             lastMovement = SERVO_MICROS_MID;
         }
 
@@ -118,8 +132,7 @@ void goNormal(void){
                 lastMovement = SERVO_MICROS_LEFT;
             }
             else if((begin + end) / 2 >= 8 && river && inBlue){
-                lastMovement = SERVO_MICROS_RIGHT - 150;
-                globalState = STAGE1;
+                lastMovement = SERVO_MICROS_RIGHT + 250;
             }
             else lastMovement = SERVO_MICROS_RIGHT;
         }  
@@ -130,18 +143,70 @@ void goNormal(void){
 
 void goFindWall(void){
     if(!read_infrared_sensor(INFRARED_SENSOR_1)){
-        servo_control(SERVO1,SERVO_MICROS_MID - 150);
+        servo_control(SERVO1,SERVO_MICROS_MID + 50);
         globalState = STAGE2;
         reset_all_encoder();
     }
 }
 
 void goStraightYolo(void){
-    if(get_count(ENCODER1) > 43000){
+    if(get_count(ENCODER1) > 45000){
         globalState = NOT_RIVER;
         inBlue = false;
     }
 }
+
+void goUsingImu(void){
+    if(get_count(ENCODER1) > 30000 && !read_infrared_sensor(INFRARED_SENSOR_1)){
+        globalState = STAGE2;
+        reset_all_encoder();
+    }
+    else{
+        if(yaw_of_imu >= -5 && yaw_of_imu <= 5)servo_control(SERVO1,SERVO_MICROS_MID);
+        else if(yaw_of_imu > 120) servo_control(SERVO1,SERVO_MICROS_LEFT);
+        else if(yaw_of_imu < -120) servo_control(SERVO1,SERVO_MICROS_RIGHT);
+        else{
+            //non-extreme angle movement
+            imuFactor = (float)yaw_of_imu / 120;
+            imuMovement = SERVO_MICROS_MID + (imuFactor * 600);
+            servo_control(SERVO1,imuMovement);
+        }
+    }
+}
+
+void goDetectRightWall(void){
+    if(river && !read_infrared_sensor(INFRARED_SENSOR_2)){
+        servo_control(SERVO1,SERVO_MICROS_MID + 150);
+        globalState = STAGE3;
+    }
+}
+
+void goDetectLeftWall(void){
+    if(river && !read_infrared_sensor(INFRARED_SENSOR_1)){
+        globalState = NOT_RIVER;
+    }
+}
+
+void goStraightLittleBit(void){
+    servo_control(SERVO1,SERVO_MICROS_MID + 150);
+    if(get_count(ENCODER1) > 4000){
+        globalState = NOT_RIVER;
+    }
+}
+
+void printSystemOff(void){
+    tft_prints(0,3,"SYSTEM IS OFF");
+    tft_prints(0,0,"Sensor output");
+    for(int i = 0; i < 16 ;i++) tft_prints(i,1,"%d",sensorbar_result[i]);
+    tft_prints(0,2,"River: %d",river);
+    tft_prints(0,4,"calibrated:%d",ardu_imu_calibrated);
+    tft_prints(0,5,"yaw:%f",ardu_cal_ypr[0]);
+    tft_prints(0,6,"length:%d",length);
+    tft_prints(0,7,"b:%d e:%d",begin,end);
+    tft_prints(0,8,"i1:%d i2:%d",read_infrared_sensor(INFRARED_SENSOR_1),read_infrared_sensor(INFRARED_SENSOR_2));
+}
+
+
 
 
 

@@ -13,6 +13,7 @@
 #include "buzzer_song.h"
 #include "buzzer.h"
 #include "button.h"
+#include "ardu_imu.h"
 
 
 //CHOOSE YOUR CAR
@@ -32,9 +33,9 @@
 #endif
 
 #ifdef BAJAJ
-#define SERVO_MICROS_MID 1300
-#define SERVO_MICROS_RIGHT 2000
-#define SERVO_MICROS_LEFT 600
+#define SERVO_MICROS_MID 1500
+#define SERVO_MICROS_RIGHT 900
+#define SERVO_MICROS_LEFT 2100
 #define BAJAJ_SERVO  SERVO3
 #endif
 
@@ -57,6 +58,17 @@ void goNormal(void);
 void goFindWall(void);
 
 void goStraightYolo(void);
+
+void goUsingImu(void);
+
+void goDetectRightWall(void);
+
+void goDetectLeftWall(void);
+
+void goStraightLittleBit(void);
+
+void printSystemOff(void);
+
 
 #endif
 

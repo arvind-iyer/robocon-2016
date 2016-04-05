@@ -59,8 +59,8 @@
 .\output\stm32f4xx_it.o: .\inc\infrared_sensor.h
 .\output\stm32f4xx_it.o: .\inc\servo.h
 .\output\stm32f4xx_it.o: .\inc\ultra_sonic.h
-.\output\stm32f4xx_it.o: .\inc\imu.h
-.\output\stm32f4xx_it.o: .\inc\imu_math.h
 .\output\stm32f4xx_it.o: .\inc\bajaj.h
 .\output\stm32f4xx_it.o: .\inc\button.h
 .\output\stm32f4xx_it.o: .\inc\main.h
+.\output\stm32f4xx_it.o: .\inc\ardu_imu.h
+.\output\stm32f4xx_it.o: .\inc\imu_math.h

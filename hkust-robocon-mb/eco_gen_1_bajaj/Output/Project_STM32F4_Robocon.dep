@@ -1522,7 +1522,7 @@ I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x56FDCF70)
 I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x56FDCF70)
 I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x56FDCF70)
 I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x56FDCF70)
-I (.\inc\main.h)(0x56FE708A)
+I (.\inc\main.h)(0x5702198E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
 I (.\inc\led.h)(0x56FDCF75)
 I (.\inc\tft_display.h)(0x56FDCF75)
@@ -1545,10 +1545,10 @@ I (.\inc\buzzer.h)(0x56FDCF75)
 I (.\inc\infrared_sensor.h)(0x56FDCF75)
 I (.\inc\servo.h)(0x56FDCF75)
 I (.\inc\ultra_sonic.h)(0x56FDCF75)
-I (.\inc\imu.h)(0x56FDCF75)
-I (.\inc\imu_math.h)(0x56FDCF75)
-I (.\inc\bajaj.h)(0x56FE7531)
+I (.\inc\bajaj.h)(0x5703CDDE)
 I (.\inc\button.h)(0x56FE7138)
+I (.\inc\ardu_imu.h)(0x5702311E)
+I (.\inc\imu_math.h)(0x57021949)
 F (.\Libraries\CMSIS\Device\ST\STM32F4xx\Source\Templates\system_stm32f4xx.c)(0x56FDCF6F)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\system_stm32f4xx.o --omf_browse .\output\system_stm32f4xx.crf --depend .\output\system_stm32f4xx.d)
 I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56FDCF6F)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x5625B70C)
@@ -1587,8 +1587,8 @@ I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x56FDCF70)
 I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x56FDCF70)
 F (.\Libraries\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f40_41xxx.s)(0x56FDCF6F)(--cpu Cortex-M4.fp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 516" --pd "_RTE_ SETA 1" --pd "STM32F405xx SETA 1"--list .\listings\startup_stm32f40_41xxx.lst --xref -o .\output\startup_stm32f40_41xxx.o --depend .\output\startup_stm32f40_41xxx.d)
 F (.\Libraries\STM32F4xx_StdPeriph_Driver\readme.txt)(0x56FDCF70)()
-F (.\src\main.c)(0x56FE7EE7)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
-I (.\inc\main.h)(0x56FE708A)
+F (.\src\main.c)(0x5703CE01)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
+I (.\inc\main.h)(0x5702198E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
 I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56FDCF6F)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x5625B70C)
@@ -1646,10 +1646,10 @@ I (.\inc\buzzer.h)(0x56FDCF75)
 I (.\inc\infrared_sensor.h)(0x56FDCF75)
 I (.\inc\servo.h)(0x56FDCF75)
 I (.\inc\ultra_sonic.h)(0x56FDCF75)
-I (.\inc\imu.h)(0x56FDCF75)
-I (.\inc\imu_math.h)(0x56FDCF75)
-I (.\inc\bajaj.h)(0x56FE7531)
+I (.\inc\bajaj.h)(0x5703CDDE)
 I (.\inc\button.h)(0x56FE7138)
+I (.\inc\ardu_imu.h)(0x5702311E)
+I (.\inc\imu_math.h)(0x57021949)
 F (.\src\approx_math.c)(0x56FDCF75)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\approx_math.o --omf_browse .\output\approx_math.crf --depend .\output\approx_math.d)
 I (.\inc\approx_math.h)(0x56FDCF75)
 I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56FDCF6F)
@@ -2242,47 +2242,8 @@ I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x56FDCF70)
 I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x56FDCF70)
 I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x56FDCF70)
 I (.\inc\ticks.h)(0x56FDCF75)
-F (.\src\imu.c)(0x56FDCF75)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\imu.o --omf_browse .\output\imu.crf --depend .\output\imu.d)
-F (.\src\imu_math.c)(0x56FDCF75)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\imu_math.o --omf_browse .\output\imu_math.crf --depend .\output\imu_math.d)
-I (.\inc\imu_math.h)(0x56FDCF75)
-I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56FDCF6F)
-I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x5625B70C)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
-I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
-I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
-I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
-I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h)(0x5625A350)
-I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x56FDCF6F)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\stm32f4xx_conf.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_crc.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dbgmcu.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_exti.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_flash.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_i2c.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_iwdg.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_pwr.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rcc.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rtc.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sdio.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_spi.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_syscfg.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_tim.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_cryp.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_hash.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rng.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x56FDCF70)
-I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x56FDCF70)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
-F (.\src\bajaj.c)(0x56FE7550)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\bajaj.o --omf_browse .\output\bajaj.crf --depend .\output\bajaj.d)
-I (.\inc\bajaj.h)(0x56FE7531)
+F (.\src\bajaj.c)(0x5703CDCB)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\bajaj.o --omf_browse .\output\bajaj.crf --depend .\output\bajaj.d)
+I (.\inc\bajaj.h)(0x5703CDDE)
 I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56FDCF6F)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x5625B70C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
@@ -2333,7 +2294,7 @@ I (.\inc\led.h)(0x56FDCF75)
 I (.\inc\buzzer_song.h)(0x56FDCF75)
 I (.\inc\buzzer.h)(0x56FDCF75)
 I (.\inc\button.h)(0x56FE7138)
-I (.\inc\main.h)(0x56FE708A)
+I (.\inc\main.h)(0x5702198E)
 I (.\inc\usart.h)(0x56FDCF75)
 I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x55AEF5F2)
 I (.\inc\approx_math.h)(0x56FDCF75)
@@ -2342,8 +2303,8 @@ I (.\inc\can_motor.h)(0x56FDCF75)
 I (.\inc\sensor_bar.h)(0x56FDCF75)
 I (.\inc\line_sensor.h)(0x56FDCF75)
 I (.\inc\ultra_sonic.h)(0x56FDCF75)
-I (.\inc\imu.h)(0x56FDCF75)
-I (.\inc\imu_math.h)(0x56FDCF75)
+I (.\inc\ardu_imu.h)(0x5702311E)
+I (.\inc\imu_math.h)(0x57021949)
 F (.\src\button.c)(0x56FE72E3)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\button.o --omf_browse .\output\button.crf --depend .\output\button.d)
 I (.\inc\button.h)(0x56FE7138)
 I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56FDCF6F)
@@ -2387,7 +2348,7 @@ I (.\inc\1.8 TFT_ascii.h)(0x56FDCF75)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (.\inc\ticks.h)(0x56FDCF75)
-I (.\inc\main.h)(0x56FE708A)
+I (.\inc\main.h)(0x5702198E)
 I (.\inc\led.h)(0x56FDCF75)
 I (.\inc\usart.h)(0x56FDCF75)
 I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x55AEF5F2)
@@ -2404,6 +2365,87 @@ I (.\inc\buzzer.h)(0x56FDCF75)
 I (.\inc\infrared_sensor.h)(0x56FDCF75)
 I (.\inc\servo.h)(0x56FDCF75)
 I (.\inc\ultra_sonic.h)(0x56FDCF75)
-I (.\inc\imu.h)(0x56FDCF75)
-I (.\inc\imu_math.h)(0x56FDCF75)
-I (.\inc\bajaj.h)(0x56FE7531)
+I (.\inc\bajaj.h)(0x5703CDDE)
+I (.\inc\ardu_imu.h)(0x5702311E)
+I (.\inc\imu_math.h)(0x57021949)
+F (.\src\ardu_imu.c)(0x570225A2)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\ardu_imu.o --omf_browse .\output\ardu_imu.crf --depend .\output\ardu_imu.d)
+I (.\inc\ardu_imu.h)(0x5702311E)
+I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56FDCF6F)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x5625B70C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h)(0x5625A350)
+I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x56FDCF6F)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\stm32f4xx_conf.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_crc.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dbgmcu.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_exti.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_flash.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_i2c.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_iwdg.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_pwr.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rcc.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rtc.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sdio.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_spi.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_syscfg.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_tim.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_cryp.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_hash.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rng.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x56FDCF70)
+I (.\inc\usart.h)(0x56FDCF75)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
+I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x55AEF5F2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
+I (.\inc\imu_math.h)(0x57021949)
+F (.\src\imu_math.c)(0x5702194B)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_1_bajaj\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\imu_math.o --omf_browse .\output\imu_math.crf --depend .\output\imu_math.d)
+I (.\inc\imu_math.h)(0x57021949)
+I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x56FDCF6F)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x5625B70C)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmInstr.h)(0x5625A350)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\cmsis_armcc.h)(0x5625A350)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmFunc.h)(0x5625A350)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cmSimd.h)(0x5625A350)
+I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\system_stm32f4xx.h)(0x56FDCF6F)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\stm32f4xx_conf.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_adc.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_crc.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dbgmcu.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dma.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_exti.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_flash.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_i2c.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_iwdg.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_pwr.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rcc.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rtc.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_sdio.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_spi.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_syscfg.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_tim.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_cryp.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_hash.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rng.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_can.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x56FDCF70)
+I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x56FDCF70)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
