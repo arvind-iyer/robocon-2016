@@ -39,10 +39,10 @@ def main():
             tx_init(hybrid)
             for node in nodes:
                 tx_send_node(hybrid, node)
-            ctypes.windll.user32.MessageBoxW(0, msgSent, msgTitle, 0)
+            ctypes.windll.user32.MessageBoxW(0, msgSent, msgTitle, 64)
             hybrid.close()
         except serial.serialutil.SerialException:
-            ctypes.windll.user32.MessageBoxW(0, msgError, msgTitle, 0)
+            ctypes.windll.user32.MessageBoxW(0, msgError, msgTitle, 16)
         except:
             print("Unexpected error...")
             raise

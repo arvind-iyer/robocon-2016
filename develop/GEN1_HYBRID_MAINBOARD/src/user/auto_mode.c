@@ -20,6 +20,10 @@
 #define THRESHOLD 10
 #define CONST_VEL 50
 
+//#define DEBUG_MODE
+
+float transform[2][2] = {{0.964731, -0.054065}, {0.062220, 1.004667}};
+
 //mode variables
 PID_MODE pid_state;
 bool pid_stopped;
@@ -42,6 +46,7 @@ s32 ori_x, ori_y;
 double deg_ratio;
 
 //auto properties
+s32 raw_x, raw_y;
 s32 cur_x, cur_y, cur_deg;
 int vel[3];
 int degree, degree_diff, dist, speed;
@@ -359,14 +364,13 @@ void auto_menu_update() {
   */
 void auto_var_update() {
 	passed = auto_get_ticks() - start;
-	cur_x = get_pos()->x;
-	cur_y = get_pos()->y;
+	cur_x = raw_x = get_pos()->x;
+	cur_y = raw_y = get_pos()->y;
+	#ifndef DEBUG_MODE
+		cur_x = transform[0][0]*raw_x + transform[0][1]*raw_y;
+		cur_y = transform[1][0]*raw_x + transform[1][1]*raw_y;
+	#endif
 	cur_deg = get_angle();
-	
-	//temp adjustment
-	//cur_y = (int)((float)cur_y * 0.99);
-	//cur_x = (int)(cur_x - ((float)cur_y * 0.05));
-	//cur_x = (int)(cur_x - ((float)cur_y * 0.06));
 	
 	if (tar_queue[tar_end-1].curve == 0) {
 		degree = tar_dir;
