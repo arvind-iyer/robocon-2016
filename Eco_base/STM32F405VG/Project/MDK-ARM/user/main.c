@@ -7,7 +7,6 @@ u32 last_short_loop_ticks = 0;
 u32 any_loop_diff = 0;
 
 int main(void) {
-	SystemCoreClockUpdate();
 	led_init();
 	//ticks_init();
 	TM_DELAY_Init();

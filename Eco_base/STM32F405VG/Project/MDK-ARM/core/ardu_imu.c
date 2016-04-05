@@ -17,7 +17,7 @@
 ** Note that I uses static calibration on startup for yaw, but this should be done on the chip for angular acceleration instead
 ** But well I am too lazy, this is good enough.
 ** 
-** For actual usage, refer to the adapter, but briefly, init->sync->start to keep updating->cali->ok
+** For actual usage, refer to the adapter, but briefly, init->keep updating->Don't move until calibrated=true->ok
 **
 ** Reference: http://www.geeetech.com/xzn-arduimu-9-degrees-of-freedom-p-535.html
 ** See Also: http://www.geeetech.com/wiki/index.php/ArduIMU_9_Degrees_of_Freedom
