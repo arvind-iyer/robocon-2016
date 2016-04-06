@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri Apr 01 16:25:15 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Wed Apr 06 16:06:48 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -396,8 +396,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[ae]"></a>__aeabi_f2d</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, f2d.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcIMU
-<LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR><BR>[Called By]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcIMU
 </UL>
 
 <P><STRONG><a name="[86]"></a>__aeabi_cdcmpeq</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, cdcmple.o(.text))
@@ -427,11 +427,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[69]"></a>__aeabi_llsr</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, llushr.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
-<LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
+<BR><BR>[Called By]<UL><LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_dsqrt
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
 </UL>
 
 <P><STRONG><a name="[6b]"></a>_float_round</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, fepilogue.o(.text))
@@ -515,10 +515,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6d]"></a>__aeabi_llsl</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, llshl.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
-<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<BR><BR>[Called By]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
 </UL>
 
 <P><STRONG><a name="[6f]"></a>__aeabi_lasr</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, llsshr.o(.text))
@@ -780,8 +780,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[81]"></a>TIM_TimeBaseInit</STRONG> (Thumb, 118 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_TimeBaseInit))
-<BR><BR>[Called By]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
-<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DELAY_Init
+<BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DELAY_Init
+<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 </UL>
 
 <P><STRONG><a name="[7d]"></a>TM_DELAY_Init</STRONG> (Thumb, 138 bytes, Stack size 0 bytes, tm_stm32f4_delay.o(i.TM_DELAY_Init))
@@ -993,12 +993,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ad]"></a>calcIMU</STRONG> (Thumb, 442 bytes, Stack size 0 bytes, imu_math.o(i.calcIMU))
-<BR><BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
-<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
+<P><STRONG><a name="[ad]"></a>calcIMU</STRONG> (Thumb, 506 bytes, Stack size 0 bytes, imu_math.o(i.calcIMU))
+<BR><BR>[Calls]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_asin
+<LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
+<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1030,8 +1030,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[b1]"></a>get_ticks</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tm_stm32f4_delay.o(i.get_ticks))
-<BR><BR>[Called By]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calc_init
-<LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR><BR>[Called By]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calc_init
 </UL>
 
 <P><STRONG><a name="[8a]"></a>int_cos</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, approx_math.o(i.int_cos))
@@ -1049,29 +1049,29 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[b7]"></a>led_init</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, led.o(i.led_init))
-<BR><BR>[Calls]<UL><LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_GPIO_Init
+<BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_GPIO_Init
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[5e]"></a>main</STRONG> (Thumb, 276 bytes, Stack size 0 bytes, main.o(i.main))
-<BR><BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
-<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_ticks
-<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calc_init
-<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcIMU
+<BR><BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DELAY_Init
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 <LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_logo
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_easy_init
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
 <LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_blink
+<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_ticks
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRawAccelGyro
+<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calc_init
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcIMU
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
-<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DELAY_Init
+<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
@@ -1159,8 +1159,8 @@ Global Symbols
 <P><STRONG><a name="[af]"></a>tft_println</STRONG> (Thumb, 196 bytes, Stack size 0 bytes, lcd_main.o(i.tft_println))
 <BR><BR>[Calls]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcIMU
-<LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcIMU
 </UL>
 
 <P><STRONG><a name="[ba]"></a>tft_put_logo</STRONG> (Thumb, 4990 bytes, Stack size 0 bytes, lcd_main.o(i.tft_put_logo))
@@ -1229,12 +1229,12 @@ Global Symbols
 Local Symbols
 </H3>
 <P><STRONG><a name="[9b]"></a>_fp_digits</STRONG> (Thumb, 334 bytes, Stack size 0 bytes, printfa.o(i._fp_digits), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
-<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
+<BR><BR>[Calls]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
+<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
 </UL>

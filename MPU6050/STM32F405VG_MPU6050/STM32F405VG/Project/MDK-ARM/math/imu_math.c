@@ -1,5 +1,23 @@
 #include "imu_math.h"
 
+/************************************************************************
+** IMU MATH - STM32F405VG
+**
+** This library is to keep updating the DCM matrix according to IMU input
+** It provides yaw/pitch/roll
+** Can also used to rotate any vectors into the body frame
+**
+** ROBOCON 2016
+** H K U S T
+**
+** Author:	Rex Cheng
+** Contact:	hkchengad@connect.ust.hk
+** April 2016
+**
+** I find the great thing in this world is not so much where we stand
+**     , as in what direction we are moving. ~Oliver Wendell Holmes
+*************************************************************************/
+
 float ypr[3];
 static u32 last_ticks = 0;
 static s32 rotation_angle[3] = {0};//Scaled by 10

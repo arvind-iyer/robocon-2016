@@ -1185,11 +1185,6 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
-              <FileName>imu_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\imu_math.c</FilePath>
-            </File>
-            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -1224,11 +1219,6 @@
         <Group>
           <GroupName>core</GroupName>
           <Files>
-            <File>
-              <FileName>approx_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\approx_math.c</FilePath>
-            </File>
             <File>
               <FileName>can_motor.c</FileName>
               <FileType>1</FileType>
@@ -1303,6 +1293,36 @@
               <FileName>buzzer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\buzzer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>math</GroupName>
+          <Files>
+            <File>
+              <FileName>approx_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\approx_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\imu_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>quick_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\quick_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>vector_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\vector_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>matrix_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\matrix_math.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2490,11 +2510,6 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
-              <FileName>imu_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\imu_math.c</FilePath>
-            </File>
-            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -2529,11 +2544,6 @@
         <Group>
           <GroupName>core</GroupName>
           <Files>
-            <File>
-              <FileName>approx_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\approx_math.c</FilePath>
-            </File>
             <File>
               <FileName>can_motor.c</FileName>
               <FileType>1</FileType>
@@ -2608,6 +2618,36 @@
               <FileName>buzzer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\buzzer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>math</GroupName>
+          <Files>
+            <File>
+              <FileName>approx_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\approx_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\imu_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>quick_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\quick_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>vector_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\vector_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>matrix_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\matrix_math.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2983,7 +3023,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F40_41xxx</Define>
               <Undefine></Undefine>
-              <IncludePath>.\core;.\user;..\;..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\..\Utilities\STM32_EVAL\Common;..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL</IncludePath>
+              <IncludePath>.\math;.\core;.\user;..\;..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\..\..\Utilities\STM32_EVAL\Common;..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -3796,11 +3836,6 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
-              <FileName>imu_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\imu_math.c</FilePath>
-            </File>
-            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -3835,11 +3870,6 @@
         <Group>
           <GroupName>core</GroupName>
           <Files>
-            <File>
-              <FileName>approx_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\approx_math.c</FilePath>
-            </File>
             <File>
               <FileName>can_motor.c</FileName>
               <FileType>1</FileType>
@@ -3914,6 +3944,36 @@
               <FileName>buzzer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\buzzer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>math</GroupName>
+          <Files>
+            <File>
+              <FileName>approx_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\approx_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\imu_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>quick_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\quick_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>vector_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\vector_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>matrix_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\matrix_math.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5148,11 +5208,6 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
-              <FileName>imu_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\imu_math.c</FilePath>
-            </File>
-            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -5187,11 +5242,6 @@
         <Group>
           <GroupName>core</GroupName>
           <Files>
-            <File>
-              <FileName>approx_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\approx_math.c</FilePath>
-            </File>
             <File>
               <FileName>can_motor.c</FileName>
               <FileType>1</FileType>
@@ -5266,6 +5316,36 @@
               <FileName>buzzer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\buzzer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>math</GroupName>
+          <Files>
+            <File>
+              <FileName>approx_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\approx_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\imu_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>quick_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\quick_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>vector_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\vector_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>matrix_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\matrix_math.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -6453,11 +6533,6 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
-              <FileName>imu_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\imu_math.c</FilePath>
-            </File>
-            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -6492,11 +6567,6 @@
         <Group>
           <GroupName>core</GroupName>
           <Files>
-            <File>
-              <FileName>approx_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\approx_math.c</FilePath>
-            </File>
             <File>
               <FileName>can_motor.c</FileName>
               <FileType>1</FileType>
@@ -6571,6 +6641,36 @@
               <FileName>buzzer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\buzzer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>math</GroupName>
+          <Files>
+            <File>
+              <FileName>approx_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\approx_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\imu_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>quick_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\quick_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>vector_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\vector_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>matrix_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\matrix_math.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -7664,11 +7764,6 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
-              <FileName>imu_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\imu_math.c</FilePath>
-            </File>
-            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -7703,11 +7798,6 @@
         <Group>
           <GroupName>core</GroupName>
           <Files>
-            <File>
-              <FileName>approx_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\approx_math.c</FilePath>
-            </File>
             <File>
               <FileName>can_motor.c</FileName>
               <FileType>1</FileType>
@@ -7782,6 +7872,36 @@
               <FileName>buzzer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\buzzer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>math</GroupName>
+          <Files>
+            <File>
+              <FileName>approx_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\approx_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\imu_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>quick_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\quick_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>vector_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\vector_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>matrix_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\matrix_math.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -8875,11 +8995,6 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
-              <FileName>imu_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\imu_math.c</FilePath>
-            </File>
-            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -8914,11 +9029,6 @@
         <Group>
           <GroupName>core</GroupName>
           <Files>
-            <File>
-              <FileName>approx_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\approx_math.c</FilePath>
-            </File>
             <File>
               <FileName>can_motor.c</FileName>
               <FileType>1</FileType>
@@ -8993,6 +9103,36 @@
               <FileName>buzzer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\buzzer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>math</GroupName>
+          <Files>
+            <File>
+              <FileName>approx_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\approx_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\imu_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>quick_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\quick_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>vector_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\vector_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>matrix_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\matrix_math.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -10039,11 +10179,6 @@
               <FilePath>..\stm32f4xx_it.c</FilePath>
             </File>
             <File>
-              <FileName>imu_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\imu_math.c</FilePath>
-            </File>
-            <File>
               <FileName>line_sensor.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\line_sensor.c</FilePath>
@@ -10078,11 +10213,6 @@
         <Group>
           <GroupName>core</GroupName>
           <Files>
-            <File>
-              <FileName>approx_math.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\core\approx_math.c</FilePath>
-            </File>
             <File>
               <FileName>can_motor.c</FileName>
               <FileType>1</FileType>
@@ -10157,6 +10287,36 @@
               <FileName>buzzer.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\buzzer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>math</GroupName>
+          <Files>
+            <File>
+              <FileName>approx_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\approx_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>imu_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\imu_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>quick_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\quick_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>vector_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\vector_math.c</FilePath>
+            </File>
+            <File>
+              <FileName>matrix_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\math\matrix_math.c</FilePath>
             </File>
           </Files>
         </Group>
