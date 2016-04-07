@@ -8,6 +8,8 @@
 #include "approx_math.h"
 #include <cstring>
 #include "main.h"
+#include "vector_math.h"
+#include "matrix_math.h"
 
 #define pi 3.14159265358979f
 #define GYRO_TRUST 10

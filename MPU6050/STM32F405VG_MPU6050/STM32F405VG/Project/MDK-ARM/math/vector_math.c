@@ -4,6 +4,7 @@
 ** VECTOR MATH - STM32F405VG
 **
 ** This library is for calculation of 3-dimensional vectors
+** Designed For IMU
 **
 ** ROBOCON 2016
 ** H K U S T
@@ -41,6 +42,13 @@ float* vector_scale(f_vector v1, float scalar, f_vector out_vector){
 float* vector_add(f_vector v1, f_vector v2, f_vector out_vector){
 	for (u8 i=0;i<3;i++){
 		out_vector[i] = v1[i] + v2[i];
+	}
+	return out_vector;
+}
+
+float* vector_minus(f_vector v1, f_vector v2, f_vector out_vector){
+	for (u8 i=0;i<3;i++){
+		out_vector[i] = v1[i] - v2[i];
 	}
 	return out_vector;
 }
