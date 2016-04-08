@@ -15,6 +15,7 @@
 #define GYRO_TRUST 10
 
 extern float ypr[3];
+extern f_matrix DCM_B;
 
 void normalise_vector_float(float* v);
 s16 sqr(s16 num);

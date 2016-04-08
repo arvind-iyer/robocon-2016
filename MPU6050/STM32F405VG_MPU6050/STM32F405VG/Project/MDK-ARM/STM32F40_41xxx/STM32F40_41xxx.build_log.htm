@@ -27,22 +27,12 @@ Project File Date:  04/06/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\WorkBench\IDE\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F40_41xxx'
-compiling imu_math.c...
-math\imu_math.c(35): error:  #84: invalid combination of type specifiers
-  void calcIMU(){
-math\imu_math.c(37): warning:  #550-D: variable "acc_reading" was set but never used
-  	float acc_reading[3] = {0}; //Vector given by acceleration
-math\imu_math.c(38): warning:  #550-D: variable "gyro_reading" was set but never used
-  	float gyro_reading[3] = {0};
-math\imu_math.c(22): warning:  #550-D: variable "rotation_angle" was set but never used
-  static s32 rotation_angle[3] = {0};//Scaled by 10
-math\imu_math.c: 3 warnings, 1 error
-compiling servo_targeting.c...
-compiling main.c...
-compiling quick_math.c...
 compiling vector_math.c...
-compiling matrix_math.c...
-"STM32F40_41xxx\STM32F40_41xxx.axf" - 1 Error(s), 3 Warning(s).
+compiling imu_math.c...
+linking...
+Program Size: Code=22256 RO-data=440 RW-data=2128 ZI-data=35320  
+FromELF: creating hex file...
+"STM32F40_41xxx\STM32F40_41xxx.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -60,8 +50,7 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:4.2.0
-Target not created.
-Build Time Elapsed:  00:00:06
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
