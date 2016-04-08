@@ -25,26 +25,17 @@ def tx_send_node(ser, node):
     for val in node:
         tx_send(ser, val)
 
-def main():
-
-    cont = bge.logic.getCurrentController()
-    own = cont.owner
-
-    mouseOver = cont.sensors["mouseOver"]
-    mouseDown = cont.sensors["mouseDown"]
-    if (mouseOver.positive and mouseDown.positive):
-        nodes = PathLoad.getNodes()
-        try:        
-            hybrid = serial.Serial()
-            tx_init(hybrid)
-            for node in nodes:
-                tx_send_node(hybrid, node)
-            ctypes.windll.user32.MessageBoxW(0, msgSent, msgTitle, 64)
-            hybrid.close()
-        except serial.serialutil.SerialException:
-            ctypes.windll.user32.MessageBoxW(0, msgError, msgTitle, 16)
-        except:
-            print("Unexpected error...")
-            raise
-
-main()
+def start():
+    nodes = PathLoad.getNodes()
+    try:        
+        hybrid = serial.Serial()
+        tx_init(hybrid)
+        for node in nodes:
+            tx_send_node(hybrid, node)
+        ctypes.windll.user32.MessageBoxW(0, msgSent, msgTitle, 64)
+        hybrid.close()
+    except serial.serialutil.SerialException:
+        ctypes.windll.user32.MessageBoxW(0, msgError, msgTitle, 16)
+    except:
+        print("Unexpected error...")
+        raise
