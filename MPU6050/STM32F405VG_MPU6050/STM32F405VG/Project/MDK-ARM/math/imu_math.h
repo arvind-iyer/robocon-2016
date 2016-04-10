@@ -4,8 +4,8 @@
 #include "stm32f4xx.h"
 #include <stdbool.h>
 #include "mpu6050.h"
-#include "math.h"
 #include "approx_math.h"
+#include <cmath>
 #include <cstring>
 #include "main.h"
 #include "vector_math.h"

@@ -46,9 +46,9 @@ int main(void) {
 //				for (u8 i=0;i<3;i++){
 //					tft_println("%d %d", IMU_Buffer[i*2], IMU_Buffer[i*2+1]);
 //				}
-//				for (u8 i=0;i<3;i++){
-//					tft_println("%.2f %.2f %.2f", DCM_B[i][0], DCM_B[i][1], DCM_B[i][2]);
-//				}
+				for (u8 i=0;i<3;i++){
+					tft_println("%.2f %.2f %.2f", DCM_B[i][0], DCM_B[i][1], DCM_B[i][2]);
+				}
 				tft_update();
 				last_long_loop_ticks = this_loop_ticks;
 			}

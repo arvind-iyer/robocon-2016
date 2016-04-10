@@ -219,7 +219,7 @@ Section Cross References
     main.o(i.main) refers to tm_stm32f4_delay.o(.data) for TM_Time
     main.o(i.main) refers to buzzer_song.o(.constdata) for SUCCESSFUL_SOUND
     main.o(i.main) refers to buzzer_song.o(.constdata) for FAIL_SOUND
-    main.o(i.main) refers to imu_math.o(.bss) for ypr
+    main.o(i.main) refers to imu_math.o(.bss) for DCM_B
     sensor_bar.o(i.fill_sensorbar_array) refers to sensor_bar.o(.bss) for .bss
     sensor_bar.o(i.print_sensorbar_array) refers to lcd_main.o(i.tft_prints) for tft_prints
     sensor_bar.o(i.print_sensorbar_array) refers to sensor_bar.o(.bss) for .bss
@@ -687,13 +687,11 @@ Section Cross References
     approx_math.o(i.xy_rotate) refers to approx_math.o(i.int_sin) for int_sin
     imu_math.o(i.calcIMU) refers to matrix_math.o(i.matrix_empty) for matrix_empty
     imu_math.o(i.calcIMU) refers to vector_math.o(i.vector_scale) for vector_scale
+    imu_math.o(i.calcIMU) refers to vector_math.o(i.vector_normalize) for vector_normalize
     imu_math.o(i.calcIMU) refers to vector_math.o(i.vector_minus) for vector_minus
     imu_math.o(i.calcIMU) refers to vector_math.o(i.vector_cross) for vector_cross
-    imu_math.o(i.calcIMU) refers to f2d.o(.text) for __aeabi_f2d
-    imu_math.o(i.calcIMU) refers to lcd_main.o(i.tft_println) for tft_println
     imu_math.o(i.calcIMU) refers to vector_math.o(i.vector_add) for vector_add
     imu_math.o(i.calcIMU) refers to vector_math.o(i.vector_dot) for vector_dot
-    imu_math.o(i.calcIMU) refers to vector_math.o(i.vector_normalize) for vector_normalize
     imu_math.o(i.calcIMU) refers to atan2f.o(i.__hardfp_atan2f) for __hardfp_atan2f
     imu_math.o(i.calcIMU) refers to asinf.o(i.__hardfp_asinf) for __hardfp_asinf
     imu_math.o(i.calcIMU) refers to mpu6050.o(.bss) for IMU_Buffer
@@ -2248,40 +2246,40 @@ Image Symbol Table
     i.buzzer_init                            0x08002834   Section        0  buzzer.o(i.buzzer_init)
     i.buzzer_play_song                       0x08002950   Section        0  buzzer.o(i.buzzer_play_song)
     i.calcIMU                                0x08002a00   Section        0  imu_math.o(i.calcIMU)
-    i.calc_init                              0x08002cb0   Section        0  imu_math.o(i.calc_init)
-    i.can_tx_dequeue                         0x08002cd0   Section        0  can_protocol.o(i.can_tx_dequeue)
-    i.getRawAccelGyro                        0x08002d9c   Section        0  mpu6050.o(i.getRawAccelGyro)
-    i.get_ticks                              0x08002de4   Section        0  tm_stm32f4_delay.o(i.get_ticks)
-    i.int_cos                                0x08002df0   Section        0  approx_math.o(i.int_cos)
-    i.int_sin                                0x08002df8   Section        0  approx_math.o(i.int_sin)
-    i.led_blink                              0x08002e80   Section        0  led.o(i.led_blink)
-    i.led_init                               0x08002ee8   Section        0  led.o(i.led_init)
-    i.main                                   0x08002f34   Section        0  main.o(i.main)
-    i.matrix_empty                           0x08003078   Section        0  matrix_math.o(i.matrix_empty)
-    i.matrix_identity                        0x080030a8   Section        0  matrix_math.o(i.matrix_identity)
-    i.mpu_buffer_read                        0x080030dc   Section        0  mpu6050.o(i.mpu_buffer_read)
-    i.mpu_init                               0x080031cc   Section        0  mpu6050.o(i.mpu_init)
-    i.mpu_write_bits                         0x0800333c   Section        0  mpu6050.o(i.mpu_write_bits)
-    i.sqrtf                                  0x080033e8   Section        0  sqrtf.o(i.sqrtf)
-    i.tft_clear                              0x08003428   Section        0  lcd_main.o(i.tft_clear)
-    i.tft_config                             0x08003498   Section        0  lcd_main.o(i.tft_config)
-    i.tft_easy_init                          0x08003724   Section        0  lcd_main.o(i.tft_easy_init)
-    i.tft_init                               0x08003784   Section        0  lcd_main.o(i.tft_init)
-    i.tft_println                            0x08003930   Section        0  lcd_main.o(i.tft_println)
-    i.tft_put_logo                           0x080039fc   Section        0  lcd_main.o(i.tft_put_logo)
-    i.tft_put_pixel                          0x08004d7c   Section        0  lcd_main.o(i.tft_put_pixel)
-    i.tft_spi_init                           0x08004ee8   Section        0  lcd_main.o(i.tft_spi_init)
-    i.tft_update                             0x08005004   Section        0  lcd_main.o(i.tft_update)
-    i.tft_write_command                      0x0800564c   Section        0  lcd_main.o(i.tft_write_command)
-    i.tft_write_data                         0x080056a8   Section        0  lcd_main.o(i.tft_write_data)
-    i.vector_add                             0x08005704   Section        0  vector_math.o(i.vector_add)
-    i.vector_cross                           0x08005738   Section        0  vector_math.o(i.vector_cross)
-    i.vector_dot                             0x08005790   Section        0  vector_math.o(i.vector_dot)
-    i.vector_minus                           0x080057c0   Section        0  vector_math.o(i.vector_minus)
-    i.vector_normalize                       0x080057f4   Section        0  vector_math.o(i.vector_normalize)
-    i.vector_scale                           0x08005850   Section        0  vector_math.o(i.vector_scale)
-    .constdata                               0x08005878   Section        8  buzzer_song.o(.constdata)
-    .constdata                               0x08005880   Section        6  buzzer_song.o(.constdata)
+    i.calc_init                              0x08002c58   Section        0  imu_math.o(i.calc_init)
+    i.can_tx_dequeue                         0x08002c78   Section        0  can_protocol.o(i.can_tx_dequeue)
+    i.getRawAccelGyro                        0x08002d44   Section        0  mpu6050.o(i.getRawAccelGyro)
+    i.get_ticks                              0x08002d8c   Section        0  tm_stm32f4_delay.o(i.get_ticks)
+    i.int_cos                                0x08002d98   Section        0  approx_math.o(i.int_cos)
+    i.int_sin                                0x08002da0   Section        0  approx_math.o(i.int_sin)
+    i.led_blink                              0x08002e28   Section        0  led.o(i.led_blink)
+    i.led_init                               0x08002e90   Section        0  led.o(i.led_init)
+    i.main                                   0x08002edc   Section        0  main.o(i.main)
+    i.matrix_empty                           0x08003098   Section        0  matrix_math.o(i.matrix_empty)
+    i.matrix_identity                        0x080030c8   Section        0  matrix_math.o(i.matrix_identity)
+    i.mpu_buffer_read                        0x080030fc   Section        0  mpu6050.o(i.mpu_buffer_read)
+    i.mpu_init                               0x080031ec   Section        0  mpu6050.o(i.mpu_init)
+    i.mpu_write_bits                         0x0800335c   Section        0  mpu6050.o(i.mpu_write_bits)
+    i.sqrtf                                  0x08003408   Section        0  sqrtf.o(i.sqrtf)
+    i.tft_clear                              0x08003448   Section        0  lcd_main.o(i.tft_clear)
+    i.tft_config                             0x080034b8   Section        0  lcd_main.o(i.tft_config)
+    i.tft_easy_init                          0x08003744   Section        0  lcd_main.o(i.tft_easy_init)
+    i.tft_init                               0x080037a4   Section        0  lcd_main.o(i.tft_init)
+    i.tft_println                            0x08003950   Section        0  lcd_main.o(i.tft_println)
+    i.tft_put_logo                           0x08003a1c   Section        0  lcd_main.o(i.tft_put_logo)
+    i.tft_put_pixel                          0x08004d9c   Section        0  lcd_main.o(i.tft_put_pixel)
+    i.tft_spi_init                           0x08004f08   Section        0  lcd_main.o(i.tft_spi_init)
+    i.tft_update                             0x08005024   Section        0  lcd_main.o(i.tft_update)
+    i.tft_write_command                      0x0800566c   Section        0  lcd_main.o(i.tft_write_command)
+    i.tft_write_data                         0x080056c8   Section        0  lcd_main.o(i.tft_write_data)
+    i.vector_add                             0x08005724   Section        0  vector_math.o(i.vector_add)
+    i.vector_cross                           0x08005758   Section        0  vector_math.o(i.vector_cross)
+    i.vector_dot                             0x080057b0   Section        0  vector_math.o(i.vector_dot)
+    i.vector_minus                           0x080057e0   Section        0  vector_math.o(i.vector_minus)
+    i.vector_normalize                       0x08005814   Section        0  vector_math.o(i.vector_normalize)
+    i.vector_scale                           0x08005870   Section        0  vector_math.o(i.vector_scale)
+    .constdata                               0x08005898   Section        8  buzzer_song.o(.constdata)
+    .constdata                               0x080058a0   Section        6  buzzer_song.o(.constdata)
     .data                                    0x20000000   Section       16  stm32f4xx_rcc.o(.data)
     APBAHBPrescTable                         0x20000000   Data          16  stm32f4xx_rcc.o(.data)
     .data                                    0x20000010   Section       20  system_stm32f4xx.o(.data)
@@ -2550,43 +2548,43 @@ Image Symbol Table
     buzzer_check                             0x080026b5   Thumb Code   366  buzzer.o(i.buzzer_check)
     buzzer_init                              0x08002835   Thumb Code   256  buzzer.o(i.buzzer_init)
     buzzer_play_song                         0x08002951   Thumb Code   160  buzzer.o(i.buzzer_play_song)
-    calcIMU                                  0x08002a01   Thumb Code   638  imu_math.o(i.calcIMU)
-    calc_init                                0x08002cb1   Thumb Code    24  imu_math.o(i.calc_init)
-    can_tx_dequeue                           0x08002cd1   Thumb Code   192  can_protocol.o(i.can_tx_dequeue)
-    getRawAccelGyro                          0x08002d9d   Thumb Code    68  mpu6050.o(i.getRawAccelGyro)
-    get_ticks                                0x08002de5   Thumb Code     6  tm_stm32f4_delay.o(i.get_ticks)
-    int_cos                                  0x08002df1   Thumb Code     8  approx_math.o(i.int_cos)
-    int_sin                                  0x08002df9   Thumb Code   128  approx_math.o(i.int_sin)
-    led_blink                                0x08002e81   Thumb Code    92  led.o(i.led_blink)
-    led_init                                 0x08002ee9   Thumb Code    72  led.o(i.led_init)
-    main                                     0x08002f35   Thumb Code   272  main.o(i.main)
-    matrix_empty                             0x08003079   Thumb Code    42  matrix_math.o(i.matrix_empty)
-    matrix_identity                          0x080030a9   Thumb Code    46  matrix_math.o(i.matrix_identity)
-    mpu_buffer_read                          0x080030dd   Thumb Code   214  mpu6050.o(i.mpu_buffer_read)
-    mpu_init                                 0x080031cd   Thumb Code   344  mpu6050.o(i.mpu_init)
-    mpu_write_bits                           0x0800333d   Thumb Code   156  mpu6050.o(i.mpu_write_bits)
-    sqrtf                                    0x080033e9   Thumb Code    62  sqrtf.o(i.sqrtf)
-    tft_clear                                0x08003429   Thumb Code   102  lcd_main.o(i.tft_clear)
-    tft_config                               0x08003499   Thumb Code   648  lcd_main.o(i.tft_config)
-    tft_easy_init                            0x08003725   Thumb Code    94  lcd_main.o(i.tft_easy_init)
-    tft_init                                 0x08003785   Thumb Code   406  lcd_main.o(i.tft_init)
-    tft_println                              0x08003931   Thumb Code   196  lcd_main.o(i.tft_println)
-    tft_put_logo                             0x080039fd   Thumb Code  4990  lcd_main.o(i.tft_put_logo)
-    tft_put_pixel                            0x08004d7d   Thumb Code   358  lcd_main.o(i.tft_put_pixel)
-    tft_spi_init                             0x08004ee9   Thumb Code   272  lcd_main.o(i.tft_spi_init)
-    tft_update                               0x08005005   Thumb Code  1592  lcd_main.o(i.tft_update)
-    tft_write_command                        0x0800564d   Thumb Code    78  lcd_main.o(i.tft_write_command)
-    tft_write_data                           0x080056a9   Thumb Code    78  lcd_main.o(i.tft_write_data)
-    vector_add                               0x08005705   Thumb Code    52  vector_math.o(i.vector_add)
-    vector_cross                             0x08005739   Thumb Code    88  vector_math.o(i.vector_cross)
-    vector_dot                               0x08005791   Thumb Code    42  vector_math.o(i.vector_dot)
-    vector_minus                             0x080057c1   Thumb Code    52  vector_math.o(i.vector_minus)
-    vector_normalize                         0x080057f5   Thumb Code    92  vector_math.o(i.vector_normalize)
-    vector_scale                             0x08005851   Thumb Code    40  vector_math.o(i.vector_scale)
-    SUCCESSFUL_SOUND                         0x08005878   Data           8  buzzer_song.o(.constdata)
-    FAIL_SOUND                               0x08005880   Data           6  buzzer_song.o(.constdata)
-    Region$$Table$$Base                      0x08005888   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x080058a8   Number         0  anon$$obj.o(Region$$Table)
+    calcIMU                                  0x08002a01   Thumb Code   554  imu_math.o(i.calcIMU)
+    calc_init                                0x08002c59   Thumb Code    24  imu_math.o(i.calc_init)
+    can_tx_dequeue                           0x08002c79   Thumb Code   192  can_protocol.o(i.can_tx_dequeue)
+    getRawAccelGyro                          0x08002d45   Thumb Code    68  mpu6050.o(i.getRawAccelGyro)
+    get_ticks                                0x08002d8d   Thumb Code     6  tm_stm32f4_delay.o(i.get_ticks)
+    int_cos                                  0x08002d99   Thumb Code     8  approx_math.o(i.int_cos)
+    int_sin                                  0x08002da1   Thumb Code   128  approx_math.o(i.int_sin)
+    led_blink                                0x08002e29   Thumb Code    92  led.o(i.led_blink)
+    led_init                                 0x08002e91   Thumb Code    72  led.o(i.led_init)
+    main                                     0x08002edd   Thumb Code   372  main.o(i.main)
+    matrix_empty                             0x08003099   Thumb Code    42  matrix_math.o(i.matrix_empty)
+    matrix_identity                          0x080030c9   Thumb Code    46  matrix_math.o(i.matrix_identity)
+    mpu_buffer_read                          0x080030fd   Thumb Code   214  mpu6050.o(i.mpu_buffer_read)
+    mpu_init                                 0x080031ed   Thumb Code   344  mpu6050.o(i.mpu_init)
+    mpu_write_bits                           0x0800335d   Thumb Code   156  mpu6050.o(i.mpu_write_bits)
+    sqrtf                                    0x08003409   Thumb Code    62  sqrtf.o(i.sqrtf)
+    tft_clear                                0x08003449   Thumb Code   102  lcd_main.o(i.tft_clear)
+    tft_config                               0x080034b9   Thumb Code   648  lcd_main.o(i.tft_config)
+    tft_easy_init                            0x08003745   Thumb Code    94  lcd_main.o(i.tft_easy_init)
+    tft_init                                 0x080037a5   Thumb Code   406  lcd_main.o(i.tft_init)
+    tft_println                              0x08003951   Thumb Code   196  lcd_main.o(i.tft_println)
+    tft_put_logo                             0x08003a1d   Thumb Code  4990  lcd_main.o(i.tft_put_logo)
+    tft_put_pixel                            0x08004d9d   Thumb Code   358  lcd_main.o(i.tft_put_pixel)
+    tft_spi_init                             0x08004f09   Thumb Code   272  lcd_main.o(i.tft_spi_init)
+    tft_update                               0x08005025   Thumb Code  1592  lcd_main.o(i.tft_update)
+    tft_write_command                        0x0800566d   Thumb Code    78  lcd_main.o(i.tft_write_command)
+    tft_write_data                           0x080056c9   Thumb Code    78  lcd_main.o(i.tft_write_data)
+    vector_add                               0x08005725   Thumb Code    52  vector_math.o(i.vector_add)
+    vector_cross                             0x08005759   Thumb Code    88  vector_math.o(i.vector_cross)
+    vector_dot                               0x080057b1   Thumb Code    42  vector_math.o(i.vector_dot)
+    vector_minus                             0x080057e1   Thumb Code    52  vector_math.o(i.vector_minus)
+    vector_normalize                         0x08005815   Thumb Code    92  vector_math.o(i.vector_normalize)
+    vector_scale                             0x08005871   Thumb Code    40  vector_math.o(i.vector_scale)
+    SUCCESSFUL_SOUND                         0x08005898   Data           8  buzzer_song.o(.constdata)
+    FAIL_SOUND                               0x080058a0   Data           6  buzzer_song.o(.constdata)
+    Region$$Table$$Base                      0x080058a8   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x080058c8   Number         0  anon$$obj.o(Region$$Table)
     SystemCoreClock                          0x20000010   Data           4  system_stm32f4xx.o(.data)
     AHBPrescTable                            0x20000014   Data          16  system_stm32f4xx.o(.data)
     imu_calc_init                            0x20000024   Data           1  main.o(.data)
@@ -2648,9 +2646,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000189
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000060f8, Max: 0x00100000, ABSOLUTE, COMPRESSED[0x00005d14])
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00006118, Max: 0x00100000, ABSOLUTE, COMPRESSED[0x00005d34])
 
-    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x000058a8, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x000058c8, Max: 0x00100000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2778,46 +2776,46 @@ Memory Map of the image
     0x080026b4   0x00000180   Code   RO         1129    i.buzzer_check      buzzer.o
     0x08002834   0x0000011c   Code   RO         1134    i.buzzer_init       buzzer.o
     0x08002950   0x000000b0   Code   RO         1137    i.buzzer_play_song  buzzer.o
-    0x08002a00   0x000002b0   Code   RO         1166    i.calcIMU           imu_math.o
-    0x08002cb0   0x00000020   Code   RO         1167    i.calc_init         imu_math.o
-    0x08002cd0   0x000000cc   Code   RO          921    i.can_tx_dequeue    can_protocol.o
-    0x08002d9c   0x00000048   Code   RO          866    i.getRawAccelGyro   mpu6050.o
-    0x08002de4   0x0000000c   Code   RO         1018    i.get_ticks         tm_stm32f4_delay.o
-    0x08002df0   0x00000008   Code   RO         1157    i.int_cos           approx_math.o
-    0x08002df8   0x00000088   Code   RO         1158    i.int_sin           approx_math.o
-    0x08002e80   0x00000068   Code   RO          999    i.led_blink         led.o
-    0x08002ee8   0x0000004c   Code   RO         1001    i.led_init          led.o
-    0x08002f34   0x00000144   Code   RO          841    i.main              main.o
-    0x08003078   0x00000030   Code   RO         1190    i.matrix_empty      matrix_math.o
-    0x080030a8   0x00000034   Code   RO         1191    i.matrix_identity   matrix_math.o
-    0x080030dc   0x000000f0   Code   RO          867    i.mpu_buffer_read   mpu6050.o
-    0x080031cc   0x00000170   Code   RO          871    i.mpu_init          mpu6050.o
-    0x0800333c   0x000000ac   Code   RO          877    i.mpu_write_bits    mpu6050.o
-    0x080033e8   0x0000003e   Code   RO         1207    i.sqrtf             m_wm.l(sqrtf.o)
-    0x08003426   0x00000002   PAD
-    0x08003428   0x00000070   Code   RO          967    i.tft_clear         lcd_main.o
-    0x08003498   0x0000028c   Code   RO          969    i.tft_config        lcd_main.o
-    0x08003724   0x0000005e   Code   RO          971    i.tft_easy_init     lcd_main.o
-    0x08003782   0x00000002   PAD
-    0x08003784   0x000001ac   Code   RO          976    i.tft_init          lcd_main.o
-    0x08003930   0x000000cc   Code   RO          977    i.tft_println       lcd_main.o
-    0x080039fc   0x0000137e   Code   RO          979    i.tft_put_logo      lcd_main.o
-    0x08004d7a   0x00000002   PAD
-    0x08004d7c   0x0000016c   Code   RO          980    i.tft_put_pixel     lcd_main.o
-    0x08004ee8   0x0000011c   Code   RO          987    i.tft_spi_init      lcd_main.o
-    0x08005004   0x00000648   Code   RO          989    i.tft_update        lcd_main.o
-    0x0800564c   0x0000005c   Code   RO          990    i.tft_write_command  lcd_main.o
-    0x080056a8   0x0000005c   Code   RO          991    i.tft_write_data    lcd_main.o
-    0x08005704   0x00000034   Code   RO         1180    i.vector_add        vector_math.o
-    0x08005738   0x00000058   Code   RO         1181    i.vector_cross      vector_math.o
-    0x08005790   0x00000030   Code   RO         1182    i.vector_dot        vector_math.o
-    0x080057c0   0x00000034   Code   RO         1183    i.vector_minus      vector_math.o
-    0x080057f4   0x0000005c   Code   RO         1184    i.vector_normalize  vector_math.o
-    0x08005850   0x00000028   Code   RO         1185    i.vector_scale      vector_math.o
-    0x08005878   0x00000008   Data   RO          885    .constdata          buzzer_song.o
-    0x08005880   0x00000006   Data   RO          886    .constdata          buzzer_song.o
-    0x08005886   0x00000002   PAD
-    0x08005888   0x00000020   Data   RO         1291    Region$$Table       anon$$obj.o
+    0x08002a00   0x00000258   Code   RO         1166    i.calcIMU           imu_math.o
+    0x08002c58   0x00000020   Code   RO         1167    i.calc_init         imu_math.o
+    0x08002c78   0x000000cc   Code   RO          921    i.can_tx_dequeue    can_protocol.o
+    0x08002d44   0x00000048   Code   RO          866    i.getRawAccelGyro   mpu6050.o
+    0x08002d8c   0x0000000c   Code   RO         1018    i.get_ticks         tm_stm32f4_delay.o
+    0x08002d98   0x00000008   Code   RO         1157    i.int_cos           approx_math.o
+    0x08002da0   0x00000088   Code   RO         1158    i.int_sin           approx_math.o
+    0x08002e28   0x00000068   Code   RO          999    i.led_blink         led.o
+    0x08002e90   0x0000004c   Code   RO         1001    i.led_init          led.o
+    0x08002edc   0x000001bc   Code   RO          841    i.main              main.o
+    0x08003098   0x00000030   Code   RO         1190    i.matrix_empty      matrix_math.o
+    0x080030c8   0x00000034   Code   RO         1191    i.matrix_identity   matrix_math.o
+    0x080030fc   0x000000f0   Code   RO          867    i.mpu_buffer_read   mpu6050.o
+    0x080031ec   0x00000170   Code   RO          871    i.mpu_init          mpu6050.o
+    0x0800335c   0x000000ac   Code   RO          877    i.mpu_write_bits    mpu6050.o
+    0x08003408   0x0000003e   Code   RO         1207    i.sqrtf             m_wm.l(sqrtf.o)
+    0x08003446   0x00000002   PAD
+    0x08003448   0x00000070   Code   RO          967    i.tft_clear         lcd_main.o
+    0x080034b8   0x0000028c   Code   RO          969    i.tft_config        lcd_main.o
+    0x08003744   0x0000005e   Code   RO          971    i.tft_easy_init     lcd_main.o
+    0x080037a2   0x00000002   PAD
+    0x080037a4   0x000001ac   Code   RO          976    i.tft_init          lcd_main.o
+    0x08003950   0x000000cc   Code   RO          977    i.tft_println       lcd_main.o
+    0x08003a1c   0x0000137e   Code   RO          979    i.tft_put_logo      lcd_main.o
+    0x08004d9a   0x00000002   PAD
+    0x08004d9c   0x0000016c   Code   RO          980    i.tft_put_pixel     lcd_main.o
+    0x08004f08   0x0000011c   Code   RO          987    i.tft_spi_init      lcd_main.o
+    0x08005024   0x00000648   Code   RO          989    i.tft_update        lcd_main.o
+    0x0800566c   0x0000005c   Code   RO          990    i.tft_write_command  lcd_main.o
+    0x080056c8   0x0000005c   Code   RO          991    i.tft_write_data    lcd_main.o
+    0x08005724   0x00000034   Code   RO         1180    i.vector_add        vector_math.o
+    0x08005758   0x00000058   Code   RO         1181    i.vector_cross      vector_math.o
+    0x080057b0   0x00000030   Code   RO         1182    i.vector_dot        vector_math.o
+    0x080057e0   0x00000034   Code   RO         1183    i.vector_minus      vector_math.o
+    0x08005814   0x0000005c   Code   RO         1184    i.vector_normalize  vector_math.o
+    0x08005870   0x00000028   Code   RO         1185    i.vector_scale      vector_math.o
+    0x08005898   0x00000008   Data   RO          885    .constdata          buzzer_song.o
+    0x080058a0   0x00000006   Data   RO          886    .constdata          buzzer_song.o
+    0x080058a6   0x00000002   PAD
+    0x080058a8   0x00000020   Data   RO         1291    Region$$Table       anon$$obj.o
 
 
     Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x00009248, Max: 0x00020000, ABSOLUTE, COMPRESSED[0x0000046c])
@@ -2863,10 +2861,10 @@ Image component sizes
          0          0         14          0          0          0   buzzer_song.o
        460         36          0         20      32128          0   can_protocol.o
        424         28          0         36         10          0   gyro.o
-       720         58          0          0         48          0   imu_math.o
+       632         54          0          0         48          0   imu_math.o
       8920        126          0       1550       2000          0   lcd_main.o
        180         16          0         12          0          0   led.o
-       324         52          0         20          0          0   main.o
+       444         72          0         20          0          0   main.o
        100         12          0          0          0          0   matrix_math.o
        112          6          0          0          0          0   misc.o
        852         70          0          0         12          0   mpu6050.o
@@ -2887,7 +2885,7 @@ Image component sizes
        372          6          0          0          0          0   vector_math.o
 
     ----------------------------------------------------------------------
-     17260        714        440       2124      35320          0   Object Totals
+     17292        730        440       2124      35320          0   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         18          4          2          2          2          0   (incl. Padding)
 
@@ -2952,15 +2950,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     22256        966        440       2128      35320          0   Grand Totals
-     22256        966        440       1132      35320          0   ELF Image Totals (compressed)
-     22256        966        440       1132          0          0   ROM Totals
+     22288        982        440       2128      35320          0   Grand Totals
+     22288        982        440       1132      35320          0   ELF Image Totals (compressed)
+     22288        982        440       1132          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                22696 (  22.16kB)
+    Total RO  Size (Code + RO Data)                22728 (  22.20kB)
     Total RW  Size (RW Data + ZI Data)             37448 (  36.57kB)
-    Total ROM Size (Code + RO Data + RW Data)      23828 (  23.27kB)
+    Total ROM Size (Code + RO Data + RW Data)      23860 (  23.30kB)
 
 ==============================================================================
 

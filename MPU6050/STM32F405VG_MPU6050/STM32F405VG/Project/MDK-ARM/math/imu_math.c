@@ -49,25 +49,25 @@ void calcIMU(){
 	f_vector gravity_vector = {0.0f};
 	vector_scale(acc_vector, -1.0f, gravity_vector);
 	//Change this to moving weighting to better remove interference from acceleration
-	//vector_normalize(gravity_vector, gravity_vector);
+	vector_normalize(gravity_vector, gravity_vector);
 	vector_cross(DCM_B[2], vector_minus(gravity_vector, DCM_B[2], temp_vector), d_theta_acc);
 	
-	tft_println("%.2f %.2f %.2f", d_theta_acc[0], d_theta_acc[1], d_theta_acc[2]);
+	//tft_println("%.2f %.2f %.2f", d_theta_acc[0], d_theta_acc[1], d_theta_acc[2]);
 	
 	//Find the change in angle by gyroscope
 	f_vector d_theta_gyr = {0.0f};
-	vector_scale(gyr_vector, (float)any_loop_diff/1000.0f, d_theta_gyr);
+	vector_scale(gyr_vector, (float)any_loop_diff*pi/180/1000.0f, d_theta_gyr);
 	
-	tft_println("%.2f %.2f %.2f", d_theta_gyr[0], d_theta_gyr[1], d_theta_gyr[2]);
+	//tft_println("%.2f %.2f %.2f", d_theta_gyr[0], d_theta_gyr[1], d_theta_gyr[2]);
 	
 	//Find the mixed angle
 	f_vector d_theta_mix = {0.0f};
-	float accel_trust = 1.0f;
-	float gyro_trust = 20.0f;
+	float accel_trust = 2.0f;
+	float gyro_trust = 10.0f;
 	vector_add(vector_scale(d_theta_acc, accel_trust, d_theta_acc), vector_scale(d_theta_gyr, gyro_trust, d_theta_gyr), temp_vector);
 	vector_scale(temp_vector, 1/(accel_trust+gyro_trust), d_theta_mix);
 	
-	tft_println("%.2f %.2f %.2f", d_theta_mix[0], d_theta_mix[1], d_theta_mix[2]);
+	//tft_println("%.2f %.2f %.2f", d_theta_mix[0], d_theta_mix[1], d_theta_mix[2]);
 	
 	//Apply to the update raw matrix
 	for (u8 i=0; i<3; i++){
@@ -82,11 +82,11 @@ void calcIMU(){
 	//Renormalize the vectors
 	vector_normalize(update_matrix[0], DCM_B[0]);
 	vector_normalize(update_matrix[1], DCM_B[1]);
-	vector_cross(update_matrix[0], update_matrix[1], DCM_B[2]);
+	vector_cross(DCM_B[0], DCM_B[1], DCM_B[2]);
 	
 	//Convert to Euler angles
-	ypr[0] = atan2f(DCM_B[0][0], DCM_B[0][1]);
-	ypr[1] = asinf(DCM_B[2][0]);
-	ypr[2] = atan2f(DCM_B[2][1], DCM_B[2][2]);
+	ypr[0] = atan2f(DCM_B[0][1], DCM_B[0][0])*180.0f/pi;
+	ypr[1] = -asinf(DCM_B[0][2])*180.0f/pi;
+	ypr[2] = atan2f(DCM_B[1][2], DCM_B[2][2])*180.0f/pi;
 }
 
