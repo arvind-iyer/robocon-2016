@@ -14,6 +14,9 @@
 #define pi 3.14159265358979f
 #define GYRO_TRUST 10
 
+#define IMU_ACCEL_P 30.0f
+#define IMU_ACCEL_I 0.00008f
+
 extern float ypr[3];
 extern f_matrix DCM_B;
 

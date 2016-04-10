@@ -53,8 +53,12 @@ float* vector_minus(f_vector v1, f_vector v2, f_vector out_vector){
 	return out_vector;
 }
 
+float vector_len(f_vector v1){
+	return sqrtf(v1[0]*v1[0]+v1[1]*v1[1]+v1[2]*v1[2]);
+}
+
 float* vector_normalize(f_vector v1, f_vector out_vector){
-	float length = sqrtf(v1[0]*v1[0]+v1[1]*v1[1]+v1[2]*v1[2]);
+	float length = vector_len(v1);
 	out_vector[0] = v1[0]/length;
 	out_vector[1] = v1[1]/length;
 	out_vector[2] = v1[2]/length;

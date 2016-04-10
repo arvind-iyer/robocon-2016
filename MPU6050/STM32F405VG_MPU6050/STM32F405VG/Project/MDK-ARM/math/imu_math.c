@@ -20,6 +20,7 @@
 
 float ypr[3];
 f_matrix DCM_B;//Use x-y coordinate
+static f_vector acc_corr_i = {0};
 
 void calc_init(){
 	for (u8 i=0; i<3; i++){
@@ -37,36 +38,53 @@ void calcIMU(){
 	matrix_empty(update_matrix);
 	
 	for (u8 i=0;i<3;i++){
-		acc_vector[i] = (float)IMU_Buffer[i]/ACCEL_FACTOR; //First three elements are acceleration
-		gyr_vector[i] =  (float)IMU_Buffer[i+3]/GYRO_FACTOR; //Last three elements are angular velocity
+		acc_vector[i] = (float)IMU_Buffer[i]/ACCEL_FACTOR; //First three elements are acceleration, Unit is g
+		gyr_vector[i] =  (float)IMU_Buffer[i+3]/GYRO_FACTOR; //Last three elements are angular velocity, Unit is deg/s
 	}
 	
 //	tft_println("%.2f %.2f %.2f", acc_vector[0], acc_vector[1], acc_vector[2]);
 //	tft_println("%.2f %.2f %.2f", gyr_vector[0], gyr_vector[1], gyr_vector[2]);
 	
-	//Find the change in angle by accelerometer
-	f_vector d_theta_acc = {0.0f};
-	f_vector gravity_vector = {0.0f};
-	vector_scale(acc_vector, -1.0f, gravity_vector);
-	//Change this to moving weighting to better remove interference from acceleration
-	vector_normalize(gravity_vector, gravity_vector);
-	vector_cross(DCM_B[2], vector_minus(gravity_vector, DCM_B[2], temp_vector), d_theta_acc);
+	//Find the rate of change of radian by accelerometer, using PI controller
+	f_vector d_omega_acc = {0.0f};
+	float acc_length = vector_len(acc_vector);
+	float acc_weight;
+
+	//If the acceleration is too small/too large, the robot is under high external acceleration --> ignore
+	if (acc_length<0.3f || acc_length>1.7f){
+		acc_weight = 0;
+	}else{
+		acc_weight = fabs(1.0f - acc_length);
+	}
 	
-	//tft_println("%.2f %.2f %.2f", d_theta_acc[0], d_theta_acc[1], d_theta_acc[2]);
+	f_vector acc_err_vector;
+	f_vector acc_corr_p;
 	
-	//Find the change in angle by gyroscope, and change it to RADIAN <-- Very important, wasted a few days in this
-	f_vector d_theta_gyr = {0.0f};
-	vector_scale(gyr_vector, (float)any_loop_diff*pi/180/1000.0f, d_theta_gyr);
+	vector_scale(vector_cross(DCM_B[2], acc_vector, temp_vector), -1.0f*acc_weight, acc_err_vector);
+	vector_scale(acc_err_vector, IMU_ACCEL_P, acc_corr_p);
+	vector_add(vector_scale(acc_err_vector, IMU_ACCEL_I, temp_vector), acc_corr_i, acc_corr_i);
+	vector_add(acc_corr_p, acc_corr_i, d_omega_acc);
+	
+//	tft_println("%f", vector_len(temp_vector));
+//	tft_println("%f", acc_weight);
+//	tft_println("%f", vector_len(acc_err_vector));
+	
+	//Find the rate of change of radian by gyroscope -- RADIAN <-- Very important, wasted a few days in this
+	f_vector d_omega_gyr = {0.0f};
+	vector_scale(gyr_vector, pi/180.0f, d_omega_gyr);
 	
 	//tft_println("%.2f %.2f %.2f", d_theta_gyr[0], d_theta_gyr[1], d_theta_gyr[2]);
 	
-	//Find the mixed angle
+	//Find the mixed rate of change of radian
 	f_vector d_theta_mix = {0.0f};
 	float accel_trust = 2.0f;
-	float gyro_trust = 10.0f;
-	vector_add(vector_scale(d_theta_acc, accel_trust, d_theta_acc), vector_scale(d_theta_gyr, gyro_trust, d_theta_gyr), temp_vector);
-	vector_scale(temp_vector, 1/(accel_trust+gyro_trust), d_theta_mix);
+	float gyro_trust = 0.0f;
 	
+	//Apply dt and weighted average
+	vector_add(vector_scale(d_omega_acc, accel_trust, d_omega_acc), vector_scale(d_omega_gyr, gyro_trust, d_omega_gyr), temp_vector);
+	vector_scale(temp_vector, ((float)any_loop_diff/1000.0f)/(accel_trust+gyro_trust), d_theta_mix);
+	
+	//tft_println("%f", vector_len(d_omega_gyr));
 	//tft_println("%.2f %.2f %.2f", d_theta_mix[0], d_theta_mix[1], d_theta_mix[2]);
 	
 	//Apply to the update raw matrix
