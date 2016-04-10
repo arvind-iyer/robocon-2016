@@ -54,7 +54,7 @@ void calcIMU(){
 	
 	//tft_println("%.2f %.2f %.2f", d_theta_acc[0], d_theta_acc[1], d_theta_acc[2]);
 	
-	//Find the change in angle by gyroscope
+	//Find the change in angle by gyroscope, and change it to RADIAN <-- Very important, wasted a few days in this
 	f_vector d_theta_gyr = {0.0f};
 	vector_scale(gyr_vector, (float)any_loop_diff*pi/180/1000.0f, d_theta_gyr);
 	
@@ -85,8 +85,8 @@ void calcIMU(){
 	vector_cross(DCM_B[0], DCM_B[1], DCM_B[2]);
 	
 	//Convert to Euler angles
-	ypr[0] = atan2f(DCM_B[0][1], DCM_B[0][0])*180.0f/pi;
-	ypr[1] = -asinf(DCM_B[0][2])*180.0f/pi;
-	ypr[2] = atan2f(DCM_B[1][2], DCM_B[2][2])*180.0f/pi;
+	ypr[0] = atan2f(DCM_B[0][1], DCM_B[0][0])*180.0f/pi; //RADIAN <-- Very important, wasted a few days in this
+	ypr[1] = -asinf(DCM_B[0][2])*180.0f/pi;	//RADIAN <-- Very important, wasted a few days in this
+	ypr[2] = atan2f(DCM_B[1][2], DCM_B[2][2])*180.0f/pi; //RADIAN <-- Very important, wasted a few days in this
 }
 
