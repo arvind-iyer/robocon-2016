@@ -17,7 +17,7 @@ int main(void) {
 	
 	init_good |= mpu_init();
 	
-	Delayms(500);
+	Delayms(800);
 	if (init_good){
 		buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 	}else{
@@ -28,14 +28,14 @@ int main(void) {
 		this_loop_ticks = get_ticks();
 		if(last_loop_ticks != this_loop_ticks){
 			any_loop_diff = this_loop_ticks - last_loop_ticks;
-			if (!imu_calc_init){
-				calc_init();
-				imu_calc_init = true;
-			}
 		
 			if ((this_loop_ticks - last_long_loop_ticks) > LONG_LOOP_TICKS){
-				getRawAccelGyro();  
 				any_loop_diff = this_loop_ticks - last_long_loop_ticks;
+				if (!imu_calc_init){
+					calc_init();
+					//calibration_mode_loop();
+					imu_calc_init = true;
+				}
 				led_blink(LED_D1);
 				tft_clear();
 				calcIMU();
@@ -43,12 +43,9 @@ int main(void) {
 				tft_println("Yaw: %f", ypr[0]);
 				tft_println("Pit: %f", ypr[1]);
 				tft_println("Rol: %f", ypr[2]);
-				for (u8 i=0;i<3;i++){
-					tft_println("%d %d", IMU_Buffer[i*2], IMU_Buffer[i*2+1]);
-				}
-				for (u8 i=0;i<3;i++){
-					//tft_println("%.2f %.2f %.2f", DCM_B[i][0], DCM_B[i][1], DCM_B[i][2]);
-				}
+//				for (u8 i=0;i<3;i++){
+//					tft_println("%.2f %.2f %.2f", DCM_B[i][0], DCM_B[i][1], DCM_B[i][2]);
+//				}
 				tft_update();
 				last_long_loop_ticks = this_loop_ticks;
 			}

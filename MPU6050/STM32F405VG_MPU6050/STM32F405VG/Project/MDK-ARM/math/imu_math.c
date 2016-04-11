@@ -21,26 +21,39 @@
 float ypr[3];
 f_matrix DCM_B;//Use x-y coordinate
 static f_vector acc_corr_i = {0};
+f_vector acc_vector = {0.0f}; //Vector of acceleration
+f_vector gyr_vector = {0.0f}; //Vector of angular velocity
+
+void imu_load_data(){
+	getRawAccelGyro();  
+	
+	acc_vector[0] = IMU_Buffer[0]>0?(float)IMU_Buffer[0]/ACCEL_POS_X:(float)IMU_Buffer[0]/ACCEL_NEG_X;
+	acc_vector[1] = IMU_Buffer[1]>0?(float)IMU_Buffer[1]/ACCEL_POS_Y:(float)IMU_Buffer[1]/ACCEL_NEG_Y;
+	acc_vector[2] = IMU_Buffer[2]>0?(float)IMU_Buffer[2]/ACCEL_POS_Z:(float)IMU_Buffer[2]/ACCEL_NEG_Z;
+	
+	gyr_vector[0] = ((float)IMU_Buffer[3]-GYRO_X_OFFSET)/GYRO_FACTOR;
+	gyr_vector[1] = ((float)IMU_Buffer[4]-GYRO_Y_OFFSET)/GYRO_FACTOR;
+	gyr_vector[2] = ((float)IMU_Buffer[5]-GYRO_Z_OFFSET)/GYRO_FACTOR;
+}
 
 void calc_init(){
 	for (u8 i=0; i<3; i++){
 		ypr[i] = 0.0f;
 	}
+	f_vector temp_vector = {0.0f};
+	imu_load_data();
 	matrix_identity(DCM_B);
+	//vector_scale(vector_cross(DCM_B[0], acc_vector, temp_vector), -1.0f, DCM_B[0]);
+	vector_scale(acc_vector, -1.0f, DCM_B[0]);
 }
 
 void calcIMU(){
-	f_vector acc_vector = {0.0f}; //Vector of acceleration
-	f_vector gyr_vector = {0.0f}; //Vector of angular velocity
 	f_vector temp_vector = {0.0f};
 	
 	f_matrix update_matrix;
 	matrix_empty(update_matrix);
 	
-	for (u8 i=0;i<3;i++){
-		acc_vector[i] = (float)IMU_Buffer[i]/ACCEL_FACTOR; //First three elements are acceleration, Unit is g
-		gyr_vector[i] =  (float)IMU_Buffer[i+3]/GYRO_FACTOR; //Last three elements are angular velocity, Unit is deg/s
-	}
+	imu_load_data();
 	
 //	tft_println("%.2f %.2f %.2f", acc_vector[0], acc_vector[1], acc_vector[2]);
 //	tft_println("%.2f %.2f %.2f", gyr_vector[0], gyr_vector[1], gyr_vector[2]);
@@ -77,14 +90,20 @@ void calcIMU(){
 	
 	//Find the mixed rate of change of radian
 	f_vector d_theta_mix = {0.0f};
-	float accel_trust = 2.0f;
-	float gyro_trust = 0.0f;
+	float accel_trust = 1.0f;
+	float gyro_trust = 20.0f;
 	
 	//Apply dt and weighted average
 	vector_add(vector_scale(d_omega_acc, accel_trust, d_omega_acc), vector_scale(d_omega_gyr, gyro_trust, d_omega_gyr), temp_vector);
 	vector_scale(temp_vector, ((float)any_loop_diff/1000.0f)/(accel_trust+gyro_trust), d_theta_mix);
 	
-	//tft_println("%f", vector_len(d_omega_gyr));
+//	tft_println("%f", vector_len(d_omega_acc));
+//	tft_println("%f", vector_len(acc_corr_p));
+//	tft_println("%f", vector_len(acc_corr_i));
+//	tft_println("%f", vector_len(d_omega_gyr));
+	for (u8 i=0;i<3;i++){
+		tft_println("%.4f %.4f", acc_vector[i], gyr_vector[i]);
+	}
 	//tft_println("%.2f %.2f %.2f", d_theta_mix[0], d_theta_mix[1], d_theta_mix[2]);
 	
 	//Apply to the update raw matrix
@@ -108,3 +127,38 @@ void calcIMU(){
 	ypr[2] = atan2f(DCM_B[1][2], DCM_B[2][2])*180.0f/pi; //RADIAN <-- Very important, wasted a few days in this
 }
 
+void calibration_mode_loop(){
+	s16 max_pos_acc[3] = {0};
+	s16 max_neg_acc[3] = {0};
+	float avg_gyro[3] = {0};
+	s16 acc_now[3] = {0};
+	s16 gyro_now[3] = {0};
+	s32 sum_of_gyro[3] = {0};
+	u32 gyro_count = 0;
+	while(1){
+		tft_clear();
+		tft_println("%d", get_ticks());
+		getRawAccelGyro();  
+		for (u8 i=0;i<3;i++){
+			acc_now[i] = IMU_Buffer[i];
+			gyro_now[i] =  IMU_Buffer[i+3];
+		}
+		for (u8 i=0;i<3;i++){
+			if (acc_now[i]>max_pos_acc[i]){
+				max_pos_acc[i] = acc_now[i];
+			}else if (acc_now[i]<max_neg_acc[i]){
+				max_neg_acc[i] = acc_now[i];
+			}
+			sum_of_gyro[i] += gyro_now[i];
+			gyro_count++;
+			avg_gyro[i] = (float)sum_of_gyro[i]/gyro_count;
+		}
+		for (u8 i=0;i<3;i++){
+			tft_println("%d %d %d", max_pos_acc[i], max_neg_acc[i], acc_now[i]);
+		}
+		for (u8 i=0;i<3;i++){
+			tft_println("%f %d", avg_gyro[i], gyro_now[i]);
+		}
+		tft_update();
+	}
+}
