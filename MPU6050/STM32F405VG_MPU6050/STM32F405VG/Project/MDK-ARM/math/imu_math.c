@@ -135,7 +135,7 @@ void calcIMU(){
 		ypr[0] = atan2f(DCM_B[1][0], DCM_B[0][0])*180.0f/pi; //RADIAN <-- Very important, wasted a few days in this
 	#endif
 	ypr[1] = -asinf(DCM_B[2][0])*180.0f/pi;	//RADIAN <-- Very important, wasted a few days in this
-	ypr[2] = atan2f(DCM_B[2][1], DCM_B[2][2])*180.0f/pi; //RADIAN <-- Very important, wasted a few days in this
+	ypr[2] = atan2f(-DCM_B[2][1], -DCM_B[2][2])*180.0f/pi; //RADIAN <-- Very important, wasted a few days in this
 }
 
 void calibration_mode_loop(){
