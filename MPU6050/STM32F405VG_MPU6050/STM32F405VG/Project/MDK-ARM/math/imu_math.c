@@ -21,7 +21,7 @@
 float ypr[3];
 f_matrix DCM_B;//Use x-y coordinate
 static f_vector acc_corr_i = {0};
-bool imu_ignoring_accel = false;
+bool imu_ignoring_accel = false, imu_gyro_saturated = false;
 f_vector acc_vector = {0.0f}; //Vector of acceleration
 f_vector gyr_vector = {0.0f}; //Vector of angular velocity
 
@@ -41,6 +41,14 @@ void imu_load_data(){
 	gyr_vector[0] = ((float)IMU_Buffer[3]-GYRO_X_STATIC_OFFSET)/GYRO_FACTOR;
 	gyr_vector[1] = ((float)IMU_Buffer[4]-GYRO_Y_STATIC_OFFSET)/GYRO_FACTOR;
 	gyr_vector[2] = ((float)IMU_Buffer[5]-GYRO_Z_STATIC_OFFSET)/GYRO_FACTOR;
+	
+	for (u8 i=0;i<3;i++){
+		if (IMU_Buffer[i+3]>32767 || IMU_Buffer[i+3]<-32767){
+			imu_gyro_saturated = true;
+			return; //Exit the function
+		}
+	}
+	imu_gyro_saturated = false;
 }
 
 void calc_init(){

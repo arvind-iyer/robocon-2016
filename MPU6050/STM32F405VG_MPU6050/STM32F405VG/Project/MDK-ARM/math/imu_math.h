@@ -32,7 +32,7 @@
 
 extern float ypr[3];
 extern f_matrix DCM_B;
-extern bool imu_ignoring_accel;
+extern bool imu_ignoring_accel, imu_gyro_saturated;
 
 void normalise_vector_float(float* v);
 s16 sqr(s16 num);

@@ -17,7 +17,6 @@ int main(void) {
 	
 	init_good |= mpu_init();
 	
-	Delayms(800);
 	if (init_good){
 		buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 	}else{
@@ -33,7 +32,6 @@ int main(void) {
 				any_loop_diff = this_loop_ticks - last_long_loop_ticks;
 				if (!imu_calc_init){
 					calc_init();
-					//calibration_mode_loop();
 					imu_calc_init = true;
 				}
 				led_blink(LED_D1);
@@ -44,11 +42,11 @@ int main(void) {
 				tft_println("Pit: %f", ypr[1]);
 				tft_println("Rol: %f", ypr[2]);
 				tft_update();
-				if (imu_ignoring_accel){
-					led_control(LED_D2, LED_ON);
-				}else{
-					led_control(LED_D2, LED_OFF);
-				}
+				
+				//Check for saturation and warning signal
+				imu_ignoring_accel?led_control(LED_D2, LED_ON):led_control(LED_D2, LED_OFF);
+				imu_gyro_saturated?led_control(LED_D3, LED_ON):led_control(LED_D3, LED_OFF);
+				
 				last_long_loop_ticks = this_loop_ticks;
 			}
 			last_loop_ticks = this_loop_ticks;
