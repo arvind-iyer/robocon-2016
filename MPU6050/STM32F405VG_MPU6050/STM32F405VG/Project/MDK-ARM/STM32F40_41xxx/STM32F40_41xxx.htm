@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Wed Apr 13 13:29:42 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Wed Apr 13 16:10:31 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -411,8 +411,8 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
 </UL>
-<BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
+<BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
 </UL>
 
 <P><STRONG><a name="[68]"></a>__aeabi_llsr</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, llushr.o(.text))
@@ -526,7 +526,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_RX0_IRQHandler
 </UL>
 
-<P><STRONG><a name="[b3]"></a>CAN_Transmit</STRONG> (Thumb, 194 bytes, Stack size 0 bytes, stm32f4xx_can.o(i.CAN_Transmit))
+<P><STRONG><a name="[b2]"></a>CAN_Transmit</STRONG> (Thumb, 194 bytes, Stack size 0 bytes, stm32f4xx_can.o(i.CAN_Transmit))
 <BR><BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_dequeue
 </UL>
 
@@ -558,8 +558,9 @@ Global Symbols
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
-<P><STRONG><a name="[b7]"></a>GPIO_WriteBit</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_WriteBit))
-<BR><BR>[Called By]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_blink
+<P><STRONG><a name="[b6]"></a>GPIO_WriteBit</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_WriteBit))
+<BR><BR>[Called By]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_control
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_blink
 </UL>
 
 <P><STRONG><a name="[3]"></a>HardFault_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.HardFault_Handler))
@@ -570,12 +571,12 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f40_41xxx.o(RESET)
 </UL>
 <P><STRONG><a name="[c7]"></a>I2C_AcknowledgeConfig</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_i2c.o(i.I2C_AcknowledgeConfig))
-<BR><BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
+<BR><BR>[Called By]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
 </UL>
 
 <P><STRONG><a name="[c4]"></a>I2C_CheckEvent</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, stm32f4xx_i2c.o(i.I2C_CheckEvent))
 <BR><BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_bits
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 </UL>
 
@@ -585,18 +586,18 @@ Global Symbols
 
 <P><STRONG><a name="[c3]"></a>I2C_GenerateSTART</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_i2c.o(i.I2C_GenerateSTART))
 <BR><BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_bits
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 </UL>
 
 <P><STRONG><a name="[c8]"></a>I2C_GenerateSTOP</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_i2c.o(i.I2C_GenerateSTOP))
 <BR><BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_bits
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 </UL>
 
 <P><STRONG><a name="[c2]"></a>I2C_GetFlagStatus</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, stm32f4xx_i2c.o(i.I2C_GetFlagStatus))
-<BR><BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
+<BR><BR>[Called By]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
 </UL>
 
 <P><STRONG><a name="[76]"></a>I2C_Init</STRONG> (Thumb, 188 bytes, Stack size 0 bytes, stm32f4xx_i2c.o(i.I2C_Init))
@@ -606,18 +607,18 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[c9]"></a>I2C_ReceiveData</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, stm32f4xx_i2c.o(i.I2C_ReceiveData))
-<BR><BR>[Called By]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
+<BR><BR>[Called By]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
 </UL>
 
 <P><STRONG><a name="[c5]"></a>I2C_Send7bitAddress</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, stm32f4xx_i2c.o(i.I2C_Send7bitAddress))
 <BR><BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_bits
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 </UL>
 
 <P><STRONG><a name="[c6]"></a>I2C_SendData</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_i2c.o(i.I2C_SendData))
 <BR><BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_bits
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 </UL>
 
@@ -820,8 +821,8 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f40_41xxx.o(RESET)
 </UL>
 <P><STRONG><a name="[88]"></a>__0vsprintf</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, printfa.o(i.__0vsprintf), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
-<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sputc
+<BR><BR>[Calls]<UL><LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sputc
+<LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
 </UL>
 
 <P><STRONG><a name="[d3]"></a>vsprintf</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printfa.o(i.__0vsprintf))
@@ -912,7 +913,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[a6]"></a>calcIMU</STRONG> (Thumb, 470 bytes, Stack size 0 bytes, imu_math.o(i.calcIMU))
+<P><STRONG><a name="[a6]"></a>calcIMU</STRONG> (Thumb, 502 bytes, Stack size 0 bytes, imu_math.o(i.calcIMU))
 <BR><BR>[Calls]<UL><LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan2f
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_asinf
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vector_scale
@@ -928,9 +929,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[b0]"></a>calc_init</STRONG> (Thumb, 56 bytes, Stack size 0 bytes, imu_math.o(i.calc_init))
+<P><STRONG><a name="[b0]"></a>calc_init</STRONG> (Thumb, 124 bytes, Stack size 0 bytes, imu_math.o(i.calc_init))
 <BR><BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vector_scale
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vector_copy
+<LI><a href="#[aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vector_cross
+<LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vector_add
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;matrix_identity
 <LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_load_data
 </UL>
@@ -938,15 +940,15 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[75]"></a>can_tx_dequeue</STRONG> (Thumb, 192 bytes, Stack size 0 bytes, can_protocol.o(i.can_tx_dequeue))
-<BR><BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_Transmit
+<BR><BR>[Calls]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_Transmit
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_dequeue
 </UL>
 <BR>[Called By]<UL><LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_dequeue
 <LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_TX_IRQHandler
 </UL>
 
-<P><STRONG><a name="[b4]"></a>getRawAccelGyro</STRONG> (Thumb, 68 bytes, Stack size 0 bytes, mpu6050.o(i.getRawAccelGyro))
-<BR><BR>[Calls]<UL><LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
+<P><STRONG><a name="[b3]"></a>getRawAccelGyro</STRONG> (Thumb, 68 bytes, Stack size 0 bytes, mpu6050.o(i.getRawAccelGyro))
+<BR><BR>[Calls]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_load_data
 </UL>
@@ -956,7 +958,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[a8]"></a>imu_load_data</STRONG> (Thumb, 198 bytes, Stack size 0 bytes, imu_math.o(i.imu_load_data))
-<BR><BR>[Calls]<UL><LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRawAccelGyro
+<BR><BR>[Calls]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRawAccelGyro
 </UL>
 <BR>[Called By]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calc_init
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcIMU
@@ -970,8 +972,14 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART3_IRQHandler
 </UL>
 
-<P><STRONG><a name="[b6]"></a>led_blink</STRONG> (Thumb, 92 bytes, Stack size 0 bytes, led.o(i.led_blink))
-<BR><BR>[Calls]<UL><LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteBit
+<P><STRONG><a name="[b5]"></a>led_blink</STRONG> (Thumb, 92 bytes, Stack size 0 bytes, led.o(i.led_blink))
+<BR><BR>[Calls]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteBit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[b7]"></a>led_control</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, led.o(i.led_control))
+<BR><BR>[Calls]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_WriteBit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -983,7 +991,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[5d]"></a>main</STRONG> (Thumb, 260 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[5d]"></a>main</STRONG> (Thumb, 284 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Calls]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_DELAY_Init
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_logo
@@ -992,7 +1000,8 @@ Global Symbols
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 <LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
-<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_blink
+<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_control
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_blink
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_ticks
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calc_init
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcIMU
@@ -1010,7 +1019,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calc_init
 </UL>
 
-<P><STRONG><a name="[b5]"></a>mpu_buffer_read</STRONG> (Thumb, 214 bytes, Stack size 0 bytes, mpu6050.o(i.mpu_buffer_read))
+<P><STRONG><a name="[b4]"></a>mpu_buffer_read</STRONG> (Thumb, 214 bytes, Stack size 0 bytes, mpu6050.o(i.mpu_buffer_read))
 <BR><BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_SendData
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_Send7bitAddress
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_ReceiveData
@@ -1021,7 +1030,7 @@ Global Symbols
 <LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_AcknowledgeConfig
 </UL>
 <BR>[Called By]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_bits
-<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRawAccelGyro
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getRawAccelGyro
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 </UL>
 
@@ -1038,7 +1047,7 @@ Global Symbols
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_Cmd
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_CheckEvent
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_write_bits
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1049,7 +1058,7 @@ Global Symbols
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_GenerateSTOP
 <LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_GenerateSTART
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;I2C_CheckEvent
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_buffer_read
 </UL>
 <BR>[Called By]<UL><LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mpu_init
 </UL>
@@ -1159,15 +1168,13 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[ac]"></a>vector_add</STRONG> (Thumb, 52 bytes, Stack size 0 bytes, vector_math.o(i.vector_add))
-<BR><BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcIMU
-</UL>
-
-<P><STRONG><a name="[b2]"></a>vector_copy</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, vector_math.o(i.vector_copy))
 <BR><BR>[Called By]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calc_init
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcIMU
 </UL>
 
 <P><STRONG><a name="[aa]"></a>vector_cross</STRONG> (Thumb, 88 bytes, Stack size 0 bytes, vector_math.o(i.vector_cross))
-<BR><BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcIMU
+<BR><BR>[Called By]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calc_init
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcIMU
 </UL>
 
 <P><STRONG><a name="[ad]"></a>vector_dot</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, vector_math.o(i.vector_dot))
@@ -1210,11 +1217,11 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[89]"></a>_printf_core</STRONG> (Thumb, 1744 bytes, Stack size 0 bytes, printfa.o(i._printf_core), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_post_padding
-<LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
+<BR><BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_pre_padding
+<LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_post_padding
 </UL>
 <BR>[Called By]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__0vsprintf
 </UL>

@@ -44,6 +44,11 @@ int main(void) {
 				tft_println("Pit: %f", ypr[1]);
 				tft_println("Rol: %f", ypr[2]);
 				tft_update();
+				if (imu_ignoring_accel){
+					led_control(LED_D2, LED_ON);
+				}else{
+					led_control(LED_D2, LED_OFF);
+				}
 				last_long_loop_ticks = this_loop_ticks;
 			}
 			last_loop_ticks = this_loop_ticks;
