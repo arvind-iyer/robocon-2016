@@ -507,9 +507,9 @@ void auto_data_update(){
 	}
 }
 
-void USART1_IRQHandler(void) {
-	if (USART_GetITStatus(USART1, USART_IT_RXNE) != RESET){
-		const uint8_t byte = USART_ReceiveData(USART1);
+void USART2_IRQHandler(void) {
+	if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET){
+		const uint8_t byte = USART_ReceiveData(USART2);
 		rx_buffer[rx_count] = byte;
 		rx_count++;
 		if (rx_count == 4) {
@@ -541,6 +541,6 @@ void USART1_IRQHandler(void) {
 			auto_tar_enqueue(rx_node);
 			is_loaded = true;
 		}
-		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+		USART_ClearITPendingBit(USART2, USART_IT_RXNE);
 	}
 }

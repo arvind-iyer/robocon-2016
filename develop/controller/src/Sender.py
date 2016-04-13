@@ -15,7 +15,7 @@ def convert(num):
 
 def tx_init(ser):
     ser.baudrate = 115200
-    ser.port = 'COM4'
+    ser.port = 'COM12'
     ser.open()
 
 def tx_send(ser, val):
