@@ -24,6 +24,12 @@ static f_vector acc_corr_i = {0};
 f_vector acc_vector = {0.0f}; //Vector of acceleration
 f_vector gyr_vector = {0.0f}; //Vector of angular velocity
 
+void print_dcm_matrix(){
+	tft_println("%.2f %.2f %.2f", DCM_B[0][0], DCM_B[0][1], DCM_B[0][2]);
+	tft_println("%.2f %.2f %.2f", DCM_B[1][0], DCM_B[1][1], DCM_B[1][2]);
+	tft_println("%.2f %.2f %.2f", DCM_B[2][0], DCM_B[2][1], DCM_B[2][2]);
+}
+
 void imu_load_data(){
 	getRawAccelGyro();  
 	
@@ -43,8 +49,17 @@ void calc_init(){
 	f_vector temp_vector = {0.0f};
 	imu_load_data();
 	matrix_identity(DCM_B);
-	//vector_scale(vector_cross(DCM_B[0], acc_vector, temp_vector), -1.0f, DCM_B[0]);
-	vector_scale(acc_vector, -1.0f, DCM_B[0]);
+	
+	vector_scale(acc_vector, -1.0f, acc_vector);
+	vector_copy(acc_vector, DCM_B[2]);
+//	vector_scale(vector_cross(DCM_B[0], acc_vector, temp_vector), 1.0f, DCM_B[0]);
+//	vector_scale(vector_cross(DCM_B[1], acc_vector, temp_vector), 1.0f, DCM_B[1]);
+//	vector_scale(vector_cross(DCM_B[2], acc_vector, temp_vector), 1.0f, DCM_B[2]);
+	
+//	tft_clear();
+//	print_dcm_matrix();
+//	tft_update();
+//	while(1);
 }
 
 void calcIMU(){
@@ -101,9 +116,14 @@ void calcIMU(){
 //	tft_println("%f", vector_len(acc_corr_p));
 //	tft_println("%f", vector_len(acc_corr_i));
 //	tft_println("%f", vector_len(d_omega_gyr));
-	for (u8 i=0;i<3;i++){
-		tft_println("%.4f %.4f", acc_vector[i], gyr_vector[i]);
-	}
+//	for (u8 i=0;i<3;i++){
+//		tft_println("%.4f %.4f", acc_vector[i], gyr_vector[i]);
+//	}
+//	print_dcm_matrix();
+//	tft_clear();
+//	print_dcm_matrix();
+//	tft_update();
+//	Delayms(800);
 	//tft_println("%.2f %.2f %.2f", d_theta_mix[0], d_theta_mix[1], d_theta_mix[2]);
 	
 	//Apply to the update raw matrix
@@ -122,9 +142,12 @@ void calcIMU(){
 	vector_cross(DCM_B[0], DCM_B[1], DCM_B[2]);
 	
 	//Convert to Euler angles
-	ypr[0] = atan2f(DCM_B[0][1], DCM_B[0][0])*180.0f/pi; //RADIAN <-- Very important, wasted a few days in this
-	ypr[1] = -asinf(DCM_B[0][2])*180.0f/pi;	//RADIAN <-- Very important, wasted a few days in this
-	ypr[2] = atan2f(DCM_B[1][2], DCM_B[2][2])*180.0f/pi; //RADIAN <-- Very important, wasted a few days in this
+//	ypr[0] = atan2f(DCM_B[0][1], DCM_B[0][0])*180.0f/pi; //RADIAN <-- Very important, wasted a few days in this
+//	ypr[1] = -asinf(DCM_B[0][2])*180.0f/pi;	//RADIAN <-- Very important, wasted a few days in this
+//	ypr[2] = atan2f(DCM_B[1][2], DCM_B[2][2])*180.0f/pi; //RADIAN <-- Very important, wasted a few days in this
+	ypr[0] = atan2f(DCM_B[1][0], DCM_B[0][0])*180.0f/pi; //RADIAN <-- Very important, wasted a few days in this
+	ypr[1] = -asinf(DCM_B[2][0])*180.0f/pi;	//RADIAN <-- Very important, wasted a few days in this
+	ypr[2] = atan2f(DCM_B[2][1], DCM_B[2][2])*180.0f/pi; //RADIAN <-- Very important, wasted a few days in this
 }
 
 void calibration_mode_loop(){

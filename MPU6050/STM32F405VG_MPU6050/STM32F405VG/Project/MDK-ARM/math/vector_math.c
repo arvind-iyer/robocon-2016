@@ -17,6 +17,12 @@
 **     We have guided missiles and misguided men. ~Martin Luther King Jr.
 *************************************************************************/
 
+void vector_copy(f_vector src, f_vector dst){
+	for (u8 i=0;i<3;i++){
+		dst[i] = src[i];
+	}
+}
+
 float vector_dot(f_vector v1, f_vector v2){
 	float result = 0;
 	for (u8 i=0;i<3;i++){

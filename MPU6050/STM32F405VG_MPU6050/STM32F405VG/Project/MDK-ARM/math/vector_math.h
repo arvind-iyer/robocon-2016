@@ -7,6 +7,7 @@
 
 typedef float f_vector[3]; //Define f_vector as a array of three floats
 
+void vector_copy(f_vector src, f_vector dst);
 float vector_dot(f_vector v1, f_vector v2);
 float* vector_cross(f_vector v1, f_vector v2, f_vector out_vector);
 float* vector_scale(f_vector v1, float scalar, f_vector out_vector);
