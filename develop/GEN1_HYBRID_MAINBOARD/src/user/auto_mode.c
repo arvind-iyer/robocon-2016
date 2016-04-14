@@ -20,7 +20,7 @@
 #define THRESHOLD 10
 #define CONST_VEL 50
 
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 float transform[2][2] = {{0.964731, -0.054065}, {0.062220, 1.004667}};
 

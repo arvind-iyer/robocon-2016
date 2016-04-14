@@ -1,4 +1,5 @@
 import bge
+import PathInd
 from bge import logic
 path = logic.expandPath("//paths\\")
     
@@ -18,6 +19,14 @@ def load():
             nodes.append([int(x) for x in line.split(',')])
             i += 1
         own['added'] = False
+        
+        #Change text box
+        scene = bge.logic.getCurrentScene()
+        scene.objects['sideCamera']['sys'].layout.setPathBox(filename)
+        
+        #Display path indicator
+        PathInd.update(nodes)
+        
 
 def getNodes():
     return nodes
@@ -28,8 +37,4 @@ def main():
     own = cont.owner
     addLoadScreen = cont.actuators['addLoadScreen']
 
-    mouseOver = cont.sensors["mouseOver"]
-    mouseDown = cont.sensors["mouseDown"]
-    if (mouseOver.positive and mouseDown.positive and own['added'] == False):
-        own['added'] = True
-        cont.activate(addLoadScreen)
+    cont.activate(addLoadScreen)

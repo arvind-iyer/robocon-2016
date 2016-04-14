@@ -17,8 +17,12 @@ class SimpleLayout(bgui.bge_utils.Layout):
         self.loadBtn = bgui.FrameButton(self.frame, text='Load', size=[0.14,0.3], pos=[0.35,0.55])
         self.sendBtn = bgui.FrameButton(self.frame, text='Send to Hybrid', size=[0.44,0.3], pos=[0.05,0.15])
         
-        self.pathBox = bgui.TextInput(self.frame, text='None', size=[0.2,0.3], pos=[0.51,0.55], input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT)
+        self.pathBox = bgui.TextInput(self.frame, text='None', size=[0.21,0.3], pos=[0.51,0.55], input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT)
         self.pathBox.frozen = True
+        self.statusBox = bgui.TextInput(self.frame, text='Idle', size=[0.21,0.3], pos=[0.74,0.55], input_options = bgui.BGUI_INPUT_NONE, options = bgui.BGUI_DEFAULT)
+        self.statusBox.frozen = True
+        
+        self.sendBar = bgui.ProgressBar(self.frame, percent=0.0, sub_theme='Progress', size=[0.44,0.3], pos=[0.51,0.15])
         
         self.confBtn.frozen = True
         self.debugBtn.frozen = True
@@ -30,7 +34,12 @@ class SimpleLayout(bgui.bge_utils.Layout):
         PathLoad.main()
     
     def sendBtn_click(self, widget):
+        print(self)
         Sender.start()
+
+    def setPathBox(self, name):
+        self.pathBox.text = name
+    
 
 def main(cont):
 
