@@ -17,6 +17,7 @@ int main(void) {
 	tft_easy_init((TFT_ORIENTATION)ORIENTATION_SETTING); //Init LCD
 	buzzer_init();
 	button_init();
+	buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 	tft_put_logo(85, 120);
 	
 	GAME_STAGE game_stage = SYSTEM_WAITING;

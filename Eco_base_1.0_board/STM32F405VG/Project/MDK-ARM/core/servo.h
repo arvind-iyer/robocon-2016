@@ -7,8 +7,9 @@
 
 #define SERVO_COUNT     1
 #define SERVO_TIM				TIM1
+#define SERVO_AF_TIM 		GPIO_AF_TIM1
 #define SERVO_PORT			GPIOA
-#define SERVO_TIM_RCC		RCC_APB1Periph_TIM3
+#define SERVO_TIM_RCC		RCC_APB2Periph_TIM1
 #define SERVO_GPIO_RCC	RCC_AHB1Periph_GPIOA
 
 typedef struct {

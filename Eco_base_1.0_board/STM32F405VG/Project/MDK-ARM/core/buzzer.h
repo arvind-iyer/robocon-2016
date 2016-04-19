@@ -7,14 +7,17 @@
 
 #define BUZZER_GPIO				GPIOB
 #define BUZZER_GPIO_PIN		GPIO_Pin_9
+#define BUZZER_GPIO_RCC 	RCC_AHB1Periph_GPIOB
+#define BUZZER_GPIO_PINSOURCE GPIO_PinSource9
 
 #define BUZZER_TIM				TIM4
 #define BUZZER_TIM_RCC		RCC_APB1Periph_TIM4
+#define BUZZER_AF_TIM 		GPIO_AF_TIM4
 
 #define BUZZER_COUNT_PER_SECOND 1000000	/*!< Buzzer timer period, used for prescaling and relavant calculation */
 #define BUZZER_TIM_OC_INIT			TIM_OC4Init
 #define	BUZZER_TIM_SETCOMPARE		TIM_SetCompare4
-#define BUZZER_TIM_OCPreloadConfig TIM_OC1PreloadConfig
+#define BUZZER_TIM_OCPreloadConfig TIM_OC4PreloadConfig
 
 #define	C0_PERIOD			                61158   
 #define TWELFTH_ROOT_OF_TWOx10000     10595
