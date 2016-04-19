@@ -33,11 +33,11 @@ void tft_spi_init(void){
    
    //Clock and Pins mapping to SPI2
    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB,ENABLE);
-   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD,ENABLE);
+   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC,ENABLE);
    RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2,ENABLE);
    RCC_APB1PeriphClockLPModeCmd(RCC_APB1Periph_SPI2,ENABLE);
    GPIO_PinAFConfig(GPIOB, GPIO_PinSource13, GPIO_AF_SPI2);
-   GPIO_PinAFConfig(GPIOB, GPIO_PinSource14, GPIO_AF_SPI2);
+	 //GPIO_PinAFConfig(GPIOB, GPIO_PinSource14, GPIO_AF_SPI2);
    GPIO_PinAFConfig(GPIOB, GPIO_PinSource15, GPIO_AF_SPI2);
 
    /* Enable GPIOD for RST pin */
@@ -57,15 +57,13 @@ void tft_spi_init(void){
    GPIO_Init(TFT_DC_PORT, &GPIO_InitStructure);
 
    /* Configure TFT_SPI Pin: SCK, MISO and MOSI */
-   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 |GPIO_Pin_15 |GPIO_Pin_14;
+   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 |GPIO_Pin_15;
    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
    GPIO_InitStructure.GPIO_Speed = GPIO_Fast_Speed;
    GPIO_Init(GPIOB, &GPIO_InitStructure);
    
-   
-
    /* Configure TFT_SPI Pin: CS */
    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_CS;
    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -268,8 +266,7 @@ void tft_reset(void)
   * @param  in_text_color_sp: default special text color
   * @retval None
   */
-void tft_init(TFT_ORIENTATION orientation, u16 in_bg_color, u16 in_text_color, u16 in_text_color_sp)
-{
+void tft_init(TFT_ORIENTATION orientation, u16 in_bg_color, u16 in_text_color, u16 in_text_color_sp){
 	u8 x, y;
 	tft_y_index = 0;
 	pointer_to_curr_screen = 0;

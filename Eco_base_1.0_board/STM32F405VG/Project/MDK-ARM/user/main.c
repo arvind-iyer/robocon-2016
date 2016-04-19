@@ -21,7 +21,7 @@ int main(void) {
 	
 	GAME_STAGE game_stage = SYSTEM_WAITING;
 	
-	while (1) { 
+	while (1) {
 		this_loop_ticks = get_ticks();
 		if(this_loop_ticks != last_loop_ticks){
 			

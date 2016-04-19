@@ -19,13 +19,13 @@ typedef enum {
 	PIN_ON_RIGHT = 3
 }TFT_ORIENTATION;
 
-#define TFT_RST_PIN		GPIO_Pin_14
-#define TFT_DC_PIN		GPIO_Pin_9
-#define TFT_RST_PORT	GPIOB
-#define TFT_DC_PORT		GPIOC
+#define TFT_RST_PIN		GPIO_Pin_9 
+#define TFT_DC_PIN		GPIO_Pin_14
+#define TFT_RST_PORT	GPIOC
+#define TFT_DC_PORT		GPIOB
 
 #define TFT_SPI			SPI2
-#define GPIO_Pin_CS		GPIO_Pin_12
+#define GPIO_Pin_CS	GPIO_Pin_12
 #define RCC_AHB1Periph_GPIO_CS	RCC_AHB1Periph_GPIOB
 #define GPIO_CS			GPIOB
 #define	BGR888_MODE		1
