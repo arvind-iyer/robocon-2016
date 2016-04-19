@@ -1,10 +1,7 @@
 #include "servo.h"
 
 /* Config the servo here, DISABLE the servo if not used */
-static SERVO_PWM_STRUCT servo_pwm = {{TIM_Channel_1, GPIOA, GPIO_Pin_6, GPIO_PinSource6, ENABLE, TIM_OC1Init, TIM_SetCompare1},
-																		{TIM_Channel_2, GPIOA, GPIO_Pin_7, GPIO_PinSource7, ENABLE, TIM_OC2Init, TIM_SetCompare2},
-																		{TIM_Channel_3, GPIOB, GPIO_Pin_0, GPIO_PinSource0, ENABLE, TIM_OC3Init, TIM_SetCompare3},
-																		{TIM_Channel_4, GPIOB, GPIO_Pin_1, GPIO_PinSource1, ENABLE, TIM_OC4Init, TIM_SetCompare4}};
+static SERVO_PWM_STRUCT servo_pwm = {{TIM_Channel_1, GPIOA, GPIO_Pin_8, GPIO_PinSource8, ENABLE, TIM_OC1Init, TIM_SetCompare1}};
 
 /**
   * @brief  Servo initialization
@@ -24,7 +21,7 @@ void servo_init(void){
 	SERVO_GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;						// Push-Pull Output Alternate-function
 	SERVO_GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	
-	for (servo_id = 0; servo_id < 4; ++servo_id){
+	for (servo_id = 0; servo_id < 1; ++servo_id){
 		if (servo_pwm[servo_id].state == DISABLE) {
 				continue;
 			}

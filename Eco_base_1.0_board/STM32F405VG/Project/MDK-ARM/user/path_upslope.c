@@ -76,7 +76,6 @@ GAME_STAGE path_up_update(){
 		if (path_pointer >= TOTAL_PATH_SIZE){
 			return (GAME_STAGE) (CLIMBING_SLOPE + 1);
 		}
-		led_blink(LED_D3);
 	}
 	
 	SENSOR_BAR_FLAG flag;

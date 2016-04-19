@@ -17,19 +17,11 @@
 
 
 #define LED_1  GPIO_Pin_2
-#define LED_2  GPIO_Pin_3
-#define LED_3  GPIO_Pin_4
-#define LED_4  GPIO_Pin_5
-#define LED_5  GPIO_Pin_6
-#define LED_GPIO GPIOE
+#define LED_GPIO GPIOC
 
-#define LED_COUNT 5
+#define LED_COUNT 1
 typedef enum {
 	LED_D1 = 1 << 0,	// 1 (00001)
-	LED_D2 = 1 << 1,	// 2 (00010)
-	LED_D3 = 1 << 2,	// 4 (00100)
-	LED_D4 = 1 << 3,	// 8 (01000)
-	LED_D5 = 1 << 4,	// 16 (10000)
 } LED;
 	
 typedef enum {

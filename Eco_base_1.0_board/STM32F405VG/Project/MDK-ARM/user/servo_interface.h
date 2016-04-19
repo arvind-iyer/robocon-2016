@@ -12,7 +12,7 @@
 #define SERVO_MAX_PWM SERVO_MED_PWM + SERVO_INC_PWM
 #define SERVO_MIN_PWM SERVO_MED_PWM - SERVO_DEC_PWM
 
-#define DRAGON_SERVO SERVO2
+#define DRAGON_SERVO SERVO1
 
 extern s16 current_servo_pwm;
 extern s16 pending_servo_pwm;

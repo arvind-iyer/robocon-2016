@@ -32,7 +32,7 @@ void ardu_imu_update(){
 		path_river_init();
 		path_down_init();
 		ardu_imu_staged = true;
-		led_control(LED_D2, LED_ON);
+		//led_control(LED_D2, LED_ON);
 	}
 	
 	if (!sync_music_played && ardu_imu_synced){

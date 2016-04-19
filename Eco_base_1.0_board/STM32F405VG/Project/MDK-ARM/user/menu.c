@@ -10,7 +10,6 @@ void menu_init(){
 }
 
 GAME_STAGE menu_update(){
-	led_blink(LED_D4);
 	tft_clear();
 	for (u8 i=0;i<NUMBER_OF_ITEMS;i++){
 		if (i == selection){
@@ -24,16 +23,16 @@ GAME_STAGE menu_update(){
 	}
 	tft_set_bg_color(WHITE);
 	
-	if (button_pressed(BUTTON_JS_DOWN)){
-		while(button_pressed(BUTTON_JS_DOWN));
+	if (button_pressed(BUTTON_PIN)){
+		while(button_pressed(BUTTON_PIN));
 		selection = (selection+1) % NUMBER_OF_ITEMS;
-	}else if(button_pressed(BUTTON_JS_UP)){
-		while(button_pressed(BUTTON_JS_UP));
+	}else if(button_pressed(BUTTON_PIN)){
+		while(button_pressed(BUTTON_PIN));
 		selection = selection<1?NUMBER_OF_ITEMS-1:selection-1;
 	}
 	
-	if (button_pressed(BUTTON_JS_RIGHT)){
-		while(button_pressed(BUTTON_JS_RIGHT));
+	if (button_pressed(BUTTON_PIN)){
+		while(button_pressed(BUTTON_PIN));
 		tft_set_bg_color(BLACK);
 		tft_set_text_color(WHITE);
 		switch (selection){
