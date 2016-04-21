@@ -93,7 +93,6 @@ void process_array(){
         if (el == 1) {
             length++;
             if (begin == -1) begin = k; 
-            
             //Add more conditioning here
             else if(sensorbar_result[k+1] > 15){
                 end = 15;
@@ -157,7 +156,7 @@ void goStraightYolo(void){
 }
 
 void goUsingImu(void){
-    if(get_count(ENCODER1) > 30000 && !read_infrared_sensor(INFRARED_SENSOR_1)){
+    if((get_count(ENCODER1) > 30000) && !read_infrared_sensor(INFRARED_SENSOR_2)){
         globalState = STAGE2;
         reset_all_encoder();
     }
@@ -189,8 +188,10 @@ void goDetectLeftWall(void){
 
 void goStraightLittleBit(void){
     servo_control(SERVO1,SERVO_MICROS_MID + 150);
-    if(get_count(ENCODER1) > 4000){
+    if(get_count(ENCODER1) > 16000){
+        lastMovement = SERVO_MICROS_MID + 200;
         globalState = NOT_RIVER;
+        lastMovement = SERVO_MICROS_MID + 200;
     }
 }
 
