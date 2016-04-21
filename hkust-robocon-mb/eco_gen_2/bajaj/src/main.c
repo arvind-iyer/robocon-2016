@@ -25,8 +25,9 @@ int yaw_of_imu = 0;
 
 int main(void) {
     systemInit();
-    ardu_imu_init();
+    int count = 0;
     while (1) {
+        if(get_ticks() % 2 == 0)buzzer_check();
         tft_clear();
         if(get_full_ticks() % 20 == 0)ardu_imu_value_update();
         //Initial processing and shit
@@ -38,7 +39,7 @@ int main(void) {
                 switch(globalState){
                     case NOT_RIVER:
                         goNormal();
-                        if(river && !read_infrared_sensor(INFRARED_SENSOR_2))
+                        if(river && !read_infrared_sensor(INFRARED_SENSOR_RIGHT))
                         {
                             reset_all_encoder();
                             yaw_of_imu = ardu_cal_ypr[0] = -70;
@@ -61,16 +62,21 @@ int main(void) {
                 break;
         }
         length = 0;
-        if(button_pressed(BUTTON_JS_UP))fullWhite = true;
-        if(button_pressed(BUTTON_JS_DOWN))fullWhite = false;
-        if(button_pressed(BUTTON_JS_LEFT))systemOn = false;
-        if(button_pressed(BUTTON_JS_RIGHT)){
-            systemOn = true;
-            inBlue = false;
-            globalState = NOT_RIVER;
+    if(count > 500){
+        switch(systemOn){
+            case 0:
+                systemOn = 1;
+                count = 0;
+                break;
+            case 1:
+                systemOn = 0;
+                count = 0;
+                break;
         }
+    }
+    if(button_pressed())count++;
         tft_update();
     }
-return 0;
+    return 0;
 }
 	

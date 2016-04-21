@@ -7,7 +7,7 @@ static Encoder_Typedef encoder = {{ENCODER_TIMER1,ENCODER_TIMER1_CLOCK_SOURCE,EN
 
 /**
   * @brief  Initialization of encoder
-  * @param  Nonea
+  * @param  None
   * @retval None
   */
 void encoder_init(void){
@@ -15,7 +15,7 @@ void encoder_init(void){
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 
     //Alternate function enable: Encoder 1
-    RCC_APB1PeriphClockCmd(ENCODER_TIMER1_CLOCK_SOURCE , ENABLE);
+    RCC_APB2PeriphClockCmd(ENCODER_TIMER1_CLOCK_SOURCE , ENABLE);
     RCC_AHB1PeriphClockCmd(ENCODER_TIMER1_GPIO_CLOCK_SOURCE, ENABLE);
     // Enable Timer Clock Source
     GPIO_PinAFConfig(ENCODER_TIMER1_GPIOx, ENCODER_TIMER1_GPIO_PINSOURCE1, ENCODER_TIMER1_AF);

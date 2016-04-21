@@ -18,15 +18,15 @@ typedef enum {
 }TFT_ORIENTATION;
 
 // SPI, RST, DC (Converted to F4)
-#define TFT_RST_PIN		GPIO_Pin_8
-#define TFT_DC_PIN		GPIO_Pin_12
-#define TFT_RST_PORT	GPIOD
+#define TFT_RST_PIN		GPIO_Pin_9 
+#define TFT_DC_PIN		GPIO_Pin_14
+#define TFT_RST_PORT	GPIOC
 #define TFT_DC_PORT		GPIOB
 
 #define TFT_SPI			SPI2
-#define GPIO_Pin_CS		GPIO_Pin_9
-#define RCC_AHB1Periph_GPIO_CS	RCC_AHB1Periph_GPIOD
-#define GPIO_CS			GPIOD
+#define GPIO_Pin_CS	GPIO_Pin_12
+#define RCC_AHB1Periph_GPIO_CS	RCC_AHB1Periph_GPIOB
+#define GPIO_CS			GPIOB
 
 // Color
 #define	BGR888_MODE		1

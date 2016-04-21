@@ -37,8 +37,3 @@
 .\output\buzzer.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h
 .\output\buzzer.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h
 .\output\buzzer.o: .\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h
-.\output\buzzer.o: .\inc\tft_display.h
-.\output\buzzer.o: .\inc\1.8 TFT_ascii.h
-.\output\buzzer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\output\buzzer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\output\buzzer.o: .\inc\ticks.h

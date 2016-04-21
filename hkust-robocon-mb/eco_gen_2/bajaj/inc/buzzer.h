@@ -3,21 +3,22 @@
 
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_tim.h"
-#include "tft_display.h"
 
-#define BUZZER_GPIO				GPIOC
-#define BUZZER_GPIO_PIN		GPIO_Pin_6
+#define BUZZER_GPIO				GPIOB
+#define BUZZER_GPIO_PIN		GPIO_Pin_9
+#define BUZZER_GPIO_RCC 	RCC_AHB1Periph_GPIOB
+#define BUZZER_GPIO_PINSOURCE GPIO_PinSource9
 
-#define BUZZER_TIM				TIM8
-#define BUZZER_TIM_RCC		RCC_APB2Periph_TIM8
-#define BUZZER_CLKFreq		84000000
+#define BUZZER_TIM				TIM11
+#define BUZZER_TIM_RCC		RCC_APB2Periph_TIM11
+#define BUZZER_AF_TIM 		GPIO_AF_TIM11
 
 #define BUZZER_COUNT_PER_SECOND 1000000	/*!< Buzzer timer period, used for prescaling and relavant calculation */
 #define BUZZER_TIM_OC_INIT			TIM_OC1Init
 #define	BUZZER_TIM_SETCOMPARE		TIM_SetCompare1
 #define BUZZER_TIM_OCPreloadConfig TIM_OC1PreloadConfig
 
-#define	C0_PERIOD			                61158     
+#define	C0_PERIOD			                61158   
 #define TWELFTH_ROOT_OF_TWOx10000     10595
 #define BUZZER_QUEUE_SIZE 						12
 
@@ -79,7 +80,6 @@ struct BUZZER_QUEUE{
 
 void buzzer_enqueue(MUSIC_NOTE Note);
 MUSIC_NOTE buzzer_dequeue(void);
-void print_queue_status(void);
 
 
 #endif	/* __BUZZER_H */

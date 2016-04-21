@@ -7,7 +7,7 @@ static u16 buzzer_time_ms = 0;		                  /*!< The time left (in millise
 static u8 buzzer_count = 0;                         /*!< Storing the buzzer buzzing count for buzzer_control */
 
 /* Note frequency related */
-static u8 buzzer_volume = 25;	                	    /*!< Volume percentage for the buzzer, 0 - 100 (101 for full buzz) */
+static u8 buzzer_volume = 50;	                	    /*!< Volume percentage for the buzzer, 0 - 100 (101 for full buzz) */
 static u16 buzzer_note_period = 1;                  /*!< The current buzzer musical note period (in microsecond) */
 
 // Musical note period (1/freq) of the 0th octave in macroseconds (us), array to be completed through buzzer_init
@@ -25,8 +25,7 @@ static u8 buzzer_song_note_break_flag = 0;          /*!< Flag for a playing brea
 static MUSIC_NOTE BUZZER_QUEUE_ARRAY[BUZZER_QUEUE_SIZE];;
 struct BUZZER_QUEUE Buzzer_Queue = {0, 0, BUZZER_QUEUE_SIZE, &BUZZER_QUEUE_ARRAY[0]};
 
-void buzzer_init(void)
-{
+void buzzer_init(void){
 	
   // Calculating the NOTE0_PERIOD array
   NOTE0_PERIOD[0] = 0;
@@ -40,21 +39,21 @@ void buzzer_init(void)
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
 	/* GPIO Pin Init */
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+	RCC_AHB1PeriphClockCmd(BUZZER_GPIO_RCC, ENABLE);
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_InitStructure.GPIO_Pin = BUZZER_GPIO_PIN;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(BUZZER_GPIO , &GPIO_InitStructure);
-	GPIO_PinAFConfig(BUZZER_GPIO, GPIO_PinSource6, GPIO_AF_TIM8);
+	GPIO_PinAFConfig(BUZZER_GPIO, BUZZER_GPIO_PINSOURCE, GPIO_AF_TIM11);
 	
 	/* TIM Init */
 	RCC_APB2PeriphClockCmd(BUZZER_TIM_RCC, ENABLE);		// RCC enable
 	
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;    													// counter will count up (from 0 to FFFF)
   TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV2;        													// timer clock = dead-time and sampling clock 	
-  TIM_TimeBaseStructure.TIM_Prescaler = BUZZER_CLKFreq / BUZZER_COUNT_PER_SECOND - 1;    // 1MHz
+  TIM_TimeBaseStructure.TIM_Prescaler = SystemCoreClock / BUZZER_COUNT_PER_SECOND - 1;    // 1MHz
   TIM_TimeBaseStructure.TIM_Period = buzzer_note_period;	                    
   TIM_TimeBaseInit(BUZZER_TIM, &TIM_TimeBaseStructure);           // this part feeds the parameter we set above
 	
@@ -112,7 +111,6 @@ void buzzer_off(void)
   */
 void buzzer_check(void)
 {
-	tft_prints(0,2,"Buzzer Check");
   /* Checking for buzzer_control triggered action */
 	if (buzzer_on_flag > 0 || buzzer_count > 0) {
 		--buzzer_time_ms;
@@ -128,7 +126,6 @@ void buzzer_check(void)
 		}
 	} else if (buzzer_song_flag) {
     
-		tft_prints(0,2,"Mario Party");
 		/* Checking for buzzer_play_song triggered action */
 		MUSIC_NOTE current_note = buzzer_current_song[buzzer_current_song_note_id];
 	
@@ -283,11 +280,4 @@ MUSIC_NOTE buzzer_dequeue(void){
 		Buzzer_Queue.head = (Buzzer_Queue.head+1)%Buzzer_Queue.length;
 	}
 	return Note;
-}
-
-void print_queue_status(){
-	tft_prints(0,1,"Head: %d", Buzzer_Queue.head);
-	tft_prints(0,2,"Tail: %d", Buzzer_Queue.tail);
-	tft_prints(0,3,"Length: %d", Buzzer_Queue.length);
-	
 }

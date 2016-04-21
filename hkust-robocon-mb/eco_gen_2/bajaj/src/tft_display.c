@@ -41,14 +41,14 @@ void tft_spi_init(void)
 	
    //Clock and Pins mapping to SPI2
    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB,ENABLE);
-   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD,ENABLE);
+   RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC,ENABLE);
    RCC_APB1PeriphClockCmd(RCC_APB1Periph_SPI2,ENABLE);
    RCC_APB1PeriphClockLPModeCmd(RCC_APB1Periph_SPI2,ENABLE);
    GPIO_PinAFConfig(GPIOB, GPIO_PinSource13, GPIO_AF_SPI2);
-   GPIO_PinAFConfig(GPIOB, GPIO_PinSource14, GPIO_AF_SPI2);
+	 //GPIO_PinAFConfig(GPIOB, GPIO_PinSource14, GPIO_AF_SPI2);
    GPIO_PinAFConfig(GPIOB, GPIO_PinSource15, GPIO_AF_SPI2);
 	
-   /* Enable GPIOA for RST pin */
+   /* Enable GPIOD for RST pin */
    GPIO_InitStructure.GPIO_Pin = TFT_RST_PIN;
    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
@@ -65,7 +65,7 @@ void tft_spi_init(void)
    GPIO_Init(TFT_DC_PORT, &GPIO_InitStructure);
 
    /* Configure TFT_SPI Pin: SCK, MISO and MOSI */
-   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 |GPIO_Pin_15 |GPIO_Pin_14;
+   GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 |GPIO_Pin_15;
    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;

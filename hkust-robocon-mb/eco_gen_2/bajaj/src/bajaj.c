@@ -27,17 +27,15 @@ int imuMovement;
 
 void systemInit(){
     SystemCoreClockUpdate();
-	led_init();			//Initiate LED
 	ticks_init();		//Ticks initialization
     tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED);     //LCD Initialization
-	buzzer_init();	//Initialize buzzer
     servo_init();
-    buzzer_init();
     button_init();
-    
     encoder_init();
     infrared_sensor_init();
-      
+    buzzer_init();
+    ardu_imu_init();
+    buzzer_play_song(MARIO_BEGIN, 50, 0);
 	//Initialize the CAN protocol for motor
     can_init();
     can_rx_init();
@@ -78,7 +76,7 @@ void print_data(){
     tft_prints(0,0,"Sensor output");
     for(int i = 0; i < 16 ;i++) tft_prints(i,1,"%d",sensorbar_result[i]);
     tft_prints(0,2,"yaw :%d cal:%d",yaw_of_imu,ardu_imu_calibrated);
-    tft_prints(0,3,"i1:%d i2:%d",read_infrared_sensor(INFRARED_SENSOR_1),read_infrared_sensor(INFRARED_SENSOR_2));
+    tft_prints(0,3,"i1:%d i2:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
     tft_prints(0,4,"length: %d",length);
     tft_prints(0,5,"fullwhite:%d",fullWhite);
     tft_prints(0,6,"e1:%d e2:%d",get_count(ENCODER1),get_count(ENCODER2));
@@ -141,7 +139,7 @@ void goNormal(void){
 }
 
 void goFindWall(void){
-    if(!read_infrared_sensor(INFRARED_SENSOR_1)){
+    if(!read_infrared_sensor(INFRARED_SENSOR_LEFT)){
         servo_control(SERVO1,SERVO_MICROS_MID + 50);
         globalState = STAGE2;
         reset_all_encoder();
@@ -156,7 +154,7 @@ void goStraightYolo(void){
 }
 
 void goUsingImu(void){
-    if((get_count(ENCODER1) > 30000) && !read_infrared_sensor(INFRARED_SENSOR_2)){
+    if((get_count(ENCODER1) > 30000) && !read_infrared_sensor(INFRARED_SENSOR_RIGHT)){
         globalState = STAGE2;
         reset_all_encoder();
     }
@@ -174,14 +172,14 @@ void goUsingImu(void){
 }
 
 void goDetectRightWall(void){
-    if(river && !read_infrared_sensor(INFRARED_SENSOR_2)){
+    if(river && !read_infrared_sensor(INFRARED_SENSOR_RIGHT)){
         servo_control(SERVO1,SERVO_MICROS_MID + 150);
         globalState = STAGE3;
     }
 }
 
 void goDetectLeftWall(void){
-    if(river && !read_infrared_sensor(INFRARED_SENSOR_1)){
+    if(river && !read_infrared_sensor(INFRARED_SENSOR_LEFT)){
         globalState = NOT_RIVER;
     }
 }
@@ -204,7 +202,7 @@ void printSystemOff(void){
     tft_prints(0,5,"yaw:%f",ardu_cal_ypr[0]);
     tft_prints(0,6,"length:%d",length);
     tft_prints(0,7,"hueAvg: %d",hueAvg);
-    tft_prints(0,8,"i1:%d i2:%d",read_infrared_sensor(INFRARED_SENSOR_1),read_infrared_sensor(INFRARED_SENSOR_2));
+    tft_prints(0,8,"i1:%d i2:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
     tft_prints(0,9,"riv%d",river);
 }
 
