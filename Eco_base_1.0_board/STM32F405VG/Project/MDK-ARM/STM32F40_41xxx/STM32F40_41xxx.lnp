@@ -66,8 +66,8 @@
 "stm32f40_41xxx\buzzer.o"
 "stm32f40_41xxx\quick_math.o"
 "stm32f40_41xxx\servo.o"
-"stm32f40_41xxx\tm_stm32f4_delay.o"
 "stm32f40_41xxx\tm_stm32f4_timer_properties.o"
+"stm32f40_41xxx\ticks.o"
 --library_type=microlib --nodebug --strict --scatter "STM32F40_41xxx\STM32F40_41xxx.sct"
 --diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

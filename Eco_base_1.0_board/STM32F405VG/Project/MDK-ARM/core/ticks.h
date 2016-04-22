@@ -2,6 +2,7 @@
 #define __TICKS_H
 
 #include "stm32f4xx_tim.h"
+#include "buzzer.h"
 
 #define TICKS_TIM							TIM5
 #define TICKS_RCC							RCC_APB1Periph_TIM5

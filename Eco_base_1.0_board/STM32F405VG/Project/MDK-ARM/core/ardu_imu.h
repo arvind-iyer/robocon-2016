@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include "imu_math.h"
 
-#define ARDU_IMU_UART COM1
+#define ARDU_IMU_UART COM2
 
 typedef union {
 	u8 chars[4];

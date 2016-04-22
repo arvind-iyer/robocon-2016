@@ -7,9 +7,10 @@ u32 last_short_loop_ticks = 0;
 u32 any_loop_diff = 0;
 
 int main(void) {
+	SystemInit();
+	SystemCoreClockUpdate();
+	ticks_init();
 	led_init();
-	//ticks_init();
-	TM_DELAY_Init();
 	ardu_adapter_init();
 	sensorbar_init();
 	servo_init();
@@ -23,7 +24,7 @@ int main(void) {
 	GAME_STAGE game_stage = SYSTEM_WAITING;
 	
 	while (1) {
-		this_loop_ticks = get_ticks();
+		this_loop_ticks = get_full_ticks();
 		if(this_loop_ticks != last_loop_ticks){
 			
 			//Long loop action
@@ -93,5 +94,4 @@ int main(void) {
 			last_loop_ticks = this_loop_ticks;
 		}
 	}
-
 }

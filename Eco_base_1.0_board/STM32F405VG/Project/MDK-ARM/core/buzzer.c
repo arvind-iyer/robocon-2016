@@ -46,13 +46,13 @@ void buzzer_init(void){
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(BUZZER_GPIO , &GPIO_InitStructure);
-	GPIO_PinAFConfig(BUZZER_GPIO, BUZZER_GPIO_PINSOURCE, GPIO_AF_TIM4);
+	GPIO_PinAFConfig(BUZZER_GPIO, BUZZER_GPIO_PINSOURCE, BUZZER_AF_TIM);
 	
 	/* TIM Init */
-	RCC_APB1PeriphClockCmd(BUZZER_TIM_RCC, ENABLE);		// RCC enable
+	RCC_APB2PeriphClockCmd(BUZZER_TIM_RCC, ENABLE);		// RCC enable
 	
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;    													// counter will count up (from 0 to FFFF)
-  TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV2;        													// timer clock = dead-time and sampling clock 	
+  TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;        													// timer clock = dead-time and sampling clock 	
   TIM_TimeBaseStructure.TIM_Prescaler = SystemCoreClock / BUZZER_COUNT_PER_SECOND - 1;    // 1MHz
   TIM_TimeBaseStructure.TIM_Period = buzzer_note_period;	                    
   TIM_TimeBaseInit(BUZZER_TIM, &TIM_TimeBaseStructure);           // this part feeds the parameter we set above
@@ -98,8 +98,7 @@ void buzzer_on(void)
   * @param None
   * @retval None
   */
-void buzzer_off(void)
-{
+void buzzer_off(void){
 	BUZZER_TIM_SETCOMPARE(BUZZER_TIM, 0);
 //		GPIO_ResetBits(BUZZER_GPIO, BUZZER_GPIO_PIN);
 }
@@ -109,8 +108,7 @@ void buzzer_off(void)
   * @param  None
   * @retval None
   */
-void buzzer_check(void)
-{
+void buzzer_check(void){
   /* Checking for buzzer_control triggered action */
 	if (buzzer_on_flag > 0 || buzzer_count > 0) {
 		--buzzer_time_ms;
@@ -165,8 +163,7 @@ void buzzer_check(void)
   * @param  period: time (in millisecond) for each buzz and each break in between each buzz
   * @retval None
   */
-void buzzer_control(u8 count, u16 period)
-{
+void buzzer_control(u8 count, u16 period){
 	if (count == 0 || period == 0) {return;}	/* Do nothing */
 
 	buzzer_count = count;
@@ -183,8 +180,7 @@ void buzzer_control(u8 count, u16 period)
   * @param The musical note period (in microseconds), e.g., 1/440 for note A4
   * @retval None
   */
-void buzzer_set_note_period(u16 p)
-{
+void buzzer_set_note_period(u16 p){
 	buzzer_note_period = p;
 	if (buzzer_note_period > 0) {
 		TIM_SetAutoreload(BUZZER_TIM, buzzer_note_period);
@@ -197,8 +193,7 @@ void buzzer_set_note_period(u16 p)
   * @brief Set the volume of the buzzer (Output compare of the timer)
   * @param vol: Volume of timer (0-100)
   */
-void buzzer_set_volume(u8 vol)
-{
+void buzzer_set_volume(u8 vol){
 	if (vol > 100) {vol = 100;}
 	buzzer_volume = vol;
 }
@@ -208,8 +203,7 @@ void buzzer_set_volume(u8 vol)
   * @param note: The musical note enumator
   * @param octave: The selected octave number
   */
-u16 get_note_period(MUSIC_NOTE_LETTER note, u8 octave)
-{
+u16 get_note_period(MUSIC_NOTE_LETTER note, u8 octave){
 	u16 note_period = 0;
 	if (note == NOTE_REST || note == NOTE_END || note > 12) return 0;
 	
@@ -222,8 +216,7 @@ u16 get_note_period(MUSIC_NOTE_LETTER note, u8 octave)
 	return note_period;
 }
 
-void buzzer_control_note(u8 count, u16 period, MUSIC_NOTE_LETTER note, u8 octave)
-{
+void buzzer_control_note(u8 count, u16 period, MUSIC_NOTE_LETTER note, u8 octave){
   buzzer_set_note_period(get_note_period(note, octave)); 
   buzzer_control(count, period); 
 }
@@ -234,8 +227,7 @@ void buzzer_control_note(u8 count, u16 period, MUSIC_NOTE_LETTER note, u8 octave
   * @param Note length of each note (in millisecond)
   * @param Note length of each break (in millisecond)
   */
-void buzzer_play_song(const MUSIC_NOTE* song, u16 note_length, u16 note_break)
-{
+void buzzer_play_song(const MUSIC_NOTE* song, u16 note_length, u16 note_break){
 	if (song == 0) {return;}
 	// Cut buzzer_control
 	buzzer_on_flag = 0;

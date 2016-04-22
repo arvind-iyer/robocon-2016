@@ -12,7 +12,8 @@ typedef enum
 {
 	COM_NULL = -1,		//disabled
     COM1 = 0,   		//usart1
-    COM3 = 1,				//usart3
+		COM2 = 1,   		//usart2
+    COM3 = 2,				//usart3
 } COM_TypeDef;
 
 #define COMn 3 
@@ -27,6 +28,15 @@ typedef enum
 #define COM1_RX_GPIO_CLK            RCC_AHB1Periph_GPIOA
 #define COM1_IRQn                   USART1_IRQn
 
+// Definition for USART2
+#define COM2_CLK                    RCC_APB1Periph_USART2
+#define COM2_TX_PIN                 GPIO_Pin_2
+#define COM2_TX_GPIO_PORT           GPIOA
+#define COM2_TX_GPIO_CLK            RCC_AHB1Periph_GPIOA
+#define COM2_RX_PIN                 GPIO_Pin_3
+#define COM2_RX_GPIO_PORT           GPIOA
+#define COM2_RX_GPIO_CLK            RCC_AHB1Periph_GPIOA
+#define COM2_IRQn                   USART2_IRQn
 
 // Definition for USART3 
 #define COM3_CLK                    RCC_APB1Periph_USART3
@@ -41,7 +51,7 @@ typedef enum
 extern USART_TypeDef* COM_USART[COMn];
 extern COM_TypeDef printf_COMx;
 
-// COM1=USART1, COM3=UART3
+// COM1=USART1, COM2=UART2, COM3=UART3
 void uart_init(COM_TypeDef COM, u32 br);
 void uart_interrupt(COM_TypeDef COM);
 

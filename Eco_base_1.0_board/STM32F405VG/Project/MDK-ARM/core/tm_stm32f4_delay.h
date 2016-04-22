@@ -325,7 +325,7 @@ void TM_DELAY_Init(void);
  *  @retval Current time in milliseconds
  *
  */
-uint32_t get_ticks(void);
+//uint32_t get_ticks(void);
 
 /**
  * @brief  Gets the TM_Time variable value
