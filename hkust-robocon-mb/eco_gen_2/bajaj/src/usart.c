@@ -15,7 +15,7 @@ uint8_t uart2_listener_empty = 1;
 #define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
 #endif /* __GNUC__ */
 
-USART_TypeDef* COM_USART[COMn] = {USART1, USART3}; 
+USART_TypeDef* COM_USART[COMn] = {USART1, USART2}; 
 GPIO_TypeDef* COM_TX_PORT[COMn] = {COM1_TX_GPIO_PORT, COM2_TX_GPIO_PORT}; 
 GPIO_TypeDef* COM_RX_PORT[COMn] = {COM1_RX_GPIO_PORT, COM2_RX_GPIO_PORT}; 
 uc32 COM_USART_CLK[COMn] = {COM1_CLK, COM2_CLK};
@@ -48,16 +48,16 @@ void uart_init(COM_TypeDef COM, u32 br)
 	else
 	{
 		RCC_APB1PeriphClockCmd(COM_USART_CLK[COM], ENABLE);
-        GPIO_PinAFConfig(GPIOB, GPIO_PinSource10, GPIO_AF_USART3);//Connect PB10 to USART1_Tx
-        GPIO_PinAFConfig(GPIOB, GPIO_PinSource11, GPIO_AF_USART3);//Connect PB11 to USART1_Rx
+        GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_USART2);//Connect PB10 to USART1_Tx
+        GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_USART2);//Connect PB11 to USART1_Rx
 	}
 
 	/* Configure USART Tx & USART Rx as alternate function push-pull */
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_InitStructure.GPIO_Pin = COM_TX_PIN[COM]|COM_RX_PIN[COM];
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
 	GPIO_Init(COM_TX_PORT[COM] , &GPIO_InitStructure);
 
 	/* USART configuration */
@@ -183,6 +183,15 @@ void USART1_IRQHandler(void)
 		if (!uart1_listener_empty)
 			(*uart1_rx_listener)(USART_ReceiveData(USART1));
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+	}
+}
+void USART2_IRQHandler(void)
+{
+	if(USART_GetITStatus(USART2,USART_IT_RXNE) != RESET)
+	{ // check RX interrupt
+		if (!uart2_listener_empty)
+			(*uart2_rx_listener)(USART_ReceiveData(USART2));
+		USART_ClearITPendingBit(USART2, USART_IT_RXNE);
 	}
 }
 

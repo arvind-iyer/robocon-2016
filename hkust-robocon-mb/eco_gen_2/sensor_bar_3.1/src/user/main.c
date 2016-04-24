@@ -16,7 +16,7 @@ void GPIO_init(void){
 	GPIO_InitTypeDef GPIO_InitStructure;
 	
 	//Buttons
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_14 | GPIO_Pin_15;       
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14;       
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;	 
     GPIO_Init(GPIOB, &GPIO_InitStructure);
 
@@ -164,6 +164,7 @@ int main(void)
         dataCollect();
         rgb_hsv_converter(&now);
         sendData();
+        //printInformation();
     }
 }
 

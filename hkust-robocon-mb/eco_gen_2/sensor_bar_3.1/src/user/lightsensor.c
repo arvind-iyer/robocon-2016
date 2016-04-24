@@ -1,27 +1,14 @@
 #include "lightSensor.h"
 
 volatile extern u16 ADC_val[16];
-volatile extern u16 Avg_ADC_val[4][16];
 Reading max_1;
 Reading now;
-Reading avg;
 u8 sat[16] = {0};
-u8 sampleTime = 0;
 
 //Threshold
 int border;
 //Hue average
 int hueAverage = 0; 
-
-
-void LED_Control(u8 R, u8 G, u8 B){
-	if(R)		GPIO_SetBits(GPIOB, GPIO_Pin_11);
-	else		GPIO_ResetBits(GPIOB, GPIO_Pin_11);
-	if(G)		GPIO_SetBits(GPIOB, GPIO_Pin_12);
-	else		GPIO_ResetBits(GPIOB, GPIO_Pin_12);
-	if(B)		GPIO_SetBits(GPIOB, GPIO_Pin_10);
-	else		GPIO_ResetBits(GPIOB, GPIO_Pin_1);
-}
 
 void initToZero(){
     for(int i = 0 ; i < 16 ; i++){
@@ -50,7 +37,7 @@ void sensor_init(Reading*  max){
 			for(u8 i=0;i<16;i++)max->off_reading[i] = ADC_val[i];
 			DMA_ClearFlag(DMA1_FLAG_TC1);
 			
-            //Red
+            //Collect red
             GPIO_SetBits(GPIOB,GPIO_Pin_11);
 			_delay_us(DELAY_US);
 			ADC_SoftwareStartConvCmd(ADC1, ENABLE);
@@ -63,7 +50,7 @@ void sensor_init(Reading*  max){
 			GPIO_ResetBits(GPIOB,GPIO_Pin_11);
             DMA_ClearFlag(DMA1_FLAG_TC1);
 
-			//Green
+			//Collect Green
             GPIO_SetBits(GPIOB,GPIO_Pin_12);
 			_delay_us(DELAY_US);
 			ADC_SoftwareStartConvCmd(ADC1, ENABLE);
@@ -76,7 +63,7 @@ void sensor_init(Reading*  max){
 			GPIO_ResetBits(GPIOB,GPIO_Pin_12);
             DMA_ClearFlag(DMA1_FLAG_TC1);
 			
-			//Blue
+			//Collect blue
             GPIO_SetBits(GPIOB,GPIO_Pin_10);
 			_delay_us(DELAY_US);
 			ADC_SoftwareStartConvCmd(ADC1, ENABLE);
@@ -97,36 +84,39 @@ void dataCollect(){
         //discrete data collect
 		_delay_us(DELAY_US);
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+		
         //Collect off reading
         while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+		
+        
         for(u8 i=0;i<16;i++) now.off_reading[i] = ADC_val[i];
         DMA_ClearFlag(DMA1_FLAG_TC1);
 
 		//Collect Red
-        GPIO_SetBits(GPIOB, GPIO_Pin_11);
+        GPIO_SetBits(GPIOB,GPIO_Pin_11); //Red
 		_delay_us(DELAY_US);
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
         while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
 		for(u8 i=0;i<16;i++)now.red_reading[i] = ADC_val[i];
-		GPIO_ResetBits(GPIOB, GPIO_Pin_11);
+		GPIO_ResetBits(GPIOB,GPIO_Pin_11);
         DMA_ClearFlag(DMA1_FLAG_TC1);
 
 		//Collect Green
-        GPIO_SetBits(GPIOB, GPIO_Pin_12);
+        GPIO_SetBits(GPIOB,GPIO_Pin_12); //Green
 		_delay_us(DELAY_US);
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
 		for(u8 i=0;i<16;i++)now.green_reading[i] = ADC_val[i];
-		GPIO_ResetBits(GPIOB, GPIO_Pin_12);
+		GPIO_ResetBits(GPIOB,GPIO_Pin_12);
         DMA_ClearFlag(DMA1_FLAG_TC1);
 		
 		//Collect Blue
-        GPIO_SetBits(GPIOB, GPIO_Pin_10);
+        GPIO_SetBits(GPIOB,GPIO_Pin_10); //Blue
 		_delay_us(DELAY_US);
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
 		for(u8 i=0;i<16;i++)now.blue_reading[i] = ADC_val[i];
-		GPIO_ResetBits(GPIOB, GPIO_Pin_10);
+		GPIO_ResetBits(GPIOB,GPIO_Pin_10);
         DMA_ClearFlag(DMA1_FLAG_TC1);
 
 		for(u8 i=0;i < 16;i++)
@@ -142,7 +132,7 @@ void dataCollect(){
 			now.red_reading[i] = (now.red_reading[i] - now.off_reading[i])*255 / (max_1.red_reading[i] - now.off_reading[i]);
 			now.green_reading[i] = (now.green_reading[i] - now.off_reading[i])*255 / (max_1.green_reading[i] - now.off_reading[i]);
 			now.blue_reading[i] = (now.blue_reading[i] - now.off_reading[i])*255 / (max_1.blue_reading[i] - now.off_reading[i]);
-		}      
+		}
 }
 
 
@@ -203,34 +193,34 @@ void rgb_hsv_converter(Reading* reading){
 
 void sendData(){
     for(int i = 0 ; i < 16;i++){
-            hueAverage  += now.h[i];
+        hueAverage  += now.h[i];
     }
     hueAverage /= 16;
     
     //Dark blue
-    if(hueAverage >= 201 && hueAverage <= 250)border = 50;
+    if(hueAverage >= 210 && hueAverage <= 230){border = 55;}
     
     //Orange
-    else if(hueAverage <= 30)border = 65;
+    else if(hueAverage <= 30 && hueAverage > 10){border = 63;}
     
     //Light green
-    else if(hueAverage >= 80 && hueAverage <= 100) border = 22;
+    else if(hueAverage >= 80 && hueAverage < 180){border = 18;}
     
     //Dark green
-    else if(hueAverage >= 160 && hueAverage <= 200) border = 42;
+    else if(hueAverage >= 180 && hueAverage < 210){border = 40;}
     
     //Pink
-    else if(hueAverage > 300) border = 45;
+    else if(hueAverage > 300 || hueAverage <= 10){border = 60;}
     
     //Random Color
-    else border = 45;
-        
-    for(int i=0;i < 16;i++)
-    {
+    else border = 60;
+    
+    
+    for(int i = 0 ; i < 16; i++){
         if(now.s[i] > border) sat[i] = 0; //White color
         else sat[i] = 1; //Dark color
     }
-    
+
 	CAN_MESSAGE msg;
 	msg.id = 0x0C5;
 	msg.length = 8;
@@ -248,7 +238,7 @@ void sendData(){
     msg2.length = 3;
     msg2.data[1] = hueAverage;
     msg2.data[2] = border;
-    if(hueAverage >= 210 && hueAverage <= 250)msg2.data[0] = 1;
+    if(hueAverage >= 210 && hueAverage <= 230)msg2.data[0] = 1;
     else msg2.data[0] = 0;
     can_tx_enqueue(msg2);
 }
@@ -259,7 +249,7 @@ void printInformation(){
         printf("Sensor:%d\n",0);
         printf("N : %d \tR: %d\tG: %d\tB: %d\r\n",max_1.off_reading[0],max_1.red_reading[0], max_1.green_reading[0], max_1.blue_reading[0]);
         printf("N: %d\tR: %d\tG: %d\tB: %d\r\n",now.off_reading[0], now.red_reading[0], now.green_reading[0], now.blue_reading[0]);
-        printf("[hsv] H(360): %d\tS(100): %d\tV(100): %d\r\n",now.h[13],now.s[13],now.v[13]);
+        printf("[hsv] H(360): %d\tS(100): %d\tV(100): %d\r\n",now.h[0],now.s[0],now.v[0]);
         printf("HueAvg: %d\n",hueAverage);
         printf("\n");
     }

@@ -20,7 +20,7 @@ void servo_init(void){
 	RCC_AHB1PeriphClockCmd(SERVO_GPIO_RCC, ENABLE);	// Enable bus
 
 	SERVO_GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;						// Push-Pull Output Alternate-function
-	SERVO_GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	SERVO_GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
 	
 	for (servo_id = 0; servo_id < SERVO_COUNT; ++servo_id){
 		if (servo_pwm[servo_id].state == DISABLE) {
@@ -70,7 +70,7 @@ void servo_init(void){
 
 /**
   * @brief  Controlling the PWM for servos
-  * @param  servo_id: Port of Motor to be used (SERVO1, SERVO2, SERVO3, SERVO4)
+  * @param  servo_id: Port of Motor to be used (SERVO1)
   * @param  val: Value from 0 to 2000
   * @retval None
   */

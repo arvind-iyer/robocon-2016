@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include "imu_math.h"
 
-#define ARDU_IMU_UART COM1
+#define ARDU_IMU_UART COM2
 
 typedef union {
 	u8 chars[4];
@@ -22,7 +22,7 @@ extern float ardu_cal_ypr[3];
 
 #define IMU_USE_CONTINUOUS_MODE
 #define SYNC_TIMEOUT 200
-#define SAMPLE_SIZE 100
+#define SAMPLE_SIZE 75
 
 void ardu_imu_init(void);
 void ardu_imu_value_update(void);

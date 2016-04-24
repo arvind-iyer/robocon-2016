@@ -14,13 +14,15 @@
 #include "buzzer.h"
 #include "button.h"
 #include "ardu_imu.h"
+#include "approx_math.h"
+#include <math.h>
 
 
 #define BAJAJ
 #ifdef BAJAJ
-#define SERVO_MICROS_MID 3000
-#define SERVO_MICROS_RIGHT 1800
-#define SERVO_MICROS_LEFT 4200
+#define SERVO_MICROS_MID 2700
+#define SERVO_MICROS_RIGHT 1900
+#define SERVO_MICROS_LEFT 3500
 #define BAJAJ_SERVO  SERVO3
 #endif
 
@@ -36,23 +38,16 @@ void process_array(void);
 
 void print_data(void);
 void fill_sensorbar_array(void);
+
 void systemInit(void);
 
 void goNormal(void);
 
-void goFindWall(void);
-
-void goStraightYolo(void);
 
 void goUsingImu(void);
 
-void goDetectRightWall(void);
-
-void goDetectLeftWall(void);
-
 void goStraightLittleBit(void);
 
-void printSystemOff(void);
 
 
 #endif

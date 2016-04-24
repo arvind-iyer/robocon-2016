@@ -22,26 +22,24 @@ extern bool systemOn;
 extern int yaw_of_imu;
 
 float imuFactor;
-int imuMovement;
-
+int imuMovement = 0;
 
 void systemInit(){
     SystemCoreClockUpdate();
 	ticks_init();		//Ticks initialization
     tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED);     //LCD Initialization
-    servo_init();
-    button_init();
     encoder_init();
     infrared_sensor_init();
     buzzer_init();
-    ardu_imu_init();
-    buzzer_play_song(MARIO_BEGIN, 50, 0);
-	//Initialize the CAN protocol for motor
+    buzzer_off();
+	//Initialize the CAN protocol for sensorbar
     can_init();
     can_rx_init();
     can_rx_add_filter(0x0C5,CAN_RX_MASK_EXACT,receive);
     can_rx_add_filter(0x0C6,CAN_RX_MASK_EXACT,receive2);
     can_rx_add_filter(0x0C7,CAN_RX_MASK_EXACT,receive3);
+    ardu_imu_init();
+    servo_init();
 }
 
 void receive(CanRxMsg msg){
@@ -75,14 +73,14 @@ void fill_sensorbar_array(){
 void print_data(){
     tft_prints(0,0,"Sensor output");
     for(int i = 0; i < 16 ;i++) tft_prints(i,1,"%d",sensorbar_result[i]);
-    tft_prints(0,2,"yaw :%d cal:%d",yaw_of_imu,ardu_imu_calibrated);
-    tft_prints(0,3,"i1:%d i2:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
-    tft_prints(0,4,"length: %d",length);
-    tft_prints(0,5,"fullwhite:%d",fullWhite);
-    tft_prints(0,6,"e1:%d e2:%d",get_count(ENCODER1),get_count(ENCODER2));
-    tft_prints(0,7,"state: %d",globalState);
-    tft_prints(0,8,"riv:%d",river);
-    tft_prints(0,9,"system: %d",systemOn);    
+    tft_prints(0,2,"yaw:%d cal:%d",yaw_of_imu,ardu_imu_calibrated);
+    tft_prints(0,3,"left:%d right:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
+    tft_prints(0,4,"upLeft:%d upRight:%d", read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT),read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT));
+    tft_prints(0,5,"le:%d hAvg:%d",length,hueAvg);
+    tft_prints(0,6,"fullwhite:%d",fullWhite);
+    tft_prints(0,7,"e1:%d e2:%d",get_count(ENCODER1),get_count(ENCODER2));
+    tft_prints(0,8,"state: %d",globalState);
+    tft_prints(0,9,"riv:%d",river);   
 }
 
 void process_array(){
@@ -107,14 +105,14 @@ void process_array(){
 }
 
 void goNormal(void){
-    if (get_full_ticks() - lastTurn >= 500){
-        if(length >= 15 && fullWhite == false){
-            lastMovement = SERVO_MICROS_RIGHT;
+    if(get_full_ticks() - lastTurn >= 700){
+        if(length >= 14 && fullWhite == false){
+            lastMovement = SERVO_MICROS_RIGHT - 200;
             fullWhite = true;
             lastTurn = get_full_ticks();
         }
         
-        else if (length >= 15 && fullWhite == true){
+        else if (length >= 14 && fullWhite == true){
             lastMovement = SERVO_MICROS_MID;
         }
 
@@ -122,88 +120,32 @@ void goNormal(void){
             float factor = ((begin + end) / 2) / (float) 16;
             lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
         } 
-
-        //((begin + end)/2) < 6
-//        else if (length > 7 && length < 16){
-//            if ((begin + end) / 2 < 8 ){
-//                lastMovement = SERVO_MICROS_LEFT;
-//            }
-//            else if((begin + end) / 2 >= 8 && river){
-//                lastMovement = SERVO_MICROS_RIGHT + 250;
-//            }
-//            else lastMovement = SERVO_MICROS_RIGHT;
-//        }  
+    }
     begin = -1;
-    servo_control(SERVO1,lastMovement);
-    }
-}
-
-void goFindWall(void){
-    if(!read_infrared_sensor(INFRARED_SENSOR_LEFT)){
-        servo_control(SERVO1,SERVO_MICROS_MID + 50);
-        globalState = STAGE2;
-        reset_all_encoder();
-    }
-}
-
-void goStraightYolo(void){
-    if(get_count(ENCODER1) > 45000){
-        globalState = NOT_RIVER;
-        inBlue = false;
-    }
+    if(get_ticks() % 10 == 0)servo_control(SERVO1,lastMovement);
 }
 
 void goUsingImu(void){
-    if((get_count(ENCODER1) > 30000) && !read_infrared_sensor(INFRARED_SENSOR_RIGHT)){
+    if((get_count(ENCODER1) > 16000) && !read_infrared_sensor(INFRARED_SENSOR_RIGHT)){
         globalState = STAGE2;
         reset_all_encoder();
     }
-    else{
-        if(yaw_of_imu >= -5 && yaw_of_imu <= 5)servo_control(SERVO1,SERVO_MICROS_MID);
-        else if(yaw_of_imu > 120) servo_control(SERVO1,SERVO_MICROS_LEFT);
-        else if(yaw_of_imu < -120) servo_control(SERVO1,SERVO_MICROS_RIGHT);
-        else{
-            //non-extreme angle movement
-            imuFactor = (float)yaw_of_imu / 120;
-            imuMovement = SERVO_MICROS_MID + (imuFactor * 600);
-            servo_control(SERVO1,imuMovement);
-        }
-    }
-}
-
-void goDetectRightWall(void){
-    if(river && !read_infrared_sensor(INFRARED_SENSOR_RIGHT)){
-        servo_control(SERVO1,SERVO_MICROS_MID + 150);
-        globalState = STAGE3;
-    }
-}
-
-void goDetectLeftWall(void){
-    if(river && !read_infrared_sensor(INFRARED_SENSOR_LEFT)){
-        globalState = NOT_RIVER;
-    }
+    yaw_of_imu = yaw_of_imu > 180 ? 180 : yaw_of_imu;
+    yaw_of_imu = yaw_of_imu < -180 ? -180 : yaw_of_imu; 
+    
+    //non-extreme angle movement
+    imuFactor = (float)yaw_of_imu / 180;
+    imuMovement = SERVO_MICROS_MID + (imuFactor * 800);
+    if(get_ticks() % 10 == 0)servo_control(SERVO1,imuMovement);
 }
 
 void goStraightLittleBit(void){
-    servo_control(SERVO1,SERVO_MICROS_MID + 150);
-    if(get_count(ENCODER1) > 16000){
+    servo_control(SERVO1,SERVO_MICROS_MID + 200);
+    if(get_count(ENCODER1) > 4000){
         lastMovement = SERVO_MICROS_MID + 200;
         globalState = NOT_RIVER;
         lastMovement = SERVO_MICROS_MID + 200;
     }
-}
-
-void printSystemOff(void){
-    tft_prints(0,3,"SYSTEM IS OFF");
-    tft_prints(0,0,"Sensor output");
-    for(int i = 0; i < 16 ;i++) tft_prints(i,1,"%d",sensorbar_result[i]);
-    tft_prints(0,2,"River: %d",river);
-    tft_prints(0,4,"calibrated:%d",ardu_imu_calibrated);
-    tft_prints(0,5,"yaw:%f",ardu_cal_ypr[0]);
-    tft_prints(0,6,"length:%d",length);
-    tft_prints(0,7,"hueAvg: %d",hueAvg);
-    tft_prints(0,8,"i1:%d i2:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
-    tft_prints(0,9,"riv%d",river);
 }
 
 
