@@ -264,9 +264,9 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	angle *= 10;
 	for (int i = 0; i < 3; i++) {
-		vel[i] = int_sin(angle+i*1200-1800)*maxvel/(-10000);	//calculate parallel distance
+		vel[i] = int_sin(angle+i*1200)*maxvel/(-10000);	//calculate parallel distance
 		if (dotcheck > 0.0)
-			vel[i] -= int_sin(angle+i*1200-900)*err_pid/(-10000);	//subtract perpendicular negative feedback
+			vel[i] -= int_sin(angle+i*1200+900)*err_pid/(-10000);	//subtract perpendicular negative feedback
 		vel[i] *= vel_coeff;
 		vel[i] -= rotate*acc;	//subtract rotational negative feedback
 	}
