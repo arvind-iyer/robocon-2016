@@ -191,9 +191,9 @@ void manual_interval_update(){
 			}
 
 			s32 curr_speed = (curr_vx*curr_vx + curr_vy*curr_vy) / 700;
-			motor_vel[0] = (int_sin(curr_angle-1800)*curr_speed*(-1)/10000 + curr_rotate)/10;
-			motor_vel[1] = (int_sin(curr_angle-600)*curr_speed*(-1)/10000 + curr_rotate)/10;
-			motor_vel[2] = (int_sin(curr_angle+600)*curr_speed*(-1)/10000 + curr_rotate)/10;
+			motor_vel[0] = (int_sin(curr_angle)*curr_speed*(-1)/10000 + curr_rotate)/10;
+			motor_vel[1] = (int_sin(curr_angle+1200)*curr_speed*(-1)/10000 + curr_rotate)/10;
+			motor_vel[2] = (int_sin(curr_angle+2400)*curr_speed*(-1)/10000 + curr_rotate)/10;
 			
 			for (u8 i=0;i<3;i++){
 				motor_loop_state[i] = CLOSE_LOOP;
