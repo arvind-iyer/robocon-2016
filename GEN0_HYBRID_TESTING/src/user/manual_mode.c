@@ -326,6 +326,7 @@ void manual_interval_update(){
 		motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
 	}
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
+	tft_append_line("%d %d %d", get_X(), get_Y(), get_angle());
 	tft_update();
 }
 
