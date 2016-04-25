@@ -13,12 +13,17 @@ int queuePos = 0;
 
 uint8_t piReady = false;
 
-uint8_t switchState = false;
 uint8_t counterState = false;
-uint8_t finishState = false;
 uint8_t elevationCorrected = false;
+uint8_t prevFinishState = false;
+bool DEBUG_STATE = false;
+bool armSwitchUp = false;
+bool armSwitchDown = false;
+bool moveState = false;
 
 int w1 = 0, w2 = 0, w3 = 0;
+
+s32 time=0, moveTime = 0;
 
 void servo_adc_init(void) {
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
@@ -125,13 +130,13 @@ void handleCommand() {
 				motor_set_vel(MOTOR7, w7, OPEN_LOOP);
 			
 				//Gripper Motor
-					motor_set_vel(MOTOR8, w8, OPEN_LOOP);
+					motor_set_vel(MOTOR8, w8, CLOSE_LOOP);
 					
 		} else if (strcmp(header, "FAN_CONTROL") == 0 && contentIndex == 2){
 				int fan_1_speed = contents[0];
 				int fan_2_speed = contents[1];
 				servo_control(SERVO2, fan_1_speed);
-				adc_servo_control(1, fan_2_speed);
+				adc_servo_control(0, fan_2_speed);
 				//servo_control(1, fan_2_speed);
 		} else if (strcmp(header, "SERVO_CONTROL") == 0 && contentIndex == 2) { // Servo Control [ID, Magnitude]
 				int servoId = contents[0];
@@ -141,8 +146,9 @@ void handleCommand() {
 				int servoPwm1 = contents[0];
 				int servoPwm2 = contents[1];
 				servo_control(SERVO1, servoPwm1);
-				adc_servo_control(0, servoPwm2);
+				adc_servo_control(1, servoPwm2);
 		} else if (strcmp(header, "PNEUMATIC_CONTROL") == 0 && contentIndex == 2){
+				DEBUG_STATE = true;
 				int pneumaticId = contents[0];
 				int pneumaticState = contents[1];
 				switch (pneumaticId){
@@ -168,37 +174,57 @@ void handleCommand() {
 		queuePos--;
 }
 
-void limitSwitchCheck(){
-	s32 time;
-	if(!gpio_read_input(&PE6) && !gpio_read_input(&PE7)){
-		if(counterState == false) {
-			time = get_full_ticks();
-			counterState = true;
-		}
-		if(time - get_full_ticks() >= 20) finishState = true;
-	} else if (!gpio_read_input(&PE8)) {
-		if(counterState == false) {
-			time = get_full_ticks();
-			counterState = true;
-		}
-		if(time - get_full_ticks() >= 20) switchState = true;
-	} else {
-		counterState = false;
-		switchState = false;
-		finishState = false;
+//void limitSwitchCheck(){
+//	if(gpio_read_input(&PE6) || gpio_read_input(&PE7)){
+//		if(counterState == false) {
+//			time = get_full_ticks();
+//			counterState = true;
+//		}
+//		if(get_full_ticks() - time >= 20) finishState = true;
+//	} else if (gpio_read_input(&PE9)) {
+//		if(counterState == false) {
+//			time = get_full_ticks();
+//			counterState = true;
+//		}
+//		if(get_full_ticks() - time >= 20) switchState = true;
+//	} else {
+//		counterState = false;
+//		switchState = false;
+//		finishState = false;
+//	}
+//}
+
+bool armDir = false, fixingArm = false; // False = down, True = up
+long lastLimitCheck = 0;
+void limitSwitchCheck() {
+	bool b1 = gpio_read_input(&PE6), b2 = gpio_read_input(&PE7);
+
+	if (get_full_ticks() - lastLimitCheck >= 20 && fixingArm) {
+		fixingArm = false;
+		tft_prints(5,5, "STOP");
+		motor_set_vel (MOTOR8, 0, CLOSE_LOOP);
+		lastLimitCheck = get_full_ticks();
+	}
+	
+	if (b1 || b2) {
+		armDir = b2 ? 1 : 0;
+		motor_set_vel(MOTOR8, armDir ? -10 : 10, CLOSE_LOOP);
+		fixingArm = true;
+		lastLimitCheck = get_full_ticks();
+		// If fixing arm, always make sure IR never gets triggered until fixingArm is false.
 	}
 }
 
 int main(void) {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 	
-	// Limit switch GPIO initiaization.
-	gpio_init(&PE6, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
-	gpio_init(&PE7, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
-	gpio_init(&PE8, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
+	// Limit switch GPIO initialization.
+	gpio_init(&PE6, GPIO_Speed_50MHz, GPIO_Mode_IPD, 1);
+	gpio_init(&PE7, GPIO_Speed_50MHz, GPIO_Mode_IPD, 1);
+	gpio_init(&PE9, GPIO_Speed_50MHz, GPIO_Mode_IPD, 1);
 	
 	// IR Sensor GPIO initialization.
-	gpio_init(&PE9, GPIO_Speed_50MHz, GPIO_Mode_IPD, 1);
+	gpio_init(&PE8, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
 	
 	// ADC Servo initialization.
 	gpio_init(&PA6, GPIO_Speed_50MHz, GPIO_Mode_AF_PP, 1);
@@ -237,14 +263,8 @@ int main(void) {
 		if (get_full_ticks() - lastStateUpdate >= 10) {
 			
 			limitSwitchCheck();
-			elevationCorrected = gpio_read_input(&PE9);
-
-			if(finishState == true) {
-				motor_set_vel(MOTOR4, 0, OPEN_LOOP);
-				motor_set_vel(MOTOR5, 0, OPEN_LOOP);
-				motor_set_vel(MOTOR6, 0, OPEN_LOOP);
-				motor_set_vel(MOTOR7, 0, OPEN_LOOP);
-			}
+			if(!fixingArm) {elevationCorrected = gpio_read_input(&PE8);}
+			pneumatic_control(GPIOE, GPIO_Pin_15, 1);
 					
 			// Display TFT to insure screen is on.
 			tft_clear();
@@ -256,6 +276,13 @@ int main(void) {
 			if(piReady) {
 				tft_prints(0 , 4, "Pi Ready");
 			}
+			tft_prints(0,5, "%d", elevationCorrected);
+			tft_prints(0, 6, "L %d | %d", gpio_read_input(&PE6), gpio_read_input(&PE7));
+			//if(DEBUG_STATE) {
+				//tft_prints(0,5,"TRIGGERED");
+				//DEBUG_STATE = false;
+			//}
+		
 			
 			tft_update();
 			

@@ -32,7 +32,7 @@ typedef struct {
 } POSITION;
 
 
-#define	X_FLIP						1 // TEAM A: 1
+#define	X_FLIP						-1 // TEAM A: 1
 #define	Y_FLIP						-1 // TEAM A: -1
 /** Varies along robots (depends on the encoder position) **/
 

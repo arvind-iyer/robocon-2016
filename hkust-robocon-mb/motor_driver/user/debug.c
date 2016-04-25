@@ -27,13 +27,13 @@ void debug(void)
 	} else if (get_seconds() < 10) {
 		led_control(LED_1, LED_ON);
 		led_control(LED_2, LED_OFF);
-		set_velocity(50);
+		set_velocity(90);
 	} else if (get_seconds() < 15) {
 		led_control(LED_2, LED_ON);
 		set_velocity(0);	// motor_lock
 	} else if (get_seconds() < 20) {
 		led_control(LED_1, LED_OFF);
-		set_velocity(-50);
+		set_velocity(-90);
 	} else {
 		set_velocity(0);
 		led_control(LED_BOTH, LED_OFF);

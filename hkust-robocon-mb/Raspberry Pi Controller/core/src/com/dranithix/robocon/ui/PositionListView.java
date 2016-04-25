@@ -41,7 +41,7 @@ public class PositionListView extends VisWindow {
 	private Array<Path> pathArray;
 	private final TestAdapter adapter;
 
-	public PositionListView(final LabelsList labels, Robocon robocon) {
+	public PositionListView(final LabelsList labels, 	 Robocon robocon) {
 		super("Positions List:");
 		this.labels = labels;
 		this.robocon = robocon;
