@@ -34,6 +34,8 @@ static u16 brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT+1;
 static XBC_JOY brushless_joy_sticks[2] = {XBC_JOY_LT, XBC_JOY_RT};
 static u16 brushless_stick_max = 255;
 
+static u16 brushless_servo_val = 1000;
+
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
 
@@ -201,6 +203,7 @@ void manual_interval_update(){
 			tft_append_line("%d %d", curr_vx, curr_vy);
 			tft_append_line("%d", curr_rotate);
 			tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_pos()->angle);
+			tft_append_line("TEST %d", brushless_servo_val);
 			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/10000, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);
@@ -285,6 +288,14 @@ void manual_interval_update(){
 			brushless_pressed_time[i] = 0;
 		}
 	}
+	
+	if (button_pressed(BUTTON_XBC_N)){
+		brushless_servo_val += 10;
+	}
+	if (button_pressed(BUTTON_XBC_S)){
+		brushless_servo_val -= 10;
+	}
+	servo_control(SERVO3, brushless_servo_val);
 	
 	/*
 	** This part is related to climbing mechanism

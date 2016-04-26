@@ -70,7 +70,6 @@ int main(void) {
 			led_blink(LED_D1);
 			
 			servo_control(SERVO3, 1500);
-			//servo_control(SERVO3, (Abs((this_loop_ticks % 10000) - 5000) / 5 + 1000));
 				
 			//Update with longer update interval here
 			if (get_emergency_lock() == UNLOCKED){

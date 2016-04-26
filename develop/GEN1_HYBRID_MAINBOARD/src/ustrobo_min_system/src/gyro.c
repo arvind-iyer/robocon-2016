@@ -5,8 +5,8 @@ s16 angle = 0, real_x = 0, real_y = 0;
 s16 angle_offset = 0, x_offset = 0, y_offset = 0;
 
 //GEN1 hybrid val
-s32 SHIFT_X = 0;
-s32 SHIFT_Y = 0;
+s32 SHIFT_X = -61;
+s32 SHIFT_Y = -50;
 
 static POSITION gyro_pos = {0, 0, 0};
 static POSITION gyro_pos_raw = {0, 0, 0};
