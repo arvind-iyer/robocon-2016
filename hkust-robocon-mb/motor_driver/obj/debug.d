@@ -2,13 +2,13 @@
 .\obj\debug.o: user\debug.h
 .\obj\debug.o: user\system.h
 .\obj\debug.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\obj\debug.o: user\stm32f10x.h
+.\obj\debug.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
 .\obj\debug.o: .\FWlib\inc\core_cm3.h
 .\obj\debug.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\debug.o: user\system_stm32f10x.h
+.\obj\debug.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\system_stm32f10x.h
 .\obj\debug.o: .\FWlib\inc\stm32f10x_conf.h
 .\obj\debug.o: .\FWlib\inc\stm32f10x_adc.h
-.\obj\debug.o: .\FWlib\inc\stm32f10x.h
+.\obj\debug.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
 .\obj\debug.o: .\FWlib\inc\stm32f10x_bkp.h
 .\obj\debug.o: .\FWlib\inc\stm32f10x_can.h
 .\obj\debug.o: .\FWlib\inc\stm32f10x_cec.h

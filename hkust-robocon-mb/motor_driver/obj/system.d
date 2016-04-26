@@ -1,13 +1,13 @@
 .\obj\system.o: user\system.c
 .\obj\system.o: user\system.h
 .\obj\system.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\obj\system.o: user\stm32f10x.h
+.\obj\system.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
 .\obj\system.o: .\FWlib\inc\core_cm3.h
 .\obj\system.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\system.o: user\system_stm32f10x.h
+.\obj\system.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\system_stm32f10x.h
 .\obj\system.o: .\FWlib\inc\stm32f10x_conf.h
 .\obj\system.o: .\FWlib\inc\stm32f10x_adc.h
-.\obj\system.o: .\FWlib\inc\stm32f10x.h
+.\obj\system.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
 .\obj\system.o: .\FWlib\inc\stm32f10x_bkp.h
 .\obj\system.o: .\FWlib\inc\stm32f10x_can.h
 .\obj\system.o: .\FWlib\inc\stm32f10x_cec.h

@@ -1,12 +1,12 @@
 .\obj\approx_math.o: user\approx_math.c
 .\obj\approx_math.o: user\approx_math.h
-.\obj\approx_math.o: user\stm32f10x.h
+.\obj\approx_math.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
 .\obj\approx_math.o: .\FWlib\inc\core_cm3.h
 .\obj\approx_math.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\approx_math.o: user\system_stm32f10x.h
+.\obj\approx_math.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\system_stm32f10x.h
 .\obj\approx_math.o: .\FWlib\inc\stm32f10x_conf.h
 .\obj\approx_math.o: .\FWlib\inc\stm32f10x_adc.h
-.\obj\approx_math.o: .\FWlib\inc\stm32f10x.h
+.\obj\approx_math.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
 .\obj\approx_math.o: .\FWlib\inc\stm32f10x_bkp.h
 .\obj\approx_math.o: .\FWlib\inc\stm32f10x_can.h
 .\obj\approx_math.o: .\FWlib\inc\stm32f10x_cec.h

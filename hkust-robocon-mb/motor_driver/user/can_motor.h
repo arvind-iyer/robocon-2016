@@ -28,12 +28,12 @@
 
 typedef enum {
 	MOTOR1 = 0,
-	MOTOR2 = 1,
-	MOTOR3 = 2,
-	MOTOR4 = 3,
-	MOTOR5 = 4,
-	MOTOR6 = 5,
-	MOTOR7 = 6,
+	MOTOR2,
+	MOTOR3,
+	MOTOR4,
+	MOTOR5,
+	MOTOR6,
+	MOTOR7,
 	MOTOR8,
 	MOTOR9,
 	MOTOR10,
@@ -45,7 +45,8 @@ typedef enum {
 	MOTOR16
 } MOTOR_ID;
 
-#define this_motor MOTOR3
+#define this_motor MOTOR2
+
 
 /*** TX ***/
 void can_motor_init(void);

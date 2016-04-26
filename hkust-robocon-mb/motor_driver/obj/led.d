@@ -1,12 +1,12 @@
 .\obj\led.o: user\led.c
 .\obj\led.o: user\led.h
-.\obj\led.o: user\stm32f10x.h
+.\obj\led.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
 .\obj\led.o: .\FWlib\inc\core_cm3.h
 .\obj\led.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\led.o: user\system_stm32f10x.h
+.\obj\led.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\system_stm32f10x.h
 .\obj\led.o: .\FWlib\inc\stm32f10x_conf.h
 .\obj\led.o: .\FWlib\inc\stm32f10x_adc.h
-.\obj\led.o: .\FWlib\inc\stm32f10x.h
+.\obj\led.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
 .\obj\led.o: .\FWlib\inc\stm32f10x_bkp.h
 .\obj\led.o: .\FWlib\inc\stm32f10x_can.h
 .\obj\led.o: .\FWlib\inc\stm32f10x_cec.h

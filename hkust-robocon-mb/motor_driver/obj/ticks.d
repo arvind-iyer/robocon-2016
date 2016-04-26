@@ -1,13 +1,13 @@
 .\obj\ticks.o: user\ticks.c
 .\obj\ticks.o: user\ticks.h
 .\obj\ticks.o: .\FWlib\inc\stm32f10x_tim.h
-.\obj\ticks.o: .\FWlib\inc\stm32f10x.h
+.\obj\ticks.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
 .\obj\ticks.o: .\FWlib\inc\core_cm3.h
 .\obj\ticks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\ticks.o: .\FWlib\inc\system_stm32f10x.h
+.\obj\ticks.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\system_stm32f10x.h
 .\obj\ticks.o: .\FWlib\inc\stm32f10x_conf.h
 .\obj\ticks.o: .\FWlib\inc\stm32f10x_adc.h
-.\obj\ticks.o: .\FWlib\inc\stm32f10x.h
+.\obj\ticks.o: C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h
 .\obj\ticks.o: .\FWlib\inc\stm32f10x_bkp.h
 .\obj\ticks.o: .\FWlib\inc\stm32f10x_can.h
 .\obj\ticks.o: .\FWlib\inc\stm32f10x_cec.h
@@ -30,4 +30,3 @@
 .\obj\ticks.o: .\FWlib\inc\stm32f10x_usart.h
 .\obj\ticks.o: .\FWlib\inc\stm32f10x_wwdg.h
 .\obj\ticks.o: .\FWlib\inc\misc.h
-.\obj\ticks.o: user\system_stm32f10x.h
