@@ -138,7 +138,7 @@ void manual_interval_update(){
 			//If both x and y are at low speed, use low speed mode
 			if (Abs(curr_vx) < LOW_SPEED_THRESHOLD && Abs(curr_vy) < LOW_SPEED_THRESHOLD){
 				acceleration_amount = LOW_SPEED_ACC;
-			}else {
+			}else if (Abs(curr_vx) < MED_SPEED_THRESHOLD && Abs(curr_vy) < LOW_SPEED_THRESHOLD){
 				acceleration_amount = HIGH_SPEED_ACC;
 			}
 			
@@ -167,7 +167,7 @@ void manual_interval_update(){
 				//Use y-axis as major
 				s32 proportion;
 				if (curr_vy > vy){
-					proportion = acceleration_amount *1000 / ((s32)curr_vy - vy);
+					proportion = acceleration_amount *1000 / ((s32)curr_vy - vy); 
 					curr_vy -= acceleration_amount;
 				}else{
 					proportion = acceleration_amount *1000 / ((s32)vy - curr_vy);
@@ -177,7 +177,7 @@ void manual_interval_update(){
 				curr_vx += (vx - curr_vx) *proportion /1000;
 			}
 			
-			curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
+			curr_angle = int_arc_tan2(curr_vx, curr_vy)*10 - get_angle();
 			s32 curr_rotate = -xbc_get_joy(XBC_JOY_RX)/3;
 			//change heading for angle PID use
 			if (curr_rotate == 0){
@@ -191,9 +191,9 @@ void manual_interval_update(){
 			}
 
 			s32 curr_speed = (curr_vx*curr_vx + curr_vy*curr_vy) / 650;
-			motor_vel[0] = (int_sin(curr_angle)*curr_speed*(-1)/10000 + curr_rotate)/10;
-			motor_vel[1] = (int_sin(curr_angle+1200)*curr_speed*(-1)/10000 + curr_rotate)/10;
-			motor_vel[2] = (int_sin(curr_angle+2400)*curr_speed*(-1)/10000 + curr_rotate)/10;
+			motor_vel[0] = (int_sin(curr_angle%3600)*curr_speed*(-1)/10000 + curr_rotate)/10;
+			motor_vel[1] = (int_sin((curr_angle+1200)%3600)*curr_speed*(-1)/10000 + curr_rotate)/10;
+			motor_vel[2] = (int_sin((curr_angle+2400)%3600)*curr_speed*(-1)/10000 + curr_rotate)/10;
 			
 			s16 motor_vel_max = motor_vel[0];
 			for (u8 i=1; i<3; i++){
@@ -204,7 +204,7 @@ void manual_interval_update(){
 			if (abs(motor_vel_max)>150){
 				s32 motor_ratio = 150*10000/abs(motor_vel_max); //Scaled by 10000
 				for (u8 i=0;i<3;i++){
-					motor_vel[i] *= motor_ratio/10000;
+					motor_vel[i] = (s32)motor_vel[i]*motor_ratio/10000;
 				}
 			}
 			

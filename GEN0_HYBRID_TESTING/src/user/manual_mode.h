@@ -21,8 +21,10 @@
 #include "robot_control.h"
 
 #define LOW_SPEED_ACC 17
-#define HIGH_SPEED_ACC 30
+#define MED_SPEED_ACC 30
+#define HIGH_SPEED_ACC 50
 #define LOW_SPEED_THRESHOLD 100
+#define MED_SPEED_THRESHOLD 400
 
 //Scaled by 1000
 #define ANGLE_PID_P 3000
