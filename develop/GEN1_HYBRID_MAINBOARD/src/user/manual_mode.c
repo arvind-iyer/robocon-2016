@@ -203,7 +203,7 @@ void manual_interval_update(){
 			tft_append_line("%d %d", curr_vx, curr_vy);
 			tft_append_line("%d", curr_rotate);
 			tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_pos()->angle);
-			tft_append_line("TEST %d", brushless_servo_val);
+			//tft_append_line("TEST %d", brushless_servo_val);
 			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/10000, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);
@@ -289,6 +289,7 @@ void manual_interval_update(){
 		}
 	}
 	
+	/*
 	if (button_pressed(BUTTON_XBC_N)){
 		brushless_servo_val += 10;
 	}
@@ -296,6 +297,17 @@ void manual_interval_update(){
 		brushless_servo_val -= 10;
 	}
 	servo_control(SERVO3, brushless_servo_val);
+	*/
+	
+	if (button_pressed(BUTTON_XBC_N)){
+		raise_arm();
+		tft_append_line("RAISING ARM");
+	}else if (button_pressed(BUTTON_XBC_S)){
+		lower_arm();
+		tft_append_line("LOWERING ARM");
+	}else {
+		stop_arm();
+	}
 	
 	/*
 	** This part is related to climbing mechanism

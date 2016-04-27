@@ -11,6 +11,8 @@
 
 #define CLIMBING_SPEED 1799
 #define DESCEND_SPEED -500
+#define RAISE_ARM_SPEED 1000
+#define LOWER_ARM_SPEED -1000
 
 #define BRUSHLESS_MIN 400
 #define BRUSHLESS_MED_HIGH 800
@@ -31,6 +33,10 @@ void emergency_stop(void);
 
 void brushless_control(BRUSHLESS_ID brushless_id, u16 value, bool is_percentage_mode);
 void brushless_control_all(u16 value, bool is_percentage_mode);
+
+void raise_arm(void);
+void lower_arm(void);
+void stop_arm(void);
 
 void climb_continue(void);
 void descend_continue(void);

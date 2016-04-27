@@ -35,6 +35,22 @@ void brushless_control_all(u16 value, bool is_percentage_mode){
 	}
 }
 
+//Brushless arm control
+void raise_arm() {
+	if (get_emergency_lock() == LOCKED) return;
+	motor_set_vel(MOTOR7, RAISE_ARM_SPEED*MOTOR7_FLIP, OPEN_LOOP);
+}
+
+void lower_arm() {
+	if (get_emergency_lock() == LOCKED) return;
+	motor_set_vel(MOTOR7, LOWER_ARM_SPEED*MOTOR7_FLIP, OPEN_LOOP);
+}
+
+void stop_arm() {
+	motor_set_vel(MOTOR7, 0, OPEN_LOOP);
+}
+
+
 /**
 ** This part is for climbing/descending
 **/
@@ -44,7 +60,6 @@ void climb_continue(){
 	motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
 	motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
 	motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP, OPEN_LOOP);
-	motor_set_vel(MOTOR7, CLIMBING_SPEED*MOTOR7_FLIP, OPEN_LOOP);
 }
 
 void descend_continue(){
@@ -52,7 +67,6 @@ void descend_continue(){
 	motor_set_vel(MOTOR4, DESCEND_SPEED*MOTOR4_FLIP, OPEN_LOOP);
 	motor_set_vel(MOTOR5, DESCEND_SPEED*MOTOR5_FLIP, OPEN_LOOP);
 	motor_set_vel(MOTOR6, DESCEND_SPEED*MOTOR6_FLIP, OPEN_LOOP);
-	motor_set_vel(MOTOR7, DESCEND_SPEED*MOTOR7_FLIP, OPEN_LOOP);
 }
 
 void stop_climbing(){
