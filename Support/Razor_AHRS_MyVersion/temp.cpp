@@ -192,9 +192,17 @@ boolean output_errors = false;  // true or false
 
 // Gyroscope
 // "gyro x,y,z (current/average) = .../OFFSET_X  .../OFFSET_Y  .../OFFSET_Z
-#define GYRO_AVERAGE_OFFSET_X ((float) -77.53) 
-#define GYRO_AVERAGE_OFFSET_Y ((float) 5.59) 
-#define GYRO_AVERAGE_OFFSET_Z ((float) -51.82) 
+//CHANGED TO DYNAMIC OFFSET
+#define DYNAMIC_CALIBRATE_GYRO true
+//#define GYRO_AVERAGE_OFFSET_X ((float) 0) 
+//#define GYRO_AVERAGE_OFFSET_Y ((float) 0) 
+//#define GYRO_AVERAGE_OFFSET_Z ((float) 0) 
+
+#define SAMPLES_FOR_DYNAMIC_GYRO 30
+boolean dynamic_calibrating = true;
+float gyro_dynamic_sum[3] = {0.0f};
+int gyro_dynamic_samples = 0;
+float gyro_dynamic_offset = {0.0f};
 
 // DEBUG OPTIONS
 /*****************************************************************/
@@ -349,10 +357,16 @@ void compensate_sensor_errors() {
     magnetom[2] = (magnetom[2] - MAGN_Z_OFFSET) * MAGN_Z_SCALE;
 #endif
 
-    // Compensate gyroscope error
+// Compensate gyroscope error
+#if DYNAMIC_CALIBRATE_GYRO == true
+    gyro[0] -= gyro_dynamic_offset[0];
+    gyro[1] -= gyro_dynamic_offset[1];
+    gyro[2] -= gyro_dynamic_offset[2];
+#else
     gyro[0] -= GYRO_AVERAGE_OFFSET_X;
     gyro[1] -= GYRO_AVERAGE_OFFSET_Y;
     gyro[2] -= GYRO_AVERAGE_OFFSET_Z;
+#endif
 }
 
 // Reset calibration session if reset_calibration_session_flag is set
@@ -492,6 +506,8 @@ void loop(){
     }
   }
 
+  if ()
+
   // Time to read the sensors again?
   if((millis() - timestamp) >= OUTPUT__DATA_INTERVAL){
     timestamp_old = timestamp;
@@ -503,29 +519,44 @@ void loop(){
     // Update sensor readings
     read_sensors();
 
-    if (output_mode == OUTPUT__MODE_CALIBRATE_SENSORS){
-      check_reset_calibration_session();  // Check if this session needs a reset
-      if (output_stream_on || output_single_on) output_calibration(curr_calibration_sensor);
-    }
-    else if (output_mode == OUTPUT__MODE_ANGLES){
-      // Apply sensor calibration
-      compensate_sensor_errors();
-    
-      // Run DCM algorithm
-      Compass_Heading(); // Calculate magnetic heading
-      Matrix_update();
-      Normalize();
-      Drift_correction();
-      Euler_angles();
-      
-      if (output_stream_on || output_single_on){
-        output_angles();
-      }
+    if (dynamic_calibrating){
+    	//Do dynamic calibrate here
+    	for (int i=0;i<3;i++){
+    		gyro_dynamic_sum[i] += gyro[i];
+    	}
+    	gyro_num_samples++;
+    	if (gyro_num_samples>SAMPLES_FOR_DYNAMIC_GYRO){
+    		for (int i=0;i<3;i++){
+    			gyro_dynamic_offset[i] = gyro_dynamic_sum[i]/gyro_num_samples;
+    		}
+    		dynamic_calibrating = false;
+    	}
+	}else{
+		//Normal output here
+		if (output_mode == OUTPUT__MODE_CALIBRATE_SENSORS){
+	      check_reset_calibration_session();  // Check if this session needs a reset
+	      if (output_stream_on || output_single_on) output_calibration(curr_calibration_sensor);
+	    }
+	    else if (output_mode == OUTPUT__MODE_ANGLES){
+	      // Apply sensor calibration
+	      compensate_sensor_errors();
+	    
+	      // Run DCM algorithm
+	      Compass_Heading(); // Calculate magnetic heading
+	      Matrix_update();
+	      Normalize();
+	      Drift_correction();
+	      Euler_angles();
+	      
+	      if (output_stream_on || output_single_on){
+	        output_angles();
+	      }
 
-    }else if (output_stream_on || output_single_on){
-      output_sensors();
-      }
-    }
+	    }else if (output_stream_on || output_single_on){
+	      output_sensors();
+	      }
+	    }
+	}
     
     output_single_on = false;
     
@@ -540,4 +571,3 @@ void loop(){
     Serial.println("waiting...");
   }
 #endif
-}
