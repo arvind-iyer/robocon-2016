@@ -11,7 +11,6 @@ int main(void) {
 	SystemCoreClockUpdate();
 	ticks_init();
 	led_init();
-	ardu_adapter_init();
 	sensorbar_init();
 	servo_init();
 	si_init();
@@ -20,6 +19,7 @@ int main(void) {
 	button_init();
 	buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 	tft_put_logo(85, 120);
+	ardu_adapter_init();
 	
 	GAME_STAGE game_stage = SYSTEM_WAITING;
 	

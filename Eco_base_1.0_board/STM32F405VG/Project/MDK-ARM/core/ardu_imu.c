@@ -112,7 +112,10 @@ void ardu_imu_receiver(u8 byte){
 
 //Try to synchronize with the imu, often take multiple times
 void ardu_imu_try_sync(){
-	uart_tx(ARDU_IMU_UART, "#s01"); //Request syncing
+	uart_tx_byte(ARDU_IMU_UART, '#'); //Request syncing
+	uart_tx_byte(ARDU_IMU_UART, 's'); //Request syncing
+	uart_tx_byte(ARDU_IMU_UART, '0'); //Request syncing
+	uart_tx_byte(ARDU_IMU_UART, '1'); //Request syncing
 }
 
 void ardu_imu_init(){

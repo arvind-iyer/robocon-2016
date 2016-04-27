@@ -29,24 +29,6 @@
 */
 
 /*
-  "9DOF Sensor Stick" hardware versions: SEN-10183, SEN-10321 and SEN-10724
-
-  ADXL345  : Accelerometer
-  HMC5843  : Magnetometer on SEN-10183 and SEN-10321
-  HMC5883L : Magnetometer on SEN-10724
-  ITG-3200 : Gyro
-*/
-
-/*
-  Axis definition (differs from definition printed on the board!):
-    X axis pointing forward (towards the short edge with the connector holes)
-    Y axis pointing to the right
-    and Z axis pointing down.
-    
-  Positive yaw   : clockwise
-  Positive roll  : right wing down
-  Positive pitch : nose up
-  
   Transformation order: first yaw then pitch then roll.
 */
 

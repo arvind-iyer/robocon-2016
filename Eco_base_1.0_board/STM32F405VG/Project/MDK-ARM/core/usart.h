@@ -16,7 +16,7 @@ typedef enum
     COM3 = 2,				//usart3
 } COM_TypeDef;
 
-#define COMn 3 
+#define COMn 4
 
 // Definition for USART1 
 #define COM1_CLK                    RCC_APB2Periph_USART1

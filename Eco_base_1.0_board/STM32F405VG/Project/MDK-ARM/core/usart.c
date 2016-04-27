@@ -36,6 +36,7 @@ COM_TypeDef printf_COMx;
   * @retval None
   */
 void uart_init(COM_TypeDef COM, u32 br){
+	GPIO_InitTypeDef GPIO_InitStructure;
 	USART_InitTypeDef USART_InitStructure;
 
 	RCC_AHB1PeriphClockCmd(COM_TX_PORT_CLK[COM] | COM_RX_PORT_CLK[COM], ENABLE);
@@ -43,20 +44,24 @@ void uart_init(COM_TypeDef COM, u32 br){
 		RCC_APB2PeriphClockCmd(COM_USART_CLK[COM], ENABLE);
     GPIO_PinAFConfig(GPIOA, GPIO_PinSource9, GPIO_AF_USART1);//Connect PA9 to USART1_Tx
     GPIO_PinAFConfig(GPIOA, GPIO_PinSource10, GPIO_AF_USART1);//Connect PA10 to USART1_Rx
-	}
-	else if(COM == COM3){
-		RCC_APB1PeriphClockCmd(COM_USART_CLK[COM], ENABLE);
-		GPIO_PinAFConfig(GPIOB, GPIO_PinSource10, GPIO_AF_USART3);//Connect PB10 to USART3_Tx
-		GPIO_PinAFConfig(GPIOB, GPIO_PinSource11, GPIO_AF_USART3);//Connect PB11 to USART3_Rx
-	}else{
+	}else if(COM == COM2){
 		RCC_APB1PeriphClockCmd(COM_USART_CLK[COM], ENABLE);
 		GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_USART2);//Connect PA2 to USART2_Tx
 		GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_USART2);//Connect PA3 to USART2_Rx
+	}else{
+		RCC_APB1PeriphClockCmd(COM_USART_CLK[COM], ENABLE);
+		GPIO_PinAFConfig(GPIOB, GPIO_PinSource10, GPIO_AF_USART3);//Connect PB10 to USART3_Tx
+		GPIO_PinAFConfig(GPIOB, GPIO_PinSource11, GPIO_AF_USART3);//Connect PB11 to USART3_Rx
 	}
 
 	/* Configure USART Tx & USART Rx as alternate function push-pull */
-  TM_GPIO_Init(COM_TX_PORT[COM],COM_TX_PIN[COM]|COM_RX_PIN[COM],TM_GPIO_Mode_AF,TM_GPIO_OType_PP,TM_GPIO_PuPd_UP,TM_GPIO_Speed_Fast);
-
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+	GPIO_InitStructure.GPIO_Pin = COM_TX_PIN[COM]|COM_RX_PIN[COM];
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+	GPIO_Init(COM_TX_PORT[COM] , &GPIO_InitStructure);
+	
 	/* USART configuration */
 	USART_InitStructure.USART_BaudRate = br;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
@@ -145,19 +150,16 @@ void uart_tx(COM_TypeDef COM, const uc8 * tx_buf, ...){
   * @param  COM: which USART to be used for receiving data
   * @retval One byte of data received
   */
-u8 uart_rx_byte(COM_TypeDef COM)
-{
+u8 uart_rx_byte(COM_TypeDef COM){
 	while (USART_GetFlagStatus(COM_USART[COM], USART_FLAG_TC) == RESET); 
 	return (u8)USART_ReceiveData(COM_USART[COM]);
 }
 
-void uart_interrupt_init(COM_TypeDef COM, on_receive_listener *listener)
-{
+void uart_interrupt_init(COM_TypeDef COM, on_receive_listener *listener){
 	if (COM == COM1){
 		uart1_rx_listener = listener;
 		uart1_listener_empty = 0;
-	}
-	else if (COM == COM3){
+	}else if (COM == COM3){
 		uart3_rx_listener = listener;
 		uart3_listener_empty = 0;
 	}else if (COM == COM2){
@@ -169,13 +171,30 @@ void uart_interrupt_init(COM_TypeDef COM, on_receive_listener *listener)
 	uart_interrupt(COM);
 }
 	
-void USART1_IRQHandler(void)
-{
+void USART1_IRQHandler(void){
 	if(USART_GetITStatus(USART1,USART_IT_RXNE) != RESET)
 	{ // check RX interrupt
 		if (!uart1_listener_empty)
 			(*uart1_rx_listener)(USART_ReceiveData(USART1));
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+	}
+}
+
+void USART2_IRQHandler(void){
+	if(USART_GetITStatus(USART2,USART_IT_RXNE) != RESET)
+	{ // check RX interrupt
+		if (!uart2_listener_empty)
+			(*uart2_rx_listener)(USART_ReceiveData(USART2));
+		USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+	}
+}
+
+void USART3_IRQHandler(void){
+	if(USART_GetITStatus(USART3,USART_IT_RXNE) != RESET)
+	{ // check RX interrupt
+		if (!uart3_listener_empty)
+			(*uart3_rx_listener)(USART_ReceiveData(USART3));
+		USART_ClearITPendingBit(USART3, USART_IT_RXNE);
 	}
 }
 

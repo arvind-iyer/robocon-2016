@@ -5,6 +5,7 @@
 #include "usart.h"
 #include <stdbool.h>
 #include "imu_math.h"
+#include "lcd_main.h"
 
 #define ARDU_IMU_UART COM2
 
