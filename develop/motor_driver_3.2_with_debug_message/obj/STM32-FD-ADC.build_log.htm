@@ -27,14 +27,30 @@ Project File Date:  04/28/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32-FD-ADC'
-".\obj\STM32-FD-ADC.axf" - 0 Error(s), 0 Warning(s).
+compiling main.c...
+compiling system.c...
+compiling can_motor.c...
+user\can_motor.c(167): warning:  #546-D: transfer of control bypasses initialization of:
+            variable "received_ticks" (declared at line 243)
+        switch (msg.Data[0]) {
+        ^
+user\can_motor.c(4): warning:  #177-D: variable "can_motor_encoder_value" was declared but never referenced
+  static s32 can_motor_encoder_value[CAN_MOTOR_COUNT] = {0};
+user\can_motor.c(5): warning:  #177-D: variable "can_motor_pwm_value" was declared but never referenced
+  static s32 can_motor_pwm_value[CAN_MOTOR_COUNT] = {0};
+user\can_motor.c: 3 warnings, 0 errors
+compiling debug.c...
+linking...
+Program Size: Code=9256 RO-data=272 RW-data=128 ZI-data=20336  
+FromELF: creating hex file...
+".\obj\STM32-FD-ADC.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   C:\Users\Wing\Documents\Notes\ENGG4950M\robocon-2016\develop\motor_driver_3.2_with_debug_message\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:11
 </pre>
 </body>
 </html>

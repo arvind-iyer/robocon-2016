@@ -59,7 +59,7 @@ void manual_reset(){
 	press_button_B = press_button_X = UNLOCKED;
 	is_rotating = false;
 	brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT + 1;
-	//brushless_control_all(0, true);
+	brushless_control(0, true);
 	gripper_control(GRIPPER_1, 0); 
 	gripper_control(GRIPPER_2, 0);
 }

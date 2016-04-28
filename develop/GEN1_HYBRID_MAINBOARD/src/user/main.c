@@ -68,8 +68,6 @@ int main(void) {
 		
 		if ((this_loop_ticks - last_long_loop_ticks)>LONG_LOOP_TICKS){
 			led_blink(LED_D1);
-			
-			servo_control(SERVO3, 1500);
 				
 			//Update with longer update interval here
 			if (get_emergency_lock() == UNLOCKED){
