@@ -4,8 +4,7 @@
 #include "stm32f4xx.h"
 #include "usart.h"
 #include <stdbool.h>
-#include "imu_math.h"
-#include "lcd_main.h"
+#include "angle_range.h"
 
 #define ARDU_IMU_UART COM2
 

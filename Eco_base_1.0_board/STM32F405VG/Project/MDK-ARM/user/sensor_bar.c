@@ -22,6 +22,7 @@ void sensorbar_init(){
   can_rx_add_filter(SENSOR_BAR_FILTER_2, CAN_RX_MASK_EXACT, receive_part_b);
 }
 
+//Get correction without sign
 s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
 	s8 best_start_index = 0;
 	s8 best_end_index = 0;
@@ -86,6 +87,11 @@ s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
 	return corr_angle;
 }
 
+/**Get correction from sensor bar with flag
+	SENSOR_BAR_NORM = 0, //Normal
+	SENSOR_BAR_NTH = 1, //Nothing is sensed
+	SENSOR_BAR_EXT = 2 //Extreme condition
+*/
 s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 	s8 best_start_index = 0;
 	s8 best_end_index = 0;
@@ -156,6 +162,12 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 	return corr_angle;
 }
 
+/*Auto tracking and adding bias using sensor bar.
+	Return Flag.
+	SENSOR_BAR_NORM = 0, //Normal
+	SENSOR_BAR_NTH = 1, //Nothing is sensed
+	SENSOR_BAR_EXT = 2 //Extreme condition
+*/
 SENSOR_BAR_FLAG sensor_bar_track(u8 power, u16 sensor_bar_Kp){
 	SENSOR_BAR_FLAG flag;
 	s16 correction = sensor_bar_get_corr(power, sensor_bar_Kp, &flag);

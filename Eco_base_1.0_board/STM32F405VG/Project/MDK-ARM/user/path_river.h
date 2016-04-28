@@ -15,9 +15,9 @@
 #include "path.h"
 #include "ardu_imu_adp.h"
 
-#define IR_GPIO GPIOE
-#define IR_1_Pin GPIO_Pin_10
-#define IR_2_Pin GPIO_Pin_11
+#define IR_GPIO GPIOC
+#define IR_1_Pin GPIO_Pin_0
+#define IR_2_Pin GPIO_Pin_1
 
 #define IR_BUFFER_LENGTH 5
 

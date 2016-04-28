@@ -39,8 +39,6 @@
 "stm32f40_41xxx\system_stm32f4xx.o"
 "stm32f40_41xxx\startup_stm32f40_41xxx.o"
 "stm32f40_41xxx\stm32f4xx_it.o"
-"stm32f40_41xxx\imu_math.o"
-"stm32f40_41xxx\line_sensor.o"
 "stm32f40_41xxx\main.o"
 "stm32f40_41xxx\path_downslope.o"
 "stm32f40_41xxx\path_river.o"
@@ -67,6 +65,7 @@
 "stm32f40_41xxx\servo.o"
 "stm32f40_41xxx\tm_stm32f4_timer_properties.o"
 "stm32f40_41xxx\ticks.o"
+"stm32f40_41xxx\angle_range.o"
 --library_type=microlib --nodebug --strict --scatter "STM32F40_41xxx\STM32F40_41xxx.sct"
 --diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -14,14 +14,16 @@
 ** I uses the SparkFun 9DOF Razor IMU firmware here.
 ** Follow the instruction in the firmware's github page to calibrate and setup it.
 ** Use a FTDI to flash program inside.
-** Note that I uses static calibration on startup for yaw, but this should be done on the chip for angular acceleration instead
-** But well I am too lazy, this is good enough.
+** //Note that I uses static calibration on startup for yaw, but this should be done on the chip for angular acceleration instead
+** //But well I am too lazy, this is good enough.
+** LOL Already done, now I use both ~Rex
 ** 
 ** For actual usage, refer to the adapter, but briefly, init->keep updating->Don't move until calibrated=true->ok
 **
 ** Reference: http://www.geeetech.com/xzn-arduimu-9-degrees-of-freedom-p-535.html
 ** See Also: http://www.geeetech.com/wiki/index.php/ArduIMU_9_Degrees_of_Freedom
-** Firmware: https://github.com/ptrbrtz/razor-9dof-ahrs
+** Firmware reference: https://github.com/ptrbrtz/razor-9dof-ahrs
+** Actual edited firmware version: Find in the repo
 ***************************************************************************************************************/
 
 //The IMU will send back #SYNCH01\r\n

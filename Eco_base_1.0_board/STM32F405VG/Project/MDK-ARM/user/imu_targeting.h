@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include "servo.h"
-#include "imu_math.h"
+#include "angle_range.h"
 #include "servo_interface.h"
 #include "quick_math.h"
 

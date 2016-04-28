@@ -1,4 +1,4 @@
-#include "imu_math.h"
+#include "angle_range.h"
 
 s16 abs_diff(s16 minuend, s16 subtrahend){
 	s16 diff = minuend - subtrahend;

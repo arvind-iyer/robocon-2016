@@ -14,6 +14,7 @@
 #include "servo_interface.h"
 #include "path.h"
 #include "quick_math.h"
+#include "angle_range.h"
 
 #define MAX(a, b) (a<b)?a:b
 #define MIN(a, b) (a<b)?a:b

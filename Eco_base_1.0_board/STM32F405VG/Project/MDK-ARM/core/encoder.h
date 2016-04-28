@@ -15,34 +15,34 @@ typedef struct {
 } Encoder_Typedef[];
 
 
-//Encoder 1: PA0 TIM2_CH1
-//           PA1 TIM2_CH2
-             
-//Encoder 2: PD12 TIM4_CH1
-//           PD13 TIM4_CH2
+//Encoder 1: PC6 TIM8_CH1
+//           PC7 TIM8_CH2
+//           PORT 1 IS A PORT 2 IS B
+//Encoder 2: PB6 TIM4_CH1
+//           PB7 TIM4_CH2
 // define
 #define ENCODER_NO												2
 // Encoder 1 details
-#define ENCODER_TIMER1										TIM2
-#define ENCODER_TIMER1_AF                       GPIO_AF_TIM2
-#define ENCODER_TIMER1_CLOCK_SOURCE				RCC_APB1Periph_TIM2						// in APB 1
-#define ENCODER_TIMER1_GPIO_CLOCK_SOURCE	    RCC_AHB1Periph_GPIOA					// in APB 2
-#define ENCODER_TIMER1_PORT1							GPIO_Pin_0
-#define ENCODER_TIMER1_PORT2							GPIO_Pin_1
-#define ENCODER_TIMER1_GPIOx							GPIOA
-#define ENCODER_TIMER1_GPIO_PINSOURCE1          GPIO_PinSource0
-#define ENCODER_TIMER1_GPIO_PINSOURCE2          GPIO_PinSource1
+#define ENCODER_TIMER1										TIM8
+#define ENCODER_TIMER1_AF                       GPIO_AF_TIM8
+#define ENCODER_TIMER1_CLOCK_SOURCE				RCC_APB2Periph_TIM8						// in APB 1
+#define ENCODER_TIMER1_GPIO_CLOCK_SOURCE	    RCC_AHB1Periph_GPIOC					// in APB 2
+#define ENCODER_TIMER1_PORT1							GPIO_Pin_6
+#define ENCODER_TIMER1_PORT2							GPIO_Pin_7
+#define ENCODER_TIMER1_GPIOx							GPIOC
+#define ENCODER_TIMER1_GPIO_PINSOURCE1          GPIO_PinSource6
+#define ENCODER_TIMER1_GPIO_PINSOURCE2          GPIO_PinSource7
 
 // Encoder 2 details
-#define ENCODER_TIMER2										TIM4
+#define ENCODER_TIMER2							TIM4
 #define ENCODER_TIMER2_AF                       GPIO_AF_TIM4
 #define ENCODER_TIMER2_CLOCK_SOURCE				RCC_APB1Periph_TIM4						// in APB 1
-#define ENCODER_TIMER2_GPIO_CLOCK_SOURCE	    RCC_AHB1Periph_GPIOD					// in APB 2
-#define ENCODER_TIMER2_PORT1							GPIO_Pin_12
-#define ENCODER_TIMER2_PORT2							GPIO_Pin_13
-#define ENCODER_TIMER2_GPIOx							GPIOD
-#define ENCODER_TIMER2_GPIO_PINSOURCE1          GPIO_PinSource12
-#define ENCODER_TIMER2_GPIO_PINSOURCE2          GPIO_PinSource13
+#define ENCODER_TIMER2_GPIO_CLOCK_SOURCE	    RCC_AHB1Periph_GPIOB					// in APB 2
+#define ENCODER_TIMER2_PORT1							GPIO_Pin_6
+#define ENCODER_TIMER2_PORT2							GPIO_Pin_7
+#define ENCODER_TIMER2_GPIOx							GPIOB
+#define ENCODER_TIMER2_GPIO_PINSOURCE1          GPIO_PinSource6
+#define ENCODER_TIMER2_GPIO_PINSOURCE2          GPIO_PinSource7
 
 #define ENCODER_MAX_CHANGE								20000
 
@@ -54,5 +54,6 @@ typedef enum {
 // function declaration
 void encoder_init(void);
 u32 get_count(ENCODER ENCODERx);
+void reset_all_encoder(void);
 
 #endif
