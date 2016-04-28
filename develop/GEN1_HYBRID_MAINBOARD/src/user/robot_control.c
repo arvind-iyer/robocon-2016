@@ -35,6 +35,20 @@ void brushless_control_all(u16 value, bool is_percentage_mode){
 	}
 }
 
+//Gripper control
+//state: 0 = down, 1 = upright
+void gripper_control(GRIPPER_ID gripper_id, u16 state) {
+	if (state == 0) {
+		if (gripper_id == GRIPPER_1) {
+			servo_control((SERVO_ID)gripper_id, GRIPPER_MIN);
+		} else if (gripper_id == GRIPPER_2) {
+			servo_control((SERVO_ID)gripper_id, GRIPPER_MAX);
+		}
+	} else if (state == 1) {
+		servo_control((SERVO_ID)gripper_id, GRIPPER_MED);
+	}
+}
+
 //Brushless arm control
 void raise_arm() {
 	if (get_emergency_lock() == LOCKED) return;

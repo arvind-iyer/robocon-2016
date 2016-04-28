@@ -38,8 +38,10 @@ static u16 brushless_stick_max = 255;
 
 static u16 brushless_servo_val = 1000;
 static u16 encoder_val = 0;
-static u16 left_gripper_state = 0;
-static u16 right_gripper_state = 0;
+
+static BUTTON gripper_buttons[2] = {BUTTON_XBC_LB, BUTTON_XBC_RB};
+static LOCK_STATE press_gripper_buttons[2] = {UNLOCKED};
+static u16 gripper_states[2] = {0};
 
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
@@ -57,7 +59,9 @@ void manual_reset(){
 	press_button_B = press_button_X = UNLOCKED;
 	is_rotating = false;
 	brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT + 1;
-	brushless_control_all(0, true);
+	//brushless_control_all(0, true);
+	gripper_control(GRIPPER_1, 0); 
+	gripper_control(GRIPPER_2, 0);
 }
 
 void manual_vel_set_zero(){
@@ -208,7 +212,7 @@ void manual_interval_update(){
 			tft_append_line("%d %d", curr_vx, curr_vy);
 			tft_append_line("%d", curr_rotate);
 			tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_pos()->angle);
-			tft_append_line("GRIP %d", left_gripper_state, right_gripper_state);
+			tft_append_line("GRIP %d %d", gripper_states[0], gripper_states[1]);
 			//tft_append_line("TEST %d", brushless_servo_val);
 			//tft_append_line("ENC %d", encoder_val);
 			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
@@ -322,33 +326,36 @@ void manual_interval_update(){
 	//encoder_val = get_encoder_count(ENCODER1);
 	
 	//gripper controls
-	if (button_pressed(BUTTON_XBC_LB)){
-		if (press_button_LB == UNLOCKED){
-			press_button_LB = LOCKED;
-			left_gripper_state = (left_gripper_state + 1) % 3;
+	for (u8 i=0; i < GRIPPER_COUNT; i++) {
+		if (button_pressed(gripper_buttons[i])) {
+			if (press_gripper_buttons[i] == UNLOCKED) {
+				press_gripper_buttons[i] = LOCKED;
+				gripper_states[i] = (gripper_states[i] + 1) % GRIPPER_STATES_NO;
+				
+				switch (gripper_states[i]) {
+					case 0: //Default state
+						gripper_control((GRIPPER_ID)i, 0); //Down
+						//pneumatic 1 hi; claw open 
+						//pneumatic 2 hi; pushed out
+						break;
+					case 1: //Collect propeller
+						//pneumatic 1 lo; close claw
+						//delay
+						//pneumatic 2 lo; retract
+						break;
+					case 2: //Upright
+						gripper_control((GRIPPER_ID)i, 1); //Up
+						//pneumatic 2 hi; pushed out 
+						break;
+					case 3: //Chaiyo
+						//pneumatic 2 lo; pushed out 
+						//pneumatic 1 hi; claw open 
+						break;
+				}
+			}
+		} else {
+			press_gripper_buttons[i] = UNLOCKED;
 		}
-	}else{
-		press_button_LB = UNLOCKED;
-	}
-	if (button_pressed(BUTTON_XBC_RB)){
-		if (press_button_RB == UNLOCKED){
-			press_button_RB = LOCKED;
-			right_gripper_state = (right_gripper_state + 1) % 3;
-		}
-	}else{
-		press_button_RB = UNLOCKED;
-	}
-	
-	switch (left_gripper_state) {
-		case 0:
-			servo_control(SERVO1, 450);
-			break;
-		case 1:
-			servo_control(SERVO1, 750);
-			break;
-		case 2:
-			servo_control(SERVO1, 1050);
-			break;
 	}
 	
 	/*

@@ -32,6 +32,8 @@
 
 #define BRUSHLESS_LOCK_TIMEOUT 5000
 
+#define GRIPPER_STATES_NO 4
+
 #define ENCODER_READING_ARRAY_SIZE 100
 
 void manual_reset(void);

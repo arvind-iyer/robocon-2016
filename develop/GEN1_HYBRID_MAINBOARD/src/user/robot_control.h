@@ -20,6 +20,7 @@
 #define BRUSHLESS_COUNT 2
 
 #define GRIPPER_MIN 450
+#define GRIPPER_MED 750
 #define GRIPPER_MAX 1050
 #define GRIPPER_COUNT 2
 
@@ -42,6 +43,8 @@ void emergency_stop(void);
 
 void brushless_control(BRUSHLESS_ID brushless_id, u16 value, bool is_percentage_mode);
 void brushless_control_all(u16 value, bool is_percentage_mode);
+
+void gripper_control(GRIPPER_ID gripper_id, u16 state);
 
 void raise_arm(void);
 void lower_arm(void);
