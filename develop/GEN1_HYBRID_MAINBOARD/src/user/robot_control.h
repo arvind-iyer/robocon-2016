@@ -19,6 +19,10 @@
 #define BRUSHLESS_MAX 1050
 #define BRUSHLESS_COUNT 2
 
+#define GRIPPER_MIN 450
+#define GRIPPER_MAX 1050
+#define GRIPPER_COUNT 2
+
 #define MOTOR4_FLIP 1
 #define MOTOR5_FLIP 1
 #define MOTOR6_FLIP -1
@@ -28,6 +32,11 @@ typedef enum{
 	BRUSHLESS_1 = 0,
 	BRUSHLESS_2 = 1
 }BRUSHLESS_ID;
+
+typedef enum{
+	GRIPPER_1 = 0,
+	GRIPPER_2 = 1
+}GRIPPER_ID;
 
 void emergency_stop(void);
 

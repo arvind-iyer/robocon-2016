@@ -28,6 +28,8 @@ static LOCK_STATE ground_wheels_lock = UNLOCKED;
 static LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
 static LOCK_STATE press_button_B = UNLOCKED;
 static LOCK_STATE press_button_X = UNLOCKED;
+static LOCK_STATE press_button_LB = UNLOCKED;
+static LOCK_STATE press_button_RB = UNLOCKED;
 
 static u16 brushless_pressed_time[2] = {0};
 static u16 brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT+1;
@@ -35,6 +37,9 @@ static XBC_JOY brushless_joy_sticks[2] = {XBC_JOY_LT, XBC_JOY_RT};
 static u16 brushless_stick_max = 255;
 
 static u16 brushless_servo_val = 1000;
+static u16 encoder_val = 0;
+static u16 left_gripper_state = 0;
+static u16 right_gripper_state = 0;
 
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
@@ -203,7 +208,9 @@ void manual_interval_update(){
 			tft_append_line("%d %d", curr_vx, curr_vy);
 			tft_append_line("%d", curr_rotate);
 			tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_pos()->angle);
+			tft_append_line("GRIP %d", left_gripper_state, right_gripper_state);
 			//tft_append_line("TEST %d", brushless_servo_val);
+			//tft_append_line("ENC %d", encoder_val);
 			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/10000, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);
@@ -227,6 +234,8 @@ void manual_interval_update(){
 	** 50% ~ 100% -> grow linearly to 50%
 	** Keep 100% -> Continue grow to max power wih respect to time
 	*/
+	
+	/*
 	if (brushless_lock == UNLOCKED){
 		//Run the brushless
 		//tft_append_line("B:%d %d", xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
@@ -288,7 +297,9 @@ void manual_interval_update(){
 			brushless_pressed_time[i] = 0;
 		}
 	}
+	*/
 	
+	// brushless arm
 	/*
 	if (button_pressed(BUTTON_XBC_N)){
 		brushless_servo_val += 10;
@@ -307,6 +318,37 @@ void manual_interval_update(){
 		tft_append_line("LOWERING ARM");
 	}else {
 		stop_arm();
+	}
+	//encoder_val = get_encoder_count(ENCODER1);
+	
+	//gripper controls
+	if (button_pressed(BUTTON_XBC_LB)){
+		if (press_button_LB == UNLOCKED){
+			press_button_LB = LOCKED;
+			left_gripper_state = (left_gripper_state + 1) % 3;
+		}
+	}else{
+		press_button_LB = UNLOCKED;
+	}
+	if (button_pressed(BUTTON_XBC_RB)){
+		if (press_button_RB == UNLOCKED){
+			press_button_RB = LOCKED;
+			right_gripper_state = (right_gripper_state + 1) % 3;
+		}
+	}else{
+		press_button_RB = UNLOCKED;
+	}
+	
+	switch (left_gripper_state) {
+		case 0:
+			servo_control(SERVO1, 450);
+			break;
+		case 1:
+			servo_control(SERVO1, 750);
+			break;
+		case 2:
+			servo_control(SERVO1, 1050);
+			break;
 	}
 	
 	/*
