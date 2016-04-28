@@ -189,7 +189,7 @@ void manual_interval_update(){
 			}
 			
 			curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
-			s32 curr_rotate = -xbc_get_joy(XBC_JOY_RX)/3;
+			s32 curr_rotate = (xbc_get_joy(XBC_JOY_RT)-xbc_get_joy(XBC_JOY_LT))*(1.6);
 			//change heading for angle PID use
 			if (curr_rotate == 0){
 				if (is_rotating){
