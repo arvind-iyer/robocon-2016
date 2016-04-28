@@ -11,18 +11,18 @@ LOCK_STATE pneumatic_state = UNLOCKED;
 /**
 ** This part is for controlling brushless motors
 **/
-void brushless_control(BRUSHLESS_ID brushless_id, u16 value, bool is_percentage_mode){
+void brushless_control(u16 value, bool is_percentage_mode){
 	if (get_emergency_lock() == LOCKED) return;
-	if ((u8) brushless_id >= BRUSHLESS_COUNT) return;
 	if (is_percentage_mode){
 		value = value>100?100:value;
-		servo_control((SERVO_ID)brushless_id, (BRUSHLESS_MAX-BRUSHLESS_MIN)*value/100 + BRUSHLESS_MIN);
+		servo_control(BRUSHLESS_SERVO, (BRUSHLESS_MAX-BRUSHLESS_MIN)*value/100 + BRUSHLESS_MIN);
 	}else{
 		value = value>BRUSHLESS_MAX?BRUSHLESS_MAX:(value<BRUSHLESS_MIN?BRUSHLESS_MIN:value);
-		servo_control((SERVO_ID)brushless_id, value);
+		servo_control(BRUSHLESS_SERVO, value);
 	}
 }
 
+/*
 void brushless_control_all(u16 value, bool is_percentage_mode){
 	if (get_emergency_lock() == LOCKED) return;
 	if (is_percentage_mode){
@@ -34,6 +34,7 @@ void brushless_control_all(u16 value, bool is_percentage_mode){
 		brushless_control((BRUSHLESS_ID)i, value, true);
 	}
 }
+*/
 
 //Gripper control
 //state: 0 = down, 1 = upright
@@ -124,5 +125,5 @@ void emergency_stop(){
 	motor_lock(MOTOR5);
 	motor_lock(MOTOR6);
 	manual_vel_set_zero();
-	brushless_control_all(0, true);
+	brushless_control(0, true);
 }

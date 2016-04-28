@@ -31,10 +31,10 @@ static LOCK_STATE press_button_X = UNLOCKED;
 static LOCK_STATE press_button_LB = UNLOCKED;
 static LOCK_STATE press_button_RB = UNLOCKED;
 
-static u16 brushless_pressed_time[2] = {0};
+static u16 brushless_pressed_time = 0;
 static u16 brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT+1;
-static XBC_JOY brushless_joy_sticks[2] = {XBC_JOY_LT, XBC_JOY_RT};
-static u16 brushless_stick_max = 255;
+static XBC_JOY brushless_joy_sticks = XBC_JOY_RY;
+static u16 brushless_stick_max = 1000;
 
 static u16 brushless_servo_val = 1000;
 static u16 encoder_val = 0;
@@ -189,7 +189,7 @@ void manual_interval_update(){
 			}
 			
 			curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
-			s32 curr_rotate = (xbc_get_joy(XBC_JOY_RT)-xbc_get_joy(XBC_JOY_LT))*(1.6);
+			s32 curr_rotate = (xbc_get_joy(XBC_JOY_LT)-xbc_get_joy(XBC_JOY_RT))*(1.6);
 			//change heading for angle PID use
 			if (curr_rotate == 0){
 				if (is_rotating){
@@ -302,6 +302,34 @@ void manual_interval_update(){
 		}
 	}
 	*/
+	if (brushless_lock == UNLOCKED){
+
+		//If not quite pressed, count time
+		if (xbc_get_joy(brushless_joy_sticks) < (brushless_stick_max/10)){
+				if ((brushless_lock_timeout + ticks_different) < BRUSHLESS_LOCK_TIMEOUT){
+					brushless_lock_timeout += ticks_different;
+				}else{
+					brushless_lock = LOCKED;
+					brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT + 1;
+				}
+		}else{
+			brushless_lock_timeout = 0;
+		}
+		
+		s16 brushless_pwm = xbc_get_joy(brushless_joy_sticks)/10;
+		if (brushless_pwm < 0)
+			brushless_pwm = 0;
+		brushless_control(brushless_pwm, true);
+		tft_append_line("%d%", brushless_pwm);
+		
+	}else if (button_pressed(BUTTON_XBC_R_JOY)){
+		brushless_lock = UNLOCKED;
+		brushless_lock_timeout = 0;
+	}else{
+		brushless_control(0, true);
+		brushless_pressed_time = 0;
+	}
+	
 	
 	// brushless arm
 	/*
