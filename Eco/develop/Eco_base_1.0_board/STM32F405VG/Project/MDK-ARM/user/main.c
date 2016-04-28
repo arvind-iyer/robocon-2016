@@ -35,7 +35,7 @@ int main(void) {
 				tft_println("[~BEETLE KING~]");
 				ardu_imu_update();
 
-				if (button_pressed(BUTTON_PIN)){
+				if (button_pressed(BUTTON_PIN) && game_stage != IN_MENU){
 					game_stage = IN_MENU;
 					menu_init();
 				}
