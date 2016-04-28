@@ -2,24 +2,35 @@
 
 u16 sensor_bar_value[16] = {0};
 u8 sensor_bar_mid = SENSOR_BAR_MID;
+u8 special_color_got = 0;
+u8 avg_hue = 0;
 
-static void receive_part_a(CanRxMsg msg){
+//Receive the first half of the receiver sensor data
+static void sensor_bar_receiver_a(CanRxMsg msg){
 	for(int i = 0; i < 8 ;i++){
 		sensor_bar_value[i] = msg.Data[i];
 	}
 }
 
-static void receive_part_b(CanRxMsg msg){
+//Receive the second half of the receiver sensor data
+static void sensor_bar_receiver_b(CanRxMsg msg){
 	for(int i = 0; i < 8 ; i++){
 		sensor_bar_value[8+i] = msg.Data[i]; 
 	}
 }
 
+//Receive the special color
+static void sensor_bar_receiver_c(CanRxMsg msg){
+	special_color_got = msg.Data[0];
+	avg_hue = msg.Data[1];
+}
+
 void sensorbar_init(){
 	can_init();
   can_rx_init();
-  can_rx_add_filter(SENSOR_BAR_FILTER_1, CAN_RX_MASK_EXACT, receive_part_a);
-  can_rx_add_filter(SENSOR_BAR_FILTER_2, CAN_RX_MASK_EXACT, receive_part_b);
+  can_rx_add_filter(SENSOR_BAR_FILTER_1, CAN_RX_MASK_EXACT, sensor_bar_receiver_a);
+  can_rx_add_filter(SENSOR_BAR_FILTER_2, CAN_RX_MASK_EXACT, sensor_bar_receiver_b);
+	can_rx_add_filter(SENSOR_BAR_FILTER_3, CAN_RX_MASK_EXACT, sensor_bar_receiver_c);
 }
 
 //Get correction without sign
