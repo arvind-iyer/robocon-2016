@@ -26,11 +26,10 @@ int main(void) {
 	button_init();
 	can_xbc_mb_init();
 	can_xbc_mb_tx_enable(true);
+	gpio_init_all();
 
 	tft_put_logo(85, 120);            
 	CONTROL_STATE last_control_state = MANUAL_MODE;
-	
-	//servo_control(SERVO3, 1500);
 	
 	while(1){
 		this_loop_ticks = get_full_ticks();

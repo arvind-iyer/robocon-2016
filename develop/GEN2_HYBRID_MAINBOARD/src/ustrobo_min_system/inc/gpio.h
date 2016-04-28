@@ -18,6 +18,7 @@ extern const GPIO
 	PG0, PG1, PG2, PG3, PG4, PG5, PG6, PG7, PG8, PG9, PG10, PG11, PG12, PG13, PG14, PG15;
 
 void gpio_init(const GPIO* gpio, GPIOSpeed_TypeDef speed, GPIOMode_TypeDef mode, u8 rcc_init);
+void gpio_init_all(void);
 void gpio_rcc_init(const GPIO* gpio);
 u8 gpio_read_input(const GPIO* gpio);
 u8 gpio_read_output(const GPIO* gpio);
