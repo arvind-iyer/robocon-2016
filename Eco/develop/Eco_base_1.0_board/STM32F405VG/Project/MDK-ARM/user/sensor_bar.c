@@ -131,6 +131,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 					best_end_index = end_index;
 				}
 			}else{
+				//End of 1's sequence
 				in_line = false;
 				if (end_index-start_index >= max_width){
 					max_width = end_index-start_index;
@@ -141,8 +142,10 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 		}
 	}
 	if (in_line){
-	end_index = 15;
+		//If the line continues to the end of sensor array
+		end_index = 15;
 		if (end_index - start_index >= max_width){
+			//If we find a longer line
 			max_width = end_index-start_index;
 			best_start_index = start_index;
 			best_end_index = end_index;
@@ -152,8 +155,10 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 	
 	s16 corr_angle = 0;
 	if (max_width>=ALL_WHITE_LENGTH){
+		//Detect whether the line is all white
 		flag = SENSOR_BAR_ALL;
 	}else if (best_start_index == 0 || best_end_index == 15){
+		//When the line continues to either one of the ends of the sensor array
 		flag = SENSOR_BAR_EXT;
 	}
 	

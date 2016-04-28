@@ -5,6 +5,7 @@ GAME_STAGE path_up_sb_update(){
 	s16 correction = sensor_bar_get_corr(UP_SENSOR_BAR_POWER, UP_SENSOR_BAR_Kp, &flag);
 	
 	if (flag == SENSOR_BAR_ALL){
+		//When read the all white line, go to next stage
 		return CLIMBING_SLOPE + 1;
 	}
 	
