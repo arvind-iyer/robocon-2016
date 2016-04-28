@@ -34,7 +34,7 @@
 #include "bluetooth.h"
 #include "position.h"
 #include "pneumatic.h"
-
+#include "laser_sensor.h"
 
 extern u16 ticks_img;
 extern u16 seconds_img;

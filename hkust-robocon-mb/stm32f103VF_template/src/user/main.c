@@ -20,8 +20,9 @@ bool DEBUG_STATE = false;
 bool armSwitchUp = false;
 bool armSwitchDown = false;
 bool moveState = false;
+bool allowUpdate = false;
 
-int w1 = 0, w2 = 0, w3 = 0;
+int w1 = 0, w2 = 0, w3 = 0, ls_value = 0;
 
 s32 time=0, moveTime = 0;
 
@@ -131,7 +132,10 @@ void handleCommand() {
 			
 				//Gripper Motor
 					motor_set_vel(MOTOR8, w8, CLOSE_LOOP);
-					
+		} else if (strcmp(header, "FREE_MOTORS") == 0 && contentIndex == 0) {
+					motor_set_vel(MOTOR1, 0, OPEN_LOOP);
+					motor_set_vel(MOTOR2, 0, OPEN_LOOP);
+					motor_set_vel(MOTOR3, 0, OPEN_LOOP);
 		} else if (strcmp(header, "FAN_CONTROL") == 0 && contentIndex == 2){
 				int fan_1_speed = contents[0];
 				int fan_2_speed = contents[1];
@@ -163,6 +167,7 @@ void handleCommand() {
 			piReady = true;
 			gyro_set_shift_x(contents[0]);
 			gyro_set_shift_y(contents[1]);
+			allowUpdate = true;
 			uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "PONG|%d|%d|%d\n",get_pos()->x, get_pos()->y, get_pos()->angle);
 		}
 		
@@ -194,13 +199,17 @@ void handleCommand() {
 //	}
 //}
 
-bool armDir = false, fixingArm = false; // False = down, True = up
+bool armDir = false, fixingArm = false, climbLimit = false; // False = down, True = up
 long lastLimitCheck = 0;
+bool b1=0, b2=0, b3=0, b4=0, prevb4=0;
 void limitSwitchCheck() {
-	bool b1 = gpio_read_input(&PE6), b2 = gpio_read_input(&PE7);
-
-	if (get_full_ticks() - lastLimitCheck >= 20 && fixingArm) {
+  b1 = gpio_read_input(&PE6);
+	b2 = gpio_read_input(&PE7);
+	b3 = gpio_read_input(&PE9);
+	b4 = gpio_read_input(&PE11);
+	if (get_full_ticks() - lastLimitCheck >= 20 && (fixingArm)) {
 		fixingArm = false;
+		climbLimit  = false;
 		tft_prints(5,5, "STOP");
 		motor_set_vel (MOTOR8, 0, CLOSE_LOOP);
 		lastLimitCheck = get_full_ticks();
@@ -213,6 +222,18 @@ void limitSwitchCheck() {
 		lastLimitCheck = get_full_ticks();
 		// If fixing arm, always make sure IR never gets triggered until fixingArm is false.
 	}
+	else if(b3) {
+		motor_set_vel(MOTOR4, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR5, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR6, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR7, 0, OPEN_LOOP);
+		//climbLimit = true;	
+		//lastLimitCheck = get_full_ticks();
+	}
+	if(prevb4 != b4){
+		prevb4 = b4;
+		uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "SWITCH|4|%d\n", b4);
+	}
 }
 
 int main(void) {
@@ -222,13 +243,13 @@ int main(void) {
 	gpio_init(&PE6, GPIO_Speed_50MHz, GPIO_Mode_IPD, 1);
 	gpio_init(&PE7, GPIO_Speed_50MHz, GPIO_Mode_IPD, 1);
 	gpio_init(&PE9, GPIO_Speed_50MHz, GPIO_Mode_IPD, 1);
-	
+	gpio_init(&PE11, GPIO_Speed_50MHz,GPIO_Mode_IPD, 1);
 	// IR Sensor GPIO initialization.
 	gpio_init(&PE8, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
 	
 	// ADC Servo initialization.
 	gpio_init(&PA6, GPIO_Speed_50MHz, GPIO_Mode_AF_PP, 1);
-	gpio_init(&PA7, GPIO_Speed_50MHz, GPIO_Mode_AF_PP, 1);
+	//gpio_init(&PA7, GPIO_Speed_50MHz, GPIO_Mode_AF_PP, 1);
 	
 	// ?
 	gpio_init(&PC0, GPIO_Speed_50MHz, GPIO_Mode_AF_PP, 1);
@@ -238,8 +259,9 @@ int main(void) {
 	buzzer_init();
 	gyro_init();
 	servo_init();
-	servo_adc_init();
+	//servo_adc_init();
 	pneumatic_init();
+	ls_init();
 	
 	// Initialize Bluetooth/rPi Mode.
 	uart_init(BLUETOOTH_MODE ? COM2 : COM1, 115200);
@@ -253,7 +275,7 @@ int main(void) {
 	
 	while (1) {
 		// Send robot state to Raspberry Pi/Bluetooth.
-		uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "STATE|%d|%d|%d|%d\n", get_pos()->x, get_pos()->y, get_pos()->angle, elevationCorrected);
+		uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "STATE|%d|%d|%d|%d|%d\n", get_pos()->x, get_pos()->y, get_pos()->angle, elevationCorrected, ls_value);
 		
 		if (queuePos > 0) {
 			handleCommand();
@@ -262,9 +284,13 @@ int main(void) {
 	
 		if (get_full_ticks() - lastStateUpdate >= 10) {
 			
-			limitSwitchCheck();
-			if(!fixingArm) {elevationCorrected = gpio_read_input(&PE8);}
+			if(allowUpdate){
+				limitSwitchCheck();
+				if(!fixingArm) {elevationCorrected = gpio_read_input(&PE8);}
+			}
 			pneumatic_control(GPIOE, GPIO_Pin_15, 1);
+			
+			ls_value = get_ls_reading();
 					
 			// Display TFT to insure screen is on.
 			tft_clear();
@@ -276,8 +302,8 @@ int main(void) {
 			if(piReady) {
 				tft_prints(0 , 4, "Pi Ready");
 			}
-			tft_prints(0,5, "%d", elevationCorrected);
-			tft_prints(0, 6, "L %d | %d", gpio_read_input(&PE6), gpio_read_input(&PE7));
+			tft_prints(0,5, "%d", ls_value);
+			tft_prints(0, 6, "L %d | %d | %d", gpio_read_input(&PE6), gpio_read_input(&PE7), gpio_read_input(&PE11));
 			//if(DEBUG_STATE) {
 				//tft_prints(0,5,"TRIGGERED");
 				//DEBUG_STATE = false;

@@ -1,6 +1,6 @@
 Dependencies for Project 'Project', Target 'stm32_template': (DO NOT MODIFY !)
-F (.\src\user\main.c)(0x571E32F6)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I .\src -I .\src\stm32f10x_std\inc -I .\src\ustrobo_min_system\inc -I .\src\user -I .\src\ustrobo_min_system\src -I .\src\ustrobo_min_system-I D:\Data\Documents\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="518" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
-I (src\user\main.h)(0x56F59C1F)
+F (.\src\user\main.c)(0x57221A63)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I .\src -I .\src\stm32f10x_std\inc -I .\src\ustrobo_min_system\inc -I .\src\user -I .\src\ustrobo_min_system\src -I .\src\ustrobo_min_system-I D:\Data\Documents\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="518" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
+I (src\user\main.h)(0x5721CAB3)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
 I (.\src\stm32f10x_std\inc\stm32f10x.h)(0x56F4D656)
 I (.\src\stm32f10x_std\inc\core_cm3.h)(0x56F4D656)
@@ -29,7 +29,7 @@ I (.\src\ustrobo_min_system\inc\led.h)(0x56F4D98C)
 I (.\src\ustrobo_min_system\inc\lcd_main.h)(0x56F4D98C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55DB2B7E)
 I (.\src\ustrobo_min_system\inc\system.h)(0x56F4D656)
-I (.\src\user\main.h)(0x56F59C1F)
+I (.\src\user\main.h)(0x5721CAB3)
 I (src\user\xbc_mb.h)(0x56F4D98C)
 I (src\user\can_xbc_mb.h)(0x56F4D98C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55DB2B76)
@@ -48,6 +48,7 @@ I (src\user\bluetooth.h)(0x56F4D98C)
 I (src\user\crc.h)(0x56F4D656)
 I (src\user\position.h)(0x56F4D98C)
 I (src\user\pneumatic.h)(0x56F4D98C)
+I (src\user\laser_sensor.h)(0x5721DD3B)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55DB2B78)
 I (C:\Keil_v5\ARM\ARMCC\include\ctype.h)(0x55DB2B78)
 F (.\src\user\can_protocol.c)(0x56F4D656)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I .\src -I .\src\stm32f10x_std\inc -I .\src\ustrobo_min_system\inc -I .\src\user -I .\src\ustrobo_min_system\src -I .\src\ustrobo_min_system-I D:\Data\Documents\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="518" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\can_protocol.o --omf_browse .\output\can_protocol.crf --depend .\output\can_protocol.d)
@@ -294,6 +295,24 @@ I (.\src\stm32f10x_std\inc\stm32f10x_rcc.h)(0x56F4D656)
 I (.\src\stm32f10x_std\inc\stm32f10x_spi.h)(0x56F4D656)
 I (.\src\stm32f10x_std\inc\stm32f10x_usart.h)(0x56F4D656)
 I (.\src\stm32f10x_std\inc\misc.h)(0x56F4D656)
+F (.\src\user\laser_sensor.c)(0x5721DEB1)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I .\src -I .\src\stm32f10x_std\inc -I .\src\ustrobo_min_system\inc -I .\src\user -I .\src\ustrobo_min_system\src -I .\src\ustrobo_min_system-I D:\Data\Documents\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="518" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\laser_sensor.o --omf_browse .\output\laser_sensor.crf --depend .\output\laser_sensor.d)
+I (src\user\laser_sensor.h)(0x5721DD3B)
+I (.\src\stm32f10x_std\inc\stm32f10x_adc.h)(0x56F4D656)
+I (.\src\stm32f10x_std\inc\stm32f10x.h)(0x56F4D656)
+I (.\src\stm32f10x_std\inc\core_cm3.h)(0x56F4D656)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55DB2B80)
+I (.\src\stm32f10x_std\inc\system_stm32f10x.h)(0x56F4D656)
+I (.\src\stm32f10x_std\inc\stm32f10x_conf.h)(0x56F4D656)
+I (.\src\stm32f10x_std\inc\stm32f10x_dma.h)(0x56F4D656)
+I (.\src\stm32f10x_std\inc\stm32f10x_exti.h)(0x56F4D656)
+I (.\src\stm32f10x_std\inc\stm32f10x_flash.h)(0x56F4D656)
+I (.\src\stm32f10x_std\inc\stm32f10x_fsmc.h)(0x56F4D656)
+I (.\src\stm32f10x_std\inc\stm32f10x_gpio.h)(0x56F4D656)
+I (.\src\stm32f10x_std\inc\stm32f10x_rcc.h)(0x56F4D656)
+I (.\src\stm32f10x_std\inc\stm32f10x_spi.h)(0x56F4D656)
+I (.\src\stm32f10x_std\inc\stm32f10x_usart.h)(0x56F4D656)
+I (.\src\stm32f10x_std\inc\misc.h)(0x56F4D656)
+F (.\src\user\laser_sensor.h)(0x5721DD3B)()
 F (.\src\ustrobo_min_system\src\approx_math.c)(0x56F4D656)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I .\src -I .\src\stm32f10x_std\inc -I .\src\ustrobo_min_system\inc -I .\src\user -I .\src\ustrobo_min_system\src -I .\src\ustrobo_min_system-I D:\Data\Documents\GitHub\robocon-2016\hkust-robocon-mb\stm32f103VF_template\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="518" -DSTM32F10X_XL -DUSE_STDPERIPH_DRIVER -DSTM32F10X_XL -DUSE_STM3210B_EVAL-o .\output\approx_math.o --omf_browse .\output\approx_math.crf --depend .\output\approx_math.d)
 I (.\src\ustrobo_min_system\inc\approx_math.h)(0x56F4D656)
 I (.\src\stm32f10x_std\inc\stm32f10x.h)(0x56F4D656)

@@ -174,6 +174,7 @@ void motor_control(s32 p, s32 i, s32 d)
 //		pos_control();
 //	}
 //	
+	if (current_flag != OPEN_LOOP) {
 	s32 PID = p*(cal_vel_err() - prev_error) + i*cal_vel_err() + d*(cal_vel_err() + last_prev_error - prev_error*2);
 	if (Abs(PID) > MAX_PWM * PID_Prescalar * 10) {
     // PID overflow protection
@@ -231,6 +232,7 @@ void motor_control(s32 p, s32 i, s32 d)
 	
 	last_prev_error = prev_error;
 	prev_error = cal_vel_err();
+}
 	
 	// Output to motor
 	motor_set_pwm(curr_pwm / PID_Prescalar);
