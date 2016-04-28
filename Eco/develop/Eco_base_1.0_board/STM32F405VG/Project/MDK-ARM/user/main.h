@@ -20,6 +20,19 @@
 	#endif
 #endif
 
+#define IMU_UPSLOPE
+//#define SENSOR_BAR_UPSLOPE
+
+#ifdef IMU_UPSLOPE
+	#ifdef SENSOR_BAR_UPSLOPE
+		#error UPSLOPE MODE BOTH DEFINED
+	#endif
+#else
+	#ifndef SENSOR_BAR_UPSLOPE
+		#error UPSLOPE MODE NOT YET DEFINED
+	#endif
+#endif
+
 //	PIN_ON_TOP = 		0
 //	PIN_ON_LEFT = 	1
 //	PIN_ON_BOTTOM =	2
@@ -65,7 +78,9 @@
 #include "menu.h"
 
 //path files
-#include "path_upslope.h"
+#include "path_upslope_imu.h"
+#include "path_upslope_sb.h"
+
 #include "path_downslope.h"
 #include "path_river.h"
 
@@ -81,7 +96,5 @@ extern u32 last_short_loop_ticks;
 
 //Different in ticks for any loop except main loop
 extern u32 any_loop_diff;
-
-void TimingDelay_Decrement(void);
 
 #endif /* __MAIN_H */

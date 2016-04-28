@@ -91,6 +91,7 @@ s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
 	SENSOR_BAR_NORM = 0, //Normal
 	SENSOR_BAR_NTH = 1, //Nothing is sensed
 	SENSOR_BAR_EXT = 2 //Extreme condition
+	SENSOR_BAR_ALL = 3 //Read all or mostly white
 */
 s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 	s8 best_start_index = 0;
@@ -139,9 +140,12 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 	s8 line_mid = (best_start_index + best_end_index) / 2;
 	
 	s16 corr_angle = 0;
-	if (best_start_index == 0 || best_end_index == 15){
+	if (max_width>=ALL_WHITE_LENGTH){
+		flag = SENSOR_BAR_ALL;
+	}else if (best_start_index == 0 || best_end_index == 15){
 		flag = SENSOR_BAR_EXT;
 	}
+	
 	if (line_mid!=0){
 		sensor_bar_mid = line_mid;
 		//Square the difference while maintaining sign
@@ -157,6 +161,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 		sensor_bar_mid = SENSOR_BAR_MID;
 		flag = SENSOR_BAR_NTH;
 	}
+	
 	tft_println("SE: %d %d %d %d", best_start_index, best_end_index, line_mid, corr_angle);
 	*in_flag = flag;
 	return corr_angle;
@@ -167,6 +172,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 	SENSOR_BAR_NORM = 0, //Normal
 	SENSOR_BAR_NTH = 1, //Nothing is sensed
 	SENSOR_BAR_EXT = 2 //Extreme condition
+	SENSOR_BAR_ALL = 3 //Read all or mostly white
 */
 SENSOR_BAR_FLAG sensor_bar_track(u8 power, u16 sensor_bar_Kp){
 	SENSOR_BAR_FLAG flag;

@@ -11,11 +11,13 @@
 
 #define WHITE_LINE_WIDTH 3
 #define SENSOR_BAR_MID 8
+#define ALL_WHITE_LENGTH 10
 
 typedef enum{
 	SENSOR_BAR_NORM = 0, //Normal
 	SENSOR_BAR_NTH = 1, //Nothing is sensed
-	SENSOR_BAR_EXT = 2 //Extreme condition
+	SENSOR_BAR_EXT = 2, //Extreme condition
+	SENSOR_BAR_ALL = 3 //Read all or mostly white
 }SENSOR_BAR_FLAG;
 
 void sensorbar_init(void);

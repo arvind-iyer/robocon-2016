@@ -9,7 +9,10 @@
 #include "servo_interface.h"
 #include <stdbool.h>
 #include "path.h"
-#include "path_upslope.h"
+
+#include "path_upslope_imu.h"
+#include "path_upslope_sb.h"
+
 #include "ardu_imu.h"
 #include "buzzer.h"
 #include <math.h>

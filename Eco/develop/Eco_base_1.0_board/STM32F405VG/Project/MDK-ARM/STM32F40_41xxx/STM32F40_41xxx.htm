@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Thu Apr 28 14:38:45 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Thu Apr 28 16:15:39 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -429,9 +429,9 @@ Global Symbols
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_lasr
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
+<BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
+<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dsub
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
 </UL>
 
 <P><STRONG><a name="[72]"></a>__aeabi_dsub</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, dadd.o(.text), UNUSED)
@@ -875,8 +875,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[d8]"></a>abs_diff</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, angle_range.o(i.abs_diff))
-<BR><BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_init
+<BR><BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_update
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_init
 </UL>
 
 <P><STRONG><a name="[93]"></a>ardu_adapter_init</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, ardu_imu_adp.o(i.ardu_adapter_init))
@@ -905,7 +905,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_roundf
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_value_update
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_init
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_init
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_init
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_init
@@ -1016,7 +1016,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[d9]"></a>get_median_of_five</STRONG> (Thumb, 344 bytes, Stack size 0 bytes, quick_math.o(i.get_median_of_five))
-<BR><BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
+<BR><BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_update
 </UL>
 
 <P><STRONG><a name="[b8]"></a>led_blink</STRONG> (Thumb, 90 bytes, Stack size 0 bytes, led.o(i.led_blink))
@@ -1039,7 +1039,7 @@ Global Symbols
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorbar_init
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
+<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_update
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
@@ -1074,7 +1074,7 @@ Global Symbols
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_text_color
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_bg_color
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_init
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_init
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_init
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_init
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
@@ -1117,18 +1117,18 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9b]"></a>path_up_init</STRONG> (Thumb, 102 bytes, Stack size 0 bytes, path_upslope.o(i.path_up_init))
+<P><STRONG><a name="[9b]"></a>path_up_imu_init</STRONG> (Thumb, 102 bytes, Stack size 0 bytes, path_upslope_imu.o(i.path_up_imu_init))
 <BR><BR>[Calls]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs_diff
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_update
 </UL>
 
-<P><STRONG><a name="[ca]"></a>path_up_update</STRONG> (Thumb, 364 bytes, Stack size 0 bytes, path_upslope.o(i.path_up_update))
+<P><STRONG><a name="[ca]"></a>path_up_imu_update</STRONG> (Thumb, 364 bytes, Stack size 0 bytes, path_upslope_imu.o(i.path_up_imu_update))
 <BR><BR>[Calls]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_pid
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_median_of_five
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs_diff
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
 <LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_add_pwm_bias
@@ -1147,7 +1147,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 <BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
+<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_update
 </UL>
 
 <P><STRONG><a name="[d4]"></a>sensor_bar_get_corr_nf</STRONG> (Thumb, 256 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr_nf))
@@ -1193,20 +1193,20 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[9a]"></a>set_target</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, imu_targeting.o(i.set_target))
-<BR><BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
+<BR><BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_update
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_update
 </UL>
 
 <P><STRONG><a name="[d5]"></a>si_add_pwm_bias</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, servo_interface.o(i.si_add_pwm_bias))
 <BR><BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
+<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_update
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
 </UL>
 
 <P><STRONG><a name="[d2]"></a>si_clear</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, servo_interface.o(i.si_clear))
-<BR><BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
+<BR><BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_update
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 </UL>
 
@@ -1215,7 +1215,7 @@ Global Symbols
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;s16_cap
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
+<BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_update
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 </UL>
 
@@ -1234,7 +1234,7 @@ Global Symbols
 <P><STRONG><a name="[db]"></a>targeting_pid</STRONG> (Thumb, 84 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_pid))
 <BR><BR>[Calls]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;u16_sqrt
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
+<BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_update
 </UL>
 
 <P><STRONG><a name="[d6]"></a>targeting_update</STRONG> (Thumb, 90 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_update))
@@ -1291,7 +1291,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_init
-<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_update
+<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_imu_update
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update

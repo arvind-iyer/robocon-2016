@@ -39,7 +39,9 @@ GAME_STAGE menu_update(){
 			case 0:
 			case 1:
 			case 2:
-				path_up_init(selection);
+				#ifdef IMU_UPSLOPE
+					path_up_imu_init(selection);
+				#endif
 				return CLIMBING_SLOPE;
 			case 3:
 				path_river_init();

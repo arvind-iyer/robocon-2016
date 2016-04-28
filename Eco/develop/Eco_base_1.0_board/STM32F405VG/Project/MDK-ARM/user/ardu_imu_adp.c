@@ -28,7 +28,11 @@ void ardu_imu_update(){
 		set_target(ardu_cal_ypr[0]);
 		//Copy the starting yaw pitch roll to a private array
 		memcpy(ardu_start_ypr, ardu_cal_ypr, 3 * sizeof(float));
-		path_up_init(0);
+		
+		#ifdef IMU_UPSLOPE
+			path_up_imu_init(0);
+		#endif
+		
 		path_river_init();
 		path_down_init();
 		ardu_imu_staged = true;

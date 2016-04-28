@@ -55,7 +55,11 @@ int main(void) {
 						
 					case CLIMBING_SLOPE:
 						tft_println("[CLIMBING]");
-						game_stage = path_up_update(); 
+						#ifdef IMU_UPSLOPE
+							game_stage = path_up_imu_update(); 
+						#else
+							game_stage = path_up_sb_update(); 
+						#endif
 						break;
 					
 					case CROSSING_RIVER:
