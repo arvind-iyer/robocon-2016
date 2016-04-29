@@ -162,6 +162,9 @@ void handleCommand() {
 					case 1:
 						pneumatic_control(GPIOE, GPIO_Pin_13, pneumaticState);
 						break;
+					case 2:
+						pneumatic_control(GPIOE, GPIO_Pin_14, pneumaticState);
+					break;
 				}
 		} else if (strcmp(header, "PING") == 0 && contentIndex == 2) {
 			piReady = true;
