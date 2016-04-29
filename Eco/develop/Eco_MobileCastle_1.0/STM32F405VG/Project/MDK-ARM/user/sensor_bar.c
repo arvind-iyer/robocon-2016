@@ -1,6 +1,7 @@
 #include "sensor_bar.h"
 
-u16 sensor_bar_value[16] = {0};
+u16 sensor_bar_filtered[16] = {0};
+u16 sensor_bar_raw[16] = {0};
 u8 sensor_bar_mid = SENSOR_BAR_MID;
 u8 special_color_got = 0;
 u8 avg_hue = 0;
@@ -8,14 +9,16 @@ u8 avg_hue = 0;
 //Receive the first half of the receiver sensor data
 static void sensor_bar_receiver_a(CanRxMsg msg){
 	for(int i = 0; i < 8 ;i++){
-		sensor_bar_value[i] = msg.Data[i];
+		sensor_bar_filtered[i] = sensor_bar_raw[i] & msg.Data[i];
+		sensor_bar_raw[i] = msg.Data[i];
 	}
 }
 
 //Receive the second half of the receiver sensor data
 static void sensor_bar_receiver_b(CanRxMsg msg){
 	for(int i = 0; i < 8 ; i++){
-		sensor_bar_value[8+i] = msg.Data[i]; 
+		sensor_bar_filtered[8+i] = sensor_bar_raw[8+i] & msg.Data[i];
+		sensor_bar_raw[8+i] = msg.Data[i];
 	}
 }
 
@@ -43,7 +46,7 @@ s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
 	bool in_line = false;
 	
 	for (u8 index=0; index<16; index++){
-		if (sensor_bar_value[index] == 1){
+		if (sensor_bar_filtered[index] == 1){
 			if (in_line){
 				end_index = index;
 			}else{
@@ -52,7 +55,7 @@ s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
 			}
 		}else if(in_line){
 			//Can skip a 0 digit
-			if (index==15 || sensor_bar_value[index+1]!=1){
+			if (index==15 || sensor_bar_filtered[index+1]!=1){
 				in_line = false;
 				if (end_index-start_index >= max_width){
 					max_width = end_index-start_index;
@@ -114,7 +117,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 	SENSOR_BAR_FLAG flag = SENSOR_BAR_NORM;
 	
 	for (u8 index=0; index<16; index++){
-		if (sensor_bar_value[index] == 1){
+		if (sensor_bar_filtered[index] == 1){
 			if (in_line){
 				end_index = index;
 			}else{
@@ -123,7 +126,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 			}
 		}else if(in_line){
 			//Can skip a 0 digit
-			if (index==15 || sensor_bar_value[index+1]!=1){
+			if (index==15 || sensor_bar_filtered[index+1]!=1){
 				in_line = false;
 				if (end_index-start_index >= max_width){
 					max_width = end_index-start_index;
@@ -194,7 +197,7 @@ SENSOR_BAR_FLAG sensor_bar_track(u8 power, u16 sensor_bar_Kp){
 	SENSOR_BAR_FLAG flag;
 	s16 correction = sensor_bar_get_corr(power, sensor_bar_Kp, &flag);
 	if (flag != SENSOR_BAR_NTH){
-		si_add_pwm_bias(SERVO_MED_PWM + correction);
+		si_add_pwm_bias(correction*10);
 	}
 	return flag;
 }

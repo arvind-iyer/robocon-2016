@@ -7,9 +7,9 @@ s16 river_straight_yaw = 0;
 
 void path_river_init(){
 	#ifdef BLUE_FIELD
-		river_straight_yaw = ardu_int_ypr[0] - 1800;
+		river_straight_yaw = ardu_int_ypr[0] - 900;
 	#else
-		river_straight_yaw = ardu_int_ypr[0] + 1800;
+		river_straight_yaw = ardu_int_ypr[0] + 900;
 	#endif
 	river_stage = 0;
 	islands_count[0] = 0;
@@ -35,20 +35,18 @@ bool readIR(u8 id){
 	#endif
 }
 
-void IR_update(){
-	for (u8 i=0; i<2; i++){
-		if (readIR(i)){
-			if (last_IR_state[i] == 0){
-				last_IR_state[i] = 1;
-			}
-		}else{
-			//Only counts when IR signal is lost for a buffer time
-			if (last_IR_state[i] > 0){
-				last_IR_state[i]++;
-				if (last_IR_state[i] >= IR_BUFFER_LENGTH){
-					last_IR_state[i] = 0;
-					islands_count[i]++;
-				}
+void IR_update(u8 id){
+	if (readIR(id)){
+		if (last_IR_state[id] == 0){
+			last_IR_state[id] = 1;
+		}
+	}else{
+		//Only counts when IR signal is lost for a buffer time
+		if (last_IR_state[id] > 0){
+			last_IR_state[id]++;
+			if (last_IR_state[id] >= IR_BUFFER_LENGTH){
+				last_IR_state[id] = 0;
+				islands_count[id]++;
 			}
 		}
 	}
@@ -69,45 +67,49 @@ GAME_STAGE path_river_update(){
 			}else{
 				river_stage++;
 				#ifdef BLUE_FIELD
-					set_target(river_straight_yaw + 300);
+					set_target(river_straight_yaw + 45);
 				#else
-					set_target(river_straight_yaw - 300);
+					set_target(river_straight_yaw - 45);
 				#endif
+				buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 			}
 			break;
 			
-		//case 1 follow white line til first island
+		//Keep going until first island
 		case 1:
-			IR_update();
+			IR_update(0);
 			//When it reaches the first island
 			if (islands_count[0] >= 1){
 				river_stage++;
 				#ifdef BLUE_FIELD
-					set_target(river_straight_yaw);
+					set_target(river_straight_yaw + 20);
 				#else
-					set_target(river_straight_yaw);
+					set_target(river_straight_yaw - 20);
 				#endif
+				buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 			}
 			
 			si_clear();
 			//Track the white line with imu/sensor bar
-			si_add_pwm_bias(sensor_bar_get_corr_nf(RIVER_SENSOR_BAR_POWER, RIVER_SENSOR_BAR_Kp));
+			//si_add_pwm_bias(sensor_bar_get_corr_nf(RIVER_SENSOR_BAR_POWER, RIVER_SENSOR_BAR_Kp)*10);
 			targeting_update(ardu_int_ypr[0]);
 			si_execute();
 			break;
 			
 		//case 2 go straight until it reaches the last island
 		case 2:
-			IR_update();
+			IR_update(1);
 			//When it reaches the last island
 			if (islands_count[1] >= 2){
 				river_stage++;
+				buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 			}
 			si_clear();
 			targeting_update(ardu_int_ypr[0]);
 			si_execute();
 			break;
 		case 3:
+			buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 			return (GAME_STAGE) (CROSSING_RIVER + 1);
 	}
 	tft_println("RS:%d IR:%d %d", river_stage, readIR(0), readIR(1));

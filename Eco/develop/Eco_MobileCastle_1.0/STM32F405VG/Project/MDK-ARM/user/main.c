@@ -88,7 +88,7 @@ int main(void) {
 					tft_println("%d %d %d", ardu_int_ypr[0], ardu_int_ypr[1], ardu_int_ypr[2]);
 					
 					for (u8 i=0; i<16; i++){
-						tft_prints(i, 8, "%d", sensor_bar_value[i]);
+						tft_prints(i, 8, "%d", sensor_bar_filtered[i]);
 					}
 					tft_update();
 				}

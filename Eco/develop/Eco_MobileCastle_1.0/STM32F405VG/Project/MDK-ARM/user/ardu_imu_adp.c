@@ -31,6 +31,8 @@ void ardu_imu_update(){
 		
 		#ifdef IMU_UPSLOPE
 			path_up_imu_init(0);
+		#else
+			path_up_sb_init(0);
 		#endif
 		
 		path_river_init();

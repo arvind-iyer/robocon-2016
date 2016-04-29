@@ -12,7 +12,7 @@
 
 #define WHITE_LINE_WIDTH 3
 #define SENSOR_BAR_MID 8
-#define ALL_WHITE_LENGTH 10
+#define ALL_WHITE_LENGTH 8
 
 typedef enum{
 	SENSOR_BAR_NORM = 0, //Normal
@@ -29,6 +29,6 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag);
 s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp);
 
 extern u8 sensor_bar_mid;
-extern u16 sensor_bar_value[16];
+extern u16 sensor_bar_filtered[16];
 
 #endif

@@ -217,7 +217,7 @@ void sendData(){
     
     
     for(int i = 0 ; i < 16; i++){
-        if(now.s[i] > border) sat[i] = 0; //White color
+        if(now.s[i] > border && now.v[i] > 40) sat[i] = 0; //White color
         else sat[i] = 1; //Dark color
     }
 
