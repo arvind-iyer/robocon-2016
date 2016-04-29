@@ -5,6 +5,9 @@ static Encoder_Typedef encoder = {{ENCODER_TIMER1,ENCODER_TIMER1_CLOCK_SOURCE,EN
 																	{ENCODER_TIMER2,ENCODER_TIMER2_CLOCK_SOURCE,ENCODER_TIMER2_GPIO_CLOCK_SOURCE,
 																	 ENCODER_TIMER2_PORT1,ENCODER_TIMER2_PORT2,ENCODER_TIMER2_GPIOx}};
 
+                                                                     
+                                                                     
+volatile u32 encoder_ticks = 0;
 /**
   * @brief  Initialization of encoder
   * @param  Nonea
@@ -85,11 +88,18 @@ void encoder_init(void){
   * @retval The reading of the encoder
   */
 u32 get_count(ENCODER ENCODERx){
-	return TIM_GetCounter(encoder[ENCODERx].timer);
+    encoder_ticks = TIM_GetCounter(encoder[ENCODERx].timer);
+    return encoder_ticks;
+}
+
+long get_full_count(ENCODER ENCODERx){
+    long encoder_value = get_count(ENCODERx);
+    return encoder_value / 1000;
 }
 
 void reset_all_encoder(){
     TIM_SetCounter(ENCODER_TIMER1,0);
     TIM_SetCounter(ENCODER_TIMER2,0);
 }
+
 

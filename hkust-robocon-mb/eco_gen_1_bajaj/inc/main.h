@@ -52,6 +52,8 @@
 #include "bajaj.h"
 #include "button.h"
 #include "ardu_imu.h"
+#include "adc.h"
+#include "linear_ccd.h"
 
 
 

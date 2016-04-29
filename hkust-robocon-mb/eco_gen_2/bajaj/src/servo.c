@@ -2,7 +2,7 @@
 
 
 /* Config the servo here, DISABLE the servo if not used */
-static SERVO_PWM_STRUCT servo_pwm = {{TIM_Channel_1, GPIOA, GPIO_Pin_8, GPIO_PinSource8, ENABLE, TIM_OC1Init, TIM_SetCompare1}};
+static SERVO_PWM_STRUCT servo_pwm = {{TIM_Channel_4, GPIOB, GPIO_Pin_1, GPIO_PinSource1, ENABLE, TIM_OC4Init, TIM_SetCompare4}};
 
 /**
   * @brief  Servo initialization
@@ -16,7 +16,7 @@ void servo_init(void){
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
 	u8 servo_id;
 
-	RCC_APB2PeriphClockCmd(SERVO_TIM_RCC, ENABLE);
+	RCC_APB1PeriphClockCmd(SERVO_TIM_RCC, ENABLE);
 	RCC_AHB1PeriphClockCmd(SERVO_GPIO_RCC, ENABLE);	// Enable bus
 
 	SERVO_GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;						// Push-Pull Output Alternate-function
@@ -28,7 +28,7 @@ void servo_init(void){
 		}
 		SERVO_GPIO_InitStructure.GPIO_Pin=servo_pwm[servo_id].servo_pin;
 		GPIO_Init(servo_pwm[servo_id].GPIOx , &SERVO_GPIO_InitStructure);	
-		GPIO_PinAFConfig(servo_pwm[servo_id].GPIOx, servo_pwm[servo_id].GPIO_PinSource, GPIO_AF_TIM1);
+		GPIO_PinAFConfig(servo_pwm[servo_id].GPIOx, servo_pwm[servo_id].GPIO_PinSource, GPIO_AF_TIM3);
 	}
 
 		
@@ -59,8 +59,8 @@ void servo_init(void){
 	
 	// OC Init
 	
-	TIM_OC1Init(SERVO_TIM, &TIM_OCInitStructure);
-	TIM_OC1PreloadConfig(SERVO_TIM, ENABLE);
+	TIM_OC4Init(SERVO_TIM, &TIM_OCInitStructure);
+	TIM_OC4PreloadConfig(SERVO_TIM, ENABLE);
 	
 	TIM_ARRPreloadConfig(SERVO_TIM, ENABLE);
 	TIM_Cmd(SERVO_TIM, ENABLE);	

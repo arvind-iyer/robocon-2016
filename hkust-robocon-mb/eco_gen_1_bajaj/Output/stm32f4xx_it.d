@@ -64,3 +64,6 @@
 .\output\stm32f4xx_it.o: .\inc\main.h
 .\output\stm32f4xx_it.o: .\inc\ardu_imu.h
 .\output\stm32f4xx_it.o: .\inc\imu_math.h
+.\output\stm32f4xx_it.o: .\adc.h
+.\output\stm32f4xx_it.o: .\linear_ccd.h
+.\output\stm32f4xx_it.o: .\linear_ccd.h

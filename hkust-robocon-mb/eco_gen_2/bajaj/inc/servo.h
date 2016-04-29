@@ -4,11 +4,11 @@
 #include "stm32f4xx.h"
 #include "stm32f4xx_gpio.h"	  
 #include "stm32f4xx_tim.h"
-
+//TIM3 CH4 PB1
 #define SERVO_COUNT     1
-#define SERVO_TIM				TIM1
-#define SERVO_TIM_RCC		RCC_APB2Periph_TIM1
-#define SERVO_GPIO_RCC	    RCC_AHB1Periph_GPIOA
+#define SERVO_TIM				TIM3
+#define SERVO_TIM_RCC		RCC_APB1Periph_TIM3
+#define SERVO_GPIO_RCC	    RCC_AHB1Periph_GPIOB
 
 typedef struct {
 	u16 servo_tim_ch;

@@ -63,3 +63,6 @@
 .\output\button.o: .\inc\button.h
 .\output\button.o: .\inc\ardu_imu.h
 .\output\button.o: .\inc\imu_math.h
+.\output\button.o: .\adc.h
+.\output\button.o: .\linear_ccd.h
+.\output\button.o: .\linear_ccd.h

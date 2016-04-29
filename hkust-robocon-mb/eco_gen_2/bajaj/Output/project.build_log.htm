@@ -27,6 +27,42 @@ Project File Date:  04/23/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F4_Robocon'
+compiling stm32f4xx_it.c...
+.\inc\buzzer.h(85): warning:  #1-D: last line of file ends without a newline
+  #endif	/* __BUZZER_H */
+.\inc\ultra_sonic.h(35): warning:  #1295-D: Deprecated declaration us_init - give arg types
+  void us_init();
+.\inc\ultra_sonic.h(39): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\inc\button.h(14): warning:  #1295-D: Deprecated declaration button_pressed - give arg types
+  u8 button_pressed( );
+.\inc\button.h(16): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\inc\imu_math.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\inc\ardu_imu.h(30): warning:  #1-D: last line of file ends without a newline
+  #endif
+Libraries\STM32F4xx_StdPeriph_Driver\stm32f4xx_it.c: 7 warnings, 0 errors
+compiling main.c...
+.\inc\buzzer.h(85): warning:  #1-D: last line of file ends without a newline
+  #endif	/* __BUZZER_H */
+.\inc\ultra_sonic.h(35): warning:  #1295-D: Deprecated declaration us_init - give arg types
+  void us_init();
+.\inc\ultra_sonic.h(39): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\inc\button.h(14): warning:  #1295-D: Deprecated declaration button_pressed - give arg types
+  u8 button_pressed( );
+.\inc\button.h(16): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\inc\imu_math.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\inc\ardu_imu.h(30): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\main.c(75): warning:  #111-D: statement is unreachable
+      return 0;
+src\main.c(77): warning:  #1-D: last line of file ends without a newline
+  	
+src\main.c: 9 warnings, 0 errors
 compiling bajaj.c...
 .\inc\buzzer.h(85): warning:  #1-D: last line of file ends without a newline
   #endif	/* __BUZZER_H */
@@ -44,11 +80,33 @@ compiling bajaj.c...
   u8 button_pressed( );
 .\inc\button.h(16): warning:  #1-D: last line of file ends without a newline
   #endif
-src\bajaj.c: 8 warnings, 0 errors
+src\bajaj.c(181): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+      imuFactor = (float)yaw_of_imu / 180.0;
+src\bajaj.c: 9 warnings, 0 errors
+compiling button.c...
+.\inc\buzzer.h(85): warning:  #1-D: last line of file ends without a newline
+  #endif	/* __BUZZER_H */
+.\inc\ultra_sonic.h(35): warning:  #1295-D: Deprecated declaration us_init - give arg types
+  void us_init();
+.\inc\ultra_sonic.h(39): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\inc\button.h(16): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\inc\imu_math.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\inc\ardu_imu.h(30): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\inc\button.h(14): warning:  #1295-D: Deprecated declaration button_pressed - give arg types
+  u8 button_pressed( );
+.\inc\button.h(16): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\button.c(15): warning:  #1-D: last line of file ends without a newline
+  }
+src\button.c: 9 warnings, 0 errors
 linking...
-Program Size: Code=15312 RO-data=480 RW-data=4804 ZI-data=35772  
+Program Size: Code=15948 RO-data=536 RW-data=4828 ZI-data=35772  
 FromELF: creating hex file...
-".\Output\project.hex" - 0 Error(s), 8 Warning(s).
+".\Output\project.hex" - 0 Error(s), 34 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -66,7 +124,7 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:4.3.0
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

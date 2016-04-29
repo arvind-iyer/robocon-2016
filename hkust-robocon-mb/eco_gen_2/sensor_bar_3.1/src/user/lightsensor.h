@@ -12,7 +12,7 @@
 #include "stm32f10x_dma.h"
 #include <stdlib.h>
 
-#define DELAY_US 700 //800
+#define DELAY_US 600 //800
 #define scalar 1000
 #define MAXSAMPLETIMES 60
 
@@ -40,5 +40,6 @@ void rgb_hsv_converter(Reading* reading);
 void printInformation(void);
 void sendData(void);
 void LED_Control(u8 R, u8 G, u8 B);
+void receive(CanRxMsg msg);
 
 #endif

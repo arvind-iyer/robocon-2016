@@ -14,32 +14,25 @@
 #include "buzzer.h"
 #include "button.h"
 #include "ardu_imu.h"
+#include "adc.h"
+#include "linear_ccd.h"
 
 
 //CHOOSE YOUR CAR
-#define BAJAJ
 
-#ifdef WILSON
-#define SERVO_MICROS_MID 1150
-#define SERVO_MICROS_RIGHT 550
-#define SERVO_MICROS_LEFT 1750
-#endif
 
-#ifdef HITLER
-#define SERVO_MICROS_MID 1500
-#define SERVO_MICROS_RIGHT 2100
-#define SERVO_MICROS_LEFT 1000
-#define HITLER_SERVO SERVO2
-#endif
 
-#ifdef BAJAJ
-#define SERVO_MICROS_MID 1500
-#define SERVO_MICROS_RIGHT 700
-#define SERVO_MICROS_LEFT 2300
-#define BAJAJ_SERVO  SERVO3
-#endif
+#define SERVO_MICROS_MID 1350
+#define SERVO_MICROS_RIGHT 850
+#define SERVO_MICROS_LEFT 1850
+
+#define BAJAJ_SERVO SERVO2
 
 enum{NOT_RIVER = 0, STAGE1 = 1, STAGE2 = 2, STAGE3 = 3};
+
+typedef enum{
+    ORANGEZONE = 0, DARKGREENZONE = 1, BLUEZONE = 2, LIGHTGREENZONE = 3, PINKZONE = 4, NOCOLOURZONE = 5
+}ZONE;
 
 enum{OFF = 0 , ON = 1};
 
@@ -55,19 +48,13 @@ void systemInit(void);
 
 void goNormal(void);
 
-void goFindWall(void);
-
-void goStraightYolo(void);
-
 void goUsingImu(void);
-
-void goDetectRightWall(void);
-
-void goDetectLeftWall(void);
 
 void goStraightLittleBit(void);
 
 void printSystemOff(void);
+
+void determineZone(void);
 
 
 #endif

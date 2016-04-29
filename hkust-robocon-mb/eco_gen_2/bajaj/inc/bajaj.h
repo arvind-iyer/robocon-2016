@@ -20,13 +20,18 @@
 
 #define BAJAJ
 #ifdef BAJAJ
-#define SERVO_MICROS_MID 2700
-#define SERVO_MICROS_RIGHT 1900
-#define SERVO_MICROS_LEFT 3500
-#define BAJAJ_SERVO  SERVO3
+#define SERVO_MICROS_MID 1300
+#define SERVO_MICROS_RIGHT 800
+#define SERVO_MICROS_LEFT 1800
+#define BAJAJ_SERVO  SERVO1
 #endif
 
 enum{NOT_RIVER = 0, STAGE1 = 1, STAGE2 = 2, STAGE3 = 3};
+
+
+typedef enum{
+    ORANGEZONE = 0, DARKGREENZONE = 1, BLUEZONE = 2, LIGHTGREENZONE = 3, PINKZONE = 4, NOCOLOURZONE = 5
+}ZONE;
 
 enum{OFF = 0 , ON = 1};
 
@@ -34,15 +39,19 @@ void receive(CanRxMsg msg);
 void receive2(CanRxMsg msg);
 void receive3(CanRxMsg msg);
 
+void determineZone(void);
+
+void sumColour(void);
+
 void process_array(void);
 
 void print_data(void);
+
 void fill_sensorbar_array(void);
 
 void systemInit(void);
 
 void goNormal(void);
-
 
 void goUsingImu(void);
 

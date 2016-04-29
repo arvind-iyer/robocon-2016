@@ -10,6 +10,11 @@ int border;
 //Hue average
 int hueAverage = 0; 
 
+int green = 0;
+
+int avgS = 0;
+
+int fullWhite = 0;
 void initToZero(){
     for(int i = 0 ; i < 16 ; i++){
         now.off_reading[i] = 0;
@@ -197,28 +202,54 @@ void sendData(){
     }
     hueAverage /= 16;
     
+    for(int i = 0 ; i < 16 ; i++){
+        avgS += now.s[i];
+    }
+    avgS /= 16;
+    
     //Dark blue
-    if(hueAverage >= 210 && hueAverage <= 230){border = 55;}
+    if(hueAverage >= 220 && hueAverage <= 240){
+        border = 51;
+        for(int i = 0 ; i < 16 ; i++){
+            if(now.s[i] > border)sat[i] = 0;
+            else sat[i] = 1;
+        }
+    }
     
     //Orange
-    else if(hueAverage <= 30 && hueAverage > 10){border = 63;}
+    else if(hueAverage <= 38 && hueAverage > 15){
+        border = 60;
+        for(int i = 0 ; i < 16 ; i++){
+            if(now.s[i] > border)sat[i] = 0;
+            else sat[i] = 1;
+        }
+    }
     
     //Light green
-    else if(hueAverage >= 80 && hueAverage < 180){border = 18;}
+    else if(hueAverage >= 90 && hueAverage < 180){
+        border = 15;
+        for(int i = 0 ; i < 16 ; i++){
+            if(now.s[i] > border)sat[i] = 0;
+            else sat[i] = 1;
+        }
+    }
     
     //Dark green
-    else if(hueAverage >= 180 && hueAverage < 210){border = 40;}
+    else if(hueAverage >= 180 && hueAverage < 220){
+        border = 48;
+        for(int i = 0 ; i < 16 ; i++){
+            if(now.v[i] > border)sat[i] = 1;
+            else sat[i] = 0;
+        }
+    }
     
     //Pink
-    else if(hueAverage > 300 || hueAverage <= 10){border = 60;}
-    
-    //Random Color
-    else border = 60;
-    
-    
-    for(int i = 0 ; i < 16; i++){
-        if(now.s[i] > border) sat[i] = 0; //White color
-        else sat[i] = 1; //Dark color
+    else if(hueAverage > 38 && hueAverage < 90){
+        border = 65;
+        for(int i = 0 ; i < 16 ; i++){
+            if(now.s[i] > border)sat[i] = 0;
+            else sat[i] = 1;
+        }
     }
 
 	CAN_MESSAGE msg;
@@ -235,10 +266,12 @@ void sendData(){
     
     CAN_MESSAGE msg2;
     msg2.id = 0x0C7;
-    msg2.length = 3;
+    msg2.length = 5;
     msg2.data[1] = hueAverage;
     msg2.data[2] = border;
-    if(hueAverage >= 210 && hueAverage <= 230)msg2.data[0] = 1;
+    msg2.data[3] = now.v[0];
+    msg2.data[4] = now.s[0];
+    if(hueAverage >= 220 && hueAverage <= 240)msg2.data[0] = 1;
     else msg2.data[0] = 0;
     can_tx_enqueue(msg2);
 }
@@ -250,7 +283,8 @@ void printInformation(){
         printf("N : %d \tR: %d\tG: %d\tB: %d\r\n",max_1.off_reading[0],max_1.red_reading[0], max_1.green_reading[0], max_1.blue_reading[0]);
         printf("N: %d\tR: %d\tG: %d\tB: %d\r\n",now.off_reading[0], now.red_reading[0], now.green_reading[0], now.blue_reading[0]);
         printf("[hsv] H(360): %d\tS(100): %d\tV(100): %d\r\n",now.h[0],now.s[0],now.v[0]);
-        printf("HueAvg: %d\n",hueAverage);
+        printf("HueAvg: %d avgS: %d\n",hueAverage,avgS);
+        printf("fullWhite: %d",fullWhite);
         printf("\n");
     }
 }

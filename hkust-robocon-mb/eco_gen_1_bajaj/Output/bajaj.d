@@ -64,3 +64,6 @@
 .\output\bajaj.o: .\inc\button.h
 .\output\bajaj.o: .\inc\ardu_imu.h
 .\output\bajaj.o: .\inc\imu_math.h
+.\output\bajaj.o: .\adc.h
+.\output\bajaj.o: .\linear_ccd.h
+.\output\bajaj.o: .\linear_ccd.h
