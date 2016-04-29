@@ -11,41 +11,44 @@ GAME_STAGE path_up_sb_update(){
 	}
 	
 	s16 correction = 0;
-	s16 get_corr_mono = sensor_bar_get_corr_nf(1, 100);
+	s16 get_corr_mono = sensor_bar_get_corr(1, 100, &flag);
 	switch(abs(get_corr_mono)){
 		case 0:
+			break;
 		case 1:
+			correction = 130;
 			break;
 		case 2:
-			correction = 230;
+			correction = 200;
 			break;
 		case 3:
-			correction = 320;
+			correction = 360;
 			break;
 		case 4:
-			correction = 470;
+			correction = 450;
 			break;
 		case 5:
-			correction = 620;
+			correction = 510;
 			break;
 		case 6:
-			correction = 740;
+			correction = 650;
 			break;
 		case 7:
-			correction = 800;
+			correction = 780;
 			break;
 		case 8:
-			correction = 900;
+			correction = 1100;
 			break;
 	}
 	correction = get_corr_mono<0?-correction:correction;
 	upslope_servo_pwm += correction;
+	upslope_servo_pwm = u16_cap(upslope_servo_pwm, SERVO_MAX_PWM, SERVO_MIN_PWM);
 	
 	si_clear();
 	si_set_pwm(upslope_servo_pwm);
 	si_execute();
 	
-	tft_println("SF: %d %d", flag, upslope_servo_pwm);
+	tft_println("SF: %d %d %d", flag, get_corr_mono, upslope_servo_pwm);
 	
 	return CLIMBING_SLOPE;
 }

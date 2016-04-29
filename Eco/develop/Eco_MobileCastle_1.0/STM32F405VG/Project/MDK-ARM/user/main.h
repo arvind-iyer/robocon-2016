@@ -92,7 +92,7 @@ extern u32 last_loop_ticks;
 
 //Larger loop
 #define LONG_LOOP_TICKS 20
-#define SHORT_LOOP_TICKS 5
+#define SHORT_LOOP_TICKS 3
 extern u32 last_long_loop_ticks;
 extern u32 last_short_loop_ticks;
 

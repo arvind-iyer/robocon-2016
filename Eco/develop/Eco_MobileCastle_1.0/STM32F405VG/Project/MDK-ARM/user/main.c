@@ -25,8 +25,7 @@ int main(void) {
 	
 	while (1) {
 		this_loop_ticks = get_full_ticks();
-		if(this_loop_ticks != last_loop_ticks){
-			
+						
 			//Long loop action
 			any_loop_diff = this_loop_ticks - last_long_loop_ticks;
 			if (any_loop_diff > LONG_LOOP_TICKS){
@@ -94,8 +93,42 @@ int main(void) {
 					tft_update();
 				}
 				last_long_loop_ticks = this_loop_ticks;
-			}
-			last_loop_ticks = this_loop_ticks;
+				last_short_loop_ticks = this_loop_ticks;
+			}else{
+				//Short loop action
+				any_loop_diff = this_loop_ticks - last_short_loop_ticks;
+				if (any_loop_diff > SHORT_LOOP_TICKS){
+					switch(game_stage){
+						case CLIMBING_SLOPE:
+							#ifdef IMU_UPSLOPE
+								game_stage = path_up_imu_update(); 
+							#else
+								game_stage = path_up_sb_update(); 
+							#endif
+							break;
+						
+						case CROSSING_RIVER:
+							game_stage = path_river_update();
+							break;
+						
+						case GOING_DOWN_HILL:
+							game_stage = path_down_update();
+							break;
+						
+						case WINNING_THE_GAME:
+							break;
+						
+						case PURE_SENSOR_BAR:
+							sensor_bar_track(PURE_SENSOR_BAR_POWER, PURE_SENSOR_BAR_Kp);
+							break;
+						
+						default:
+							break;
+					}
+					
+					last_short_loop_ticks = this_loop_ticks;
+				}
 		}
+		last_loop_ticks = this_loop_ticks;
 	}
 }

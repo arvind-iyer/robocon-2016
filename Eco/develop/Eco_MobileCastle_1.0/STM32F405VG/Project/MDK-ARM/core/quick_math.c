@@ -58,6 +58,14 @@ __inline int16_t s16_cap(int16_t in_num, int16_t upper_bound, int16_t lower_boun
 
 
 /**
+** This function tries to cap a u16 within a specific range.
+** The inline property tries to remove the function call and make it runs faster
+**/
+__inline uint16_t u16_cap(uint16_t in_num, uint16_t upper_bound, uint16_t lower_bound){
+	return in_num>upper_bound?upper_bound:in_num<lower_bound?lower_bound:in_num;
+}
+
+/**
 ** The followings are square root function for unsigned integer
 ** They uses Jack W. Crenshaw's integer square root algorithm. Let's thanks him.
 ** As sqrt(2^(2n)) = 2^n, so u16_sqrt returns u8, and u32_sqrt returns u16.

@@ -166,12 +166,12 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 		sensor_bar_mid = line_mid;
 		//Square the difference while maintaining sign
 		s8 sign_of_error = (line_mid-SENSOR_BAR_MID)>0?1:-1;
-		u16 abs_error = (line_mid-SENSOR_BAR_MID)*sign_of_error;
+		u16 abs_error = ((s16)line_mid-(s16)SENSOR_BAR_MID)*sign_of_error;
 		u16 powered_error = 1;
 		for (u8 i=0;i<power;i++){
 			powered_error *= abs_error;
 		}
-		corr_angle = sensor_bar_Kp*powered_error*sign_of_error / 10; //Unscale it
+		corr_angle = sensor_bar_Kp*powered_error*sign_of_error / 100; //Unscale it
 		corr_angle = (corr_angle>180)?180:(corr_angle<-180?-180:corr_angle);
 	}else{
 		sensor_bar_mid = SENSOR_BAR_MID;

@@ -12,6 +12,7 @@
 #include "sensor_bar.h"
 #include "servo_interface.h"
 #include "path.h"
+#include "quick_math.h"
 
 GAME_STAGE path_up_sb_update(void);
 
