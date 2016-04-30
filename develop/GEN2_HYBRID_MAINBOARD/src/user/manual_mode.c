@@ -131,7 +131,6 @@ void manual_fast_update(){
 //Interval update is called in a timed interval, reducing stress
 void manual_interval_update(){
 	tft_clear();
-	u16 ticks_different = (this_loop_ticks - last_long_loop_ticks);
 	
 	if (ground_wheels_lock == UNLOCKED){
 		if (climbing_induced_ground_lock == UNLOCKED){
@@ -228,6 +227,44 @@ void manual_interval_update(){
 	
 	tft_append_line("%d", this_loop_ticks);
 	tft_append_line("%d", this_loop_ticks-last_long_loop_ticks);
+
+	/*
+	** This part deals with locking the robot.
+	** When the lock button(X) is pressed, the ground wheels should be locked at least
+	** For further implementation, it should lock itself in place with PID
+	*/
+	//TODO: Add PID locking
+	if (button_pressed(BUTTON_XBC_X)){
+		if (press_button_X == UNLOCKED){
+			press_button_X = LOCKED;
+			buzzer_beep(75);
+			if (ground_wheels_lock == UNLOCKED){
+				curr_heading = get_angle();
+				ground_wheels_lock = LOCKED;
+				_setCurrentAsTarget();
+				manual_vel_set_zero();
+			}else {
+				buzzer_beep(225);
+				ground_wheels_lock = UNLOCKED;
+				manual_vel_set_zero();
+			}
+		}
+	}else{
+			press_button_X = UNLOCKED;
+	}
+	
+	//At last apply the motor velocity and display it
+	//Also happends in fast update
+	for (u8 i=0;i<3;i++){
+		motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
+	}
+	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
+	
+	tft_update();
+}
+
+void manual_controls_update(void) {
+	u16 ticks_different = (this_loop_ticks - last_long_loop_ticks);
 	
 	/* 
 	** This part provide the safety lock and control for the brushless motors
@@ -330,7 +367,6 @@ void manual_interval_update(){
 		brushless_pressed_time = 0;
 	}
 	
-	
 	// brushless arm
 	/*
 	if (button_pressed(BUTTON_XBC_N)){
@@ -404,31 +440,6 @@ void manual_interval_update(){
 		stop_climbing();
 		climbing_induced_ground_lock = UNLOCKED;
 	}
-
-	/*
-	** This part deals with locking the robot.
-	** When the lock button(X) is pressed, the ground wheels should be locked at least
-	** For further implementation, it should lock itself in place with PID
-	*/
-	//TODO: Add PID locking
-	if (button_pressed(BUTTON_XBC_X)){
-		if (press_button_X == UNLOCKED){
-			press_button_X = LOCKED;
-			buzzer_beep(75);
-			if (ground_wheels_lock == UNLOCKED){
-				curr_heading = get_angle();
-				ground_wheels_lock = LOCKED;
-				_setCurrentAsTarget();
-				manual_vel_set_zero();
-			}else {
-				buzzer_beep(225);
-				ground_wheels_lock = UNLOCKED;
-				manual_vel_set_zero();
-			}
-		}
-	}else{
-			press_button_X = UNLOCKED;
-	}
 	
 	/*
 	** This part deals with locking the robot onto the pole.
@@ -441,14 +452,4 @@ void manual_interval_update(){
 	}else{
 		press_button_B = UNLOCKED;
 	}
-	
-	//At last apply the motor velocity and display it
-	//Also happends in fast update
-	for (u8 i=0;i<3;i++){
-		motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
-	}
-	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
-	
-	tft_update();
 }
-

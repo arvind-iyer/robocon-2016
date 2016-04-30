@@ -23,7 +23,6 @@ int main(void) {
 	buzzer_init();
 	encoder_init();
 	gyro_init();
-	tft_append_line("Done");	
 	button_init();
 	can_xbc_mb_init();
 	can_xbc_mb_tx_enable(true);
@@ -75,10 +74,12 @@ int main(void) {
 				
 				if (control_state == MANUAL_MODE){
 					manual_interval_update();
+					manual_controls_update();
 				}else{
 					if (auto_get_state() == RUNNING_MODE) {
 						auto_var_update();			
 						auto_motor_update();
+						manual_controls_update();
 						//auto_calibrate();
 					} else if (auto_get_state() == MENU_MODE) {
 						auto_menu_update();
