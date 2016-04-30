@@ -47,6 +47,7 @@
 #include "auto_mode.h"
 #include "xbc_control.h"
 #include "robot_control.h"
+#include "pca9685.h"
 
 /**
 ** The following ticks is to avoid ticks passed in execution in order to give consistent result

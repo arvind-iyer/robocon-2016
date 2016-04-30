@@ -36,6 +36,13 @@ void brushless_control_all(u16 value, bool is_percentage_mode){
 }
 */
 
+void brushless_servo_control(s16 value){
+	if (get_emergency_lock() == LOCKED) return;
+	value = (value > 90) ? 90 : ((value < -90) ? -90 : value);
+	u16 pwm_val = (value*(BRUSHLESS_SERVO_RANGE)/90)+BRUSHLESS_SERVO_MED;
+	pca9685_set_pwm(BRUSHLESS_SERVO_PORT, pwm_val);
+}
+
 //Gripper control
 //state: 0 = down, 1 = upright
 void gripper_control(GRIPPER_ID gripper_id, u16 state) {

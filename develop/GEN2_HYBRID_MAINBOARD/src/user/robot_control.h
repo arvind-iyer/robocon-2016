@@ -17,7 +17,10 @@
 #define BRUSHLESS_MIN 450
 #define BRUSHLESS_MAX 1050
 #define BRUSHLESS_COUNT 1
-#define BRUSHLESS_SERVO SERVO3
+
+#define BRUSHLESS_SERVO_PORT 4
+#define BRUSHLESS_SERVO_MED 2048
+#define BRUSHLESS_SERVO_RANGE 1060
 
 #define GRIPPER_MIN 450
 #define GRIPPER_MED 750
@@ -46,7 +49,7 @@ typedef enum{
 void emergency_stop(void);
 
 void brushless_control(u16 value, bool is_percentage_mode);
-//void brushless_control_all(u16 value, bool is_percentage_mode);
+void brushless_servo_control(s16 value);
 
 void gripper_control(GRIPPER_ID gripper_id, u16 state);
 
