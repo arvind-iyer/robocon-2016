@@ -23,6 +23,7 @@ int main(void) {
 	buzzer_init();
 	encoder_init();
 	gyro_init();
+	tft_append_line("Done");	
 	button_init();
 	can_xbc_mb_init();
 	can_xbc_mb_tx_enable(true);

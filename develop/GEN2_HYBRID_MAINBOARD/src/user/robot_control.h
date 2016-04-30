@@ -29,6 +29,10 @@
 #define MOTOR6_FLIP -1
 #define MOTOR7_FLIP 1
 
+#define ARM_UP_LIMIT_PORT PE5
+#define ARM_DN_LIMIT_PORT PE4
+#define CLIMB_LIMIT_PORT PE3
+
 typedef enum{
 	BRUSHLESS_1 = 0,
 	BRUSHLESS_2 = 1

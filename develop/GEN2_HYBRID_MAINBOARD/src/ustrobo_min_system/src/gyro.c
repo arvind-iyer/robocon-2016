@@ -4,7 +4,7 @@
 s16 angle = 0, real_x = 0, real_y = 0;
 s16 angle_offset = 0, x_offset = 0, y_offset = 0;
 
-//GEN1 hybrid val
+//GEN2 hybrid val
 s32 SHIFT_X = -61;
 s32 SHIFT_Y = -50;
 
@@ -152,17 +152,17 @@ u8 gyro_pos_set(s16 x, s16 y, s16 a)
 }
 
 /**
-  * @brief  Interrupt for USART3
+  * @brief  Interrupt for UART4
   * @param  None
   * @retval None
   */
-void USART3_IRQHandler(void)
+void UART4_IRQHandler(void)
 {
 	u8 rx_data, i;
 	u16 x, y, a;
-	if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)
+	if (USART_GetITStatus(UART4, USART_IT_RXNE) != RESET)
 	{
-		rx_data = (u8)USART_ReceiveData(USART3);
+		rx_data = (u8)USART_ReceiveData(UART4);
 		
 		switch (rx_state) {
 			case 0:	// wakeup

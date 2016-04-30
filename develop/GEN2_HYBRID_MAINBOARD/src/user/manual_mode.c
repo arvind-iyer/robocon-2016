@@ -213,7 +213,6 @@ void manual_interval_update(){
 			tft_append_line("%d", curr_rotate);
 			tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_pos()->angle);
 			tft_append_line("GRIP %d %d", gripper_states[0], gripper_states[1]);
-			tft_append_line("%d %d %d", gpio_read_input(&PE5), gpio_read_input(&PE4), gpio_read_input(&PE3)); 
 			//tft_append_line("TEST %d", brushless_servo_val);
 			//tft_append_line("ENC %d", encoder_val);
 			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));

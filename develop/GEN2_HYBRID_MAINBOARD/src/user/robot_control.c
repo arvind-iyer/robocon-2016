@@ -53,7 +53,7 @@ void gripper_control(GRIPPER_ID gripper_id, u16 state) {
 //Brushless arm control
 void raise_arm() {
 	if (get_emergency_lock() == LOCKED) return;
-	if (gpio_read_input(&PE5)) {
+	if (gpio_read_input(&ARM_UP_LIMIT_PORT)) {
 		motor_set_vel(MOTOR7, 0, OPEN_LOOP);
 		return;
 	}
@@ -62,7 +62,7 @@ void raise_arm() {
 
 void lower_arm() {
 	if (get_emergency_lock() == LOCKED) return;
-	if (gpio_read_input(&PE4)) {
+	if (gpio_read_input(&ARM_DN_LIMIT_PORT)) {
 		motor_set_vel(MOTOR7, 0, OPEN_LOOP);
 		return;
 	}
