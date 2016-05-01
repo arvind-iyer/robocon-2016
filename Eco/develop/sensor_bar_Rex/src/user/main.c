@@ -138,12 +138,11 @@ void systemInit(){
 
 int main(void){
 	systemInit();
-	initToZero();
+	init_all_zero();
 	readFlash();
 	_delay_ms(200);
 	u8 cali_stage = 0;
 	while (1){
-    initToZero();
 		//callibrate white color if you press the button
 		if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13)){
 			while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13));

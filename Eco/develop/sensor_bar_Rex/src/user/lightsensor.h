@@ -15,6 +15,7 @@
 #define DELAY_US 1200 //800
 #define scalar 1000
 #define SAMPELS_TIMES 60
+#define REGIONS 5
 
 typedef enum{
 	RED = 0, GREEN = 1, BLUE = 2, OFF = 3
@@ -28,9 +29,11 @@ typedef struct
 	u16 off_reading[16];
 }Reading;
 
+extern u16 reading_in_area[5][2][3];
+
 void sensor_init(u8 cali_stage);
-void initToZero(void);
 void dataCollect(void);
+void init_all_zero(void);
 void printInformation(void);
 void sendData(void);
 void LED_Control(u8 R, u8 G, u8 B);

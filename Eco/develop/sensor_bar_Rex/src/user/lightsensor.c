@@ -7,14 +7,25 @@ u8 sat[16] = {0};
 //First index is areas
 //Second index is mid/background
 //Third index is rgb
-u16 reading_in_area[5][2][3];
+u16 reading_in_area[REGIONS][2][3];
 
-void initToZero(){
-	for(int i = 0 ; i < 16 ; i++){
+u16 compensated_region_color[REGIONS][3];
+
+void init_all_zero(){
+	for(u8 i = 0 ; i < 16 ; i++){
 		now.off_reading[i] = 0;
 		now.red_reading[i] = 0;
 		now.green_reading[i] = 0;
 		now.blue_reading[i] = 0;
+	}
+	
+	for (u8 i=0;i<REGIONS;i++){
+		for (u8 k=0;k<3;k++){
+			compensated_region_color[i][k] = 0;
+			for (u8 j=0;j<2;j++){
+				reading_in_area[i][j][k] = 0;
+			}
+		}
 	}
 }
 
@@ -110,18 +121,21 @@ void sensor_init(u8 cali_stage){
 	reading_in_area[cali_stage][1][1] = sum_of_blue_bg / SAMPELS_TIMES / 15;
 	reading_in_area[cali_stage][1][2] = sum_of_green_bg / SAMPELS_TIMES / 15;
 	
+	for (u8 i=0;i<3;i++){
+		compensated_region_color[cali_stage][i] = (reading_in_area[cali_stage][0][i] + reading_in_area[cali_stage][1][i])/2;
+	}
+	
 	_delay_ms(300);
 }
 
 void dataCollect(){
-	//discrete data collect
+	//Collect off reading
 	_delay_us(DELAY_US);
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-
-	//Collect off reading
 	while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-
-	for(u8 i=0;i<16;i++) now.off_reading[i] = ADC_val[i];
+	for(u8 i=0;i<16;i++){
+		now.off_reading[i] = ADC_val[i];
+	}
 	DMA_ClearFlag(DMA1_FLAG_TC1);
 
 	//Collect Red
@@ -129,7 +143,9 @@ void dataCollect(){
 	_delay_us(DELAY_US);
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 	while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-	for(u8 i=0;i<16;i++)now.red_reading[i] = ADC_val[i];
+	for(u8 i=0;i<16;i++){
+		now.red_reading[i] = ADC_val[i] - now.off_reading[i];
+	}
 	GPIO_ResetBits(GPIOB,GPIO_Pin_11);
 	DMA_ClearFlag(DMA1_FLAG_TC1);
 
@@ -138,7 +154,9 @@ void dataCollect(){
 	_delay_us(DELAY_US);
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 	while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-	for(u8 i=0;i<16;i++)now.green_reading[i] = ADC_val[i];
+	for(u8 i=0;i<16;i++){
+		now.green_reading[i] = ADC_val[i] - now.off_reading[i];
+	}
 	GPIO_ResetBits(GPIOB,GPIO_Pin_12);
 	DMA_ClearFlag(DMA1_FLAG_TC1);
 
@@ -147,31 +165,48 @@ void dataCollect(){
 	_delay_us(DELAY_US);
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 	while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-	for(u8 i=0;i<16;i++)now.blue_reading[i] = ADC_val[i];
+	for(u8 i=0;i<16;i++){
+		now.blue_reading[i] = ADC_val[i] - now.off_reading[i];
+	}
 	GPIO_ResetBits(GPIOB,GPIO_Pin_10);
 	DMA_ClearFlag(DMA1_FLAG_TC1);
-
-	for(u8 i=0;i < 16;i++){
-		if(now.red_reading[i] < now.off_reading[i]) now.red_reading[i] = now.off_reading[i];
-		if(now.green_reading[i] < now.off_reading[i]) now.green_reading[i] = now.off_reading[i];
-		if(now.blue_reading[i] < now.off_reading[i]) now.blue_reading[i] = now.off_reading[i];
-		if(now.red_reading[i] > max_1.red_reading[i]) now.red_reading[i] = max_1.red_reading[i];
-		if(now.green_reading[i] > max_1.green_reading[i]) now.green_reading[i] = max_1.green_reading[i];
-		if(now.blue_reading[i] > max_1.blue_reading[i]) now.blue_reading[i] = max_1.blue_reading[i];
-		
-		//normalizing RGB
-		now.red_reading[i] = (now.red_reading[i] - now.off_reading[i])*255 / (max_1.red_reading[i] - now.off_reading[i]);
-		now.green_reading[i] = (now.green_reading[i] - now.off_reading[i])*255 / (max_1.green_reading[i] - now.off_reading[i]);
-		now.blue_reading[i] = (now.blue_reading[i] - now.off_reading[i])*255 / (max_1.blue_reading[i] - now.off_reading[i]);
-	}
 }
 
 void sendData(){
-	for(int i = 0 ; i < 16; i++){
-		if(now.s[i] > border && now.v[i] > 40){
-			sat[i] = 0; //White color
+	
+	s32 average[3] = {0}; //rgb
+	
+	for (u8 i=0;i<16;i++){
+		average[0] += now.red_reading[i];
+		average[1] += now.green_reading[i];
+		average[2] += now.red_reading[i];
+	}
+	
+	for (u8 i=0;i<3;i++){
+		average[i] /= 16;
+	}
+	
+	s32 max_diff = 0;
+	u8 current_region = 0;
+	for (u8 i=0;i<REGIONS;i++){
+		s32 curr_diff = 0;
+		for (u8 k=0;k<3;k++){
+			curr_diff += abs(compensated_region_color[i][k] - average[k]);
+		}
+		if (curr_diff > max_diff){
+			max_diff = curr_diff;
+			current_region = i;
+		}
+	}
+	
+	for(u8 i = 0; i < 16; i++){
+		if((now.red_reading[i] + now.blue_reading[i] + now.green_reading[i]) >
+				(compensated_region_color[current_region][0]
+					+ compensated_region_color[current_region][1]
+					+ compensated_region_color[current_region][2])){
+			sat[i] = 1;
 		}else{
-			sat[i] = 1; //Dark color
+			sat[i] = 0;
 		}
 	}
 
@@ -187,28 +222,29 @@ void sendData(){
 	for(int i=0;i<8;i++)msg1.data[i] = sat[i+8];
 	can_tx_enqueue(msg1);
     
-	CAN_MESSAGE msg2;
-	msg2.id = 0x0C7;
-	msg2.length = 3;
-	msg2.data[1] = hueAverage;
-	msg2.data[2] = border;
-	if(hueAverage >= 210 && hueAverage <= 230){
-		msg2.data[0] = 1;
-	}else{
-		msg2.data[0] = 0;
-	}
-	can_tx_enqueue(msg2);
+//	CAN_MESSAGE msg2;
+//	msg2.id = 0x0C7;
+//	msg2.length = 3;
+//	msg2.data[1] = hueAverage;
+//	msg2.data[2] = border;
+//	if(hueAverage >= 210 && hueAverage <= 230){
+//		msg2.data[0] = 1;
+//	}else{
+//		msg2.data[0] = 0;
+//	}
+//	can_tx_enqueue(msg2);
 }
 
 s32 last_ticks = 0;
+
 void printInformation(){
 	u8 index = 8;
 	if (get_full_ticks() - last_ticks > 200){
 		last_ticks = get_full_ticks();
-		printf("%d\n", index);
+		printf("RGM :%d %d %d", reading_in_area[0][0][0], reading_in_area[0][0][1], reading_in_area[0][0][2]);
+		printf("RGB :%d %d %d", reading_in_area[0][1][0], reading_in_area[0][1][1], reading_in_area[0][1][2]);
+		printf("CRG: %d %d %d", compensated_region_color[0][0], compensated_region_color[0][1], compensated_region_color[0][2]);
 		printf("N: %d\tR: %d\tG: %d\tB: %d\r\n",now.off_reading[index], now.red_reading[index], now.green_reading[index], now.blue_reading[index]);
-		printf("H(360): %d\tS(100): %d\tV(100): %d\r\n",now.h[index],now.s[index],now.v[index]);
-		printf("HA: %d\n",hueAverage);
 		printf("\n");
 	}
 }
