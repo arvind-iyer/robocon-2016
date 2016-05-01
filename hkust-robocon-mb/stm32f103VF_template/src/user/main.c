@@ -12,6 +12,7 @@ int buffPos = 0;
 int queuePos = 0;
 
 uint8_t piReady = false;
+int fanInit = 0;
 
 uint8_t counterState = false;
 uint8_t elevationCorrected = false;
@@ -166,8 +167,11 @@ void handleCommand() {
 						pneumatic_control(GPIOE, GPIO_Pin_14, pneumaticState);
 					break;
 				}
+		} else if(strcmp(header, "GYRO_RESET") == 0) {
+			gyro_pos_set(0,0,0);
 		} else if (strcmp(header, "PING") == 0 && contentIndex == 2) {
 			piReady = true;
+			if(fanInit == 0)fanInit = 1;
 			gyro_set_shift_x(contents[0]);
 			gyro_set_shift_y(contents[1]);
 			allowUpdate = true;
@@ -210,7 +214,7 @@ void limitSwitchCheck() {
 	b2 = gpio_read_input(&PE7);
 	b3 = gpio_read_input(&PE9);
 	b4 = gpio_read_input(&PE11);
-	if (get_full_ticks() - lastLimitCheck >= 20 && (fixingArm)) {
+	if (get_full_ticks() - lastLimitCheck >= 100 && (fixingArm)) {
 		fixingArm = false;
 		climbLimit  = false;
 		tft_prints(5,5, "STOP");
@@ -230,6 +234,7 @@ void limitSwitchCheck() {
 		motor_set_vel(MOTOR5, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR6, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR7, 0, OPEN_LOOP);
+		uart_tx(BLUETOOTH_MODE ? COM2: COM1, "SWITCH|3|%d\n", b3);
 		//climbLimit = true;	
 		//lastLimitCheck = get_full_ticks();
 	}
@@ -262,7 +267,7 @@ int main(void) {
 	buzzer_init();
 	gyro_init();
 	servo_init();
-	//servo_adc_init();
+	servo_adc_init();
 	pneumatic_init();
 	ls_init();
 	
@@ -279,6 +284,12 @@ int main(void) {
 	while (1) {
 		// Send robot state to Raspberry Pi/Bluetooth.
 		uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "STATE|%d|%d|%d|%d|%d\n", get_pos()->x, get_pos()->y, get_pos()->angle, elevationCorrected, ls_value);
+		if(fanInit == 1){
+			fanInit = 2;
+			for(int i=0; i<5; i++){
+				adc_servo_control(0, 450);
+			}
+		}
 		
 		if (queuePos > 0) {
 			handleCommand();
