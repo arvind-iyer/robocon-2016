@@ -80,7 +80,6 @@ void stop_arm() {
 	motor_set_vel(MOTOR7, 0, OPEN_LOOP);
 }
 
-
 /**
 ** This part is for climbing/descending
 **/

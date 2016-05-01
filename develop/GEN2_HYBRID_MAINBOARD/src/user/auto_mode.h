@@ -6,6 +6,7 @@
 #include "system.h"
 #include "stm32f10x.h"
 #include "approx_math.h"
+#include "robot_control.h"
 #include <math.h>
 #include <stdbool.h>
 #include <string.h>
