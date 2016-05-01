@@ -18,8 +18,7 @@ typedef enum {
 
 typedef enum {
 	MENU_MODE,
-	RUNNING_MODE,
-	DATA_MODE
+	RUNNING_MODE
 } PID_MODE;
 
 typedef struct {
@@ -53,6 +52,5 @@ void auto_calibrate(void);
 void auto_menu_update(void);
 void auto_var_update(void);
 void auto_motor_update(void);
-void auto_data_update(void);
 
 #endif

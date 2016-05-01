@@ -27,13 +27,8 @@ float transform[2][2] = {{0.964731, -0.054065}, {0.062220, 1.004667}};
 //mode variables
 PID_MODE pid_state;
 bool pid_stopped;
-bool up_pressed, dn_pressed, right_pressed, left_pressed, start_pressed, back_pressed;
+bool start_pressed, back_pressed;
 int path_id;
-
-//debug list
-s16 error_list[500];
-u16 error_list_len;
-u16 error_list_pos;
 
 //path target queue
 TARGET tar_queue[50];
@@ -161,11 +156,7 @@ int auto_get_ticks(){
 void auto_init() {
 	pid_state = MENU_MODE;
 	path_id = 0;
-	
-	up_pressed = false;
-	dn_pressed = false;
-	left_pressed = false;
-	right_pressed = false;
+
 	start_pressed = false;
 	back_pressed = false;
 	
@@ -190,7 +181,6 @@ void auto_reset() {
 	deg_ratio = 0;
 	start = 0;
 	pid_stopped = false;
-	error_list_len = 0;
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -439,71 +429,6 @@ void auto_motor_update(){
 		}
 	} else {
 		back_pressed = false;
-	}
-	
-	/*
-	if (button_pressed(BUTTON_XBC_START) && !auto_tar_queue_len()) {
-		if (!start_pressed) {
-			start_pressed = true;
-			//replay
-		}
-	} else {
-		start_pressed = false;
-	}
-	*/
-	
-	if (button_pressed(BUTTON_XBC_E) && pid_stopped) {
-		if (!right_pressed) {
-			right_pressed = true;
-			error_list_pos = 0;
-			pid_state = DATA_MODE;
-		}
-	} else {
-		right_pressed = false;
-	}
-}
-
-/**
-  * @brief  Update following actions for displaying coordinates for debugging
-  * @param  None
-  * @retval None
-  */
-void auto_data_update(){
-	u16 pos;
-	tft_clear();
-	tft_prints(0,0,"[AUTO MODE]");
-	for (u8 i = 0; i < 8; i++) {
-		u16 pos = error_list_pos + i;
-		tft_prints(0, i+1, "%3d: %3d", pos, error_list[pos]);
-	}
-	tft_prints(0, 9, "%3d / %3d", error_list_pos, error_list_len);
-	tft_update();
-	
-	if (button_pressed(BUTTON_XBC_W)) {
-		if (!left_pressed) {
-			left_pressed = true;
-			pid_state = RUNNING_MODE;
-		}
-	} else {
-		left_pressed = false;
-	}
-	
-	if (button_pressed(BUTTON_XBC_N) && (error_list_pos > 0)) {
-		if (!up_pressed) {
-			up_pressed = true;
-			error_list_pos--;
-		}
-	} else {
-		up_pressed = false;
-	}
-	
-	if (button_pressed(BUTTON_XBC_S) && (error_list_pos+8 < error_list_len)) {
-		if (!dn_pressed) {
-			dn_pressed = true;
-			error_list_pos++;
-		}
-	} else {
-		dn_pressed = false;
 	}
 }
 

@@ -85,8 +85,6 @@ int main(void) {
 						//auto_calibrate();
 					} else if (auto_get_state() == MENU_MODE) {
 						auto_menu_update();
-					} else if (auto_get_state() == DATA_MODE) {
-						auto_data_update();
 					}
 				}
 				can_xbc_mb_lcd_tx();
