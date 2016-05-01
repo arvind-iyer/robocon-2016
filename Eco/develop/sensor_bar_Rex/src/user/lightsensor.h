@@ -12,9 +12,9 @@
 #include "stm32f10x_dma.h"
 #include <stdlib.h>
 
-#define DELAY_US 1200 //800
+#define DELAY_US 700 //800
 #define scalar 1000
-#define SAMPELS_TIMES 60
+#define SAMPELS_TIMES 40
 #define REGIONS 5
 
 typedef enum{

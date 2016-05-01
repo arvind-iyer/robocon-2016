@@ -144,13 +144,15 @@ int main(void){
 	u8 cali_stage = 0;
 	while (1){
 		//callibrate white color if you press the button
-		if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13)){
-			while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13));
-			sensor_init(cali_stage);
-			cali_stage++;
+		if (cali_stage>=REGIONS){
+			if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13)){
+				while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13));
+				sensor_init(cali_stage);
+				cali_stage++;
+			}
 		}
 		dataCollect();
 		sendData();
-		printInformation();
+		//printInformation();
   }
 }

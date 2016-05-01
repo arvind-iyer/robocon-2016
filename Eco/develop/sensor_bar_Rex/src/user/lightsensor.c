@@ -29,11 +29,10 @@ void init_all_zero(){
 	}
 }
 
+Reading this_readings[SAMPELS_TIMES];
 void sensor_init(u8 cali_stage){
 	
-	Reading this_readings[SAMPELS_TIMES];
-
-	for (u8 i=0;i<SAMPELS_TIMES;i++){
+	for (u8 i=0;i<40;i++){
 		
 		//Collect off reading
 		_delay_us(DELAY_US);
