@@ -15,10 +15,10 @@ void brushless_control(u16 value, bool is_percentage_mode){
 	if (get_emergency_lock() == LOCKED) return;
 	if (is_percentage_mode){
 		value = value>100?100:value;
-		servo_control(BRUSHLESS_SERVO, (BRUSHLESS_MAX-BRUSHLESS_MIN)*value/100 + BRUSHLESS_MIN);
+		servo_control(BRUSHLESS_PORT, (BRUSHLESS_MAX-BRUSHLESS_MIN)*value/100 + BRUSHLESS_MIN);
 	}else{
 		value = value>BRUSHLESS_MAX?BRUSHLESS_MAX:(value<BRUSHLESS_MIN?BRUSHLESS_MIN:value);
-		servo_control(BRUSHLESS_SERVO, value);
+		servo_control(BRUSHLESS_PORT, value);
 	}
 }
 

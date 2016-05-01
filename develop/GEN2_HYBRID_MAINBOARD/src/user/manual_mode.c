@@ -354,7 +354,7 @@ void manual_controls_update(void) {
 			brushless_lock_timeout = 0;
 		}
 		
-		s16 brushless_pwm = xbc_get_joy(brushless_joy_sticks)/10;
+		s16 brushless_pwm = xbc_get_joy(brushless_joy_sticks)/50+20;
 		if (brushless_pwm < 0)
 			brushless_pwm = 0;
 		brushless_control(brushless_pwm, true);
