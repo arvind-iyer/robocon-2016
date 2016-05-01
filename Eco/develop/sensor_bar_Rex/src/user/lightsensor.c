@@ -39,7 +39,7 @@ void sensor_init(u8 cali_stage){
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
 		for(u8 k=0;k<16;k++){
-			this_readings[i].red_reading[k] = ADC_val[k];
+			this_readings[i].red_reading[k] = ADC_val[k] - this_readings[i].off_reading[k];
 		}
 		GPIO_ResetBits(GPIOB,GPIO_Pin_11);
 		DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -50,7 +50,7 @@ void sensor_init(u8 cali_stage){
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
 		for(u8 k=0;k<16;k++){
-			this_readings[i].green_reading[k] = ADC_val[k];
+			this_readings[i].green_reading[k] = ADC_val[k] - this_readings[i].off_reading[k];
 		}
 		GPIO_ResetBits(GPIOB,GPIO_Pin_12);
 		DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -61,7 +61,7 @@ void sensor_init(u8 cali_stage){
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
 		for(u8 k=0;k<16;k++){
-			this_readings[i].blue_reading[k] = ADC_val[k];
+			this_readings[i].blue_reading[k] = ADC_val[k] - this_readings[i].off_reading[k];
 		}
 		GPIO_ResetBits(GPIOB,GPIO_Pin_10);
 		DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -75,7 +75,7 @@ void sensor_init(u8 cali_stage){
 	for (u8 i=0;i<SAMPELS_TIMES;i++){
 		for (u8 k=0;k<16;k++){
 			if (k==8) continue;
-			sum_of_red_bg += this_readings[i].red_reading[k] - this_readings[i].off_reading[k];
+			sum_of_red_bg += this_readings[i].red_reading[k];
 		}
 		sum_of_red_mid += (this_readings[i].red_reading[7] + this_readings[i].red_reading[8]*3 + this_readings[i].red_reading[9]);
 	}
@@ -86,7 +86,7 @@ void sensor_init(u8 cali_stage){
 	for (u8 i=0;i<SAMPELS_TIMES;i++){
 		for (u8 k=0;k<16;k++){
 			if (k==8) continue;
-			sum_of_blue_bg += this_readings[i].blue_reading[k] - this_readings[i].off_reading[k];
+			sum_of_blue_bg += this_readings[i].blue_reading[k];
 		}
 		sum_of_blue_mid += (this_readings[i].blue_reading[7] + this_readings[i].blue_reading[8]*3 + this_readings[i].blue_reading[9]);
 	}
@@ -97,7 +97,7 @@ void sensor_init(u8 cali_stage){
 	for (u8 i=0;i<SAMPELS_TIMES;i++){
 		for (u8 k=0;k<16;k++){
 			if (k==8) continue;
-			sum_of_green_bg += this_readings[i].green_reading[k] - this_readings[i].off_reading[k];
+			sum_of_green_bg += this_readings[i].green_reading[k];
 		}
 		sum_of_green_mid += (this_readings[i].green_reading[7] + this_readings[i].green_reading[8]*3 + this_readings[i].green_reading[9]);
 	}
