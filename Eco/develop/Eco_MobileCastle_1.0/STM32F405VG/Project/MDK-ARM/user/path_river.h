@@ -21,7 +21,9 @@
 
 #define IR_BUFFER_LENGTH 5
 
-void path_river_init(void);
+extern s16 river_straight_yaw;
+
+void path_river_init(s16 straight_yaw);
 GAME_STAGE path_river_update(void);
 
 #endif

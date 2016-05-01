@@ -68,7 +68,8 @@ int main(void) {
 					
 					case GOING_DOWN_HILL:
 						tft_println("[GOING DOWN]");
-						game_stage = path_down_update();
+						//game_stage = path_down_update();
+						//Update slower for down slope
 						break;
 					
 					case WINNING_THE_GAME:

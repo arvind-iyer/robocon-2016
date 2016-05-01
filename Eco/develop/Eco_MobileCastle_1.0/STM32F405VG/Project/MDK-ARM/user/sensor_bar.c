@@ -10,6 +10,7 @@ u8 avg_hue = 0;
 static void sensor_bar_receiver_a(CanRxMsg msg){
 	for(int i = 0; i < 8 ;i++){
 		sensor_bar_filtered[i] = sensor_bar_raw[i] & msg.Data[i];
+		//sensor_bar_filtered[i] = msg.Data[i];
 		sensor_bar_raw[i] = msg.Data[i];
 	}
 }
@@ -18,6 +19,7 @@ static void sensor_bar_receiver_a(CanRxMsg msg){
 static void sensor_bar_receiver_b(CanRxMsg msg){
 	for(int i = 0; i < 8 ; i++){
 		sensor_bar_filtered[8+i] = sensor_bar_raw[8+i] & msg.Data[i];
+		//sensor_bar_filtered[8+i] = msg.Data[i];
 		sensor_bar_raw[8+i] = msg.Data[i];
 	}
 }

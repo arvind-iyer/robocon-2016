@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri Apr 29 17:37:57 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Sun May 01 17:25:18 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -859,7 +859,7 @@ Global Symbols
 <P><STRONG><a name="[e4]"></a>vsprintf</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printfa.o(i.__0vsprintf))
 <BR><BR>[Called By]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx
-<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
+<LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
 </UL>
 
 <P><STRONG><a name="[8c]"></a>__hardfp_roundf</STRONG> (Thumb, 154 bytes, Stack size 0 bytes, roundf.o(i.__hardfp_roundf))
@@ -897,7 +897,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> ardu_imu.o(i.ardu_imu_init)
 </UL>
-<P><STRONG><a name="[99]"></a>ardu_imu_update</STRONG> (Thumb, 178 bytes, Stack size 0 bytes, ardu_imu_adp.o(i.ardu_imu_update))
+<P><STRONG><a name="[99]"></a>ardu_imu_update</STRONG> (Thumb, 192 bytes, Stack size 0 bytes, ardu_imu_adp.o(i.ardu_imu_update))
 <BR><BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_roundf
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_value_update
@@ -1009,7 +1009,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[c4]"></a>get_full_ticks</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, ticks.o(i.get_full_ticks))
-<BR><BR>[Called By]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
+<BR><BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
+<LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -1026,17 +1027,17 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 362 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 360 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 <LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_easy_init
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_init
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorbar_init
-<LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
+<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_init
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
@@ -1052,9 +1053,9 @@ Global Symbols
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ticks_init
-<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
+<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 <LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_logo
-<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
+<LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
@@ -1062,7 +1063,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[c9]"></a>menu_update</STRONG> (Thumb, 230 bytes, Stack size 0 bytes, menu.o(i.menu_update))
+<P><STRONG><a name="[c9]"></a>menu_update</STRONG> (Thumb, 246 bytes, Stack size 0 bytes, menu.o(i.menu_update))
 <BR><BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_ticks
@@ -1073,7 +1074,7 @@ Global Symbols
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_init
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_init
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_init
-<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
+<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1083,7 +1084,7 @@ Global Symbols
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_update
 </UL>
 
-<P><STRONG><a name="[cd]"></a>path_down_update</STRONG> (Thumb, 58 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_update))
+<P><STRONG><a name="[d0]"></a>path_down_update</STRONG> (Thumb, 66 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_update))
 <BR><BR>[Calls]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
@@ -1092,34 +1093,34 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9d]"></a>path_river_init</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, path_river.o(i.path_river_init))
+<P><STRONG><a name="[9d]"></a>path_river_init</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, path_river.o(i.path_river_init))
 <BR><BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_update
 </UL>
 
-<P><STRONG><a name="[cc]"></a>path_river_update</STRONG> (Thumb, 268 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
+<P><STRONG><a name="[cc]"></a>path_river_update</STRONG> (Thumb, 220 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
 <BR><BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IR_update
-<LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[9c]"></a>path_up_sb_init</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, path_upslope_sb.o(i.path_up_sb_init))
+<P><STRONG><a name="[9c]"></a>path_up_sb_init</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, path_upslope_sb.o(i.path_up_sb_init))
 <BR><BR>[Called By]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_update
 </UL>
 
-<P><STRONG><a name="[cb]"></a>path_up_sb_update</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, path_upslope_sb.o(i.path_up_sb_update))
+<P><STRONG><a name="[cb]"></a>path_up_sb_update</STRONG> (Thumb, 160 bytes, Stack size 0 bytes, path_upslope_sb.o(i.path_up_sb_update))
 <BR><BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
+<LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_ticks
 <LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
@@ -1136,12 +1137,12 @@ Global Symbols
 <P><STRONG><a name="[d3]"></a>sensor_bar_get_corr</STRONG> (Thumb, 290 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr))
 <BR><BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
+<BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
+<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 </UL>
 
-<P><STRONG><a name="[ce]"></a>sensor_bar_track</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_track))
+<P><STRONG><a name="[cd]"></a>sensor_bar_track</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_track))
 <BR><BR>[Calls]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_add_pwm_bias
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
 </UL>
@@ -1182,14 +1183,14 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[d8]"></a>si_add_pwm_bias</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, servo_interface.o(i.si_add_pwm_bias))
-<BR><BR>[Called By]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
+<BR><BR>[Called By]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
 </UL>
 
 <P><STRONG><a name="[d4]"></a>si_clear</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, servo_interface.o(i.si_clear))
 <BR><BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
+<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 </UL>
 
 <P><STRONG><a name="[d6]"></a>si_execute</STRONG> (Thumb, 66 bytes, Stack size 0 bytes, servo_interface.o(i.si_execute))
@@ -1199,7 +1200,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
+<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 </UL>
 
 <P><STRONG><a name="[c1]"></a>si_init</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, servo_interface.o(i.si_init))
@@ -1212,8 +1213,7 @@ Global Symbols
 
 <P><STRONG><a name="[d5]"></a>si_set_pwm</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, servo_interface.o(i.si_set_pwm))
 <BR><BR>[Called By]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
-<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
+<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 </UL>
 
 <P><STRONG><a name="[d7]"></a>targeting_update</STRONG> (Thumb, 90 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_update))
@@ -1224,7 +1224,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[ec]"></a>tft_char_is_changed</STRONG> (Thumb, 138 bytes, Stack size 0 bytes, lcd_main.o(i.tft_char_is_changed))
-<BR><BR>[Called By]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
+<BR><BR>[Called By]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 </UL>
 
 <P><STRONG><a name="[c5]"></a>tft_clear</STRONG> (Thumb, 106 bytes, Stack size 0 bytes, lcd_main.o(i.tft_clear))
@@ -1278,7 +1278,7 @@ Global Symbols
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
 </UL>
 
-<P><STRONG><a name="[cf]"></a>tft_prints</STRONG> (Thumb, 194 bytes, Stack size 0 bytes, lcd_main.o(i.tft_prints))
+<P><STRONG><a name="[ce]"></a>tft_prints</STRONG> (Thumb, 194 bytes, Stack size 0 bytes, lcd_main.o(i.tft_prints))
 <BR><BR>[Calls]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1333,7 +1333,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
-<P><STRONG><a name="[d0]"></a>tft_update</STRONG> (Thumb, 1502 bytes, Stack size 0 bytes, lcd_main.o(i.tft_update))
+<P><STRONG><a name="[cf]"></a>tft_update</STRONG> (Thumb, 1502 bytes, Stack size 0 bytes, lcd_main.o(i.tft_update))
 <BR><BR>[Calls]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_char_is_changed
@@ -1354,7 +1354,7 @@ Global Symbols
 <LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_fill_color
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
-<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
+<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 </UL>
 
 <P><STRONG><a name="[de]"></a>tft_write_data</STRONG> (Thumb, 80 bytes, Stack size 0 bytes, lcd_main.o(i.tft_write_data))
@@ -1369,7 +1369,7 @@ Global Symbols
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_pixel
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_fill_color
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
-<LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
+<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 </UL>
 
 <P><STRONG><a name="[be]"></a>ticks_init</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, ticks.o(i.ticks_init))

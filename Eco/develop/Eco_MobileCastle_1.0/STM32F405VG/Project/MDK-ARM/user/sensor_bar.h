@@ -12,7 +12,7 @@
 
 #define WHITE_LINE_WIDTH 3
 #define SENSOR_BAR_MID 8
-#define ALL_WHITE_LENGTH 8
+#define ALL_WHITE_LENGTH 10
 
 typedef enum{
 	SENSOR_BAR_NORM = 0, //Normal

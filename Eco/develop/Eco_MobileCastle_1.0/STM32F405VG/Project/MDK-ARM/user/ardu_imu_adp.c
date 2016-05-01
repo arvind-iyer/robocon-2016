@@ -35,7 +35,11 @@ void ardu_imu_update(){
 			path_up_sb_init(0);
 		#endif
 		
-		path_river_init();
+		#ifdef BLUE_FIELD
+			path_river_init(ardu_int_ypr[0] - 825);
+		#else
+			path_river_init(ardu_int_ypr[0] + 825);
+		#endif
 		path_down_init();
 		ardu_imu_staged = true;
 		//led_control(LED_D2, LED_ON);
