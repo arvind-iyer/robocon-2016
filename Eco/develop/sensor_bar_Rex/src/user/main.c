@@ -7,9 +7,6 @@
 volatile u16 ADC_val[16] = {0};
 volatile u16 Avg_ADC_val[3][16] = {0};
 extern u8 sampleTime;
-extern Reading max_1;
-extern Reading now;
-extern Reading avg;
 
 void GPIO_init(void){
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC, ENABLE);
@@ -144,17 +141,17 @@ int main(void){
 	initToZero();
 	readFlash();
 	_delay_ms(200);
+	u8 cali_stage = 0;
 	while (1){
     initToZero();
 		//callibrate white color if you press the button
 		if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13)){
-			sensor_init(&max_1);
+			while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13));
+			sensor_init(cali_stage);
+			cali_stage++;
 		}
-		//Collect each value for Red,green,blue and normalize to RGB values
 		dataCollect();
-		rgb_hsv_converter(&now);
 		sendData();
 		printInformation();
   }
 }
-

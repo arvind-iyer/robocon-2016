@@ -14,17 +14,17 @@ void writeFlash(void){
 		FLASH_ProgramHalfWord((startAddress + (4*i)),max_1.off_reading[i]);
 	}
     
-    for(i = 0 ; i < 16; i++){
-        FLASH_ProgramHalfWord((startAddress + 64 + (4 * i)),max_1.red_reading[i]);
-    }
-    
-    for(i = 0 ; i < 16; i++){
-        FLASH_ProgramHalfWord((startAddress + 128 + (4 * i)),max_1.green_reading[i]);
-    }
-    
-    for(i = 0 ; i < 16; i++){
-        FLASH_ProgramHalfWord((startAddress + 192 + (4 * i)),max_1.blue_reading[i]);
-    }
+	for(i = 0 ; i < 16; i++){
+			FLASH_ProgramHalfWord((startAddress + 64 + (4 * i)),max_1.red_reading[i]);
+	}
+	
+	for(i = 0 ; i < 16; i++){
+			FLASH_ProgramHalfWord((startAddress + 128 + (4 * i)),max_1.green_reading[i]);
+	}
+	
+	for(i = 0 ; i < 16; i++){
+			FLASH_ProgramHalfWord((startAddress + 192 + (4 * i)),max_1.blue_reading[i]);
+	}
 	FLASH_Lock();
 }
 

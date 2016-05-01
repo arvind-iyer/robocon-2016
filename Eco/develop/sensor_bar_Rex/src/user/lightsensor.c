@@ -1,14 +1,13 @@
 #include "lightSensor.h"
 
 volatile extern u16 ADC_val[16];
-Reading max_1;
 Reading now;
 u8 sat[16] = {0};
 
-//Threshold
-int border;
-//Hue average
-int hueAverage = 0; 
+//First index is areas
+//Second index is mid/background
+//Third index is rgb
+u16 reading_in_area[5][2][3];
 
 void initToZero(){
 	for(int i = 0 ; i < 16 ; i++){
@@ -19,65 +18,99 @@ void initToZero(){
 	}
 }
 
-void sensor_init(Reading*  max){
-	for(u8 i=0;i<16;i++){
-		max->off_reading[i] = 0;
-		max->red_reading[i] = 0;
-		max->green_reading[i] = 0;
-		max->blue_reading[i] = 0;
-	}
+void sensor_init(u8 cali_stage){
+	
+	Reading this_readings[SAMPELS_TIMES];
 
-
-	while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14));
-	for (u8 i=0;i<40;i++){
+	for (u8 i=0;i<SAMPELS_TIMES;i++){
+		
+		//Collect off reading
 		_delay_us(DELAY_US);
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-		for(u8 i=0;i<16;i++)max->off_reading[i] = ADC_val[i];
+		for(u8 k=0;k<16;k++){
+			this_readings[i].off_reading[k] = ADC_val[k];
+		}
 		DMA_ClearFlag(DMA1_FLAG_TC1);
 		
-		//Collect red
+		//Collect red reading
 		GPIO_SetBits(GPIOB,GPIO_Pin_11);
 		_delay_us(DELAY_US);
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-		
-		for(u8 i=0;i<16;i++){
-			if(max->red_reading[i] < (ADC_val[i] - max->off_reading[i]))
-				max->red_reading[i] = ADC_val[i];
+		for(u8 k=0;k<16;k++){
+			this_readings[i].red_reading[k] = ADC_val[k];
 		}
-		
 		GPIO_ResetBits(GPIOB,GPIO_Pin_11);
 		DMA_ClearFlag(DMA1_FLAG_TC1);
 
-		//Collect Green
+		//Collect green reading
 		GPIO_SetBits(GPIOB,GPIO_Pin_12);
 		_delay_us(DELAY_US);
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-		for(u8 i=0;i<16;i++){
-			if(max->green_reading[i] < (ADC_val[i] - max->off_reading[i])){
-				max->green_reading[i] = ADC_val[i];
-			}
+		for(u8 k=0;k<16;k++){
+			this_readings[i].green_reading[k] = ADC_val[k];
 		}
-		
 		GPIO_ResetBits(GPIOB,GPIO_Pin_12);
 		DMA_ClearFlag(DMA1_FLAG_TC1);
 		
-		//Collect blue
+		//Collect blue reading
 		GPIO_SetBits(GPIOB,GPIO_Pin_10);
 		_delay_us(DELAY_US);
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-		for(u8 i=0;i<16;i++){
-			if(max->blue_reading[i] < (ADC_val[i] - max->off_reading[i]))
-				max->blue_reading[i] = ADC_val[i];
+		for(u8 k=0;k<16;k++){
+			this_readings[i].blue_reading[k] = ADC_val[k];
 		}
 		GPIO_ResetBits(GPIOB,GPIO_Pin_10);
 		DMA_ClearFlag(DMA1_FLAG_TC1);
 	}
-	writeFlash();
-	_delay_ms(500);
+	
+	//Process the data into background and line reading
+	
+	//Do red
+	s32 sum_of_red_bg = 0;
+	s32 sum_of_red_mid = 0;
+	for (u8 i=0;i<SAMPELS_TIMES;i++){
+		for (u8 k=0;k<16;k++){
+			if (k==8) continue;
+			sum_of_red_bg += this_readings[i].red_reading[k] - this_readings[i].off_reading[k];
+		}
+		sum_of_red_mid += (this_readings[i].red_reading[7] + this_readings[i].red_reading[8]*3 + this_readings[i].red_reading[9]);
+	}
+	
+	//Do blue
+	s32 sum_of_blue_bg = 0;
+	s32 sum_of_blue_mid = 0;
+	for (u8 i=0;i<SAMPELS_TIMES;i++){
+		for (u8 k=0;k<16;k++){
+			if (k==8) continue;
+			sum_of_blue_bg += this_readings[i].blue_reading[k] - this_readings[i].off_reading[k];
+		}
+		sum_of_blue_mid += (this_readings[i].blue_reading[7] + this_readings[i].blue_reading[8]*3 + this_readings[i].blue_reading[9]);
+	}
+	
+	//Do green
+	s32 sum_of_green_bg = 0;
+	s32 sum_of_green_mid = 0;
+	for (u8 i=0;i<SAMPELS_TIMES;i++){
+		for (u8 k=0;k<16;k++){
+			if (k==8) continue;
+			sum_of_green_bg += this_readings[i].green_reading[k] - this_readings[i].off_reading[k];
+		}
+		sum_of_green_mid += (this_readings[i].green_reading[7] + this_readings[i].green_reading[8]*3 + this_readings[i].green_reading[9]);
+	}
+	
+	reading_in_area[cali_stage][0][0] = sum_of_red_mid / SAMPELS_TIMES / 5;
+	reading_in_area[cali_stage][0][1] = sum_of_blue_mid / SAMPELS_TIMES / 5;
+	reading_in_area[cali_stage][0][2] = sum_of_green_mid / SAMPELS_TIMES / 5;
+	
+	reading_in_area[cali_stage][1][0] = sum_of_red_bg / SAMPELS_TIMES / 15;
+	reading_in_area[cali_stage][1][1] = sum_of_blue_bg / SAMPELS_TIMES / 15;
+	reading_in_area[cali_stage][1][2] = sum_of_green_bg / SAMPELS_TIMES / 15;
+	
+	_delay_ms(300);
 }
 
 void dataCollect(){
@@ -88,7 +121,6 @@ void dataCollect(){
 	//Collect off reading
 	while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
 
-	
 	for(u8 i=0;i<16;i++) now.off_reading[i] = ADC_val[i];
 	DMA_ClearFlag(DMA1_FLAG_TC1);
 
@@ -99,7 +131,7 @@ void dataCollect(){
 	while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
 	for(u8 i=0;i<16;i++)now.red_reading[i] = ADC_val[i];
 	GPIO_ResetBits(GPIOB,GPIO_Pin_11);
-			DMA_ClearFlag(DMA1_FLAG_TC1);
+	DMA_ClearFlag(DMA1_FLAG_TC1);
 
 	//Collect Green
 	GPIO_SetBits(GPIOB,GPIO_Pin_12); //Green
@@ -134,86 +166,13 @@ void dataCollect(){
 	}
 }
 
-
-//RGB to HSV converter
-void rgb_hsv_converter(Reading* reading){
-	//RGB to HSV
-	u16 h_max[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-	u16 h_min[16] = {255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255};
-	u8 index = 0;	
-			
-	for(u8 i=0; i < 16;i++){
-		if(h_max[i] < reading->red_reading[i]){
-			h_max[i] = reading->red_reading[i];
-			index = 1;
-		}
-		
-		if(h_max[i] < reading->green_reading[i]){
-			h_max[i] = reading->green_reading[i];
-			index = 2;
-		}
-		
-		if(h_max[i] < reading->blue_reading[i]){
-			h_max[i] = reading->blue_reading[i];
-			index = 3;
-		}
-		
-		if(h_min[i] > reading->red_reading[i])
-			h_min[i] = reading->red_reading[i];
-		if(h_min[i] > reading->green_reading[i])
-			h_min[i] = reading->green_reading[i];
-		if(h_min[i] > reading->blue_reading[i])
-			h_min[i] = reading->blue_reading[i];
-		
-        //Determining the Hue
-		if((h_max[i] - h_min[i])==0){
-			reading->h[i] = 0;
-		}else if(index == 1){
-			s16 temp = (((reading->green_reading[i] * scalar - reading->blue_reading[i]*scalar) / (h_max[i] - h_min[i])) % (6*scalar));
-			temp = (temp<0)?temp+(6*scalar):temp;
-			reading->h[i]=(60*temp)/scalar;
-		}
-        
-		else if(index==2) reading->h[i]=(60*((reading->blue_reading[i]*scalar - reading->red_reading[i]*scalar)/(h_max[i] - h_min[i])+2*scalar))/scalar;
-		else if(index==3) reading->h[i]=(60*((reading->red_reading[i]*scalar - reading->green_reading[i]*scalar)/(h_max[i] - h_min[i])+4*scalar))/scalar;
-		
-		//Determining the Saturation
-		if (h_max[i]==0) reading->s[i] = 0;
-		else reading->s[i] = ((h_max[i]-h_min[i])*100) / h_max[i];
-
-		//Determining the value
-		reading->v[i] = h_max[i] * 100/255;
-	}
-}
-
 void sendData(){
-	for(int i = 0 ; i < 16;i++){
-		hueAverage += now.h[i];
-	}
-	hueAverage /= 16;
-	
-	//Dark blue
-	if(hueAverage >= 210 && hueAverage <= 230){border = 55;}
-	
-	//Orange
-	else if(hueAverage <= 30 && hueAverage > 10){border = 63;}
-	
-	//Light green
-	else if(hueAverage >= 80 && hueAverage < 180){border = 18;}
-	
-	//Dark green
-	else if(hueAverage >= 180 && hueAverage < 210){border = 40;}
-	
-	//Pink
-	else if(hueAverage > 300 || hueAverage <= 10){border = 60;}
-	
-	//Random Color
-	else border = 60;
-    
-    
 	for(int i = 0 ; i < 16; i++){
-			if(now.s[i] > border && now.v[i] > 40) sat[i] = 0; //White color
-			else sat[i] = 1; //Dark color
+		if(now.s[i] > border && now.v[i] > 40){
+			sat[i] = 0; //White color
+		}else{
+			sat[i] = 1; //Dark color
+		}
 	}
 
 	CAN_MESSAGE msg;
@@ -228,25 +187,28 @@ void sendData(){
 	for(int i=0;i<8;i++)msg1.data[i] = sat[i+8];
 	can_tx_enqueue(msg1);
     
-    CAN_MESSAGE msg2;
-    msg2.id = 0x0C7;
-    msg2.length = 3;
-    msg2.data[1] = hueAverage;
-    msg2.data[2] = border;
-    if(hueAverage >= 210 && hueAverage <= 230)msg2.data[0] = 1;
-    else msg2.data[0] = 0;
-    can_tx_enqueue(msg2);
+	CAN_MESSAGE msg2;
+	msg2.id = 0x0C7;
+	msg2.length = 3;
+	msg2.data[1] = hueAverage;
+	msg2.data[2] = border;
+	if(hueAverage >= 210 && hueAverage <= 230){
+		msg2.data[0] = 1;
+	}else{
+		msg2.data[0] = 0;
+	}
+	can_tx_enqueue(msg2);
 }
 
-
+s32 last_ticks = 0;
 void printInformation(){
 	u8 index = 8;
-	if (get_full_ticks() % 200 == 0){
-		printf("Sensor:%d\n", index);
-		printf("N : %d \tR: %d\tG: %d\tB: %d\r\n",max_1.off_reading[index],max_1.red_reading[index], max_1.green_reading[index], max_1.blue_reading[index]);
+	if (get_full_ticks() - last_ticks > 200){
+		last_ticks = get_full_ticks();
+		printf("%d\n", index);
 		printf("N: %d\tR: %d\tG: %d\tB: %d\r\n",now.off_reading[index], now.red_reading[index], now.green_reading[index], now.blue_reading[index]);
-		printf("[hsv] H(360): %d\tS(100): %d\tV(100): %d\r\n",now.h[index],now.s[index],now.v[index]);
-		printf("HueAvg: %d\n",hueAverage);
+		printf("H(360): %d\tS(100): %d\tV(100): %d\r\n",now.h[index],now.s[index],now.v[index]);
+		printf("HA: %d\n",hueAverage);
 		printf("\n");
 	}
 }
