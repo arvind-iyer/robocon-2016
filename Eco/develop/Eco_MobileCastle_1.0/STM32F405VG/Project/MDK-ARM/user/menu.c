@@ -40,7 +40,11 @@ GAME_STAGE menu_update(){
 					#endif
 					return CLIMBING_SLOPE;
 				case 3:
-					path_river_init(ardu_cal_ypr[0]);
+					#ifdef BLUE_FIELD
+						path_river_init(ardu_int_ypr[0] + 75);
+					#else
+						path_river_init(ardu_int_ypr[0] - 75);
+					#endif
 					return CROSSING_RIVER;
 				case 4:
 					path_down_init();

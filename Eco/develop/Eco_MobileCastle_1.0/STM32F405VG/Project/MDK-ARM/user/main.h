@@ -7,8 +7,8 @@
 #include "led.h"
 #include "lcd_main.h"
 
-//#define BLUE_FIELD
-#define RED_FIELD
+#define BLUE_FIELD
+//#define RED_FIELD
 
 #ifdef RED_FIELD
 	#ifdef BLUE_FIELD

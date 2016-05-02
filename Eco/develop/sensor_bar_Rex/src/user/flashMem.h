@@ -7,6 +7,4 @@
 void writeFlash(void);
 void readFlash(void);
 
-
-
 #endif
