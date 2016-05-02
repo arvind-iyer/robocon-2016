@@ -251,6 +251,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//limit switches
+	/*
 	s8 reset_rot = 0;
 	s8 reset_vel[3] = {0, 0, 0};
 	switch_val = (cur_x >= 0)*4 + gpio_read_input(&PE11)*2 + gpio_read_input(&PE10);
@@ -270,6 +271,27 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		reset_vel[1] = 10;
 		reset_vel[2] = 10;
 	}
+	*/
+	s8 reset_rot = 0;
+	s8 reset_vel[3] = {0, 0, 0};
+	switch_val = (cur_x <= 0)*4 + gpio_read_input(&PE8)*2 + gpio_read_input(&PE9);
+	if ((switch_val == 3) || (switch_val & 4)) {
+		off_x = get_pos()->x;
+		if (switch_val == 3)
+			off_deg = get_angle();
+	}
+	if ((switch_val & 2) && !(switch_val & 1)) {
+		reset_rot = 2;
+	}
+	if (!(switch_val & 2) && (switch_val & 1)) {
+		reset_rot = -2;		
+	}
+	if (switch_val == 4) {
+		reset_vel[0] = 10;
+		reset_vel[1] = -5;
+		reset_vel[2] = -5;
+	}
+	
 	
 	//perpendicular PD
 	err_pid = err * 0.2 + (err-err_d) * 0.0;
