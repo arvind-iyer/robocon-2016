@@ -108,21 +108,22 @@ void stop_climbing(){
 ** This part is for pneumatic control
 **/
 
-void pneumatic_toggle(){
+void pneumatic_climb_toggle(){
 	if (get_emergency_lock() == LOCKED) return;
 	pneumatic_state = (LOCK_STATE)!pneumatic_state;
-	pneumatic_control(GPIOB, GPIO_Pin_9, pneumatic_state);
+	const GPIO * climb_port = &CLIMB_PNEUMATIC_PORT;
+	pneumatic_control(climb_port->gpio, climb_port->gpio_pin, pneumatic_state);
 }
 
-void pneumatic_on(){
+void pneumatic_on(const GPIO* gpio){
 	if (get_emergency_lock() == LOCKED) return;
-	pneumatic_control(GPIOB, GPIO_Pin_9, LOCKED);
+	pneumatic_control(gpio->gpio, gpio->gpio_pin, LOCKED);
 	pneumatic_state = LOCKED;
 }
 
-void pneumatic_off(){
+void pneumatic_off(const GPIO* gpio){
 	if (get_emergency_lock() == LOCKED) return;
-	pneumatic_control(GPIOB, GPIO_Pin_9, UNLOCKED);
+	pneumatic_control(gpio->gpio, gpio->gpio_pin, UNLOCKED);
 	pneumatic_state = UNLOCKED;
 }
 
@@ -138,6 +139,7 @@ void emergency_stop(){
 	motor_lock(MOTOR4);
 	motor_lock(MOTOR5);
 	motor_lock(MOTOR6);
+	motor_lock(MOTOR7);
 	manual_vel_set_zero();
 	brushless_control(0, true);
 }

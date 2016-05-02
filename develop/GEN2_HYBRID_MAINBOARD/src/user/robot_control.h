@@ -9,7 +9,7 @@
 #include "can_motor.h"
 #include "xbc_control.h"
 
-#define CLIMBING_SPEED 1799
+#define CLIMBING_SPEED 1250
 #define DESCEND_SPEED -500
 #define RAISE_ARM_SPEED 1000
 #define LOWER_ARM_SPEED -1000
@@ -37,6 +37,8 @@
 #define ARM_DN_LIMIT_PORT PE4
 #define CLIMB_LIMIT_PORT PE3
 
+#define CLIMB_PNEUMATIC_PORT PB9
+
 typedef enum{
 	BRUSHLESS_1 = 0,
 	BRUSHLESS_2 = 1
@@ -62,8 +64,8 @@ void climb_continue(void);
 void descend_continue(void);
 void stop_climbing(void);
 
-void pneumatic_toggle(void);
-void pneumatic_on(void);
-void pneumatic_off(void);
+void pneumatic_climb_toggle(void);
+void pneumatic_on(const GPIO* gpio);
+void pneumatic_off(const GPIO* gpio);
 
 #endif

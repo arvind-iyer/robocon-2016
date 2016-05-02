@@ -42,6 +42,7 @@ static u16 encoder_val = 0;
 static BUTTON gripper_buttons[2] = {BUTTON_XBC_LB, BUTTON_XBC_RB};
 static LOCK_STATE press_gripper_buttons[2] = {UNLOCKED};
 static u16 gripper_states[2] = {0};
+static u32 gripper_ticks[8] = {0}; //Left claw, Left push, Right claw, Right push
 
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
@@ -63,6 +64,8 @@ void manual_reset(){
 	brushless_servo_control(0);
 	gripper_control(GRIPPER_1, 0); 
 	gripper_control(GRIPPER_2, 0);
+	pneumatic_off(&PD10);
+	pneumatic_off(&PD11);
 }
 
 void manual_vel_set_zero(){
@@ -403,26 +406,49 @@ void manual_controls_update(void) {
 				switch (gripper_states[i]) {
 					case 0: //Default state
 						gripper_control((GRIPPER_ID)i, 0); //Down
-						//pneumatic 1 hi; claw open 
-						//pneumatic 2 hi; pushed out
+						gripper_ticks[3+i*4] = get_full_ticks() + 1000; //pneumatic 2 hi; pushed out
 						break;
 					case 1: //Collect propeller
-						//pneumatic 1 lo; close claw
-						//delay
-						//pneumatic 2 lo; retract
+						gripper_ticks[0+i*4] = get_full_ticks() + 200; //pneumatic 1 lo; close claw
+						gripper_ticks[2+i*4] = get_full_ticks() + 500; //pneumatic 2 lo; retract
 						break;
 					case 2: //Upright
 						gripper_control((GRIPPER_ID)i, 1); //Up
-						//pneumatic 2 hi; pushed out 
+						gripper_ticks[3+i*4] = get_full_ticks() + 1800; //pneumatic 2 hi; pushed out 
 						break;
 					case 3: //Chaiyo
-						//pneumatic 2 lo; pushed out 
-						//pneumatic 1 hi; claw open 
+						gripper_ticks[2+i*4] = get_full_ticks() + 200; //pneumatic 2 lo; retract
+						gripper_ticks[1+i*4] = get_full_ticks() + 800; //pneumatic 1 hi; claw open 
 						break;
 				}
 			}
 		} else {
 			press_gripper_buttons[i] = UNLOCKED;
+		}
+	}
+	
+	for (u8 i=0; i<8; i++) {
+		if(Abs(get_full_ticks() - gripper_ticks[i]) <= GRIPPER_TICKS_THRESHOLD) {
+			GPIO gripper_ticks_port;
+			switch ((int)(i/2)) {
+				case 0: //left claw
+					gripper_ticks_port = PD10;
+					break;
+				case 1: //left push
+					gripper_ticks_port = PD11;
+					break;
+				case 2: //right claw
+					gripper_ticks_port = PD8;
+					break;
+				case 3: //right push
+					gripper_ticks_port = PD9;
+					break;
+			}
+			if (i%2) {
+				pneumatic_off(&gripper_ticks_port);
+			} else {
+				pneumatic_on(&gripper_ticks_port);
+			}
 		}
 	}
 	
@@ -437,9 +463,11 @@ void manual_controls_update(void) {
 		climbing_induced_ground_lock = LOCKED;
 		tft_append_line("CLIMBING");
 	}else	if (button_pressed(BUTTON_XBC_Y)){
+		/*
 		descend_continue();
 		climbing_induced_ground_lock = LOCKED;
 		tft_append_line("DESCENDING");
+		*/
 	}else{
 		stop_climbing();
 		climbing_induced_ground_lock = UNLOCKED;
@@ -451,7 +479,7 @@ void manual_controls_update(void) {
 	if (button_pressed(BUTTON_XBC_B)){
 		if (press_button_B == UNLOCKED){
 			press_button_B = LOCKED;
-			pneumatic_toggle();
+			pneumatic_climb_toggle();
 		}
 	}else{
 		press_button_B = UNLOCKED;
