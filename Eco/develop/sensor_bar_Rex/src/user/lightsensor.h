@@ -11,6 +11,7 @@
 #include "stm32f10x_adc.h"
 #include "stm32f10x_dma.h"
 #include <stdlib.h>
+#include "main.h"
 
 #define DELAY_US 700 //800
 #define scalar 1000
@@ -23,13 +24,13 @@ typedef enum{
 
 typedef struct
 {
-	u16 red_reading[16];
-	u16 blue_reading[16];
-	u16 green_reading[16];
-	u16 off_reading[16];
+	s16 red_reading[16];
+	s16 blue_reading[16];
+	s16 green_reading[16];
+	s16 off_reading[16];
 }Reading;
 
-extern u16 reading_in_area[5][2][3];
+extern s16 reading_in_area[5][2][3];
 
 void sensor_init(u8 cali_stage);
 void dataCollect(void);

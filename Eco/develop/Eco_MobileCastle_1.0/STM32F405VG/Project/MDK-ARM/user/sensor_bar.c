@@ -3,8 +3,7 @@
 u16 sensor_bar_filtered[16] = {0};
 u16 sensor_bar_raw[16] = {0};
 u8 sensor_bar_mid = SENSOR_BAR_MID;
-u8 special_color_got = 0;
-u8 avg_hue = 0;
+u8 sensorbar_region = 0;
 
 //Receive the first half of the receiver sensor data
 static void sensor_bar_receiver_a(CanRxMsg msg){
@@ -26,8 +25,7 @@ static void sensor_bar_receiver_b(CanRxMsg msg){
 
 //Receive the special color
 static void sensor_bar_receiver_c(CanRxMsg msg){
-	special_color_got = msg.Data[0];
-	avg_hue = msg.Data[1];
+	sensorbar_region = msg.Data[0];
 }
 
 void sensorbar_init(){

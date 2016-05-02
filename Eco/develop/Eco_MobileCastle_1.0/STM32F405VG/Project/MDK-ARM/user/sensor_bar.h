@@ -30,5 +30,6 @@ s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp);
 
 extern u8 sensor_bar_mid;
 extern u16 sensor_bar_filtered[16];
+extern u8 sensorbar_region;
 
 #endif

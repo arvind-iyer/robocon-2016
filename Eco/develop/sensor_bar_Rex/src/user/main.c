@@ -136,23 +136,22 @@ void systemInit(){
 	can_rx_init();
 }
 
+u8 cali_stage = 0;
 int main(void){
 	systemInit();
 	init_all_zero();
 	readFlash();
 	_delay_ms(200);
-	u8 cali_stage = 0;
 	while (1){
-		//callibrate white color if you press the button
-		if (cali_stage>=REGIONS){
-			if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13)){
-				while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13));
+		if (cali_stage<REGIONS){
+			if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14)){
+				while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14));
 				sensor_init(cali_stage);
 				cali_stage++;
 			}
 		}
 		dataCollect();
 		sendData();
-		//printInformation();
+		printInformation();
   }
 }

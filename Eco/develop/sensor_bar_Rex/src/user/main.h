@@ -15,11 +15,10 @@
 #include "flashMem.h"
 #include "lightSensor.h"
 
-
 #define ADC1_DR_Address    ((uint32_t)0x4001244C)
-
 
 #define COLOUR_SWITCH_INTERVAL 10
 
+extern u8 cali_stage;
 
 #endif
