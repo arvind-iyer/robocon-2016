@@ -5,7 +5,7 @@ u8 data1[8];
 u8 data2[8];
 u8 sensorbar_result[16];
 u8 river;
-u8 hueAvg;
+int hueAvg;
 u8 border;
 u8 globalState = NOT_RIVER;
 
@@ -20,9 +20,7 @@ int systemOn = 0;
 int yaw_of_imu = 0;
 int pitch_of_imu = 0;
 int lastMovement = SERVO_MICROS_MID;
-
-extern u32 linear_ccd_buffer1[128];
-extern u32 linear_ccd_buffer2[128];
+extern uint32_t encoder_revolution;
 extern ZONE gameZone;
 
 int main(void) {
@@ -45,21 +43,21 @@ int main(void) {
                     pitch_of_imu = (int)ardu_cal_ypr[1];
                 }
                 if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT)){
-                    if(!fullWhite)servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT + 250);
+                    if(!fullWhite)servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT + 50);
                     else servo_control(BAJAJ_SERVO, SERVO_MICROS_RIGHT);
                 }
                 else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT)){
                     if(!fullWhite)servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT);
-                    else servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT - 250);
+                    else servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT - 50);
                 }
                 else{
                     switch(globalState){
                         case NOT_RIVER:
                             goNormal();
-                            if(river && !read_infrared_sensor(INFRARED_SENSOR_RIGHT) && (fullWhite == 1))
+                            if(river && !read_infrared_sensor(RIVER_INFRARED) && (fullWhite == 1))
                             {
-                                reset_all_encoder();
-                                yaw_of_imu = ardu_cal_ypr[0] = -120;
+                                reset_encoder_1();
+                                yaw_of_imu = ardu_cal_ypr[0] = IMU_ANGLE;
                                 globalState = STAGE1;
                             }
                         break;

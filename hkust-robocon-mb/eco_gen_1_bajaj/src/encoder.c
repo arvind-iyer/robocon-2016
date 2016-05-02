@@ -102,4 +102,12 @@ void reset_all_encoder(){
     TIM_SetCounter(ENCODER_TIMER2,0);
 }
 
+void reset_encoder_1(){
+    TIM_SetCounter(ENCODER_TIMER1,0);
+}
+
+void reset_encoder_2(){
+    TIM_SetCounter(ENCODER_TIMER2,10);
+}
+
 

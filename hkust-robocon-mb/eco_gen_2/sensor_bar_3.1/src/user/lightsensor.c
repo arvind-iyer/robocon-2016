@@ -208,8 +208,8 @@ void sendData(){
     avgS /= 16;
     
     //Dark blue
-    if(hueAverage >= 220 && hueAverage <= 240){
-        border = 51;
+    if(hueAverage > RIVERLEFT && hueAverage <= RIVERRIGHT){
+        border = RIVERBORDER;
         for(int i = 0 ; i < 16 ; i++){
             if(now.s[i] > border)sat[i] = 0;
             else sat[i] = 1;
@@ -217,8 +217,8 @@ void sendData(){
     }
     
     //Orange
-    else if(hueAverage <= 38 && hueAverage > 15){
-        border = 60;
+    else if(hueAverage <= ORANGERIGHT && hueAverage > ORANGELEFT){
+        border = ORANGEBORDER;
         for(int i = 0 ; i < 16 ; i++){
             if(now.s[i] > border)sat[i] = 0;
             else sat[i] = 1;
@@ -226,8 +226,8 @@ void sendData(){
     }
     
     //Light green
-    else if(hueAverage >= 90 && hueAverage < 180){
-        border = 15;
+    else if(hueAverage > LIGHTGREENLEFT && hueAverage <= LIGHTGREENRIGHT){
+        border = LIGHTGREENBORDER;
         for(int i = 0 ; i < 16 ; i++){
             if(now.s[i] > border)sat[i] = 0;
             else sat[i] = 1;
@@ -235,8 +235,8 @@ void sendData(){
     }
     
     //Dark green
-    else if(hueAverage >= 180 && hueAverage < 220){
-        border = 48;
+    else if(hueAverage >= DARKGREENLEFT && hueAverage < DARKGREENRIGHT){
+        border = DARKGREENBORDER;
         for(int i = 0 ; i < 16 ; i++){
             if(now.v[i] > border)sat[i] = 1;
             else sat[i] = 0;
@@ -244,8 +244,8 @@ void sendData(){
     }
     
     //Pink
-    else if(hueAverage > 38 && hueAverage < 90){
-        border = 65;
+    else if(hueAverage > PINKLEFT && hueAverage <= PINKRIGHT){
+        border = PINKBORDER;
         for(int i = 0 ; i < 16 ; i++){
             if(now.s[i] > border)sat[i] = 0;
             else sat[i] = 1;

@@ -57,5 +57,7 @@ void encoder_init(void);
 u32 get_count(ENCODER ENCODERx);
 void reset_all_encoder(void);
 long get_full_count(ENCODER ENCODERx);
+void reset_encoder_1(void);
+void reset_encoder_2(void);
 
 #endif

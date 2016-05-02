@@ -4,7 +4,7 @@ extern u8 data1[8];
 extern u8 data2[8];
 extern u8 sensorbar_result[16];
 extern u8 river;
-extern u8 hueAvg;
+extern int hueAvg;
 extern u8 border;
 extern u8 globalState;
 
@@ -22,16 +22,18 @@ extern int pitch_of_imu;
 
 float imuFactor;
 int imuMovement;
-
 int sat1;
 int value1;
-
-
-
-long encoder_value = 0;
-
+uint32_t encoder_revolution = 0;
 ZONE gameZone;
 
+void update_encoder(){
+    if(encoder_revolution > 3)encoder_revolution = 0;
+    if(get_count(ENCODER2) > 43000){
+        encoder_revolution++;
+        reset_encoder_2();
+    }
+}
 
 void systemInit(){
     SystemCoreClockUpdate();
@@ -84,7 +86,8 @@ void fill_sensorbar_array(){
 }
 
 void print_data(){
-    tft_prints(0,0,"zone:%d  cal:%d",gameZone,ardu_imu_calibrated);
+    update_encoder();
+    tft_prints(0,0,"zone:%d  test:%d",gameZone,encoder_revolution);
     for(int i = 0; i < 16 ;i++) tft_prints(i,1,"%d",sensorbar_result[i]);
     tft_prints(0,2,"y:%d p:%d",yaw_of_imu,pitch_of_imu);
     tft_prints(0,3,"il:%d ir:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
@@ -116,19 +119,20 @@ void process_array(){
 
 void goNormal(void){
     if (get_full_ticks() - lastTurn >= 800){
-        if(length == 0 && gameZone !=  ORANGEZONE)lastMovement = SERVO_MICROS_MID - 150;
+        
+        if(length == 0 && gameZone != ORANGEZONE)lastMovement = SERVO_MICROS_MID;
                 
-        else if(length >= 11 && fullWhite == false && gameZone == ORANGEZONE && pitch_of_imu >= -1 && pitch_of_imu <= 1 ){
-            lastMovement = SERVO_MICROS_RIGHT - 60;
+        if(length > 9 && fullWhite == false && gameZone == ORANGEZONE && encoder_revolution > 1){
+            lastMovement = MAX_NINETY_TURNING;
             fullWhite = true;
             lastTurn = get_full_ticks();
         }
         
-        else if (length >= 11 && fullWhite == true){
+        else if (length > 9){
             lastMovement = SERVO_MICROS_MID;
         }
 
-        else if (length >= 1 && length <= 7) {
+        else if (length >= 2 && length <= 9) {
             float factor = ((begin + end) / 2) / (float) 16;
             lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
         }  
@@ -137,9 +141,9 @@ void goNormal(void){
     }
 }
 void goUsingImu(void){
-    if((get_count(ENCODER1) > 16000) && !read_infrared_sensor(INFRARED_SENSOR_RIGHT)){
+    if((get_count(ENCODER1) > 16000) && !read_infrared_sensor(RIVER_INFRARED)){
         globalState = STAGE2;
-        reset_all_encoder();
+        reset_encoder_1();
     }
     yaw_of_imu = yaw_of_imu > 180 ? 180 : yaw_of_imu;
     yaw_of_imu = yaw_of_imu < -180 ? -180 : yaw_of_imu; 
@@ -149,11 +153,11 @@ void goUsingImu(void){
 }
 
 void goStraightLittleBit(void){
-    servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 200);
+    servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + LESSER_TURNING);
     if(get_count(ENCODER1) > 3500){
-        lastMovement = SERVO_MICROS_MID + 200;
+        lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
         globalState = NOT_RIVER;
-        lastMovement = SERVO_MICROS_MID + 200;
+        lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
     }
 }
 
@@ -172,19 +176,19 @@ void printSystemOff(void){
 
 void determineZone(){
     //Dark blue
-    if(hueAvg >= 220 && hueAvg <= 240){gameZone = BLUEZONE;}
+    if(hueAvg >= RIVERLEFT && hueAvg <= RIVERRIGHT){gameZone = BLUEZONE;}
     
     //Orange
-    else if(hueAvg <= 40 && hueAvg > 10){gameZone = ORANGEZONE;}
+    else if(hueAvg <= ORANGERIGHT && hueAvg > ORANGELEFT){gameZone = ORANGEZONE;}
     
     //Light green
-    else if(hueAvg >= 90 && hueAvg < 180){gameZone = LIGHTGREENZONE;}
+    else if(hueAvg > LIGHTGREENLEFT && hueAvg < LIGHTGREENRIGHT){gameZone = LIGHTGREENZONE;}
     
     //Dark green
-    else if(hueAvg >= 180 && hueAvg < 220){gameZone = DARKGREENZONE;}
+    else if(hueAvg >= DARKGREENLEFT && hueAvg < DARKGREENRIGHT){gameZone = DARKGREENZONE;}
     
     //Pink
-    else if(hueAvg > 38 || hueAvg < 90){gameZone = PINKZONE;}
+    else if(hueAvg > PINKLEFT && hueAvg <= PINKRIGHT){gameZone = PINKZONE;}
 }
 
 
