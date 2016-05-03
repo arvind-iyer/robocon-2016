@@ -97,7 +97,7 @@ s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
 	}else{
 		sensor_bar_mid = SENSOR_BAR_MID;
 	}
-	tft_println("SE: %d %d %d %d", best_start_index, best_end_index, line_mid, corr_angle);
+	//tft_println("SE: %d %d %d %d", best_start_index, best_end_index, line_mid, corr_angle);
 	return corr_angle;
 }
 
@@ -181,7 +181,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 		flag = SENSOR_BAR_NTH;
 	}
 	
-	tft_println("SE: %d %d %d %d", best_start_index, best_end_index, line_mid, corr_angle);
+	//tft_println("SE: %d %d %d %d", best_start_index, best_end_index, line_mid, corr_angle);
 	*in_flag = flag;
 	return corr_angle;
 }

@@ -86,7 +86,7 @@ int main(void) {
 				}
 				
 				if (game_stage != IN_MENU){
-					tft_println("Loop: %d %d", this_loop_ticks, any_loop_diff);
+					tft_println("LP: %d %d", this_loop_ticks, any_loop_diff);
 					tft_println("%d %d %d", ardu_int_ypr[0], ardu_int_ypr[1], ardu_int_ypr[2]);
 					tft_println("EN:%d %d", get_count(ENCODER1), get_count(ENCODER2));
 					tft_println("SR: %d", sensorbar_region);
