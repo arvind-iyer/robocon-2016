@@ -20,9 +20,13 @@
 #define THRESHOLD 10
 #define CONST_VEL 50
 
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
-float transform[2][2] = {{0.964731, -0.054065}, {0.062220, 1.004667}};
+//Ground: 0 = Red, 1 = Blue
+u8 field = 1;
+
+//Blue Field transformation
+float transform[2][2] = {{1, 0}, {0.057143, 1}};
 
 //mode variables
 PID_MODE pid_state;
@@ -251,33 +255,15 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//limit switches
-	/*
 	s8 reset_rot = 0;
 	s8 reset_vel[3] = {0, 0, 0};
-	switch_val = (cur_x >= 0)*4 + gpio_read_input(&PE11)*2 + gpio_read_input(&PE10);
+	if (field == 0)
+		switch_val = (cur_x >= 0)*4 + gpio_read_input(&PE11)*2 + gpio_read_input(&PE10);
+	if (field == 1)
+		switch_val = (cur_x <= 0)*4 + gpio_read_input(&PE8)*2 + gpio_read_input(&PE9);
 	if ((switch_val == 3) || (switch_val & 4)) {
-		off_x = get_pos()->x;
-		if (switch_val == 3)
-			off_deg = get_angle();
-	}
-	if ((switch_val & 2) && !(switch_val & 1)) {
-		reset_rot = 5;
-	}
-	if (!(switch_val & 2) && (switch_val & 1)) {
-		reset_rot = -5;		
-	}
-	if (switch_val == 4) {
-		reset_vel[0] = -20;
-		reset_vel[1] = 10;
-		reset_vel[2] = 10;
-	}
-	*/
-	s8 reset_rot = 0;
-	s8 reset_vel[3] = {0, 0, 0};
-	switch_val = (cur_x <= 0)*4 + gpio_read_input(&PE8)*2 + gpio_read_input(&PE9);
-	if ((switch_val == 3) || (switch_val & 4)) {
-		off_x = get_pos()->x;
-		if (switch_val == 3)
+		off_x = raw_x;
+		if ((switch_val == 3) || (switch_val == 7))
 			off_deg = get_angle();
 	}
 	if ((switch_val & 2) && !(switch_val & 1)) {
@@ -287,9 +273,16 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		reset_rot = -2;		
 	}
 	if (switch_val == 4) {
+		if (field == 0) {
+			reset_vel[0] = -10;
+			reset_vel[1] = 5;
+			reset_vel[2] = 5;
+		}
+		if (field == 1) {
 		reset_vel[0] = 10;
 		reset_vel[1] = -5;
 		reset_vel[2] = -5;
+		}
 	}
 	
 	
@@ -394,12 +387,19 @@ void auto_menu_update() {
   */
 void auto_var_update() {
 	passed = auto_get_ticks() - start;
-	cur_x = raw_x = (get_pos()->x - off_x);
-	cur_y = raw_y = get_pos()->y;
-	#ifndef DEBUG_MODE
-		cur_x = transform[0][0]*raw_x + transform[0][1]*raw_y;
-		cur_y = transform[1][0]*raw_x + transform[1][1]*raw_y;
+	
+	#ifdef DEBUG_MODE
+		raw_x = get_pos()->x;
+		raw_y = get_pos()->y;
 	#endif
+	
+	#ifndef DEBUG_MODE
+		raw_x = transform[0][0]*(get_pos()->x) + transform[0][1]*(get_pos()->y);
+		raw_y = transform[1][0]*(get_pos()->x) + transform[1][1]*(get_pos()->y);
+	#endif
+	
+	cur_x = raw_x - off_x;
+	cur_y = raw_y;
 	cur_deg = (get_angle() - off_deg) % 3600;
 	
 	if (tar_queue[tar_end-1].curve == 0) {
@@ -457,7 +457,7 @@ void auto_motor_update(){
 	tft_prints(0,4,">> %2d / %2d",tar_end,tar_head);
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
-	tft_prints(0,8,"TEST %d",switch_val);
+	tft_prints(0,8,"%d %d",get_pos()->x,get_pos()->y);
 	tft_update();
 	
 	//handle input

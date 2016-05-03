@@ -263,7 +263,7 @@ void manual_interval_update(){
 		motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
 	}
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
-	
+	tft_append_line("PE3 %d", gpio_read_input(&PE3)); 
 	tft_update();
 }
 
@@ -357,7 +357,7 @@ void manual_controls_update(void) {
 			brushless_lock_timeout = 0;
 		}
 		
-		s16 brushless_pwm = xbc_get_joy(brushless_joy_sticks)/50+20;
+		s16 brushless_pwm = xbc_get_joy(brushless_joy_sticks)/20+20;
 		if (brushless_pwm < 0)
 			brushless_pwm = 0;
 		brushless_control(brushless_pwm, true);
@@ -458,7 +458,7 @@ void manual_controls_update(void) {
 	** Hold button Y to descend
 	** While climbing, the ground wheels should be locked
 	*/
-	if (button_pressed(BUTTON_XBC_A)){
+	if (button_pressed(BUTTON_XBC_A) && gpio_read_input(&PE3)){
 		climb_continue();
 		climbing_induced_ground_lock = LOCKED;
 		tft_append_line("CLIMBING");
