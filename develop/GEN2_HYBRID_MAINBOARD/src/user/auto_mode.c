@@ -42,7 +42,7 @@ s32 tar_head, tar_end;
 s32 tar_x, tar_y, tar_deg, tar_dir;
 s32 tar_rad, tar_cen_x, tar_cen_y;
 s32 ori_x, ori_y;
-s32 off_x, off_deg;
+s32 off_x, off_y, off_deg;
 double deg_ratio;
 
 //auto properties
@@ -53,7 +53,9 @@ int degree, degree_diff, dist, speed;
 int start, passed;
 int err_d;
 int auto_ticks = 0;
-u8 switch_val = 0;
+
+u8 side_switch_val = 0;
+u8 back_switch_val = 0;
 
 //UART receiver
 u8 rx_count = 0;
@@ -185,6 +187,7 @@ void auto_reset() {
 	tar_y = 0;
 	tar_deg = 0;
 	off_x = 0;
+	off_y = 0;
 	off_deg = 0;
 	deg_ratio = 0;
 	start = 0;
@@ -257,22 +260,38 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	//limit switches
 	s8 reset_rot = 0;
 	s8 reset_vel[3] = {0, 0, 0};
+	
+	back_switch_val = (cur_y <= 0)*4 + gpio_read_input(&PE6)*2 + gpio_read_input(&PE7);
 	if (field == 0)
-		switch_val = (cur_x >= 0)*4 + gpio_read_input(&PE11)*2 + gpio_read_input(&PE10);
+		side_switch_val = (cur_x >= 0)*4 + gpio_read_input(&PE11)*2 + gpio_read_input(&PE10);
 	if (field == 1)
-		switch_val = (cur_x <= 0)*4 + gpio_read_input(&PE8)*2 + gpio_read_input(&PE9);
-	if ((switch_val == 3) || (switch_val & 4)) {
+		side_switch_val = (cur_x <= 0)*4 + gpio_read_input(&PE8)*2 + gpio_read_input(&PE9);
+	
+	if ((side_switch_val == 3) || (side_switch_val & 4)) {
 		off_x = raw_x;
-		if ((switch_val == 3) || (switch_val == 7))
+		if ((side_switch_val == 3) || (side_switch_val == 7))
+			off_deg = get_angle();
+	}	
+	if ((back_switch_val == 3) || (back_switch_val & 4)) {
+		off_y = raw_y;
+		if ((back_switch_val == 3) || (back_switch_val == 7))
 			off_deg = get_angle();
 	}
-	if ((switch_val & 2) && !(switch_val & 1)) {
+	
+	if ((side_switch_val & 2) && !(side_switch_val & 1)) {
 		reset_rot = 2;
 	}
-	if (!(switch_val & 2) && (switch_val & 1)) {
+	if (!(side_switch_val & 2) && (side_switch_val & 1)) {
 		reset_rot = -2;		
 	}
-	if (switch_val == 4) {
+	if ((back_switch_val & 2) && !(back_switch_val & 1)) {
+		reset_rot = 2;
+	}
+	if (!(back_switch_val & 2) && (back_switch_val & 1)) {
+		reset_rot = -2;		
+	}
+	
+	if (side_switch_val == 4) {
 		if (field == 0) {
 			reset_vel[0] = -10;
 			reset_vel[1] = 5;
@@ -283,6 +302,11 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		reset_vel[1] = -5;
 		reset_vel[2] = -5;
 		}
+	}
+	if (back_switch_val == 4) {
+		reset_vel[0] = 0;
+		reset_vel[1] = -10;
+		reset_vel[2] = 10;
 	}
 	
 	
@@ -399,7 +423,7 @@ void auto_var_update() {
 	#endif
 	
 	cur_x = raw_x - off_x;
-	cur_y = raw_y;
+	cur_y = raw_y - off_y;
 	cur_deg = (get_angle() - off_deg) % 3600;
 	
 	if (tar_queue[tar_end-1].curve == 0) {
@@ -458,6 +482,7 @@ void auto_motor_update(){
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
 	tft_prints(0,8,"%d %d",get_pos()->x,get_pos()->y);
+	tft_prints(0,9,"%d %d B:%d",gpio_read_input(&PE6),gpio_read_input(&PE7),back_switch_val);
 	tft_update();
 	
 	//handle input

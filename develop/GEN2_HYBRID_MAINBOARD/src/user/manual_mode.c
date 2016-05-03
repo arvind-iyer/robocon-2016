@@ -47,6 +47,8 @@ static u32 gripper_ticks[8] = {0}; //Left claw, Left push, Right claw, Right pus
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
 
+static u16 temp_control = 50;
+
 void manual_init(){
 	xbc_mb_init(XBC_CAN_FIRST);
 	manual_reset();
@@ -357,7 +359,7 @@ void manual_controls_update(void) {
 			brushless_lock_timeout = 0;
 		}
 		
-		s16 brushless_pwm = xbc_get_joy(brushless_joy_sticks)/20+20;
+		s16 brushless_pwm = xbc_get_joy(brushless_joy_sticks)/temp_control+20;
 		if (brushless_pwm < 0)
 			brushless_pwm = 0;
 		brushless_control(brushless_pwm, true);
@@ -468,6 +470,7 @@ void manual_controls_update(void) {
 		climbing_induced_ground_lock = LOCKED;
 		tft_append_line("DESCENDING");
 		*/
+		temp_control = 20;
 	}else{
 		stop_climbing();
 		climbing_induced_ground_lock = UNLOCKED;
