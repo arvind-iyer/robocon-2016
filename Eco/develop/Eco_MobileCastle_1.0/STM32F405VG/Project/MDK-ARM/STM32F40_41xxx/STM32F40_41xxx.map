@@ -262,12 +262,11 @@ Section Cross References
     path_upslope_sb.o(i.path_up_sb_update) refers to servo_interface.o(i.si_clear) for si_clear
     path_upslope_sb.o(i.path_up_sb_update) refers to servo_interface.o(i.si_set_pwm) for si_set_pwm
     path_upslope_sb.o(i.path_up_sb_update) refers to servo_interface.o(i.si_execute) for si_execute
-    path_upslope_sb.o(i.path_up_sb_update) refers to ticks.o(i.get_full_ticks) for get_full_ticks
     path_upslope_sb.o(i.path_up_sb_update) refers to lcd_main.o(i.tft_println) for tft_println
     path_upslope_sb.o(i.path_up_sb_update) refers to path_upslope_sb.o(.data) for .data
+    path_upslope_sb.o(i.path_up_sb_update) refers to sensor_bar.o(.data) for sensor_bar_mid
     path_upslope_sb.o(i.path_up_sb_update) refers to ardu_imu_adp.o(.data) for ardu_int_ypr
     path_upslope_sb.o(i.path_up_sb_update) refers to path_river.o(.data) for river_straight_yaw
-    path_upslope_sb.o(i.path_up_sb_update) refers to sensor_bar.o(.data) for sensor_bar_mid
     path_upslope_imu.o(i.path_up_imu_init) refers to angle_range.o(i.abs_diff) for abs_diff
     path_upslope_imu.o(i.path_up_imu_init) refers to path_upslope_imu.o(.data) for .data
     path_upslope_imu.o(i.path_up_imu_init) refers to ardu_imu_adp.o(.bss) for ardu_start_ypr
@@ -1765,24 +1764,24 @@ Image Symbol Table
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
     ../clib/../cmprslib/zerorunl2.c          0x00000000   Number         0  __dczerorl2.o ABSOLUTE
-    ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
     ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
+    ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfa.o ABSOLUTE
     ../clib/microlib/stdlib/abort.c          0x00000000   Number         0  abort.o ABSOLUTE
     ../clib/microlib/stubs.s                 0x00000000   Number         0  iusefp.o ABSOLUTE
@@ -1790,8 +1789,8 @@ Image Symbol Table
     ../fplib/microlib/fpdiv.c                0x00000000   Number         0  ddiv.o ABSOLUTE
     ../fplib/microlib/fpepilogue.c           0x00000000   Number         0  depilogue.o ABSOLUTE
     ../fplib/microlib/fpepilogue.c           0x00000000   Number         0  fepilogue.o ABSOLUTE
-    ../fplib/microlib/fpfix.c                0x00000000   Number         0  dfixul.o ABSOLUTE
     ../fplib/microlib/fpfix.c                0x00000000   Number         0  dfixui.o ABSOLUTE
+    ../fplib/microlib/fpfix.c                0x00000000   Number         0  dfixul.o ABSOLUTE
     ../fplib/microlib/fpflt.c                0x00000000   Number         0  dfltui.o ABSOLUTE
     ../fplib/microlib/fpmul.c                0x00000000   Number         0  dmul.o ABSOLUTE
     ../fplib/microlib/fprnd.c                0x00000000   Number         0  frnd.o ABSOLUTE
@@ -2088,56 +2087,56 @@ Image Symbol Table
     i.path_down_update                       0x080031c4   Section        0  path_downslope.o(i.path_down_update)
     i.path_river_init                        0x08003210   Section        0  path_river.o(i.path_river_init)
     i.path_river_update                      0x08003240   Section        0  path_river.o(i.path_river_update)
-    i.path_up_sb_init                        0x08003350   Section        0  path_upslope_sb.o(i.path_up_sb_init)
+    i.path_up_sb_init                        0x08003354   Section        0  path_upslope_sb.o(i.path_up_sb_init)
     i.path_up_sb_update                      0x08003360   Section        0  path_upslope_sb.o(i.path_up_sb_update)
-    i.s16_cap                                0x08003420   Section        0  quick_math.o(i.s16_cap)
-    i.sensor_bar_get_corr                    0x08003430   Section        0  sensor_bar.o(i.sensor_bar_get_corr)
-    i.sensor_bar_receiver_a                  0x08003570   Section        0  sensor_bar.o(i.sensor_bar_receiver_a)
-    sensor_bar_receiver_a                    0x08003571   Thumb Code    44  sensor_bar.o(i.sensor_bar_receiver_a)
-    i.sensor_bar_receiver_b                  0x080035a0   Section        0  sensor_bar.o(i.sensor_bar_receiver_b)
-    sensor_bar_receiver_b                    0x080035a1   Thumb Code    48  sensor_bar.o(i.sensor_bar_receiver_b)
-    i.sensor_bar_receiver_c                  0x080035d4   Section        0  sensor_bar.o(i.sensor_bar_receiver_c)
-    sensor_bar_receiver_c                    0x080035d5   Thumb Code     8  sensor_bar.o(i.sensor_bar_receiver_c)
-    i.sensor_bar_track                       0x080035e0   Section        0  sensor_bar.o(i.sensor_bar_track)
-    i.sensorbar_init                         0x08003604   Section        0  sensor_bar.o(i.sensorbar_init)
-    i.servo_control                          0x08003644   Section        0  servo.o(i.servo_control)
-    i.servo_init                             0x0800365c   Section        0  servo.o(i.servo_init)
-    i.set_target                             0x0800372c   Section        0  imu_targeting.o(i.set_target)
-    i.si_add_pwm_bias                        0x08003738   Section        0  servo_interface.o(i.si_add_pwm_bias)
-    i.si_clear                               0x08003748   Section        0  servo_interface.o(i.si_clear)
-    i.si_execute                             0x08003758   Section        0  servo_interface.o(i.si_execute)
-    i.si_init                                0x080037a4   Section        0  servo_interface.o(i.si_init)
-    i.si_set_pwm                             0x080037f4   Section        0  servo_interface.o(i.si_set_pwm)
-    i.targeting_update                       0x08003800   Section        0  imu_targeting.o(i.targeting_update)
-    i.tft_char_is_changed                    0x08003864   Section        0  lcd_main.o(i.tft_char_is_changed)
-    i.tft_clear                              0x08003900   Section        0  lcd_main.o(i.tft_clear)
-    i.tft_config                             0x08003974   Section        0  lcd_main.o(i.tft_config)
-    i.tft_easy_init                          0x08003b8a   Section        0  lcd_main.o(i.tft_easy_init)
-    i.tft_fill_color                         0x08003ba8   Section        0  lcd_main.o(i.tft_fill_color)
-    i.tft_init                               0x08003c0c   Section        0  lcd_main.o(i.tft_init)
-    i.tft_println                            0x08003d08   Section        0  lcd_main.o(i.tft_println)
-    i.tft_prints                             0x08003de4   Section        0  lcd_main.o(i.tft_prints)
-    i.tft_put_logo                           0x08003eb0   Section        0  lcd_main.o(i.tft_put_logo)
-    i.tft_put_pixel                          0x08005188   Section        0  lcd_main.o(i.tft_put_pixel)
-    i.tft_set_bg_color                       0x080051e4   Section        0  lcd_main.o(i.tft_set_bg_color)
-    i.tft_set_char_pos                       0x080051f0   Section        0  lcd_main.o(i.tft_set_char_pos)
-    i.tft_set_pixel_pos                      0x08005242   Section        0  lcd_main.o(i.tft_set_pixel_pos)
-    i.tft_set_text_color                     0x08005294   Section        0  lcd_main.o(i.tft_set_text_color)
-    i.tft_spi_init                           0x080052a0   Section        0  lcd_main.o(i.tft_spi_init)
-    i.tft_update                             0x080053b4   Section        0  lcd_main.o(i.tft_update)
-    i.tft_write_command                      0x080059a8   Section        0  lcd_main.o(i.tft_write_command)
-    i.tft_write_data                         0x08005a00   Section        0  lcd_main.o(i.tft_write_data)
-    i.ticks_init                             0x08005a58   Section        0  ticks.o(i.ticks_init)
-    i.u16_sqrt                               0x08005ac4   Section        0  quick_math.o(i.u16_sqrt)
-    i.uart_init                              0x08005b04   Section        0  usart.o(i.uart_init)
-    i.uart_interrupt_init                    0x08005c10   Section        0  usart.o(i.uart_interrupt_init)
-    i.uart_tx                                0x08005c80   Section        0  usart.o(i.uart_tx)
-    i.uart_tx_byte                           0x08005cdc   Section        0  usart.o(i.uart_tx_byte)
-    .constdata                               0x08005d04   Section       12  buzzer_song.o(.constdata)
-    .constdata                               0x08005d10   Section        8  buzzer_song.o(.constdata)
-    .constdata                               0x08005d18   Section       56  buzzer_song.o(.constdata)
-    .constdata                               0x08005d50   Section       72  usart.o(.constdata)
-    .conststring                             0x08005d98   Section       76  menu.o(.conststring)
+    i.s16_cap                                0x080033f8   Section        0  quick_math.o(i.s16_cap)
+    i.sensor_bar_get_corr                    0x08003408   Section        0  sensor_bar.o(i.sensor_bar_get_corr)
+    i.sensor_bar_receiver_a                  0x08003548   Section        0  sensor_bar.o(i.sensor_bar_receiver_a)
+    sensor_bar_receiver_a                    0x08003549   Thumb Code    44  sensor_bar.o(i.sensor_bar_receiver_a)
+    i.sensor_bar_receiver_b                  0x08003578   Section        0  sensor_bar.o(i.sensor_bar_receiver_b)
+    sensor_bar_receiver_b                    0x08003579   Thumb Code    48  sensor_bar.o(i.sensor_bar_receiver_b)
+    i.sensor_bar_receiver_c                  0x080035ac   Section        0  sensor_bar.o(i.sensor_bar_receiver_c)
+    sensor_bar_receiver_c                    0x080035ad   Thumb Code     8  sensor_bar.o(i.sensor_bar_receiver_c)
+    i.sensor_bar_track                       0x080035b8   Section        0  sensor_bar.o(i.sensor_bar_track)
+    i.sensorbar_init                         0x080035dc   Section        0  sensor_bar.o(i.sensorbar_init)
+    i.servo_control                          0x0800361c   Section        0  servo.o(i.servo_control)
+    i.servo_init                             0x08003634   Section        0  servo.o(i.servo_init)
+    i.set_target                             0x08003704   Section        0  imu_targeting.o(i.set_target)
+    i.si_add_pwm_bias                        0x08003710   Section        0  servo_interface.o(i.si_add_pwm_bias)
+    i.si_clear                               0x08003720   Section        0  servo_interface.o(i.si_clear)
+    i.si_execute                             0x08003730   Section        0  servo_interface.o(i.si_execute)
+    i.si_init                                0x0800377c   Section        0  servo_interface.o(i.si_init)
+    i.si_set_pwm                             0x080037cc   Section        0  servo_interface.o(i.si_set_pwm)
+    i.targeting_update                       0x080037d8   Section        0  imu_targeting.o(i.targeting_update)
+    i.tft_char_is_changed                    0x0800383c   Section        0  lcd_main.o(i.tft_char_is_changed)
+    i.tft_clear                              0x080038d8   Section        0  lcd_main.o(i.tft_clear)
+    i.tft_config                             0x0800394c   Section        0  lcd_main.o(i.tft_config)
+    i.tft_easy_init                          0x08003b62   Section        0  lcd_main.o(i.tft_easy_init)
+    i.tft_fill_color                         0x08003b80   Section        0  lcd_main.o(i.tft_fill_color)
+    i.tft_init                               0x08003be4   Section        0  lcd_main.o(i.tft_init)
+    i.tft_println                            0x08003ce0   Section        0  lcd_main.o(i.tft_println)
+    i.tft_prints                             0x08003dbc   Section        0  lcd_main.o(i.tft_prints)
+    i.tft_put_logo                           0x08003e88   Section        0  lcd_main.o(i.tft_put_logo)
+    i.tft_put_pixel                          0x08005160   Section        0  lcd_main.o(i.tft_put_pixel)
+    i.tft_set_bg_color                       0x080051bc   Section        0  lcd_main.o(i.tft_set_bg_color)
+    i.tft_set_char_pos                       0x080051c8   Section        0  lcd_main.o(i.tft_set_char_pos)
+    i.tft_set_pixel_pos                      0x0800521a   Section        0  lcd_main.o(i.tft_set_pixel_pos)
+    i.tft_set_text_color                     0x0800526c   Section        0  lcd_main.o(i.tft_set_text_color)
+    i.tft_spi_init                           0x08005278   Section        0  lcd_main.o(i.tft_spi_init)
+    i.tft_update                             0x0800538c   Section        0  lcd_main.o(i.tft_update)
+    i.tft_write_command                      0x08005980   Section        0  lcd_main.o(i.tft_write_command)
+    i.tft_write_data                         0x080059d8   Section        0  lcd_main.o(i.tft_write_data)
+    i.ticks_init                             0x08005a30   Section        0  ticks.o(i.ticks_init)
+    i.u16_sqrt                               0x08005a9c   Section        0  quick_math.o(i.u16_sqrt)
+    i.uart_init                              0x08005adc   Section        0  usart.o(i.uart_init)
+    i.uart_interrupt_init                    0x08005be8   Section        0  usart.o(i.uart_interrupt_init)
+    i.uart_tx                                0x08005c58   Section        0  usart.o(i.uart_tx)
+    i.uart_tx_byte                           0x08005cb4   Section        0  usart.o(i.uart_tx_byte)
+    .constdata                               0x08005cdc   Section       12  buzzer_song.o(.constdata)
+    .constdata                               0x08005ce8   Section        8  buzzer_song.o(.constdata)
+    .constdata                               0x08005cf0   Section       56  buzzer_song.o(.constdata)
+    .constdata                               0x08005d28   Section       72  usart.o(.constdata)
+    .conststring                             0x08005d70   Section       76  menu.o(.conststring)
     .data                                    0x20000000   Section       16  stm32f4xx_rcc.o(.data)
     APBAHBPrescTable                         0x20000000   Data          16  stm32f4xx_rcc.o(.data)
     .data                                    0x20000010   Section       20  system_stm32f4xx.o(.data)
@@ -2145,65 +2144,63 @@ Image Symbol Table
     .data                                    0x20000038   Section        1  path_downslope.o(.data)
     down_state                               0x20000038   Data           1  path_downslope.o(.data)
     .data                                    0x2000003a   Section        8  path_river.o(.data)
-    .data                                    0x20000044   Section        8  path_upslope_sb.o(.data)
-    up_slope_line_count                      0x20000044   Data           1  path_upslope_sb.o(.data)
-    right_angle_ing                          0x20000045   Data           1  path_upslope_sb.o(.data)
-    last_time_ticks                          0x20000048   Data           4  path_upslope_sb.o(.data)
-    .data                                    0x2000004c   Section        2  sensor_bar.o(.data)
-    .data                                    0x2000004e   Section        2  imu_targeting.o(.data)
-    .data                                    0x20000050   Section       32  menu.o(.data)
-    items_in_menu                            0x20000054   Data          28  menu.o(.data)
-    .data                                    0x20000070   Section        6  servo_interface.o(.data)
-    .data                                    0x20000076   Section        8  ardu_imu_adp.o(.data)
-    sync_music_played                        0x20000076   Data           1  ardu_imu_adp.o(.data)
-    cali_music_played                        0x20000077   Data           1  ardu_imu_adp.o(.data)
-    .data                                    0x20000080   Section       12  ardu_imu.o(.data)
-    sync_progress                            0x20000080   Data           1  ardu_imu.o(.data)
-    ardu_imu_buffer_pointer                  0x20000081   Data           1  ardu_imu.o(.data)
-    sample_size                              0x20000086   Data           1  ardu_imu.o(.data)
-    sync_count                               0x20000087   Data           1  ardu_imu.o(.data)
-    yaw_bias                                 0x20000088   Data           4  ardu_imu.o(.data)
-    .data                                    0x2000008c   Section       20  can_protocol.o(.data)
-    can_rx_count                             0x20000090   Data           4  can_protocol.o(.data)
-    .data                                    0x200000a0   Section       40  encoder.o(.data)
-    encoder                                  0x200000a0   Data          40  encoder.o(.data)
-    .data                                    0x200000c8   Section     1550  lcd_main.o(.data)
-    .data                                    0x200006d6   Section        4  led.o(.data)
-    LED_GPIO_ARRAY                           0x200006d8   Data           2  led.o(.data)
-    .data                                    0x200006dc   Section       48  usart.o(.data)
-    .data                                    0x2000070c   Section       36  buzzer.o(.data)
-    buzzer_on_flag                           0x2000070c   Data           1  buzzer.o(.data)
-    buzzer_count                             0x2000070d   Data           1  buzzer.o(.data)
-    buzzer_volume                            0x2000070e   Data           1  buzzer.o(.data)
-    buzzer_song_flag                         0x2000070f   Data           1  buzzer.o(.data)
-    buzzer_song_note_break_flag              0x20000710   Data           1  buzzer.o(.data)
-    buzzer_period                            0x20000712   Data           2  buzzer.o(.data)
-    buzzer_time_ms                           0x20000714   Data           2  buzzer.o(.data)
-    buzzer_note_period                       0x20000716   Data           2  buzzer.o(.data)
-    buzzer_current_song_note_id              0x20000718   Data           2  buzzer.o(.data)
-    buzzer_song_note_length                  0x2000071a   Data           2  buzzer.o(.data)
-    buzzer_song_note_length_left             0x2000071c   Data           2  buzzer.o(.data)
-    buzzer_song_note_break                   0x2000071e   Data           2  buzzer.o(.data)
-    buzzer_current_song                      0x20000720   Data           4  buzzer.o(.data)
-    .data                                    0x20000730   Section       24  servo.o(.data)
-    servo_pwm                                0x20000730   Data          24  servo.o(.data)
-    .data                                    0x20000748   Section        6  ticks.o(.data)
-    .bss                                     0x20000750   Section       64  sensor_bar.o(.bss)
-    .bss                                     0x20000790   Section       12  ardu_imu_adp.o(.bss)
-    .bss                                     0x2000079c   Section      436  ardu_imu.o(.bss)
-    ardu_imu_buffer                          0x2000079c   Data          12  ardu_imu.o(.bss)
-    yaw_samples                              0x200007c0   Data         400  ardu_imu.o(.bss)
-    .bss                                     0x20000950   Section    32000  can_protocol.o(.bss)
-    .bss                                     0x20008650   Section      128  can_protocol.o(.bss)
-    can_recent_rx                            0x20008650   Data          16  can_protocol.o(.bss)
-    .bss                                     0x200086d0   Section     2000  lcd_main.o(.bss)
-    .bss                                     0x20008ea0   Section       22  tm_stm32f4_gpio.o(.bss)
-    GPIO_UsedPins                            0x20008ea0   Data          22  tm_stm32f4_gpio.o(.bss)
-    .bss                                     0x20008eb6   Section       26  buzzer.o(.bss)
-    NOTE0_PERIOD                             0x20008eb6   Data          26  buzzer.o(.bss)
-    .bss                                     0x20008ed0   Section       24  buzzer.o(.bss)
-    BUZZER_QUEUE_ARRAY                       0x20008ed0   Data          24  buzzer.o(.bss)
-    STACK                                    0x20008ee8   Section     1024  startup_stm32f40_41xxx.o(STACK)
+    .data                                    0x20000042   Section        1  path_upslope_sb.o(.data)
+    right_angle_ing                          0x20000042   Data           1  path_upslope_sb.o(.data)
+    .data                                    0x20000043   Section        2  sensor_bar.o(.data)
+    .data                                    0x20000046   Section        2  imu_targeting.o(.data)
+    .data                                    0x20000048   Section       32  menu.o(.data)
+    items_in_menu                            0x2000004c   Data          28  menu.o(.data)
+    .data                                    0x20000068   Section        6  servo_interface.o(.data)
+    .data                                    0x2000006e   Section        8  ardu_imu_adp.o(.data)
+    sync_music_played                        0x2000006e   Data           1  ardu_imu_adp.o(.data)
+    cali_music_played                        0x2000006f   Data           1  ardu_imu_adp.o(.data)
+    .data                                    0x20000078   Section       12  ardu_imu.o(.data)
+    sync_progress                            0x20000078   Data           1  ardu_imu.o(.data)
+    ardu_imu_buffer_pointer                  0x20000079   Data           1  ardu_imu.o(.data)
+    sample_size                              0x2000007e   Data           1  ardu_imu.o(.data)
+    sync_count                               0x2000007f   Data           1  ardu_imu.o(.data)
+    yaw_bias                                 0x20000080   Data           4  ardu_imu.o(.data)
+    .data                                    0x20000084   Section       20  can_protocol.o(.data)
+    can_rx_count                             0x20000088   Data           4  can_protocol.o(.data)
+    .data                                    0x20000098   Section       40  encoder.o(.data)
+    encoder                                  0x20000098   Data          40  encoder.o(.data)
+    .data                                    0x200000c0   Section     1550  lcd_main.o(.data)
+    .data                                    0x200006ce   Section        4  led.o(.data)
+    LED_GPIO_ARRAY                           0x200006d0   Data           2  led.o(.data)
+    .data                                    0x200006d4   Section       48  usart.o(.data)
+    .data                                    0x20000704   Section       36  buzzer.o(.data)
+    buzzer_on_flag                           0x20000704   Data           1  buzzer.o(.data)
+    buzzer_count                             0x20000705   Data           1  buzzer.o(.data)
+    buzzer_volume                            0x20000706   Data           1  buzzer.o(.data)
+    buzzer_song_flag                         0x20000707   Data           1  buzzer.o(.data)
+    buzzer_song_note_break_flag              0x20000708   Data           1  buzzer.o(.data)
+    buzzer_period                            0x2000070a   Data           2  buzzer.o(.data)
+    buzzer_time_ms                           0x2000070c   Data           2  buzzer.o(.data)
+    buzzer_note_period                       0x2000070e   Data           2  buzzer.o(.data)
+    buzzer_current_song_note_id              0x20000710   Data           2  buzzer.o(.data)
+    buzzer_song_note_length                  0x20000712   Data           2  buzzer.o(.data)
+    buzzer_song_note_length_left             0x20000714   Data           2  buzzer.o(.data)
+    buzzer_song_note_break                   0x20000716   Data           2  buzzer.o(.data)
+    buzzer_current_song                      0x20000718   Data           4  buzzer.o(.data)
+    .data                                    0x20000728   Section       24  servo.o(.data)
+    servo_pwm                                0x20000728   Data          24  servo.o(.data)
+    .data                                    0x20000740   Section        6  ticks.o(.data)
+    .bss                                     0x20000748   Section       64  sensor_bar.o(.bss)
+    .bss                                     0x20000788   Section       12  ardu_imu_adp.o(.bss)
+    .bss                                     0x20000794   Section      436  ardu_imu.o(.bss)
+    ardu_imu_buffer                          0x20000794   Data          12  ardu_imu.o(.bss)
+    yaw_samples                              0x200007b8   Data         400  ardu_imu.o(.bss)
+    .bss                                     0x20000948   Section    32000  can_protocol.o(.bss)
+    .bss                                     0x20008648   Section      128  can_protocol.o(.bss)
+    can_recent_rx                            0x20008648   Data          16  can_protocol.o(.bss)
+    .bss                                     0x200086c8   Section     2000  lcd_main.o(.bss)
+    .bss                                     0x20008e98   Section       22  tm_stm32f4_gpio.o(.bss)
+    GPIO_UsedPins                            0x20008e98   Data          22  tm_stm32f4_gpio.o(.bss)
+    .bss                                     0x20008eae   Section       26  buzzer.o(.bss)
+    NOTE0_PERIOD                             0x20008eae   Data          26  buzzer.o(.bss)
+    .bss                                     0x20008ec8   Section       24  buzzer.o(.bss)
+    BUZZER_QUEUE_ARRAY                       0x20008ec8   Data          24  buzzer.o(.bss)
+    STACK                                    0x20008ee0   Section     1024  startup_stm32f40_41xxx.o(STACK)
 
     Global Symbols
 
@@ -2446,57 +2443,57 @@ Image Symbol Table
     path_down_init                           0x080031b9   Thumb Code     8  path_downslope.o(i.path_down_init)
     path_down_update                         0x080031c5   Thumb Code    66  path_downslope.o(i.path_down_update)
     path_river_init                          0x08003211   Thumb Code    40  path_river.o(i.path_river_init)
-    path_river_update                        0x08003241   Thumb Code   220  path_river.o(i.path_river_update)
-    path_up_sb_init                          0x08003351   Thumb Code    12  path_upslope_sb.o(i.path_up_sb_init)
-    path_up_sb_update                        0x08003361   Thumb Code   160  path_upslope_sb.o(i.path_up_sb_update)
-    s16_cap                                  0x08003421   Thumb Code    16  quick_math.o(i.s16_cap)
-    sensor_bar_get_corr                      0x08003431   Thumb Code   290  sensor_bar.o(i.sensor_bar_get_corr)
-    sensor_bar_track                         0x080035e1   Thumb Code    34  sensor_bar.o(i.sensor_bar_track)
-    sensorbar_init                           0x08003605   Thumb Code    50  sensor_bar.o(i.sensorbar_init)
-    servo_control                            0x08003645   Thumb Code    14  servo.o(i.servo_control)
-    servo_init                               0x0800365d   Thumb Code   200  servo.o(i.servo_init)
-    set_target                               0x0800372d   Thumb Code     6  imu_targeting.o(i.set_target)
-    si_add_pwm_bias                          0x08003739   Thumb Code    10  servo_interface.o(i.si_add_pwm_bias)
-    si_clear                                 0x08003749   Thumb Code    10  servo_interface.o(i.si_clear)
-    si_execute                               0x08003759   Thumb Code    66  servo_interface.o(i.si_execute)
-    si_init                                  0x080037a5   Thumb Code    72  servo_interface.o(i.si_init)
-    si_set_pwm                               0x080037f5   Thumb Code     6  servo_interface.o(i.si_set_pwm)
-    targeting_update                         0x08003801   Thumb Code    90  imu_targeting.o(i.targeting_update)
-    tft_char_is_changed                      0x08003865   Thumb Code   138  lcd_main.o(i.tft_char_is_changed)
-    tft_clear                                0x08003901   Thumb Code   106  lcd_main.o(i.tft_clear)
-    tft_config                               0x08003975   Thumb Code   534  lcd_main.o(i.tft_config)
-    tft_easy_init                            0x08003b8b   Thumb Code    30  lcd_main.o(i.tft_easy_init)
-    tft_fill_color                           0x08003ba9   Thumb Code    98  lcd_main.o(i.tft_fill_color)
-    tft_init                                 0x08003c0d   Thumb Code   234  lcd_main.o(i.tft_init)
-    tft_println                              0x08003d09   Thumb Code   210  lcd_main.o(i.tft_println)
-    tft_prints                               0x08003de5   Thumb Code   194  lcd_main.o(i.tft_prints)
-    tft_put_logo                             0x08003eb1   Thumb Code  4824  lcd_main.o(i.tft_put_logo)
-    tft_put_pixel                            0x08005189   Thumb Code    86  lcd_main.o(i.tft_put_pixel)
-    tft_set_bg_color                         0x080051e5   Thumb Code     6  lcd_main.o(i.tft_set_bg_color)
-    tft_set_char_pos                         0x080051f1   Thumb Code    82  lcd_main.o(i.tft_set_char_pos)
-    tft_set_pixel_pos                        0x08005243   Thumb Code    80  lcd_main.o(i.tft_set_pixel_pos)
-    tft_set_text_color                       0x08005295   Thumb Code     6  lcd_main.o(i.tft_set_text_color)
-    tft_spi_init                             0x080052a1   Thumb Code   262  lcd_main.o(i.tft_spi_init)
-    tft_update                               0x080053b5   Thumb Code  1502  lcd_main.o(i.tft_update)
-    tft_write_command                        0x080059a9   Thumb Code    80  lcd_main.o(i.tft_write_command)
-    tft_write_data                           0x08005a01   Thumb Code    80  lcd_main.o(i.tft_write_data)
-    ticks_init                               0x08005a59   Thumb Code    98  ticks.o(i.ticks_init)
-    u16_sqrt                                 0x08005ac5   Thumb Code    62  quick_math.o(i.u16_sqrt)
-    uart_init                                0x08005b05   Thumb Code   232  usart.o(i.uart_init)
-    uart_interrupt_init                      0x08005c11   Thumb Code   100  usart.o(i.uart_interrupt_init)
-    uart_tx                                  0x08005c81   Thumb Code    88  usart.o(i.uart_tx)
-    uart_tx_byte                             0x08005cdd   Thumb Code    36  usart.o(i.uart_tx_byte)
-    START_UP                                 0x08005d04   Data          12  buzzer_song.o(.constdata)
-    SUCCESSFUL_SOUND                         0x08005d10   Data           8  buzzer_song.o(.constdata)
-    MARIO_BEGIN                              0x08005d18   Data          56  buzzer_song.o(.constdata)
-    COM_TX_PIN                               0x08005d50   Data           8  usart.o(.constdata)
-    COM_RX_PIN                               0x08005d58   Data           8  usart.o(.constdata)
-    COM_IRQ                                  0x08005d60   Data           8  usart.o(.constdata)
-    COM_USART_CLK                            0x08005d68   Data          16  usart.o(.constdata)
-    COM_TX_PORT_CLK                          0x08005d78   Data          16  usart.o(.constdata)
-    COM_RX_PORT_CLK                          0x08005d88   Data          16  usart.o(.constdata)
-    Region$$Table$$Base                      0x08005de4   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08005e04   Number         0  anon$$obj.o(Region$$Table)
+    path_river_update                        0x08003241   Thumb Code   222  path_river.o(i.path_river_update)
+    path_up_sb_init                          0x08003355   Thumb Code     8  path_upslope_sb.o(i.path_up_sb_init)
+    path_up_sb_update                        0x08003361   Thumb Code   124  path_upslope_sb.o(i.path_up_sb_update)
+    s16_cap                                  0x080033f9   Thumb Code    16  quick_math.o(i.s16_cap)
+    sensor_bar_get_corr                      0x08003409   Thumb Code   290  sensor_bar.o(i.sensor_bar_get_corr)
+    sensor_bar_track                         0x080035b9   Thumb Code    34  sensor_bar.o(i.sensor_bar_track)
+    sensorbar_init                           0x080035dd   Thumb Code    50  sensor_bar.o(i.sensorbar_init)
+    servo_control                            0x0800361d   Thumb Code    14  servo.o(i.servo_control)
+    servo_init                               0x08003635   Thumb Code   200  servo.o(i.servo_init)
+    set_target                               0x08003705   Thumb Code     6  imu_targeting.o(i.set_target)
+    si_add_pwm_bias                          0x08003711   Thumb Code    10  servo_interface.o(i.si_add_pwm_bias)
+    si_clear                                 0x08003721   Thumb Code    10  servo_interface.o(i.si_clear)
+    si_execute                               0x08003731   Thumb Code    66  servo_interface.o(i.si_execute)
+    si_init                                  0x0800377d   Thumb Code    72  servo_interface.o(i.si_init)
+    si_set_pwm                               0x080037cd   Thumb Code     6  servo_interface.o(i.si_set_pwm)
+    targeting_update                         0x080037d9   Thumb Code    90  imu_targeting.o(i.targeting_update)
+    tft_char_is_changed                      0x0800383d   Thumb Code   138  lcd_main.o(i.tft_char_is_changed)
+    tft_clear                                0x080038d9   Thumb Code   106  lcd_main.o(i.tft_clear)
+    tft_config                               0x0800394d   Thumb Code   534  lcd_main.o(i.tft_config)
+    tft_easy_init                            0x08003b63   Thumb Code    30  lcd_main.o(i.tft_easy_init)
+    tft_fill_color                           0x08003b81   Thumb Code    98  lcd_main.o(i.tft_fill_color)
+    tft_init                                 0x08003be5   Thumb Code   234  lcd_main.o(i.tft_init)
+    tft_println                              0x08003ce1   Thumb Code   210  lcd_main.o(i.tft_println)
+    tft_prints                               0x08003dbd   Thumb Code   194  lcd_main.o(i.tft_prints)
+    tft_put_logo                             0x08003e89   Thumb Code  4824  lcd_main.o(i.tft_put_logo)
+    tft_put_pixel                            0x08005161   Thumb Code    86  lcd_main.o(i.tft_put_pixel)
+    tft_set_bg_color                         0x080051bd   Thumb Code     6  lcd_main.o(i.tft_set_bg_color)
+    tft_set_char_pos                         0x080051c9   Thumb Code    82  lcd_main.o(i.tft_set_char_pos)
+    tft_set_pixel_pos                        0x0800521b   Thumb Code    80  lcd_main.o(i.tft_set_pixel_pos)
+    tft_set_text_color                       0x0800526d   Thumb Code     6  lcd_main.o(i.tft_set_text_color)
+    tft_spi_init                             0x08005279   Thumb Code   262  lcd_main.o(i.tft_spi_init)
+    tft_update                               0x0800538d   Thumb Code  1502  lcd_main.o(i.tft_update)
+    tft_write_command                        0x08005981   Thumb Code    80  lcd_main.o(i.tft_write_command)
+    tft_write_data                           0x080059d9   Thumb Code    80  lcd_main.o(i.tft_write_data)
+    ticks_init                               0x08005a31   Thumb Code    98  ticks.o(i.ticks_init)
+    u16_sqrt                                 0x08005a9d   Thumb Code    62  quick_math.o(i.u16_sqrt)
+    uart_init                                0x08005add   Thumb Code   232  usart.o(i.uart_init)
+    uart_interrupt_init                      0x08005be9   Thumb Code   100  usart.o(i.uart_interrupt_init)
+    uart_tx                                  0x08005c59   Thumb Code    88  usart.o(i.uart_tx)
+    uart_tx_byte                             0x08005cb5   Thumb Code    36  usart.o(i.uart_tx_byte)
+    START_UP                                 0x08005cdc   Data          12  buzzer_song.o(.constdata)
+    SUCCESSFUL_SOUND                         0x08005ce8   Data           8  buzzer_song.o(.constdata)
+    MARIO_BEGIN                              0x08005cf0   Data          56  buzzer_song.o(.constdata)
+    COM_TX_PIN                               0x08005d28   Data           8  usart.o(.constdata)
+    COM_RX_PIN                               0x08005d30   Data           8  usart.o(.constdata)
+    COM_IRQ                                  0x08005d38   Data           8  usart.o(.constdata)
+    COM_USART_CLK                            0x08005d40   Data          16  usart.o(.constdata)
+    COM_TX_PORT_CLK                          0x08005d50   Data          16  usart.o(.constdata)
+    COM_RX_PORT_CLK                          0x08005d60   Data          16  usart.o(.constdata)
+    Region$$Table$$Base                      0x08005dbc   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08005ddc   Number         0  anon$$obj.o(Region$$Table)
     SystemCoreClock                          0x20000010   Data           4  system_stm32f4xx.o(.data)
     AHBPrescTable                            0x20000014   Data          16  system_stm32f4xx.o(.data)
     last_loop_ticks                          0x20000024   Data           4  main.o(.data)
@@ -2508,57 +2505,57 @@ Image Symbol Table
     islands_count                            0x2000003b   Data           2  path_river.o(.data)
     last_IR_state                            0x2000003d   Data           2  path_river.o(.data)
     river_straight_yaw                       0x20000040   Data           2  path_river.o(.data)
-    sensor_bar_mid                           0x2000004c   Data           1  sensor_bar.o(.data)
-    sensorbar_region                         0x2000004d   Data           1  sensor_bar.o(.data)
-    target_yaw                               0x2000004e   Data           2  imu_targeting.o(.data)
-    selection                                0x20000050   Data           1  menu.o(.data)
-    current_servo_pwm                        0x20000070   Data           2  servo_interface.o(.data)
-    pending_servo_pwm                        0x20000072   Data           2  servo_interface.o(.data)
-    static_pwm_bias                          0x20000074   Data           2  servo_interface.o(.data)
-    ardu_int_ypr                             0x20000078   Data           6  ardu_imu_adp.o(.data)
-    ardu_imu_synced                          0x20000082   Data           1  ardu_imu.o(.data)
-    ardu_imu_staged                          0x20000083   Data           1  ardu_imu.o(.data)
-    ardu_imu_pre_staged                      0x20000084   Data           1  ardu_imu.o(.data)
-    ardu_imu_calibrated                      0x20000085   Data           1  ardu_imu.o(.data)
-    CAN_FilterCount                          0x2000008c   Data           1  can_protocol.o(.data)
-    CAN_Tx_Queue                             0x20000094   Data          12  can_protocol.o(.data)
-    tft_orientation                          0x200000c8   Data           1  lcd_main.o(.data)
-    tft_enabled                              0x200000c9   Data           1  lcd_main.o(.data)
-    tft_width                                0x200000ca   Data           1  lcd_main.o(.data)
-    tft_height                               0x200000cb   Data           1  lcd_main.o(.data)
-    tft_y_index                              0x200000cc   Data           1  lcd_main.o(.data)
-    pointer_to_curr_screen                   0x200000cd   Data           1  lcd_main.o(.data)
-    char_max_x                               0x200000ce   Data           1  lcd_main.o(.data)
-    char_max_y                               0x200000cf   Data           1  lcd_main.o(.data)
-    curr_bg_color                            0x200000d0   Data           2  lcd_main.o(.data)
-    curr_text_color                          0x200000d2   Data           2  lcd_main.o(.data)
-    curr_text_color_sp                       0x200000d4   Data           2  lcd_main.o(.data)
-    ascii_8x16                               0x200000d6   Data        1536  lcd_main.o(.data)
-    led_state                                0x200006d6   Data           1  led.o(.data)
-    uart1_listener_empty                     0x200006dc   Data           1  usart.o(.data)
-    uart2_listener_empty                     0x200006dd   Data           1  usart.o(.data)
-    uart3_listener_empty                     0x200006de   Data           1  usart.o(.data)
-    printf_COMx                              0x200006df   Data           1  usart.o(.data)
-    uart1_rx_listener                        0x200006e0   Data           4  usart.o(.data)
-    uart2_rx_listener                        0x200006e4   Data           4  usart.o(.data)
-    uart3_rx_listener                        0x200006e8   Data           4  usart.o(.data)
-    COM_USART                                0x200006ec   Data          16  usart.o(.data)
-    COM_TX_PORT                              0x200006fc   Data          16  usart.o(.data)
-    Buzzer_Queue                             0x20000724   Data          12  buzzer.o(.data)
-    using_delay                              0x20000748   Data           1  ticks.o(.data)
-    ticks                                    0x2000074a   Data           2  ticks.o(.data)
-    seconds                                  0x2000074c   Data           2  ticks.o(.data)
-    sensor_bar_filtered                      0x20000750   Data          32  sensor_bar.o(.bss)
-    sensor_bar_raw                           0x20000770   Data          32  sensor_bar.o(.bss)
-    ardu_start_ypr                           0x20000790   Data          12  ardu_imu_adp.o(.bss)
-    ardu_out_ypr                             0x200007a8   Data          12  ardu_imu.o(.bss)
-    ardu_cal_ypr                             0x200007b4   Data          12  ardu_imu.o(.bss)
-    CAN_Tx_Queue_Array                       0x20000950   Data       32000  can_protocol.o(.bss)
-    CAN_Rx_Handlers                          0x20008660   Data         112  can_protocol.o(.bss)
-    text                                     0x200086d0   Data         400  lcd_main.o(.bss)
-    text_color                               0x20008860   Data         800  lcd_main.o(.bss)
-    bg_color                                 0x20008b80   Data         800  lcd_main.o(.bss)
-    __initial_sp                             0x200092e8   Data           0  startup_stm32f40_41xxx.o(STACK)
+    sensor_bar_mid                           0x20000043   Data           1  sensor_bar.o(.data)
+    sensorbar_region                         0x20000044   Data           1  sensor_bar.o(.data)
+    target_yaw                               0x20000046   Data           2  imu_targeting.o(.data)
+    selection                                0x20000048   Data           1  menu.o(.data)
+    current_servo_pwm                        0x20000068   Data           2  servo_interface.o(.data)
+    pending_servo_pwm                        0x2000006a   Data           2  servo_interface.o(.data)
+    static_pwm_bias                          0x2000006c   Data           2  servo_interface.o(.data)
+    ardu_int_ypr                             0x20000070   Data           6  ardu_imu_adp.o(.data)
+    ardu_imu_synced                          0x2000007a   Data           1  ardu_imu.o(.data)
+    ardu_imu_staged                          0x2000007b   Data           1  ardu_imu.o(.data)
+    ardu_imu_pre_staged                      0x2000007c   Data           1  ardu_imu.o(.data)
+    ardu_imu_calibrated                      0x2000007d   Data           1  ardu_imu.o(.data)
+    CAN_FilterCount                          0x20000084   Data           1  can_protocol.o(.data)
+    CAN_Tx_Queue                             0x2000008c   Data          12  can_protocol.o(.data)
+    tft_orientation                          0x200000c0   Data           1  lcd_main.o(.data)
+    tft_enabled                              0x200000c1   Data           1  lcd_main.o(.data)
+    tft_width                                0x200000c2   Data           1  lcd_main.o(.data)
+    tft_height                               0x200000c3   Data           1  lcd_main.o(.data)
+    tft_y_index                              0x200000c4   Data           1  lcd_main.o(.data)
+    pointer_to_curr_screen                   0x200000c5   Data           1  lcd_main.o(.data)
+    char_max_x                               0x200000c6   Data           1  lcd_main.o(.data)
+    char_max_y                               0x200000c7   Data           1  lcd_main.o(.data)
+    curr_bg_color                            0x200000c8   Data           2  lcd_main.o(.data)
+    curr_text_color                          0x200000ca   Data           2  lcd_main.o(.data)
+    curr_text_color_sp                       0x200000cc   Data           2  lcd_main.o(.data)
+    ascii_8x16                               0x200000ce   Data        1536  lcd_main.o(.data)
+    led_state                                0x200006ce   Data           1  led.o(.data)
+    uart1_listener_empty                     0x200006d4   Data           1  usart.o(.data)
+    uart2_listener_empty                     0x200006d5   Data           1  usart.o(.data)
+    uart3_listener_empty                     0x200006d6   Data           1  usart.o(.data)
+    printf_COMx                              0x200006d7   Data           1  usart.o(.data)
+    uart1_rx_listener                        0x200006d8   Data           4  usart.o(.data)
+    uart2_rx_listener                        0x200006dc   Data           4  usart.o(.data)
+    uart3_rx_listener                        0x200006e0   Data           4  usart.o(.data)
+    COM_USART                                0x200006e4   Data          16  usart.o(.data)
+    COM_TX_PORT                              0x200006f4   Data          16  usart.o(.data)
+    Buzzer_Queue                             0x2000071c   Data          12  buzzer.o(.data)
+    using_delay                              0x20000740   Data           1  ticks.o(.data)
+    ticks                                    0x20000742   Data           2  ticks.o(.data)
+    seconds                                  0x20000744   Data           2  ticks.o(.data)
+    sensor_bar_filtered                      0x20000748   Data          32  sensor_bar.o(.bss)
+    sensor_bar_raw                           0x20000768   Data          32  sensor_bar.o(.bss)
+    ardu_start_ypr                           0x20000788   Data          12  ardu_imu_adp.o(.bss)
+    ardu_out_ypr                             0x200007a0   Data          12  ardu_imu.o(.bss)
+    ardu_cal_ypr                             0x200007ac   Data          12  ardu_imu.o(.bss)
+    CAN_Tx_Queue_Array                       0x20000948   Data       32000  can_protocol.o(.bss)
+    CAN_Rx_Handlers                          0x20008658   Data         112  can_protocol.o(.bss)
+    text                                     0x200086c8   Data         400  lcd_main.o(.bss)
+    text_color                               0x20008858   Data         800  lcd_main.o(.bss)
+    bg_color                                 0x20008b78   Data         800  lcd_main.o(.bss)
+    __initial_sp                             0x200092e0   Data           0  startup_stm32f40_41xxx.o(STACK)
 
 
 
@@ -2568,9 +2565,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000189
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00006554, Max: 0x00100000, ABSOLUTE, COMPRESSED[0x00006144])
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00006524, Max: 0x00100000, ABSOLUTE, COMPRESSED[0x0000611c])
 
-    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00005e04, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00005ddc, Max: 0x00100000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2723,62 +2720,62 @@ Memory Map of the image
     0x080031b8   0x0000000c   Code   RO          840    i.path_down_init    path_downslope.o
     0x080031c4   0x0000004c   Code   RO          841    i.path_down_update  path_downslope.o
     0x08003210   0x00000030   Code   RO          848    i.path_river_init   path_river.o
-    0x08003240   0x00000110   Code   RO          849    i.path_river_update  path_river.o
-    0x08003350   0x00000010   Code   RO          855    i.path_up_sb_init   path_upslope_sb.o
-    0x08003360   0x000000c0   Code   RO          856    i.path_up_sb_update  path_upslope_sb.o
-    0x08003420   0x00000010   Code   RO         1126    i.s16_cap           quick_math.o
-    0x08003430   0x00000140   Code   RO          869    i.sensor_bar_get_corr  sensor_bar.o
-    0x08003570   0x00000030   Code   RO          871    i.sensor_bar_receiver_a  sensor_bar.o
-    0x080035a0   0x00000034   Code   RO          872    i.sensor_bar_receiver_b  sensor_bar.o
-    0x080035d4   0x0000000c   Code   RO          873    i.sensor_bar_receiver_c  sensor_bar.o
-    0x080035e0   0x00000022   Code   RO          874    i.sensor_bar_track  sensor_bar.o
-    0x08003602   0x00000002   PAD
-    0x08003604   0x00000040   Code   RO          875    i.sensorbar_init    sensor_bar.o
-    0x08003644   0x00000018   Code   RO         1133    i.servo_control     servo.o
-    0x0800365c   0x000000d0   Code   RO         1134    i.servo_init        servo.o
-    0x0800372c   0x0000000c   Code   RO          881    i.set_target        imu_targeting.o
-    0x08003738   0x00000010   Code   RO          911    i.si_add_pwm_bias   servo_interface.o
-    0x08003748   0x00000010   Code   RO          912    i.si_clear          servo_interface.o
-    0x08003758   0x0000004c   Code   RO          914    i.si_execute        servo_interface.o
-    0x080037a4   0x00000050   Code   RO          915    i.si_init           servo_interface.o
-    0x080037f4   0x0000000c   Code   RO          917    i.si_set_pwm        servo_interface.o
-    0x08003800   0x00000064   Code   RO          883    i.targeting_update  imu_targeting.o
-    0x08003864   0x0000009c   Code   RO          991    i.tft_char_is_changed  lcd_main.o
-    0x08003900   0x00000074   Code   RO          992    i.tft_clear         lcd_main.o
-    0x08003974   0x00000216   Code   RO          994    i.tft_config        lcd_main.o
-    0x08003b8a   0x0000001e   Code   RO          996    i.tft_easy_init     lcd_main.o
-    0x08003ba8   0x00000062   Code   RO          998    i.tft_fill_color    lcd_main.o
-    0x08003c0a   0x00000002   PAD
-    0x08003c0c   0x000000fc   Code   RO         1001    i.tft_init          lcd_main.o
-    0x08003d08   0x000000dc   Code   RO         1002    i.tft_println       lcd_main.o
-    0x08003de4   0x000000cc   Code   RO         1003    i.tft_prints        lcd_main.o
-    0x08003eb0   0x000012d8   Code   RO         1004    i.tft_put_logo      lcd_main.o
-    0x08005188   0x0000005c   Code   RO         1005    i.tft_put_pixel     lcd_main.o
-    0x080051e4   0x0000000c   Code   RO         1007    i.tft_set_bg_color  lcd_main.o
-    0x080051f0   0x00000052   Code   RO         1008    i.tft_set_char_pos  lcd_main.o
-    0x08005242   0x00000050   Code   RO         1009    i.tft_set_pixel_pos  lcd_main.o
-    0x08005292   0x00000002   PAD
-    0x08005294   0x0000000c   Code   RO         1011    i.tft_set_text_color  lcd_main.o
-    0x080052a0   0x00000114   Code   RO         1012    i.tft_spi_init      lcd_main.o
-    0x080053b4   0x000005f4   Code   RO         1014    i.tft_update        lcd_main.o
-    0x080059a8   0x00000058   Code   RO         1015    i.tft_write_command  lcd_main.o
-    0x08005a00   0x00000058   Code   RO         1016    i.tft_write_data    lcd_main.o
-    0x08005a58   0x0000006c   Code   RO         1154    i.ticks_init        ticks.o
-    0x08005ac4   0x0000003e   Code   RO         1128    i.u16_sqrt          quick_math.o
-    0x08005b02   0x00000002   PAD
-    0x08005b04   0x0000010c   Code   RO         1087    i.uart_init         usart.o
-    0x08005c10   0x00000070   Code   RO         1089    i.uart_interrupt_init  usart.o
-    0x08005c80   0x0000005c   Code   RO         1093    i.uart_tx           usart.o
-    0x08005cdc   0x00000028   Code   RO         1094    i.uart_tx_byte      usart.o
-    0x08005d04   0x0000000c   Data   RO          889    .constdata          buzzer_song.o
-    0x08005d10   0x00000008   Data   RO          891    .constdata          buzzer_song.o
-    0x08005d18   0x00000038   Data   RO          894    .constdata          buzzer_song.o
-    0x08005d50   0x00000048   Data   RO         1096    .constdata          usart.o
-    0x08005d98   0x0000004c   Data   RO          904    .conststring        menu.o
-    0x08005de4   0x00000020   Data   RO         1214    Region$$Table       anon$$obj.o
+    0x08003240   0x00000114   Code   RO          849    i.path_river_update  path_river.o
+    0x08003354   0x0000000c   Code   RO          855    i.path_up_sb_init   path_upslope_sb.o
+    0x08003360   0x00000098   Code   RO          856    i.path_up_sb_update  path_upslope_sb.o
+    0x080033f8   0x00000010   Code   RO         1126    i.s16_cap           quick_math.o
+    0x08003408   0x00000140   Code   RO          869    i.sensor_bar_get_corr  sensor_bar.o
+    0x08003548   0x00000030   Code   RO          871    i.sensor_bar_receiver_a  sensor_bar.o
+    0x08003578   0x00000034   Code   RO          872    i.sensor_bar_receiver_b  sensor_bar.o
+    0x080035ac   0x0000000c   Code   RO          873    i.sensor_bar_receiver_c  sensor_bar.o
+    0x080035b8   0x00000022   Code   RO          874    i.sensor_bar_track  sensor_bar.o
+    0x080035da   0x00000002   PAD
+    0x080035dc   0x00000040   Code   RO          875    i.sensorbar_init    sensor_bar.o
+    0x0800361c   0x00000018   Code   RO         1133    i.servo_control     servo.o
+    0x08003634   0x000000d0   Code   RO         1134    i.servo_init        servo.o
+    0x08003704   0x0000000c   Code   RO          881    i.set_target        imu_targeting.o
+    0x08003710   0x00000010   Code   RO          911    i.si_add_pwm_bias   servo_interface.o
+    0x08003720   0x00000010   Code   RO          912    i.si_clear          servo_interface.o
+    0x08003730   0x0000004c   Code   RO          914    i.si_execute        servo_interface.o
+    0x0800377c   0x00000050   Code   RO          915    i.si_init           servo_interface.o
+    0x080037cc   0x0000000c   Code   RO          917    i.si_set_pwm        servo_interface.o
+    0x080037d8   0x00000064   Code   RO          883    i.targeting_update  imu_targeting.o
+    0x0800383c   0x0000009c   Code   RO          991    i.tft_char_is_changed  lcd_main.o
+    0x080038d8   0x00000074   Code   RO          992    i.tft_clear         lcd_main.o
+    0x0800394c   0x00000216   Code   RO          994    i.tft_config        lcd_main.o
+    0x08003b62   0x0000001e   Code   RO          996    i.tft_easy_init     lcd_main.o
+    0x08003b80   0x00000062   Code   RO          998    i.tft_fill_color    lcd_main.o
+    0x08003be2   0x00000002   PAD
+    0x08003be4   0x000000fc   Code   RO         1001    i.tft_init          lcd_main.o
+    0x08003ce0   0x000000dc   Code   RO         1002    i.tft_println       lcd_main.o
+    0x08003dbc   0x000000cc   Code   RO         1003    i.tft_prints        lcd_main.o
+    0x08003e88   0x000012d8   Code   RO         1004    i.tft_put_logo      lcd_main.o
+    0x08005160   0x0000005c   Code   RO         1005    i.tft_put_pixel     lcd_main.o
+    0x080051bc   0x0000000c   Code   RO         1007    i.tft_set_bg_color  lcd_main.o
+    0x080051c8   0x00000052   Code   RO         1008    i.tft_set_char_pos  lcd_main.o
+    0x0800521a   0x00000050   Code   RO         1009    i.tft_set_pixel_pos  lcd_main.o
+    0x0800526a   0x00000002   PAD
+    0x0800526c   0x0000000c   Code   RO         1011    i.tft_set_text_color  lcd_main.o
+    0x08005278   0x00000114   Code   RO         1012    i.tft_spi_init      lcd_main.o
+    0x0800538c   0x000005f4   Code   RO         1014    i.tft_update        lcd_main.o
+    0x08005980   0x00000058   Code   RO         1015    i.tft_write_command  lcd_main.o
+    0x080059d8   0x00000058   Code   RO         1016    i.tft_write_data    lcd_main.o
+    0x08005a30   0x0000006c   Code   RO         1154    i.ticks_init        ticks.o
+    0x08005a9c   0x0000003e   Code   RO         1128    i.u16_sqrt          quick_math.o
+    0x08005ada   0x00000002   PAD
+    0x08005adc   0x0000010c   Code   RO         1087    i.uart_init         usart.o
+    0x08005be8   0x00000070   Code   RO         1089    i.uart_interrupt_init  usart.o
+    0x08005c58   0x0000005c   Code   RO         1093    i.uart_tx           usart.o
+    0x08005cb4   0x00000028   Code   RO         1094    i.uart_tx_byte      usart.o
+    0x08005cdc   0x0000000c   Data   RO          889    .constdata          buzzer_song.o
+    0x08005ce8   0x00000008   Data   RO          891    .constdata          buzzer_song.o
+    0x08005cf0   0x00000038   Data   RO          894    .constdata          buzzer_song.o
+    0x08005d28   0x00000048   Data   RO         1096    .constdata          usart.o
+    0x08005d70   0x0000004c   Data   RO          904    .conststring        menu.o
+    0x08005dbc   0x00000020   Data   RO         1214    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x000092e8, Max: 0x00020000, ABSOLUTE, COMPRESSED[0x00000340])
+    Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x000092e0, Max: 0x00020000, ABSOLUTE, COMPRESSED[0x00000340])
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2788,35 +2785,35 @@ Memory Map of the image
     0x20000038   0x00000001   Data   RW          842    .data               path_downslope.o
     0x20000039   0x00000001   PAD
     0x2000003a   0x00000008   Data   RW          851    .data               path_river.o
-    0x20000042   0x00000002   PAD
-    0x20000044   0x00000008   Data   RW          857    .data               path_upslope_sb.o
-    0x2000004c   0x00000002   Data   RW          877    .data               sensor_bar.o
-    0x2000004e   0x00000002   Data   RW          885    .data               imu_targeting.o
-    0x20000050   0x00000020   Data   RW          905    .data               menu.o
-    0x20000070   0x00000006   Data   RW          920    .data               servo_interface.o
-    0x20000076   0x00000008   Data   RW          928    .data               ardu_imu_adp.o
-    0x2000007e   0x00000002   PAD
-    0x20000080   0x0000000c   Data   RW          937    .data               ardu_imu.o
-    0x2000008c   0x00000014   Data   RW          975    .data               can_protocol.o
-    0x200000a0   0x00000028   Data   RW          982    .data               encoder.o
-    0x200000c8   0x0000060e   Data   RW         1018    .data               lcd_main.o
-    0x200006d6   0x00000004   Data   RW         1027    .data               led.o
-    0x200006da   0x00000002   PAD
-    0x200006dc   0x00000030   Data   RW         1098    .data               usart.o
-    0x2000070c   0x00000024   Data   RW         1120    .data               buzzer.o
-    0x20000730   0x00000018   Data   RW         1135    .data               servo.o
-    0x20000748   0x00000006   Data   RW         1155    .data               ticks.o
-    0x2000074e   0x00000002   PAD
-    0x20000750   0x00000040   Zero   RW          876    .bss                sensor_bar.o
-    0x20000790   0x0000000c   Zero   RW          927    .bss                ardu_imu_adp.o
-    0x2000079c   0x000001b4   Zero   RW          936    .bss                ardu_imu.o
-    0x20000950   0x00007d00   Zero   RW          973    .bss                can_protocol.o
-    0x20008650   0x00000080   Zero   RW          974    .bss                can_protocol.o
-    0x200086d0   0x000007d0   Zero   RW         1017    .bss                lcd_main.o
-    0x20008ea0   0x00000016   Zero   RW         1047    .bss                tm_stm32f4_gpio.o
-    0x20008eb6   0x0000001a   Zero   RW         1117    .bss                buzzer.o
-    0x20008ed0   0x00000018   Zero   RW         1118    .bss                buzzer.o
-    0x20008ee8   0x00000400   Zero   RW          816    STACK               startup_stm32f40_41xxx.o
+    0x20000042   0x00000001   Data   RW          857    .data               path_upslope_sb.o
+    0x20000043   0x00000002   Data   RW          877    .data               sensor_bar.o
+    0x20000045   0x00000001   PAD
+    0x20000046   0x00000002   Data   RW          885    .data               imu_targeting.o
+    0x20000048   0x00000020   Data   RW          905    .data               menu.o
+    0x20000068   0x00000006   Data   RW          920    .data               servo_interface.o
+    0x2000006e   0x00000008   Data   RW          928    .data               ardu_imu_adp.o
+    0x20000076   0x00000002   PAD
+    0x20000078   0x0000000c   Data   RW          937    .data               ardu_imu.o
+    0x20000084   0x00000014   Data   RW          975    .data               can_protocol.o
+    0x20000098   0x00000028   Data   RW          982    .data               encoder.o
+    0x200000c0   0x0000060e   Data   RW         1018    .data               lcd_main.o
+    0x200006ce   0x00000004   Data   RW         1027    .data               led.o
+    0x200006d2   0x00000002   PAD
+    0x200006d4   0x00000030   Data   RW         1098    .data               usart.o
+    0x20000704   0x00000024   Data   RW         1120    .data               buzzer.o
+    0x20000728   0x00000018   Data   RW         1135    .data               servo.o
+    0x20000740   0x00000006   Data   RW         1155    .data               ticks.o
+    0x20000746   0x00000002   PAD
+    0x20000748   0x00000040   Zero   RW          876    .bss                sensor_bar.o
+    0x20000788   0x0000000c   Zero   RW          927    .bss                ardu_imu_adp.o
+    0x20000794   0x000001b4   Zero   RW          936    .bss                ardu_imu.o
+    0x20000948   0x00007d00   Zero   RW          973    .bss                can_protocol.o
+    0x20008648   0x00000080   Zero   RW          974    .bss                can_protocol.o
+    0x200086c8   0x000007d0   Zero   RW         1017    .bss                lcd_main.o
+    0x20008e98   0x00000016   Zero   RW         1047    .bss                tm_stm32f4_gpio.o
+    0x20008eae   0x0000001a   Zero   RW         1117    .bss                buzzer.o
+    0x20008ec8   0x00000018   Zero   RW         1118    .bss                buzzer.o
+    0x20008ee0   0x00000400   Zero   RW          816    STACK               startup_stm32f40_41xxx.o
 
 
 ==============================================================================
@@ -2841,8 +2838,8 @@ Image component sizes
        280         42         76         32          0          0   menu.o
        136         10          0          0          0          0   misc.o
         88         14          0          1          0          0   path_downslope.o
-       412         72          0          8          0          0   path_river.o
-       208         36          0          8          0          0   path_upslope_sb.o
+       416         74          0          8          0          0   path_river.o
+       164         32          0          1          0          0   path_upslope_sb.o
         78          0          0          0          0          0   quick_math.o
        530         56          0          2         64          0   sensor_bar.o
        232         18          0         24          0          0   servo.o
@@ -2861,9 +2858,9 @@ Image component sizes
        692         80         72         48          0          0   usart.o
 
     ----------------------------------------------------------------------
-     19378       1210        648       1872      35736          0   Object Totals
+     19338       1208        648       1864      35736          0   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        20          0          0          9          0          0   (incl. Padding)
+        20          0          0          8          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -2919,15 +2916,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     23420       1312        648       1872      35736          0   Grand Totals
-     23420       1312        648        832      35736          0   ELF Image Totals (compressed)
-     23420       1312        648        832          0          0   ROM Totals
+     23380       1310        648       1864      35736          0   Grand Totals
+     23380       1310        648        832      35736          0   ELF Image Totals (compressed)
+     23380       1310        648        832          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                24068 (  23.50kB)
-    Total RW  Size (RW Data + ZI Data)             37608 (  36.73kB)
-    Total ROM Size (Code + RO Data + RW Data)      24900 (  24.32kB)
+    Total RO  Size (Code + RO Data)                24028 (  23.46kB)
+    Total RW  Size (RW Data + ZI Data)             37600 (  36.72kB)
+    Total ROM Size (Code + RO Data + RW Data)      24860 (  24.28kB)
 
 ==============================================================================
 

@@ -36,9 +36,9 @@ void ardu_imu_update(){
 		#endif
 		
 		#ifdef BLUE_FIELD
-			path_river_init(ardu_int_ypr[0] - 825);
+			path_river_init(ardu_int_ypr[0] - 900);
 		#else
-			path_river_init(ardu_int_ypr[0] + 825);
+			path_river_init(ardu_int_ypr[0] + 900);
 		#endif
 		path_down_init();
 		ardu_imu_staged = true;

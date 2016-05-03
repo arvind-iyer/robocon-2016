@@ -50,16 +50,16 @@ void IR_update(u8 id){
 
 GAME_STAGE path_river_update(){
 	switch(river_stage){
-		//case 0 first turn 90-degree
 		case 0:
 			river_stage++;
 			#ifdef BLUE_FIELD
-				set_target(river_straight_yaw + 45);
+				set_target(river_straight_yaw + 35);
 			#else
-				set_target(river_straight_yaw - 45);
+				set_target(river_straight_yaw - 35);
 			#endif
 			buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
-			
+			break;
+		
 		//Keep going until first island
 		case 1:
 			IR_update(0);
@@ -67,9 +67,9 @@ GAME_STAGE path_river_update(){
 			if (islands_count[0] >= 1){
 				river_stage++;
 				#ifdef BLUE_FIELD
-					set_target(river_straight_yaw + 20);
+					set_target(river_straight_yaw - 15);
 				#else
-					set_target(river_straight_yaw - 20);
+					set_target(river_straight_yaw + 15);
 				#endif
 				buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 			}
