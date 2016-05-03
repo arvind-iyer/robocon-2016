@@ -53,7 +53,12 @@ void gripper_control(GRIPPER_ID gripper_id, u16 state) {
 			servo_control((SERVO_ID)gripper_id, GRIPPER_MAX);
 		}
 	} else if (state == 1) {
-		servo_control((SERVO_ID)gripper_id, GRIPPER_MED);
+		//servo_control((SERVO_ID)gripper_id, GRIPPER_MED);
+		if (gripper_id == GRIPPER_1) {
+			servo_control((SERVO_ID)gripper_id, GRIPPER_MED);
+		} else if (gripper_id == GRIPPER_2) {
+			servo_control((SERVO_ID)gripper_id, GRIPPER_MIN);
+		}
 	}
 }
 
