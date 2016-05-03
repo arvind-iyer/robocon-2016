@@ -23,7 +23,13 @@ bool armSwitchDown = false;
 bool moveState = false;
 bool allowUpdate = false;
 
-int w1 = 0, w2 = 0, w3 = 0, ls_value = 0;
+typedef enum {
+	BASE_STATE = 0,
+	RED_SIDE = 1,
+	BLUE_SIDE = 2
+}ROBOT_MODE;
+
+int w1 = 0, w2 = 0, w3 = 0, ls_value = 0,ls_value_2 = 0, robotMode = 0;
 
 s32 time=0, moveTime = 0;
 
@@ -137,11 +143,11 @@ void handleCommand() {
 					motor_set_vel(MOTOR1, 0, OPEN_LOOP);
 					motor_set_vel(MOTOR2, 0, OPEN_LOOP);
 					motor_set_vel(MOTOR3, 0, OPEN_LOOP);
-		} else if (strcmp(header, "FAN_CONTROL") == 0 && contentIndex == 2){
-				int fan_1_speed = contents[0];
-				int fan_2_speed = contents[1];
-				servo_control(SERVO2, fan_1_speed);
-				adc_servo_control(0, fan_2_speed);
+		} else if (strcmp(header, "FAN_CONTROL") == 0 && contentIndex == 1){
+				//int fan_1_speed = contents[0];
+				int fan_2_speed = contents[0];
+				servo_control(SERVO4, fan_2_speed);
+				//adc_servo_control(0, fan_2_speed);
 				//servo_control(1, fan_2_speed);
 		} else if (strcmp(header, "SERVO_CONTROL") == 0 && contentIndex == 2) { // Servo Control [ID, Magnitude]
 				int servoId = contents[0];
@@ -158,7 +164,7 @@ void handleCommand() {
 				int pneumaticState = contents[1];
 				switch (pneumaticId){
 					case 0:
-						pneumatic_control(GPIOE, GPIO_Pin_12, pneumaticState);
+						pneumatic_control(GPIOE, GPIO_Pin_15, pneumaticState);
 						break;
 					case 1:
 						pneumatic_control(GPIOE, GPIO_Pin_13, pneumaticState);
@@ -176,6 +182,8 @@ void handleCommand() {
 			gyro_set_shift_y(contents[1]);
 			allowUpdate = true;
 			uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "PONG|%d|%d|%d\n",get_pos()->x, get_pos()->y, get_pos()->angle);
+		} else if(strcmp(header, "ROBOT_MODE") == 0 && contentIndex == 1){
+			robotMode = contents[0];
 		}
 		
 		for (int i = 1; i < 30; i++) {
@@ -208,7 +216,7 @@ void handleCommand() {
 
 bool armDir = false, fixingArm = false, climbLimit = false; // False = down, True = up
 long lastLimitCheck = 0;
-bool b1=0, b2=0, b3=0, b4=0, prevb4=0;
+bool b1=0, b2=0, b3=0, b4=0, prevb4=0 , prevb3 = 0;
 void limitSwitchCheck() {
   b1 = gpio_read_input(&PE6);
 	b2 = gpio_read_input(&PE7);
@@ -229,7 +237,8 @@ void limitSwitchCheck() {
 		lastLimitCheck = get_full_ticks();
 		// If fixing arm, always make sure IR never gets triggered until fixingArm is false.
 	}
-	else if(b3) {
+	 if(prevb3 != b3) {
+		prevb3 = b3;
 		motor_set_vel(MOTOR4, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR5, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR6, 0, OPEN_LOOP);
@@ -287,7 +296,8 @@ int main(void) {
 		if(fanInit == 1){
 			fanInit = 2;
 			for(int i=0; i<5; i++){
-				adc_servo_control(0, 450);
+				servo_control(SERVO4, 450);
+				//adc_servo_control(0, 450);
 			}
 		}
 		
@@ -302,9 +312,9 @@ int main(void) {
 				limitSwitchCheck();
 				if(!fixingArm) {elevationCorrected = gpio_read_input(&PE8);}
 			}
-			pneumatic_control(GPIOE, GPIO_Pin_15, 1);
+			//pneumatic_control(GPIOE, GPIO_Pin_15, 1);
 			
-			ls_value = get_ls_reading();
+			ls_value = robotMode == RED_SIDE ? get_ls_cal_reading(0) : get_ls_cal_reading(1);
 					
 			// Display TFT to insure screen is on.
 			tft_clear();
@@ -316,7 +326,7 @@ int main(void) {
 			if(piReady) {
 				tft_prints(0 , 4, "Pi Ready");
 			}
-			tft_prints(0,5, "%d", ls_value);
+			tft_prints(0,5, "%d | %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
 			tft_prints(0, 6, "L %d | %d | %d", gpio_read_input(&PE6), gpio_read_input(&PE7), gpio_read_input(&PE11));
 			//if(DEBUG_STATE) {
 				//tft_prints(0,5,"TRIGGERED");
