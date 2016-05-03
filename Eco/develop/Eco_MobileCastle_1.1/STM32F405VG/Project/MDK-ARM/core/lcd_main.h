@@ -86,7 +86,6 @@ void tft_config(void);
 void tft_reset(void);
 
 void tft_init(TFT_ORIENTATION orientation, u16 bg_color, u16 text_color, u16 sp_color);
-void tft_easy_init(TFT_ORIENTATION orientation);
 void tft_enable(void);
 void tft_disable(void);
 void tft_set_bg_color(u16 in_bg_color);

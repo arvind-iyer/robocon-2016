@@ -1,9 +1,6 @@
 #include "path_downslope.h"
 
-static u8 down_state = 0;
-
 void path_down_init(){
-	down_state = 0;
 }
 
 u16 time_count = 0;

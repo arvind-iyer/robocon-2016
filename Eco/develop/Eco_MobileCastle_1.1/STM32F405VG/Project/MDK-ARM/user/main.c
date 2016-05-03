@@ -15,7 +15,11 @@ int main(void) {
 	encoder_init();
 	servo_init();
 	si_init();
-	tft_easy_init((TFT_ORIENTATION)ORIENTATION_SETTING); //Init LCD
+	#ifdef BLUE_FIELD
+		tft_init((TFT_ORIENTATION)ORIENTATION_SETTING, BLACK, WHITE, BLUE); //Init LCD
+	#else
+		tft_init((TFT_ORIENTATION)ORIENTATION_SETTING, BLACK, WHITE, RED); //Init LCD
+	#endif
 	buzzer_init();
 	button_init();
 	buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);

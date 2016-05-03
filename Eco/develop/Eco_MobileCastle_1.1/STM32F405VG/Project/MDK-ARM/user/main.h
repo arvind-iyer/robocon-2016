@@ -5,7 +5,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx.h"
 #include "led.h"
-#include "lcd_main.h"
 
 #define BLUE_FIELD
 //#define RED_FIELD
@@ -62,7 +61,6 @@
 #include "tm_stm32f4_stdio.h"
 #include "tm_stm32f4_gpio.h"
 #include "servo.h"
-//#include "ticks.h"
 #include "ticks.h"
 #include "usart.h"
 #include "tm_stm32f4_i2c.h"
@@ -78,6 +76,7 @@
 #include "buzzer.h"
 #include "buzzer_song.h"
 #include "menu.h"
+#include "lcd_main.h"
 
 //path files
 #include "path_upslope_imu.h"
