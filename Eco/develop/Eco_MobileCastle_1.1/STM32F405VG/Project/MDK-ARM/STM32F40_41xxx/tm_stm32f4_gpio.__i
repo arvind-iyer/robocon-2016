@@ -1,0 +1,6 @@
+--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -O2 -Otime --apcs=interwork --split_sections -I.\core -I.\user -I..\ -I..\..\..\Libraries\CMSIS\Device\ST\STM32F4xx\Include -I..\..\..\Libraries\STM32F4xx_StdPeriph_Driver\inc -I..\..\..\Utilities\STM32_EVAL\Common -I..\..\..\Utilities\STM32_EVAL\STM3240_41_G_EVAL --C99
+-I C:\WorkBench\Robo\robocon-2016\Eco\develop\Eco_MobileCastle_1.1\STM32F405VG\Project\MDK-ARM\RTE
+-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\ARM\CMSIS\4.4.0\CMSIS\Include
+-I C:\WorkBench\IDE\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.6.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx
+-o stm32f40_41xxx\tm_stm32f4_gpio.o --omf_browse stm32f40_41xxx\tm_stm32f4_gpio.crf --depend stm32f40_41xxx\tm_stm32f4_gpio.d "core\tm_stm32f4_gpio.c"
