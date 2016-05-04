@@ -82,49 +82,43 @@ void sensor_init(u8 cali_stage){
 	
 	s32 sum_of_all[3] = {0};
 	
+	s32 sum_of_bg[3] = {0};
+	s32 sum_of_mid[3] = {0};
+	
 	//Do red
-	s32 sum_of_red_bg = 0;
-	s32 sum_of_red_mid = 0;
 	for (u8 i=0;i<SAMPELS_TIMES;i++){
 		for (u8 k=0;k<16;k++){
 			sum_of_all[0] += this_readings[i].red_reading[k];
 			if (k==8) continue;
-			sum_of_red_bg += this_readings[i].red_reading[k];
+			sum_of_bg[0] += this_readings[i].red_reading[k];
 		}
-		sum_of_red_mid += (this_readings[i].red_reading[7] + this_readings[i].red_reading[8]*3 + this_readings[i].red_reading[9]);
-	}
-	
-	//Do blue
-	s32 sum_of_blue_bg = 0;
-	s32 sum_of_blue_mid = 0;
-	for (u8 i=0;i<SAMPELS_TIMES;i++){
-		for (u8 k=0;k<16;k++){
-			sum_of_all[1] += this_readings[i].blue_reading[k];
-			if (k==8) continue;
-			sum_of_blue_bg += this_readings[i].blue_reading[k];
-		}
-		sum_of_blue_mid += (this_readings[i].blue_reading[7] + this_readings[i].blue_reading[8]*3 + this_readings[i].blue_reading[9]);
+		sum_of_mid[0] += (this_readings[i].red_reading[6] + this_readings[i].red_reading[7]*2 + this_readings[i].red_reading[8]*2 + this_readings[i].red_reading[9]);
 	}
 	
 	//Do green
-	s32 sum_of_green_bg = 0;
-	s32 sum_of_green_mid = 0;
 	for (u8 i=0;i<SAMPELS_TIMES;i++){
 		for (u8 k=0;k<16;k++){
 			sum_of_all[2] += this_readings[i].green_reading[k];
 			if (k==8) continue;
-			sum_of_green_bg += this_readings[i].green_reading[k];
+			sum_of_bg[1] += this_readings[i].green_reading[k];
 		}
-		sum_of_green_mid += (this_readings[i].green_reading[7] + this_readings[i].green_reading[8]*3 + this_readings[i].green_reading[9]);
+		sum_of_mid[1] += (this_readings[i].green_reading[6] + this_readings[i].green_reading[7]*2 + this_readings[i].green_reading[8]*2 + this_readings[i].green_reading[9]);
 	}
 	
-	reading_in_area[cali_stage][0][0] = sum_of_red_mid / SAMPELS_TIMES / 5;
-	reading_in_area[cali_stage][0][1] = sum_of_blue_mid / SAMPELS_TIMES / 5;
-	reading_in_area[cali_stage][0][2] = sum_of_green_mid / SAMPELS_TIMES / 5;
+	//Do blue
+	for (u8 i=0;i<SAMPELS_TIMES;i++){
+		for (u8 k=0;k<16;k++){
+			sum_of_all[1] += this_readings[i].blue_reading[k];
+			if (k==8) continue;
+			sum_of_bg[2] += this_readings[i].blue_reading[k];
+		}
+		sum_of_mid[2] += (this_readings[i].blue_reading[6] + this_readings[i].blue_reading[7]*2 + this_readings[i].blue_reading[8]*2 + this_readings[i].blue_reading[9]);
+	}
 	
-	reading_in_area[cali_stage][1][0] = sum_of_red_bg / SAMPELS_TIMES / 15;
-	reading_in_area[cali_stage][1][1] = sum_of_blue_bg / SAMPELS_TIMES / 15;
-	reading_in_area[cali_stage][1][2] = sum_of_green_bg / SAMPELS_TIMES / 15;
+	for (u8 i=0;i<3;i++){
+		reading_in_area[cali_stage][0][0] = sum_of_bg[i] / SAMPELS_TIMES / 5;
+		reading_in_area[cali_stage][1][2] = sum_of_mid[i] / SAMPELS_TIMES / 15;
+	}
 	
 	for (u8 i=0;i<3;i++){
 		compensated_region_color[cali_stage][i] = reading_in_area[cali_stage][1][i] + (reading_in_area[cali_stage][0][i] - reading_in_area[cali_stage][1][i])/2;
@@ -192,10 +186,10 @@ void sendData(){
 		average[i] /= 16;
 	}
 	
-	s32 min_diff = 100000;
+	u32 min_diff = (u32)-1;
 	u8 current_region = 0;
 	for (u8 i=0;i<REGIONS;i++){
-		s32 curr_diff = 0;
+		u32 curr_diff = 0;
 		for (u8 k=0;k<3;k++){
 			curr_diff += abs(region_color_average[i][k] - average[k]);
 		}
