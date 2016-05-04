@@ -29,6 +29,7 @@ int main(void) {
 	gpio_init_all();
 	i2c_init();
 	pca9685_init();
+	ls_init();
 
 	tft_put_logo(85, 120);            
 	CONTROL_STATE last_control_state = MANUAL_MODE;

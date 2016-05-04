@@ -20,10 +20,10 @@
 #define THRESHOLD 10
 #define CONST_VEL 50
 
-//#define DEBUG_MODE
+#define DEBUG_MODE
 
 //Ground: 0 = Red, 1 = Blue
-u8 field = 1;
+u8 field = 0;
 
 //Blue Field transformation
 float transform[2][2] = {{1, 0}, {0.057143, 1}};
@@ -311,7 +311,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	
 	//perpendicular PD
-	err_pid = err * 0.2 + (err-err_d) * 0.0;
+	err_pid = err * 0.4 + (err-err_d) * 0.0;
 	
 	//rotational P
 	rotate *= 0.5;
@@ -482,7 +482,7 @@ void auto_motor_update(){
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
 	tft_prints(0,8,"%d %d",get_pos()->x,get_pos()->y);
-	tft_prints(0,9,"%d %d B:%d",gpio_read_input(&PE6),gpio_read_input(&PE7),back_switch_val);
+	tft_prints(0,9,"%d",get_ls_cal_reading(0));
 	tft_update();
 	
 	//handle input

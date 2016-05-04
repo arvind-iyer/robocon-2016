@@ -218,11 +218,11 @@ void manual_interval_update(){
 			tft_append_line("%d", curr_rotate);
 			tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_pos()->angle);
 			tft_append_line("GRIP %d %d", gripper_states[0], gripper_states[1]);
-			tft_append_line("TEST %d", brushless_servo_val);
+			tft_append_line("TEST %d", get_ls_cal_reading(0));
 			//tft_append_line("ENC %d", encoder_val);
 			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
-			//tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/10000, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);
+			//tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/100 00, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);
 		}else{
 			for (u8 i=0;i<3;i++){
 				motor_vel[i] = 0;
