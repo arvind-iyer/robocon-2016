@@ -98,7 +98,7 @@ void sensor_init(u8 cali_stage){
 	//Do green
 	for (u8 i=0;i<SAMPELS_TIMES;i++){
 		for (u8 k=0;k<16;k++){
-			sum_of_all[2] += this_readings[i].green_reading[k];
+			sum_of_all[1] += this_readings[i].green_reading[k];
 			if (k==8) continue;
 			sum_of_bg[1] += this_readings[i].green_reading[k];
 		}
@@ -108,7 +108,7 @@ void sensor_init(u8 cali_stage){
 	//Do blue
 	for (u8 i=0;i<SAMPELS_TIMES;i++){
 		for (u8 k=0;k<16;k++){
-			sum_of_all[1] += this_readings[i].blue_reading[k];
+			sum_of_all[2] += this_readings[i].blue_reading[k];
 			if (k==8) continue;
 			sum_of_bg[2] += this_readings[i].blue_reading[k];
 		}
@@ -116,8 +116,8 @@ void sensor_init(u8 cali_stage){
 	}
 	
 	for (u8 i=0;i<3;i++){
-		reading_in_area[cali_stage][0][0] = sum_of_bg[i] / SAMPELS_TIMES / 5;
-		reading_in_area[cali_stage][1][2] = sum_of_mid[i] / SAMPELS_TIMES / 15;
+		reading_in_area[cali_stage][0][i] = sum_of_mid[i] / SAMPELS_TIMES / 6;
+		reading_in_area[cali_stage][1][i] = sum_of_bg[i] / SAMPELS_TIMES / 15;
 	}
 	
 	for (u8 i=0;i<3;i++){
@@ -172,9 +172,12 @@ void dataCollect(){
 	DMA_ClearFlag(DMA1_FLAG_TC1);
 }
 
+s32 average[3] = {0}; //rgb
 void sendData(){
 	
-	s32 average[3] = {0}; //rgb
+	for (u8 i=0;i<3;i++){
+		average[i] = 0;
+	}
 	
 	for (u8 i=0;i<16;i++){
 		average[0] += now.red_reading[i];
@@ -192,12 +195,18 @@ void sendData(){
 		u32 curr_diff = 0;
 		for (u8 k=0;k<3;k++){
 			curr_diff += abs(region_color_average[i][k] - average[k]);
-		}
+		} 
 		if (curr_diff < min_diff){
 			min_diff = curr_diff;
 			current_region = i;
 		}
 	}
+	
+	#ifdef DEBUG_MODE
+		if (!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13)){
+			printf("%d %d %d\n", average[0], average[1], average[2]);
+		}
+	#endif
 	
 	for(u8 i = 0; i < 16; i++){
 		if((now.red_reading[i] + now.blue_reading[i] + now.green_reading[i]) >
@@ -224,7 +233,7 @@ void sendData(){
     
 	CAN_MESSAGE msg2;
 	msg2.id = 0x0C7;
-	msg2.length = 3;
+	msg2.length = 1;
 	msg2.data[0] = current_region;
 	can_tx_enqueue(msg2);
 }
@@ -233,10 +242,10 @@ s32 last_ticks = 0;
 
 void printInformation(){
 	u8 index = 8;
-	if (get_full_ticks() - last_ticks > 200 && !GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14)){
+	if (get_full_ticks() - last_ticks > 200 && !GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13)){
 		last_ticks = get_full_ticks();
 		printf("N: %d\tR: %d\tG: %d\tB: %d\r\n",now.off_reading[index], now.red_reading[index], now.green_reading[index], now.blue_reading[index]);
-		printf("Stage: %d", cali_stage);
+		printf("Stage: %d\n", cali_stage);
 		for (u8 i=0;i<5;i++){
 			printf("RGM :%d %d %d\n", reading_in_area[i][0][0], reading_in_area[i][0][1], reading_in_area[i][0][2]);
 			printf("RGB :%d %d %d\n", reading_in_area[i][1][0], reading_in_area[i][1][1], reading_in_area[i][1][2]);
