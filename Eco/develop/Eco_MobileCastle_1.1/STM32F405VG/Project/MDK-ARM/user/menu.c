@@ -36,7 +36,7 @@ GAME_STAGE menu_update(){
 					#ifdef IMU_UPSLOPE
 						path_up_imu_init(selection);
 					#else
-						path_up_sb_init(0);
+						path_up_sb_init(selection);
 					#endif
 					return CLIMBING_SLOPE;
 				case 3:

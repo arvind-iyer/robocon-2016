@@ -51,9 +51,9 @@ typedef enum {
 	ENCODER2 = 1
 } ENCODER;
 
-// function declaration
 void encoder_init(void);
 u32 get_count(ENCODER ENCODERx);
 void reset_all_encoder(void);
+u32 get_average_encoder(void);
 
 #endif
