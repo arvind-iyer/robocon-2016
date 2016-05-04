@@ -20,13 +20,15 @@
 #define THRESHOLD 10
 #define CONST_VEL 50
 
-#define DEBUG_MODE
+//#define DEBUG_MODE
 
 //Ground: 0 = Red, 1 = Blue
 u8 field = 0;
 
 //Blue Field transformation
-float transform[2][2] = {{1, 0}, {0.057143, 1}};
+//float transform[2][2] = {{1, 0}, {0.057143, 1}};
+float transform[2][2] = {{1, 0}, {0, 1}};
+u16 wall_dist = 0;
 
 //mode variables
 PID_MODE pid_state;
@@ -412,6 +414,12 @@ void auto_menu_update() {
 void auto_var_update() {
 	passed = auto_get_ticks() - start;
 	
+	wall_dist = get_ls_cal_reading(0);
+	if (wall_dist < 285)
+		transform[1][0] -= (7.0/7000.0);
+	if ((wall_dist > 370) && (wall_dist < 800))
+		transform[1][0] += (5.0/7000.0);
+	
 	#ifdef DEBUG_MODE
 		raw_x = get_pos()->x;
 		raw_y = get_pos()->y;
@@ -481,8 +489,9 @@ void auto_motor_update(){
 	tft_prints(0,4,">> %2d / %2d",tar_end,tar_head);
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
-	tft_prints(0,8,"%d %d",get_pos()->x,get_pos()->y);
-	tft_prints(0,9,"%d",get_ls_cal_reading(0));
+	//tft_prints(0,8,"%d %d",get_pos()->x,get_pos()->y);
+	tft_prints(0,8,"Trans: %d",(int)(transform[1][0]*700));
+	tft_prints(0,9,"Wall: %d",wall_dist);
 	tft_update();
 	
 	//handle input
