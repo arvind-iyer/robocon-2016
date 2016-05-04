@@ -63,7 +63,7 @@ void encoder_init(void){
 	TIM_TimeBaseStructure.TIM_Prescaler = 0x00; 
 	TIM_TimeBaseStructure.TIM_Period = 0xffff;								
 	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
-	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Down;
+	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
 	TIM_TimeBaseInit(ENCODER_TIMER2, &TIM_TimeBaseStructure);
 
 	// Setting to Rising edge mode
@@ -80,11 +80,14 @@ void encoder_init(void){
 	TIM_EncoderInterfaceConfig(ENCODER_TIMER2, TIM_EncoderMode_TI12,TIM_ICPolarity_Rising, TIM_ICPolarity_Rising);
 	TIM_SetCounter(ENCODER_TIMER2, 0);
 	TIM_Cmd(ENCODER_TIMER2, ENABLE);
+	
+	reset_all_encoder();
 }
 
 //Return and update the encoder reading, need to call frequently, at least within a encoder cycle
 u32 get_count(ENCODER ENCODERx){
-	if (TIM_GetCounter(encoder[ENCODERx].timer) < encoder_cur_cycle[ENCODERx]){
+	//if overflow occurs
+	if ((s32)encoder_cur_cycle[ENCODERx] - (s32)TIM_GetCounter(encoder[ENCODERx].timer) > 40000){
 		encoder_cycles[ENCODERx]++;
 	}
 	encoder_cur_cycle[ENCODERx] = TIM_GetCounter(encoder[ENCODERx].timer);
