@@ -18,12 +18,11 @@
 #include "auto_mode.h"
 
 #define THRESHOLD 10
-#define CONST_VEL 50
 
 //#define DEBUG_MODE
 
 //Ground: 0 = Red, 1 = Blue
-u8 field = 0;
+u8 field = 1;
 
 //Blue Field transformation
 //float transform[2][2] = {{1, 0}, {0.057143, 1}};
@@ -55,6 +54,7 @@ int degree, degree_diff, dist, speed;
 int start, passed;
 int err_d;
 int auto_ticks = 0;
+s16 cur_vel = 90;
 
 u8 side_switch_val = 0;
 u8 back_switch_val = 0;
@@ -107,6 +107,10 @@ void auto_tar_dequeue() {
 		ori_x = 0;
 		ori_y = 0;
 	}
+	
+	//temp speed control
+	if (tar_end == 1)
+		cur_vel = 50;
 	
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
@@ -236,9 +240,9 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//determine velocity coefficient
-	double acc = passed / 2000.0;
-	double dec = dist / 400.0;
-	//double dec = sqrt(dist / 680.0);
+	double acc = passed / 800.0;
+	//double dec = dist / 400.0;
+	double dec = sqrt(dist / 680.0);
 	if (acc > 1.0)
 		acc = 1.0;
 	if (tar_queue[tar_end-1].type == NODE_PASS)
@@ -313,7 +317,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	
 	//perpendicular PD
-	err_pid = err * 0.4 + (err-err_d) * 0.0;
+	err_pid = err * 0.35 + (err-err_d) * 0.0;
 	
 	//rotational P
 	rotate *= 0.5;
@@ -415,10 +419,18 @@ void auto_var_update() {
 	passed = auto_get_ticks() - start;
 	
 	wall_dist = get_ls_cal_reading(0);
-	if (wall_dist < 285)
-		transform[1][0] -= (7.0/7000.0);
-	if ((wall_dist > 370) && (wall_dist < 800))
-		transform[1][0] += (5.0/7000.0);
+	if (field == 0) {
+		if (wall_dist < 285)
+			transform[1][0] -= (7.0/7000.0);
+		if ((wall_dist > 370) && (wall_dist < 800))
+			transform[1][0] += (2.0/7000.0);
+	}
+	if (field == 1) {
+		if (wall_dist < 305)
+			transform[1][0] += (3.0/7000.0);
+		if ((wall_dist > 370) && (wall_dist < 800))
+			transform[1][0] -= (7.0/7000.0);		
+	}
 	
 	#ifdef DEBUG_MODE
 		raw_x = get_pos()->x;
@@ -477,7 +489,7 @@ void auto_motor_update(){
 			auto_motor_stop();
 		}
 	} else {
-		auto_track_path(degree, degree_diff, CONST_VEL, false);
+		auto_track_path(degree, degree_diff, cur_vel, false);
 	}
 	
 	//print debug info
@@ -489,7 +501,7 @@ void auto_motor_update(){
 	tft_prints(0,4,">> %2d / %2d",tar_end,tar_head);
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
-	//tft_prints(0,8,"%d %d",get_pos()->x,get_pos()->y);
+	tft_prints(0,7,"GloVel%d",get_pos()->x,get_pos()->y);
 	tft_prints(0,8,"Trans: %d",(int)(transform[1][0]*700));
 	tft_prints(0,9,"Wall: %d",wall_dist);
 	tft_update();

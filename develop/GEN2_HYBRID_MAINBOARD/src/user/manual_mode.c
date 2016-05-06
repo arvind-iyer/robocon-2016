@@ -47,7 +47,7 @@ static u32 gripper_ticks[8] = {0}; //Left claw, Left push, Right claw, Right pus
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
 
-static u16 temp_control = 50;
+static u16 temp_control = 33;
 
 void manual_init(){
 	xbc_mb_init(XBC_CAN_FIRST);
@@ -218,8 +218,8 @@ void manual_interval_update(){
 			tft_append_line("%d", curr_rotate);
 			tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_pos()->angle);
 			tft_append_line("GRIP %d %d", gripper_states[0], gripper_states[1]);
-			tft_append_line("TEST %d", get_ls_cal_reading(0));
-			//tft_append_line("ENC %d", encoder_val);
+			//tft_append_line("TEST %d", get_ls_cal_reading(0));
+			tft_append_line("ENC %d", encoder_val);
 			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/100 00, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);
@@ -396,7 +396,7 @@ void manual_controls_update(void) {
 	}else {
 		stop_arm();
 	}
-	//encoder_val = get_encoder_count(ENCODER1);
+	encoder_val = get_encoder_count(ENCODER2);
 	
 	//gripper controls
 	for (u8 i=0; i < GRIPPER_COUNT; i++) {
