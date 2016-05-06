@@ -294,6 +294,9 @@ int main(void) {
 		// Send robot state to Raspberry Pi/Bluetooth.
 		uart_tx(BLUETOOTH_MODE ? COM2 : COM1, "STATE|%d|%d|%d|%d|%d\n", get_pos()->x, get_pos()->y, get_pos()->angle, elevationCorrected, ls_value);
 		if(fanInit == 1){
+			motor_set_acceleration(MOTOR1, 200);
+			motor_set_acceleration(MOTOR2, 200);
+			motor_set_acceleration(MOTOR3, 200);
 			fanInit = 2;
 			for(int i=0; i<5; i++){
 				servo_control(SERVO4, 450);

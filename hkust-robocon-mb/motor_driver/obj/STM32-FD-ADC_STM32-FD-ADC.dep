@@ -1,6 +1,6 @@
 Dependencies for Project 'STM32-FD-ADC', Target 'STM32-FD-ADC': (DO NOT MODIFY !)
 F (.\startup\startup_stm32f10x_md.s)(0x571F9513)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I D:\Data\Documents\GitHub\robocon-2016\hkust-robocon-mb\motor_driver\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 518" --pd "STM32F10X_MD SETA 1"-o .\obj\startup_stm32f10x_md.o --depend .\obj\startup_stm32f10x_md.d)
-F (.\user\main.c)(0x571F9513)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\FWlib\inc -I .\user-I D:\Data\Documents\GitHub\robocon-2016\hkust-robocon-mb\motor_driver\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="518" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
+F (.\user\main.c)(0x572B560D)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\FWlib\inc -I .\user-I D:\Data\Documents\GitHub\robocon-2016\hkust-robocon-mb\motor_driver\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="518" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
 I (user\main.h)(0x571F9513)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h)(0x53BA0D60)
@@ -43,7 +43,7 @@ I (user\encoder.h)(0x571F9513)
 I (user\led.h)(0x571F9513)
 I (user\can.h)(0x571F9513)
 I (user\can_protocol.h)(0x571F9513)
-I (user\can_motor.h)(0x5724C622)
+I (user\can_motor.h)(0x572A2368)
 F (.\user\system.c)(0x571F9513)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\FWlib\inc -I .\user-I D:\Data\Documents\GitHub\robocon-2016\hkust-robocon-mb\motor_driver\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="518" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\system.o --omf_browse .\obj\system.crf --depend .\obj\system.d)
 I (user\system.h)(0x571F9513)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
@@ -86,7 +86,7 @@ I (user\encoder.h)(0x571F9513)
 I (user\led.h)(0x571F9513)
 I (user\can.h)(0x571F9513)
 I (user\can_protocol.h)(0x571F9513)
-I (user\can_motor.h)(0x5724C622)
+I (user\can_motor.h)(0x572A2368)
 F (.\user\stm32f10x_it.c)(0x571F9513)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\FWlib\inc -I .\user-I D:\Data\Documents\GitHub\robocon-2016\hkust-robocon-mb\motor_driver\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="518" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\stm32f10x_it.o --omf_browse .\obj\stm32f10x_it.crf --depend .\obj\stm32f10x_it.d)
 I (user\stm32f10x_it.h)(0x571F9513)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h)(0x53BA0D60)
@@ -246,7 +246,7 @@ I (.\FWlib\inc\stm32f10x_usart.h)(0x571F9511)
 I (.\FWlib\inc\stm32f10x_wwdg.h)(0x571F9511)
 I (.\FWlib\inc\misc.h)(0x571F9511)
 F (.\user\can_motor.c)(0x571F9513)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\FWlib\inc -I .\user-I D:\Data\Documents\GitHub\robocon-2016\hkust-robocon-mb\motor_driver\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="518" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\can_motor.o --omf_browse .\obj\can_motor.crf --depend .\obj\can_motor.d)
-I (user\can_motor.h)(0x5724C622)
+I (user\can_motor.h)(0x572A2368)
 I (user\can.h)(0x571F9513)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55DB2B76)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h)(0x53BA0D60)
@@ -491,7 +491,7 @@ I (user\encoder.h)(0x571F9513)
 I (user\led.h)(0x571F9513)
 I (user\can.h)(0x571F9513)
 I (user\can_protocol.h)(0x571F9513)
-I (user\can_motor.h)(0x5724C622)
+I (user\can_motor.h)(0x572A2368)
 F (.\FWlib\SRC\stm32f10x_adc.c)(0x571F9510)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\FWlib\inc -I .\user-I D:\Data\Documents\GitHub\robocon-2016\hkust-robocon-mb\motor_driver\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="518" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD-o .\obj\stm32f10x_adc.o --omf_browse .\obj\stm32f10x_adc.crf --depend .\obj\stm32f10x_adc.d)
 I (.\FWlib\inc\stm32f10x_adc.h)(0x571F9511)
 I (C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include\stm32f10x.h)(0x53BA0D60)
