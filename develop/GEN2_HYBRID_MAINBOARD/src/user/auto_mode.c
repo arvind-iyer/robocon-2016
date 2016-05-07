@@ -59,10 +59,13 @@ u8 side_switch_val = 0;
 u8 back_switch_val = 0;
 
 //UART receiver
+u8 rx_state = 0;
+uint8_t rx_buffer[4] = {0,0,0,0};
+
+u8 rx_path_length = 0;
 u8 rx_count = 0;
 u8 rx_pointer = 0;
 TARGET rx_node;
-uint8_t rx_buffer[4] = {0,0,0,0};
 bool is_loaded = false;
 
 
@@ -389,7 +392,12 @@ void auto_calibrate(){
 void auto_menu_update() {
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
-	tft_prints(0,2,"State: %d %d",rx_count, rx_pointer);
+	tft_prints(0,2,"State: %d %d %d",rx_path_length, rx_count, rx_pointer);
+	if (rx_state == 0) {
+		tft_prints(0,3,"Idle");
+	} else {
+		tft_prints(0,3,"Receiving");
+	}
 	if (is_loaded) {
 		tft_prints(0,5,"Press Start!");
 		tft_prints(0,6,"Length: %d",tar_head);
@@ -521,36 +529,51 @@ void auto_motor_update(){
 void USART2_IRQHandler(void) {
 	if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET){
 		const uint8_t byte = USART_ReceiveData(USART2);
-		rx_buffer[rx_count] = byte;
-		rx_count++;
-		if (rx_count == 4) {
+		if (rx_state == 0) { //idle
+			if (byte == 147)
+				rx_state = 1;
+		} else if (rx_state == 1) { //receive length
+			rx_path_length = byte;
 			rx_count = 0;
-			switch(rx_pointer) {
-				case 0:
-					if (rx_merge())
-						rx_node.type = NODE_STOP;
-					else
-						rx_node.type = NODE_PASS;
-					break;
-				case 1:
-					rx_node.x = rx_merge();
-					break;
-				case 2:
-					rx_node.y = rx_merge();
-					break;
-				case 3:
-					rx_node.deg = rx_merge();
-					break;
-				case 4:
-					rx_node.curve = rx_merge();
-					break;
-			}
-			rx_pointer++;
-		}
-		if (rx_pointer == 5) {
 			rx_pointer = 0;
-			auto_tar_enqueue(rx_node);
-			is_loaded = true;
+			tar_head = 0; //reset target queue
+			rx_state = 2;
+		} else if (rx_state == 2) { //receive path
+			rx_buffer[rx_count] = byte;
+			rx_count++;
+			if (rx_count == 4) { //finish receive one value
+				rx_count = 0;
+				switch(rx_pointer) {
+					case 0:
+						if (rx_merge())
+							rx_node.type = NODE_STOP;
+						else
+							rx_node.type = NODE_PASS;
+						break;
+					case 1:
+						rx_node.x = rx_merge();
+						break;
+					case 2:
+						rx_node.y = rx_merge();
+						break;
+					case 3:
+						rx_node.deg = rx_merge();
+						break;
+					case 4:
+						rx_node.curve = rx_merge();
+						break;
+				}
+				rx_pointer++;
+			}
+			if (rx_pointer == 5) { //finish receive whole node
+				rx_pointer = 0;
+				rx_path_length--;
+				auto_tar_enqueue(rx_node);
+			}
+			if (rx_path_length == 0){ //finish receive all nodes
+				is_loaded = true;
+				rx_state = 0;
+			}
 		}
 		USART_ClearITPendingBit(USART2, USART_IT_RXNE);
 	}

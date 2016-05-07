@@ -40,6 +40,9 @@ uint16_t VarValue = 0;
 
 /* Virtual address defined by the user: 0xFFFF value is prohibited */
 uint16_t VirtAddVarTab[NumbOfVar] = {0x5555, 0x6666, 0x7777};
+uint16_t test;
+
+u32 this_loop_ticks = 0;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -49,14 +52,6 @@ uint16_t VirtAddVarTab[NumbOfVar] = {0x5555, 0x6666, 0x7777};
   * @param  None
   * @retval None
   */
-
-u32 this_loop_ticks = 0;
-u8 init = 0;
-u8 state = 0;
-u16 pwm = 2048;
-
-uint16_t test;
-
 int main(void) {
 	servo_init();
 	led_init();
@@ -93,16 +88,16 @@ int main(void) {
 		tft_prints(0,7,"(2) Clear val");
 		tft_prints(0,9,"by Pang");
 		
-		EE_ReadVariable(VirtAddVarTab[0], &test);
+		EE_ReadVariable(VirtAddVarTab[0]+1, &test);
 		tft_prints(0,2,"Val: %d",test);
 		
 		if(button_pressed(BUTTON_1)) {
-			EE_WriteVariable(VirtAddVarTab[0], 69);
+			EE_WriteVariable(VirtAddVarTab[0]+1, 69);
 			tft_prints(0,3,"Written");
 		}
 		
 		if(button_pressed(BUTTON_2)) {
-			EE_WriteVariable(VirtAddVarTab[0], 0);
+			EE_WriteVariable(VirtAddVarTab[0]+1, 0);
 			tft_prints(0,3,"Cleared");
 		}
 		

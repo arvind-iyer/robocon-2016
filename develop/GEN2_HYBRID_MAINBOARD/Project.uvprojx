@@ -475,6 +475,11 @@
               <FileType>1</FileType>
               <FilePath>.\src\user\laser_sensor.c</FilePath>
             </File>
+            <File>
+              <FileName>eeprom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\eeprom.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -684,6 +689,11 @@
               <FileName>system_stm32f10x.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\stm32f10x_std\src\system_stm32f10x.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f10x_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\stm32f10x_std\src\stm32f10x_it.c</FilePath>
             </File>
           </Files>
         </Group>

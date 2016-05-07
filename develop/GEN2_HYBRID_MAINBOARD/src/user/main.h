@@ -49,6 +49,7 @@
 #include "robot_control.h"
 #include "pca9685.h"
 #include "laser_sensor.h"
+#include "eeprom.h"
 
 /**
 ** The following ticks is to avoid ticks passed in execution in order to give consistent result

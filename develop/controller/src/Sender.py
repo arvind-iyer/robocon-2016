@@ -30,8 +30,11 @@ def start():
     try:        
         hybrid = serial.Serial()
         tx_init(hybrid)
+        hybrid.write(bytes(32))
+        
         for node in nodes:
             tx_send_node(hybrid, node)
+        
         ctypes.windll.user32.MessageBoxW(0, msgSent, msgTitle, 64)
         hybrid.close()
     except serial.serialutil.SerialException:
