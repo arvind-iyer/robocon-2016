@@ -75,7 +75,7 @@ void addComponent() {
 }
 
 /**
-  * @brief Resolving motor values for the three wheelbase motors depending on M, Bearing, and W
+  * @brief Resolving motor values for the three wheelbase motors depending on xComponent, yComponent and rotation
   */
 
 void parseMotorValues() {
@@ -98,6 +98,11 @@ void sendMotorCommands() {
 	motor_set_vel(MOTOR1, motor.M1, CLOSE_LOOP);
 	motor_set_vel(MOTOR2, motor.M2, CLOSE_LOOP);
 	motor_set_vel(MOTOR3, motor.M3, CLOSE_LOOP);
+	motor_set_vel(MOTOR4, motor.M4, OPEN_LOOP);
+	motor_set_vel(MOTOR5, motor.M5, OPEN_LOOP);
+	motor_set_vel(MOTOR6, motor.M6, OPEN_LOOP);
+	motor_set_vel(MOTOR7, motor.M7, OPEN_LOOP);
+	motor_set_vel(MOTOR8, motor.M8, OPEN_LOOP);
 }
 
 /**
