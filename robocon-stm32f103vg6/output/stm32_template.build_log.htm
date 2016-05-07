@@ -5,7 +5,7 @@
 <h2>Tool Versions:</h2>
 IDE-Version: µVision V5.18a
 Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Arvind Iyer, HKUST, LIC=YA3CX-HH0YA-IIX5V-PZWGQ-D5AIG-P9T7L
+License Information: Kristian Suhartono, HKUST, LIC=TIVFW-QZBS5-X6UQZ-JLGKI-IDFAU-ETK4J
  
 Tool Versions:
 Toolchain:       MDK-ARM Standard  Version: 5.18a
@@ -21,21 +21,70 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.18.0
 Dialog DLL:      TCM.DLL V1.14.8.0
  
 <h2>Project:</h2>
-C:\Users\arvin\coding\hkust-robocon\Robot_C\Project.uvprojx
-Project File Date:  05/05/2016
+D:\Data\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\Project.uvprojx
+Project File Date:  05/07/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
 compiling robocon.c...
+src\user\pk/hybrid_pneumatic.h(13): warning:  #1295-D: Deprecated declaration hybridPneumaticInit - give arg types
+  void hybridPneumaticInit();
+src\user\pk/hybrid_pneumatic.h(14): warning:  #1295-D: Deprecated declaration hybridPneumaticControl - give arg types
+  void hybridPneumaticControl();
+src\user\pk/hybrid_pneumatic.h(16): warning:  #1295-D: Deprecated declaration getPneumaticState - give arg types
+  Pneumatics getPneumaticState();
+src\user\pk/hybrid_pneumatic.h(18): warning:  #1-D: last line of file ends without a newline
+  #endif
+.\src\ustrobo_min_system\inc\servo.h(39): warning:  #1-D: last line of file ends without a newline
+  #endif		/*  _SERVO_H_ */
+src\user\pk/pk_movement.h(19): warning:  #1295-D: Deprecated declaration pk_movement_init - give arg types
+  void pk_movement_init();
+src\user\pk/pk_movement.h(23): warning:  #1295-D: Deprecated declaration addComponent - give arg types
+  void addComponent();
+src\user\pk/pk_movement.h(24): warning:  #1295-D: Deprecated declaration parseMotorValues - give arg types
+  void parseMotorValues();
+src\user\pk/pk_movement.h(27): warning:  #1295-D: Deprecated declaration sendMotorCommands - give arg types
+  void sendMotorCommands();
+src\user\pk/pk_movement.h(29): warning:  #1295-D: Deprecated declaration getMotorValues - give arg types
+  Motors getMotorValues();
+src\user\pk/pk_manual.h(4): warning:  #1295-D: Deprecated declaration manualControl - give arg types
+  void manualControl();
+src\user\pk/pk_manual.h(6): warning:  #1295-D: Deprecated declaration getTranslationMagnitude - give arg types
+  int getTranslationMagnitude();
+src\user\pk/pk_manual.h(7): warning:  #1295-D: Deprecated declaration getTranslationBearing - give arg types
+  int getTranslationBearing();
+src\user\pk/pk_manual.h(8): warning:  #1295-D: Deprecated declaration getRotationValue - give arg types
+  int getRotationValue();
+src\user\pk/pk_pid.h(8): warning:  #1295-D: Deprecated declaration pk_pid_init - give arg types
+  void pk_pid_init();
+src\user\pk/pk_pid.h(14): warning:  #1295-D: Deprecated declaration generateErrP - give arg types
+  void generateErrP();
+src\user\pk/pk_pid.h(15): warning:  #1295-D: Deprecated declaration generateErrI - give arg types
+  void generateErrI();
+src\user\pk/pk_pid.h(16): warning:  #1295-D: Deprecated declaration generateErrD - give arg types
+  void generateErrD();
+src\user\pk/pk_pid.h(18): warning:  #1295-D: Deprecated declaration getOutput - give arg types
+  int getOutput();
+src\user\pk/pk_brushless.h(7): warning:  #1295-D: Deprecated declaration brushlessStartup - give arg types
+  void brushlessStartup();
+src\user\pk/pk_brushless.h(8): warning:  #1295-D: Deprecated declaration getBrushlessMagnitude - give arg types
+  int getBrushlessMagnitude();
+src\user\pk/pk_brushless.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\pk/pk.h(10): warning:  #1295-D: Deprecated declaration pk_init - give arg types
+  void pk_init();
+src\user\robocon.c(142): warning:  #1-D: last line of file ends without a newline
+  }
+src\user\robocon.c: 24 warnings, 0 errors
 linking...
-Program Size: Code=37230 RO-data=1486 RW-data=5148 ZI-data=43388  
+Program Size: Code=38414 RO-data=1466 RW-data=5244 ZI-data=43284  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 0 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 24 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\arvin\coding\hkust-robocon\Robot_C\RTE
-  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include
+  D:\Data\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\RTE
+  C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
 Build Time Elapsed:  00:00:01

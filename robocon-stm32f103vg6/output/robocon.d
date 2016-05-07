@@ -17,8 +17,8 @@
 .\output\robocon.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\robocon.o: .\src\stm32f10x_std\inc\misc.h
 .\output\robocon.o: .\src\stm32f10x_std\inc\stm32f10x_crc.h
-.\output\robocon.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\robocon.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
+.\output\robocon.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\buzzer.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\delay.h
@@ -42,6 +42,7 @@
 .\output\robocon.o: .\src\ustrobo_min_system\inc\usart.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\encoder.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
+.\output\robocon.o: src\user\pk/hybrid_pneumatic.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\gyro.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\bluetooth.h
@@ -56,3 +57,8 @@
 .\output\robocon.o: .\src\ustrobo_min_system\inc\nec_mb.h
 .\output\robocon.o: src\user\flash.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\ultrasonic.h
+.\output\robocon.o: src\user\pk/pk.h
+.\output\robocon.o: src\user\pk/pk_movement.h
+.\output\robocon.o: src\user\pk/pk_manual.h
+.\output\robocon.o: src\user\pk/pk_pid.h
+.\output\robocon.o: src\user\pk/pk_brushless.h

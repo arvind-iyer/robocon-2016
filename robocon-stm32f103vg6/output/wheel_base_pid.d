@@ -49,6 +49,7 @@
 .\output\wheel_base_pid.o: .\src\ustrobo_min_system\inc\can_xbc_mb.h
 .\output\wheel_base_pid.o: .\src\ustrobo_min_system\inc\encoder.h
 .\output\wheel_base_pid.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
+.\output\wheel_base_pid.o: src\user\pk/hybrid_pneumatic.h
 .\output\wheel_base_pid.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\wheel_base_pid.o: src\user\wheel_base.h
 .\output\wheel_base_pid.o: src\user\log.h

@@ -10,11 +10,12 @@
       <TargetName>stm32_template</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060061::V5.06 update 1 (build 61)::ARMCC</pCCUsed>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F103VF</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F1xx_DFP.1.0.5</PackID>
+          <PackID>Keil.STM32F1xx_DFP.2.0.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IROM(0x08000000,0xC0000) IRAM(0x20000000,0x18000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -84,6 +85,8 @@
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
+            <nStopA1X>0</nStopA1X>
+            <nStopA2X>0</nStopA2X>
           </AfterMake>
           <SelectedForBatchBuild>0</SelectedForBatchBuild>
           <SVCSIdString></SVCSIdString>
@@ -122,47 +125,6 @@
             <HexOffset>0</HexOffset>
             <Oh166RecLen>16</Oh166RecLen>
           </OPTHX>
-          <Simulator>
-            <UseSimulator>0</UseSimulator>
-            <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
-            <RunToMain>1</RunToMain>
-            <RestoreBreakpoints>1</RestoreBreakpoints>
-            <RestoreWatchpoints>1</RestoreWatchpoints>
-            <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
-            <RestoreFunctions>1</RestoreFunctions>
-            <RestoreToolbox>1</RestoreToolbox>
-            <LimitSpeedToRealTime>0</LimitSpeedToRealTime>
-            <RestoreSysVw>1</RestoreSysVw>
-          </Simulator>
-          <Target>
-            <UseTarget>1</UseTarget>
-            <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
-            <RunToMain>1</RunToMain>
-            <RestoreBreakpoints>1</RestoreBreakpoints>
-            <RestoreWatchpoints>1</RestoreWatchpoints>
-            <RestoreMemoryDisplay>1</RestoreMemoryDisplay>
-            <RestoreFunctions>0</RestoreFunctions>
-            <RestoreToolbox>1</RestoreToolbox>
-            <RestoreTracepoints>0</RestoreTracepoints>
-            <RestoreSysVw>1</RestoreSysVw>
-          </Target>
-          <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>11</TargetSelection>
-          <SimDlls>
-            <CpuDll></CpuDll>
-            <CpuDllArguments></CpuDllArguments>
-            <PeripheralDll></PeripheralDll>
-            <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile></InitializationFile>
-          </SimDlls>
-          <TargetDlls>
-            <CpuDll></CpuDll>
-            <CpuDllArguments></CpuDllArguments>
-            <PeripheralDll></PeripheralDll>
-            <PeripheralDllArguments></PeripheralDllArguments>
-            <InitializationFile></InitializationFile>
-            <Driver>STLink\ST-LINKIII-KEIL_SWO.dll</Driver>
-          </TargetDlls>
         </DebugOption>
         <Utilities>
           <Flash1>
@@ -175,7 +137,7 @@
           </Flash1>
           <bUseTDR>0</bUseTDR>
           <Flash2>STLink\ST-LINKIII-KEIL_SWO.dll</Flash2>
-          <Flash3>"flash.bat" (.\output\@h.hex 30 256000 STM32F1_XL-density_768K)</Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -227,6 +189,7 @@
             <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
+            <nSecure>0</nSecure>
             <RoSelD>3</RoSelD>
             <RwSelD>3</RwSelD>
             <CodeSel>0</CodeSel>
@@ -361,11 +324,15 @@
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
             <useXO>0</useXO>
+            <v6Lang>1</v6Lang>
+            <v6LangP>1</v6LangP>
+            <vShortEn>1</vShortEn>
+            <vShortWch>1</vShortWch>
             <VariousControls>
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER, STM32F10X_XL, USE_STM3210B_EVAL, MAINBOARD_V4</Define>
               <Undefine></Undefine>
-              <IncludePath>.\src;.\src\stm32f10x_std\inc;.\src\ustrobo_min_system\inc;.\src\user</IncludePath>
+              <IncludePath>.\src;.\src\stm32f10x_std\inc;.\src\ustrobo_min_system\inc;.\src\user;.\src\ustrobo_min_system\src;.\src\ustrobo_min_system</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -434,11 +401,6 @@
               <FilePath>.\src\user\wheel_base.c</FilePath>
             </File>
             <File>
-              <FileName>racket.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\user\racket.c</FilePath>
-            </File>
-            <File>
               <FileName>special_char_handler.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\user\special_char_handler.c</FilePath>
@@ -449,16 +411,6 @@
               <FilePath>.\src\user\log.c</FilePath>
             </File>
             <File>
-              <FileName>serve.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\user\serve.c</FilePath>
-            </File>
-            <File>
-              <FileName>sensors.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\user\sensors.c</FilePath>
-            </File>
-            <File>
               <FileName>send_debug_data.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\user\send_debug_data.c</FilePath>
@@ -467,11 +419,6 @@
               <FileName>flash.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\user\flash.c</FilePath>
-            </File>
-            <File>
-              <FileName>ultrasonic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\src\user\ultrasonic.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -846,6 +793,41 @@
               <FileName>startup_stm32f10x_xl.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\src\stm32f10x_startup\startup_stm32f10x_xl.s</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>pk</GroupName>
+          <Files>
+            <File>
+              <FileName>pk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\pk\pk.c</FilePath>
+            </File>
+            <File>
+              <FileName>pk_brushless.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\pk\pk_brushless.c</FilePath>
+            </File>
+            <File>
+              <FileName>pk_manual.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\pk\pk_manual.c</FilePath>
+            </File>
+            <File>
+              <FileName>pk_movement.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\pk\pk_movement.c</FilePath>
+            </File>
+            <File>
+              <FileName>pk_pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\pk\pk_pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>pk_positioning.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\pk\pk_positioning.c</FilePath>
             </File>
           </Files>
         </Group>

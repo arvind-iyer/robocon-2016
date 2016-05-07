@@ -50,6 +50,7 @@
 .\output\main.o: .\src\ustrobo_min_system\inc\crc.h
 .\output\main.o: .\src\user\robocon.h
 .\output\main.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
+.\output\main.o: .\src\user\pk/hybrid_pneumatic.h
 .\output\main.o: .\src\user\wheel_base.h
 .\output\main.o: .\src\user\wheel_base_pid.h
 .\output\main.o: .\src\user\wheel_base.h
@@ -60,3 +61,4 @@
 .\output\main.o: .\src\user\flash.h
 .\output\main.o: .\src\ustrobo_min_system\inc\ultrasonic.h
 .\output\main.o: .\src\ustrobo_min_system\inc\bluetooth_xbc_mb.h
+.\output\main.o: src\user\pneumatic.h

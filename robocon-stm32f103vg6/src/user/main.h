@@ -19,6 +19,7 @@
 #include "button.h"
 #include "encoder.h"
 #include "system_test.h"
+#include "pneumatic.h"
 
 /*** Optional ***/
 #include "can_protocol.h"
@@ -30,6 +31,7 @@
 #include "robocon.h"
 #include "wheel_base.h"
 #include "ultrasonic_mb.h" 
+#include "can_xbc_mb.h"
 #include "xbc_mb.h"
 #include "nec_mb.h"
 #include "adc.h"

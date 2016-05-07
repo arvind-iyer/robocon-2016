@@ -23,11 +23,15 @@ int main(void)
   can_init();
 	can_rx_init();
   can_motor_init();
+	servo_init();
+	
+	pneumatic_init();
 	
 	bluetooth_init();
   //mb1240_init();
   xbc_mb_init(XBC_BLUETOOTH_FIRST); 
-	wheel_base_init();
+	//can_xbc_mb_init();
+	//wheel_base_init();
   us_mb_init();
   nec_mb_init();
 	
@@ -57,7 +61,7 @@ int main(void)
   //menu_add("MB1240 test", mb1240_test);
   menu_add("Ultra. test", us_mb_test);
   
-	menu(0, true);
+	menu(0, false);
 	
 }
 

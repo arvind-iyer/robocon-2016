@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include "stm32f10x.h"
 #include "stm32f10x_crc.h"
+#include "stm32f10x_gpio.h"	  
+#include "stm32f10x_tim.h"
 
 /*** Essential ***/
 #include "ticks.h"
@@ -17,6 +19,7 @@
 #include "button.h"
 #include "encoder.h"
 #include "ultrasonic_mb.h"
+#include "pk/hybrid_pneumatic.h"
 
 /*** Optional ***/
 #include "can_protocol.h"
@@ -33,5 +36,9 @@
 #include "ultrasonic.h" 
 
 void robocon_main(void);
+void _updateScreen(void);
+void controllerInputUpdate(void);
+
+extern Pneumatics pneumatics;
 
 #endif	/* __ROBOCON_H */
