@@ -25,7 +25,6 @@
 u8 field = 1;
 
 //Blue Field transformation
-//float transform[2][2] = {{1, 0}, {0.057143, 1}};
 float transform[2][2] = {{1, 0}, {0, 1}};
 u16 wall_dist = 0;
 
@@ -241,8 +240,8 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	//determine velocity coefficient
 	double acc = passed / 800.0;
-	//double dec = dist / 400.0;
-	double dec = sqrt(dist / 680.0);
+	double dec = dist / 400.0;
+	//double dec = sqrt(dist / 680.0);	//twice of acceleration (v = (2as)^(0.5))
 	if (acc > 1.0)
 		acc = 1.0;
 	if (tar_queue[tar_end-1].type == NODE_PASS)
@@ -271,7 +270,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	if (field == 0)
 		side_switch_val = (cur_x >= 0)*4 + gpio_read_input(&PE11)*2 + gpio_read_input(&PE10);
 	if (field == 1)
-		side_switch_val = (cur_x <= 0)*4 + gpio_read_input(&PE8)*2 + gpio_read_input(&PE9);
+		side_switch_val = (cur_x <= 0)*4 + gpio_read_input(&PE9)*2 + gpio_read_input(&PE8);
 	
 	if ((side_switch_val == 3) || (side_switch_val & 4)) {
 		off_x = raw_x;
@@ -317,7 +316,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	
 	//perpendicular PD
-	err_pid = err * 0.35 + (err-err_d) * 0.0;
+	err_pid = err * 0.2 + (err-err_d) * 0.0;
 	
 	//rotational P
 	rotate *= 0.5;
