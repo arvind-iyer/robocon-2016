@@ -12,32 +12,36 @@ u32 last_short_loop_ticks = 0;
 uint16_t VirtAddVarTab[NumbOfVar] = {0x4000, 0x4400};
 
 int main(void) {
-  SystemInit();
-	FLASH_Unlock();
-	EE_Init();
-	
-	servo_init();
-	led_init();
+	//Mainboard
 	ticks_init();
-	tft_easy_init();
+	led_init();
+	buzzer_init();
+	uart_init(COM2, 115200);
+	uart_interrupt(COM2);
+	
+	//CAN
 	can_init();
 	can_rx_init();
 	can_motor_init();
-	uart_init(COM2, 115200);
-	uart_interrupt(COM2);
-	manual_init();
-	pneumatic_init();
-	buzzer_init();
-	encoder_init();
-	gyro_init();
+	
+	//XBC
 	button_init();
 	can_xbc_mb_init();
 	can_xbc_mb_tx_enable(true);
+	
+	//Devices
+	tft_easy_init();
+	servo_init();
+	pneumatic_init();
 	gpio_init_all();
+	encoder_init();
+	gyro_init();
 	i2c_init();
 	pca9685_init();
 	ls_init();
-
+	
+	//Manual mode
+	manual_init();
 	tft_put_logo(85, 120);            
 	CONTROL_STATE last_control_state = MANUAL_MODE;
 	

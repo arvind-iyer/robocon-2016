@@ -11,6 +11,11 @@
 #include <stdbool.h>
 #include <string.h>
 
+#define HEADER_BASE_ADDR	0x08020000
+#define PATH_BASE_ADDR		0x08040000
+#define PATH_ID						0x001A
+#define NODE_SIZE					5
+
 typedef enum {
 	NODE_STOP,
 	NODE_PASS,

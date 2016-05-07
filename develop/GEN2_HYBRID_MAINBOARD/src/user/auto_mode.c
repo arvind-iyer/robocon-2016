@@ -65,9 +65,9 @@ uint8_t rx_buffer[4] = {0,0,0,0};
 u8 rx_path_length = 0;
 u8 rx_count = 0;
 u8 rx_pointer = 0;
-TARGET rx_node;
-bool is_loaded = false;
-
+u8 rx_node_no = 0;
+u32 rx_node_list[30][5];
+bool to_be_saved = false;
 
 s32 rx_merge(void) {
 	s32 val = 0;
@@ -178,7 +178,6 @@ void auto_init() {
 	
 	tar_head = 0;
 	tar_end = 0;
-	is_loaded = false;
 }
 
 /**
@@ -215,6 +214,13 @@ void auto_reset() {
   */
 PID_MODE auto_get_state() {
 	return pid_state;
+}
+
+u16 auto_get_flash(u8 page, u8 offset) {
+	u32 base_addr;
+	if (page == 0) base_addr = HEADER_BASE_ADDR;
+	if (page == 1) base_addr = PATH_BASE_ADDR; 
+	return *((uint16_t *)(base_addr + offset*2));
 }
 
 /**
@@ -392,21 +398,32 @@ void auto_calibrate(){
 void auto_menu_update() {
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
-	tft_prints(0,2,"State: %d %d %d",rx_path_length, rx_count, rx_pointer);
-	if (rx_state == 0) {
-		tft_prints(0,3,"Idle");
+	
+	if (auto_get_flash(0,0) == PATH_ID) {
+		tft_prints(0,1,"Path found!");
+		tft_prints(0,2,"Length: %d",auto_get_flash(0,1));
 	} else {
-		tft_prints(0,3,"Receiving");
+		tft_prints(0,1,"No path stored");		
 	}
+	
+	tft_prints(0,3,"State: %d %d %d",rx_path_length, rx_count, rx_pointer);
+	if (rx_state == 0) {
+		tft_prints(0,4,"Idle");
+	} else {
+		tft_prints(0,4,"Receiving");
+	}
+	
+	/*
 	if (is_loaded) {
 		tft_prints(0,5,"Press Start!");
 		tft_prints(0,6,"Length: %d",tar_head);
 	} else {
 		tft_prints(0,5,"Load path now");
 	}
+	*/
 	tft_update();
 	
-	if (button_pressed(BUTTON_XBC_START) && is_loaded){
+	if (button_pressed(BUTTON_XBC_START)){
 		if (!start_pressed) {
 			start_pressed = true;
 			auto_reset();
@@ -414,6 +431,25 @@ void auto_menu_update() {
 		}
 	} else {
 		start_pressed = false;
+	}
+	
+	if (to_be_saved) {
+		FLASH_Unlock();
+		FLASH_ClearFlag(FLASH_FLAG_EOP|FLASH_FLAG_PGERR|FLASH_FLAG_WRPRTERR);
+		
+		FLASH_ErasePage(HEADER_BASE_ADDR);
+		FLASH_ProgramHalfWord(HEADER_BASE_ADDR, PATH_ID);
+		FLASH_ProgramHalfWord(HEADER_BASE_ADDR+2, (uint16_t)rx_path_length);
+		
+		FLASH_ErasePage(PATH_BASE_ADDR);
+		for (u8 p=0; p<rx_path_length; p++) {
+			for (u8 q=0; q<NODE_SIZE; q++) {
+				FLASH_ProgramWord(PATH_BASE_ADDR+(p*NODE_SIZE+q)*4, rx_node_list[p][q]);
+			}
+		}
+		
+		FLASH_Lock();		
+		to_be_saved = false;
 	}
 }
 
@@ -536,6 +572,7 @@ void USART2_IRQHandler(void) {
 			rx_path_length = byte;
 			rx_count = 0;
 			rx_pointer = 0;
+			rx_node_no = 0;
 			tar_head = 0; //reset target queue
 			rx_state = 2;
 		} else if (rx_state == 2) { //receive path
@@ -543,35 +580,15 @@ void USART2_IRQHandler(void) {
 			rx_count++;
 			if (rx_count == 4) { //finish receive one value
 				rx_count = 0;
-				switch(rx_pointer) {
-					case 0:
-						if (rx_merge())
-							rx_node.type = NODE_STOP;
-						else
-							rx_node.type = NODE_PASS;
-						break;
-					case 1:
-						rx_node.x = rx_merge();
-						break;
-					case 2:
-						rx_node.y = rx_merge();
-						break;
-					case 3:
-						rx_node.deg = rx_merge();
-						break;
-					case 4:
-						rx_node.curve = rx_merge();
-						break;
-				}
+				rx_node_list[rx_node_no][rx_pointer] = rx_merge();
 				rx_pointer++;
 			}
 			if (rx_pointer == 5) { //finish receive whole node
 				rx_pointer = 0;
-				rx_path_length--;
-				auto_tar_enqueue(rx_node);
+				rx_node_no++;
 			}
-			if (rx_path_length == 0){ //finish receive all nodes
-				is_loaded = true;
+			if (rx_node_no == rx_path_length){ //finish receive all nodes
+				to_be_saved = true;
 				rx_state = 0;
 			}
 		}
