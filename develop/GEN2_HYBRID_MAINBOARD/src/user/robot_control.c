@@ -5,7 +5,8 @@
 **/
 
 #include "robot_control.h"
-
+s16 encoder_offset = 0;
+u8 encoder_reset = 0;
 LOCK_STATE pneumatic_state = UNLOCKED;
 
 /**
@@ -40,7 +41,7 @@ void brushless_servo_control(s16 value){
 	if (get_emergency_lock() == LOCKED) return;
 	value = (value > 90) ? 90 : ((value < -90) ? -90 : value);
 	u16 pwm_val = (value*(BRUSHLESS_SERVO_RANGE)/90)+BRUSHLESS_SERVO_MED;
-	pca9685_set_pwm(BRUSHLESS_SERVO_PORT, pwm_val);
+	servo_control(BRUSHLESS_SERVO_PORT, pwm_val);
 }
 
 //Gripper control
@@ -63,6 +64,10 @@ void gripper_control(GRIPPER_ID gripper_id, u16 state) {
 }
 
 //Brushless arm control
+s16 get_arm_pos() {
+	return (get_encoder_count(ENCODER1) - encoder_offset);
+}
+
 void raise_arm() {
 	if (get_emergency_lock() == LOCKED) return;
 	if (gpio_read_input(&ARM_UP_LIMIT_PORT)) {
@@ -76,7 +81,13 @@ void lower_arm() {
 	if (get_emergency_lock() == LOCKED) return;
 	if (gpio_read_input(&ARM_DN_LIMIT_PORT)) {
 		motor_set_vel(MOTOR7, 0, OPEN_LOOP);
+		if (encoder_reset == 0) {
+			encoder_offset = get_encoder_count(ENCODER1);
+			encoder_reset = 1;
+		}
 		return;
+	} else {
+		encoder_reset = 0;
 	}
 	motor_set_vel(MOTOR7, LOWER_ARM_SPEED*MOTOR7_FLIP, OPEN_LOOP);
 }

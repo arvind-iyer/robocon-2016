@@ -26,7 +26,7 @@ void encoder_init(void){
 		// GPIO init
 		GPIO_StructInit(&GPIO_InitStructure);																														// Set to default
 		GPIO_InitStructure.GPIO_Pin = encoder[encoder_id].port1 | encoder[encoder_id].port2;						// Set Timer Pin 
-		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;																						// Set Pin mode to floating
+		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;																										// Pullups required for Omron encoders
 		GPIO_Init(encoder[encoder_id].GPIOx, &GPIO_InitStructure);																			// Activate
 		if (encoder_id == 0) {
 			GPIO_PinRemapConfig(GPIO_Remap_TIM4 , ENABLE);
