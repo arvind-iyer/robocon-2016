@@ -25,6 +25,7 @@ void parseMotorValues();
 
 void sendClimbCommands(int M4, int M5, int M6, int M7);
 void sendMotorCommands();
+void sendArmCommand(int M8);
 
 Motors getMotorValues();
 

@@ -22,7 +22,7 @@ Dialog DLL:      TCM.DLL V1.14.8.0
  
 <h2>Project:</h2>
 D:\Data\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\Project.uvprojx
-Project File Date:  05/07/2016
+Project File Date:  05/08/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
@@ -36,6 +36,14 @@ src\user\pk/hybrid_pneumatic.h(16): warning:  #1295-D: Deprecated declaration ge
   Pneumatics getPneumaticState();
 src\user\pk/hybrid_pneumatic.h(18): warning:  #1-D: last line of file ends without a newline
   #endif
+src\user\pk/hybrid_gpio.h(4): warning:  #1295-D: Deprecated declaration hybridGPIOInit - give arg types
+  void hybridGPIOInit();
+src\user\pk/hybrid_gpio.h(5): warning:  #1295-D: Deprecated declaration limitSwitchCheck - give arg types
+  void limitSwitchCheck();
+src\user\pk/hybrid_gpio.h(6): warning:  #1295-D: Deprecated declaration armUpdate - give arg types
+  void armUpdate();
+src\user\pk/hybrid_gpio.h(8): warning:  #1-D: last line of file ends without a newline
+  #endif
 .\src\ustrobo_min_system\inc\servo.h(39): warning:  #1-D: last line of file ends without a newline
   #endif		/*  _SERVO_H_ */
 src\user\pk/pk_movement.h(19): warning:  #1295-D: Deprecated declaration pk_movement_init - give arg types
@@ -46,7 +54,7 @@ src\user\pk/pk_movement.h(24): warning:  #1295-D: Deprecated declaration parseMo
   void parseMotorValues();
 src\user\pk/pk_movement.h(27): warning:  #1295-D: Deprecated declaration sendMotorCommands - give arg types
   void sendMotorCommands();
-src\user\pk/pk_movement.h(29): warning:  #1295-D: Deprecated declaration getMotorValues - give arg types
+src\user\pk/pk_movement.h(30): warning:  #1295-D: Deprecated declaration getMotorValues - give arg types
   Motors getMotorValues();
 src\user\pk/pk_manual.h(4): warning:  #1295-D: Deprecated declaration manualControl - give arg types
   void manualControl();
@@ -72,15 +80,15 @@ src\user\pk/pk_brushless.h(8): warning:  #1295-D: Deprecated declaration getBrus
   int getBrushlessMagnitude();
 src\user\pk/pk_brushless.h(11): warning:  #1-D: last line of file ends without a newline
   #endif
-src\user\pk/pk.h(10): warning:  #1295-D: Deprecated declaration pk_init - give arg types
+src\user\pk/pk.h(11): warning:  #1295-D: Deprecated declaration pk_init - give arg types
   void pk_init();
-src\user\robocon.c(142): warning:  #1-D: last line of file ends without a newline
+src\user\robocon.c(168): warning:  #1-D: last line of file ends without a newline
   }
-src\user\robocon.c: 24 warnings, 0 errors
+src\user\robocon.c: 28 warnings, 0 errors
 linking...
-Program Size: Code=38414 RO-data=1466 RW-data=5244 ZI-data=43284  
+Program Size: Code=39114 RO-data=1506 RW-data=5264 ZI-data=43288  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 24 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 28 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   D:\Data\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\RTE

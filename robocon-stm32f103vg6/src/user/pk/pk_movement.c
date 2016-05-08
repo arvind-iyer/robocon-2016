@@ -102,7 +102,7 @@ void sendMotorCommands() {
 	motor_set_vel(MOTOR5, motor.M5, OPEN_LOOP);
 	motor_set_vel(MOTOR6, motor.M6, OPEN_LOOP);
 	motor_set_vel(MOTOR7, motor.M7, OPEN_LOOP);
-	motor_set_vel(MOTOR8, motor.M8, OPEN_LOOP);
+	motor_set_vel(MOTOR8, motor.M8, CLOSE_LOOP);
 }
 
 /**
@@ -118,6 +118,11 @@ void sendClimbCommands(int M4, int M5, int M6, int M7) {
 	motor_set_vel(MOTOR5, motor.M5, OPEN_LOOP);
 	motor_set_vel(MOTOR6, -motor.M6, OPEN_LOOP);
 	motor_set_vel(MOTOR7, motor.M7, OPEN_LOOP);
+}
+
+void sendArmCommand(int M8) {
+	motor.M8 = M8;
+	motor_set_vel(MOTOR8, motor.M8, CLOSE_LOOP);
 }
 
 /**

@@ -5,7 +5,7 @@
 
 //#define DEBUG_MODE
 
-bool _allowUpdate = false, allowDPadUpdate = false;
+bool _allowUpdate = false, allowDPadUpdate = false, allowArm = false, allowArmUpdate = false;
 
 void robocon_main(void)
 {	
@@ -19,6 +19,11 @@ void robocon_main(void)
 			controllerInputUpdate();
 			manualControl();
 			hybridPneumaticControl();
+			limitSwitchCheck();
+			if(allowArm) {
+				armIr = gpio_read_input(&PE8);
+				armUpdate();
+			}
 			
 			if (return_listener()) {
 					return; 
@@ -78,8 +83,10 @@ void _updateScreen() {
 	#else
 	tft_prints(0, 0, "FIERY DRAGON");
 	tft_prints(0, 1, "M: %d|%d|%d" , getMotorValues().M1, getMotorValues().M2, getMotorValues().M3);
-	tft_prints(0, 2, "B: %d", getBrushlessMagnitude());
+	tft_prints(0, 2, "B: %d | ARM: %d", getBrushlessMagnitude(), allowArm);
 	tft_prints(0, 3, "P: %d|%d|%d|%d", getPneumaticState().P1, getPneumaticState().P2, getPneumaticState().P3, getPneumaticState().P4);
+	tft_prints(0, 4, "G: %d|%d|%d", get_pos()->x, get_pos()->y, get_pos()->angle);
+	tft_prints(0, 5, "LS: %d|%d|%d|%d|%d", gpio_read_input(&PE6), gpio_read_input(&PE7),  prevLimitSwitch[2], prevLimitSwitch[3], armIr);
 	tft_prints(0, 9, "Time: %d", get_seconds());
 	#endif
 	tft_update();
@@ -90,6 +97,20 @@ void _updateScreen() {
   */
 
 void controllerInputUpdate() {
+	
+	//Button LB, RB
+	if(button_pressed(BUTTON_XBC_RB)) {
+		sendArmCommand(40);
+	}
+	else if(button_released(BUTTON_XBC_RB)) {
+		sendArmCommand(0);
+	}
+	if(button_pressed(BUTTON_XBC_LB)) {
+		sendArmCommand(-40);
+	}
+	else if(button_released(BUTTON_XBC_LB)) {
+		sendArmCommand(0);
+	}
 	
 	//Button LT, RT
 	if(can_xbc_get_joy(XBC_JOY_LT) == 255 && _allowUpdate) {
@@ -109,34 +130,39 @@ void controllerInputUpdate() {
 		allowDPadUpdate = false;
 		pneumatics.P1 = !pneumatics.P1;
 	}
-	if(button_released(BUTTON_XBC_N) && !allowDPadUpdate){
+	else if(button_released(BUTTON_XBC_N) && !allowDPadUpdate){
 		allowDPadUpdate = true;
 	}
 	if(button_pressed(BUTTON_XBC_E) && allowDPadUpdate){
 		allowDPadUpdate = false;
 		pneumatics.P2 = !pneumatics.P2;
 	}
-	if(button_released(BUTTON_XBC_E) && !allowDPadUpdate){
+	else if(button_released(BUTTON_XBC_E) && !allowDPadUpdate){
 		allowDPadUpdate = true;
 	}
 	if(button_pressed(BUTTON_XBC_W) && allowDPadUpdate){
 		allowDPadUpdate = false;
 		pneumatics.P3 = !pneumatics.P3;
 	}
-	if(button_released(BUTTON_XBC_W) && !allowDPadUpdate){
+	else if(button_released(BUTTON_XBC_W) && !allowDPadUpdate){
 		allowDPadUpdate = true;
 	}
-	
-	
-	//Button LB, RB
 	
 	//Button A, B, X, Y
 			if(button_pressed(BUTTON_XBC_B))
 		{
-			sendClimbCommands(-900, -900, -900, -900);
+			sendClimbCommands(900, -900, 900, -900);
 		}
-		if(button_released(BUTTON_XBC_B))
+		else if(button_released(BUTTON_XBC_B))
 		{
 			sendClimbCommands(0,0,0,0);
 		}
+		if(button_pressed(BUTTON_XBC_X) && !allowArmUpdate) {
+			allowArmUpdate = true;
+			allowArm = !allowArm;
+		}
+		else if(button_released(BUTTON_XBC_X) && allowArmUpdate) {
+			allowArmUpdate = false;
+		}
+		
 }

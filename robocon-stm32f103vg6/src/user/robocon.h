@@ -11,6 +11,8 @@
 #include "ticks.h"
 #include "delay.h"
 
+#include "gyro.h"
+#include "gpio.h"
 #include "buzzer.h"
 #include "led.h"
 #include "tft.h"
@@ -20,6 +22,7 @@
 #include "encoder.h"
 #include "ultrasonic_mb.h"
 #include "pk/hybrid_pneumatic.h"
+#include "pk/hybrid_gpio.h"
 
 /*** Optional ***/
 #include "can_protocol.h"
@@ -40,5 +43,7 @@ void _updateScreen(void);
 void controllerInputUpdate(void);
 
 extern Pneumatics pneumatics;
+extern bool prevLimitSwitch[4];
+extern bool armIr;
 
 #endif	/* __ROBOCON_H */

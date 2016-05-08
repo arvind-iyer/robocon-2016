@@ -5,4 +5,5 @@ void pk_init() {
 	pk_pid_init();
 	brushlessStartup();
 	hybridPneumaticInit();
+	hybridGPIOInit();
 }

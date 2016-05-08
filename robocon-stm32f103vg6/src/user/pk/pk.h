@@ -6,6 +6,7 @@
 #include "pk_pid.h"
 #include "pk_brushless.h"
 #include "hybrid_pneumatic.h"
+#include "hybrid_gpio.h"
 
 void pk_init();
 

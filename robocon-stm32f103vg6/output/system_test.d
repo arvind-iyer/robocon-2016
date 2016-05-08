@@ -50,6 +50,7 @@
 .\output\system_test.o: .\src\user\robocon.h
 .\output\system_test.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
 .\output\system_test.o: .\src\user\pk/hybrid_pneumatic.h
+.\output\system_test.o: .\src\user\pk/hybrid_gpio.h
 .\output\system_test.o: .\src\user\wheel_base.h
 .\output\system_test.o: .\src\user\wheel_base_pid.h
 .\output\system_test.o: .\src\user\wheel_base.h

@@ -50,6 +50,7 @@
 .\output\wheel_base.o: .\src\ustrobo_min_system\inc\encoder.h
 .\output\wheel_base.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
 .\output\wheel_base.o: src\user\pk/hybrid_pneumatic.h
+.\output\wheel_base.o: src\user\pk/hybrid_gpio.h
 .\output\wheel_base.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\wheel_base.o: src\user\log.h
 .\output\wheel_base.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
