@@ -50,6 +50,7 @@ s32 raw_x, raw_y;
 s32 cur_x, cur_y, cur_deg;
 int vel[3];
 int degree, degree_diff, dist, speed;
+int dist_last, time, time_last, measured_vel;
 int start, passed;
 int err_d;
 int auto_ticks = 0;
@@ -189,6 +190,9 @@ void auto_reset() {
 	//reset variables
 	err_d = 0;
 	dist = 0;
+	dist_last = 0;
+	time = 0;
+	time_last = 0;
 	degree_diff = 0;
 	tar_x = 0;
 	tar_y = 0;
@@ -199,6 +203,7 @@ void auto_reset() {
 	deg_ratio = 0;
 	start = 0;
 	pid_stopped = false;
+	transform[1][0] = 0;
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -216,11 +221,11 @@ PID_MODE auto_get_state() {
 	return pid_state;
 }
 
-u16 auto_get_flash(u8 page, u8 offset) {
+u32 auto_get_flash(u8 page, u8 offset) {
 	if (page == 0) 
 		return *((uint16_t *)(HEADER_BASE_ADDR + offset*2));
 	if (page == 1) 
-		return *((uint16_t *)(PATH_BASE_ADDR + offset*4));
+		return *((uint32_t *)(PATH_BASE_ADDR + offset*4));
 }
 
 /**
@@ -323,6 +328,9 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		reset_vel[2] = 10;
 	}
 	
+	//ls cal first part
+	if ((tar_end == 1) && (get_pos()->y < (4175 - wall_dist))) //measured distance less than actual distance
+		off_y = get_pos()->y - 4175 + wall_dist; //negative
 	
 	//perpendicular PD
 	err_pid = err * 0.2 + (err-err_d) * 0.0;
@@ -420,14 +428,14 @@ void auto_menu_update() {
 			
 			TARGET node_buffer;
 			for (u8 i=0; i < auto_get_flash(0,1); i++) {
-				if (auto_get_flash(1,i) == 0)
+				if (auto_get_flash(1,i*NODE_SIZE) == 0)
 					node_buffer.type = NODE_PASS;
-				if (auto_get_flash(1,i) == 1)
+				if (auto_get_flash(1,i*NODE_SIZE) == 1)
 					node_buffer.type = NODE_STOP;
-				node_buffer.x = auto_get_flash(1,i+1);
-				node_buffer.y = auto_get_flash(1,i+2);
-				node_buffer.deg = auto_get_flash(1,i+3);
-				node_buffer.curve = auto_get_flash(1,i+4);	
+				node_buffer.x = auto_get_flash(1,i*NODE_SIZE+1);
+				node_buffer.y = auto_get_flash(1,i*NODE_SIZE+2);
+				node_buffer.deg = auto_get_flash(1,i*NODE_SIZE+3);
+				node_buffer.curve = auto_get_flash(1,i*NODE_SIZE+4);	
 				auto_tar_enqueue(node_buffer);			
 			}
 			
@@ -466,29 +474,36 @@ void auto_menu_update() {
 void auto_var_update() {
 	passed = auto_get_ticks() - start;
 	
-	wall_dist = get_ls_cal_reading(0);
-	if (field == 0) {
-		if (wall_dist < 285)
-			transform[1][0] -= (7.0/7000.0);
-		if ((wall_dist > 370) && (wall_dist < 800))
-			transform[1][0] += (2.0/7000.0);
-	}
-	if (field == 1) {
-		if (wall_dist < 305)
-			transform[1][0] += (3.0/7000.0);
-		if ((wall_dist > 370) && (wall_dist < 800))
-			transform[1][0] -= (7.0/7000.0);		
-	}
-	
-	#ifdef DEBUG_MODE
-		raw_x = get_pos()->x;
-		raw_y = get_pos()->y;
-	#endif
+	u32 reading1, reading2;
 	
 	#ifndef DEBUG_MODE
-		raw_x = transform[0][0]*(get_pos()->x) + transform[0][1]*(get_pos()->y);
-		raw_y = transform[1][0]*(get_pos()->x) + transform[1][1]*(get_pos()->y);
+		reading1 = get_ls_cal_reading(0);
+		reading2 = get_ls_cal_reading(1);
+		if (reading1 == 0)
+			reading1 = 200;
+		if (reading2 == 0)
+			reading2 = 200;
+		if (Abs(reading2 - reading1) < 150) {
+			wall_dist = (reading1 + reading2)/2;
+			if (field == 0) {
+				if (wall_dist < 285)
+					transform[1][0] -= (7.0/7000.0);
+				if ((wall_dist > 370) && (wall_dist < 800))
+					transform[1][0] += (2.0/7000.0);
+			}
+			if (field == 1) {
+				if (wall_dist < 305)
+					transform[1][0] += (5.0/7000.0);
+				if ((wall_dist > 360) && (wall_dist < 500))
+					transform[1][0] -= (5.0/7000.0);		
+			}
+		} else {
+			wall_dist = 0;
+		}
 	#endif
+
+	raw_x = transform[0][0]*(get_pos()->x) + transform[0][1]*(get_pos()->y);
+	raw_y = transform[1][0]*(get_pos()->x) + transform[1][1]*(get_pos()->y);
 	
 	cur_x = raw_x - off_x;
 	cur_y = raw_y - off_y;
@@ -509,6 +524,8 @@ void auto_var_update() {
 		degree_diff -= 360;
 	
 	dist = pythag(cur_x, cur_y, tar_x, tar_y);
+	time = auto_get_ticks();
+	//measured_vel = (int)((float)((dist - dist_last)*1000)/((float)(time - time_last)));
 	
 	//set target degree
 	int diff = auto_tar_ret(tar_end-1).deg - auto_tar_ret(tar_end-2).deg;
@@ -521,6 +538,9 @@ void auto_var_update() {
 		deg_ratio /= pythag(ori_x, ori_y, tar_x, tar_y);
 		tar_deg = auto_tar_ret(tar_end-2).deg + (int)deg_ratio;
 	}
+	
+	dist_last = dist;
+	time_last = time;
 }
 
 /**
@@ -548,8 +568,8 @@ void auto_motor_update(){
 	tft_prints(0,3,"D %5d -> %5d",cur_deg,tar_deg);
 	tft_prints(0,4,">> %2d / %2d",tar_end,tar_head);
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
-	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
-	tft_prints(0,7,"GloVel%d",get_pos()->x,get_pos()->y);
+	tft_prints(0,6,"TIM %3d",time/1000);
+	//tft_prints(0,7,"Test %d",measured_vel);
 	tft_prints(0,8,"Trans: %d",(int)(transform[1][0]*700));
 	tft_prints(0,9,"Wall: %d",wall_dist);
 	tft_update();
