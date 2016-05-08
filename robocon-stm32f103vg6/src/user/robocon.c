@@ -4,9 +4,13 @@
 #include "pk/hybrid_pneumatic.h"
 
 //#define DEBUG_MODE
+#define RED_SIDE 0
+#define BLUE_SIDE 1
+
+bool robotMode = false;
 
 //Variables for allowing the update of the button
-bool _allowUpdate = false, allowDPadUpdate = false, allowArm = false, allowArmUpdate = false;
+bool _allowUpdate = false, allowDPadUpdate = false, allowArm = false, allowArmUpdate = false, allowModeUpdate = false;
 
 void robocon_main(void)
 {	
@@ -88,6 +92,8 @@ void _updateScreen() {
 	tft_prints(0, 3, "P: %d|%d|%d|%d", getPneumaticState().P1, getPneumaticState().P2, getPneumaticState().P3, getPneumaticState().P4);
 	tft_prints(0, 4, "G: %d|%d|%d", get_pos()->x, get_pos()->y, get_pos()->angle);
 	tft_prints(0, 5, "LS: %d|%d|%d|%d|%d", gpio_read_input(&PE6), gpio_read_input(&PE7),  prevLimitSwitch[2], prevLimitSwitch[3], armIr); 
+	tft_prints(0, 6, (robotMode == RED_SIDE) ? "MODE: RED SIDE" : "MODE:BLUE SIDE");
+	tft_prints(0, 7, "L: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1));
 	tft_prints(0, 9, "Time: %d", get_seconds());
 	#endif
 	tft_update();
@@ -164,6 +170,15 @@ void controllerInputUpdate() {
 		}
 		else if(button_released(BUTTON_XBC_X) && allowArmUpdate) {
 			allowArmUpdate = false;
+		}
+		
+	//XBOX Button
+		if(button_pressed(BUTTON_XBC_XBOX) && !allowModeUpdate) {
+			allowModeUpdate = true;
+			robotMode = !robotMode;
+		}
+		else if(button_released(BUTTON_XBC_XBOX) && allowModeUpdate) {
+			allowModeUpdate = false;
 		}
 		
 }

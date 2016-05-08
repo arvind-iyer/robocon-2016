@@ -43,6 +43,7 @@
 .\output\robocon.o: .\src\stm32f10x_std\inc\stm32f10x_can.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\encoder.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
+.\output\robocon.o: src\user\laser_sensor.h
 .\output\robocon.o: src\user\pk/hybrid_pneumatic.h
 .\output\robocon.o: src\user\pk/hybrid_gpio.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\servo.h

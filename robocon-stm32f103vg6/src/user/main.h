@@ -20,6 +20,7 @@
 #include "encoder.h"
 #include "system_test.h"
 #include "pneumatic.h"
+#include "laser_sensor.h"
 
 /*** Optional ***/
 #include "can_protocol.h"

@@ -23,6 +23,7 @@ void setW(int _W);
 void addComponent();
 void parseMotorValues();
 
+void sendWheelBaseMotorCommands(int M1, int M2, int M3);
 void sendClimbCommands(int M4, int M5, int M6, int M7);
 void sendMotorCommands();
 void sendArmCommand(int M8);

@@ -50,6 +50,7 @@
 .\output\main.o: .\src\ustrobo_min_system\inc\crc.h
 .\output\main.o: .\src\user\robocon.h
 .\output\main.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
+.\output\main.o: .\src\user\laser_sensor.h
 .\output\main.o: .\src\user\pk/hybrid_pneumatic.h
 .\output\main.o: .\src\user\pk/hybrid_gpio.h
 .\output\main.o: .\src\user\wheel_base.h

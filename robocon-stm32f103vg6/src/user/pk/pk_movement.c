@@ -88,6 +88,16 @@ void parseMotorValues() {
 	xComponent = 0;
 	yComponent = 0;
 	rotation = 0;
+	
+}
+
+void sendWheelBaseMotorCommands (int M1, int M2, int M3) {
+	motor.M1 = M1;
+	motor.M2 = M2;
+	motor.M3 = M3;
+	motor_set_vel(MOTOR1, motor.M1, CLOSE_LOOP);
+	motor_set_vel(MOTOR2, motor.M2, CLOSE_LOOP);
+	motor_set_vel(MOTOR3, motor.M3, CLOSE_LOOP);
 }
 
 /**

@@ -7,6 +7,7 @@
 #include "pk_brushless.h"
 #include "hybrid_pneumatic.h"
 #include "hybrid_gpio.h"
+#include "laser_sensor.h"
 
 void pk_init();
 

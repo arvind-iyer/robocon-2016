@@ -6,4 +6,5 @@ void pk_init() {
 	brushlessStartup();
 	hybridPneumaticInit();
 	hybridGPIOInit();
+	ls_init();
 }

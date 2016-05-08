@@ -21,6 +21,7 @@
 #include "button.h"
 #include "encoder.h"
 #include "ultrasonic_mb.h"
+#include "laser_sensor.h"
 #include "pk/hybrid_pneumatic.h"
 #include "pk/hybrid_gpio.h"
 
