@@ -27,6 +27,18 @@ Project File Date:  05/08/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
+compiling pk_movement.c...
+src\user\pk\pk_movement.h(19): warning:  #1295-D: Deprecated declaration pk_movement_init - give arg types
+  void pk_movement_init();
+src\user\pk\pk_movement.h(23): warning:  #1295-D: Deprecated declaration addComponent - give arg types
+  void addComponent();
+src\user\pk\pk_movement.h(24): warning:  #1295-D: Deprecated declaration parseMotorValues - give arg types
+  void parseMotorValues();
+src\user\pk\pk_movement.h(27): warning:  #1295-D: Deprecated declaration sendMotorCommands - give arg types
+  void sendMotorCommands();
+src\user\pk\pk_movement.h(30): warning:  #1295-D: Deprecated declaration getMotorValues - give arg types
+  Motors getMotorValues();
+src\user\pk\pk_movement.c: 5 warnings, 0 errors
 compiling robocon.c...
 src\user\pk/hybrid_pneumatic.h(13): warning:  #1295-D: Deprecated declaration hybridPneumaticInit - give arg types
   void hybridPneumaticInit();
@@ -82,13 +94,13 @@ src\user\pk/pk_brushless.h(11): warning:  #1-D: last line of file ends without a
   #endif
 src\user\pk/pk.h(11): warning:  #1295-D: Deprecated declaration pk_init - give arg types
   void pk_init();
-src\user\robocon.c(168): warning:  #1-D: last line of file ends without a newline
+src\user\robocon.c(169): warning:  #1-D: last line of file ends without a newline
   }
 src\user\robocon.c: 28 warnings, 0 errors
 linking...
 Program Size: Code=39114 RO-data=1506 RW-data=5264 ZI-data=43288  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 28 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 33 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   D:\Data\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\RTE

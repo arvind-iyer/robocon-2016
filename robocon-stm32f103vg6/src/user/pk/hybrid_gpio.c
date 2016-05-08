@@ -9,6 +9,10 @@ bool limitSwitch[4] = {false, false, false, false};
 bool prevLimitSwitch[4] = {false, false, false, false};
 bool armIr = false, prevArmIr = false;
 
+/**
+  * @brief Initializes the Hybrid's GPIO ports and some required variables
+   */
+
 void hybridGPIOInit() {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 	
@@ -23,6 +27,10 @@ void hybridGPIOInit() {
 
 bool armDir = false, fixingArm = false, climbLimit = false; // False = down, True = up
 long lastLimitCheck = 0;
+
+/**
+  * @brief Checks all the limit switches on the hybrid
+   */
 
 void limitSwitchCheck() {
   limitSwitch[0] = gpio_read_input(&PE6);
@@ -56,6 +64,10 @@ void limitSwitchCheck() {
 		prevLimitSwitch[3] = limitSwitch[3];
 	}
 }
+
+/**
+  * @brief Arm Position Update, checks current IR sensor status relative to previous
+   */
 
 void armUpdate() {
 	if(prevArmIr != armIr) {

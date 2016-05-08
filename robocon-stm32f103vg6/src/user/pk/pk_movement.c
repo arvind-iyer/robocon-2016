@@ -107,6 +107,7 @@ void sendMotorCommands() {
 
 /**
   * @brief Sending the motor commands to the respective climbing motors
+	* @param Motor values for each motor 4,5,6,7
   */
 
 void sendClimbCommands(int M4, int M5, int M6, int M7) {
@@ -120,6 +121,11 @@ void sendClimbCommands(int M4, int M5, int M6, int M7) {
 	motor_set_vel(MOTOR7, motor.M7, OPEN_LOOP);
 }
 
+/**
+  * @brief Sending the arm command to the arm motor, also updates the M8 motor value
+* @param integer M8 : magnitude of the motor speed
+   */
+
 void sendArmCommand(int M8) {
 	motor.M8 = M8;
 	motor_set_vel(MOTOR8, motor.M8, CLOSE_LOOP);
@@ -127,6 +133,7 @@ void sendArmCommand(int M8) {
 
 /**
   * @brief Getter for motor values
+	* @retval The Motor structure
   */
 
 Motors getMotorValues() {
