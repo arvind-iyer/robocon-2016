@@ -8,9 +8,6 @@ u32 last_long_loop_ticks = 0;
 u32 this_loop_ticks = 0;
 u32 last_short_loop_ticks = 0;
 
-//Arbritary address for storing paths
-uint16_t VirtAddVarTab[NumbOfVar] = {0x4000, 0x4400};
-
 int main(void) {
 	//Mainboard
 	ticks_init();

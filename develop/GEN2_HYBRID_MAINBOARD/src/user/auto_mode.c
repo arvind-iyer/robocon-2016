@@ -217,10 +217,10 @@ PID_MODE auto_get_state() {
 }
 
 u16 auto_get_flash(u8 page, u8 offset) {
-	u32 base_addr;
-	if (page == 0) base_addr = HEADER_BASE_ADDR;
-	if (page == 1) base_addr = PATH_BASE_ADDR; 
-	return *((uint16_t *)(base_addr + offset*2));
+	if (page == 0) 
+		return *((uint16_t *)(HEADER_BASE_ADDR + offset*2));
+	if (page == 1) 
+		return *((uint16_t *)(PATH_BASE_ADDR + offset*4));
 }
 
 /**
@@ -402,30 +402,35 @@ void auto_menu_update() {
 	if (auto_get_flash(0,0) == PATH_ID) {
 		tft_prints(0,1,"Path found!");
 		tft_prints(0,2,"Length: %d",auto_get_flash(0,1));
+		tft_prints(0,3,"[Press Start]");
 	} else {
-		tft_prints(0,1,"No path stored");		
+		tft_prints(0,1,"No path stored");	
 	}
 	
-	tft_prints(0,3,"State: %d %d %d",rx_path_length, rx_count, rx_pointer);
 	if (rx_state == 0) {
-		tft_prints(0,4,"Idle");
+		tft_prints(0,9,"Idle");
 	} else {
-		tft_prints(0,4,"Receiving");
+		tft_prints(0,9,"Receiving");
 	}
-	
-	/*
-	if (is_loaded) {
-		tft_prints(0,5,"Press Start!");
-		tft_prints(0,6,"Length: %d",tar_head);
-	} else {
-		tft_prints(0,5,"Load path now");
-	}
-	*/
 	tft_update();
 	
-	if (button_pressed(BUTTON_XBC_START)){
+	if (button_pressed(BUTTON_XBC_START) && (auto_get_flash(0,0) == PATH_ID)){
 		if (!start_pressed) {
 			start_pressed = true;
+			
+			TARGET node_buffer;
+			for (u8 i=0; i < auto_get_flash(0,1); i++) {
+				if (auto_get_flash(1,i) == 0)
+					node_buffer.type = NODE_PASS;
+				if (auto_get_flash(1,i) == 1)
+					node_buffer.type = NODE_STOP;
+				node_buffer.x = auto_get_flash(1,i+1);
+				node_buffer.y = auto_get_flash(1,i+2);
+				node_buffer.deg = auto_get_flash(1,i+3);
+				node_buffer.curve = auto_get_flash(1,i+4);	
+				auto_tar_enqueue(node_buffer);			
+			}
+			
 			auto_reset();
 			pid_state = RUNNING_MODE;
 		}
