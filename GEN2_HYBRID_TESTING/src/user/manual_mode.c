@@ -14,6 +14,7 @@
 #include "manual_mode.h"
 
 static s32 curr_vx = 0, curr_vy = 0, curr_angle = 0;
+static s16 curr_w = 0;
 static s32 curr_heading = 0;
 
 static s32 motor_vel[3] = {0};
@@ -40,7 +41,8 @@ static u32 gripper_ticks[8] = {0}; //Left claw, Left push, Right claw, Right pus
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
 
-static u16 temp_control = 50;
+static u16 accel_remainder = 0;
+static u16 rotate_accel_remainder = 0;
 
 void manual_init(){
 	xbc_mb_init(XBC_CAN_FIRST);
@@ -48,7 +50,7 @@ void manual_init(){
 }
 
 void manual_reset(){
-	curr_vx = curr_vy = curr_angle = curr_heading = 0;
+	curr_vx = curr_vy = curr_angle = curr_heading = curr_w = 0;
 	ground_wheels_lock = UNLOCKED;
 	brushless_power_percent = 20;
 	climbing_induced_ground_lock = UNLOCKED;
@@ -100,30 +102,11 @@ s32 angle_pid(){
 	return temp;
 }
 
-/*
-** This fast update is for controlling things that require a high refresh rate
-** It contains:
-** - Locking itself in place
-** - Recording encoder reading and speed
-*/
-void manual_fast_update(){
-	if (ground_wheels_lock == LOCKED){
-		//_lockInTarget();
-		s32 curr_rotate = -angle_pid()/1500;
-		for (u8 i=0;i<3;i++){
-			motor_vel[i] = curr_rotate/10;
-			motor_loop_state[i] = CLOSE_LOOP;
-			motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
-		}
-	}
-}
 
-//Interval update is called in a timed interval, reducing stress
-void manual_interval_update(){
-	tft_clear();
-	
+//This part deals with moving the robot around
+void manual_update_wheel_base(){
 	if (ground_wheels_lock == UNLOCKED){
-		
+	
 		//Calcuate 3 base wheels movement
 		s32 vx = 0;
 		s32 vy = 0;
@@ -168,50 +151,56 @@ void manual_interval_update(){
 			** By finding the axis with more difference(thus more acceleration), cap it
 			** Then use the same proportion for the another axis to ensure the angle is correct
 			*/
-			u8 acceleration_amount;
-			//If both x and y are at low speed, use low speed mode
-			if (Abs(curr_vx) < LOW_SPEED_THRESHOLD && Abs(curr_vy) < LOW_SPEED_THRESHOLD){
-				acceleration_amount = LOW_SPEED_ACC;
-			}else if (Abs(curr_vx) < MED_SPEED_THRESHOLD && Abs(curr_vy) < MED_SPEED_THRESHOLD){
-				acceleration_amount = MED_SPEED_ACC;
-			}else{
-				acceleration_amount = HIGH_SPEED_ACC;
-			}
 			
-			//If the difference is not that much, directly assign speed
+			u16 acceleration_amount = BASE_ACCEL_CONSTANT + accel_remainder; //Scaled by 1000
+			accel_remainder = acceleration_amount % 1000;
+			acceleration_amount /= 1000;
+			
+			//If the difference is not that mu ch, directly assign speed
 			if (Abs(curr_vx - vx) < (acceleration_amount+1) && Abs(curr_vy - vy) < (acceleration_amount+1)){
 				curr_vx = vx;
 				curr_vy = vy;
-			
-			//Else:
-			//Use the axis with larger difference as the major consideration
-			//The other axis simply follow the proportion
-			}else if (Abs(curr_vx - vx) > Abs(curr_vy - vy)){
-				//Use x-axis as major
-				s32 proportion;
+			}else{
 				if (curr_vx > vx){
-					proportion = acceleration_amount *1000 / ((s32)curr_vx - vx);
 					curr_vx -= acceleration_amount;
 				}else{
-					proportion = acceleration_amount *1000 / ((s32)vx - curr_vx);
 					curr_vx += acceleration_amount;
 				}
-				
-				curr_vy += (vy - curr_vy) *proportion /1000;
-				
-			}else{
-				//Use y-axis as major
-				s32 proportion;
 				if (curr_vy > vy){
-					proportion = acceleration_amount *1000 / ((s32)curr_vy - vy); 
 					curr_vy -= acceleration_amount;
 				}else{
-					proportion = acceleration_amount *1000 / ((s32)vy - curr_vy);
 					curr_vy += acceleration_amount;
 				}
-				
-				curr_vx += (vx - curr_vx) *proportion /1000;
 			}
+//			//Else:
+//			//Use the axis with larger difference as the major consideration
+//			//The other axis simply follow the proportion
+//			}else if (Abs(curr_vx - vx) > Abs(curr_vy - vy)){
+//				//Use x-axis as major
+//				s32 proportion;
+//				if (curr_vx > vx){
+//					proportion = acceleration_amount *1000 / ((s32)curr_vx - vx);
+//					curr_vx -= acceleration_amount;
+//				}else{
+//					proportion = acceleration_amount *1000 / ((s32)vx - curr_vx);
+//					curr_vx += acceleration_amount;
+//				}
+//				
+//				curr_vy += (vy - curr_vy) *proportion /1000;
+//				
+//			}else{
+//				//Use y-axis as major
+//				s32 proportion;
+//				if (curr_vy > vy){
+//					proportion = acceleration_amount *1000 / ((s32)curr_vy - vy); 
+//					curr_vy -= acceleration_amount;
+//				}else{
+//					proportion = acceleration_amount *1000 / ((s32)vy - curr_vy);
+//					curr_vy += acceleration_amount;
+//				}
+//				
+//				curr_vx += (vx - curr_vx) *proportion /1000;
+//			}
 			
 			if (global_axis){
 				curr_angle = int_arc_tan2(curr_vx, curr_vy)*10 - get_angle();
@@ -219,22 +208,35 @@ void manual_interval_update(){
 				curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
 			}
 			
-			s32 curr_rotate = (xbc_get_joy(XBC_JOY_LT)-xbc_get_joy(XBC_JOY_RT))*8/5;
+			s32 w = (xbc_get_joy(XBC_JOY_LT)-xbc_get_joy(XBC_JOY_RT))*8/5;
+			if (Abs(w-curr_w) < 1){
+				curr_w = w;
+			}else{
+				s32 rotate_accel_amount = ROTATE_ACCEL_CONSTANT + rotate_accel_remainder;
+				rotate_accel_remainder = rotate_accel_amount % 1000;
+				rotate_accel_amount /= 1000;
+				
+				if (w > curr_w){
+					curr_w += rotate_accel_amount;
+				}else{
+					curr_w -= rotate_accel_amount;
+				}
+			}
+			
 			//change heading for angle PID use
-			if (curr_rotate == 0){
+			if (curr_w == 0){
 				if (is_rotating){
 					is_rotating = false;
 					curr_heading = get_angle();
 				}
-				curr_rotate = -angle_pid()/1500;
 			}else{
 				is_rotating = true;
 			}
 
 			s32 curr_speed = (curr_vx*curr_vx + curr_vy*curr_vy) / 600;
-			motor_vel[0] = (int_sin(curr_angle%3600)*curr_speed*(-1)/10000 + curr_rotate)/10;
-			motor_vel[1] = (int_sin((curr_angle+1200)%3600)*curr_speed*(-1)/10000 + curr_rotate)/10;
-			motor_vel[2] = (int_sin((curr_angle+2400)%3600)*curr_speed*(-1)/10000 + curr_rotate)/10;
+			motor_vel[0] = (int_sin(curr_angle%3600)*curr_speed*(-1)/10000 + curr_w)/10;
+			motor_vel[1] = (int_sin((curr_angle+1200)%3600)*curr_speed*(-1)/10000 + curr_w)/10;
+			motor_vel[2] = (int_sin((curr_angle+2400)%3600)*curr_speed*(-1)/10000 + curr_w)/10;
 			
 			s16 motor_vel_max = motor_vel[0];
 			for (u8 i=1; i<3; i++){
@@ -252,8 +254,6 @@ void manual_interval_update(){
 			for (u8 i=0;i<3;i++){
 				motor_loop_state[i] = CLOSE_LOOP;
 			}
-			tft_append_line("%d %d", curr_vx, curr_vy);
-			tft_append_line("%d", curr_rotate);
 		}else{
 			for (u8 i=0;i<3;i++){
 				motor_vel[i] = 0;
@@ -261,6 +261,30 @@ void manual_interval_update(){
 			}
 		}
 	}
+}
+
+/*
+** This fast update is for controlling things that require a high refresh rate
+** It contains:
+** - Locking itself in place
+** - Recording encoder reading and speed
+*/
+void manual_fast_update(){
+	manual_update_wheel_base();
+	s32 curr_rotate = 0;
+	if (!is_rotating){
+		curr_rotate = -angle_pid()/1000;
+	}
+	for (u8 i=0;i<3;i++){
+		motor_vel[i] += curr_rotate/10;
+		motor_loop_state[i] = CLOSE_LOOP;
+		motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
+	}
+}
+
+//Interval update is called in a timed interval, reducing stress
+void manual_interval_update(){
+	tft_clear();
 	
 	tft_append_line("%d", this_loop_ticks);
 	tft_append_line("%d", this_loop_ticks-last_long_loop_ticks);
@@ -293,9 +317,6 @@ void manual_interval_update(){
 	
 	//At last apply the motor velocity and display it
 	//Also happends in fast update
-	for (u8 i=0;i<3;i++){
-		motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
-	}
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	tft_append_line("PE3 %d", gpio_read_input(&PE3)); 
 	tft_update();
@@ -333,14 +354,14 @@ void manual_controls_update(void) {
 	// brushless arm
 	if (xbc_get_joy(XBC_JOY_RX)>700){
 		brushless_servo_val += BRUSHLESS_SERVO_STEP;
-		if (brushless_servo_val > 90)
-			brushless_servo_val = 90;
+		if (brushless_servo_val > 140)
+			brushless_servo_val = 140;
 		brushless_servo_control(brushless_servo_val);
 	}
 	if (xbc_get_joy(XBC_JOY_RX)<-700){
 		brushless_servo_val -= BRUSHLESS_SERVO_STEP;
-		if (brushless_servo_val < -90)
-			brushless_servo_val = -90;
+		if (brushless_servo_val < -140)
+			brushless_servo_val = -140;
 		brushless_servo_control(brushless_servo_val);
 	}
 	

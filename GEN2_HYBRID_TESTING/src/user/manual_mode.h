@@ -20,20 +20,16 @@
 #include "main.h"
 #include "robot_control.h"
 
-#define LOW_SPEED_ACC 15
-#define MED_SPEED_ACC 25
-#define HIGH_SPEED_ACC 40
-#define LOW_SPEED_THRESHOLD 100
-#define MED_SPEED_THRESHOLD 400
-
 //Scaled by 1000
-#define ANGLE_PID_P 3000
-#define ANGLE_PID_I 0
+#define ANGLE_PID_P 300
+#define ANGLE_PID_I 10
 #define ANGLE_PID_D 0
-#define ANGLE_PID_MAX 600
+#define ANGLE_PID_MAX 400000
 
-#define BRUSHLESS_LOCK_TIMEOUT 5000
-#define BRUSHLESS_SERVO_STEP 10
+#define BASE_ACCEL_CONSTANT 1500 //Scaled by 1000
+#define ROTATE_ACCEL_CONSTANT 1500 //Scaled by 1000
+
+#define BRUSHLESS_SERVO_STEP 5
 
 #define GRIPPER_STATES_NO 4
 #define GRIPPER_TICKS_THRESHOLD 50

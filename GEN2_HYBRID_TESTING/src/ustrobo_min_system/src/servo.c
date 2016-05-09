@@ -82,7 +82,6 @@ void servo_init(void){
   */
 
 void servo_control(SERVO_ID servo_id , u16 val) {
-	 
 	u16 ccr_val = val;
 	val = (val<SERVO_MIN ? SERVO_MIN : (val>SERVO_MAX ? SERVO_MAX : val));
 	

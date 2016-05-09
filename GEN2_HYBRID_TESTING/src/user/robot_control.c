@@ -22,25 +22,11 @@ void brushless_control(u16 value, bool is_percentage_mode){
 	}
 }
 
-/*
-void brushless_control_all(u16 value, bool is_percentage_mode){
-	if (get_emergency_lock() == LOCKED) return;
-	if (is_percentage_mode){
-		value = value>100?100:value;
-	}else{
-		value = value>BRUSHLESS_MAX?BRUSHLESS_MAX:(value<BRUSHLESS_MIN?BRUSHLESS_MIN:value);
-	}
-	for (u8 i=0; i<BRUSHLESS_COUNT; i++){
-		brushless_control((BRUSHLESS_ID)i, value, true);
-	}
-}
-*/
-
 void brushless_servo_control(s16 value){
 	if (get_emergency_lock() == LOCKED) return;
-	value = (value > 90) ? 90 : ((value < -90) ? -90 : value);
-	u16 pwm_val = (value*(BRUSHLESS_SERVO_RANGE)/90)+BRUSHLESS_SERVO_MED;
-	pca9685_set_pwm(BRUSHLESS_SERVO_PORT, pwm_val);
+	value = (value > 140) ? 140 : ((value < -140) ? -140 : value);
+	u16 pwm_val = (value*(BRUSHLESS_SERVO_RANGE)/140)+BRUSHLESS_SERVO_MED;
+	servo_control(BRUSHLESS_SERVO_PORT, pwm_val);
 }
 
 //Gripper control
@@ -53,7 +39,6 @@ void gripper_control(GRIPPER_ID gripper_id, u16 state) {
 			servo_control((SERVO_ID)gripper_id, GRIPPER_MAX);
 		}
 	} else if (state == 1) {
-		//servo_control((SERVO_ID)gripper_id, GRIPPER_MED);
 		if (gripper_id == GRIPPER_1) {
 			servo_control((SERVO_ID)gripper_id, GRIPPER_MED);
 		} else if (gripper_id == GRIPPER_2) {
