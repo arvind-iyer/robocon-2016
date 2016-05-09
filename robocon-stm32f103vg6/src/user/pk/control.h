@@ -24,8 +24,10 @@ typedef struct {
 	
 	void calculatePIDMotorValues(int vel, int bearing, int w);
 	void robotUpdate();
-	int MAX(int a, int b);
-	int MIN(int a, int b);
+	//int MAX(int a, int b);
+	float MAX(float a, float b);
+	//int MIN(int a, int b);
+	float MIN(float a ,float b);
 	int calculateDistance(POSITION origin, POSITION target);
 	int calculatePathVelocity (Path path, Robot robot);
 	int calculatePathBearing (Path path, Robot robot);
@@ -34,7 +36,9 @@ typedef struct {
 	int getAngleDifference (int origin, int target);
 	void updateQueue();
 	void robotInit();
-	void dequeue(int size);
+	void dequeue(int _size);
+	void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres);
+	int getSize();
 	
 	extern Motors motor;
 	extern bool allowArm;

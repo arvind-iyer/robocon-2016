@@ -1,31 +1,33 @@
 #include "control.h"
+#include "pk/pk_movement.h"
 
 #define PI 3.14159265359
 #define MAX_MOTOR_PWM 160
 
 Robot robot;
 Path queue [40];
-int size= 0;
+int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0;
 
 void calculatePIDMotorValues(int vel, int bearing, int w){
-	int x = (vel/100) * int_sin(bearing * PI / 180) * MAX_MOTOR_PWM;
-	int y = (vel/100) * int_cos(bearing * PI / 180) * MAX_MOTOR_PWM;
-	motor.M1 = (-w -x *2) / 3;
-	motor.M2 = (-w * Sqrt(1/3) + x * Sqrt(1/3) - y) / Sqrt(3);
-	motor.M3 = -w - motor.M1 - motor.M2;
+	setM(vel);
+	setBearing(bearing);
+	setW(w);
+	addComponent();
+	parseMotorValues();
+	sendMotorCommands();
 }
 
 void robotInit() {
 	robot.position.x = get_pos()->x;
 	robot.position.y = get_pos()->y;
-	robot.position.angle = get_pos()->angle;
+	robot.position.angle = get_pos()->angle/10;
 	robot.pathLength = 0;
 }
 
 void robotUpdate () {
 	robot.position.x = get_pos()->x;
 	robot.position.y = get_pos()->y;
-	robot.position.angle = get_pos()->angle;
+	robot.position.angle = get_pos()->angle/10;
 }
 
 int calculateDistance (POSITION origin, POSITION target) {
@@ -33,21 +35,27 @@ int calculateDistance (POSITION origin, POSITION target) {
 	return distance;
 }
 
-int MAX (int a, int b) {
-	return (a > b) ? a : b;
+//int MAX (int a, int b) {
+	//return (a > b) ? a : b;
+//}
+float MAX (float a, float b) {
+	return (a > b) ? a: b;
 }
 
-int MIN (int a, int b) {
-	return (a < b) ? a : b;
+//int MIN (int a, int b) {
+	//return (a < b) ? a : b;
+//}
+float MIN (float a, float b) {
+	return ( a < b) ? a : b;
 }
 
 int calculatePathVelocity (Path path, Robot robot) {
-	int magnitude = 0;
+	float magnitude = 0;
 	int distance = calculateDistance (path.position, robot.position);
 	
 	if(path.vel != 0) magnitude = path.vel;
 	else {
-		magnitude = MIN(100, MAX(6, 100 * (distance / 1500)));
+		magnitude = MIN(100.0, MAX(6, 100.0 * (distance / (float)1500)));
 		if(distance >1250) {
 			magnitude = 65;
 		}
@@ -56,7 +64,34 @@ int calculatePathVelocity (Path path, Robot robot) {
 }
 
 int calculatePathBearing(Path path, Robot robot) {
-	//TODO
+//	int lineDiffX = path.position.x - robot.start.x;
+//	int lineDiffY = path.position.y - robot.start.y;
+//	int mouseDiffX = robot.position.x - robot.start.x;
+//	int mouseDiffY = robot.position.y - robot.start.y;
+//	int normDst = (lineDiffX * mouseDiffX + lineDiffY * mouseDiffY) / Sqr(calculateDistance(robot.start, path.position));
+//	
+//	int closestPathX = robot.start.x + lineDiffX * normDst;
+//	int closestPathY = robot.start.y + lineDiffY * normDst;
+//	int idealPointX = (closestPathX + path.position.x) / 2; 
+//	int idealPointY = (closestPathY + path.position.y) / 2;
+//	int bearing = 90 - int_arc_tan2(idealPointY - robot.position.y, idealPointX - robot.position.x);
+//	bearing -= robot.position.angle;
+//	if (bearing < -180) bearing += 360;
+//	if (bearing > 180) bearing -= 360;
+//	return bearing;
+	
+	int bearing = 90 - int_arc_tan2(path.position.y - robot.position.y, path.position.x - robot.position.x);
+	bearing = bearing - robot.position.angle;
+	if (bearing < -180)
+	{
+		bearing = bearing + 360;
+	}
+	if (bearing > 180)
+	{
+		bearing = bearing - 360;
+	}
+	return bearing;
+	
 }
 
 int calculatePathAngularVelocity (Path path, Robot robot) {
@@ -79,17 +114,19 @@ int binomial (int n, int k) {
 
 int getAngleDifference(int origin, int target) {
 	int diff = origin - target;
-	if (diff < -1800) diff += 3600;
-	if (diff > 1800) diff -= 3600;
+	if (diff < -180) diff += 360;
+	if (diff > 180) diff -= 360;
 	return diff;
 }
 
 void updateQueue () {
-	if(size == 0) {
+	if(size != 0) {
 		Path currentPath = queue [0];
 		
 		int currentDistance = calculateDistance(currentPath.position, robot.position);
 		int currentAngle = Abs(getAngleDifference(currentPath.position.angle, robot.position.angle));
+		dispCurrentDistance = currentDistance;
+		dispCurrentBearing = currentAngle;
 		
 		if(allowArm){
 			armUpdate();
@@ -113,14 +150,29 @@ void updateQueue () {
 			int translationBearing = calculatePathBearing(currentPath, robot);
 			int angularVelocity = calculatePathAngularVelocity(currentPath, robot);
 			
-			sendMotorCommands();
+			calculatePIDMotorValues(magnitude, translationBearing, angularVelocity);
 		}
 	}
 }
 
-void dequeue (int size) {
-	for(int i = 0; i<size-1; i++) {
+void dequeue (int _size) {
+	if (size == 0) return;
+	for(int i = 0; i<_size-1; i++) {
 		queue[i] = queue[i+1];
 	}
 	size--;
+}
+
+void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres) {
+	queue[size].position.x = x;
+	queue[size].position.y = y;
+	queue[size].position.angle = bearing;
+	queue[size].distanceThreshold = thres;
+	queue[size].bearingThreshold = bearThres;
+	queue[size].vel = 0;
+	size++;
+}
+
+int getSize() {
+	return size;
 }

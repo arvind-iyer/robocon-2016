@@ -425,6 +425,11 @@
               <FileType>1</FileType>
               <FilePath>.\src\user\pneumatic.c</FilePath>
             </File>
+            <File>
+              <FileName>laser_sensor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\laser_sensor.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -838,6 +843,21 @@
               <FileName>hybrid_pneumatic.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\src\user\pk\hybrid_pneumatic.c</FilePath>
+            </File>
+            <File>
+              <FileName>hybrid_gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\pk\hybrid_gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>hybrid_laser.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\pk\hybrid_laser.c</FilePath>
+            </File>
+            <File>
+              <FileName>control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\src\user\pk\control.c</FilePath>
             </File>
           </Files>
         </Group>

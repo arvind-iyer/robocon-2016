@@ -1,7 +1,8 @@
 #include "robocon.h"
 #include "pk/pk.h"
-#include "pk/pk_movement.h"
-#include "pk/hybrid_pneumatic.h"
+
+extern int dispCurrentDistance;
+extern int dispCurrentBearing;
 
 //#define DEBUG_MODE
 #define RED_SIDE 0
@@ -10,7 +11,7 @@
 bool robotMode = false;
 
 //Variables for allowing the update of the button
-bool _allowUpdate = false, allowDPadUpdate = false, allowArm = false, allowArmUpdate = false, allowModeUpdate = false;
+bool _allowUpdate = false, allowDPadUpdate = false, allowArm = false, allowArmUpdate = false, allowModeUpdate = false, allowPIDUpdate = false;
 
 void robocon_main(void)
 {	
@@ -29,6 +30,8 @@ void robocon_main(void)
 				armIr = gpio_read_input(&PE8);
 				armUpdate();
 			}
+			robotUpdate();
+			updateQueue();
 			
 			if (return_listener()) {
 					return; 
@@ -94,6 +97,7 @@ void _updateScreen() {
 	tft_prints(0, 5, "LS: %d|%d|%d|%d|%d", gpio_read_input(&PE6), gpio_read_input(&PE7),  prevLimitSwitch[2], prevLimitSwitch[3], armIr); 
 	tft_prints(0, 6, (robotMode == RED_SIDE) ? "MODE: RED SIDE" : "MODE:BLUE SIDE");
 	tft_prints(0, 7, "L: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1));
+	tft_prints(0, 8, "Q: %d|%d|%d", getSize(), dispCurrentDistance, dispCurrentBearing);
 	tft_prints(0, 9, "Time: %d", get_seconds());
 	#endif
 	tft_update();
@@ -156,6 +160,20 @@ void controllerInputUpdate() {
 	}
 	
 	//Button A, B, X, Y
+			if(button_pressed(BUTTON_XBC_Y) && !allowPIDUpdate){
+				allowPIDUpdate = true;
+				if(getSize() == 0) {
+					queueTargetPoint(1000, 1000, 0, 35.0 , 10);
+				}
+				else {
+					for(int i = getSize(); i>=1; i--) {
+						dequeue(getSize());
+					}
+				}
+			}
+			else if(button_released(BUTTON_XBC_Y) && allowPIDUpdate) {
+				allowPIDUpdate = false;
+			}
 			if(button_pressed(BUTTON_XBC_B))
 		{
 			sendClimbCommands(900, -900, 900, -900);

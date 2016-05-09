@@ -22,8 +22,11 @@
 #include "encoder.h"
 #include "ultrasonic_mb.h"
 #include "laser_sensor.h"
+#include "pk/pk_movement.h"
+#include "pk/hybrid_pneumatic.h"
 #include "pk/hybrid_pneumatic.h"
 #include "pk/hybrid_gpio.h"
+#include "pk/control.h"
 
 /*** Optional ***/
 #include "can_protocol.h"

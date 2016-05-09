@@ -22,69 +22,11 @@ Dialog DLL:      TCM.DLL V1.14.8.0
  
 <h2>Project:</h2>
 D:\Data\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\Project.uvprojx
-Project File Date:  05/08/2016
+Project File Date:  05/09/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
-compiling pk.c...
-src\user\pk\pk_movement.h(19): warning:  #1295-D: Deprecated declaration pk_movement_init - give arg types
-  void pk_movement_init();
-src\user\pk\pk_movement.h(23): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk\pk_movement.h(24): warning:  #1295-D: Deprecated declaration parseMotorValues - give arg types
-  void parseMotorValues();
-src\user\pk\pk_movement.h(28): warning:  #1295-D: Deprecated declaration sendMotorCommands - give arg types
-  void sendMotorCommands();
-src\user\pk\pk_movement.h(31): warning:  #1295-D: Deprecated declaration getMotorValues - give arg types
-  Motors getMotorValues();
-src\user\pk\pk_manual.h(4): warning:  #1295-D: Deprecated declaration manualControl - give arg types
-  void manualControl();
-src\user\pk\pk_manual.h(6): warning:  #1295-D: Deprecated declaration getTranslationMagnitude - give arg types
-  int getTranslationMagnitude();
-src\user\pk\pk_manual.h(7): warning:  #1295-D: Deprecated declaration getTranslationBearing - give arg types
-  int getTranslationBearing();
-src\user\pk\pk_manual.h(8): warning:  #1295-D: Deprecated declaration getRotationValue - give arg types
-  int getRotationValue();
-src\user\pk\pk_pid.h(8): warning:  #1295-D: Deprecated declaration pk_pid_init - give arg types
-  void pk_pid_init();
-src\user\pk\pk_pid.h(14): warning:  #1295-D: Deprecated declaration generateErrP - give arg types
-  void generateErrP();
-src\user\pk\pk_pid.h(15): warning:  #1295-D: Deprecated declaration generateErrI - give arg types
-  void generateErrI();
-src\user\pk\pk_pid.h(16): warning:  #1295-D: Deprecated declaration generateErrD - give arg types
-  void generateErrD();
-src\user\pk\pk_pid.h(18): warning:  #1295-D: Deprecated declaration getOutput - give arg types
-  int getOutput();
-src\user\pk\pk_brushless.h(7): warning:  #1295-D: Deprecated declaration brushlessStartup - give arg types
-  void brushlessStartup();
-src\user\pk\pk_brushless.h(8): warning:  #1295-D: Deprecated declaration getBrushlessMagnitude - give arg types
-  int getBrushlessMagnitude();
-src\user\pk\pk_brushless.h(11): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\pk\hybrid_pneumatic.h(13): warning:  #1295-D: Deprecated declaration hybridPneumaticInit - give arg types
-  void hybridPneumaticInit();
-src\user\pk\hybrid_pneumatic.h(14): warning:  #1295-D: Deprecated declaration hybridPneumaticControl - give arg types
-  void hybridPneumaticControl();
-src\user\pk\hybrid_pneumatic.h(16): warning:  #1295-D: Deprecated declaration getPneumaticState - give arg types
-  Pneumatics getPneumaticState();
-src\user\pk\hybrid_pneumatic.h(18): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\pk\hybrid_gpio.h(4): warning:  #1295-D: Deprecated declaration hybridGPIOInit - give arg types
-  void hybridGPIOInit();
-src\user\pk\hybrid_gpio.h(5): warning:  #1295-D: Deprecated declaration limitSwitchCheck - give arg types
-  void limitSwitchCheck();
-src\user\pk\hybrid_gpio.h(6): warning:  #1295-D: Deprecated declaration armUpdate - give arg types
-  void armUpdate();
-src\user\pk\hybrid_gpio.h(8): warning:  #1-D: last line of file ends without a newline
-  #endif
-.\src\user\laser_sensor.h(17): warning:  #47-D: incompatible redefinition of macro "ls_port" (declared at line 8)
-  #define ls_port 					GPIOC
-.\src\user\laser_sensor.h(37): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\pk\pk.h(12): warning:  #1295-D: Deprecated declaration pk_init - give arg types
-  void pk_init();
-src\user\pk\pk.c: 28 warnings, 0 errors
 compiling control.c...
 src\user\pk\pk_movement.h(19): warning:  #1295-D: Deprecated declaration pk_movement_init - give arg types
   void pk_movement_init();
@@ -112,150 +54,30 @@ src\user\pk\pk_manual.h(7): warning:  #1295-D: Deprecated declaration getTransla
   int getTranslationBearing();
 src\user\pk\pk_manual.h(8): warning:  #1295-D: Deprecated declaration getRotationValue - give arg types
   int getRotationValue();
-src\user\pk\control.h(23): warning:  #1295-D: Deprecated declaration robotUpdate - give arg types
+src\user\pk\control.h(26): warning:  #1295-D: Deprecated declaration robotUpdate - give arg types
   	void robotUpdate();
-src\user\pk\control.h(32): warning:  #1295-D: Deprecated declaration updateQueue - give arg types
+src\user\pk\control.h(37): warning:  #1295-D: Deprecated declaration updateQueue - give arg types
   	void updateQueue();
-src\user\pk\control.h(36): warning:  #1-D: last line of file ends without a newline
+src\user\pk\control.h(38): warning:  #1295-D: Deprecated declaration robotInit - give arg types
+  	void robotInit();
+src\user\pk\control.h(41): warning:  #1295-D: Deprecated declaration getSize - give arg types
+  	int getSize();
+src\user\pk\control.h(46): warning:  #1-D: last line of file ends without a newline
   #endif
-src\user\pk\control.c(42): warning:  #940-D: missing return statement at end of non-void function "calculatePathBearing"
+src\user\pk\control.c(178): warning:  #1-D: last line of file ends without a newline
   }
-src\user\pk\control.c(84): warning:  #1-D: last line of file ends without a newline
-  }
-src\user\pk\control.c: 18 warnings, 0 errors
-compiling pk_movement.c...
-src\user\pk\pk_movement.h(19): warning:  #1295-D: Deprecated declaration pk_movement_init - give arg types
-  void pk_movement_init();
-src\user\pk\pk_movement.h(23): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk\pk_movement.h(24): warning:  #1295-D: Deprecated declaration parseMotorValues - give arg types
-  void parseMotorValues();
-src\user\pk\pk_movement.h(28): warning:  #1295-D: Deprecated declaration sendMotorCommands - give arg types
-  void sendMotorCommands();
-src\user\pk\pk_movement.h(31): warning:  #1295-D: Deprecated declaration getMotorValues - give arg types
-  Motors getMotorValues();
-src\user\pk\pk_movement.c(92): error:  #65: expected a ";"
-  void sendWheelBaseMotorCommands (int M1, int M2, int M3) {
-src\user\pk\pk_movement.c(96): warning:  #12-D: parsing restarts here after previous syntax error
-  }
-src\user\pk\pk_movement.c: 6 warnings, 1 error
-compiling pk_manual.c...
-src\user\pk\pk_manual.h(4): warning:  #1295-D: Deprecated declaration manualControl - give arg types
-  void manualControl();
-src\user\pk\pk_manual.h(6): warning:  #1295-D: Deprecated declaration getTranslationMagnitude - give arg types
-  int getTranslationMagnitude();
-src\user\pk\pk_manual.h(7): warning:  #1295-D: Deprecated declaration getTranslationBearing - give arg types
-  int getTranslationBearing();
-src\user\pk\pk_manual.h(8): warning:  #1295-D: Deprecated declaration getRotationValue - give arg types
-  int getRotationValue();
-src\user\pk\pk_movement.h(19): warning:  #1295-D: Deprecated declaration pk_movement_init - give arg types
-  void pk_movement_init();
-src\user\pk\pk_movement.h(23): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk\pk_movement.h(24): warning:  #1295-D: Deprecated declaration parseMotorValues - give arg types
-  void parseMotorValues();
-src\user\pk\pk_movement.h(28): warning:  #1295-D: Deprecated declaration sendMotorCommands - give arg types
-  void sendMotorCommands();
-src\user\pk\pk_movement.h(31): warning:  #1295-D: Deprecated declaration getMotorValues - give arg types
-  Motors getMotorValues();
-src\user\pk\pk_brushless.h(7): warning:  #1295-D: Deprecated declaration brushlessStartup - give arg types
-  void brushlessStartup();
-src\user\pk\pk_brushless.h(8): warning:  #1295-D: Deprecated declaration getBrushlessMagnitude - give arg types
-  int getBrushlessMagnitude();
-src\user\pk\pk_brushless.h(11): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\pk\pk_manual.c: 12 warnings, 0 errors
-compiling hybrid_gpio.c...
-src\user\pk\hybrid_gpio.h(4): warning:  #1295-D: Deprecated declaration hybridGPIOInit - give arg types
-  void hybridGPIOInit();
-src\user\pk\hybrid_gpio.h(5): warning:  #1295-D: Deprecated declaration limitSwitchCheck - give arg types
-  void limitSwitchCheck();
-src\user\pk\hybrid_gpio.h(6): warning:  #1295-D: Deprecated declaration armUpdate - give arg types
-  void armUpdate();
-src\user\pk\hybrid_gpio.h(8): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\pk\pk_movement.h(19): warning:  #1295-D: Deprecated declaration pk_movement_init - give arg types
-  void pk_movement_init();
-src\user\pk\pk_movement.h(23): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk\pk_movement.h(24): warning:  #1295-D: Deprecated declaration parseMotorValues - give arg types
-  void parseMotorValues();
-src\user\pk\pk_movement.h(28): warning:  #1295-D: Deprecated declaration sendMotorCommands - give arg types
-  void sendMotorCommands();
-src\user\pk\pk_movement.h(31): warning:  #1295-D: Deprecated declaration getMotorValues - give arg types
-  Motors getMotorValues();
-src\user\pk\hybrid_gpio.c: 9 warnings, 0 errors
-compiling robocon.c...
-src\user\laser_sensor.h(17): warning:  #47-D: incompatible redefinition of macro "ls_port" (declared at line 8)
-  #define ls_port 					GPIOC
-src\user\laser_sensor.h(37): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\pk/hybrid_pneumatic.h(13): warning:  #1295-D: Deprecated declaration hybridPneumaticInit - give arg types
-  void hybridPneumaticInit();
-src\user\pk/hybrid_pneumatic.h(14): warning:  #1295-D: Deprecated declaration hybridPneumaticControl - give arg types
-  void hybridPneumaticControl();
-src\user\pk/hybrid_pneumatic.h(16): warning:  #1295-D: Deprecated declaration getPneumaticState - give arg types
-  Pneumatics getPneumaticState();
-src\user\pk/hybrid_pneumatic.h(18): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\pk/hybrid_gpio.h(4): warning:  #1295-D: Deprecated declaration hybridGPIOInit - give arg types
-  void hybridGPIOInit();
-src\user\pk/hybrid_gpio.h(5): warning:  #1295-D: Deprecated declaration limitSwitchCheck - give arg types
-  void limitSwitchCheck();
-src\user\pk/hybrid_gpio.h(6): warning:  #1295-D: Deprecated declaration armUpdate - give arg types
-  void armUpdate();
-src\user\pk/hybrid_gpio.h(8): warning:  #1-D: last line of file ends without a newline
-  #endif
-.\src\ustrobo_min_system\inc\servo.h(39): warning:  #1-D: last line of file ends without a newline
-  #endif		/*  _SERVO_H_ */
-src\user\pk/pk_movement.h(19): warning:  #1295-D: Deprecated declaration pk_movement_init - give arg types
-  void pk_movement_init();
-src\user\pk/pk_movement.h(23): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk/pk_movement.h(24): warning:  #1295-D: Deprecated declaration parseMotorValues - give arg types
-  void parseMotorValues();
-src\user\pk/pk_movement.h(28): warning:  #1295-D: Deprecated declaration sendMotorCommands - give arg types
-  void sendMotorCommands();
-src\user\pk/pk_movement.h(31): warning:  #1295-D: Deprecated declaration getMotorValues - give arg types
-  Motors getMotorValues();
-src\user\pk/pk_manual.h(4): warning:  #1295-D: Deprecated declaration manualControl - give arg types
-  void manualControl();
-src\user\pk/pk_manual.h(6): warning:  #1295-D: Deprecated declaration getTranslationMagnitude - give arg types
-  int getTranslationMagnitude();
-src\user\pk/pk_manual.h(7): warning:  #1295-D: Deprecated declaration getTranslationBearing - give arg types
-  int getTranslationBearing();
-src\user\pk/pk_manual.h(8): warning:  #1295-D: Deprecated declaration getRotationValue - give arg types
-  int getRotationValue();
-src\user\pk/pk_pid.h(8): warning:  #1295-D: Deprecated declaration pk_pid_init - give arg types
-  void pk_pid_init();
-src\user\pk/pk_pid.h(14): warning:  #1295-D: Deprecated declaration generateErrP - give arg types
-  void generateErrP();
-src\user\pk/pk_pid.h(15): warning:  #1295-D: Deprecated declaration generateErrI - give arg types
-  void generateErrI();
-src\user\pk/pk_pid.h(16): warning:  #1295-D: Deprecated declaration generateErrD - give arg types
-  void generateErrD();
-src\user\pk/pk_pid.h(18): warning:  #1295-D: Deprecated declaration getOutput - give arg types
-  int getOutput();
-src\user\pk/pk_brushless.h(7): warning:  #1295-D: Deprecated declaration brushlessStartup - give arg types
-  void brushlessStartup();
-src\user\pk/pk_brushless.h(8): warning:  #1295-D: Deprecated declaration getBrushlessMagnitude - give arg types
-  int getBrushlessMagnitude();
-src\user\pk/pk_brushless.h(11): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\pk/pk.h(12): warning:  #1295-D: Deprecated declaration pk_init - give arg types
-  void pk_init();
-src\user\robocon.c(184): warning:  #1-D: last line of file ends without a newline
-  }
-src\user\robocon.c: 30 warnings, 0 errors
-".\output\stm32_template.axf" - 1 Error(s), 103 Warning(s).
+src\user\pk\control.c: 19 warnings, 0 errors
+linking...
+Program Size: Code=41266 RO-data=1522 RW-data=5288 ZI-data=44184  
+FromELF: creating hex file...
+".\output\stm32_template.axf" - 0 Error(s), 19 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   D:\Data\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Target not created.
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>
