@@ -67,7 +67,7 @@ u8 rx_path_length = 0;
 u8 rx_count = 0;
 u8 rx_pointer = 0;
 u8 rx_node_no = 0;
-u32 rx_node_list[30][5];
+u32 rx_node_list[30][NODE_SIZE];
 bool to_be_saved = false;
 
 s32 rx_merge(void) {
@@ -202,6 +202,7 @@ void auto_reset() {
 	off_deg = 0;
 	deg_ratio = 0;
 	start = 0;
+	cur_vel = 90;
 	pid_stopped = false;
 	transform[1][0] = 0;
 	
@@ -254,7 +255,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	//determine velocity coefficient
 	double acc = passed / 800.0;
-	double dec = dist / 400.0;
+	double dec = dist / 650.0;
 	//double dec = sqrt(dist / 680.0);	//twice of acceleration (v = (2as)^(0.5))
 	if (acc > 1.0)
 		acc = 1.0;
@@ -492,9 +493,9 @@ void auto_var_update() {
 					transform[1][0] += (2.0/7000.0);
 			}
 			if (field == 1) {
-				if (wall_dist < 305)
+				if (wall_dist < 275)
 					transform[1][0] += (5.0/7000.0);
-				if ((wall_dist > 360) && (wall_dist < 500))
+				if ((wall_dist > 325) && (wall_dist < 500))
 					transform[1][0] -= (5.0/7000.0);		
 			}
 		} else {
@@ -608,7 +609,7 @@ void USART2_IRQHandler(void) {
 				rx_node_list[rx_node_no][rx_pointer] = rx_merge();
 				rx_pointer++;
 			}
-			if (rx_pointer == 5) { //finish receive whole node
+			if (rx_pointer == NODE_SIZE) { //finish receive whole node
 				rx_pointer = 0;
 				rx_node_no++;
 			}

@@ -30,8 +30,8 @@ def start():
     try:        
         hybrid = serial.Serial()
         tx_init(hybrid)
-        hybrid.write(bytes(32))
-        
+        hybrid.write(bytes([147]))
+        hybrid.write(bytes([len(nodes)]))
         for node in nodes:
             tx_send_node(hybrid, node)
         
