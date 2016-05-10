@@ -27,6 +27,7 @@ int main(void) {
 	can_xbc_mb_init();
 	can_xbc_mb_tx_enable(true);
 	gpio_init_all();
+	ls_init();
 	i2c_init();
 	pca9685_init();
 
@@ -41,7 +42,7 @@ int main(void) {
 			continue;
 		}
 		
-		if ((this_loop_ticks - last_short_loop_ticks)>5){
+		if ((this_loop_ticks - last_short_loop_ticks)>SHORT_LOOP_TICKS){
 			//Update the pressed state of the buttons
 			button_update();
 			//Get state for manual/auto and emergency lock

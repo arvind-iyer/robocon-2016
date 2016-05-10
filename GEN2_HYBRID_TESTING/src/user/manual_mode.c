@@ -14,6 +14,7 @@
 #include "manual_mode.h"
 
 static s32 curr_vx = 0, curr_vy = 0, curr_angle = 0;
+static u32 curr_speed = 0;
 static s16 curr_w = 0;
 static s32 curr_heading = 0;
 
@@ -27,6 +28,7 @@ static LOCK_STATE press_button_B = UNLOCKED;
 static LOCK_STATE press_button_X = UNLOCKED;
 static LOCK_STATE press_button_LB = UNLOCKED;
 static LOCK_STATE press_button_RB = UNLOCKED;
+static LOCK_STATE press_button_back = UNLOCKED;
 
 static u16 brushless_power_percent = 20;
 
@@ -38,11 +40,15 @@ static LOCK_STATE press_gripper_buttons[2] = {UNLOCKED};
 static u16 gripper_states[2] = {0};
 static u32 gripper_ticks[8] = {0}; //Left claw, Left push, Right claw, Right push
 
+static bool using_laser_sensor = false;
+
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
 
 static u16 accel_remainder = 0;
 static u16 rotate_accel_remainder = 0;
+
+static bool global_axis = false;
 
 void manual_init(){
 	xbc_mb_init(XBC_CAN_FIRST);
@@ -54,8 +60,8 @@ void manual_reset(){
 	ground_wheels_lock = UNLOCKED;
 	brushless_power_percent = 20;
 	climbing_induced_ground_lock = UNLOCKED;
-	press_button_B = press_button_X = UNLOCKED;
-	is_rotating = false;
+	press_button_B = press_button_X = press_button_back = UNLOCKED;
+	is_rotating = using_laser_sensor = false;
 	brushless_control(0, true);
 	brushless_servo_control(0);
 	gripper_control(GRIPPER_1, 0); 
@@ -110,7 +116,6 @@ void manual_update_wheel_base(){
 		//Calcuate 3 base wheels movement
 		s32 vx = 0;
 		s32 vy = 0;
-		bool global_axis = false;
 		
 		if (button_pressed(BUTTON_XBC_E) || button_pressed(BUTTON_XBC_S) || button_pressed(BUTTON_XBC_W) || button_pressed(BUTTON_XBC_N)
 			|| button_pressed(BUTTON_XBC_NE) || button_pressed(BUTTON_XBC_SE) || button_pressed(BUTTON_XBC_NW) || button_pressed(BUTTON_XBC_SW)){
@@ -142,6 +147,10 @@ void manual_update_wheel_base(){
 		}else{
 			vx = xbc_get_joy(XBC_JOY_LX);
 			vy = xbc_get_joy(XBC_JOY_LY);
+			
+			if (vx!=0 && vy!=0){
+				global_axis = false;
+			}
 		}
 		
 		if (climbing_induced_ground_lock == UNLOCKED){
@@ -156,7 +165,7 @@ void manual_update_wheel_base(){
 			accel_remainder = acceleration_amount % 1000;
 			acceleration_amount /= 1000;
 			
-			//If the difference is not that mu ch, directly assign speed
+			//If the difference is not that much, directly assign speed
 			if (Abs(curr_vx - vx) < (acceleration_amount+1) && Abs(curr_vy - vy) < (acceleration_amount+1)){
 				curr_vx = vx;
 				curr_vy = vy;
@@ -233,17 +242,18 @@ void manual_update_wheel_base(){
 				is_rotating = true;
 			}
 
-			s32 curr_speed = (curr_vx*curr_vx + curr_vy*curr_vy) / 600;
-			motor_vel[0] = (int_sin(curr_angle%3600)*curr_speed*(-1)/10000 + curr_w)/10;
-			motor_vel[1] = (int_sin((curr_angle+1200)%3600)*curr_speed*(-1)/10000 + curr_w)/10;
-			motor_vel[2] = (int_sin((curr_angle+2400)%3600)*curr_speed*(-1)/10000 + curr_w)/10;
+			curr_speed = u32_sqrt((u32)(curr_vx*curr_vx + curr_vy*curr_vy));
+			motor_vel[0] = (int_sin(curr_angle%3600)*(s32)curr_speed*(-1)/10000 + curr_w)/10;
+			motor_vel[1] = (int_sin((curr_angle+1200)%3600)*(s32)curr_speed*(-1)/10000 + curr_w)/10;
+			motor_vel[2] = (int_sin((curr_angle+2400)%3600)*(s32)curr_speed*(-1)/10000 + curr_w)/10;
 			
 			s16 motor_vel_max = motor_vel[0];
-			for (u8 i=1; i<3; i++){
+			for (u8 i=0; i<3; i++){
 				if (abs(motor_vel[i])>abs(motor_vel_max)){
 					motor_vel_max = motor_vel[i];
 				}
 			}
+			
 			if (abs(motor_vel_max)>150){
 				s32 motor_ratio = 150*10000/abs(motor_vel_max); //Scaled by 10000
 				for (u8 i=0;i<3;i++){
@@ -270,10 +280,14 @@ void manual_update_wheel_base(){
 ** - Recording encoder reading and speed
 */
 void manual_fast_update(){
-	manual_update_wheel_base();
 	s32 curr_rotate = 0;
-	if (!is_rotating){
-		curr_rotate = -angle_pid()/1000;
+	if (!using_laser_sensor){
+		manual_update_wheel_base();
+		if (!is_rotating){
+			curr_rotate = -angle_pid()/1000;
+		}
+	}else{
+		laser_manual_update(motor_vel, &curr_rotate);
 	}
 	for (u8 i=0;i<3;i++){
 		motor_vel[i] += curr_rotate/10;
@@ -315,10 +329,21 @@ void manual_interval_update(){
 	}
 	*/
 	
+	if (button_pressed(BUTTON_XBC_BACK)){
+		if (press_button_back == UNLOCKED){
+			press_button_back = LOCKED;
+			buzzer_beep(75);
+			using_laser_sensor = !using_laser_sensor;
+		}
+	}else{
+			press_button_back = UNLOCKED;
+	}
+	
 	//At last apply the motor velocity and display it
 	//Also happends in fast update
+	tft_append_line("%d", curr_speed);
+	tft_append_line("LS: %d", using_laser_sensor);
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
-	tft_append_line("PE3 %d", gpio_read_input(&PE3)); 
 	tft_update();
 }
 
@@ -329,7 +354,10 @@ void manual_controls_update(void) {
 			press_button_RB = LOCKED;
 			buzzer_beep(75);
 			if (brushless_power_percent < 100){
-				brushless_power_percent += 10;
+				brushless_power_percent += BRUSHLESS_POWER_STEP;
+			}
+			if (brushless_power_percent == (20 + BRUSHLESS_POWER_STEP)){
+				brushless_power_percent += BRUSHLESS_POWER_STEP;
 			}
 		}
 	}else{
@@ -341,7 +369,7 @@ void manual_controls_update(void) {
 			press_button_LB = LOCKED;
 			buzzer_beep(75);
 			if (brushless_power_percent > 20){
-				brushless_power_percent -= 10;
+				brushless_power_percent -= BRUSHLESS_POWER_STEP;
 			}
 		}
 	}else{
@@ -352,13 +380,13 @@ void manual_controls_update(void) {
 	tft_append_line("%d", brushless_power_percent);
 	
 	// brushless arm
-	if (xbc_get_joy(XBC_JOY_RX)>700){
+	if (xbc_get_joy(XBC_JOY_RX)>500){
 		brushless_servo_val += BRUSHLESS_SERVO_STEP;
 		if (brushless_servo_val > 140)
 			brushless_servo_val = 140;
 		brushless_servo_control(brushless_servo_val);
 	}
-	if (xbc_get_joy(XBC_JOY_RX)<-700){
+	if (xbc_get_joy(XBC_JOY_RX)<-500){
 		brushless_servo_val -= BRUSHLESS_SERVO_STEP;
 		if (brushless_servo_val < -140)
 			brushless_servo_val = -140;

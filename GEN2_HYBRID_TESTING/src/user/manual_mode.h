@@ -19,6 +19,8 @@
 #include "xbc_control.h"
 #include "main.h"
 #include "robot_control.h"
+#include "manual_track.h"
+#include "quick_math.h"
 
 //Scaled by 1000
 #define ANGLE_PID_P 300
@@ -29,7 +31,8 @@
 #define BASE_ACCEL_CONSTANT 1500 //Scaled by 1000
 #define ROTATE_ACCEL_CONSTANT 1500 //Scaled by 1000
 
-#define BRUSHLESS_SERVO_STEP 5
+#define BRUSHLESS_POWER_STEP 5
+#define BRUSHLESS_SERVO_STEP 2
 
 #define GRIPPER_STATES_NO 4
 #define GRIPPER_TICKS_THRESHOLD 50
