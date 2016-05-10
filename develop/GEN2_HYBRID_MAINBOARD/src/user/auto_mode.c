@@ -59,6 +59,11 @@ s16 cur_vel = 90;
 u8 side_switch_val = 0;
 u8 back_switch_val = 0;
 
+//Robot control
+bool arm_init = false;
+s16 arm_vel = 0;
+s16 tar_arm = 0;
+
 //UART receiver
 u8 rx_state = 0;
 uint8_t rx_buffer[4] = {0,0,0,0};
@@ -189,22 +194,28 @@ void auto_init() {
 void auto_reset() {
 	//reset variables
 	err_d = 0;
+	
 	dist = 0;
 	dist_last = 0;
 	time = 0;
 	time_last = 0;
 	degree_diff = 0;
+	
 	tar_x = 0;
 	tar_y = 0;
 	tar_deg = 0;
+	
 	off_x = 0;
 	off_y = 0;
 	off_deg = 0;
+	
 	deg_ratio = 0;
 	start = 0;
 	cur_vel = 90;
 	pid_stopped = false;
 	transform[1][0] = 0;
+	
+	tar_arm = 0;
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -222,6 +233,12 @@ PID_MODE auto_get_state() {
 	return pid_state;
 }
 
+/**
+  * @brief  Fetch data stored in flash memory
+  * @param  page: 0 for header, 1 for path data
+  * @param  offset: header - 0 for start flag, 1 for length; data - no. of 32bit val
+  * @retval Requested value in u32 (regardless of 16 / 32 bit)
+  */
 u32 auto_get_flash(u8 page, u8 offset) {
 	if (page == 0) 
 		return *((uint16_t *)(HEADER_BASE_ADDR + offset*2));
@@ -371,6 +388,38 @@ void auto_motor_stop(){
 	motor_lock(MOTOR1);
 	motor_lock(MOTOR2);
 	motor_lock(MOTOR3);
+}
+
+void auto_robot_control(void) {
+	if (arm_init) {
+		arm_vel = (tar_arm - get_arm_pos())*1800/1200; //diff / range * speed
+		arm_vel = ((arm_vel > -1800) ? ((arm_vel < 1800) ? arm_vel : 1800) : -1800);
+		if (Abs(arm_vel) < 205) //biggold dead band >.<
+			arm_vel += (205 * (arm_vel / Abs(arm_vel)));
+		
+		//for blue field
+		if (cur_x < 1295) {
+			tar_arm = 0;
+		} else if (cur_x < 2358) {
+			tar_arm = (cur_x-1295)*3325/1063;
+		} else if (cur_x < 3445) {
+			tar_arm = 3325;
+		} else if (cur_x < 4223) {
+			tar_arm = (cur_x-3445)*3325/778 + 3325;
+		} else if (cur_x < 5310) {
+			tar_arm = 6650;
+		} else if (cur_x < 6372) {
+			tar_arm = (cur_x-5310)*3325/1062 + 6650;
+		} else {
+			tar_arm = 9975;
+		}
+		
+		motor_set_vel(MOTOR7, arm_vel*MOTOR7_FLIP, OPEN_LOOP);
+	} else {
+		lower_arm();
+		if (gpio_read_input(&ARM_DN_LIMIT_PORT))
+			arm_init = true;
+	}
 }
 
 /**
@@ -560,6 +609,7 @@ void auto_motor_update(){
 	} else {
 		auto_track_path(degree, degree_diff, cur_vel, false);
 	}
+	auto_robot_control();
 	
 	//print debug info
 	tft_clear();
@@ -571,6 +621,7 @@ void auto_motor_update(){
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",time/1000);
 	//tft_prints(0,7,"Test %d",measured_vel);
+	tft_prints(0,7,"Test %d %d",arm_vel, get_arm_pos());
 	tft_prints(0,8,"Trans: %d",(int)(transform[1][0]*700));
 	tft_prints(0,9,"Wall: %d",wall_dist);
 	tft_update();

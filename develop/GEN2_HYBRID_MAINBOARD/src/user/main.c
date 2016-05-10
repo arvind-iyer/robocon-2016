@@ -90,7 +90,7 @@ int main(void) {
 					if (auto_get_state() == RUNNING_MODE) {
 						auto_var_update();			
 						auto_motor_update();
-						manual_controls_update();
+						//manual_controls_update();
 						//auto_calibrate();
 					} else if (auto_get_state() == MENU_MODE) {
 						auto_menu_update();
