@@ -6,7 +6,7 @@
 
 Robot robot;
 Path queue [40];
-int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0, dispW = 0, prevBrushlessSpeed = 0;
+int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0, dispW = 0, timediff = 0;
 
 void calculatePIDMotorValues(int vel, int bearing, int w){
 	setM(vel);
@@ -125,6 +125,10 @@ int getAngleDifference(int origin, int target) {
 	return diff;
 }
 
+long lastWait = -1;
+bool currentOscDir = false;
+int baseAngle = -1;
+
 void updateQueue () {
 	if(size != 0) {
 		Path currentPath = queue [0];
@@ -147,7 +151,66 @@ void updateQueue () {
 			if(currentPath.brushlessSpeed != -1) {
 				setBrushlessMagnitude(currentPath.brushlessSpeed);
 			}
-			dequeue(size);
+			if(currentPath.waitTime <= 0) {
+				dequeue(size);
+				lastWait = -1;
+			} else{
+				if (lastWait == -1) lastWait= get_full_ticks();
+				if (baseAngle == -1) {
+					baseAngle = robot.position.angle;
+					setM(0);
+					setBearing(0);
+					setW(currentOscDir ? 10 : -10);
+					currentOscDir = !currentOscDir;
+					addComponent();
+					parseMotorValues();
+					sendMotorCommands();
+				}
+				int dt = get_full_ticks() - lastWait;
+				
+				if (dt >= 0 && dt < 1500) {
+					setBrushlessMagnitude(12);
+				} else if (dt >= 1500 && dt < 3000) {
+					setBrushlessMagnitude(18);
+				} else if (dt >= 3000 && dt < 4500) {
+					setBrushlessMagnitude(26);
+				} else {
+					setBrushlessMagnitude(30);
+				}
+				
+				if (Abs(robot.position.angle - baseAngle) >= 5) {
+					setM(0);
+					setBearing(0);
+					setW(currentOscDir ? 10 : -10);
+					currentOscDir = !currentOscDir;
+					addComponent();
+					parseMotorValues();
+					sendMotorCommands();
+				}
+				
+				if (dt >= currentPath.waitTime) {
+					lastWait = get_full_ticks();
+					baseAngle = -1;
+					setBrushlessMagnitude(0);
+					dequeue(size);
+				}
+				
+			}
+//			else if(currentPath.waitTime == 6000) {
+//				currentPath.clockTick = get_full_ticks();
+//				currentPath.waitTime++;
+//			}
+//			else if(currentPath.waitTime == 6001) {
+//				if(get_full_ticks() - currentPath.clockTick <= currentPath.waitTime) {
+//					if(get_full_ticks() - currentPath.clockTick <= 1500) setBrushlessMagnitude(6);
+//					else if(get_full_ticks() - currentPath.clockTick <= 3000) setBrushlessMagnitude(12);
+//					else if(get_full_ticks() - currentPath.clockTick <= 4500) setBrushlessMagnitude(18);
+//					else setBrushlessMagnitude(24);
+//				}
+//				else{
+//					dequeue(size);
+//				}
+//			}
 			
 			robot.pathLength = -1;
 			robot.start.x = get_pos()->x;
@@ -172,7 +235,7 @@ void dequeue (int _size) {
 	size--;
 }
 
-void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, int brushlessSpeed) {
+void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, int brushlessSpeed, int waitTime) {
 	queue[size].position.x = x;
 	queue[size].position.y = y;
 	queue[size].position.angle = bearing;
@@ -180,6 +243,7 @@ void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, i
 	queue[size].bearingThreshold = bearThres;
 	queue[size].vel = 0;
 	queue[size].brushlessSpeed = brushlessSpeed;
+	queue[size].waitTime = waitTime;
 	size++;
 }
 

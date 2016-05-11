@@ -50,5 +50,6 @@ extern Pneumatics pneumatics;
 extern bool prevLimitSwitch[4];
 extern bool robotMode;
 extern bool armIr;
+extern bool laserAuto;
 
 #endif	/* __ROBOCON_H */

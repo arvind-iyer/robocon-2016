@@ -4,6 +4,7 @@
 #include "ticks.h"
 #include "can_motor.h"
 #include "pk_movement.h"
+#include "robocon.h"
 
 bool limitSwitch[4] = {false, false, false, false};
 bool prevLimitSwitch[4] = {false, false, false, false};
@@ -53,15 +54,14 @@ void limitSwitchCheck() {
 	}
 	 if(prevLimitSwitch[2] != limitSwitch[2]) {
 		prevLimitSwitch[2] = limitSwitch[2];
-		motor_set_vel(MOTOR4, 0, OPEN_LOOP);
-		motor_set_vel(MOTOR5, 0, OPEN_LOOP);
-		motor_set_vel(MOTOR6, 0, OPEN_LOOP);
-		motor_set_vel(MOTOR7, 0, OPEN_LOOP);
+		sendClimbCommands(0,0,0,0);
 		//climbLimit = true;	
 		//lastLimitCheck = get_full_ticks();
 	}
 	if(prevLimitSwitch[3] != limitSwitch[3]){
 		prevLimitSwitch[3] = limitSwitch[3];
+		sendWheelBaseMotorCommands(0,0,0);
+		laserAuto = false;
 	}
 }
 

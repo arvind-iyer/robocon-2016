@@ -4,6 +4,7 @@
 extern int dispCurrentDistance;
 extern int dispCurrentBearing;
 extern int dispW;
+extern int timediff;
 
 //#define DEBUG_MODE
 #define RED_SIDE 0
@@ -103,7 +104,7 @@ void _updateScreen() {
 	tft_prints(0, 6, (robotMode == RED_SIDE) ? "MODE: RED SIDE" : "MODE:BLUE SIDE");
 	//tft_prints(0, 7, "%d|%d", int_arc_tan2(xbc_get_joy(XBC_JOY_LX), xbc_get_joy(XBC_JOY_LY)), get_pos()->angle);
 	tft_prints(0, 7, "L: %d | AL: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1), laserAuto);
-	tft_prints(0, 8, "Q: %d|%d|%d|%d", getSize(), dispCurrentDistance, dispCurrentBearing, dispW);
+	tft_prints(0, 8, "Q: %d|%d|%d|%d|%d", getSize(), dispCurrentDistance, dispCurrentBearing, dispW, timediff);
 	tft_prints(0, 9, "Time: %d", get_seconds());
 	#endif
 	tft_update();
@@ -170,18 +171,29 @@ void controllerInputUpdate() {
 				allowPIDUpdate = true;
 				if(getSize() == 0) {
 					if(robotMode == RED_SIDE) {
-					queueTargetPoint(1000, 1000, 90, 35.0 , 5, -1);
-					queueTargetPoint(0,0,0, 35.0, 5, -1);
+						setBrushlessMagnitude(10);
+						queueTargetPoint(3161, 200, 99, 35.0, 10.0, 15, 0);
+						queueTargetPoint(2865, 2152, 72, 35.0, 15.0, 12, 0);
+						queueTargetPoint(2239, 3336, 44, 55.0, 25, 15, 0);
+						queueTargetPoint(1633, 4030, 57, 35.0, 15.0, 15, 0);
+						queueTargetPoint(989, 5117, 75, 50.0, 40.0, 7, 0);
+						queueTargetPoint(242, 5662, 161, 610, 200, -1, 0);
+						queueTargetPoint(575, 7105, 161, 35.0, 10.0, 0, 8000);
+						queueTargetPoint(603, 9008, 165, 50.0, 25.0 , -1, 0);
+						queueTargetPoint(1953, 11716, 272, 50.0, 25.0, -1, 0);
+						queueTargetPoint(4359, 12590, 274, 50.0, 25.0, -1, 0);
+						queueTargetPoint(5019, 12590, 274, 50.0, 10.0, -1, 0);
 					}
 					else if(robotMode == BLUE_SIDE) {
-						queueTargetPoint(-3269, 283, 270, 35.0, 10.0, 10);
-						queueTargetPoint(-2821, 2265, 297, 50.0, 15.0, 10);
-						queueTargetPoint(-1303, 4057, 296, 50.0, 15.0, 13);
-						queueTargetPoint(150, 5948, 268, 610, 200, 13);
-						queueTargetPoint(-150, 6759, 198, 50.0, 25.0, 0);
-						queueTargetPoint(-308, 9804, 176, 50.0, 25.0, -1);
-						queueTargetPoint(-1768, 12957, 93, 50.0, 25.0, -1);
-						queueTargetPoint(-4161, 13097, 91, 35.0, 8.0, -1);
+						setBrushlessMagnitude(10);
+						queueTargetPoint(-3269, 283, 270, 35.0, 10.0, 10, 0);
+						queueTargetPoint(-2821, 2265, 297, 50.0, 15.0, 10, 0);
+						queueTargetPoint(-1303, 4057, 296, 50.0, 15.0, 13, 0);
+						queueTargetPoint(150, 5948, 268, 610, 200, 13, 0);
+						queueTargetPoint(-150, 6759, 198, 35.0, 10.0, 0, 6000);
+						queueTargetPoint(-308, 9804, 176, 50.0, 25.0, -1, 0);
+						queueTargetPoint(-1768, 12957, 93, 50.0, 25.0, -1, 0);
+						queueTargetPoint(-4161, 13097, 91, 35.0, 8.0, -1, 0);
 						
 						
 					}

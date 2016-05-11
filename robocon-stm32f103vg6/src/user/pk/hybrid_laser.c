@@ -7,7 +7,7 @@ void enterPole() {
 		if (angularVelocity >= 1) angularVelocity = MAX(50, angularVelocity);
 		if (haha > 290) {
 			int temp = 180 - MIN(90, (int) (haha - 272.5) / 45 * 40);
-			setM(haha / 285 * 5);
+			setM(haha * 10 / 285);
 			setBearing(temp);
 			setW(angularVelocity);
 			addComponent();
@@ -15,7 +15,7 @@ void enterPole() {
 			sendMotorCommands();
 		} else if (haha < 245) {
 			int temp = 180 - MAX(-90, (int) (haha - 272.5) / 45 * 40);
-			setM(1 + 	(haha / 245) * 5);
+			setM(1 + 	(haha * 10 / 245));
 			setBearing(temp);
 			setW(angularVelocity);
 			addComponent();
@@ -35,7 +35,7 @@ void enterPole() {
 		if (angularVelocity >= 1) angularVelocity = MAX(50, angularVelocity);
 		if (haha > 230) {
 			int temp = 180 + MIN(90, (int) (haha - 210) / 45 * 40);
-			setM(haha / 210 * 5);
+			setM(haha / 225 * 5);
 			setBearing(temp);
 			setW(angularVelocity);
 			addComponent();
@@ -43,7 +43,7 @@ void enterPole() {
 			sendMotorCommands();
 		} else if (haha < 190) {
 			int temp = 180 + MAX(-90, (int) (haha - 210) / 45 * 40);
-			setM(1 + 	(haha / 210) * 5);
+			setM(1 + 	(haha / 195) * 5);
 			setBearing(temp);
 			setW(angularVelocity);
 			addComponent();

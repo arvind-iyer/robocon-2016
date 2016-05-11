@@ -16,6 +16,7 @@ typedef struct {
 	float bearingThreshold;
 	int vel;
 	int brushlessSpeed;
+	int waitTime;
 	} Path;
 
 	typedef struct {
@@ -39,8 +40,9 @@ typedef struct {
 	void updateQueue(void);
 	void robotInit(void);
 	void dequeue(int _size);
-	void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, int brushlessSpeed);
+	void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, int brushlessSpeed, int waitTime);
 	int getSize(void);
+	void riverBlow();
 	
 	extern Motors motor;
 	extern Robot robot;
