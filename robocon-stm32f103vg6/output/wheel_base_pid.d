@@ -55,6 +55,7 @@
 .\output\wheel_base_pid.o: src\user\pk/hybrid_gpio.h
 .\output\wheel_base_pid.o: src\user\pk/control.h
 .\output\wheel_base_pid.o: src\user\pk/pk_manual.h
+.\output\wheel_base_pid.o: src\user\pk/pk_brushless.h
 .\output\wheel_base_pid.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\wheel_base_pid.o: src\user\wheel_base.h
 .\output\wheel_base_pid.o: src\user\log.h

@@ -5,16 +5,16 @@
 #define PID_I 0
 #define PID_D 0
 
-void pk_pid_init();
+void pk_pid_init(void);
 
 void setTargetValue(int target);
 void takeReading(int reading);
 void takeTimeElapsed(int time);
 
-void generateErrP();
-void generateErrI();
-void generateErrD();
+void generateErrP(void);
+void generateErrI(void);
+void generateErrD(void);
 
-int getOutput();
+int getOutput(void);
 
 #endif

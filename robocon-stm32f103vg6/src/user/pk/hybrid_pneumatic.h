@@ -10,9 +10,9 @@ typedef struct {
 	bool P4;
 } Pneumatics;
 
-void hybridPneumaticInit();
-void hybridPneumaticControl();
+void hybridPneumaticInit(void);
+void hybridPneumaticControl(void);
 void setPneumaticState(bool pneumatic, bool state);
-Pneumatics getPneumaticState();
+Pneumatics getPneumaticState(void);
 
 #endif

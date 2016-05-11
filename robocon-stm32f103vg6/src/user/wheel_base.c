@@ -4,13 +4,13 @@ static WHEEL_BASE_VEL wheel_base_vel = {0, 0, 0},
 		wheel_base_vel_prev = {-1, -1, -1};
 static const CLOSE_LOOP_FLAG wheel_base_close_loop_flag = CLOSE_LOOP;
 static u8 wheel_base_speed_mode = WHEEL_BASE_DEFAULT_SPEED_MODE;
-static u32 wheel_base_bluetooth_vel_last_update = 0;
+//static u32 wheel_base_bluetooth_vel_last_update = 0;
 static char wheel_base_bluetooth_last_char = 0;
 static u32 wheel_base_bluetooth_char_last_update = 0;
-static u32 wheel_base_last_can_tx = 0;
+//static u32 wheel_base_last_can_tx = 0;
 //static u32 wheel_base_joystick_vel_last_update=1;
 static u8 wheel_base_joystick_speed=30;	//0% to 100%
-static u8 is_turning = 0, is_moving = 0;
+//static u8 is_turning = 0, is_moving = 0;
 static u8 wheel_base_pid_flag = 0;
 static POSITION target_pos = {0, 0, 0};
 //static PID wheel_base_pid = {0, 0, 0};
@@ -38,9 +38,6 @@ static void wheel_base_bluetooth_decode(u8 id, u8 length, u8* data)
 						y_vel = (s8)data[1],
 						w_vel = (s8)data[2];
 				
-				is_turning = (w_vel != 0);
-				is_moving = (x_vel!=0) || (y_vel!=0);
-				
 				wheel_base_set_target_pos((POSITION){get_pos()->x, get_pos()->y,get_pos()->angle});
 				
 				s8 data_range[2] = {-100, 100};
@@ -50,7 +47,7 @@ static void wheel_base_bluetooth_decode(u8 id, u8 length, u8* data)
           
           u16 speed_ratio = SPEED_MODES[wheel_base_speed_mode]; 
 					wheel_base_set_vel(x_vel * speed_ratio / 100, y_vel * speed_ratio / 100, w_vel * speed_ratio / 100);
-					wheel_base_bluetooth_vel_last_update = get_full_ticks();
+					//wheel_base_bluetooth_vel_last_update = get_full_ticks();
 				}
 			}
 		break;
@@ -118,8 +115,8 @@ void wheel_base_init(void)
   bluetooth_rx_add_filter(BLUETOOTH_WHEEL_BASE_AUTO_POS_ID, 0xF0, wheel_base_auto_bluetooth_decode);
   bluetooth_rx_add_filter(BLUETOOTH_WHEEL_BASE_CHAR_ID, 0xFF, wheel_base_char_bluetooth_decode);
 	wheel_base_vel.x = wheel_base_vel.y = wheel_base_vel.w = 0;
-	wheel_base_bluetooth_vel_last_update = 0;
-	wheel_base_last_can_tx = 0;
+	//wheel_base_bluetooth_vel_last_update = 0;
+	//wheel_base_last_can_tx = 0;
 	wheel_base_tx_acc();
 	
 	//PID on at beginning
@@ -388,11 +385,3 @@ u8 wheel_base_get_joystick_speed(void)
 	return wheel_base_joystick_speed;
 }
 
-void is_it_moving(u8 val)
-{
-	is_moving = val;
-}
-void is_it_turning(u8 val)
-{
-	is_turning = val;
-}

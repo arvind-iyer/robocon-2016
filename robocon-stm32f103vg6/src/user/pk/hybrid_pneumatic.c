@@ -42,7 +42,7 @@ void hybridPneumaticControl() {
 Pneumatics getPneumaticState() {
 	return pneumatics;
 }
-
-void setPneumaticState(bool pneumatic, bool state) {
+//  WTF is this
+/*void setPneumaticState(bool pneumatic, bool state) {
 	pneumatic = state;
-}
+}*/

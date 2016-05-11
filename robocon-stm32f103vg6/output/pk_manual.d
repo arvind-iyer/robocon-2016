@@ -34,3 +34,6 @@
 .\output\pk_manual.o: .\src\ustrobo_min_system\inc\delay.h
 .\output\pk_manual.o: .\src\ustrobo_min_system\inc\xbc_mb.h
 .\output\pk_manual.o: src\user\pk\pk_brushless.h
+.\output\pk_manual.o: src\user\pk\control.h
+.\output\pk_manual.o: .\src\ustrobo_min_system\inc\gyro.h
+.\output\pk_manual.o: src\user\pk\hybrid_gpio.h

@@ -5,7 +5,7 @@
 #include "stm32f10x_dma.h"
 #include "stm32f10x_gpio.h"
 
-#define ls_port GPIOA
+//#define ls_port GPIOA
 #define ls_pin GPIO#ifndef __LASER_SENSOR_H
 #define __LASER_SENSOR_H
 

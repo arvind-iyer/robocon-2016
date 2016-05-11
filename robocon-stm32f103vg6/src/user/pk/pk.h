@@ -8,7 +8,8 @@
 #include "hybrid_pneumatic.h"
 #include "hybrid_gpio.h"
 #include "laser_sensor.h"
+#include "hybrid_laser.h"
 
-void pk_init();
+void pk_init(void);
 
 #endif

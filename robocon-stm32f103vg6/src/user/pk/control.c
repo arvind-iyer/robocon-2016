@@ -6,7 +6,7 @@
 
 Robot robot;
 Path queue [40];
-int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0;
+int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0, dispW = 0, prevBrushlessSpeed = 0;
 
 void calculatePIDMotorValues(int vel, int bearing, int w){
 	setM(vel);
@@ -55,7 +55,7 @@ int calculatePathVelocity (Path path, Robot robot) {
 	
 	if(path.vel != 0) magnitude = path.vel;
 	else {
-		magnitude = MIN(100.0, MAX(6, 100.0 * (distance / (float)1500)));
+		magnitude = MIN(75.0, MAX(10, 75.0 * (distance / (float)1000)));
 		if(distance >1250) {
 			magnitude = 65;
 		}
@@ -95,8 +95,14 @@ int calculatePathBearing(Path path, Robot robot) {
 }
 
 int calculatePathAngularVelocity (Path path, Robot robot) {
-	int magnitude  = getAngleDifference(path.position.angle, robot.position.angle) / 180 * 100;
-	if (magnitude >= 1) magnitude = MAX(35, magnitude);
+	int magnitude = 0;
+	float fmagnitude  = getAngleDifference(path.position.angle, robot.position.angle) * 100 / (float)180.0;
+	if (fmagnitude >= 2) magnitude = MAX(35, fmagnitude);
+	else if (fmagnitude <= -2) magnitude = MIN (-35, fmagnitude);
+	else {
+		magnitude = fmagnitude;
+	}
+	dispW = magnitude;
 	return magnitude;
 }
 
@@ -138,6 +144,9 @@ void updateQueue () {
 		
 		if(currentDistance <= currentPath.distanceThreshold && currentAngle <= currentPath.bearingThreshold) {
 			sendWheelBaseMotorCommands (0,0,0);
+			if(currentPath.brushlessSpeed != -1) {
+				setBrushlessMagnitude(currentPath.brushlessSpeed);
+			}
 			dequeue(size);
 			
 			robot.pathLength = -1;
@@ -163,13 +172,14 @@ void dequeue (int _size) {
 	size--;
 }
 
-void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres) {
+void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, int brushlessSpeed) {
 	queue[size].position.x = x;
 	queue[size].position.y = y;
 	queue[size].position.angle = bearing;
 	queue[size].distanceThreshold = thres;
 	queue[size].bearingThreshold = bearThres;
 	queue[size].vel = 0;
+	queue[size].brushlessSpeed = brushlessSpeed;
 	size++;
 }
 

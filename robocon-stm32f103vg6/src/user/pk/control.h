@@ -8,12 +8,14 @@
 #include <stdbool.h>
 #include "pk_manual.h"
 #include "pk_movement.h"
+#include "pk_brushless.h"
 
 typedef struct {
 	POSITION position;
 	float distanceThreshold;
 	float bearingThreshold;
 	int vel;
+	int brushlessSpeed;
 	} Path;
 
 	typedef struct {
@@ -23,7 +25,7 @@ typedef struct {
 	} Robot;
 	
 	void calculatePIDMotorValues(int vel, int bearing, int w);
-	void robotUpdate();
+	void robotUpdate(void);
 	//int MAX(int a, int b);
 	float MAX(float a, float b);
 	//int MIN(int a, int b);
@@ -34,13 +36,14 @@ typedef struct {
 	int calculatePathAngularVelocity(Path path, Robot robot);
 	int binomial(int n, int k);
 	int getAngleDifference (int origin, int target);
-	void updateQueue();
-	void robotInit();
+	void updateQueue(void);
+	void robotInit(void);
 	void dequeue(int _size);
-	void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres);
-	int getSize();
+	void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, int brushlessSpeed);
+	int getSize(void);
 	
 	extern Motors motor;
+	extern Robot robot;
 	extern bool allowArm;
 
 #endif

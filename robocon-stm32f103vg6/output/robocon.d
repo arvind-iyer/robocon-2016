@@ -49,6 +49,7 @@
 .\output\robocon.o: src\user\pk/hybrid_gpio.h
 .\output\robocon.o: src\user\pk/control.h
 .\output\robocon.o: src\user\pk/pk_manual.h
+.\output\robocon.o: src\user\pk/pk_brushless.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\bluetooth.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\crc.h
@@ -64,4 +65,4 @@
 .\output\robocon.o: .\src\ustrobo_min_system\inc\ultrasonic.h
 .\output\robocon.o: src\user\pk/pk.h
 .\output\robocon.o: src\user\pk/pk_pid.h
-.\output\robocon.o: src\user\pk/pk_brushless.h
+.\output\robocon.o: src\user\pk/hybrid_laser.h

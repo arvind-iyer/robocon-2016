@@ -29,3 +29,4 @@
 .\output\control.o: src\user\pk\hybrid_gpio.h
 .\output\control.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\output\control.o: src\user\pk\pk_manual.h
+.\output\control.o: src\user\pk\pk_brushless.h

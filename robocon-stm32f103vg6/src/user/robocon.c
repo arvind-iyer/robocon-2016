@@ -3,15 +3,19 @@
 
 extern int dispCurrentDistance;
 extern int dispCurrentBearing;
+extern int dispW;
 
 //#define DEBUG_MODE
 #define RED_SIDE 0
 #define BLUE_SIDE 1
 
 bool robotMode = false;
+bool rightJoyInUse = false;
+bool laserAuto = false;
 
 //Variables for allowing the update of the button
 bool _allowUpdate = false, allowDPadUpdate = false, allowArm = false, allowArmUpdate = false, allowModeUpdate = false, allowPIDUpdate = false;
+bool allowAngleUpdate = true, allowAutoLazers = false;
 
 void robocon_main(void)
 {	
@@ -32,6 +36,7 @@ void robocon_main(void)
 			}
 			robotUpdate();
 			updateQueue();
+			if(laserAuto)enterPole();
 			
 			if (return_listener()) {
 					return; 
@@ -96,8 +101,9 @@ void _updateScreen() {
 	tft_prints(0, 4, "G: %d|%d|%d", get_pos()->x, get_pos()->y, get_pos()->angle);
 	tft_prints(0, 5, "LS: %d|%d|%d|%d|%d", gpio_read_input(&PE6), gpio_read_input(&PE7),  prevLimitSwitch[2], prevLimitSwitch[3], armIr); 
 	tft_prints(0, 6, (robotMode == RED_SIDE) ? "MODE: RED SIDE" : "MODE:BLUE SIDE");
-	tft_prints(0, 7, "L: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1));
-	tft_prints(0, 8, "Q: %d|%d|%d", getSize(), dispCurrentDistance, dispCurrentBearing);
+	//tft_prints(0, 7, "%d|%d", int_arc_tan2(xbc_get_joy(XBC_JOY_LX), xbc_get_joy(XBC_JOY_LY)), get_pos()->angle);
+	tft_prints(0, 7, "L: %d | AL: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1), laserAuto);
+	tft_prints(0, 8, "Q: %d|%d|%d|%d", getSize(), dispCurrentDistance, dispCurrentBearing, dispW);
 	tft_prints(0, 9, "Time: %d", get_seconds());
 	#endif
 	tft_update();
@@ -163,7 +169,22 @@ void controllerInputUpdate() {
 			if(button_pressed(BUTTON_XBC_Y) && !allowPIDUpdate){
 				allowPIDUpdate = true;
 				if(getSize() == 0) {
-					queueTargetPoint(1000, 1000, 0, 35.0 , 10);
+					if(robotMode == RED_SIDE) {
+					queueTargetPoint(1000, 1000, 90, 35.0 , 5, -1);
+					queueTargetPoint(0,0,0, 35.0, 5, -1);
+					}
+					else if(robotMode == BLUE_SIDE) {
+						queueTargetPoint(-3269, 283, 270, 35.0, 10.0, 10);
+						queueTargetPoint(-2821, 2265, 297, 50.0, 15.0, 10);
+						queueTargetPoint(-1303, 4057, 296, 50.0, 15.0, 13);
+						queueTargetPoint(150, 5948, 268, 610, 200, 13);
+						queueTargetPoint(-150, 6759, 198, 50.0, 25.0, 0);
+						queueTargetPoint(-308, 9804, 176, 50.0, 25.0, -1);
+						queueTargetPoint(-1768, 12957, 93, 50.0, 25.0, -1);
+						queueTargetPoint(-4161, 13097, 91, 35.0, 8.0, -1);
+						
+						
+					}
 				}
 				else {
 					for(int i = getSize(); i>=1; i--) {
@@ -176,7 +197,7 @@ void controllerInputUpdate() {
 			}
 			if(button_pressed(BUTTON_XBC_B))
 		{
-			sendClimbCommands(900, -900, 900, -900);
+			sendClimbCommands(1200, -1200, 1200, -1200);
 		}
 		else if(button_released(BUTTON_XBC_B))
 		{
@@ -189,6 +210,13 @@ void controllerInputUpdate() {
 		else if(button_released(BUTTON_XBC_X) && allowArmUpdate) {
 			allowArmUpdate = false;
 		}
+		if(button_pressed(BUTTON_XBC_A) && !allowAutoLazers) {
+			laserAuto = !laserAuto;
+			allowAutoLazers = true;
+		}
+		else if (button_released(BUTTON_XBC_A) && allowAutoLazers) {
+			allowAutoLazers = false;
+		}
 		
 	//XBOX Button
 		if(button_pressed(BUTTON_XBC_XBOX) && !allowModeUpdate) {
@@ -198,5 +226,15 @@ void controllerInputUpdate() {
 		else if(button_released(BUTTON_XBC_XBOX) && allowModeUpdate) {
 			allowModeUpdate = false;
 		}
+		
+//		if(can_xbc_get_joy(XBC_JOY_RX) == 0 && allowAngleUpdate) {
+//			setTargetAngle(get_pos()->angle);
+//			rightJoyInUse = false;
+//			allowAngleUpdate = false;
+//		}
+//		else if(can_xbc_get_joy(XBC_JOY_RX) != 0 && !allowAngleUpdate) {
+//			rightJoyInUse = true;
+//			allowAngleUpdate = true;
+//		}
 		
 }

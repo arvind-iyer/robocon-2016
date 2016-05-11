@@ -82,9 +82,9 @@ void parseMotorValues() {
 	float M1 = (-rotation - xComponent * 2) / 3;
 	float M2 = ((-rotation * 0.5774 + xComponent * 0.5774 - yComponent) / 1.732);
 	float M3 = -rotation - M1 - M2;
-	motor.M1 = M1;
-	motor.M2 = M2;
-	motor.M3 = M3;
+	motor.M1 = clamp(M1, -150, 150);
+	motor.M2 = clamp(M2, -150, 150);
+	motor.M3 = clamp(M3, -150, 150);
 	xComponent = 0;
 	yComponent = 0;
 	rotation = 0;
@@ -92,9 +92,9 @@ void parseMotorValues() {
 }
 
 void sendWheelBaseMotorCommands (int M1, int M2, int M3) {
-	motor.M1 = M1;
-	motor.M2 = M2;
-	motor.M3 = M3;
+	motor.M1 = clamp(M1, -150, 150);
+	motor.M2 = clamp(M2, -150, 150);
+	motor.M3 = clamp(M3, -150, 150);
 	motor_set_vel(MOTOR1, motor.M1, CLOSE_LOOP);
 	motor_set_vel(MOTOR2, motor.M2, CLOSE_LOOP);
 	motor_set_vel(MOTOR3, motor.M3, CLOSE_LOOP);
@@ -148,4 +148,11 @@ void sendArmCommand(int M8) {
 
 Motors getMotorValues() {
 	return motor;
+}
+
+
+int clamp (int val, int MIN, int MAX) {
+	val = (val > MAX) ? MAX : val;
+	val = (val < MIN) ? MIN : val;
+	return val;
 }

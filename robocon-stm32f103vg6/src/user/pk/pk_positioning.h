@@ -14,6 +14,6 @@ typedef struct {
 Vector newVector(int x, int y);
 Position newPosition(Vector vector, int orientation);
 
-Position getCurrentPos();
+Position getCurrentPos(void);
 
 #endif

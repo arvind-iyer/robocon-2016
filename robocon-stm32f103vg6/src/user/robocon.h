@@ -48,6 +48,7 @@ void controllerInputUpdate(void);
 
 extern Pneumatics pneumatics;
 extern bool prevLimitSwitch[4];
+extern bool robotMode;
 extern bool armIr;
 
 #endif	/* __ROBOCON_H */
