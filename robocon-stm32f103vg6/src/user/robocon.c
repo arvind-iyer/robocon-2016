@@ -172,13 +172,13 @@ void controllerInputUpdate() {
 				if(getSize() == 0) {
 					if(robotMode == RED_SIDE) {
 						setBrushlessMagnitude(10);
-						queueTargetPoint(3161, 200, 90, 35.0, 10.0, 20, 0);
-						queueTargetPoint(2865, 2152, 72, 35.0, 15.0, 20, 0);
+						queueTargetPoint(3161, 200, 90, 35.0, 10.0, 15, 0);
+						queueTargetPoint(2865, 2152, 72, 35.0, 15.0, 15, 0);
 						queueTargetPoint(2239, 3336, 44, 55.0, 25, 10, 0);
-						queueTargetPoint(1633, 4030, 57, 35.0, 15.0, 10, 0);
-						queueTargetPoint(989, 5117, 75, 50.0, 40.0, 20, 0);
+						queueTargetPoint(1633, 4030, 57, 35.0, 15.0, 20, 0);
+						queueTargetPoint(989, 5117, 75, 50.0, 40.0, 15, 0);
 						queueTargetPoint(242, 5662, 161, 610, 200, -1, 0);
-						queueTargetPoint(575, 7105, 161, 35.0, 10.0, 0, 10000);
+						queueTargetPoint(575, 7105, 161, 35.0, 10.0, -1, 10000);
 						queueTargetPoint(603, 9008, 165, 200, 25.0 , -1, 0);
 						queueTargetPoint(1953, 11716, 272, 200, 25.0, -1, 0);
 						queueTargetPoint(4359, 12590, 274, 200, 25.0, -1, 0);
