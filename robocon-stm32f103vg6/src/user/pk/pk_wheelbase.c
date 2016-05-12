@@ -15,7 +15,7 @@ void pk_wheelbase_init() {
 	motors.lastTick = 0;
 }
 
-void parseMotorValues(int M, int bearing, int W) {
+void parseWheelbaseValues(int M, int bearing, int W) {
 	int xComponent = M * MAX_VEL * int_sin(bearing*10)/10000 / 100;
 	int yComponent = M * MAX_VEL* int_cos(bearing*10)/10000 / 100;
 	motors.M1.target = (-W - xComponent * 2) / 3;
@@ -29,7 +29,7 @@ void sendWheelbaseValues() {
 		int M1_diff = motors.M1.target - motors.M1.sent;
 		int M2_diff = motors.M2.target - motors.M2.sent;
 		int M3_diff = motors.M3.target - motors.M3.sent;
-		int clampFactor = pk_max(3, Abs(M1_diff), Abs(M2_diff), Abs(M3_diff)) / ACCELERATION;
+		int clampFactor = max(3, Abs(M1_diff), Abs(M2_diff), Abs(M3_diff)) / ACCELERATION;
 		if (clampFactor < 1) {
 			clampFactor = 1;
 		}

@@ -51,15 +51,15 @@ float MIN (float a, float b) {
 
 int calculatePathVelocity (Path path, Robot robot) {
 	float magnitude = 0;
-	int distance = calculateDistance (path.position, robot.position);
-	
-	if(path.vel != 0) magnitude = path.vel;
-	else {
-		magnitude = MIN(75.0, MAX(10, 75.0 * (distance / (float)1000)));
-		if(distance >1250) {
-			magnitude = 65;
+		int distance = calculateDistance (path.position, robot.position);
+		
+		if(path.vel != 0) magnitude = path.vel;
+		else {
+			magnitude = MIN(75.0, MAX(10, 75.0 * (distance / (float)1000)));
+			if(distance >1250) {
+				magnitude = 65;
+			}
 		}
-	}
 	return magnitude;	
 }
 
@@ -169,13 +169,13 @@ void updateQueue () {
 				int dt = get_full_ticks() - lastWait;
 				
 				if (dt >= 0 && dt < 1500) {
-					setBrushlessMagnitude(12);
+					setBrushlessMagnitude(10); //12
 				} else if (dt >= 1500 && dt < 3000) {
-					setBrushlessMagnitude(18);
+					setBrushlessMagnitude(18); //18
 				} else if (dt >= 3000 && dt < 4500) {
-					setBrushlessMagnitude(26);
+					setBrushlessMagnitude(26); //26
 				} else {
-					setBrushlessMagnitude(30);
+					setBrushlessMagnitude(30); //30
 				}
 				
 				if (Abs(robot.position.angle - baseAngle) >= 5) {

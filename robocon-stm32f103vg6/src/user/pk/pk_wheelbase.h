@@ -18,7 +18,7 @@ typedef struct {
 
 void pk_wheelbase_init();
 
-void parseMotorValues(int M, int bearing, int W);
+void parseWheelbaseValues(int M, int bearing, int W);
 void sendWheelbaseValues();
 
 #endif

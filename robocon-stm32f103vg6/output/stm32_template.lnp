@@ -75,5 +75,9 @@
 ".\output\hybrid_gpio.o"
 ".\output\hybrid_laser.o"
 ".\output\control.o"
+".\output\pk_arm.o"
+".\output\pk_climb.o"
+".\output\pk_math.o"
+".\output\pk_wheelbase.o"
 --library_type=microlib --strict --scatter ".\output\stm32_template.sct"
 --summary_stderr --info summarysizes -o .\output\stm32_template.axf

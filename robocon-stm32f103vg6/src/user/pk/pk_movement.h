@@ -1,7 +1,7 @@
 #ifndef _PK_MOVEMENT
 #define _PK_MOVEMENT
 
-#define MAX_VEL 160
+#define MAX_VEL 200 //160
 
 typedef struct {
 	int M1;
