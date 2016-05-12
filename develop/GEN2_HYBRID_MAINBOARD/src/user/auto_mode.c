@@ -25,7 +25,7 @@
 u8 field = 1;
 
 //Blue Field transformation
-float transform[2][2] = {{1, 0}, {0, 1}};
+double transform[2][2] = {{1, 0}, {0, 1}};
 u16 wall_dist = 0;
 
 //mode variables
@@ -118,7 +118,7 @@ void auto_tar_dequeue() {
 	
 	//temp speed control
 	if (tar_end == 1)
-		cur_vel = 50;
+		cur_vel = 65;
 	
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
@@ -272,7 +272,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	//determine velocity coefficient
 	double acc = passed / 800.0;
-	double dec = dist / 650.0;
+	double dec = dist / ((double)(cur_vel * 7));
 	//double dec = sqrt(dist / 680.0);	//twice of acceleration (v = (2as)^(0.5))
 	if (acc > 1.0)
 		acc = 1.0;
@@ -302,10 +302,14 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	if (field == 0)
 		side_switch_val = (cur_x >= 0)*4 + gpio_read_input(&PE11)*2 + gpio_read_input(&PE10);
 	if (field == 1)
-		side_switch_val = (cur_x <= 0)*4 + gpio_read_input(&PE9)*2 + gpio_read_input(&PE8);
+		side_switch_val = ((cur_x <= 0) || (cur_x >= 12900))*4 + gpio_read_input(&PE9)*2 + gpio_read_input(&PE8);
 	
 	if ((side_switch_val == 3) || (side_switch_val & 4)) {
-		off_x = raw_x;
+		if (cur_x < 7000) {
+			off_x = raw_x;
+		} else {
+			off_x = raw_x - 12900;
+		}
 		if ((side_switch_val == 3) || (side_switch_val == 7))
 			off_deg = get_angle();
 	}	
@@ -351,7 +355,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		off_y = get_pos()->y - 4175 + wall_dist; //negative
 	
 	//perpendicular PD
-	err_pid = err * 0.2 + (err-err_d) * 0.0;
+	err_pid = err * 0.25 + (err-err_d) * 0.0;
 	
 	//rotational P
 	rotate *= 0.5;
@@ -575,7 +579,7 @@ void auto_var_update() {
 	
 	dist = pythag(cur_x, cur_y, tar_x, tar_y);
 	time = auto_get_ticks();
-	//measured_vel = (int)((float)((dist - dist_last)*1000)/((float)(time - time_last)));
+	//measured_vel = (int)((double)((dist - dist_last)*1000)/((double)(time - time_last)));
 	
 	//set target degree
 	int diff = auto_tar_ret(tar_end-1).deg - auto_tar_ret(tar_end-2).deg;
@@ -621,7 +625,8 @@ void auto_motor_update(){
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",time/1000);
 	//tft_prints(0,7,"Test %d",measured_vel);
-	tft_prints(0,7,"Test %d %d",arm_vel, get_arm_pos());
+	//tft_prints(0,7,"Test %d %d", arm_vel, get_arm_pos());
+	tft_prints(0,7,"Test %d %d", dist, degree_diff);
 	tft_prints(0,8,"Trans: %d",(int)(transform[1][0]*700));
 	tft_prints(0,9,"Wall: %d",wall_dist);
 	tft_update();
