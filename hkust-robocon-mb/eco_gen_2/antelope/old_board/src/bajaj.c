@@ -123,7 +123,7 @@ void process_array(){
 
 
 void goNormal(void){
-    if (get_full_ticks() - lastTurn >= 500){    
+    if (get_full_ticks() - lastTurn >= (int)DELAY){    
         if(length > 8 && fullWhite == false && encoder_revolution > 1){
             lastMovement = MAX_NINETY_TURNING;
             fullWhite = true;
