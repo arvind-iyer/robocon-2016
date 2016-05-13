@@ -6,7 +6,7 @@
 
 Robot robot;
 Path queue [40];
-int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0, dispW = 0, timediff = 0;
+int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0, dispW = 0, timediff = 0, time = 0;
 bool finishing = false;
 
 void calculatePIDMotorValues(int vel, int bearing, int w){
@@ -159,7 +159,10 @@ void updateQueue () {
 				lastWait = -1;
 			} else{
 				finishing = true;
-				if (lastWait == -1) lastWait= get_full_ticks();
+				if (lastWait == -1) {
+					time = currentPath.waitTime;
+					lastWait= get_full_ticks();
+				}
 				if (baseAngle == -1) {
 					baseAngle = robot.position.angle;
 					setM(0);
@@ -172,11 +175,11 @@ void updateQueue () {
 				}
 				int dt = get_full_ticks() - lastWait;
 				
-				if (dt >= 0 && dt < 1500) {
-					setBrushlessMagnitude(10); //12
-				} else if (dt >= 1500 && dt < 3000) {
-					setBrushlessMagnitude(18); //18
-				} else if (dt >= 3000 && dt < 4500) {
+				if (dt >= 0 && dt < time/4) {
+					setBrushlessMagnitude(7); //12
+				} else if (dt >= time/4 && dt < time/2) {
+					setBrushlessMagnitude(14); //18
+				} else if (dt >= time/2 && dt < time*3/4) {
 					setBrushlessMagnitude(26); //26
 				} else {
 					setBrushlessMagnitude(30); //30
