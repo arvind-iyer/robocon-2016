@@ -123,18 +123,18 @@ void process_array(){
 
 
 void goNormal(void){
-    if (get_full_ticks() - lastTurn >= 800){    
-        if(length > 10 && fullWhite == false && encoder_revolution > 1 && gameZone == ORANGEZONE){
+    if (get_full_ticks() - lastTurn >= 500){    
+        if(length > 8 && fullWhite == false && encoder_revolution > 1){
             lastMovement = MAX_NINETY_TURNING;
             fullWhite = true;
             lastTurn = get_full_ticks();
         }
         
-        else if (length > 10){
+        else if (length > 8){
             lastMovement = SERVO_MICROS_MID;
         }
 
-        else if (length >= 1 && length <= 6) {
+        else if (length >= 1 && length <= 8) {
             float factor = ((begin + end) / 2) / (float) 16;
             lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
         }  
@@ -143,12 +143,10 @@ void goNormal(void){
     }
 }
 void goUsingImu(void){
-    if((get_count(ENCODER1) > 16000) && !read_infrared_sensor(RIVER_INFRARED)){
+    if((get_count(ENCODER1) > 10000) && !read_infrared_sensor(RIVER_INFRARED)){
         globalState = STAGE2;
         reset_encoder_1();
     }
-    //yaw_of_imu = yaw_of_imu > 180 ? 180 : yaw_of_imu;
-    //yaw_of_imu = yaw_of_imu < -180 ? -180 : yaw_of_imu; 
     imuFactor = ardu_cal_ypr[0] / 180.0f;
     imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
     servo_control(BAJAJ_SERVO,imuMovement);
@@ -156,7 +154,7 @@ void goUsingImu(void){
 
 void goStraightLittleBit(void){
     servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + LESSER_TURNING);
-    if(get_count(ENCODER1) > 3500){
+    if(get_count(ENCODER1) > 6000){
         lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
         globalState = NOT_RIVER;
         lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
@@ -177,20 +175,6 @@ void printSystemOff(void){
 }
 
 void determineZone(){
-//    //Dark blue
-//    if(hueAvg >= RIVERLEFT && hueAvg <= RIVERRIGHT){gameZone = BLUEZONE;}
-//    
-//    //Orange
-//    else if(hueAvg <= ORANGERIGHT && hueAvg > ORANGELEFT){gameZone = ORANGEZONE;}
-//    
-//    //Light green
-//    else if(hueAvg > LIGHTGREENLEFT && hueAvg < LIGHTGREENRIGHT){gameZone = LIGHTGREENZONE;}
-//    
-//    //Dark green
-//    else if(hueAvg >= DARKGREENLEFT && hueAvg < DARKGREENRIGHT){gameZone = DARKGREENZONE;}
-//    
-//    //Pink
-//    else if(hueAvg > PINKLEFT && hueAvg <= PINKRIGHT){gameZone = PINKZONE;}
     switch(hueAvg){
         case 0:
             gameZone = PINKZONE;

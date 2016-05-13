@@ -1,6 +1,6 @@
 #include "main.h"
 
-//Extern variables, sorry if it is a mess
+//Extern variables, sorry if it is a mess,yolo global variables
 bool sensorIsFlipped = true;
 u8 data1[8];
 u8 data2[8];
@@ -20,6 +20,7 @@ int systemOn = 0;
 int yaw_of_imu = 0;
 int pitch_of_imu = 0;
 int lastMovement = SERVO_MICROS_MID;
+
 extern uint32_t encoder_revolution;
 extern ZONE gameZone;
 
@@ -58,7 +59,7 @@ int main(void) {
                                 if(river && !read_infrared_sensor(RIVER_INFRARED) && (fullWhite == 1))
                                 {
                                     reset_encoder_1();
-                                    ardu_cal_ypr[0] = 110.0f;
+                                    ardu_cal_ypr[0] = (float)IMU_ANGLE;
                                     globalState = STAGE1;
                                 }
                             break;
@@ -72,6 +73,8 @@ int main(void) {
                     }
                     print_data(); //Print every data in the on system
                     break;
+                    
+                //Press down joystick if you want to turn it on
                 case OFF:
                     servo_control(BAJAJ_SERVO,SERVO_MICROS_MID);
                     printSystemOff(); //Print every data in off system
