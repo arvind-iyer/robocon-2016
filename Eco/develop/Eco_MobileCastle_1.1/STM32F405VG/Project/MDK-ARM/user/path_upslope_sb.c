@@ -22,7 +22,7 @@ GAME_STAGE path_up_sb_update(){
 	sensor_bar_get_corr(1, 100, &flag);
 	
 	if (right_angle_ing == 1){
-		if (abs(river_straight_yaw - ardu_int_ypr[0]) > 100){
+		if (abs(river_straight_yaw - ardu_int_ypr[0]) > 500){
 			si_clear();
 			#ifdef BLUE_FIELD
 				si_set_pwm(SERVO_MAX_PWM);
@@ -53,7 +53,7 @@ GAME_STAGE path_up_sb_update(){
 			last_encoder_val = get_average_encoder();
 		}
 		
-		if (counting_encoder && (get_average_encoder() - start_counting_encoder)>6000){
+		if (counting_encoder && (get_average_encoder() - start_counting_encoder)>10000){
 			right_angle_ing = 1;
 		}
 		

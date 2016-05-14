@@ -4,6 +4,7 @@ u8 river_stage = 0;
 u8 islands_count[2] = {0};
 u8 last_IR_state[2] = {0};
 s16 river_straight_yaw = 0;
+u32 encoder_start_reading = 0;
 
 void path_river_init(s16 straight_yaw){
 	river_straight_yaw = straight_yaw;
@@ -79,9 +80,9 @@ GAME_STAGE path_river_update(){
 			if (islands_count[0] >= 1){
 				river_stage++;
 				#ifdef BLUE_FIELD
-					set_target(river_straight_yaw - 15);
+					set_target(river_straight_yaw);
 				#else
-					set_target(river_straight_yaw + 15);
+					set_target(river_straight_yaw);
 				#endif
 				buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 			}
@@ -93,19 +94,51 @@ GAME_STAGE path_river_update(){
 			//si_execute();
 			break;
 			
-		//case 2 go straight until it reaches the last island
+//		//case 2 go straight until it reaches the last island
+//		case 2:
+//			IR_update(1);
+//			//When it reaches the last island
+//			if (islands_count[1] >= 2){
+//				river_stage++;
+//				buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
+//			}
+//			si_clear();
+//			targeting_update(ardu_int_ypr[0]);
+//			si_execute();
+//			break;
+					//case 2 go straight until it reaches the last island
 		case 2:
+			IR_update(0);
 			IR_update(1);
 			//When it reaches the last island
-			if (islands_count[1] >= 2){
+			if (islands_count[0] >= 2){
 				river_stage++;
+				encoder_start_reading = get_average_encoder();
 				buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
+				#ifdef BLUE_FIELD
+					set_target(river_straight_yaw + 30);
+				#else
+					set_target(river_straight_yaw - 30);
+				#endif
 			}
 			si_clear();
 			targeting_update(ardu_int_ypr[0]);
 			si_execute();
 			break;
+			
 		case 3:
+			#ifdef BLUE_FIELD
+				if (get_average_encoder()-encoder_start_reading > 4500){
+			#else
+				if (get_average_encoder()-encoder_start_reading > 7500){
+			#endif
+				river_stage++;
+			}
+			si_clear();
+			targeting_update(ardu_int_ypr[0]);
+			si_execute();
+		
+		case 4:
 			buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 			return (GAME_STAGE) (CROSSING_RIVER + 1);
 	}

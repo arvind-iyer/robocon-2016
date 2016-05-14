@@ -29,6 +29,9 @@ static LOCK_STATE press_button_X = UNLOCKED;
 static LOCK_STATE press_button_LB = UNLOCKED;
 static LOCK_STATE press_button_RB = UNLOCKED;
 static LOCK_STATE press_button_back = UNLOCKED;
+static LOCK_STATE press_button_start = UNLOCKED;
+static LOCK_STATE press_left_joy = UNLOCKED;
+static LOCK_STATE press_right_joy = UNLOCKED;
 
 static u16 brushless_power_percent = 20;
 
@@ -41,6 +44,10 @@ static u16 gripper_states[2] = {0};
 static u32 gripper_ticks[8] = {0}; //Left claw, Left push, Right claw, Right push
 
 static bool using_laser_sensor = false;
+static bool global_axis = false;
+static bool pole_front = false;
+static bool rotating_machine_by_90 = false;
+static s32 rotating_machine_by_90_target = 0;
 
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
@@ -48,7 +55,15 @@ static s32 sum_of_last_angle_error = 0;
 static u16 accel_remainder = 0;
 static u16 rotate_accel_remainder = 0;
 
-static bool global_axis = false;
+/*
+** 0 - Just started
+** 1 - Following the track using laser sensors - Press back
+** 2 - Disabled tracking automatically  - Use y-coordinate
+** 3 - Blowing in the river (can be activated manually at any time before this stage) - Press Start
+				Need to rotate brushless servo, change heading, back off, and rotate machine
+** 4 - Retry, going into the pole, change heading only, machine opening face the pole - Press back and start together
+*/
+static u8 manual_stage = 0;
 
 void manual_init(){
 	xbc_mb_init(XBC_CAN_FIRST);
@@ -56,12 +71,13 @@ void manual_init(){
 }
 
 void manual_reset(){
-	curr_vx = curr_vy = curr_angle = curr_heading = curr_w = 0;
+	curr_vx = curr_vy = curr_angle = curr_heading = curr_w = rotating_machine_by_90_target = 0;
+	manual_stage = 0;
 	ground_wheels_lock = UNLOCKED;
 	brushless_power_percent = 20;
 	climbing_induced_ground_lock = UNLOCKED;
-	press_button_B = press_button_X = press_button_back = UNLOCKED;
-	is_rotating = using_laser_sensor = false;
+	press_button_B = press_button_X = press_button_back = press_left_joy = press_right_joy = UNLOCKED;
+	is_rotating = using_laser_sensor = pole_front = rotating_machine_by_90 = false;
 	brushless_control(0, true);
 	brushless_servo_control(0);
 	gripper_control(GRIPPER_1, 0); 
@@ -81,20 +97,14 @@ void manual_vel_set_zero(){
 s32 angle_pid(){
 	s16 this_curr_global_angle = get_angle();
 	s16 this_target_global_angle = curr_heading;
-	//Map both angles to same area
-	while(this_curr_global_angle>=1800){
-		this_curr_global_angle -= 3600;
-	}
-	while(this_curr_global_angle<-1800){
-		this_curr_global_angle += 3600;
-	}
-	while(this_target_global_angle>=1800){
-		this_target_global_angle -= 3600;
-	}
-	while(this_target_global_angle<-1800){
-		this_target_global_angle += 3600;
-	}
 	s32 error = this_target_global_angle - this_curr_global_angle;
+	
+	if (error>1800){
+		error = 3600 - error;
+	}else if(error<-1800){
+		error = 3600 + error;
+	}
+	
 	sum_of_last_angle_error = sum_of_last_angle_error*98/99 + error;
 	//This value scaled by 1000(PID constant) and then 10(angle scale)
 	s32 temp = error*ANGLE_PID_P + sum_of_last_angle_error*ANGLE_PID_I + (this_curr_global_angle-last_angle_pid)*ANGLE_PID_D;
@@ -116,7 +126,7 @@ void manual_update_wheel_base(){
 		//Calcuate 3 base wheels movement
 		s32 vx = 0;
 		s32 vy = 0;
-		
+		//TODO: Reverse higher acceleration
 		if (button_pressed(BUTTON_XBC_E) || button_pressed(BUTTON_XBC_S) || button_pressed(BUTTON_XBC_W) || button_pressed(BUTTON_XBC_N)
 			|| button_pressed(BUTTON_XBC_NE) || button_pressed(BUTTON_XBC_SE) || button_pressed(BUTTON_XBC_NW) || button_pressed(BUTTON_XBC_SW)){
 				
@@ -148,7 +158,7 @@ void manual_update_wheel_base(){
 			vx = xbc_get_joy(XBC_JOY_LX);
 			vy = xbc_get_joy(XBC_JOY_LY);
 			
-			if (vx!=0 && vy!=0){
+			if (vx!=0 || vy!=0){
 				global_axis = false;
 			}
 		}
@@ -161,7 +171,16 @@ void manual_update_wheel_base(){
 			** Then use the same proportion for the another axis to ensure the angle is correct
 			*/
 			
-			u16 acceleration_amount = BASE_ACCEL_CONSTANT + accel_remainder; //Scaled by 1000
+			u16 acceleration_amount;
+			if (abs(vx)<10 && abs(vy)<10){
+				acceleration_amount = BASE_ACCEL_CONSTANT + accel_remainder; //Scaled by 1000
+			}else{
+				s32 target_angle = int_arc_tan2(vx, vy);
+				s32 last_angle = int_arc_tan2(curr_vx, curr_vy);
+				s32 angle_diff = abs(target_angle - last_angle);
+				acceleration_amount = BASE_ACCEL_CONSTANT*(angle_diff+90)/90 + accel_remainder; //Scaled by 1000
+			}
+			
 			accel_remainder = acceleration_amount % 1000;
 			acceleration_amount /= 1000;
 			
@@ -181,35 +200,6 @@ void manual_update_wheel_base(){
 					curr_vy += acceleration_amount;
 				}
 			}
-//			//Else:
-//			//Use the axis with larger difference as the major consideration
-//			//The other axis simply follow the proportion
-//			}else if (Abs(curr_vx - vx) > Abs(curr_vy - vy)){
-//				//Use x-axis as major
-//				s32 proportion;
-//				if (curr_vx > vx){
-//					proportion = acceleration_amount *1000 / ((s32)curr_vx - vx);
-//					curr_vx -= acceleration_amount;
-//				}else{
-//					proportion = acceleration_amount *1000 / ((s32)vx - curr_vx);
-//					curr_vx += acceleration_amount;
-//				}
-//				
-//				curr_vy += (vy - curr_vy) *proportion /1000;
-//				
-//			}else{
-//				//Use y-axis as major
-//				s32 proportion;
-//				if (curr_vy > vy){
-//					proportion = acceleration_amount *1000 / ((s32)curr_vy - vy); 
-//					curr_vy -= acceleration_amount;
-//				}else{
-//					proportion = acceleration_amount *1000 / ((s32)vy - curr_vy);
-//					curr_vy += acceleration_amount;
-//				}
-//				
-//				curr_vx += (vx - curr_vx) *proportion /1000;
-//			}
 			
 			if (global_axis){
 				curr_angle = int_arc_tan2(curr_vx, curr_vy)*10 - get_angle();
@@ -217,8 +207,12 @@ void manual_update_wheel_base(){
 				curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
 			}
 			
+			if (pole_front){
+				curr_angle -= 1800;
+			}
+			
 			s32 w = (xbc_get_joy(XBC_JOY_LT)-xbc_get_joy(XBC_JOY_RT))*8/5;
-			if (Abs(w-curr_w) < 1){
+			if (Abs(w-curr_w) < 5){
 				curr_w = w;
 			}else{
 				s32 rotate_accel_amount = ROTATE_ACCEL_CONSTANT + rotate_accel_remainder;
@@ -277,18 +271,50 @@ void manual_update_wheel_base(){
 ** This fast update is for controlling things that require a high refresh rate
 ** It contains:
 ** - Locking itself in place
-** - Recording encoder reading and speed
+** - Angle PID (disabled)
+** - Laser tracking
 */
 void manual_fast_update(){
 	s32 curr_rotate = 0;
-	if (!using_laser_sensor){
+	
+	for (u8 i=0;i<3;i++){
+		motor_vel[i] = 0;
+	}
+	
+	if (!gpio_read_input(&ARM_IR_PORT)){
+		raise_arm();
+	}
+	
+	if(manual_stage==1 && using_laser_sensor){
+		laser_manual_update(motor_vel, &curr_rotate);
+		curr_heading = get_angle();
+	}else if (rotating_machine_by_90){
+		curr_rotate += river_rotate_update(rotating_machine_by_90_target);
+		if (abs(curr_rotate) < 5){
+			rotating_machine_by_90 = false;
+		}
+		curr_heading = get_angle();
+	}else if (!using_laser_sensor){
 		manual_update_wheel_base();
 		if (!is_rotating){
-			curr_rotate = -angle_pid()/1000;
+			//curr_rotate = -angle_pid()/1000;
 		}
-	}else{
-		laser_manual_update(motor_vel, &curr_rotate);
 	}
+	
+	s16 motor_vel_max = motor_vel[0];
+	for (u8 i=1; i<3; i++){
+		if (abs(motor_vel[i])>abs(motor_vel_max)){
+			motor_vel_max = motor_vel[i];
+		}
+	}
+	
+	if (abs(motor_vel_max)>150){
+		s32 motor_ratio = 150*10000/abs(motor_vel_max); //Scaled by 10000
+		for (u8 i=0;i<3;i++){
+			motor_vel[i] = (s32)motor_vel[i]*motor_ratio/10000;
+		}
+	}
+	
 	for (u8 i=0;i<3;i++){
 		motor_vel[i] += curr_rotate/10;
 		motor_loop_state[i] = CLOSE_LOOP;
@@ -302,47 +328,62 @@ void manual_interval_update(){
 	
 	tft_append_line("%d", this_loop_ticks);
 	tft_append_line("%d", this_loop_ticks-last_long_loop_ticks);
-
-	/*
-	** This part deals with locking the robot.
-	** When the lock button(X) is pressed, the ground wheels should be locked at least
-	** For further implementation, it should lock itself in place with PID
-	*/
-	/*
-	if (button_pressed(BUTTON_XBC_X)){
-		if (press_button_X == UNLOCKED){
-			press_button_X = LOCKED;
-			buzzer_beep(75);
-			if (ground_wheels_lock == UNLOCKED){
-				curr_heading = get_angle();
-				ground_wheels_lock = LOCKED;
-				_setCurrentAsTarget();
-				manual_vel_set_zero();
-			}else {
-				buzzer_beep(225);
-				ground_wheels_lock = UNLOCKED;
-				manual_vel_set_zero();
-			}
-		}
-	}else{
-			press_button_X = UNLOCKED;
-	}
-	*/
 	
+	//If Y is too large, disable the laser tracking 
+	#ifdef RED_FIELD
+	if ((-get_pos()->x) > LASER_TRACING_OFF_DISTANCE){
+	#else
+	if (get_pos()->x > LASER_TRACING_OFF_DISTANCE){
+	#endif
+		if (manual_stage<2){
+			manual_stage = 2;
+			using_laser_sensor = false;
+		}
+	}
+	
+	//Pressing the back button to enable laser tracking
 	if (button_pressed(BUTTON_XBC_BACK)){
 		if (press_button_back == UNLOCKED){
 			press_button_back = LOCKED;
 			buzzer_beep(75);
-			using_laser_sensor = !using_laser_sensor;
+			if (manual_stage < 2){
+				using_laser_sensor = !using_laser_sensor;
+				manual_stage = 1;
+			}
 		}
 	}else{
 			press_button_back = UNLOCKED;
 	}
 	
+	//Pressing the start button for shooting across the river
+	if (button_pressed(BUTTON_XBC_START)){
+		if (press_button_start == UNLOCKED){
+			press_button_start = LOCKED;
+			buzzer_beep(75);
+			if (manual_stage < 3){
+				pole_front = true;
+				rotating_machine_by_90 = true;
+				using_laser_sensor = false;
+				#ifdef BLUE_FIELD
+					rotating_machine_by_90_target = (get_angle() - 900)%3600;
+					brushless_servo_val = 90;
+				#else
+					rotating_machine_by_90_target = (get_angle() + 900)%3600;
+					brushless_servo_val = -90;
+				#endif
+				manual_stage = 3;
+				brushless_servo_control(brushless_servo_val);
+			}
+		}
+	}else{
+			press_button_start = UNLOCKED;
+	}
+	
 	//At last apply the motor velocity and display it
-	//Also happends in fast update
+	//Value from fast update should also be displayed here
 	tft_append_line("%d", curr_speed);
-	tft_append_line("LS: %d", using_laser_sensor);
+	tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_angle());
+	tft_append_line("ST: %d %d", using_laser_sensor, manual_stage);
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	tft_update();
 }
@@ -376,6 +417,17 @@ void manual_controls_update(void) {
 			press_button_LB = UNLOCKED;
 	}
 	
+	bool both_joy_pressed = true;
+	
+	if (button_pressed(BUTTON_XBC_L_JOY)){
+		if (press_left_joy == UNLOCKED){
+			press_left_joy = LOCKED;
+			pole_front = !pole_front;
+		}
+	}else{
+		press_left_joy = UNLOCKED;
+	}
+	
 	brushless_control(brushless_power_percent, true);
 	tft_append_line("%d", brushless_power_percent);
 	
@@ -402,6 +454,8 @@ void manual_controls_update(void) {
 	}else {
 		stop_arm();
 	}
+	
+	
 	//encoder_val = get_encoder_count(ENCODER1);
 	
 	//gripper controls
@@ -430,7 +484,7 @@ void manual_controls_update(void) {
 						break;
 				}
 			}
-		} else {
+		}else{
 			press_gripper_buttons[i] = UNLOCKED;
 		}
 	}

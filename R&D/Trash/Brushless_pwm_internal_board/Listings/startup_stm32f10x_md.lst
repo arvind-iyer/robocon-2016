@@ -478,11 +478,11 @@ ARM Macro Assembler    Page 8
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=.\objects\startup_stm32f10x_md.d -o.\objects\startup_stm32f10x_md.
 o -I.\stm32f10x_startup -I.\stm32f10x_std -I.\user -IC:\WorkBench\Robo\robocon-
-2016\internal_board\Brushless_pwm_internal_board\RTE -IC:\WorkBench\IDE\Keil_v5
-\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include -IC:\WorkBench\IDE\Keil_v5\AR
-M\CMSIS\Include --predefine="__UVISION_VERSION SETA 516" --predefine="STM32F10X
-_MD SETA 1" --list=.\listings\startup_stm32f10x_md.lst stm32f10x_startup\startu
-p_stm32f10x_md.s
+2016\R&D\Trash\Brushless_pwm_internal_board\RTE -IC:\WorkBench\IDE\Keil_v5\ARM\
+PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include -IC:\WorkBench\IDE\Keil_v5\ARM\CMS
+IS\Include --predefine="__UVISION_VERSION SETA 516" --predefine="STM32F10X_MD S
+ETA 1" --list=.\listings\startup_stm32f10x_md.lst stm32f10x_startup\startup_stm
+32f10x_md.s
 
 
 

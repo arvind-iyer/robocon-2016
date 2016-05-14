@@ -22,11 +22,28 @@
 #include "manual_track.h"
 #include "quick_math.h"
 
+//#define BLUE_FIELD
+#define RED_FIELD
+
+#ifdef RED_FIELD
+	#ifdef BLUE_FIELD
+		#error FIELD COLOR BOTH DEFINED
+	#endif
+#else
+	#ifndef BLUE_FIELD
+		#error FIELD COLOR NOT YET DEFINED
+	#endif
+#endif
+
+#define LASER_TRACING_OFF_DISTANCE 6600
+
 //Scaled by 1000
 #define ANGLE_PID_P 300
 #define ANGLE_PID_I 10
 #define ANGLE_PID_D 0
 #define ANGLE_PID_MAX 400000
+
+#define ARM_IR_PORT PE0
 
 #define BASE_ACCEL_CONSTANT 1500 //Scaled by 1000
 #define ROTATE_ACCEL_CONSTANT 1500 //Scaled by 1000
