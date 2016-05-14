@@ -22,7 +22,7 @@
 //#define DEBUG_MODE
 
 //Ground: 0 = Red, 1 = Blue
-u8 field = 1;
+u8 field = 0;
 
 //Blue Field transformation
 double transform[2][2] = {{1, 0}, {0, 1}};
@@ -300,15 +300,18 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	back_switch_val = (cur_y <= 0)*4 + gpio_read_input(&PE6)*2 + gpio_read_input(&PE7);
 	if (field == 0)
-		side_switch_val = (cur_x >= 0)*4 + gpio_read_input(&PE11)*2 + gpio_read_input(&PE10);
+		side_switch_val = ((cur_x >= 0) || (cur_x <= -12900))*4 + gpio_read_input(&PE11)*2 + gpio_read_input(&PE10);
 	if (field == 1)
 		side_switch_val = ((cur_x <= 0) || (cur_x >= 12900))*4 + gpio_read_input(&PE9)*2 + gpio_read_input(&PE8);
 	
 	if ((side_switch_val == 3) || (side_switch_val & 4)) {
-		if (cur_x < 7000) {
+		if (Abs(cur_x) < 7000) {
 			off_x = raw_x;
 		} else {
-			off_x = raw_x - 12900;
+			if (field == 0)
+				off_x = raw_x + 12900;
+			if (field == 1)
+				off_x = raw_x - 12900;
 		}
 		if ((side_switch_val == 3) || (side_switch_val == 7))
 			off_deg = get_angle();
@@ -540,10 +543,10 @@ void auto_var_update() {
 		if (Abs(reading2 - reading1) < 150) {
 			wall_dist = (reading1 + reading2)/2;
 			if (field == 0) {
-				if (wall_dist < 285)
-					transform[1][0] -= (7.0/7000.0);
-				if ((wall_dist > 370) && (wall_dist < 800))
-					transform[1][0] += (2.0/7000.0);
+				if (wall_dist < 275)
+					transform[1][0] -= (5.0/7000.0);
+				if ((wall_dist > 325) && (wall_dist < 500))
+					transform[1][0] += (5.0/7000.0);
 			}
 			if (field == 1) {
 				if (wall_dist < 275)
