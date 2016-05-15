@@ -31,7 +31,7 @@ ZONE gameZone;
 
 void update_encoder(){
     if(encoder_revolution > 3)encoder_revolution = 0;
-    if(get_count(ENCODER2) > (int)SLOPE_ENCODER){
+    if(get_count(ENCODER1) > (int)SLOPE_ENCODER){
         encoder_revolution++;
         reset_encoder_2();
     }
