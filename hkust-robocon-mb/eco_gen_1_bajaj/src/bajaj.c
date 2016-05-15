@@ -123,7 +123,7 @@ void process_array(){
 
 
 void goNormal(void){
-    if (get_full_ticks() - lastTurn >= 800){    
+    if (get_full_ticks() - lastTurn >= (int)DELAY){    
         if(length > 10 && fullWhite == false && encoder_revolution > 1 && gameZone == ORANGEZONE){
             lastMovement = MAX_NINETY_TURNING;
             fullWhite = true;
@@ -147,8 +147,6 @@ void goUsingImu(void){
         globalState = STAGE2;
         reset_encoder_1();
     }
-    //yaw_of_imu = yaw_of_imu > 180 ? 180 : yaw_of_imu;
-    //yaw_of_imu = yaw_of_imu < -180 ? -180 : yaw_of_imu; 
     imuFactor = ardu_cal_ypr[0] / 180.0f;
     imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
     servo_control(BAJAJ_SERVO,imuMovement);

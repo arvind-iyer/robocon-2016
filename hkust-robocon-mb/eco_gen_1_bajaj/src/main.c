@@ -40,25 +40,25 @@ int main(void) {
             if(get_ticks() % 25 == 0)ardu_imu_value_update();
             switch(systemOn){
                 case ON:
-                    //Emergency turning system
-                    if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT)){
-                        if(!fullWhite)servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT + 50);
-                        else servo_control(BAJAJ_SERVO, SERVO_MICROS_RIGHT);
-                    }
-                    else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT)){
-                        if(!fullWhite)servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT);
-                        else servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT - 50);
-                    }
+//                    //Emergency turning system
+//                    if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT)){
+//                        if(!fullWhite)servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT + 50);
+//                        else servo_control(BAJAJ_SERVO, SERVO_MICROS_RIGHT);
+//                    }
+//                    else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT)){
+//                        if(!fullWhite)servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT);
+//                        else servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT - 50);
+//                    }
                     
                     //Normal working state
-                    else{
+                    //else{
                         switch(globalState){
                             case NOT_RIVER:
                                 goNormal();
                                 if(river && !read_infrared_sensor(RIVER_INFRARED) && (fullWhite == 1))
                                 {
                                     reset_encoder_1();
-                                    ardu_cal_ypr[0] = 110.0f;
+                                    ardu_cal_ypr[0] = (float)IMU_ANGLE;
                                     globalState = STAGE1;
                                 }
                             break;
@@ -69,7 +69,7 @@ int main(void) {
                                 goStraightLittleBit(); //Prevent it from falling down
                             break;
                         }
-                    }
+                    //}
                     print_data(); //Print every data in the on system
                     break;
                 case OFF:
