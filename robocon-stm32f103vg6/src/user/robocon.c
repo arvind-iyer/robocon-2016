@@ -167,6 +167,13 @@ void controllerInputUpdate() {
 	else if(button_released(BUTTON_XBC_W) && !allowDPadUpdate){
 		allowDPadUpdate = true;
 	}
+	if(button_pressed(BUTTON_XBC_S) && allowDPadUpdate){
+		allowDPadUpdate = false;
+		pneumatics.P4 = !pneumatics.P4;
+	}
+	else if(button_released(BUTTON_XBC_S) && !allowDPadUpdate){
+		allowDPadUpdate = true;
+	}
 	
 	//Button A, B, X, Y
 			if(button_pressed(BUTTON_XBC_Y) && !allowPIDUpdate){
@@ -174,13 +181,13 @@ void controllerInputUpdate() {
 				if(getSize() == 0) {
 					if(robotMode == RED_SIDE) {
 						setBrushlessMagnitude(10);
-						queueTargetPoint(3161, 200, 90, 35.0, 10.0, 15, 0);
-						queueTargetPoint(2865, 2152, 75, 35.0, 15.0, 15, 0);
-						queueTargetPoint(2239, 3336, 44, 75.0, 25, 10, 0);
-						queueTargetPoint(1633, 4030, 57, 35.0, 15.0, 20, 0);
-						queueTargetPoint(989, 5117, 74, 50.0, 40.0, 12, 0);
+						queueTargetPoint(3161, 200, 90, 75.0, 50.0, 15, 0);
+						queueTargetPoint(2865, 2152, 75, 75.0, 55.0, 15, 0);
+						queueTargetPoint(2239, 3336, 44, 115.0, 65, 10, 0);
+						queueTargetPoint(1633, 4030, 57, 75.0, 55.0, 20, 0);
+						queueTargetPoint(989, 5117, 74, 90.0, 80.0, 12, 0);
 						queueTargetPoint(242, 5662, 160, 610, 200, -1, 0);
-						queueTargetPoint(625, 7605, 175, 35.0, 10.0, -1, 7000);
+						queueTargetPoint(625, 7505, 175 , 35.0, 10.0, -1, 6000);
 						queueTargetPoint(242, 11000, 160, 500, 200 , -1, 0);//lost point
 						queueTargetPoint(575, 8508, 160, 500, 200 , -1, 0);
 						queueTargetPoint(1653, 11716, 272, 300, 25.0, -1, 0);

@@ -135,7 +135,7 @@
             <Capability>1</Capability>
             <DriverSelection>4096</DriverSelection>
           </Flash1>
-          <bUseTDR>0</bUseTDR>
+          <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
           <Flash3>"flash_auto.bat" (./obj/@H.hex 256000)</Flash3>
           <Flash4></Flash4>
@@ -426,6 +426,11 @@
               <FilePath>.\user\can_motor.c</FilePath>
             </File>
             <File>
+              <FileName>encoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\encoder.c</FilePath>
+            </File>
+            <File>
               <FileName>can_protocol.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\can_protocol.c</FilePath>
@@ -439,11 +444,6 @@
               <FileName>led.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\led.c</FilePath>
-            </File>
-            <File>
-              <FileName>encoder.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\encoder.c</FilePath>
             </File>
             <File>
               <FileName>motor.c</FileName>

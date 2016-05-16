@@ -31,6 +31,10 @@ void hybridPneumaticControl() {
 		prevPneumatics.P3 = pneumatics.P3;
 		pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
 	}
+	if(pneumatics.P4 != prevPneumatics.P4) {
+		prevPneumatics.P4 = pneumatics.P4;
+		pneumatic_control(GPIOD, GPIO_Pin_8, pneumatics.P4);
+	}
 }
 
 /**

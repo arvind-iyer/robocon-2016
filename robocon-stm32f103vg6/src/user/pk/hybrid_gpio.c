@@ -67,14 +67,14 @@ void limitSwitchCheck() {
 	}
 	
 	// Move arm to correct position.
-	int armError = get_encoder_value(MOTOR8) - (pneumatics.P1 == false ? 46928 : 42928);
+	int armError = get_encoder_value(MOTOR8) - (pneumatics.P1 == false ? 80000 : 42928);
 	if (prevLimitSwitch[3] == 1 && !climbing) {
 		if (!(Abs(armError) <= 1000))
 			sendArmCommand(armError < 0 ? -40 : 40);
 		else if (Abs(armError) <= 1000) {
+			sendArmCommand(0);
 			if (pneumatics.P1 != false) {
 				pneumatics.P1 = false;
-				sendArmCommand(0);
 				pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P1);
 			} else {
 				climbing = true;

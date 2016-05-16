@@ -180,15 +180,15 @@ void updateQueue () {
 				}
 				int dt = get_full_ticks() - lastWait;
 				
-				if (dt >= 0 && dt < time/3) {
-					setBrushlessMagnitude(10); //12
-				} else if (dt >= time/3 && dt < time/2) {
-					setBrushlessMagnitude(20); //18
+				if (dt >= 0 && dt < time/2) {
+					setBrushlessMagnitude(8); //12
 				} else if (dt >= time/2 && dt < time*3/4) {
-					setBrushlessMagnitude(25); //26
-				} else {
+					setBrushlessMagnitude(20); //18 
+//				} else if (dt >= time/2 && dt < time*3/4) {
+//					setBrushlessMagnitude(35); //26
+			} else {
 					setBrushlessMagnitude(35); //30
-				}
+			}
 				
 				if (Abs(robot.position.angle - baseAngle) >= 5) {
 					setM(0);
