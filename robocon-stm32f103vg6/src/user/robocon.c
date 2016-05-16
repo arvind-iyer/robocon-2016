@@ -18,6 +18,7 @@ bool laserAuto = false;
 //Variables for allowing the update of the button
 bool _allowUpdate = false, allowDPadUpdate = false, allowArm = false, allowArmUpdate = false, allowModeUpdate = false, allowPIDUpdate = false;
 bool allowAngleUpdate = true, allowAutoLazers = false;
+bool climbing = false;
 
 void robocon_main(void)
 {	
@@ -105,7 +106,7 @@ void _updateScreen() {
 	tft_prints(0, 6, (robotMode == RED_SIDE) ? "MODE: RED SIDE" : "MODE:BLUE SIDE");
 	//tft_prints(0, 7, "%d|%d", int_arc_tan2(xbc_get_joy(XBC_JOY_LX), xbc_get_joy(XBC_JOY_LY)), get_pos()->angle);
 	tft_prints(0, 7, "L: %d | AL: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1), laserAuto);
-	tft_prints(0, 8, "Q: %d|%d|%d|%d|%d", getSize(), dispCurrentDistance, dispCurrentBearing, dispW, timediff);
+	tft_prints(0, 8, "Q|ENC: %d|%d|%d|%d|%d", getSize(), get_encoder_value(MOTOR8));
 	tft_prints(0, 9, "Time: %d", get_seconds());
 	#endif
 	tft_update();

@@ -52,4 +52,6 @@ extern bool robotMode;
 extern bool armIr;
 extern bool laserAuto;
 
+extern bool climbing;
+
 #endif	/* __ROBOCON_H */

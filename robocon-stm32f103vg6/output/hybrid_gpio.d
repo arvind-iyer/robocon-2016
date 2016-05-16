@@ -1,7 +1,6 @@
 .\output\hybrid_gpio.o: src\user\pk\hybrid_gpio.c
 .\output\hybrid_gpio.o: src\user\pk\hybrid_gpio.h
-.\output\hybrid_gpio.o: .\src\ustrobo_min_system\inc\gpio.h
-.\output\hybrid_gpio.o: .\src\stm32f10x_std\inc\stm32f10x_gpio.h
+.\output\hybrid_gpio.o: .\src\user\pneumatic.h
 .\output\hybrid_gpio.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\hybrid_gpio.o: .\src\stm32f10x_std\inc\core_cm3.h
 .\output\hybrid_gpio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
@@ -17,6 +16,7 @@
 .\output\hybrid_gpio.o: .\src\stm32f10x_std\inc\stm32f10x_spi.h
 .\output\hybrid_gpio.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\hybrid_gpio.o: .\src\stm32f10x_std\inc\misc.h
+.\output\hybrid_gpio.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\hybrid_gpio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\output\hybrid_gpio.o: .\src\ustrobo_min_system\inc\ticks.h
 .\output\hybrid_gpio.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
