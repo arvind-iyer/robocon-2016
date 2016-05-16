@@ -37,3 +37,4 @@
 .\output\pk_manual.o: src\user\pk\control.h
 .\output\pk_manual.o: .\src\ustrobo_min_system\inc\gyro.h
 .\output\pk_manual.o: src\user\pk\hybrid_gpio.h
+.\output\pk_manual.o: src\user\pk\hybrid_pneumatic.h

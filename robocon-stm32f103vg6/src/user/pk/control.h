@@ -9,6 +9,7 @@
 #include "pk_manual.h"
 #include "pk_movement.h"
 #include "pk_brushless.h"
+#include "hybrid_pneumatic.h"
 
 typedef struct {
 	POSITION position;

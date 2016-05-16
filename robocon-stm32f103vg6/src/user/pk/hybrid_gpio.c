@@ -62,6 +62,7 @@ void limitSwitchCheck() {
 		prevLimitSwitch[3] = limitSwitch[3];
 		sendWheelBaseMotorCommands(0,0,0);
 		laserAuto = false;
+		pneumatics.P1 = false;
 	}
 }
 

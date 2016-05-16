@@ -5,6 +5,7 @@ extern int dispCurrentDistance;
 extern int dispCurrentBearing;
 extern int dispW;
 extern int timediff;
+extern bool laserAuto;
 
 //#define DEBUG_MODE
 #define RED_SIDE 0
@@ -172,13 +173,13 @@ void controllerInputUpdate() {
 				if(getSize() == 0) {
 					if(robotMode == RED_SIDE) {
 						setBrushlessMagnitude(10);
-						queueTargetPoint(3161, 200, 90, 35.0, 10.0, 10, 0);
-						queueTargetPoint(2865, 2152, 75, 35.0, 15.0, 10, 0);
-						queueTargetPoint(2239, 3336, 44, 75.0, 25, 6, 0);
-						queueTargetPoint(1633, 4030, 57, 35.0, 15.0, 16, 0);
-						queueTargetPoint(989, 5117, 82, 50.0, 40.0, 6, 0);
+						queueTargetPoint(3161, 200, 90, 35.0, 10.0, 15, 0);
+						queueTargetPoint(2865, 2152, 75, 35.0, 15.0, 15, 0);
+						queueTargetPoint(2239, 3336, 44, 75.0, 25, 10, 0);
+						queueTargetPoint(1633, 4030, 57, 35.0, 15.0, 20, 0);
+						queueTargetPoint(989, 5117, 74, 50.0, 40.0, 12, 0);
 						queueTargetPoint(242, 5662, 160, 610, 200, -1, 0);
-						queueTargetPoint(625, 7105, 160, 35.0, 10.0, -1, 4000);
+						queueTargetPoint(625, 7605, 175, 35.0, 10.0, -1, 7000);
 						queueTargetPoint(242, 11000, 160, 500, 200 , -1, 0);//lost point
 						queueTargetPoint(575, 8508, 160, 500, 200 , -1, 0);
 						queueTargetPoint(1653, 11716, 272, 300, 25.0, -1, 0);

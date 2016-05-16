@@ -1,5 +1,6 @@
 #include "control.h"
 #include "pk/pk_movement.h"
+#include "robocon.h"
 
 #define PI 3.14159265359
 #define MAX_MOTOR_PWM 160
@@ -157,6 +158,10 @@ void updateQueue () {
 			}
 				dequeue(size);
 				lastWait = -1;
+			if(currentPath.position.x == 5019 && currentPath.position.y == 12740) {
+				laserAuto = true;
+				pneumatics.P1 = true;
+			}
 			} else{
 				finishing = true;
 				if (lastWait == -1) {
@@ -175,14 +180,14 @@ void updateQueue () {
 				}
 				int dt = get_full_ticks() - lastWait;
 				
-				if (dt >= 0 && dt < time/4) {
-					setBrushlessMagnitude(7); //12
-				} else if (dt >= time/4 && dt < time/2) {
-					setBrushlessMagnitude(14); //18
+				if (dt >= 0 && dt < time/3) {
+					setBrushlessMagnitude(10); //12
+				} else if (dt >= time/3 && dt < time/2) {
+					setBrushlessMagnitude(20); //18
 				} else if (dt >= time/2 && dt < time*3/4) {
-					setBrushlessMagnitude(26); //26
+					setBrushlessMagnitude(25); //26
 				} else {
-					setBrushlessMagnitude(30); //30
+					setBrushlessMagnitude(35); //30
 				}
 				
 				if (Abs(robot.position.angle - baseAngle) >= 5) {

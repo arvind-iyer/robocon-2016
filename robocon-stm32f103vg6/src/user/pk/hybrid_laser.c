@@ -5,6 +5,7 @@ void enterPole() {
 	if (robotMode == RED_SIDE) {
 		double angularVelocity = getAngleDifference(robot.position.angle, 270) / 180 * 100 * 2.9;
 		if (angularVelocity >= 1) angularVelocity = MAX(50, angularVelocity);
+		else if(angularVelocity <= -1) angularVelocity = MIN(-50, angularVelocity);
 		if (haha > 290) {
 			int temp = 180 - MIN(90, (int) (haha - 272.5) / 45 * 40);
 			setM(haha * 10 / 285);
@@ -33,6 +34,7 @@ void enterPole() {
 	else if(robotMode == BLUE_SIDE) {
 		double angularVelocity = getAngleDifference(robot.position.angle, 90) / 180 * 100 * 2.9;
 		if (angularVelocity >= 1) angularVelocity = MAX(50, angularVelocity);
+		else if(angularVelocity <= -1) angularVelocity = MIN(-50, angularVelocity);
 		if (haha > 230) {
 			int temp = 180 + MIN(90, (int) (haha - 210) / 45 * 40);
 			setM(haha / 225 * 5);
