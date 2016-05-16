@@ -30,10 +30,10 @@ char gameZoneString[12]= "UNKNOWN";
 ZONE gameZone;
 
 void update_encoder(){
-    if(encoder_revolution > 3)encoder_revolution = 0;
+    if(encoder_revolution > 10)encoder_revolution = 0;
     if(get_count(ENCODER1) > (int)SLOPE_ENCODER){
         encoder_revolution++;
-        reset_encoder_2();
+        reset_encoder_1();
     }
 }
 
@@ -124,15 +124,15 @@ void process_array(){
 
 void goNormal(void){
     if (get_full_ticks() - lastTurn >= (int)DELAY){    
-        if(length > 10 && fullWhite == false && encoder_revolution > 1 && gameZone == ORANGEZONE){
-            lastMovement = MAX_NINETY_TURNING;
+        if(length > 9 && fullWhite == false && encoder_revolution > 3 && gameZone == ORANGEZONE){
+            lastMovement = (int)MAX_NINETY_TURNING;
             fullWhite = true;
             lastTurn = get_full_ticks();
         }
         
-        else if (length > 10){
-            lastMovement = SERVO_MICROS_MID;
-        }
+//        else if (length > 6){
+//            lastMovement = SERVO_MICROS_MID;
+//        }
 
         else if (length >= 1 && length <= 6) {
             float factor = ((begin + end) / 2) / (float) 16;
@@ -143,21 +143,21 @@ void goNormal(void){
     }
 }
 void goUsingImu(void){
-    if((get_count(ENCODER1) > 16000) && !read_infrared_sensor(RIVER_INFRARED)){
+    if((get_count(ENCODER1) > 20000) && !read_infrared_sensor(RIVER_INFRARED)){
         globalState = STAGE2;
         reset_encoder_1();
     }
     imuFactor = ardu_cal_ypr[0] / 180.0f;
-    imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
+    imuMovement = SERVO_MICROS_MID - (imuFactor * 600);
     servo_control(BAJAJ_SERVO,imuMovement);
 }
 
 void goStraightLittleBit(void){
-    servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + LESSER_TURNING);
-    if(get_count(ENCODER1) > 3500){
-        lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
+    servo_control(BAJAJ_SERVO,SERVO_MICROS_MID - LESSER_TURNING);
+    if(get_count(ENCODER1) > 8000){
+        lastMovement = SERVO_MICROS_MID - (int)LESSER_TURNING;
         globalState = NOT_RIVER;
-        lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
+        lastMovement = SERVO_MICROS_MID - (int)LESSER_TURNING;
     }
 }
 

@@ -9,7 +9,6 @@ u8 river;
 int hueAvg;
 u8 border;
 u8 globalState = NOT_RIVER;
-
 int begin = -1;
 int end = 0;
 int length = 0;
@@ -21,10 +20,6 @@ int yaw_of_imu = 0;
 int pitch_of_imu = 0;
 int lastMovement = SERVO_MICROS_MID;
 
-extern uint32_t encoder_revolution;
-extern ZONE gameZone;
-
-
 int main(void) {
     //Initialization of all hardware
     systemInit();
@@ -33,8 +28,6 @@ int main(void) {
         if(ticks_ms_img != get_ticks()){
             ticks_ms_img = get_ticks();
             tft_clear();
-            //Calibrate IMU every 100 ms
-            //Initial processing and shit
             fill_sensorbar_array();
             process_array();
             if(get_ticks() % 800 == 0)determineZone();

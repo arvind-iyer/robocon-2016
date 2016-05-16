@@ -1,6 +1,8 @@
 #ifndef __BAJAJ
 #define __BAJAJ
 
+
+//Includes (Please do not change these)
 #include "stm32f4xx.h"
 #include <stdbool.h>
 #include "can_protocol.h"
@@ -16,15 +18,13 @@
 #include "ardu_imu.h"
 #include "adc.h"
 #include "linear_ccd.h"
-//CHOOSE YOUR CAR
-
 
 
 
 //Default Defines (Please do not change these)
-#define SERVO_MICROS_MID 1350
-#define SERVO_MICROS_RIGHT 900
-#define SERVO_MICROS_LEFT 1800
+#define SERVO_MICROS_MID 1500
+#define SERVO_MICROS_RIGHT 2100
+#define SERVO_MICROS_LEFT 900
 #define BAJAJ_SERVO SERVO2
 
 
@@ -48,11 +48,11 @@
 
 //You can change these
 #ifdef LEFT
-#define MAX_NINETY_TURNING 1000
-#define IMU_ANGLE -125
+#define MAX_NINETY_TURNING 2200
+#define IMU_ANGLE -135
 #define LESSER_TURNING 200
 #define RIVER_INFRARED INFRARED_SENSOR_RIGHT
-#define SLOPE_ENCODER 46000
+#define SLOPE_ENCODER 52000
 #define DELAY 1000
 #endif
 
@@ -68,6 +68,7 @@
 
 
 
+//Function prototypes and enumerations(Please do not change these)
 enum{NOT_RIVER = 0, STAGE1 = 1, STAGE2 = 2, STAGE3 = 3};
 
 typedef enum{

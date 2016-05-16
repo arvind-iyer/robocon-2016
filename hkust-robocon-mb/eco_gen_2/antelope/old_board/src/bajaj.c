@@ -148,7 +148,7 @@ void goUsingImu(void){
         reset_encoder_1();
     }
     imuFactor = ardu_cal_ypr[0] / 180.0f;
-    imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
+    imuMovement = SERVO_MICROS_MID + (imuFactor * 450);
     servo_control(BAJAJ_SERVO,imuMovement);
 }
 

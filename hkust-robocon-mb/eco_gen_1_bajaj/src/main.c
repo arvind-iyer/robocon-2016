@@ -1,7 +1,7 @@
 #include "main.h"
 
 //Extern variables, sorry if it is a mess
-bool sensorIsFlipped = true;
+bool sensorIsFlipped = false;
 u8 data1[8];
 u8 data2[8];
 u8 sensorbar_result[16];
