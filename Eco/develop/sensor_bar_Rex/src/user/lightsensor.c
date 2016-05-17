@@ -234,7 +234,7 @@ void sendData(){
 	CAN_MESSAGE msg2;
 	msg2.id = 0x0C7;
 	msg2.length = 1;
-	msg2.data[0] = current_region;
+	msg2.data[0] = current_region / CALI_PRE_COLOR;
 	can_tx_enqueue(msg2);
 }
 

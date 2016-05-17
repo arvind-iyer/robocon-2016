@@ -1,7 +1,8 @@
 #include "menu.h"
 
 static const char* items_in_menu[NUMBER_OF_ITEMS] = {"START ZONE", "HILL 1", "HILL 2", 
-				"CROSS RIVER", "DOWN_HILL", "PURE SENSROBAR", "SAY HI"};
+				"CROSS RIVER", "DOWN_HILL", "PURE SENSROBAR", "SENSOR CALI"};
+
 
 s8 selection = 0;
 
@@ -55,6 +56,8 @@ GAME_STAGE menu_update(){
 					tft_println("HI THERE");
 					buzzer_play_song(MARIO_BEGIN, 50, 0);
 					return SYSTEM_WAITING;
+				case 7:
+					return SENSOR_BAR_CALI;
 			}
 		}else{
 			selection = (selection+1) % NUMBER_OF_ITEMS;

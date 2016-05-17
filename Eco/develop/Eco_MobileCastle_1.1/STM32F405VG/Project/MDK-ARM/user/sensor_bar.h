@@ -9,6 +9,7 @@
 #define SENSOR_BAR_FILTER_1 0x0C5
 #define SENSOR_BAR_FILTER_2 0x0C6
 #define SENSOR_BAR_FILTER_3 0x0C7
+#define SENSOR_BAR_FILTER_4 0x0C8
 
 #define WHITE_LINE_WIDTH 3
 #define SENSOR_BAR_MID 8
@@ -31,5 +32,6 @@ s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp);
 extern u8 sensor_bar_mid;
 extern u16 sensor_bar_filtered[16];
 extern u8 sensorbar_region;
+extern u8 sensorbar_cali;
 
 #endif

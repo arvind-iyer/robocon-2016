@@ -1,5 +1,5 @@
-#ifndef _MENU_H
-#define _MENU_H
+#ifndef _SB_CALI_H
+#define _SB_CALI_H
 
 #include "stm32f4xx.h"
 #include "led.h"
@@ -9,10 +9,10 @@
 #include <string.h>
 #include "path.h"
 #include "buzzer.h"
+#include "sensor_bar.h"
 
-#define NUMBER_OF_ITEMS 8
+#define NUMBER_OF_COLOR 6
 
-void menu_init(void);
-GAME_STAGE menu_update(void);
+GAME_STAGE sb_cali_update(void);
 
 #endif

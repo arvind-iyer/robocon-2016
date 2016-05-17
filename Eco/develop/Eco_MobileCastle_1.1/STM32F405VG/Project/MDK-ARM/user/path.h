@@ -8,7 +8,8 @@ typedef enum{
 	GOING_DOWN_HILL = 3,
 	WINNING_THE_GAME = 4,
 	PURE_SENSOR_BAR = 5,
-	IN_MENU = 6
+	IN_MENU = 6,
+	SENSOR_BAR_CALI = 7
 }GAME_STAGE;
 
 #endif

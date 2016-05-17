@@ -73,7 +73,7 @@ int main(void) {
 					
 					case GOING_DOWN_HILL:
 						tft_println("[GOING DOWN]");
-						//game_stage = path_down_update();
+						game_stage = path_down_update();
 						//Update slower for down slope
 						break;
 					
@@ -83,6 +83,10 @@ int main(void) {
 					
 					case PURE_SENSOR_BAR:
 						sensor_bar_track(PURE_SENSOR_BAR_POWER, PURE_SENSOR_BAR_Kp);
+						break;
+					
+					case SENSOR_BAR_CALI:
+						game_stage = 
 						break;
 					
 					default:

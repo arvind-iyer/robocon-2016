@@ -4,6 +4,7 @@ u16 sensor_bar_filtered[16] = {0};
 u16 sensor_bar_raw[16] = {0};
 u8 sensor_bar_mid = SENSOR_BAR_MID;
 u8 sensorbar_region = 0;
+u8 sensorbar_cali = 0;
 
 //Receive the first half of the receiver sensor data
 static void sensor_bar_receiver_a(CanRxMsg msg){
@@ -23,9 +24,14 @@ static void sensor_bar_receiver_b(CanRxMsg msg){
 	}
 }
 
-//Receive the special color
+//Receive the background region
 static void sensor_bar_receiver_c(CanRxMsg msg){
 	sensorbar_region = msg.Data[0];
+}
+
+//Receive the calibration message
+static void sensor_bar_receiver_d(CanRxMsg msg){
+	sensorbar_cali = msg.Data[0];
 }
 
 void sensorbar_init(){
@@ -34,6 +40,7 @@ void sensorbar_init(){
   can_rx_add_filter(SENSOR_BAR_FILTER_1, CAN_RX_MASK_EXACT, sensor_bar_receiver_a);
   can_rx_add_filter(SENSOR_BAR_FILTER_2, CAN_RX_MASK_EXACT, sensor_bar_receiver_b);
 	can_rx_add_filter(SENSOR_BAR_FILTER_3, CAN_RX_MASK_EXACT, sensor_bar_receiver_c);
+	can_rx_add_filter(SENSOR_BAR_FILTER_4, CAN_RX_MASK_EXACT, sensor_bar_receiver_d);
 }
 
 //Get correction without sign

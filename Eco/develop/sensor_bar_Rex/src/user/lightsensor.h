@@ -16,7 +16,11 @@
 #define DELAY_US 700 //800
 #define scalar 1000
 #define SAMPELS_TIMES 40
-#define REGIONS 5
+
+#define TOTAL_COLOR			6
+#define CALI_PRE_COLOR	3
+
+#define REGIONS TOTAL_COLOR*CALI_PRE_COLOR
 
 typedef enum{
 	RED = 0, GREEN = 1, BLUE = 2, OFF = 3
