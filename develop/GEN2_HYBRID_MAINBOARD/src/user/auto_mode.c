@@ -24,7 +24,6 @@
 //Ground: 0 = Red, 1 = Blue
 u8 field = 0;
 
-//Blue Field transformation
 double transform[2][2] = {{1, 0}, {0, 1}};
 u16 wall_dist = 0;
 
@@ -74,6 +73,8 @@ u8 rx_pointer = 0;
 u8 rx_node_no = 0;
 u32 rx_node_list[30][NODE_SIZE];
 bool to_be_saved = false;
+
+s16 temp;
 
 s32 rx_merge(void) {
 	s32 val = 0;
@@ -313,8 +314,13 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 			if (field == 1)
 				off_x = raw_x - 12900;
 		}
-		if ((side_switch_val == 3) || (side_switch_val == 7))
-			off_deg = get_angle();
+		if ((side_switch_val == 3) || (side_switch_val == 7)) {
+			if (Abs(cur_x) < 7000) {
+				off_deg = get_angle();
+			} else {
+				off_deg = get_angle() - 1800;
+			}
+		}
 	}	
 	if ((back_switch_val == 3) || (back_switch_val & 4)) {
 		off_y = raw_y;
@@ -323,34 +329,36 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	if ((side_switch_val & 2) && !(side_switch_val & 1)) {
-		reset_rot = 2;
+		reset_rot = cur_vel/25;
 	}
 	if (!(side_switch_val & 2) && (side_switch_val & 1)) {
-		reset_rot = -2;		
+		reset_rot = cur_vel/(-25);		
 	}
 	if ((back_switch_val & 2) && !(back_switch_val & 1)) {
-		reset_rot = 2;
+		reset_rot = cur_vel/25;
 	}
 	if (!(back_switch_val & 2) && (back_switch_val & 1)) {
-		reset_rot = -2;		
+		reset_rot = cur_vel/(-25);		
 	}
+	
+	temp = reset_rot;
 	
 	if (side_switch_val == 4) {
 		if (field == 0) {
-			reset_vel[0] = -10;
-			reset_vel[1] = 5;
-			reset_vel[2] = 5;
+			reset_vel[0] = cur_vel/(-5);
+			reset_vel[1] = cur_vel/10;
+			reset_vel[2] = cur_vel/10;
 		}
 		if (field == 1) {
-		reset_vel[0] = 10;
-		reset_vel[1] = -5;
-		reset_vel[2] = -5;
+		reset_vel[0] = cur_vel/5;
+		reset_vel[1] = cur_vel/(-10);
+		reset_vel[2] = cur_vel/(-10);
 		}
 	}
 	if (back_switch_val == 4) {
 		reset_vel[0] = 0;
-		reset_vel[1] = -10;
-		reset_vel[2] = 10;
+		reset_vel[1] = cur_vel/5;
+		reset_vel[2] = cur_vel/(-5);
 	}
 	
 	//ls cal first part
@@ -607,8 +615,25 @@ void auto_var_update() {
   */
 void auto_motor_update(){
 	if ((dist < THRESHOLD) && (Abs(degree_diff) < 2)) {
+		
+		//ensure touches both switches before next path
+		u8 side_switch_states = 0;
+		u8 back_switch_states = 0;
+		if (((tar_x == 0) || (tar_x == -12900)) && (field == 0))
+			side_switch_states = gpio_read_input(&PE11) & gpio_read_input(&PE10);
+		if (((tar_x == 0) || (tar_x == 12900)) && (field == 1))
+			side_switch_states = gpio_read_input(&PE9) & gpio_read_input(&PE8);
+		if (tar_y == 0)
+			back_switch_states = gpio_read_input(&PE6) & gpio_read_input(&PE7);
+		
 		if (auto_tar_queue_len()) {
-			auto_tar_dequeue();
+			if ((tar_x == 0) || (tar_x == 12900)) {
+				if (side_switch_states) auto_tar_dequeue();
+			} else if (tar_y == 0) {
+				if (back_switch_states) auto_tar_dequeue();
+			} else {
+				auto_tar_dequeue();
+			}
 		} else {
 			pid_stopped = true;
 			auto_motor_stop();
@@ -629,7 +654,8 @@ void auto_motor_update(){
 	tft_prints(0,6,"TIM %3d",time/1000);
 	//tft_prints(0,7,"Test %d",measured_vel);
 	//tft_prints(0,7,"Test %d %d", arm_vel, get_arm_pos());
-	tft_prints(0,7,"Test %d %d", dist, degree_diff);
+	//tft_prints(0,7,"Test %d %d", dist, degree_diff);
+	tft_prints(0,7,"Test %d %d", side_switch_val, temp);
 	tft_prints(0,8,"Trans: %d",(int)(transform[1][0]*700));
 	tft_prints(0,9,"Wall: %d",wall_dist);
 	tft_update();
