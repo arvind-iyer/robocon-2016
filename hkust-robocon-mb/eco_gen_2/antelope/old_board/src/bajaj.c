@@ -44,7 +44,6 @@ void systemInit(){
     tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED);     //LCD Initialization
 	buzzer_init();	//Initialize buzzer
     servo_init();
-    buzzer_init();
     button_init();
     encoder_init();
     infrared_sensor_init();
@@ -124,17 +123,17 @@ void process_array(){
 
 void goNormal(void){
     if (get_full_ticks() - lastTurn >= (int)DELAY){    
-        if(length > 8 && fullWhite == false && encoder_revolution > 1){
+        if(length > 10 && fullWhite == false && encoder_revolution > 1){
             lastMovement = MAX_NINETY_TURNING;
             fullWhite = true;
             lastTurn = get_full_ticks();
         }
         
-        else if (length > 8){
+        else if (length > 10){
             lastMovement = SERVO_MICROS_MID;
         }
 
-        else if (length >= 1 && length <= 8) {
+        else if (length >= 1 && length <= 6) {
             float factor = ((begin + end) / 2) / (float) 16;
             lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
         }  
@@ -212,6 +211,7 @@ void runUserInterface(void){
     if(button_pressed(BUTTON_JS_DOWN))fullWhite = true;
     if(button_pressed(BUTTON_JS_LEFT))systemOn = 0;
     if(button_pressed(BUTTON_JS_RIGHT))systemOn = 1;
+
 }
 
 

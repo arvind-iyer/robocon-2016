@@ -18,6 +18,7 @@
 #include "ardu_imu.h"
 #include "adc.h"
 #include "linear_ccd.h"
+#include "buzzer.h"
 
 
 

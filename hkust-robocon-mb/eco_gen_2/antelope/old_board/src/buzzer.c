@@ -112,7 +112,6 @@ void buzzer_off(void)
   */
 void buzzer_check(void)
 {
-	tft_prints(0,2,"Buzzer Check");
   /* Checking for buzzer_control triggered action */
 	if (buzzer_on_flag > 0 || buzzer_count > 0) {
 		--buzzer_time_ms;
@@ -127,8 +126,6 @@ void buzzer_check(void)
 			}
 		}
 	} else if (buzzer_song_flag) {
-    
-		tft_prints(0,2,"Mario Party");
 		/* Checking for buzzer_play_song triggered action */
 		MUSIC_NOTE current_note = buzzer_current_song[buzzer_current_song_note_id];
 	
