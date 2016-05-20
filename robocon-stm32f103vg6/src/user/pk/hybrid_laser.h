@@ -5,6 +5,8 @@
 #include "robocon.h"
 #include "stdbool.h"
 
+extern int increment;
+extern int haha;
 extern u16 ls_cal_reading[2];
 
 #define RED_SIDE 0

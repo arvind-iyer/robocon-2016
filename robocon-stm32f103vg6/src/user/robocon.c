@@ -106,8 +106,8 @@ void _updateScreen() {
 	tft_prints(0, 6, (robotMode == RED_SIDE) ? "MODE: RED SIDE" : "MODE:BLUE SIDE");
 	//tft_prints(0, 7, "%d|%d", int_arc_tan2(xbc_get_joy(XBC_JOY_LX), xbc_get_joy(XBC_JOY_LY)), get_pos()->angle);
 	tft_prints(0, 7, "L: %d | AL: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1), laserAuto);
-	tft_prints(0, 8, "Q|ENC: %d|%d|%d|%d|%d", getSize(), get_encoder_value(MOTOR8));
-	tft_prints(0, 9, "Time: %d", get_seconds());
+	tft_prints(0, 8, "Q|ENC: %d|%d", getSize(), get_encoder_value(MOTOR8));
+	tft_prints(0, 9, "INC: %d|%d", increment, haha);
 	#endif
 	tft_update();
 }
@@ -187,7 +187,7 @@ void controllerInputUpdate() {
 						queueTargetPoint(1633, 4030, 57, 75.0, 55.0, 20, 0);
 						queueTargetPoint(989, 5117, 74, 90.0, 80.0, 12, 0);
 						queueTargetPoint(242, 5662, 160, 610, 200, -1, 0);
-						queueTargetPoint(625, 7505, 175 , 35.0, 10.0, -1, 6000);
+						queueTargetPoint(625, 7505, 175 , 35.0, 5.0, -1, 6000);
 						queueTargetPoint(242, 11000, 160, 500, 200 , -1, 0);//lost point
 						queueTargetPoint(575, 8508, 160, 500, 200 , -1, 0);
 						queueTargetPoint(1653, 11716, 272, 300, 25.0, -1, 0);
