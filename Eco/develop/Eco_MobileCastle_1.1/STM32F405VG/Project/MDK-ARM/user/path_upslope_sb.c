@@ -39,7 +39,7 @@ GAME_STAGE path_up_sb_update(){
 			right_angle_ing = 1;
 		}
 		
-		if (sensorbar_region == 2 && current_state == 1 && (get_average_encoder() - last_encoder_val) > 500){
+		if (sensorbar_region == 3 && current_state == 1 && (get_average_encoder() - last_encoder_val) > 1500){
 			highland_count++;
 			current_state = 0;
 			if (highland_count == 3){

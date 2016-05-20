@@ -74,6 +74,7 @@ int main(void) {
 			//Update with longer update interval here
 			if (get_emergency_lock() == UNLOCKED){
 				led_blink(LED_D2);
+				xbc_input_update();
 				
 				if (control_state == MANUAL_MODE){
 					manual_interval_update();

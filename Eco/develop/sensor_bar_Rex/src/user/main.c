@@ -151,13 +151,12 @@ int main(void){
 				if (cali_stage>=REGIONS){
 					writeFlash();
 					_delay_ms(1000);
-					
-					CAN_MESSAGE msg;
-					msg.id = 0x0C8;
-					msg.length = 1;
-					msg.data[0] = cali_stage;
-					can_tx_enqueue(msg);
 				}
+				CAN_MESSAGE msg;
+				msg.id = 0x0C8;
+				msg.length = 1;
+				msg.data[0] = (cali_stage/CALI_PRE_COLOR)*10 + cali_stage%CALI_PRE_COLOR;
+				can_tx_enqueue(msg);
 			}
 		}
 		dataCollect();

@@ -987,6 +987,11 @@
               <FileType>1</FileType>
               <FilePath>.\user\ardu_imu_adp.c</FilePath>
             </File>
+            <File>
+              <FileName>sb_cali.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\sb_cali.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2065,6 +2070,11 @@
               <FileType>1</FileType>
               <FilePath>.\user\ardu_imu_adp.c</FilePath>
             </File>
+            <File>
+              <FileName>sb_cali.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\sb_cali.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2334,7 +2344,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3>"" ()</Flash3>
+          <Flash3>"flash.bat" (./STM32F40_41xxx/@H.hex 3 256000 STM32F4_Med-density_128K)</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -3106,6 +3116,11 @@
               <FileName>ardu_imu_adp.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\ardu_imu_adp.c</FilePath>
+            </File>
+            <File>
+              <FileName>sb_cali.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\sb_cali.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -4232,6 +4247,11 @@
               <FileType>1</FileType>
               <FilePath>.\user\ardu_imu_adp.c</FilePath>
             </File>
+            <File>
+              <FileName>sb_cali.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\sb_cali.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -5310,6 +5330,11 @@
               <FileType>1</FileType>
               <FilePath>.\user\ardu_imu_adp.c</FilePath>
             </File>
+            <File>
+              <FileName>sb_cali.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\sb_cali.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -6293,6 +6318,11 @@
               <FileName>ardu_imu_adp.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\ardu_imu_adp.c</FilePath>
+            </File>
+            <File>
+              <FileName>sb_cali.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\sb_cali.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -7278,6 +7308,11 @@
               <FileType>1</FileType>
               <FilePath>.\user\ardu_imu_adp.c</FilePath>
             </File>
+            <File>
+              <FileName>sb_cali.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\sb_cali.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -8214,6 +8249,11 @@
               <FileName>ardu_imu_adp.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\user\ardu_imu_adp.c</FilePath>
+            </File>
+            <File>
+              <FileName>sb_cali.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\user\sb_cali.c</FilePath>
             </File>
           </Files>
         </Group>

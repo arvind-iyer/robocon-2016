@@ -15,4 +15,6 @@
 
 GAME_STAGE sb_cali_update(void);
 
+extern const char* colors_string[NUMBER_OF_COLOR];
+
 #endif

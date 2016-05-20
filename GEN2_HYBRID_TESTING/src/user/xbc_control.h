@@ -25,7 +25,10 @@ typedef enum {
 	UNLOCKED = 1
 }LOCK_STATE;
 
+extern bool button_hitted[XBC_BUTTON_COUNTS+XBC_BUTTON_START_ID];
+
 void xbc_global_update(void);
+void xbc_input_update(void);
 CONTROL_STATE get_control_state(void);
 LOCK_STATE get_emergency_lock(void);
 

@@ -20,7 +20,7 @@
 #define TOTAL_COLOR			6
 #define CALI_PRE_COLOR	3
 
-#define REGIONS TOTAL_COLOR*CALI_PRE_COLOR
+#define REGIONS (TOTAL_COLOR*CALI_PRE_COLOR)
 
 typedef enum{
 	RED = 0, GREEN = 1, BLUE = 2, OFF = 3
@@ -34,7 +34,7 @@ typedef struct
 	s16 off_reading[16];
 }Reading;
 
-extern s16 reading_in_area[5][2][3];
+extern s16 reading_in_area[REGIONS][2][3];
 
 extern s16 compensated_region_color[REGIONS][3];
 extern s16 region_color_average[REGIONS][3];

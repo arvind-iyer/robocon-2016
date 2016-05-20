@@ -86,7 +86,7 @@ int main(void) {
 						break;
 					
 					case SENSOR_BAR_CALI:
-						game_stage = 
+						game_stage = sb_cali_update();
 						break;
 					
 					default:
@@ -97,7 +97,7 @@ int main(void) {
 					tft_println("LP: %d %d", this_loop_ticks, any_loop_diff);
 					tft_println("%d %d %d", ardu_int_ypr[0], ardu_int_ypr[1], ardu_int_ypr[2]);
 					tft_println("EN:%d %d", get_count(ENCODER1), get_count(ENCODER2));
-					tft_println("SR: %d", sensorbar_region);
+					tft_println("SR: %s", colors_string[sensorbar_region]);
 					
 					for (u8 i=0; i<16; i++){
 						tft_prints(i, 8, "%d", sensor_bar_filtered[i]);

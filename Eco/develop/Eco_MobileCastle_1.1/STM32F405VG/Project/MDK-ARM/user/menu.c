@@ -53,10 +53,6 @@ GAME_STAGE menu_update(){
 				case 5:
 					return PURE_SENSOR_BAR;
 				case 6:
-					tft_println("HI THERE");
-					buzzer_play_song(MARIO_BEGIN, 50, 0);
-					return SYSTEM_WAITING;
-				case 7:
 					return SENSOR_BAR_CALI;
 			}
 		}else{

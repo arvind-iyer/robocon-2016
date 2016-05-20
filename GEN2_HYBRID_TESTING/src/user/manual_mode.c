@@ -1,15 +1,3 @@
-/**
-** This file is to handle the manual control part of the robot
-**
-** Control scheme:
-** Left joy - Base Movement
-** Right joy - Self rotation
-** LB & RB - Unlock the brushless, will re-lock after 5 seconds if not used
-** LT & RT - Control the speed of brushless motors respectively
-** Button B - Set/Reset the pneumatic tube
-** Button A & Y - Control the climbing/desending of the robot
-** Button X - Lock the robot in place using pid
-**/
 
 #include "manual_mode.h"
 
@@ -24,14 +12,6 @@ static bool is_rotating = false;
 
 static LOCK_STATE ground_wheels_lock = UNLOCKED;
 static LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
-static LOCK_STATE press_button_B = UNLOCKED;
-static LOCK_STATE press_button_X = UNLOCKED;
-static LOCK_STATE press_button_LB = UNLOCKED;
-static LOCK_STATE press_button_RB = UNLOCKED;
-static LOCK_STATE press_button_back = UNLOCKED;
-static LOCK_STATE press_button_start = UNLOCKED;
-static LOCK_STATE press_left_joy = UNLOCKED;
-static LOCK_STATE press_right_joy = UNLOCKED;
 
 static u16 brushless_power_percent = 20;
 
@@ -76,7 +56,6 @@ void manual_reset(){
 	ground_wheels_lock = UNLOCKED;
 	brushless_power_percent = 20;
 	climbing_induced_ground_lock = UNLOCKED;
-	press_button_B = press_button_X = press_button_back = press_left_joy = press_right_joy = UNLOCKED;
 	is_rotating = using_laser_sensor = pole_front = rotating_machine_by_90 = false;
 	brushless_control(0, true);
 	brushless_servo_control(0);
@@ -342,41 +321,31 @@ void manual_interval_update(){
 	}
 	
 	//Pressing the back button to enable laser tracking
-	if (button_pressed(BUTTON_XBC_BACK)){
-		if (press_button_back == UNLOCKED){
-			press_button_back = LOCKED;
-			buzzer_beep(75);
-			if (manual_stage < 2){
-				using_laser_sensor = !using_laser_sensor;
-				manual_stage = 1;
-			}
+	if (button_hitted[BUTTON_XBC_BACK] == true){
+		buzzer_beep(75);
+		if (manual_stage < 2){
+			using_laser_sensor = !using_laser_sensor;
+			manual_stage = 1;
 		}
-	}else{
-			press_button_back = UNLOCKED;
 	}
 	
 	//Pressing the start button for shooting across the river
-	if (button_pressed(BUTTON_XBC_START)){
-		if (press_button_start == UNLOCKED){
-			press_button_start = LOCKED;
-			buzzer_beep(75);
-			if (manual_stage < 3){
-				pole_front = true;
-				rotating_machine_by_90 = true;
-				using_laser_sensor = false;
-				#ifdef BLUE_FIELD
-					rotating_machine_by_90_target = (get_angle() - 900)%3600;
-					brushless_servo_val = 90;
-				#else
-					rotating_machine_by_90_target = (get_angle() + 900)%3600;
-					brushless_servo_val = -90;
-				#endif
-				manual_stage = 3;
-				brushless_servo_control(brushless_servo_val);
-			}
+	if (button_hitted[BUTTON_XBC_START] == true){
+		buzzer_beep(75);
+		if (manual_stage < 3){
+			pole_front = true;
+			rotating_machine_by_90 = true;
+			using_laser_sensor = false;
+			#ifdef BLUE_FIELD
+				rotating_machine_by_90_target = (get_angle() - 900)%3600;
+				brushless_servo_val = 90;
+			#else
+				rotating_machine_by_90_target = (get_angle() + 900)%3600;
+				brushless_servo_val = -90;
+			#endif
+			manual_stage = 3;
+			brushless_servo_control(brushless_servo_val);
 		}
-	}else{
-			press_button_start = UNLOCKED;
 	}
 	
 	//At last apply the motor velocity and display it
@@ -390,42 +359,21 @@ void manual_interval_update(){
 
 void manual_controls_update(void) {
 	//Brushless power control
-	if (button_pressed(BUTTON_XBC_RB)){
-		if (press_button_RB == UNLOCKED){
-			press_button_RB = LOCKED;
-			buzzer_beep(75);
-			if (brushless_power_percent < 100){
-				brushless_power_percent += BRUSHLESS_POWER_STEP;
-			}
-			if (brushless_power_percent == (20 + BRUSHLESS_POWER_STEP)){
-				brushless_power_percent += BRUSHLESS_POWER_STEP;
-			}
+	if (button_hitted[BUTTON_XBC_RB] == true){
+		buzzer_beep(75);
+		if (brushless_power_percent < 100){
+			brushless_power_percent += BRUSHLESS_POWER_STEP;
 		}
-	}else{
-			press_button_RB = UNLOCKED;
+		if (brushless_power_percent == (20 + BRUSHLESS_POWER_STEP)){
+			brushless_power_percent += BRUSHLESS_POWER_STEP;
+		}
 	}
 	
-	if (button_pressed(BUTTON_XBC_LB)){
-		if (press_button_LB == UNLOCKED){
-			press_button_LB = LOCKED;
-			buzzer_beep(75);
-			if (brushless_power_percent > 20){
-				brushless_power_percent -= BRUSHLESS_POWER_STEP;
-			}
+	if (button_hitted[BUTTON_XBC_LB] == true){
+		buzzer_beep(75);
+		if (brushless_power_percent > 20){
+			brushless_power_percent -= BRUSHLESS_POWER_STEP;
 		}
-	}else{
-			press_button_LB = UNLOCKED;
-	}
-	
-	bool both_joy_pressed = true;
-	
-	if (button_pressed(BUTTON_XBC_L_JOY)){
-		if (press_left_joy == UNLOCKED){
-			press_left_joy = LOCKED;
-			pole_front = !pole_front;
-		}
-	}else{
-		press_left_joy = UNLOCKED;
 	}
 	
 	brushless_control(brushless_power_percent, true);
@@ -532,12 +480,7 @@ void manual_controls_update(void) {
 	/*
 	** This part deals with locking the robot onto the pole.
 	*/
-	if (button_pressed(BUTTON_XBC_B)){
-		if (press_button_B == UNLOCKED){
-			press_button_B = LOCKED;
-			pneumatic_climb_toggle();
-		}
-	}else{
-		press_button_B = UNLOCKED;
+	if (button_hitted[BUTTON_XBC_B] == true){
+		pneumatic_climb_toggle();
 	}
 }

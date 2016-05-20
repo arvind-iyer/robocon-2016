@@ -85,6 +85,8 @@
 #include "path_downslope.h"
 #include "path_river.h"
 
+#include "sb_cali.h"
+
 //Main loop
 extern u32 this_loop_ticks;
 extern u32 last_loop_ticks;
