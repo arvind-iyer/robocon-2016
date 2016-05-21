@@ -58,7 +58,7 @@ GAME_STAGE path_up_sb_update(){
 		}
 		
 		if (flag != SENSOR_BAR_NTH){
-			upslope_servo_pwm = SERVO_MIN_PWM + (SERVO_MAX_PWM-SERVO_MIN_PWM)*sensor_bar_mid/12;
+			upslope_servo_pwm = SERVO_PROPER_MIN_PWM + (SERVO_PROPER_MAX_PWM-SERVO_PROPER_MIN_PWM)*sensor_bar_mid/12;
 			
 			si_clear();
 			si_set_pwm(upslope_servo_pwm);
