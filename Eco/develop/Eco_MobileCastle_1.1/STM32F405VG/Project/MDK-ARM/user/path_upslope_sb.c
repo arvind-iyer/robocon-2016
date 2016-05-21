@@ -48,7 +48,7 @@ GAME_STAGE path_up_sb_update(){
 					start_counting_encoder = get_average_encoder();
 				}
 			}
-		}else if(sensorbar_region == 1 && current_state == 0){
+		}else if(sensorbar_region == 2 && current_state == 0){
 			current_state = 1;
 			last_encoder_val = get_average_encoder();
 		}

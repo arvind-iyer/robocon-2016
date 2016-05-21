@@ -111,7 +111,7 @@ GAME_STAGE path_up_imu_update(){
 	}
 	
 	si_clear();
-	si_add_pwm_bias(targeting_pid(ardu_int_ypr[0]));
+	si_add_deg_bias(targeting_pid(ardu_int_ypr[0]));
 	si_add_pwm_bias(correction*sensorbar_trust/100);
 	si_execute();
 	tft_println("PP:%d ST:%d MD:%d", path_pointer, sensorbar_trust, abs((s8)sensor_bar_mid - SENSOR_BAR_MID));

@@ -32,7 +32,7 @@
 #define LASER_TARGET_RANGE 350 //In mm
 
 #define LASER_PARA_P 550 //Scaled by 1000
-#define LASER_PARA_CONSTANT 400
+#define LASER_PARA_CONSTANT 800
 
 void laser_manual_update(s32 motor_vel[3], s32* rotate);
 s32 river_rotate_update(s32 target);

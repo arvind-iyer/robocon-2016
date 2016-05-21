@@ -12,9 +12,6 @@
 #include "servo_interface.h"
 #include "quick_math.h"
 
-//Scaled by 1000
-#define SERVO_Kp 3000.0f
-
 extern s16 target_yaw;
 
 void targeting_update(s16 current_yaw);

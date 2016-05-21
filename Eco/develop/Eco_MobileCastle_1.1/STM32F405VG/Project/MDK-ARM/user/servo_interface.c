@@ -21,8 +21,7 @@ void si_init(){
 
 //Convert angle to pwm.
 s16 angle_to_pwm(s16 angle){
-	 //Divide by 1800 as the result only need to be scaled by 10 instead of 100
-	return angle*(SERVO_MAX_PWM-SERVO_MIN_PWM)/1800 + SERVO_MIN_PWM;
+	return angle*(SERVO_MAX_PWM-SERVO_MIN_PWM)/1800;
 }
 
 //Add bias in terms of angle
@@ -58,7 +57,6 @@ void si_set_pwm(u16 pwm){
 //Set the pending pwm to the servo
 void si_execute(){
 	current_servo_pwm = s16_cap(pending_servo_pwm, SERVO_MAX_PWM, SERVO_MIN_PWM);
-	tft_println("%d", current_servo_pwm);
 	servo_control(DRAGON_SERVO, current_servo_pwm/10);
 	pending_servo_pwm = SERVO_MED_PWM + static_pwm_bias;
 }

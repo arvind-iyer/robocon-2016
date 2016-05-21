@@ -1,4 +1,3 @@
-
 #include "manual_mode.h"
 
 static s32 curr_vx = 0, curr_vy = 0, curr_angle = 0;
@@ -24,10 +23,13 @@ static u16 gripper_states[2] = {0};
 static u32 gripper_ticks[8] = {0}; //Left claw, Left push, Right claw, Right push
 
 static bool using_laser_sensor = false;
-static bool global_axis = false;
 static bool pole_front = false;
+static bool facing_pole = false;
+static bool brushless_str = false;
 static bool rotating_machine_by_90 = false;
 static s32 rotating_machine_by_90_target = 0;
+
+static bool global_axis = false;
 
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
@@ -36,12 +38,8 @@ static u16 accel_remainder = 0;
 static u16 rotate_accel_remainder = 0;
 
 /*
-** 0 - Just started
-** 1 - Following the track using laser sensors - Press back
-** 2 - Disabled tracking automatically  - Use y-coordinate
-** 3 - Blowing in the river (can be activated manually at any time before this stage) - Press Start
-				Need to rotate brushless servo, change heading, back off, and rotate machine
-** 4 - Retry, going into the pole, change heading only, machine opening face the pole - Press back and start together
+** 0 - Blowing mode
+** 1 - Grabbing mode & climbing mode
 */
 static u8 manual_stage = 0;
 
@@ -56,7 +54,7 @@ void manual_reset(){
 	ground_wheels_lock = UNLOCKED;
 	brushless_power_percent = 20;
 	climbing_induced_ground_lock = UNLOCKED;
-	is_rotating = using_laser_sensor = pole_front = rotating_machine_by_90 = false;
+	is_rotating = using_laser_sensor = pole_front = facing_pole = brushless_str = rotating_machine_by_90 = false;
 	brushless_control(0, true);
 	brushless_servo_control(0);
 	gripper_control(GRIPPER_1, 0); 
@@ -110,25 +108,25 @@ void manual_update_wheel_base(){
 			|| button_pressed(BUTTON_XBC_NE) || button_pressed(BUTTON_XBC_SE) || button_pressed(BUTTON_XBC_NW) || button_pressed(BUTTON_XBC_SW)){
 				
 			if (button_pressed(BUTTON_XBC_N)){
-				vy = 500;
+				vy = 800;
 			}else if (button_pressed(BUTTON_XBC_E)){
-				vx = 500;
+				vx = 800;
 			}else if (button_pressed(BUTTON_XBC_S)){
-				vy = -500;
+				vy = -800;
 			}else if (button_pressed(BUTTON_XBC_W)){
-				vx = -500;
+				vx = -800;
 			}else if (button_pressed(BUTTON_XBC_NE)){
-				vx = 353;
-				vy = 353;
+				vx = 566;
+				vy = 566;
 			}else if (button_pressed(BUTTON_XBC_SE)){
-				vx = 353;
-				vy = -353;
+				vx = 566;
+				vy = -566;
 			}else if (button_pressed(BUTTON_XBC_SW)){
-				vx = -353;
-				vy = -353;
+				vx = -566;
+				vy = -566;
 			}else if (button_pressed(BUTTON_XBC_NW)){
-				vx = -353;
-				vy = 353;
+				vx = -566;
+				vy = 566;
 			}
 			
 			global_axis = true;
@@ -269,7 +267,7 @@ void manual_fast_update(){
 		curr_heading = get_angle();
 	}else if (rotating_machine_by_90){
 		curr_rotate += river_rotate_update(rotating_machine_by_90_target);
-		if (abs(curr_rotate) < 5){
+		if (abs(rotating_machine_by_90_target - get_angle()) < 5){
 			rotating_machine_by_90 = false;
 		}
 		curr_heading = get_angle();
@@ -321,7 +319,7 @@ void manual_interval_update(){
 	}
 	
 	//Pressing the back button to enable laser tracking
-	if (button_hitted[BUTTON_XBC_BACK] == true){
+	if (button_hitted[BUTTON_XBC_BACK]){
 		buzzer_beep(75);
 		if (manual_stage < 2){
 			using_laser_sensor = !using_laser_sensor;
@@ -330,7 +328,7 @@ void manual_interval_update(){
 	}
 	
 	//Pressing the start button for shooting across the river
-	if (button_hitted[BUTTON_XBC_START] == true){
+	if (button_hitted[BUTTON_XBC_START]){
 		buzzer_beep(75);
 		if (manual_stage < 3){
 			pole_front = true;
@@ -359,7 +357,7 @@ void manual_interval_update(){
 
 void manual_controls_update(void) {
 	//Brushless power control
-	if (button_hitted[BUTTON_XBC_RB] == true){
+	if (button_hitted[BUTTON_XBC_RB]){
 		buzzer_beep(75);
 		if (brushless_power_percent < 100){
 			brushless_power_percent += BRUSHLESS_POWER_STEP;
@@ -369,7 +367,7 @@ void manual_controls_update(void) {
 		}
 	}
 	
-	if (button_hitted[BUTTON_XBC_LB] == true){
+	if (button_hitted[BUTTON_XBC_LB]){
 		buzzer_beep(75);
 		if (brushless_power_percent > 20){
 			brushless_power_percent -= BRUSHLESS_POWER_STEP;
@@ -402,9 +400,6 @@ void manual_controls_update(void) {
 	}else {
 		stop_arm();
 	}
-	
-	
-	//encoder_val = get_encoder_count(ENCODER1);
 	
 	//gripper controls
 	for (u8 i=0; i < GRIPPER_COUNT; i++) {
@@ -480,7 +475,7 @@ void manual_controls_update(void) {
 	/*
 	** This part deals with locking the robot onto the pole.
 	*/
-	if (button_hitted[BUTTON_XBC_B] == true){
+	if (button_hitted[BUTTON_XBC_B]){
 		pneumatic_climb_toggle();
 	}
 }
