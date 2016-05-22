@@ -123,19 +123,17 @@ void process_array(){
 
 void goNormal(void){
     if (get_full_ticks() - lastTurn >= (int)DELAY){
-        if(length > 8 && fullWhite == false && encoder_revolution > 1){
-            //lastMovement = MAX_NINETY_TURNING;
+        if(length > 7 && fullWhite == false && encoder_revolution > 1){
             fullWhite = true;
-            //lastTurn = get_full_ticks();
             ardu_cal_ypr[0] = (float)NINETY_IMU;
             globalState = NINETY;
         }
         
-        else if (length > 8){
+        else if (length > 7){
             lastMovement = SERVO_MICROS_MID;
         }
 
-        else if (length >= 1 && length <= 6) {
+        else if (length >= 1 && length <= 5) {
 //            float factor = ((begin + end) / 2) / (float) 16;
 //            lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
             if(fullWhite){
