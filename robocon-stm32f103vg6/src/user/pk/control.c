@@ -7,7 +7,7 @@
 
 Robot robot;
 Path queue [40];
-int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0, dispW = 0, timediff = 0, time = 0;
+int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0, dispW = 0, dispM =0, timediff = 0, time = 0;
 bool finishing = false;
 
 void calculatePIDMotorValues(int vel, int bearing, int w){
@@ -52,6 +52,7 @@ float MIN (float a, float b) {
 }
 
 int calculatePathVelocity (Path path, Robot robot) {
+	if(path.distanceThreshold != -1 && path.bearingThreshold != -1){
 	float magnitude = 0;
 		int distance = calculateDistance (path.position, robot.position);
 		
@@ -62,7 +63,13 @@ int calculatePathVelocity (Path path, Robot robot) {
 				magnitude = 65;
 			}
 		}
+		dispM = magnitude;
 	return magnitude;	
+	}
+	else {
+		dispM = 60;
+		return 60;
+	}
 }
 
 int calculatePathBearing(Path path, Robot robot) {
@@ -148,20 +155,22 @@ void updateQueue () {
 			robot.pathLength = calculateDistance(robot.start, currentPath.position);
 		}
 		
-		if((currentDistance <= currentPath.distanceThreshold && currentAngle <= currentPath.bearingThreshold) || finishing) {
+		if((currentDistance <= (currentPath.distanceThreshold == -1 ? 240 : currentPath.distanceThreshold)
+			&& currentAngle <= (currentPath.bearingThreshold == -1 ? 70 : currentPath.bearingThreshold )) || finishing) {
 			
 			if(currentPath.waitTime <= 0) {
 				finishing = false;
 				sendWheelBaseMotorCommands (0,0,0);
-			if(currentPath.brushlessSpeed != -1) {
-				setBrushlessMagnitude(currentPath.brushlessSpeed);
-			}
+				if(currentPath.brushlessSpeed != -1) {
+					setBrushlessMagnitude(currentPath.brushlessSpeed);
+				}
 				dequeue(size);
 				lastWait = -1;
-			if(currentPath.position.x == 5019 && currentPath.position.y == 12740) {
-				laserAuto = true;
-				pneumatics.P1 = true;
-			}
+				if((currentPath.position.x == 5019 && currentPath.position.y == 12660)
+					|| (currentPath.position.x == -5019 && currentPath.position.y == 1)) {
+					laserAuto = true;
+					pneumatics.P1 = true;
+				}
 			} else{
 				finishing = true;
 				if (lastWait == -1) {
@@ -181,13 +190,16 @@ void updateQueue () {
 				int dt = get_full_ticks() - lastWait;
 				
 				if (dt >= 0 && dt < time/2) {
-					setBrushlessMagnitude(8); //12
-				} else if (dt >= time/2 && dt < time*3/4) {
-					setBrushlessMagnitude(20); //18 
-//				} else if (dt >= time/2 && dt < time*3/4) {
+					setBrushlessMagnitude(9); //12
+				} 
+				else if (dt >= time/2 && dt < time*3/4) {
+					setBrushlessMagnitude(11); //18 
+				} 
+//				else if (dt >= time && dt < time*3/4) {
 //					setBrushlessMagnitude(35); //26
-			} else {
-					setBrushlessMagnitude(35); //30
+			//}
+			 else {
+					setBrushlessMagnitude(40); //30
 			}
 				
 				if (Abs(robot.position.angle - baseAngle) >= 5) {
@@ -209,21 +221,6 @@ void updateQueue () {
 				}
 				
 			}
-//			else if(currentPath.waitTime == 6000) {
-//				currentPath.clockTick = get_full_ticks();
-//				currentPath.waitTime++;
-//			}
-//			else if(currentPath.waitTime == 6001) {
-//				if(get_full_ticks() - currentPath.clockTick <= currentPath.waitTime) {
-//					if(get_full_ticks() - currentPath.clockTick <= 1500) setBrushlessMagnitude(6);
-//					else if(get_full_ticks() - currentPath.clockTick <= 3000) setBrushlessMagnitude(12);
-//					else if(get_full_ticks() - currentPath.clockTick <= 4500) setBrushlessMagnitude(18);
-//					else setBrushlessMagnitude(24);
-//				}
-//				else{
-//					dequeue(size);
-//				}
-//			}
 			
 			robot.pathLength = -1;
 			robot.start.x = get_pos()->x;

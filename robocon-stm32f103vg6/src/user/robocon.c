@@ -107,7 +107,7 @@ void _updateScreen() {
 	//tft_prints(0, 7, "%d|%d", int_arc_tan2(xbc_get_joy(XBC_JOY_LX), xbc_get_joy(XBC_JOY_LY)), get_pos()->angle);
 	tft_prints(0, 7, "L: %d | AL: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1), laserAuto);
 	tft_prints(0, 8, "Q|ENC: %d|%d", getSize(), get_encoder_value(MOTOR8));
-	tft_prints(0, 9, "INC: %d|%d", increment, haha);
+	tft_prints(0, 9, "RTZ: %d|%d", dispM, dispW);
 	#endif
 	tft_update();
 }
@@ -178,34 +178,47 @@ void controllerInputUpdate() {
 	//Button A, B, X, Y
 			if(button_pressed(BUTTON_XBC_Y) && !allowPIDUpdate){
 				allowPIDUpdate = true;
+				allowArm = true;
 				if(getSize() == 0) {
 					if(robotMode == RED_SIDE) {
 						setBrushlessMagnitude(10);
-						queueTargetPoint(3161, 200, 90, 75.0, 50.0, 15, 0);
-						queueTargetPoint(2865, 2152, 75, 75.0, 55.0, 15, 0);
-						queueTargetPoint(2239, 3336, 44, 115.0, 65, 10, 0);
-						queueTargetPoint(1633, 4030, 57, 75.0, 55.0, 20, 0);
-						queueTargetPoint(989, 5117, 74, 90.0, 80.0, 12, 0);
+						queueTargetPoint(650, 400, 90, -1, -1, -1, 0);
+						queueTargetPoint(3161, 200, 90, 75, 50, 15, 0);
+						queueTargetPoint(2865, 2152, 75, -1, -1, 15, 0);
+						queueTargetPoint(2169, 3266, 44, -1, -1, 10, 0);
+						queueTargetPoint(1553, 3960, 57, -1, -1, 16, 0);
+						queueTargetPoint(989, 5117, 74, -1, -1, 7, 0);
 						queueTargetPoint(242, 5662, 160, 610, 200, -1, 0);
 						queueTargetPoint(625, 7505, 175 , 35.0, 5.0, -1, 6000);
 						queueTargetPoint(242, 11000, 160, 500, 200 , -1, 0);//lost point
 						queueTargetPoint(575, 8508, 160, 500, 200 , -1, 0);
-						queueTargetPoint(1653, 11716, 272, 300, 25.0, -1, 0);
-						queueTargetPoint(4359, 12740, 274, 200, 25.0, -1, 0);
-						queueTargetPoint(5019, 12740, 274, 60, 10.0, -1, 0);
+						queueTargetPoint(1653, 12046, 272, 800, 200, -1, 0);
+						queueTargetPoint(4359, 12610, 274, 800, 200, -1, 0);
+						queueTargetPoint(5019, 12660, 274, 240, 120.0, -1, 0);
 					}
 					else if(robotMode == BLUE_SIDE) {
-						setBrushlessMagnitude(10);
-						queueTargetPoint(-3269, 283, 270, 35.0, 10.0, 10, 0);
-						queueTargetPoint(-2821, 2265, 297, 50.0, 15.0, 10, 0);
-						queueTargetPoint(-1303, 4057, 296, 50.0, 15.0, 13, 0);
-						queueTargetPoint(150, 5948, 268, 610, 200, 13, 0);
-						queueTargetPoint(-150, 6759, 198, 35.0, 10.0, 0, 6000);
-						queueTargetPoint(-308, 9804, 176, 50.0, 25.0, -1, 0);
-						queueTargetPoint(-1768, 12957, 93, 50.0, 25.0, -1, 0);
-						queueTargetPoint(-4161, 13097, 91, 35.0, 8.0, -1, 0);
-						
-						
+						setBrushlessMagnitude(15);
+						queueTargetPoint(-650, 400, 270, -1, -1, -1, 0);
+						queueTargetPoint(-3121, 300, 270, 75, 50, 15, 0);
+						queueTargetPoint(-2825, 2072, 285, -1, -1, 12, 0);
+						queueTargetPoint(-2189, 3116, 316, -1, -1, 10, 0);
+						queueTargetPoint(-1513, 3830, 303, -1, -1, 12, 0);
+						queueTargetPoint(-659, 5017, 286, -1, -1, 7, 0);
+						queueTargetPoint(150, 5562, 200, 610, 200, -1, 0);
+						queueTargetPoint(55, 7505, 185, 35.0, 5.0, -1, 6000);
+						queueTargetPoint(-142, 11000, 200, 500, 200, -1, 0);//lost point
+						queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
+						queueTargetPoint(-503, 12046, 88, 800, 200, -1, 0);
+						queueTargetPoint(-1200, 12810, 86, 800, 200, -1, 0);
+						queueTargetPoint(-3010, 12810, 86, 240, 120.0, -1, 0);
+//						queueTargetPoint(-3269, 283, 270, 35.0, 10.0, 10, 0);
+//						queueTargetPoint(-2821, 2265, 297, 50.0, 15.0, 10, 0);
+//						queueTargetPoint(-1303, 4057, 296, 50.0, 15.0, 13, 0);
+//						queueTargetPoint(150, 5948, 268, 610, 200, 13, 0);
+//						queueTargetPoint(-150, 6759, 198, 35.0, 10.0, 0, 6000);
+//						queueTargetPoint(-308, 9804, 176, 50.0, 25.0, -1, 0);
+//						queueTargetPoint(-1768, 12957, 93, 50.0, 25.0, -1, 0);
+//						queueTargetPoint(-4161, 13097, 91, 35.0, 8.0, -1, 0);
 					}
 				}
 				else {

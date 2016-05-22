@@ -13,8 +13,8 @@
 
 typedef struct {
 	POSITION position;
-	float distanceThreshold;
-	float bearingThreshold;
+	int distanceThreshold;
+	int bearingThreshold;
 	int vel;
 	int brushlessSpeed;
 	int waitTime;
@@ -48,5 +48,6 @@ typedef struct {
 	extern Motors motor;
 	extern Robot robot;
 	extern bool allowArm;
+	extern int dispM;
 
 #endif
