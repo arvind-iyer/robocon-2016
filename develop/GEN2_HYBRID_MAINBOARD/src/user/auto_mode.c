@@ -22,7 +22,7 @@
 //#define DEBUG_MODE
 
 //Ground: 0 = Red, 1 = Blue
-u8 field = 0;
+u8 field = 1;
 
 double transform[2][2] = {{1, 0}, {0, 1}};
 u16 wall_dist = 0;
@@ -51,7 +51,7 @@ int vel[3];
 int degree, degree_diff, dist, speed;
 int dist_last, time, time_last, measured_vel;
 int start, passed;
-int err_d;
+int err_d, err_sum;
 int auto_ticks = 0;
 s16 cur_vel = 90;
 
@@ -195,6 +195,7 @@ void auto_init() {
 void auto_reset() {
 	//reset variables
 	err_d = 0;
+	err_sum = 0;
 	
 	dist = 0;
 	dist_last = 0;
@@ -320,6 +321,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 			} else {
 				off_deg = get_angle() - 1800;
 			}
+			err_sum = 0;
 		}
 	}	
 	if ((back_switch_val == 3) || (back_switch_val & 4)) {
@@ -341,8 +343,6 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		reset_rot = cur_vel/(-25);		
 	}
 	
-	temp = reset_rot;
-	
 	if (side_switch_val == 4) {
 		if (field == 0) {
 			reset_vel[0] = cur_vel/(-5);
@@ -362,14 +362,14 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//ls cal first part
-	if ((tar_end == 1) && (get_pos()->y < (4175 - wall_dist))) //measured distance less than actual distance
-		off_y = get_pos()->y - 4175 + wall_dist; //negative
+	if ((tar_end == 1) && (get_pos()->y < (4165 - wall_dist))) //measured distance less than actual distance
+		off_y = get_pos()->y - 4165 + wall_dist; //negative
 	
-	//perpendicular PD
-	err_pid = err * 0.25 + (err-err_d) * 0.0;
+	//perpendicular PID
+	err_pid = err * 0.35 + err_sum * 0.008 + (err-err_d) * 0.0;
 	
 	//rotational P
-	rotate *= 0.5;
+	rotate *= 0.6;
 	
 	angle *= 10;
 	for (int i = 0; i < 3; i++) {
@@ -381,11 +381,14 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		vel[i] += (reset_rot + reset_vel[i]);
 	}
 	
+	temp = reset_rot;
+	
 	motor_set_vel(MOTOR1, vel[0], CLOSE_LOOP);
 	motor_set_vel(MOTOR2, vel[1], CLOSE_LOOP);
 	motor_set_vel(MOTOR3, vel[2], CLOSE_LOOP);
 	
 	err_d = err;
+	err_sum += err;
 }
 
 /**
@@ -412,21 +415,14 @@ void auto_robot_control(void) {
 		if (Abs(arm_vel) < 205) //biggold dead band >.<
 			arm_vel += (205 * (arm_vel / Abs(arm_vel)));
 		
-		//for blue field
-		if (cur_x < 1295) {
+		if (Abs(cur_x) < 1250) {
 			tar_arm = 0;
-		} else if (cur_x < 2358) {
-			tar_arm = (cur_x-1295)*3325/1063;
-		} else if (cur_x < 3445) {
-			tar_arm = 3325;
-		} else if (cur_x < 4223) {
-			tar_arm = (cur_x-3445)*3325/778 + 3325;
-		} else if (cur_x < 5310) {
-			tar_arm = 6650;
-		} else if (cur_x < 6372) {
-			tar_arm = (cur_x-5310)*3325/1062 + 6650;
+		} else if (Abs(cur_x) < 3000) {
+			tar_arm = 3600;
+		} else if (Abs(cur_x) < 5000) {
+			tar_arm = 7200;
 		} else {
-			tar_arm = 9975;
+			tar_arm = 10800;
 		}
 		
 		motor_set_vel(MOTOR7, arm_vel*MOTOR7_FLIP, OPEN_LOOP);
@@ -434,6 +430,19 @@ void auto_robot_control(void) {
 		lower_arm();
 		if (gpio_read_input(&ARM_DN_LIMIT_PORT))
 			arm_init = true;
+	}
+	
+	if (tar_end <= 1) {
+		brushless_servo_control(-85 + 170*field);
+		brushless_control(0, true);
+	} else if (tar_end <= 3) {
+		brushless_control(42, true);
+	} else if (tar_end <= 4) {
+		brushless_servo_control(-75 + 150*field);
+	} else if (tar_end <= 5) {
+		brushless_servo_control(0);		
+	} else {
+		brushless_control(0, true);
 	}
 }
 
@@ -653,9 +662,9 @@ void auto_motor_update(){
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",time/1000);
 	//tft_prints(0,7,"Test %d",measured_vel);
-	//tft_prints(0,7,"Test %d %d", arm_vel, get_arm_pos());
+	//tft_prints(0,7,"Test %d %d %d", arm_vel, get_arm_pos(), tar_arm);
 	//tft_prints(0,7,"Test %d %d", dist, degree_diff);
-	tft_prints(0,7,"Test %d %d", side_switch_val, temp);
+	tft_prints(0,7,"Test %d %d %d", side_switch_val, back_switch_val, temp);
 	tft_prints(0,8,"Trans: %d",(int)(transform[1][0]*700));
 	tft_prints(0,9,"Wall: %d",wall_dist);
 	tft_update();
