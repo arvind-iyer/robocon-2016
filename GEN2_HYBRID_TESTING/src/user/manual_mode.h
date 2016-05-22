@@ -62,5 +62,7 @@ void manual_interval_update(void);
 void manual_fast_update(void);
 void manual_controls_update(void);
 void manual_vel_set_zero(void);
+void manual_first_control_update(void);
+void manual_auto_gointo_pole(void);
 
 #endif

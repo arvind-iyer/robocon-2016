@@ -262,7 +262,10 @@ void manual_fast_update(){
 		raise_arm();
 	}
 	
-	if(manual_stage==1 && using_laser_sensor){
+	if (manual_stage==2){
+		limit_manual_update(motor_vel, &curr_rotate);
+		curr_heading = get_angle();
+	}else if(manual_stage==0 && using_laser_sensor){
 		laser_manual_update(motor_vel, &curr_rotate);
 		curr_heading = get_angle();
 	}else if (rotating_machine_by_90){
@@ -312,47 +315,126 @@ void manual_interval_update(){
 	#else
 	if (get_pos()->x > LASER_TRACING_OFF_DISTANCE){
 	#endif
-		if (manual_stage<2){
-			manual_stage = 2;
-			using_laser_sensor = false;
-		}
-	}
-	
-	//Pressing the back button to enable laser tracking
-	if (button_hitted[BUTTON_XBC_BACK]){
-		buzzer_beep(75);
-		if (manual_stage < 2){
-			using_laser_sensor = !using_laser_sensor;
-			manual_stage = 1;
-		}
+		using_laser_sensor = false;
 	}
 	
 	//Pressing the start button for shooting across the river
 	if (button_hitted[BUTTON_XBC_START]){
 		buzzer_beep(75);
-		if (manual_stage < 3){
+		if (manual_stage == 0){
 			pole_front = true;
-			rotating_machine_by_90 = true;
 			using_laser_sensor = false;
-			#ifdef BLUE_FIELD
-				rotating_machine_by_90_target = (get_angle() - 900)%3600;
-				brushless_servo_val = 90;
-			#else
-				rotating_machine_by_90_target = (get_angle() + 900)%3600;
-				brushless_servo_val = -90;
-			#endif
-			manual_stage = 3;
+			manual_stage = 1;
 			brushless_servo_control(brushless_servo_val);
+		}else if(manual_stage == 1){
+			manual_stage = 0;
 		}
+	}
+	
+	if (button_hitted[BUTTON_XBC_BACK]){
+		buzzer_beep(175);
+		manual_stage = 2;
+	}
+	
+	if (manual_stage == 0){
+		manual_first_control_update();
+	}else if(manual_stage ==1){
+		manual_controls_update();
 	}
 	
 	//At last apply the motor velocity and display it
 	//Value from fast update should also be displayed here
 	tft_append_line("%d", curr_speed);
 	tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_angle());
-	tft_append_line("ST: %d %d", using_laser_sensor, manual_stage);
+	tft_append_line("ST: %d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str);
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	tft_update();
+}
+
+void manual_first_control_update(){
+	if (button_hitted[BUTTON_XBC_X]){
+		#ifdef BLUE_FIELD
+			if (!facing_pole){
+		#else
+			if (facing_pole){
+		#endif
+				rotating_machine_by_90_target = (get_angle() - 900)%3600;
+				rotating_machine_by_90 = true;
+			}else{
+				rotating_machine_by_90_target = (get_angle() + 900)%3600;
+				rotating_machine_by_90 = true;
+			#ifdef BLUE_FIELD
+			}
+			#else
+			}
+			#endif
+			facing_pole = !facing_pole;
+	}
+			
+	if (button_hitted[BUTTON_XBC_B]){
+		if (brushless_str){
+			#ifdef BLUE_FIELD
+				brushless_servo_val = 90;
+			#else
+				brushless_servo_val = -90;
+			#endif
+		}else{
+			brushless_servo_val = 0;
+		}
+		brushless_str = !brushless_str;
+		brushless_servo_control(brushless_servo_val);
+	}
+	
+	//Pressing the back button to enable laser tracking
+	if (button_hitted[BUTTON_XBC_Y]){
+		buzzer_beep(75);
+		using_laser_sensor = !using_laser_sensor;
+	}
+	
+	//Brushless power control
+	if (button_hitted[BUTTON_XBC_RB]){
+		buzzer_beep(75);
+		if (brushless_power_percent < 100){
+			brushless_power_percent += BRUSHLESS_POWER_STEP;
+		}
+		if (brushless_power_percent == (20 + BRUSHLESS_POWER_STEP)){
+			brushless_power_percent += BRUSHLESS_POWER_STEP;
+		}
+	}
+	
+	if (button_hitted[BUTTON_XBC_LB]){
+		buzzer_beep(75);
+		if (brushless_power_percent > 20){
+			brushless_power_percent -= BRUSHLESS_POWER_STEP;
+		}
+	}
+	
+	brushless_control(brushless_power_percent, true);
+	tft_append_line("%d", brushless_power_percent);
+	
+	// brushless arm
+	if (xbc_get_joy(XBC_JOY_RX)>500){
+		brushless_servo_val += BRUSHLESS_SERVO_STEP;
+		if (brushless_servo_val > 140)
+			brushless_servo_val = 140;
+		brushless_servo_control(brushless_servo_val);
+	}
+	if (xbc_get_joy(XBC_JOY_RX)<-500){
+		brushless_servo_val -= BRUSHLESS_SERVO_STEP;
+		if (brushless_servo_val < -140)
+			brushless_servo_val = -140;
+		brushless_servo_control(brushless_servo_val);
+	}
+	
+	if (xbc_get_joy(XBC_JOY_RY)>700){
+		raise_arm();
+		tft_append_line("RAISING ARM");
+	}else if (xbc_get_joy(XBC_JOY_RY)<-700){
+		lower_arm();
+		tft_append_line("LOWERING ARM");
+	}else {
+		stop_arm();
+	}
 }
 
 void manual_controls_update(void) {

@@ -78,7 +78,7 @@ int main(void) {
 				
 				if (control_state == MANUAL_MODE){
 					manual_interval_update();
-					manual_controls_update();
+					//manual_controls_update();
 				}else{
 					if (auto_get_state() == RUNNING_MODE) {
 						auto_var_update();			

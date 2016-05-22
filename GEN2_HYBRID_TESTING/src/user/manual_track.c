@@ -73,6 +73,37 @@ void laser_manual_update(s32 motor_vel[3], s32* rotate){
 	motor_vel[2] = (int_sin((curr_angle+2400)%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
 }
 
+void limit_manual_update(s32 motor_vel[3], s32* rotate){
+	
+	bool limit_switch_triggered[2] = {false};
+	limit_switch_triggered[0] = gpio_read_input(&PE3);
+	limit_switch_triggered[1] = gpio_read_input(&PE3);
+	
+	//Rotation
+	if (!limit_switch_triggered[0] && limit_switch_triggered[1]){
+		*rotate = 350;
+	}else if(limit_switch_triggered[0] && !limit_switch_triggered[1]){
+		*rotate = -350;
+	}
+	
+	s32 perpend_speed = 0;
+	//Perpendicular
+	if (limit_switch_triggered[0] && limit_switch_triggered[1]){
+		perpend_speed = 150;
+	}else{
+		perpend_speed = 300;
+	}
+	
+	//Parallel
+	s32 parallel_speed = 400;
+	
+	s32 curr_angle = int_arc_tan2(parallel_speed, -perpend_speed)*10;
+	u32 curr_speed = u32_sqrt(perpend_speed * perpend_speed + parallel_speed * parallel_speed);
+	motor_vel[0] = (int_sin(curr_angle%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
+	motor_vel[1] = (int_sin((curr_angle+1200)%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
+	motor_vel[2] = (int_sin((curr_angle+2400)%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
+}
+
 s32 last_angle_error = 0;
 s32 river_rotate_update(s32 target){
 	s32 this_angle_error = target - get_angle();
@@ -83,3 +114,4 @@ s32 river_rotate_update(s32 target){
 	last_angle_error = this_angle_error;
 	return pid_rotate;
 }
+
