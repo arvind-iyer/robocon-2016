@@ -12,6 +12,7 @@ extern bool laserAuto;
 #define BLUE_SIDE 1
 
 bool robotMode = false;
+bool manualMode = true;
 bool rightJoyInUse = false;
 bool laserAuto = false;
 
@@ -27,10 +28,11 @@ void robocon_main(void)
 	
 	while (1) {
 		if(get_full_ticks()%25 == 0){
+			reset();
 			button_update();
 			_updateScreen();
 			controllerInputUpdate();
-			manualControl();
+			if (manualMode)manualControl();
 			hybridPneumaticControl();
 			limitSwitchCheck();
 			if(allowArm) {
@@ -39,7 +41,10 @@ void robocon_main(void)
 			}
 			robotUpdate();
 			updateQueue();
-			if(laserAuto)enterPole();
+			if(laserAuto){
+				manualMode = false;
+				enterPole();
+			}
 			
 			if (return_listener()) {
 					return; 
@@ -94,11 +99,11 @@ void _updateScreen() {
 	if (can_xbc_get_joy(XBC_JOY_RT) != 0) {
 		tft_prints(6, 5, "RT %d", getBrushlessMagnitude());
 	}
-	tft_prints(0, 6, "%d %d %d", getMotorValues().M1, getMotorValues().M2, getMotorValues().M3);
+	tft_prints(0, 6, "%d %d %d", getWheelbaseValues().M1.sent, getWheelbaseValues().M2.sent, getWheelbasealues().M3.sent);
 	tft_prints(16, 6, "%d", get_ticks());
 	#else
 	tft_prints(0, 0, "FIERY DRAGON");
-	tft_prints(0, 1, "M: %d|%d|%d" , getWheelbaseValues().M1, getWheelbaseValues().M2, getWheelbaseValues().M3);
+	tft_prints(0, 1, "M: %d|%d|%d" , getWheelbaseValues().M1.sent, getWheelbaseValues().M2.sent, getWheelbaseValues().M3.sent);
 	tft_prints(0, 2, "B: %d | ARM: %d", getBrushlessMagnitude(), allowArm);
 	tft_prints(0, 3, "P: %d|%d|%d|%d", getPneumaticState().P1, getPneumaticState().P2, getPneumaticState().P3, getPneumaticState().P4);
 	tft_prints(0, 4, "G: %d|%d|%d", get_pos()->x, get_pos()->y, get_pos()->angle);
@@ -107,7 +112,9 @@ void _updateScreen() {
 	//tft_prints(0, 7, "%d|%d", int_arc_tan2(xbc_get_joy(XBC_JOY_LX), xbc_get_joy(XBC_JOY_LY)), get_pos()->angle);
 	tft_prints(0, 7, "L: %d | AL: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1), laserAuto);
 	tft_prints(0, 8, "Q|ENC: %d|%d", getSize(), get_encoder_value(MOTOR8));
-	tft_prints(0, 9, "RTZ: %d|%d", dispM, dispW);
+	tft_prints(0, 9, "T: %d|%d|%d" , getWheelbaseValues().M1.target, getWheelbaseValues().M2.target, getWheelbaseValues().M3.target);
+	//tft_prints(0, 9, "%d", getRotationValue());
+	//tft_prints(0, 9, "RTZ: %d|%d", dispM, dispW);
 	#endif
 	tft_update();
 }
@@ -178,8 +185,9 @@ void controllerInputUpdate() {
 	//Button A, B, X, Y
 			if(button_pressed(BUTTON_XBC_Y) && !allowPIDUpdate){
 				allowPIDUpdate = true;
-				allowArm = true;
 				if(getSize() == 0) {
+					allowArm = true;
+					manualMode = false;
 					if(robotMode == RED_SIDE) {
 						setBrushlessMagnitude(10);
 						queueTargetPoint(650, 400, 90, -1, -1, -1, 0);
@@ -199,7 +207,7 @@ void controllerInputUpdate() {
 					else if(robotMode == BLUE_SIDE) {
 						setBrushlessMagnitude(15);
 						queueTargetPoint(-650, 400, 270, -1, -1, -1, 0);
-						queueTargetPoint(-3121, 300, 270, 75, 50, 15, 0);
+						queueTargetPoint(-3161, 300, 270, 75, 50, 15, 0);
 						queueTargetPoint(-2825, 2072, 285, -1, -1, 12, 0);
 						queueTargetPoint(-2189, 3116, 316, -1, -1, 10, 0);
 						queueTargetPoint(-1513, 3830, 303, -1, -1, 12, 0);
@@ -225,6 +233,7 @@ void controllerInputUpdate() {
 					for(int i = getSize(); i>=1; i--) {
 						dequeue(getSize());
 					}
+					manualMode = true;
 				}
 			}
 			else if(button_released(BUTTON_XBC_Y) && allowPIDUpdate) {
@@ -247,6 +256,7 @@ void controllerInputUpdate() {
 		}
 		if(button_pressed(BUTTON_XBC_A) && !allowAutoLazers) {
 			laserAuto = !laserAuto;
+			manualMode = (laserAuto ? false : true);
 			allowAutoLazers = true;
 		}
 		else if (button_released(BUTTON_XBC_A) && allowAutoLazers) {

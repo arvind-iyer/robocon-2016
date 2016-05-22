@@ -50,6 +50,7 @@ extern Pneumatics pneumatics;
 extern bool prevLimitSwitch[4];
 extern bool robotMode;
 extern bool armIr;
+extern bool manualMode;
 extern bool laserAuto;
 
 extern bool climbing;

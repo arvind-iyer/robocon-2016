@@ -3,7 +3,7 @@
 
 #define MAX_VEL 160
 #define INTERVAL 100
-#define ACCELERATION 10
+#define ACCELERATION 15
 
 typedef struct {
 	int target;
@@ -18,6 +18,8 @@ typedef struct {
 } Wheelbase;
 
 void pk_wheelbase_init();
+
+void reset();
 
 void setM(int _M);
 void setBearing(int _bearing);

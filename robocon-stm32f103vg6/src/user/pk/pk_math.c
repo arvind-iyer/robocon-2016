@@ -2,6 +2,7 @@
 
 int max(int n, ...) {
 	va_list arguments;
+	va_start(arguments, n);
 	int max = va_arg(arguments, int); 
 	for (int i = 1; i != n; i++ )        
     {
@@ -10,5 +11,6 @@ int max(int n, ...) {
 			max = arg;
 		}
     }
+	va_end(arguments);
 	return max;
 }

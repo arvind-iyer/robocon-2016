@@ -161,33 +161,34 @@ void updateQueue () {
 			if(currentPath.waitTime <= 0) {
 				finishing = false;
 				//sendWheelBaseMotorCommands(0,0,0);
-				wheelbaseLock();
+				//wheelbaseLock();
 				if(currentPath.brushlessSpeed != -1) {
 					setBrushlessMagnitude(currentPath.brushlessSpeed);
 				}
 				dequeue(size);
 				lastWait = -1;
 				if((currentPath.position.x == 5019 && currentPath.position.y == 12660)
-					|| (currentPath.position.x == -5019 && currentPath.position.y == 1)) {
+					|| (currentPath.position.x == -3010 && currentPath.position.y == 12810)) {
 					laserAuto = true;
 					pneumatics.P1 = true;
 				}
 			} else{
 				finishing = true;
+				wheelbaseLock();
 				if (lastWait == -1) {
 					time = currentPath.waitTime;
 					lastWait= get_full_ticks();
 				}
-				if (baseAngle == -1) {
-					baseAngle = robot.position.angle;
-					setM(0);
-					setBearing(0);
-					setW(currentOscDir ? 10 : -10);
-					currentOscDir = !currentOscDir;
-					addComponent();
-					parseWheelbaseValues();
-					sendWheelbaseCommand();
-				}
+				//if (baseAngle == -1) {
+					//baseAngle = robot.position.angle;
+					//setM(0);
+					//setBearing(0);
+					//setW(currentOscDir ? 10 : -10);
+					//currentOscDir = !currentOscDir;
+					//addComponent();
+					//parseWheelbaseValues();
+					//sendWheelbaseCommand();
+				//}
 				int dt = get_full_ticks() - lastWait;
 				
 				if (dt >= 0 && dt < time/2) {
@@ -203,15 +204,15 @@ void updateQueue () {
 					setBrushlessMagnitude(40); //30
 			}
 				
-				if (Abs(robot.position.angle - baseAngle) >= 5) {
-					setM(0);
-					setBearing(0);
-					setW(currentOscDir ? 10 : -10);
-					currentOscDir = !currentOscDir;
-					addComponent();
-					parseWheelbaseValues();
-					sendWheelbaseCommand();
-				}
+//				if (Abs(robot.position.angle - baseAngle) >= 5) {
+//					setM(0);
+//					setBearing(0);
+//					setW(currentOscDir ? 10 : -10);
+//					currentOscDir = !currentOscDir;
+//					addComponent();
+//					parseWheelbaseValues();
+//					sendWheelbaseCommand();
+//				}
 				
 				if (dt >= currentPath.waitTime) {
 					lastWait = -1;
@@ -235,6 +236,9 @@ void updateQueue () {
 			
 			calculatePIDMotorValues(magnitude, translationBearing, angularVelocity);
 		}
+	}
+	else {
+		manualMode = true;
 	}
 }
 
