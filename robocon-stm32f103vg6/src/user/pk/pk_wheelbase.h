@@ -19,7 +19,12 @@ typedef struct {
 
 void pk_wheelbase_init();
 
-void parseWheelbaseValues(int M, int bearing, int W);
-void sendWheelbaseValues();
+void setM(int _M);
+void setBearing(int _bearing);
+void setW(int _W);
+void addComponent();
+
+void parseWheelbaseValues();
+void sendWheelbaseCommand();
 
 #endif
