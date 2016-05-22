@@ -1,6 +1,7 @@
 #include "pk_wheelbase.h"
 #include "approx_math.h"
 #include "can_motor.h"
+#include "ticks.h"
 #include "pk_math.h"
 
 Wheelbase motors;
@@ -24,8 +25,8 @@ void parseWheelbaseValues(int M, int bearing, int W) {
 }
 
 void sendWheelbaseValues() {
-	if (Abs(get_ticks() - motors.lastTick) >= 100) {
-		motors.lastTick = get_ticks();
+	if (Abs(get_full_ticks() - motors.lastTick) >= INTERVAL) {
+		motors.lastTick = get_full_ticks();
 		int M1_diff = motors.M1.target - motors.M1.sent;
 		int M2_diff = motors.M2.target - motors.M2.sent;
 		int M3_diff = motors.M3.target - motors.M3.sent;
@@ -33,9 +34,9 @@ void sendWheelbaseValues() {
 		if (clampFactor < 1) {
 			clampFactor = 1;
 		}
-		motors.M1.sent = M1_diff / clampFactor;
-		motors.M2.sent = M2_diff / clampFactor;
-		motors.M3.sent = M3_diff / clampFactor;
+		motors.M1.sent = motors.M1.sent + M1_diff / clampFactor;
+		motors.M2.sent = motors.M1.sent + M2_diff / clampFactor;
+		motors.M3.sent = motors.M1.sent + M3_diff / clampFactor;
 	}
 	motor_set_vel(MOTOR1, motors.M1.sent, CLOSE_LOOP);
 	motor_set_vel(MOTOR2, motors.M2.sent, CLOSE_LOOP);

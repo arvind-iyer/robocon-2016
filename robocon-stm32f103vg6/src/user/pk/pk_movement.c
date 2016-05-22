@@ -63,6 +63,9 @@ void setW(int _W) {
 	W = _W;
 }
 
+/**
+  * !deprecated!
+  */
 void addComponent() {
 	double x = M * MAX_VEL * int_sin(bearing*10)/10000 / 100;
 	double y = M * MAX_VEL* int_cos(bearing*10)/10000 / 100;
@@ -75,9 +78,9 @@ void addComponent() {
 }
 
 /**
+  * !deprecated!
   * @brief Resolving motor values for the three wheelbase motors depending on xComponent, yComponent and rotation
   */
-
 void parseMotorValues() {
 	float M1 = (-rotation - xComponent * 2) / 3;
 	float M2 = ((-rotation * 0.5774 + xComponent * 0.5774 - yComponent) / 1.732);
@@ -91,6 +94,9 @@ void parseMotorValues() {
 	
 }
 
+/**
+  * !deprecated!
+  */
 void sendWheelBaseMotorCommands (int M1, int M2, int M3) {
 	motor.M1 = clamp(M1, -150, 150);
 	motor.M2 = clamp(M2, -150, 150);
@@ -143,9 +149,8 @@ void sendArmCommand(int M8) {
 
 /**
   * @brief Getter for motor values
-	* @retval The Motor structure
+  * @retval The Motor structure
   */
-
 Motors getMotorValues() {
 	return motor;
 }

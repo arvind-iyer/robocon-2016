@@ -64,5 +64,6 @@
 .\output\robocon.o: src\user\flash.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\ultrasonic.h
 .\output\robocon.o: src\user\pk/pk.h
+.\output\robocon.o: src\user\pk/pk_wheelbase.h
 .\output\robocon.o: src\user\pk/pk_pid.h
 .\output\robocon.o: src\user\pk/hybrid_laser.h
