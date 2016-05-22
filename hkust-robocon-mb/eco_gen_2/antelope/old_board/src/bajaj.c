@@ -122,25 +122,53 @@ void process_array(){
 
 
 void goNormal(void){
-    if (get_full_ticks() - lastTurn >= (int)DELAY){    
-        if(length > 10 && fullWhite == false && encoder_revolution > 1){
-            lastMovement = MAX_NINETY_TURNING;
+    if (get_full_ticks() - lastTurn >= (int)DELAY){
+        if(length > 8 && fullWhite == false && encoder_revolution > 1){
+            //lastMovement = MAX_NINETY_TURNING;
             fullWhite = true;
-            lastTurn = get_full_ticks();
+            //lastTurn = get_full_ticks();
+            ardu_cal_ypr[0] = (float)NINETY_IMU;
+            globalState = NINETY;
         }
         
-        else if (length > 10){
+        else if (length > 8){
             lastMovement = SERVO_MICROS_MID;
         }
 
         else if (length >= 1 && length <= 6) {
-            float factor = ((begin + end) / 2) / (float) 16;
-            lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
+//            float factor = ((begin + end) / 2) / (float) 16;
+//            lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
+            if(fullWhite){
+                float factor = ((begin + end) / 2) / (float) 16;
+                lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
+            }
+            else{
+                float factor = ((begin + end) / 2) / (float) 16;
+                lastMovement = (SLOPE_TURNING_LEFT) - (factor * (SLOPE_TURNING_LEFT - SLOPE_TURNING_RIGHT));
+            }
         }  
     begin = -1;
     servo_control(BAJAJ_SERVO,lastMovement);
     }
 }
+void goNinety(void){
+    switch(CURRENT_SIDE){
+        case LEFT_SIDE:
+            if((int)ardu_cal_ypr[0] > -75){
+                globalState = NOT_RIVER;
+            }
+        break;
+        case RIGHT_SIDE:
+            if((int)ardu_cal_ypr[0] < 75){
+                globalState = NOT_RIVER;
+            }
+        break;
+    }
+    imuFactor = ardu_cal_ypr[0] / 180.0f;
+    imuMovement = SERVO_MICROS_MID + (imuFactor * 450);
+    servo_control(BAJAJ_SERVO,imuMovement);
+}
+
 void goUsingImu(void){
     if((get_count(ENCODER1) > 10000) && !read_infrared_sensor(RIVER_INFRARED)){
         globalState = STAGE2;
@@ -152,7 +180,7 @@ void goUsingImu(void){
 }
 
 void goStraightLittleBit(void){
-    servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + LESSER_TURNING);
+    servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + (int)LESSER_TURNING);
     if(get_count(ENCODER1) > 6000){
         lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
         globalState = NOT_RIVER;
@@ -183,7 +211,7 @@ void determineZone(){
         case 1:
             gameZone = DARKGREENZONE;
             strcpy(gameZoneString,"Darkgreen");
-            river = 0;
+            river = 1;
             break;
         case 2:
             gameZone = ORANGEZONE;

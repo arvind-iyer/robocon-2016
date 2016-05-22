@@ -25,8 +25,6 @@ int main(void) {
     systemInit();
     u32 ticks_ms_img = 0;
     bool songIsPlayed = false;
-    bool songIsPlayed1 = false;
-    bool songIsPlayed2= false;
     bool cali = false;
     while (1) {
         if(ticks_ms_img != get_ticks()){
@@ -49,27 +47,17 @@ int main(void) {
             switch(systemOn){
                 case ON:
                     //Emergency turning system
-                    if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT)){
-                        if(!songIsPlayed1){
-                            MARIO_SONG;
-                            songIsPlayed1 = true;
-                        }
-                        if(!fullWhite)servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT + 50);
-                        else servo_control(BAJAJ_SERVO, SERVO_MICROS_RIGHT);
-                    }
-                    else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT)){
-                        if(!songIsPlayed2){
-                            MARIO_SONG2;
-                            songIsPlayed2 = true;
-                        }
-                        if(!fullWhite)servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT);
-                        else servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT - 50);
-                    }
+//                    if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT)){
+//                        if(!fullWhite)servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT + 50);
+//                        else servo_control(BAJAJ_SERVO, SERVO_MICROS_RIGHT);
+//                    }
+//                    else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT)){
+//                        if(!fullWhite)servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT);
+//                        else servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT - 50);
+//                    }
                     
                     //Normal working state
-                    else{
-                        songIsPlayed1 = false;
-                        songIsPlayed2 = false;
+                    //else{
                         switch(globalState){
                             case NOT_RIVER:
                                 goNormal();
@@ -80,6 +68,9 @@ int main(void) {
                                     globalState = STAGE1;
                                 }
                             break;
+                            case NINETY:
+                                goNinety();
+                            break;
                             case STAGE1:
                                 goUsingImu(); //Imu is bae, thx Rex!
                             break;
@@ -87,7 +78,7 @@ int main(void) {
                                 goStraightLittleBit(); //Prevent it from falling down
                             break;
                         }
-                    }
+                    //}
                     print_data(); //Print every data in the on system
                     break;
                     

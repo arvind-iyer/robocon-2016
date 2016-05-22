@@ -20,6 +20,10 @@
 #include "linear_ccd.h"
 #include "buzzer.h"
 
+//Function prototypes and enumerations(Please do not change these)
+enum{NOT_RIVER = 0, NINETY = 1, STAGE1 = 2, STAGE2 = 3, STAGE3 = 4};
+
+enum{LEFT_SIDE = 5, RIGHT_SIDE = 6};
 
 
 //Default Defines (Please do not change these)
@@ -44,33 +48,35 @@
 */
 
 //You can change this
-#define LEFT
-
+#define RIGHT
 
 //You can change these
 #ifdef LEFT
-#define MAX_NINETY_TURNING 950
-#define IMU_ANGLE -120
-#define LESSER_TURNING 225
+#define MAX_NINETY_TURNING 1000
+#define IMU_ANGLE -115
+#define NINETY_IMU -180
+#define LESSER_TURNING 260
 #define RIVER_INFRARED INFRARED_SENSOR_RIGHT
+#define SLOPE_TURNING_RIGHT 1100
+#define SLOPE_TURNING_LEFT 1600
 #define SLOPE_ENCODER 46000
 #define DELAY 1000
+#define CURRENT_SIDE LEFT_SIDE
 #endif
 
 //You can change these
 #ifdef RIGHT
 #define MAX_NINETY_TURNING 1875
-#define IMU_ANGLE 105
-#define LESSER_TURNING -250
+#define IMU_ANGLE 145
+#define LESSER_TURNING -220
+#define NINETY_IMU 175
 #define RIVER_INFRARED INFRARED_SENSOR_LEFT
-#define SLOPE_ENCODER 49000
+#define SLOPE_ENCODER 40000
+#define SLOPE_TURNING_RIGHT 1100
+#define SLOPE_TURNING_LEFT 1600
 #define DELAY 1000
+#define CURRENT_SIDE RIGHT_SIDE
 #endif
-
-
-
-//Function prototypes and enumerations(Please do not change these)
-enum{NOT_RIVER = 0, STAGE1 = 1, STAGE2 = 2, STAGE3 = 3};
 
 typedef enum{
     PINKZONE = 0, DARKGREENZONE = 1,ORANGEZONE = 2, BLUEZONE = 3, LIGHTGREENZONE = 4, NOCOLOURZONE = 5
@@ -87,10 +93,14 @@ void update_encoder(void);
 void process_array(void);
 
 void print_data(void);
+
 void fill_sensorbar_array(void);
+
 void systemInit(void);
 
 void goNormal(void);
+
+void goNinety(void);
 
 void goUsingImu(void);
 
