@@ -25,9 +25,9 @@ GAME_STAGE path_up_sb_update(){
 		if (abs(river_straight_yaw - ardu_int_ypr[0]) > 500){
 			si_clear();
 			#ifdef BLUE_FIELD
-				si_set_pwm(SERVO_MAX_PWM);
+				si_set_pwm(SERVO_PROPER_MAX_PWM);
 			#else
-				si_set_pwm(SERVO_MIN_PWM);
+				si_set_pwm(SERVO_PROPER_MIN_PWM);
 			#endif
 			si_execute();
 		}else{
@@ -48,7 +48,8 @@ GAME_STAGE path_up_sb_update(){
 					start_counting_encoder = get_average_encoder();
 				}
 			}
-		}else if(sensorbar_region == 2 && current_state == 0){
+		//}else if(sensorbar_region == 2 && current_state == 0){
+		}else if(sensorbar_region != 3 && current_state == 0){
 			current_state = 1;
 			last_encoder_val = get_average_encoder();
 		}
