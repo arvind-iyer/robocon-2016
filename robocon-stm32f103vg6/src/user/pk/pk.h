@@ -1,8 +1,9 @@
 #ifndef _PK
 #define _PK
 
-#include "pk_movement.h"
 #include "pk_wheelbase.h"
+#include "pk_arm.h"
+#include "pk_climb.h"
 #include "pk_manual.h"
 #include "pk_pid.h"
 #include "pk_brushless.h"

@@ -44,7 +44,7 @@
 .\output\robocon.o: .\src\ustrobo_min_system\inc\encoder.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
 .\output\robocon.o: src\user\laser_sensor.h
-.\output\robocon.o: src\user\pk/pk_movement.h
+.\output\robocon.o: src\user\pk/pk_wheelbase.h
 .\output\robocon.o: src\user\pk/hybrid_pneumatic.h
 .\output\robocon.o: src\user\pk/hybrid_gpio.h
 .\output\robocon.o: src\user\pk/control.h
@@ -64,6 +64,7 @@
 .\output\robocon.o: src\user\flash.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\ultrasonic.h
 .\output\robocon.o: src\user\pk/pk.h
-.\output\robocon.o: src\user\pk/pk_wheelbase.h
+.\output\robocon.o: src\user\pk/pk_arm.h
+.\output\robocon.o: src\user\pk/pk_climb.h
 .\output\robocon.o: src\user\pk/pk_pid.h
 .\output\robocon.o: src\user\pk/hybrid_laser.h

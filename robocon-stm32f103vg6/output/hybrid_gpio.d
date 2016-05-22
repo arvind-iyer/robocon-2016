@@ -28,7 +28,9 @@
 .\output\hybrid_gpio.o: .\src\stm32f10x_std\inc\stm32f10x_can.h
 .\output\hybrid_gpio.o: .\src\ustrobo_min_system\inc\usart.h
 .\output\hybrid_gpio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
-.\output\hybrid_gpio.o: src\user\pk\pk_movement.h
+.\output\hybrid_gpio.o: src\user\pk\pk_wheelbase.h
+.\output\hybrid_gpio.o: src\user\pk\pk_arm.h
+.\output\hybrid_gpio.o: src\user\pk\pk_climb.h
 .\output\hybrid_gpio.o: .\src\user\robocon.h
 .\output\hybrid_gpio.o: .\src\stm32f10x_std\inc\stm32f10x_crc.h
 .\output\hybrid_gpio.o: .\src\ustrobo_min_system\inc\delay.h

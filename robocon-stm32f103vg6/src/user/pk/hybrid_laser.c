@@ -24,22 +24,22 @@ void enterPole() {
 			setBearing(180-increment);
 			setW(angularVelocity);
 			addComponent();
-			parseMotorValues();
-			sendMotorCommands();
+			parseWheelbaseValues();
+			sendWheelbaseCommand();
 		} else if (haha < 245) {
 			setM(40);
 			setBearing(180+increment);
 			setW(angularVelocity);
 			addComponent();
-			parseMotorValues();
-			sendMotorCommands();
+			parseWheelbaseValues();
+			sendWheelbaseCommand();
 		} else {
 			setM(40);
 			setBearing(180);
 			setW(angularVelocity);
 			addComponent();
-			parseMotorValues();
-			sendMotorCommands();
+			parseWheelbaseValues();
+			sendWheelbaseCommand();
 		}
 	}
 	else if(robotMode == BLUE_SIDE) {
@@ -54,22 +54,22 @@ void enterPole() {
 			setBearing(180+increment);
 			setW(angularVelocity);
 			addComponent();
-			parseMotorValues();
-			sendMotorCommands();
+			parseWheelbaseValues();
+			sendWheelbaseCommand();
 		} else if (haha < 245) {
 			setM(40);
 			setBearing(180-increment);
 			setW(angularVelocity);
 			addComponent();
-			parseMotorValues();
-			sendMotorCommands();
+			parseWheelbaseValues();
+			sendWheelbaseCommand();
 		} else {
 			setM(40);
 			setBearing(180);
 			setW(angularVelocity);
 			addComponent();
-			parseMotorValues();
-			sendMotorCommands();
+			parseWheelbaseValues();
+			sendWheelbaseCommand();
 		}
 	}
 }

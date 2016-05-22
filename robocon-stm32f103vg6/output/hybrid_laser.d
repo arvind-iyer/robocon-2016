@@ -45,7 +45,7 @@
 .\output\hybrid_laser.o: .\src\stm32f10x_std\inc\stm32f10x_can.h
 .\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\encoder.h
 .\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
-.\output\hybrid_laser.o: .\src\user\pk/pk_movement.h
+.\output\hybrid_laser.o: .\src\user\pk/pk_wheelbase.h
 .\output\hybrid_laser.o: .\src\user\pk/hybrid_pneumatic.h
 .\output\hybrid_laser.o: .\src\user\pk/hybrid_gpio.h
 .\output\hybrid_laser.o: .\src\user\pk/control.h

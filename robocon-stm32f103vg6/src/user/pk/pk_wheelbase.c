@@ -71,3 +71,20 @@ void sendWheelbaseCommand() {
 	motor_set_vel(MOTOR2, motors.M2.sent, CLOSE_LOOP);
 	motor_set_vel(MOTOR3, motors.M3.sent, CLOSE_LOOP);
 }
+
+void wheelbaseLock() {
+	motors.lastTick = get_full_ticks();
+	motors.M1.sent = 0;
+	motors.M2.sent = 0;
+	motors.M3.sent = 0;
+	motors.M1.target = 0;
+	motors.M2.target = 0;
+	motors.M3.target = 0;
+	motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
+	motor_set_vel(MOTOR2, 0, CLOSE_LOOP);
+	motor_set_vel(MOTOR3, 0, CLOSE_LOOP);
+}
+
+Wheelbase getWheelbaseValues() {
+	return motors;
+}

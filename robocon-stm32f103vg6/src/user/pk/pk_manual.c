@@ -1,5 +1,5 @@
 #include "pk_manual.h"
-#include "pk_movement.h"
+#include "pk_wheelbase.h"
 #include "approx_math.h"
 #include "can_xbc_mb.h"
 #include "pk_brushless.h"
@@ -19,8 +19,8 @@ void manualControl() {
 	setBearing(getTranslationBearing());
 	setW(getRotationValue());
 	addComponent();
-	parseMotorValues();
-	sendMotorCommands();
+	parseWheelbaseValues();
+	sendWheelbaseCommand();
 }
 
 int getTranslationMagnitude() {

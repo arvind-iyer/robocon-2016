@@ -1,13 +1,12 @@
 #ifndef __control_h
 #define __control_h
 
-#include "pk_movement.h"
+#include "pk_wheelbase.h"
 #include "gyro.h"
 #include "approx_math.h"
 #include "hybrid_gpio.h"
 #include <stdbool.h>
 #include "pk_manual.h"
-#include "pk_movement.h"
 #include "pk_brushless.h"
 #include "hybrid_pneumatic.h"
 
@@ -45,7 +44,7 @@ typedef struct {
 	int getSize(void);
 	void riverBlow();
 	
-	extern Motors motor;
+	//extern Motors motor;	//pk
 	extern Robot robot;
 	extern bool allowArm;
 	extern int dispM;

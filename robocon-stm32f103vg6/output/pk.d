@@ -1,7 +1,8 @@
 .\output\pk.o: src\user\pk\pk.c
 .\output\pk.o: src\user\pk\pk.h
-.\output\pk.o: src\user\pk\pk_movement.h
 .\output\pk.o: src\user\pk\pk_wheelbase.h
+.\output\pk.o: src\user\pk\pk_arm.h
+.\output\pk.o: src\user\pk\pk_climb.h
 .\output\pk.o: src\user\pk\pk_manual.h
 .\output\pk.o: src\user\pk\pk_pid.h
 .\output\pk.o: src\user\pk\pk_brushless.h

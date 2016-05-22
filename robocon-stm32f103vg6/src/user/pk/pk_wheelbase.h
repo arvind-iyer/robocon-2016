@@ -27,4 +27,8 @@ void addComponent();
 void parseWheelbaseValues();
 void sendWheelbaseCommand();
 
+void wheelbaseLock();
+
+Wheelbase getWheelbaseValues();
+
 #endif

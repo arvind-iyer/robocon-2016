@@ -98,7 +98,7 @@ void _updateScreen() {
 	tft_prints(16, 6, "%d", get_ticks());
 	#else
 	tft_prints(0, 0, "FIERY DRAGON");
-	tft_prints(0, 1, "M: %d|%d|%d" , getMotorValues().M1, getMotorValues().M2, getMotorValues().M3);
+	tft_prints(0, 1, "M: %d|%d|%d" , getWheelbaseValues().M1, getWheelbaseValues().M2, getWheelbaseValues().M3);
 	tft_prints(0, 2, "B: %d | ARM: %d", getBrushlessMagnitude(), allowArm);
 	tft_prints(0, 3, "P: %d|%d|%d|%d", getPneumaticState().P1, getPneumaticState().P2, getPneumaticState().P3, getPneumaticState().P4);
 	tft_prints(0, 4, "G: %d|%d|%d", get_pos()->x, get_pos()->y, get_pos()->angle);
@@ -232,11 +232,11 @@ void controllerInputUpdate() {
 			}
 			if(button_pressed(BUTTON_XBC_B))
 		{
-			sendClimbCommands(1200, -1200, 1200, -1200);
+			sendClimbCommand(1200);
 		}
 		else if(button_released(BUTTON_XBC_B))
 		{
-			sendClimbCommands(0,0,0,0);
+			sendClimbCommand(0);
 		}
 		if(button_pressed(BUTTON_XBC_X) && !allowArmUpdate) {
 			allowArmUpdate = true;

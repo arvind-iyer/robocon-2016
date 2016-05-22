@@ -50,7 +50,7 @@
 .\output\wheel_base.o: .\src\ustrobo_min_system\inc\encoder.h
 .\output\wheel_base.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
 .\output\wheel_base.o: src\user\laser_sensor.h
-.\output\wheel_base.o: src\user\pk/pk_movement.h
+.\output\wheel_base.o: src\user\pk/pk_wheelbase.h
 .\output\wheel_base.o: src\user\pk/hybrid_pneumatic.h
 .\output\wheel_base.o: src\user\pk/hybrid_gpio.h
 .\output\wheel_base.o: src\user\pk/control.h

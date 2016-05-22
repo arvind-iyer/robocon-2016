@@ -1,6 +1,6 @@
 .\output\control.o: src\user\pk\control.c
 .\output\control.o: src\user\pk\control.h
-.\output\control.o: src\user\pk\pk_movement.h
+.\output\control.o: src\user\pk\pk_wheelbase.h
 .\output\control.o: .\src\ustrobo_min_system\inc\gyro.h
 .\output\control.o: .\src\ustrobo_min_system\inc\usart.h
 .\output\control.o: .\src\stm32f10x_std\inc\stm32f10x.h

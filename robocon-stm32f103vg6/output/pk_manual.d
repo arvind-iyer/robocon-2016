@@ -1,6 +1,6 @@
 .\output\pk_manual.o: src\user\pk\pk_manual.c
 .\output\pk_manual.o: src\user\pk\pk_manual.h
-.\output\pk_manual.o: src\user\pk\pk_movement.h
+.\output\pk_manual.o: src\user\pk\pk_wheelbase.h
 .\output\pk_manual.o: .\src\ustrobo_min_system\inc\approx_math.h
 .\output\pk_manual.o: .\src\stm32f10x_std\inc\stm32f10x.h
 .\output\pk_manual.o: .\src\stm32f10x_std\inc\core_cm3.h

@@ -1,5 +1,5 @@
 #include "control.h"
-#include "pk/pk_movement.h"
+#include "pk_wheelbase.h"
 #include "robocon.h"
 
 #define PI 3.14159265359
@@ -15,8 +15,8 @@ void calculatePIDMotorValues(int vel, int bearing, int w){
 	setBearing(bearing);
 	setW(w);
 	addComponent();
-	parseMotorValues();
-	sendMotorCommands();
+	parseWheelbaseValues();
+	sendWheelbaseCommand();
 }
 
 void robotInit() {
@@ -160,7 +160,8 @@ void updateQueue () {
 			
 			if(currentPath.waitTime <= 0) {
 				finishing = false;
-				sendWheelBaseMotorCommands (0,0,0);
+				//sendWheelBaseMotorCommands(0,0,0);
+				wheelbaseLock();
 				if(currentPath.brushlessSpeed != -1) {
 					setBrushlessMagnitude(currentPath.brushlessSpeed);
 				}
@@ -184,8 +185,8 @@ void updateQueue () {
 					setW(currentOscDir ? 10 : -10);
 					currentOscDir = !currentOscDir;
 					addComponent();
-					parseMotorValues();
-					sendMotorCommands();
+					parseWheelbaseValues();
+					sendWheelbaseCommand();
 				}
 				int dt = get_full_ticks() - lastWait;
 				
@@ -208,15 +209,15 @@ void updateQueue () {
 					setW(currentOscDir ? 10 : -10);
 					currentOscDir = !currentOscDir;
 					addComponent();
-					parseMotorValues();
-					sendMotorCommands();
+					parseWheelbaseValues();
+					sendWheelbaseCommand();
 				}
 				
 				if (dt >= currentPath.waitTime) {
 					lastWait = -1;
 					baseAngle = -1;
 					setBrushlessMagnitude(0);
-					sendWheelBaseMotorCommands (0,0,0);
+					wheelbaseLock();
 					dequeue(size);
 				}
 				
