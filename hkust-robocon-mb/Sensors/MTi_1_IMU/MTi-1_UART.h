@@ -45,6 +45,7 @@
 #define SetOutputSettings					(uint8_t)0xD2
 #define	ReqData										(uint8_t)0x34
 #define MTData										(uint8_t)0x32
+#define MTData2										(uint8_t)0x36
 #define ReqConfiguration					(uint8_t)0x0C
 #define SetOptionFlags 						(uint8_t)0x48
 
@@ -69,4 +70,6 @@ typedef enum
 void MTi_1_UART_init(void);
 void send_MTi_1_UART_msg(u8 *data, u8 MID, u16 data_length);
 void MTi_1_UART_Rx(u8 data);
+float get_MTi_acc(u8 index);
+float get_MTi_ang(u8 index);
 #endif

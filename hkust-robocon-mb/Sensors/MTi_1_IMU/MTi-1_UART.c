@@ -1,8 +1,13 @@
 #include "MTi-1_UART.h"
 
-u8 MTi_1_rx_data[254];
+float MTi_ang[3] = {0, 0, 0};
+float MTi_acc[3] = {0, 0, 0};
+u16 max_rx = 0;
+
+u16 header_count = 0;	//count the header
+u16 rx_count 		= 0;	//incremented by one when RX_interrupt occoured 
+
 u8 MID = 0;
-u8 MTi_1_flag;
 u8 d_length = 0;
 
 //debug
@@ -50,9 +55,8 @@ void send_MTi_1_UART_msg(u8 *data, u8 MID, u16 data_length)
 	for(u8 i=1; i<data_length + 4; i++)
 		checksum += temp[i];
 	
-	cs = checksum;
-	
 	checksum = 0xFF - checksum + 0x01;
+	cs = checksum;
 	temp[data_length + 4] = checksum;
 	
 	for(u8 k=0; k<(data_length + 5); k++)
@@ -62,45 +66,127 @@ void send_MTi_1_UART_msg(u8 *data, u8 MID, u16 data_length)
 	}
 }
 
+float get_MTi_ang(u8 index)
+{
+	return MTi_ang[index];
+}
+
+float get_MTi_acc(u8 index)
+{
+	return MTi_acc[index];
+}
+
 void MTi_1_UART_Rx(u8 data)
 {
-	static u16 header_count = 0;
-	static u16 raw_length = 0;
-	static u16 data_length = 0;
+	static u32 raw_buffer 	= 0;	//buffer for receving data	
+	static u16 data_length 	= 5;	
+	static u8  ANG_COUNT 		= 0;	//counter for receiving Pdata
+	static u8  ACC_COUNT 		= 0;
 	
-	if(data == MTi_1_Preamble)
+	rx_count++;
+	
+	if(data == MTi_1_Preamble && rx_count == 1)
 		header_count++;
-	else if(data == MTi_1_MasterDevice)
+	else if(data == MTi_1_MasterDevice && rx_count == 2)
 		header_count++;
-	else if(raw_length == 2 && header_count == 2)
+	else if(rx_count == 3 && header_count == 2)
 	{
-		MTi_1_flag = MTi_Data_Not_Ready;
 		header_count++;
 		MID = data;
 	}
-	else if(raw_length == 3 && header_count == 3)
+	else if(header_count == 3 && MID == MTData2)
 	{
-		data_length = data;
-		d_length = data;
-		header_count = 0;
+		if(rx_count == 4)
+			data_length = data;
+		
+		if(rx_count == 19 && data == 0x0C)
+		{
+			ANG_COUNT = 12;
+		}
+		
+		if(ANG_COUNT && rx_count >= 20)
+		{
+			if(ANG_COUNT > 8)
+			{
+				raw_buffer = (raw_buffer >> 8) | data; 
+				ANG_COUNT--;
+				if(ANG_COUNT == 8)
+				{
+					MTi_ang[0] = (float)raw_buffer;
+					raw_buffer = 0;
+				}
+			}
+			else if(ANG_COUNT > 4 && ANG_COUNT <= 8)
+			{
+				raw_buffer = (raw_buffer >> 8) | data;
+				ANG_COUNT--;
+				if(ANG_COUNT == 4)
+				{
+					MTi_ang[1] = (float)raw_buffer;
+					raw_buffer = 0;
+				}
+			}
+			else
+			{
+				raw_buffer = (raw_buffer >> 8) | data;
+				ANG_COUNT--;
+				if(!ANG_COUNT)
+				{
+					ACC_COUNT = 12;
+					MTi_ang[2] = (float)raw_buffer;
+					raw_buffer = 0;
+				}
+			}
+		}
+		
+		if(rx_count >= 35 && ACC_COUNT)
+		{
+			if(ACC_COUNT > 8)
+			{
+				raw_buffer = (raw_buffer >> 8) | data;
+				ACC_COUNT--;
+				if(ACC_COUNT == 8)
+				{
+					MTi_acc[0] = *(float*)&raw_buffer;
+					raw_buffer = 0;
+				}
+			}
+			else if(ACC_COUNT > 4 && ACC_COUNT <= 8)
+			{
+				raw_buffer = (raw_buffer >> 8) | data;
+				ACC_COUNT--;
+				if(ACC_COUNT == 4)
+				{
+					MTi_acc[1] = (float)raw_buffer;
+					raw_buffer = 0;
+				}
+			}
+			else
+			{
+				raw_buffer = (raw_buffer >> 8) | data;
+				ACC_COUNT--;
+				if(!ACC_COUNT)
+				{
+					MTi_acc[2] = (float)raw_buffer;
+					raw_buffer = 0;
+				}
+			}
+		}
 	}
 	else
 	{
-		raw_length = 0;
+		rx_count = 0;
+		header_count = 0;
+	}
+	if(rx_count == data_length + 4)
+	{
+		rx_count = 0;
+		header_count = 0;
 	}
 	
-	if(data_length)
-	{	
-		MTi_1_rx_data[raw_length - 5] = data;
-		data_length--;
-		if(data_length == 0)
-		{
-			MTi_1_flag = MTi_Data_Ready;
-			raw_length = 0;
-			header_count = 0;
-			return;
-		}
-	}
-	raw_length++;
-}
+	if(rx_count > max_rx)
+		max_rx = rx_count;
+}	
+	
+
 
