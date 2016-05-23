@@ -15,9 +15,9 @@
 
 #define DELAY_US 1000 //800
 #define scalar 1000
-#define MAXSAMPLETIMES 60
+#define MAXSAMPLETIMES 90
 #define NUMOFAREAS 5
-#define SATOFFSET 32
+#define SATOFFSET 35
 
 #define RIGHT
 

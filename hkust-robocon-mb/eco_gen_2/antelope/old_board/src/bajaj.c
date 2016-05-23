@@ -123,19 +123,17 @@ void process_array(){
 
 void goNormal(void){
     if (get_full_ticks() - lastTurn >= (int)DELAY){
-        if(length > 7 && fullWhite == false && encoder_revolution > 1){
+        if(length > 9 && fullWhite == false && encoder_revolution > 1){
             fullWhite = true;
             ardu_cal_ypr[0] = (float)NINETY_IMU;
             globalState = NINETY;
         }
         
-        else if (length > 7){
+        else if (length > 9){
             lastMovement = SERVO_MICROS_MID;
         }
 
         else if (length >= 1 && length <= 5) {
-//            float factor = ((begin + end) / 2) / (float) 16;
-//            lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
             if(fullWhite){
                 float factor = ((begin + end) / 2) / (float) 16;
                 lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
@@ -157,7 +155,7 @@ void goNinety(void){
             }
         break;
         case RIGHT_SIDE:
-            if((int)ardu_cal_ypr[0] < 75){
+            if((int)ardu_cal_ypr[0] < 90){
                 globalState = NOT_RIVER;
             }
         break;
