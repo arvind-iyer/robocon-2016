@@ -1,7 +1,7 @@
 #ifndef _PK_WHEELBASE
 #define _PK_WHEELBASE
 
-#define MAX_VEL 160
+#define MAX_VEL 200
 #define INTERVAL 100
 #define ACCELERATION 15
 

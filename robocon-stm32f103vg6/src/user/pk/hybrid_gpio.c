@@ -66,6 +66,7 @@ void limitSwitchCheck() {
 		//sendWheelBaseMotorCommands(0,0,0);
 		wheelbaseLock();
 		laserAuto = false;
+		manualMode = true;
 		//pneumatics.P1 = false;
 	}
 	

@@ -3,7 +3,7 @@
 #include "robocon.h"
 
 #define PI 3.14159265359
-#define MAX_MOTOR_PWM 160
+#define MAX_MOTOR_PWM 200
 
 Robot robot;
 Path queue [40];
