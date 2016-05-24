@@ -8,7 +8,7 @@ void laser_manual_update(s32 motor_vel[3], s32* rotate){
 	
 	//0 is the front one
 	//1 is the back one
-	#ifdef RED_FIELD
+	#ifdef BLUE_FIELD
 		for (s8 i=0;i<2;i++){
 			laser_range[i] = get_ls_cal_reading(i);
 			if (laser_range[i]>650){
@@ -73,38 +73,93 @@ void laser_manual_update(s32 motor_vel[3], s32* rotate){
 	motor_vel[2] = (int_sin((curr_angle+2400)%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
 }
 
-void limit_manual_update(s32 motor_vel[3], s32* rotate){
+static s32 start_X = 0, start_Y = 0, start_angle = 0;
+static s32 start_ticks = 0;
+void limit_manual_init(){
+	start_X = get_pos()->x;
+	start_Y = get_pos()->y;
+	start_angle = get_angle();
+	start_ticks = get_full_ticks();
+}
+
+s32 get_new_X(){
+	return get_pos()->x - start_X;
+}
+
+s32 get_new_Y(){
+	return get_pos()->y - start_Y;
+}
+
+s32 get_new_angle(){
+	return get_angle() - start_angle;
+}
+
+s32 get_passed_ticks(){
+	return get_full_ticks() - start_ticks;
+}
+
+static s32 last_Y = 0;
+static u8 buffer = 0;
+u8 limit_manual_update(s32 motor_vel[3], s32* rotate){
+	
+	if (abs(get_new_Y()-last_Y) < LIMIT_NO_Y_TOLER){
+		buffer++;
+	}else{
+		buffer = 0;
+	}
+	last_Y = get_new_Y();
+	if (abs(get_new_Y())>LIMIT_START_DECEL_Y && buffer>LIMIT_NO_Y_BUFFER){
+		return 3;
+	}
 	
 	bool limit_switch_triggered[2] = {false};
-	limit_switch_triggered[0] = gpio_read_input(&PE3);
-	limit_switch_triggered[1] = gpio_read_input(&PE3);
+	limit_switch_triggered[0] = gpio_read_input(&PE8);
+	limit_switch_triggered[1] = gpio_read_input(&PE9);
 	
 	//Rotation
 	if (!limit_switch_triggered[0] && limit_switch_triggered[1]){
-		*rotate = 350;
+		*rotate = LIMIT_ROTATE_BIGGER;
 	}else if(limit_switch_triggered[0] && !limit_switch_triggered[1]){
-		*rotate = -350;
+		*rotate = -LIMIT_ROTATE_SMALLER;
 	}
 	
 	s32 perpend_speed = 0;
 	//Perpendicular
-	if (limit_switch_triggered[0] && limit_switch_triggered[1]){
-		perpend_speed = 150;
+	if (limit_switch_triggered[0] || limit_switch_triggered[1]){
+		perpend_speed = LIMIT_PERPEND_NORM;
 	}else{
-		perpend_speed = 300;
+		perpend_speed = LIMIT_PERPEND_FAST;
 	}
 	
 	//Parallel
-	s32 parallel_speed = 400;
+	s32 parallel_speed = 0;
+	if ((get_passed_ticks())<LIMIT_ACCEL_TIME){
+		parallel_speed = (get_passed_ticks())*LIMIT_PARA_CONSTANT/LIMIT_ACCEL_TIME;
+	}else if(abs(get_new_Y())>LIMIT_START_DECEL_Y){
+		if (abs(get_new_Y())>LIMIT_END_DECEL_Y){
+			parallel_speed = LIMIT_PARA_SLOW_CONSTANT + (abs(get_new_Y()) - LIMIT_START_DECEL_Y)*(LIMIT_PARA_CONSTANT-LIMIT_PARA_SLOW_CONSTANT)/(LIMIT_END_DECEL_Y-LIMIT_START_DECEL_Y);
+		}else{
+			parallel_speed = LIMIT_PARA_SLOW_CONSTANT;
+		}
+	}else {
+		parallel_speed = LIMIT_PARA_CONSTANT;
+	}
+		
+	#ifdef RED_FIELD
+		parallel_speed = parallel_speed;
+	#else
+		parallel_speed = -parallel_speed;
+	#endif
 	
-	s32 curr_angle = int_arc_tan2(parallel_speed, -perpend_speed)*10;
+	s32 curr_angle = int_arc_tan2(-perpend_speed, parallel_speed)*10;
 	u32 curr_speed = u32_sqrt(perpend_speed * perpend_speed + parallel_speed * parallel_speed);
 	motor_vel[0] = (int_sin(curr_angle%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
 	motor_vel[1] = (int_sin((curr_angle+1200)%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
 	motor_vel[2] = (int_sin((curr_angle+2400)%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
+	return 2;
 }
 
-s32 last_angle_error = 0;
+static s32 last_angle_error = 0;
 s32 river_rotate_update(s32 target){
 	s32 this_angle_error = target - get_angle();
 	this_angle_error = this_angle_error>1800?3600-this_angle_error:this_angle_error;

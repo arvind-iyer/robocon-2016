@@ -29,6 +29,9 @@ static bool brushless_str = false;
 static bool rotating_machine_by_90 = false;
 static s32 rotating_machine_by_90_target = 0;
 
+static bool climbing_pneumatic_on = false;
+static s32 ticks_when_pneumatic_on = 0;
+
 static bool global_axis = false;
 
 static s16 last_angle_pid = 0;
@@ -262,15 +265,27 @@ void manual_fast_update(){
 		raise_arm();
 	}
 	
-	if (manual_stage==2){
-		limit_manual_update(motor_vel, &curr_rotate);
+	
+	if (manual_stage == 2){
+		manual_stage = limit_manual_update(motor_vel, &curr_rotate);																																																																																																													
 		curr_heading = get_angle();
+	}else if(manual_stage == 3){
+		if (!climbing_pneumatic_on){
+			pneumatic_off(&CLIMB_PNEUMATIC_PORT);
+			climbing_pneumatic_on = true;
+			ticks_when_pneumatic_on = get_full_ticks();
+		}else if((get_full_ticks() - ticks_when_pneumatic_on)>CLIMBING_TICKS_LIMIT){
+			climb_continue();
+			if (!gpio_read_input(&HIT_BOX_PORT)){
+				manual_stage++;
+			}
+		}
 	}else if(manual_stage==0 && using_laser_sensor){
 		laser_manual_update(motor_vel, &curr_rotate);
 		curr_heading = get_angle();
 	}else if (rotating_machine_by_90){
 		curr_rotate += river_rotate_update(rotating_machine_by_90_target);
-		if (abs(rotating_machine_by_90_target - get_angle()) < 5){
+		if (abs(rotating_machine_by_90_target - get_angle())%3600 < 50){
 			rotating_machine_by_90 = false;
 		}
 		curr_heading = get_angle();
@@ -333,12 +348,13 @@ void manual_interval_update(){
 	
 	if (button_hitted[BUTTON_XBC_BACK]){
 		buzzer_beep(175);
+		limit_manual_init();
 		manual_stage = 2;
 	}
 	
 	if (manual_stage == 0){
 		manual_first_control_update();
-	}else if(manual_stage ==1){
+	}else if(manual_stage == 1){
 		manual_controls_update();
 	}
 	
@@ -346,7 +362,7 @@ void manual_interval_update(){
 	//Value from fast update should also be displayed here
 	tft_append_line("%d", curr_speed);
 	tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_angle());
-	tft_append_line("ST: %d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str);
+	tft_append_line("%d %d %d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str, rotating_machine_by_90, rotating_machine_by_90_target);
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	tft_update();
 }

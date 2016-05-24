@@ -34,7 +34,7 @@ void xbc_global_update(){
 }
 
 void xbc_input_update(){
-	for (u8 i=0; i<XBC_BUTTON_COUNTS; i++){
+	for (u8 i=0; i<(XBC_BUTTON_COUNTS+XBC_BUTTON_START_ID); i++){
 		if (button_pressed((BUTTON)i)){
 			if (all_button_lock[i] == UNLOCKED){
 				all_button_lock[i] = LOCKED;

@@ -18,11 +18,11 @@ int main(void) {
 	can_motor_init();
 	uart_init(COM2, 115200);
 	uart_interrupt(COM2);
+	gyro_init();
 	manual_init();
-	pneumatic_init();
 	buzzer_init();
 	encoder_init();
-	gyro_init();
+	pneumatic_init();
 	button_init();
 	can_xbc_mb_init();
 	can_xbc_mb_tx_enable(true);

@@ -22,8 +22,8 @@
 #include "manual_track.h"
 #include "quick_math.h"
 
-//#define BLUE_FIELD
-#define RED_FIELD
+#define BLUE_FIELD
+//#define RED_FIELD
 
 #ifdef RED_FIELD
 	#ifdef BLUE_FIELD
@@ -44,6 +44,7 @@
 #define ANGLE_PID_MAX 400000
 
 #define ARM_IR_PORT PE0
+#define HIT_BOX_PORT PE3
 
 #define BASE_ACCEL_CONSTANT 1500 //Scaled by 1000
 #define ROTATE_ACCEL_CONSTANT 2500 //Scaled by 1000
@@ -53,6 +54,8 @@
 
 #define GRIPPER_STATES_NO 4
 #define GRIPPER_TICKS_THRESHOLD 50
+
+#define CLIMBING_TICKS_LIMIT 500
 
 #define ENCODER_READING_ARRAY_SIZE 100
 
