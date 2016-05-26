@@ -62,6 +62,7 @@ u8 back_switch_val = 0;
 bool arm_init = false;
 s16 arm_vel = 0;
 s16 tar_arm = 0;
+s16 brushless_time = 0;
 
 //UART receiver
 u8 rx_state = 0;
@@ -108,6 +109,7 @@ void auto_tar_dequeue() {
 	int mid_length;
 	if (tar_end && (tar_queue[tar_end-1].type == NODE_STOP))
 		start = auto_get_ticks();
+	brushless_time = auto_get_ticks();
 	
 	if (tar_end) {
 		ori_x = tar_queue[tar_end-1].x;
@@ -218,6 +220,7 @@ void auto_reset() {
 	transform[1][0] = 0;
 	
 	tar_arm = 0;
+	brushless_time = 0;
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -366,10 +369,10 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		off_y = get_pos()->y - 4165 + wall_dist; //negative
 	
 	//perpendicular PID
-	err_pid = err * 0.35 + err_sum * 0.008 + (err-err_d) * 0.0;
-	
+	err_pid = err * 0.4 + err_sum * 0.006 + (err-err_d) * 0.0;
+	 
 	//rotational P
-	rotate *= 0.6;
+	rotate *= 0.7;
 	
 	angle *= 10;
 	for (int i = 0; i < 3; i++) {
@@ -433,12 +436,22 @@ void auto_robot_control(void) {
 	}
 	
 	if (tar_end <= 1) {
-		brushless_servo_control(-85 + 170*field);
+		brushless_servo_control(-80 + 80*2*field);
 		brushless_control(0, true);
-	} else if (tar_end <= 3) {
+		if (auto_get_ticks() - brushless_time > 700)
+			brushless_control(34, true);
+	} else if (tar_end <= 2) {
 		brushless_control(42, true);
+		if (auto_get_ticks() - brushless_time > 300)
+			brushless_control(44, true);
+	} else if (tar_end <= 3) {
+		brushless_control(47, true);
+		if (auto_get_ticks() - brushless_time > 300)
+			brushless_control(50, true);
 	} else if (tar_end <= 4) {
-		brushless_servo_control(-75 + 150*field);
+		brushless_servo_control(-70 + 70*2*field);
+		if (auto_get_ticks() - brushless_time > 1000)
+			brushless_control(0, true);
 	} else if (tar_end <= 5) {
 		brushless_servo_control(0);		
 	} else {
@@ -664,7 +677,7 @@ void auto_motor_update(){
 	//tft_prints(0,7,"Test %d",measured_vel);
 	//tft_prints(0,7,"Test %d %d %d", arm_vel, get_arm_pos(), tar_arm);
 	//tft_prints(0,7,"Test %d %d", dist, degree_diff);
-	tft_prints(0,7,"Test %d %d %d", side_switch_val, back_switch_val, temp);
+	tft_prints(0,7,"Test %d %d %d", err_sum);
 	tft_prints(0,8,"Trans: %d",(int)(transform[1][0]*700));
 	tft_prints(0,9,"Wall: %d",wall_dist);
 	tft_update();
