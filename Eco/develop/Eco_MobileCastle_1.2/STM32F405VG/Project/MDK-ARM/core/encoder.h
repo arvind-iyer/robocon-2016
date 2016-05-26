@@ -52,8 +52,10 @@ typedef enum {
 } ENCODER;
 
 void encoder_init(void);
-u32 get_count(ENCODER ENCODERx);
+s32 get_count(ENCODER ENCODERx);
+s32 get_dis(ENCODER ENCODERx);
 void reset_all_encoder(void);
-u32 get_average_encoder(void);
+s32 get_average_encoder(void);
+s32 get_average_dis(void);
 
 #endif

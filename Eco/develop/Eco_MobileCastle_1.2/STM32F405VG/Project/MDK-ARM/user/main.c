@@ -96,7 +96,7 @@ int main(void) {
 				if (game_stage != IN_MENU){
 					tft_println("LP: %d %d", this_loop_ticks, any_loop_diff);
 					tft_println("%d %d %d", ardu_int_ypr[0], ardu_int_ypr[1], ardu_int_ypr[2]);
-					tft_println("EN:%d %d", get_count(ENCODER1), get_count(ENCODER2));
+					tft_println("EN:%d %d", get_dis(ENCODER1), get_dis(ENCODER2));
 					tft_println("SR: %s", colors_string[sensorbar_region]);
 					
 					for (u8 i=0; i<16; i++){
@@ -110,6 +110,8 @@ int main(void) {
 				//Short loop action
 				any_loop_diff = this_loop_ticks - last_short_loop_ticks;
 				if (any_loop_diff > SHORT_LOOP_TICKS){
+					get_count(ENCODER1);
+					get_count(ENCODER2);
 					switch(game_stage){
 						case CLIMBING_SLOPE:
 							#ifdef IMU_UPSLOPE
