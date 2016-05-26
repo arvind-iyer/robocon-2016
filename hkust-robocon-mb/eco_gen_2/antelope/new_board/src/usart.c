@@ -48,8 +48,8 @@ void uart_init(COM_TypeDef COM, u32 br)
 	else
 	{
 		RCC_APB1PeriphClockCmd(COM_USART_CLK[COM], ENABLE);
-        GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_USART2);//Connect PB10 to USART1_Tx
-        GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_USART2);//Connect PB11 to USART1_Rx
+        GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_USART2);//Connect PB10 to USART2_Tx
+        GPIO_PinAFConfig(GPIOA, GPIO_PinSource3, GPIO_AF_USART2);//Connect PB11 to USART2_Rx
 	}
 
 	/* Configure USART Tx & USART Rx as alternate function push-pull */

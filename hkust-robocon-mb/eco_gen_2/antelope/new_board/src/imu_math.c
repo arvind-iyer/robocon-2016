@@ -13,13 +13,20 @@ s16 abs_diff(s16 minuend, s16 subtrahend){
 
 float fabs_diff(float minuend, float subtrahend){
 	float diff = minuend - subtrahend;
-	while(diff >= 180.0f){
+	while(diff > 180.0f){
 		diff = 360.0f - diff;
+        if(diff <= 180.0f){
+            return diff;
+            break;
+        }
 	}
-	while(diff <= -180.0f){
+	while(diff < -180.0f){
 		diff = diff + 360.0f;
+        if(diff >= 180.0f){
+            return diff;
+            break;
+        }
 	}
-	return diff;
 }
 
 

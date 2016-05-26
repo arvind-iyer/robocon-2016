@@ -17,7 +17,7 @@ extern const MUSIC_NOTE MARIO[];
 #define	SUCCESSFUL_MUSIC			buzzer_play_song(SUCCESSFUL_SOUND, 100, 0)
 #define	FAIL_MUSIC 						buzzer_play_song(FAIL_SOUND, 120, 100)
 #define	CLICK_MUSIC						buzzer_play_song(CLICK, 20, 0)
-#define MARIO_START                buzzer_play_song(MARIO_BEGIN, 5, 0)
+#define MARIO_START                buzzer_play_song(MARIO_BEGIN, 30, 2)
 #define MARIO_SONG                      buzzer_play_song(MARIO, 15, 0)
 #define BIRTHDAY_SONG_GO                    buzzer_play_song(BIRTHDAY_SONG, 50, 0)
 

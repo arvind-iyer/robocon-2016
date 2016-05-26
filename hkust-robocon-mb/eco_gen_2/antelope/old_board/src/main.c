@@ -78,7 +78,7 @@ int main(void) {
                                 goStraightLittleBit(); //Prevent it from falling down
                             break;
                         }
-                    //}
+                   
                     print_data(); //Print every data in the on system
                     break;
                     

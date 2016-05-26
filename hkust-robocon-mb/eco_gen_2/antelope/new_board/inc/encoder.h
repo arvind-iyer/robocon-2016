@@ -53,7 +53,10 @@ typedef enum {
 
 // function declaration
 void encoder_init(void);
+long get_full_count(ENCODER ENCODERx);
 u32 get_count(ENCODER ENCODERx);
 void reset_all_encoder(void);
+void reset_encoder_1(void);
+void reset_encoder_2(void);
 
 #endif

@@ -17,7 +17,7 @@
 #define scalar 1000
 #define MAXSAMPLETIMES 90
 #define NUMOFAREAS 5
-#define SATOFFSET 35
+#define SATOFFSET 30
 
 #define RIGHT
 

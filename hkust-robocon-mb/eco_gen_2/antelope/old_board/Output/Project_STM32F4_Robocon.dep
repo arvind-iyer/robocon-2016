@@ -1139,7 +1139,7 @@ I (.\inc\gyro.h)(0x571A308D)
 I (.\inc\can_protocol.h)(0x571A308D)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
 I (.\inc\can_motor.h)(0x571A308D)
-I (.\inc\encoder.h)(0x5724B008)
+I (.\inc\encoder.h)(0x5746A24B)
 I (.\inc\sensor_bar.h)(0x571A308D)
 I (.\inc\line_sensor.h)(0x571A308D)
 I (.\inc\buzzer_song.h)(0x573C7015)
@@ -1147,7 +1147,7 @@ I (.\inc\buzzer.h)(0x571A308D)
 I (.\inc\infrared_sensor.h)(0x57232609)
 I (.\inc\servo.h)(0x571DD1E7)
 I (.\inc\ultra_sonic.h)(0x573182AE)
-I (.\inc\bajaj.h)(0x57416904)
+I (.\inc\bajaj.h)(0x5746D2BB)
 I (.\inc\button.h)(0x57318248)
 I (.\inc\ardu_imu.h)(0x5731A2FB)
 I (.\inc\imu_math.h)(0x5731A59A)
@@ -1192,7 +1192,7 @@ I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x571A3086)
 I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x571A3086)
 F (.\Libraries\CMSIS\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f40_41xxx.s)(0x571A3086)(--cpu Cortex-M4.fp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_2\antelope\old_board\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 516" --pd "_RTE_ SETA 1" --pd "STM32F405xx SETA 1"--list .\listings\startup_stm32f40_41xxx.lst --xref -o .\output\startup_stm32f40_41xxx.o --depend .\output\startup_stm32f40_41xxx.d)
 F (.\Libraries\STM32F4xx_StdPeriph_Driver\readme.txt)(0x571A3086)()
-F (.\src\main.c)(0x57416295)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_2\antelope\old_board\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
+F (.\src\main.c)(0x5746C61A)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_2\antelope\old_board\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
 I (.\inc\main.h)(0x573C6BA0)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
 I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x571A3086)
@@ -1243,7 +1243,7 @@ I (.\inc\gyro.h)(0x571A308D)
 I (.\inc\can_protocol.h)(0x571A308D)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
 I (.\inc\can_motor.h)(0x571A308D)
-I (.\inc\encoder.h)(0x5724B008)
+I (.\inc\encoder.h)(0x5746A24B)
 I (.\inc\sensor_bar.h)(0x571A308D)
 I (.\inc\line_sensor.h)(0x571A308D)
 I (.\inc\buzzer_song.h)(0x573C7015)
@@ -1251,7 +1251,7 @@ I (.\inc\buzzer.h)(0x571A308D)
 I (.\inc\infrared_sensor.h)(0x57232609)
 I (.\inc\servo.h)(0x571DD1E7)
 I (.\inc\ultra_sonic.h)(0x573182AE)
-I (.\inc\bajaj.h)(0x57416904)
+I (.\inc\bajaj.h)(0x5746D2BB)
 I (.\inc\button.h)(0x57318248)
 I (.\inc\ardu_imu.h)(0x5731A2FB)
 I (.\inc\imu_math.h)(0x5731A59A)
@@ -1510,7 +1510,7 @@ I (.\inc\1.8 TFT_ascii.h)(0x571A308D)
 I (.\inc\ticks.h)(0x571A308D)
 I (.\inc\approx_math.h)(0x571A308D)
 F (.\src\encoder.c)(0x572605F9)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_2\antelope\old_board\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\encoder.o --omf_browse .\output\encoder.crf --depend .\output\encoder.d)
-I (.\inc\encoder.h)(0x5724B008)
+I (.\inc\encoder.h)(0x5746A24B)
 I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x571A3086)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x5625B70C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
@@ -1850,8 +1850,8 @@ I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dac.h)(0x571A3086)
 I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_dcmi.h)(0x571A3086)
 I (.\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_fsmc.h)(0x571A3086)
 I (.\inc\ticks.h)(0x571A308D)
-F (.\src\bajaj.c)(0x5741931F)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_2\antelope\old_board\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\bajaj.o --omf_browse .\output\bajaj.crf --depend .\output\bajaj.d)
-I (.\inc\bajaj.h)(0x57416904)
+F (.\src\bajaj.c)(0x57474CE2)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\ -I.\Libraries\STM32F4xx_StdPeriph_Driver\inc\ -I.\Libraries\STM32F4xx_StdPeriph_Driver -I.\ -I.\inc --C99-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_2\antelope\old_board\RTE-I C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-I C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_STDPERIPH_DRIVER -DSTM32F40_41xxx-o .\output\bajaj.o --omf_browse .\output\bajaj.crf --depend .\output\bajaj.d)
+I (.\inc\bajaj.h)(0x5746D2BB)
 I (.\Libraries\CMSIS\Device\ST\STM32F4xx\Include\stm32f4xx.h)(0x571A3086)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include\core_cm4.h)(0x5625B70C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
@@ -1897,7 +1897,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x55AEF5F2)
 I (.\inc\ticks.h)(0x571A308D)
 I (.\inc\infrared_sensor.h)(0x57232609)
 I (.\inc\servo.h)(0x571DD1E7)
-I (.\inc\encoder.h)(0x5724B008)
+I (.\inc\encoder.h)(0x5746A24B)
 I (.\inc\led.h)(0x571A308D)
 I (.\inc\buzzer_song.h)(0x573C7015)
 I (.\inc\buzzer.h)(0x571A308D)
@@ -1969,7 +1969,7 @@ I (.\inc\gyro.h)(0x571A308D)
 I (.\inc\can_protocol.h)(0x571A308D)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
 I (.\inc\can_motor.h)(0x571A308D)
-I (.\inc\encoder.h)(0x5724B008)
+I (.\inc\encoder.h)(0x5746A24B)
 I (.\inc\sensor_bar.h)(0x571A308D)
 I (.\inc\line_sensor.h)(0x571A308D)
 I (.\inc\buzzer_song.h)(0x573C7015)
@@ -1977,7 +1977,7 @@ I (.\inc\buzzer.h)(0x571A308D)
 I (.\inc\infrared_sensor.h)(0x57232609)
 I (.\inc\servo.h)(0x571DD1E7)
 I (.\inc\ultra_sonic.h)(0x573182AE)
-I (.\inc\bajaj.h)(0x57416904)
+I (.\inc\bajaj.h)(0x5746D2BB)
 I (.\inc\ardu_imu.h)(0x5731A2FB)
 I (.\inc\imu_math.h)(0x5731A59A)
 I (C:\Keil_v5\ARM\ARMCC\include\limits.h)(0x55AEF5F2)

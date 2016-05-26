@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Output\project.hex]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Output\project.hex</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Sun May 22 19:08:17 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri May 27 03:22:12 2016
 <BR><P>
 <H3>Maximum Stack Usage =        344 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -867,7 +867,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[82]"></a>TIM_GetCounter</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_GetCounter))
-<BR><BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
+<BR><BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
+<LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
 <LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI9_5_IRQHandler
 <LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI15_10_IRQHandler
 </UL>
@@ -929,7 +930,8 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> servo.o(.data)
 </UL>
 <P><STRONG><a name="[c7]"></a>TIM_SetCounter</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_SetCounter))
-<BR><BR>[Called By]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_encoder_1
+<BR><BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
+<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_encoder_1
 <LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_encoder_2
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
 </UL>
@@ -1289,8 +1291,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ce]"></a>goNormal</STRONG> (Thumb, 168 bytes, Stack size 8 bytes, bajaj.o(i.goNormal))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = goNormal
+<P><STRONG><a name="[ce]"></a>goNormal</STRONG> (Thumb, 200 bytes, Stack size 24 bytes, bajaj.o(i.goNormal))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = goNormal
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_ticks
@@ -1298,7 +1300,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[d0]"></a>goStraightLittleBit</STRONG> (Thumb, 40 bytes, Stack size 8 bytes, bajaj.o(i.goStraightLittleBit))
+<P><STRONG><a name="[d0]"></a>goStraightLittleBit</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, bajaj.o(i.goStraightLittleBit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = goStraightLittleBit &rArr; get_count
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
@@ -1373,7 +1375,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[d9]"></a>print_data</STRONG> (Thumb, 218 bytes, Stack size 24 bytes, bajaj.o(i.print_data))
+<P><STRONG><a name="[d9]"></a>print_data</STRONG> (Thumb, 220 bytes, Stack size 24 bytes, bajaj.o(i.print_data))
 <BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = print_data &rArr; tft_prints &rArr; vsprintf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_infrared_sensor
@@ -1426,10 +1428,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;update_encoder
 </UL>
 
-<P><STRONG><a name="[db]"></a>runUserInterface</STRONG> (Thumb, 44 bytes, Stack size 16 bytes, bajaj.o(i.runUserInterface))
+<P><STRONG><a name="[db]"></a>runUserInterface</STRONG> (Thumb, 152 bytes, Stack size 16 bytes, bajaj.o(i.runUserInterface))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = runUserInterface &rArr; button_pressed
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
+<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetCounter
+<LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCounter
+<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
 </UL>
 <BR>[Called By]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>

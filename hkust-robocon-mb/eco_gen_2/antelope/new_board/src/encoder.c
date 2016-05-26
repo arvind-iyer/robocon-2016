@@ -88,8 +88,21 @@ u32 get_count(ENCODER ENCODERx){
 	return TIM_GetCounter(encoder[ENCODERx].timer);
 }
 
+long get_full_count(ENCODER ENCODERx){
+    long encoder_value = get_count(ENCODERx);
+    return encoder_value / 1000;
+}
+
 void reset_all_encoder(){
     TIM_SetCounter(ENCODER_TIMER1,0);
     TIM_SetCounter(ENCODER_TIMER2,0);
+}
+
+void reset_encoder_1(){
+    TIM_SetCounter(ENCODER_TIMER1,0);
+}
+
+void reset_encoder_2(){
+    TIM_SetCounter(ENCODER_TIMER2,10);
 }
 

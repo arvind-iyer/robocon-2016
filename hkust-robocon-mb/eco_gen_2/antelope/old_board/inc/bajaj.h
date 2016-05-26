@@ -28,8 +28,8 @@ enum{LEFT_SIDE = 5, RIGHT_SIDE = 6};
 
 //Default Defines (Please do not change these)
 #define SERVO_MICROS_MID 1350
-#define SERVO_MICROS_RIGHT 900
-#define SERVO_MICROS_LEFT 1800
+#define SERVO_MICROS_RIGHT 850
+#define SERVO_MICROS_LEFT 1850
 #define BAJAJ_SERVO SERVO2
 
 
@@ -67,8 +67,8 @@ enum{LEFT_SIDE = 5, RIGHT_SIDE = 6};
 //You can change these
 #ifdef RIGHT
 #define MAX_NINETY_TURNING 1875
-#define IMU_ANGLE 145
-#define LESSER_TURNING -220
+#define IMU_ANGLE 125
+#define LESSER_TURNING -180
 #define NINETY_IMU 180
 #define RIVER_INFRARED INFRARED_SENSOR_LEFT
 #define SLOPE_ENCODER 43000

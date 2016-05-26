@@ -20,6 +20,9 @@ extern bool systemOn;
 extern int yaw_of_imu;
 extern int pitch_of_imu;
 extern int hueAvg;
+int passedRiver = 0;
+int passedDownSlope = 0;
+int buttonLeftCount = 0;
 
 float imuFactor;
 int imuMovement;
@@ -92,11 +95,11 @@ void print_data(){
     tft_prints(0,2,"y:%f",ardu_cal_ypr[0]);
     tft_prints(0,3,"il:%d ir:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
     tft_prints(0,4,"ul:%d ur:%d", read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT),read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT));
-    tft_prints(0,5,"le:%d havg:%d",length,hueAvg);
+    tft_prints(0,5,"le:%d state:%d",length,globalState);
     tft_prints(0,6,"fullwhite:%d",fullWhite);
     tft_prints(0,7,"e1:%d e2:%d",get_full_count(ENCODER1),get_full_count(ENCODER2));
-    tft_prints(0,8,"state: %d",globalState);
-    tft_prints(0,9,"riv:%d count:%d",river,encoder_revolution);    
+    tft_prints(0,8,"priv: %d pds:%d",passedRiver,passedDownSlope);
+    tft_prints(0,9,"riv:%d count:%d",river,encoder_revolution); 
 }
 
 void process_array(){
@@ -123,16 +126,20 @@ void process_array(){
 
 void goNormal(void){
     if (get_full_ticks() - lastTurn >= (int)DELAY){
-        if(length > 9 && fullWhite == false && encoder_revolution > 1){
+        if(length > 8 && fullWhite == false && encoder_revolution > 1){
             fullWhite = true;
             ardu_cal_ypr[0] = (float)NINETY_IMU;
             globalState = NINETY;
         }
         
-        else if (length > 9){
+        else if (length > 8){
             lastMovement = SERVO_MICROS_MID;
         }
-
+        
+        else if((gameZone == BLUEZONE || gameZone == PINKZONE) && passedRiver && passedDownSlope){
+            lastMovement = SERVO_MICROS_MID;
+        }
+        
         else if (length >= 1 && length <= 5) {
             if(fullWhite){
                 float factor = ((begin + end) / 2) / (float) 16;
@@ -142,7 +149,10 @@ void goNormal(void){
                 float factor = ((begin + end) / 2) / (float) 16;
                 lastMovement = (SLOPE_TURNING_LEFT) - (factor * (SLOPE_TURNING_LEFT - SLOPE_TURNING_RIGHT));
             }
-        }  
+        }
+        if(gameZone == LIGHTGREENZONE && passedRiver){
+            passedDownSlope = 1;
+        }
     begin = -1;
     servo_control(BAJAJ_SERVO,lastMovement);
     }
@@ -161,7 +171,7 @@ void goNinety(void){
         break;
     }
     imuFactor = ardu_cal_ypr[0] / 180.0f;
-    imuMovement = SERVO_MICROS_MID + (imuFactor * 450);
+    imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
     servo_control(BAJAJ_SERVO,imuMovement);
 }
 
@@ -171,7 +181,7 @@ void goUsingImu(void){
         reset_encoder_1();
     }
     imuFactor = ardu_cal_ypr[0] / 180.0f;
-    imuMovement = SERVO_MICROS_MID + (imuFactor * 450);
+    imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
     servo_control(BAJAJ_SERVO,imuMovement);
 }
 
@@ -179,6 +189,7 @@ void goStraightLittleBit(void){
     servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + (int)LESSER_TURNING);
     if(get_count(ENCODER1) > 6000){
         lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
+        passedRiver = 1;
         globalState = NOT_RIVER;
         lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
     }
@@ -232,9 +243,30 @@ void determineZone(){
 
 void runUserInterface(void){
     //User Interface Section
-    if(button_pressed(BUTTON_JS_DOWN))fullWhite = true;
-    if(button_pressed(BUTTON_JS_LEFT))systemOn = 0;
+    if(button_pressed(BUTTON_JS_LEFT)){
+        while(button_pressed(BUTTON_JS_LEFT));
+            if(!buttonLeftCount){
+                fullWhite = 1;
+                buttonLeftCount++;
+            }
+            else if(buttonLeftCount == 1){
+                passedRiver = 1;
+                buttonLeftCount++;
+            }
+            else passedDownSlope = 1;
+    }
     if(button_pressed(BUTTON_JS_RIGHT))systemOn = 1;
+    if(button_pressed(BUTTON_JS_CENTRE)){
+        while(button_pressed(BUTTON_JS_CENTRE));
+        if(encoder_revolution < 2)encoder_revolution++;
+        else encoder_revolution = 0;
+    }
+    if(button_pressed(BUTTON_JS_UP)){
+        TIM_SetCounter(ENCODER_TIMER2,TIM_GetCounter(ENCODER_TIMER2) + 10);
+    }
+    if(button_pressed(BUTTON_JS_DOWN)){
+        TIM_SetCounter(ENCODER_TIMER2,TIM_GetCounter(ENCODER_TIMER2) - 10);
+    }
 
 }
 

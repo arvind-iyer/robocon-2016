@@ -1,8 +1,7 @@
 #include "servo.h"
 
-
 /* Config the servo here, DISABLE the servo if not used */
-static SERVO_PWM_STRUCT servo_pwm = {{TIM_Channel_4, GPIOB, GPIO_Pin_1, GPIO_PinSource1, ENABLE, TIM_OC4Init, TIM_SetCompare4}};
+static SERVO_PWM_STRUCT servo_pwm = {{TIM_Channel_1, GPIOA, GPIO_Pin_8, GPIO_PinSource8, ENABLE, TIM_OC1Init, TIM_SetCompare1}};
 
 /**
   * @brief  Servo initialization
@@ -16,19 +15,19 @@ void servo_init(void){
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
 	u8 servo_id;
 
-	RCC_APB1PeriphClockCmd(SERVO_TIM_RCC, ENABLE);
+	RCC_APB2PeriphClockCmd(SERVO_TIM_RCC, ENABLE);
 	RCC_AHB1PeriphClockCmd(SERVO_GPIO_RCC, ENABLE);	// Enable bus
 
 	SERVO_GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;						// Push-Pull Output Alternate-function
 	SERVO_GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
 	
-	for (servo_id = 0; servo_id < SERVO_COUNT; ++servo_id){
+	for (servo_id = 0; servo_id < 1; ++servo_id){
 		if (servo_pwm[servo_id].state == DISABLE) {
 				continue;
-		}
+			}
 		SERVO_GPIO_InitStructure.GPIO_Pin=servo_pwm[servo_id].servo_pin;
 		GPIO_Init(servo_pwm[servo_id].GPIOx , &SERVO_GPIO_InitStructure);	
-		GPIO_PinAFConfig(servo_pwm[servo_id].GPIOx, servo_pwm[servo_id].GPIO_PinSource, GPIO_AF_TIM3);
+		GPIO_PinAFConfig(servo_pwm[servo_id].GPIOx, servo_pwm[servo_id].GPIO_PinSource, GPIO_AF_TIM1);
 	}
 
 		
@@ -38,7 +37,7 @@ void servo_init(void){
 	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
 
 	//------------------------------//
-	TIM_TimeBaseStructure.TIM_Prescaler = 83;												//clk=84M/(83+1)=1 MHz, Freq = 1000000 / 20000 = 50Hz Interval = 20ms
+	TIM_TimeBaseStructure.TIM_Prescaler = 167;												//clk=84M/(83+1)=1 MHz, Freq = 1000000 / 20000 = 50Hz Interval = 20ms
 	TIM_TimeBaseStructure.TIM_Period = 20000;												//pulse cycle= 20000 
 	//------------------------------//
 
@@ -58,24 +57,22 @@ void servo_init(void){
 	//------------------------------//
 	
 	// OC Init
-	
-	TIM_OC4Init(SERVO_TIM, &TIM_OCInitStructure);
-	TIM_OC4PreloadConfig(SERVO_TIM, ENABLE);
+	TIM_OC1Init(SERVO_TIM, &TIM_OCInitStructure);
+	TIM_OC1PreloadConfig(SERVO_TIM, ENABLE);
 	
 	TIM_ARRPreloadConfig(SERVO_TIM, ENABLE);
 	TIM_Cmd(SERVO_TIM, ENABLE);	
 	TIM_CtrlPWMOutputs(SERVO_TIM, ENABLE);
-
 }
 
 /**
   * @brief  Controlling the PWM for servos
-  * @param  servo_id: Port of Motor to be used (SERVO1)
-  * @param  val: Value from 0 to 2000
+  * @param  servo_id: Port of Motor to be used (SERVO1, SERVO2, SERVO3, SERVO4)
+  * @param  val: Any value from 0~20000. Safeguard elsewhere.
   * @retval None
   */
 void servo_control(SERVO_ID servo_id , u16 val) {
-		u16 ccr_val = val;
+	u16 ccr_val = val;
 	
   if (((u8) servo_id) < SERVO_COUNT) {
     servo_pwm[servo_id].TIM_SetCompare(SERVO_TIM, ccr_val);

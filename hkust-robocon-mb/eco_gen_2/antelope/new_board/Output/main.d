@@ -63,4 +63,3 @@
 .\output\main.o: .\inc\main.h
 .\output\main.o: .\inc\ardu_imu.h
 .\output\main.o: .\inc\imu_math.h
-.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

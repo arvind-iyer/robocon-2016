@@ -32,7 +32,7 @@ struct US_TypeDef
 	u16 result;
 };
 
-void us_init();
+void us_init(void);
 u16 get_result(u8 device);
 u16 get_distance(u8 device);
 
