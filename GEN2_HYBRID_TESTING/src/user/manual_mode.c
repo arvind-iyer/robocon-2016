@@ -23,7 +23,7 @@ static u16 gripper_states[2] = {0};
 static u32 gripper_ticks[8] = {0}; //Left claw, Left push, Right claw, Right push
 
 static bool using_laser_sensor = false;
-static bool pole_front = false;
+static bool pole_as_front = false;
 static bool facing_pole = false;
 static bool brushless_str = false;
 static bool rotating_machine_by_90 = false;
@@ -31,6 +31,10 @@ static s32 rotating_machine_by_90_target = 0;
 
 static bool climbing_pneumatic_on = false;
 static s32 ticks_when_pneumatic_on = 0;
+
+static bool gripper_extended = false;
+static bool gripper_clawed = true;
+static bool gripper_down = false;
 
 static bool global_axis = false;
 
@@ -57,13 +61,16 @@ void manual_reset(){
 	ground_wheels_lock = UNLOCKED;
 	brushless_power_percent = 20;
 	climbing_induced_ground_lock = UNLOCKED;
-	is_rotating = using_laser_sensor = pole_front = facing_pole = brushless_str = rotating_machine_by_90 = false;
+	is_rotating = using_laser_sensor = pole_as_front = facing_pole = brushless_str = rotating_machine_by_90 = false;
+	gripper_extended = gripper_down = climbing_pneumatic_on = false;
+	gripper_clawed = true;
 	brushless_control(0, true);
 	brushless_servo_control(0);
-	gripper_control(GRIPPER_1, 0); 
-	gripper_control(GRIPPER_2, 0);
-	pneumatic_off(&PD10);
-	pneumatic_off(&PD11);
+	for (GRIPPER_ID id=GRIPPER_1;id<=GRIPPER_2;id++){
+		gripper_control(id, gripper_down);
+		gripper_push_control(id, gripper_extended);
+		gripper_claw_control(id, gripper_clawed);
+	}
 }
 
 void manual_vel_set_zero(){
@@ -187,7 +194,7 @@ void manual_update_wheel_base(){
 				curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
 			}
 			
-			if (pole_front){
+			if (pole_as_front){
 				curr_angle -= 1800;
 			}
 			
@@ -337,13 +344,44 @@ void manual_interval_update(){
 	if (button_hitted[BUTTON_XBC_START]){
 		buzzer_beep(75);
 		if (manual_stage == 0){
-			pole_front = true;
+			pole_as_front = true;
 			using_laser_sensor = false;
 			manual_stage = 1;
 			brushless_servo_control(brushless_servo_val);
 		}else if(manual_stage == 1){
 			manual_stage = 0;
 		}
+	}
+	
+	if (button_hitted[BUTTON_XBC_X]){
+		#ifdef BLUE_FIELD
+			if (!facing_pole){
+		#else
+			if (facing_pole){
+		#endif
+				rotating_machine_by_90_target = (get_angle() - 900)%3600;
+				manual_stage = 1;
+				gripper_down = true;
+				gripper_extended = true;
+				gripper_clawed = false;
+				gripper_control(THIS_GRIPPER, !gripper_down);
+				gripper_push_control(THIS_GRIPPER, gripper_extended);
+				gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+			}else{
+				rotating_machine_by_90_target = (get_angle() + 900)%3600;
+				manual_stage = 0;
+				gripper_down = false;
+				gripper_extended = false;
+				gripper_clawed = true;
+				gripper_control(THIS_GRIPPER, !gripper_down);
+				gripper_push_control(THIS_GRIPPER, gripper_extended);
+				gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+			}
+			rotating_machine_by_90 = true;
+			using_laser_sensor = false;
+			pole_as_front = !pole_as_front;
+			facing_pole = !facing_pole;
+			brushless_servo_control(brushless_servo_val);
 	}
 	
 	if (button_hitted[BUTTON_XBC_BACK]){
@@ -368,25 +406,8 @@ void manual_interval_update(){
 }
 
 void manual_first_control_update(){
-	if (button_hitted[BUTTON_XBC_X]){
-		#ifdef BLUE_FIELD
-			if (!facing_pole){
-		#else
-			if (facing_pole){
-		#endif
-				rotating_machine_by_90_target = (get_angle() - 900)%3600;
-				rotating_machine_by_90 = true;
-			}else{
-				rotating_machine_by_90_target = (get_angle() + 900)%3600;
-				rotating_machine_by_90 = true;
-			#ifdef BLUE_FIELD
-			}
-			#else
-			}
-			#endif
-			facing_pole = !facing_pole;
-	}
-			
+	manual_control_brushless_update();
+	
 	if (button_hitted[BUTTON_XBC_B]){
 		if (brushless_str){
 			#ifdef BLUE_FIELD
@@ -406,7 +427,29 @@ void manual_first_control_update(){
 		buzzer_beep(75);
 		using_laser_sensor = !using_laser_sensor;
 	}
+}
+
+void manual_second_control_update() {
+	manual_control_brushless_update();
 	
+	//Gripper servo
+	if (button_hitted[BUTTON_XBC_Y]){
+		gripper_down = !gripper_down;
+		gripper_control(THIS_GRIPPER, !gripper_down);
+	}
+	//Gripper push
+	if (button_hitted[BUTTON_XBC_B]){
+		gripper_extended = !gripper_extended;
+		gripper_push_control(THIS_GRIPPER, gripper_extended);
+	}
+	//Gripper claw
+	if (button_hitted[BUTTON_XBC_A]){
+		gripper_clawed = !gripper_clawed;
+		gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+	}
+}
+
+void manual_control_brushless_update(){
 	//Brushless power control
 	if (button_hitted[BUTTON_XBC_RB]){
 		buzzer_beep(75);
@@ -453,127 +496,7 @@ void manual_first_control_update(){
 	}
 }
 
-void manual_controls_update(void) {
-	//Brushless power control
-	if (button_hitted[BUTTON_XBC_RB]){
-		buzzer_beep(75);
-		if (brushless_power_percent < 100){
-			brushless_power_percent += BRUSHLESS_POWER_STEP;
-		}
-		if (brushless_power_percent == (20 + BRUSHLESS_POWER_STEP)){
-			brushless_power_percent += BRUSHLESS_POWER_STEP;
-		}
-	}
-	
-	if (button_hitted[BUTTON_XBC_LB]){
-		buzzer_beep(75);
-		if (brushless_power_percent > 20){
-			brushless_power_percent -= BRUSHLESS_POWER_STEP;
-		}
-	}
-	
-	brushless_control(brushless_power_percent, true);
-	tft_append_line("%d", brushless_power_percent);
-	
-	// brushless arm
-	if (xbc_get_joy(XBC_JOY_RX)>500){
-		brushless_servo_val += BRUSHLESS_SERVO_STEP;
-		if (brushless_servo_val > 140)
-			brushless_servo_val = 140;
-		brushless_servo_control(brushless_servo_val);
-	}
-	if (xbc_get_joy(XBC_JOY_RX)<-500){
-		brushless_servo_val -= BRUSHLESS_SERVO_STEP;
-		if (brushless_servo_val < -140)
-			brushless_servo_val = -140;
-		brushless_servo_control(brushless_servo_val);
-	}
-	
-	if (xbc_get_joy(XBC_JOY_RY)>700){
-		raise_arm();
-		tft_append_line("RAISING ARM");
-	}else if (xbc_get_joy(XBC_JOY_RY)<-700){
-		lower_arm();
-		tft_append_line("LOWERING ARM");
-	}else {
-		stop_arm();
-	}
-	
-	//gripper controls
-	for (u8 i=0; i < GRIPPER_COUNT; i++) {
-		if (button_pressed(gripper_buttons[i])) {
-			if (press_gripper_buttons[i] == UNLOCKED) {
-				press_gripper_buttons[i] = LOCKED;
-				gripper_states[i] = (gripper_states[i] + 1) % GRIPPER_STATES_NO;
-				
-				switch (gripper_states[i]) {
-					case 0: //Default state
-						gripper_control((GRIPPER_ID)i, 0); //Down
-						gripper_ticks[3+i*4] = get_full_ticks() + 1000; //pneumatic 2 hi; pushed out
-						break;
-					case 1: //Collect propeller
-						gripper_ticks[0+i*4] = get_full_ticks() + 200; //pneumatic 1 lo; close claw
-						gripper_ticks[2+i*4] = get_full_ticks() + 500; //pneumatic 2 lo; retract
-						break;
-					case 2: //Upright
-						gripper_control((GRIPPER_ID)i, 1); //Up
-						gripper_ticks[3+i*4] = get_full_ticks() + 1800; //pneumatic 2 hi; pushed out 
-						break;
-					case 3: //Chaiyo
-						gripper_ticks[2+i*4] = get_full_ticks() + 200; //pneumatic 2 lo; retract
-						gripper_ticks[1+i*4] = get_full_ticks() + 800; //pneumatic 1 hi; claw open 
-						break;
-				}
-			}
-		}else{
-			press_gripper_buttons[i] = UNLOCKED;
-		}
-	}
-	
-	for (u8 i=0; i<8; i++) {
-		if(Abs(get_full_ticks() - gripper_ticks[i]) <= GRIPPER_TICKS_THRESHOLD) {
-			GPIO gripper_ticks_port;
-			switch ((int)(i/2)) {
-				case 0: //left claw
-					gripper_ticks_port = PD10;
-					break;
-				case 1: //left push
-					gripper_ticks_port = PD11;
-					break;
-				case 2: //right claw
-					gripper_ticks_port = PD8;
-					break;
-				case 3: //right push
-					gripper_ticks_port = PD9;
-					break;
-			}
-			if (i%2) {
-				pneumatic_off(&gripper_ticks_port);
-			} else {
-				pneumatic_on(&gripper_ticks_port);
-			}
-		}
-	}
-	
-	/*
-	** This part is related to climbing mechanism
-	** Hold button A to climb up
-	** Hold button Y to descend
-	** While climbing, the ground wheels should be locked
-	*/
-	if (button_pressed(BUTTON_XBC_A) && gpio_read_input(&PE3)){
-		climb_continue();
-		climbing_induced_ground_lock = LOCKED;
-		tft_append_line("CLIMBING");
-	}else{
-		stop_climbing();
-		climbing_induced_ground_lock = UNLOCKED;
-	}
-	
-	/*
-	** This part deals with locking the robot onto the pole.
-	*/
-	if (button_hitted[BUTTON_XBC_B]){
-		pneumatic_climb_toggle();
-	}
+
+void manual_controls_update() {
+	manual_control_brushless_update();
 }

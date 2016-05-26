@@ -20,6 +20,7 @@
 #define IR_2_Pin GPIO_Pin_1
 
 #define IR_BUFFER_LENGTH 8
+#define ENCODER_AFTER_THIRD_ISLAND 6000
 
 extern s16 river_straight_yaw;
 

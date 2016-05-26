@@ -18,7 +18,7 @@ void pneumatic_init(){
 	GPIO_Init(GPIOE, &GPIO_InitStructure);
 }
 
-void pneumatic_control(GPIO_TypeDef* PORT,u16 gpio_pin,u8 state){
+void pneumatic_control(GPIO_TypeDef* PORT, u16 gpio_pin,u8 state){
 	
 	if (state==1){
 		GPIO_SetBits(PORT,gpio_pin);

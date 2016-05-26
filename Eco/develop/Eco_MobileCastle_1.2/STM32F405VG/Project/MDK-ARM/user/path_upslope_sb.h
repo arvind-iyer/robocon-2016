@@ -15,7 +15,7 @@
 #include "quick_math.h"
 #include "encoder.h"
 
-#define RIVER_90_TURN_CONSTANT 10000
+#define RIVER_90_TURN_CONSTANT 6000
 
 void path_up_sb_init(u8 stage);
 GAME_STAGE path_up_sb_update(void);

@@ -128,9 +128,9 @@ GAME_STAGE path_river_update(){
 			
 		case 3:
 			#ifdef BLUE_FIELD
-				if (get_average_encoder()-encoder_start_reading > 8500){
+				if (get_average_encoder()-encoder_start_reading > ENCODER_AFTER_THIRD_ISLAND){
 			#else
-				if (get_average_encoder()-encoder_start_reading > 8500){
+				if (get_average_encoder()-encoder_start_reading > ENCODER_AFTER_THIRD_ISLAND){
 			#endif
 				river_stage++;
 			}

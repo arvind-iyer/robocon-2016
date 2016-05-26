@@ -11,8 +11,8 @@
 
 #define CLIMBING_SPEED 1250
 #define DESCEND_SPEED -500
-#define RAISE_ARM_SPEED 1500
-#define LOWER_ARM_SPEED -1500
+#define RAISE_ARM_SPEED 1799
+#define LOWER_ARM_SPEED -1799
 
 #define BRUSHLESS_MIN 450
 #define BRUSHLESS_MAX 1050
@@ -27,6 +27,10 @@
 #define GRIPPER_MED 750
 #define GRIPPER_MAX 1050
 #define GRIPPER_COUNT 2
+#define GRIPPER_L_PUSH_PORT PD11
+#define GRIPPER_R_PUSH_PORT PD9
+#define GRIPPER_L_CLAW_PORT PD10
+#define GRIPPER_R_CLAW_PORT PD8
 
 #define MOTOR4_FLIP 1
 #define MOTOR5_FLIP 1
@@ -35,8 +39,8 @@
 
 #define ARM_UP_LIMIT_PORT PE5
 #define ARM_DN_LIMIT_PORT PE4
-#define CLIMB_LIMIT_PORT PE3
 
+#define CLIMB_LIMIT_PORT PE3
 #define CLIMB_PNEUMATIC_PORT PB9
 
 typedef enum{
@@ -54,7 +58,12 @@ void emergency_stop(void);
 void brushless_control(u16 value, bool is_percentage_mode);
 void brushless_servo_control(s16 value);
 
-void gripper_control(GRIPPER_ID gripper_id, u16 state);
+//state: 0 = down, 1 = upright
+void gripper_control(GRIPPER_ID gripper_id, u8 state);
+//state: 0 = retract, 1 = extend
+void gripper_push_control(GRIPPER_ID gripper_id, u8 state);
+//state: 0 = open, 1 = close
+void gripper_claw_control(GRIPPER_ID gripper_id, u8 state);
 
 void raise_arm(void);
 void lower_arm(void);

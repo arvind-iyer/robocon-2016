@@ -59,13 +59,21 @@
 
 #define ENCODER_READING_ARRAY_SIZE 100
 
+#ifdef RED_FIELD
+	#define THIS_GRIPPER GRIPPER_1
+#else
+	#define THIS_GRIPPER GRIPPER_2
+#endif
+
 void manual_reset(void);
 void manual_init(void);
 void manual_interval_update(void);
 void manual_fast_update(void);
+void manual_first_control_update(void);
+void manual_second_control_update(void);
 void manual_controls_update(void);
 void manual_vel_set_zero(void);
-void manual_first_control_update(void);
+void manual_control_brushless_update(void);
 void manual_auto_gointo_pole(void);
 
 #endif
