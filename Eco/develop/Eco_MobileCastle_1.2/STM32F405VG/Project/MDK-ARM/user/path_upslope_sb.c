@@ -39,8 +39,19 @@ GAME_STAGE path_up_sb_update(){
 			right_angle_ing = 1;
 		}
 		
-		if (sensorbar_region == 3 && current_state == 1 && (get_average_encoder() - last_encoder_val) > 15000){
+		if (sensorbar_region == 3 && current_state == 1 && (get_average_encoder() - last_encoder_val) > 5000){
 			highland_count++;
+			switch (highland_count){
+				case 1:
+					buzzer_play_song(HIGH_1, 500, 50);
+					break;
+				case 2:
+					buzzer_play_song(HIGH_2, 300, 150);
+					break;
+				case 3:
+					buzzer_play_song(HIGH_3, 250, 120);
+					break;
+			}
 			current_state = 0;
 			if (highland_count == 3){
 				if (!counting_encoder){
@@ -60,7 +71,6 @@ GAME_STAGE path_up_sb_update(){
 		
 		if (flag != SENSOR_BAR_NTH){
 			upslope_servo_pwm = SERVO_PROPER_MIN_PWM + (SERVO_PROPER_MAX_PWM-SERVO_PROPER_MIN_PWM)*sensor_bar_mid/12;
-			
 			si_clear();
 			si_set_pwm(upslope_servo_pwm);
 			si_execute();

@@ -19,6 +19,7 @@
 
 extern float ardu_start_ypr[3]; 
 extern s16 ardu_int_ypr[3];
+extern s16 ardu_start_bias_yaw;
 
 void ardu_adapter_init(void);
 bool ardu_all_ready(void);

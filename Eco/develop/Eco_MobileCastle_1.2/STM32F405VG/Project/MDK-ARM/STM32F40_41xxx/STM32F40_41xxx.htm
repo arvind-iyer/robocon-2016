@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Thu May 26 16:50:47 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri May 27 21:38:41 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -598,7 +598,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f40_41xxx.o(RESET)
 </UL>
-<P><STRONG><a name="[7f]"></a>IR_update</STRONG> (Thumb, 74 bytes, Stack size 0 bytes, path_river.o(i.IR_update))
+<P><STRONG><a name="[7f]"></a>IR_update</STRONG> (Thumb, 94 bytes, Stack size 0 bytes, path_river.o(i.IR_update))
 <BR><BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
@@ -934,7 +934,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> ardu_imu.o(i.ardu_imu_init)
 </UL>
-<P><STRONG><a name="[9c]"></a>ardu_imu_update</STRONG> (Thumb, 192 bytes, Stack size 0 bytes, ardu_imu_adp.o(i.ardu_imu_update))
+<P><STRONG><a name="[9c]"></a>ardu_imu_update</STRONG> (Thumb, 204 bytes, Stack size 0 bytes, ardu_imu_adp.o(i.ardu_imu_update))
 <BR><BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_roundf
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_value_update
@@ -1000,7 +1000,9 @@ Global Symbols
 <LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetAutoreload
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_on
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
+<BR>[Called By]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
+<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
+<LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_update
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1140,13 +1142,13 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[d5]"></a>menu_update</STRONG> (Thumb, 220 bytes, Stack size 0 bytes, menu.o(i.menu_update))
+<P><STRONG><a name="[d5]"></a>menu_update</STRONG> (Thumb, 272 bytes, Stack size 0 bytes, menu.o(i.menu_update))
 <BR><BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_ticks
+<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
 <LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_text_color
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_bg_color
 <LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_init
-<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_init
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_init
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
@@ -1172,11 +1174,10 @@ Global Symbols
 <P><STRONG><a name="[a0]"></a>path_river_init</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, path_river.o(i.path_river_init))
 <BR><BR>[Calls]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TM_GPIO_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
-<LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_update
+<BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_update
 </UL>
 
-<P><STRONG><a name="[d8]"></a>path_river_update</STRONG> (Thumb, 332 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
+<P><STRONG><a name="[d8]"></a>path_river_update</STRONG> (Thumb, 314 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
 <BR><BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
@@ -1197,8 +1198,9 @@ Global Symbols
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_update
 </UL>
 
-<P><STRONG><a name="[d7]"></a>path_up_sb_update</STRONG> (Thumb, 248 bytes, Stack size 0 bytes, path_upslope_sb.o(i.path_up_sb_update))
-<BR><BR>[Calls]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_encoder
+<P><STRONG><a name="[d7]"></a>path_up_sb_update</STRONG> (Thumb, 296 bytes, Stack size 0 bytes, path_upslope_sb.o(i.path_up_sb_update))
+<BR><BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
+<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_encoder
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear

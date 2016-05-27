@@ -32,19 +32,44 @@ GAME_STAGE menu_update(){
 			tft_set_text_color(WHITE);
 			switch (selection){
 				case 0:
+					#ifdef IMU_UPSLOPE
+						path_up_imu_init(selection);
+					#else
+						path_up_sb_init(selection);
+					#endif
+					ardu_start_bias_yaw = 0;
+					return CLIMBING_SLOPE;
 				case 1:
+					#ifdef IMU_UPSLOPE
+						path_up_imu_init(selection);
+					#else
+						path_up_sb_init(selection);
+					#endif
+					#ifdef BLUE_FIELD
+						ardu_start_bias_yaw = 300;
+					#else
+						ardu_start_bias_yaw = -300;
+					#endif
+					buzzer_play_song(HIGH_1, 500, 50);
+					return CLIMBING_SLOPE;
 				case 2:
 					#ifdef IMU_UPSLOPE
 						path_up_imu_init(selection);
 					#else
 						path_up_sb_init(selection);
 					#endif
+					buzzer_play_song(HIGH_2, 300, 150);
+					#ifdef BLUE_FIELD
+						ardu_start_bias_yaw = 450;
+					#else
+						ardu_start_bias_yaw = -450;
+					#endif
 					return CLIMBING_SLOPE;
 				case 3:
 					#ifdef BLUE_FIELD
-						path_river_init(ardu_int_ypr[0]);
+						ardu_start_bias_yaw = -900;
 					#else
-						path_river_init(ardu_int_ypr[0]);
+						ardu_start_bias_yaw = 900;
 					#endif
 					return CROSSING_RIVER;
 				case 4:

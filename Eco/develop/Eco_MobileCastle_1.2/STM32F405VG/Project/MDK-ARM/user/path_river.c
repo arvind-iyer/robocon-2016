@@ -3,6 +3,7 @@
 u8 river_stage = 0;
 u8 islands_count[2] = {0};
 u8 last_IR_state[2] = {0};
+s16 IR_buffer[2] = {0};
 s16 river_straight_yaw = 0;
 u32 encoder_start_reading = 0;
 
@@ -36,8 +37,13 @@ bool readIR(u8 id){
 
 void IR_update(u8 id){
 	if (!readIR(id)){
-		last_IR_state[id] = 1;
+		if (IR_buffer[id]>2){
+			last_IR_state[id] = 1;
+		}else{
+			IR_buffer[id]++;
+		}
 	}else{
+		IR_buffer[id] = 0;
 		//Only counts when IR signal is lost for a buffer time
 		if (last_IR_state[id] > 0){
 			last_IR_state[id]++;
@@ -84,28 +90,10 @@ GAME_STAGE path_river_update(){
 				#else
 					set_target(river_straight_yaw);
 				#endif
-				buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
+				buzzer_play_song(RIVER_1, 120, 30);
 			}
-			
-			//si_clear();
-			//Track the white line with imu/sensor bar
-			//si_add_pwm_bias(sensor_bar_get_corr_nf(RIVER_SENSOR_BAR_POWER, RIVER_SENSOR_BAR_Kp)*10);
-			//targeting_update(ardu_int_ypr[0]);
-			//si_execute();
 			break;
 			
-//		//case 2 go straight until it reaches the last island
-//		case 2:
-//			IR_update(1);
-//			//When it reaches the last island
-//			if (islands_count[1] >= 2){
-//				river_stage++;
-//				buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
-//			}
-//			si_clear();
-//			targeting_update(ardu_int_ypr[0]);
-//			si_execute();
-//			break;
 					//case 2 go straight until it reaches the last island
 		case 2:
 			IR_update(0);
@@ -114,7 +102,7 @@ GAME_STAGE path_river_update(){
 			if (islands_count[0] >= 2){
 				river_stage++;
 				encoder_start_reading = get_average_encoder();
-				buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
+				buzzer_play_song(RIVER_2, 200, 30);
 				#ifdef BLUE_FIELD
 					set_target(river_straight_yaw + 30);
 				#else
@@ -137,9 +125,10 @@ GAME_STAGE path_river_update(){
 			si_clear();
 			targeting_update(ardu_int_ypr[0]);
 			si_execute();
-		
+			break;
+			
 		case 4:
-			buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
+			buzzer_play_song(HIGH_4, 200, 50);
 			return (GAME_STAGE) (CROSSING_RIVER + 1);
 	}
 	tft_println("IR:%d %d %d %d", readIR(0), readIR(1), last_IR_state[0], last_IR_state[1]);

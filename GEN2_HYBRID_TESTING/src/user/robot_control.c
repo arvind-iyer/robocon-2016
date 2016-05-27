@@ -53,19 +53,19 @@ void stop_arm() {
 }
 
 //Gripper control
-//state: 0 = down, 1 = upright
+//state: 1 = down, 0 = upright
 void gripper_control(GRIPPER_ID gripper_id, u8 state) {
-	if (state == 0) {
+	if (state == 1){
 		if (gripper_id == GRIPPER_1) {
 			servo_control((SERVO_ID)gripper_id, GRIPPER_MIN);
 		} else if (gripper_id == GRIPPER_2) {
 			servo_control((SERVO_ID)gripper_id, GRIPPER_MAX);
 		}
-	} else if (state == 1) {
+	} else if (state == 0) {
 		if (gripper_id == GRIPPER_1) {
 			servo_control((SERVO_ID)gripper_id, GRIPPER_MED);
 		} else if (gripper_id == GRIPPER_2) {
-			servo_control((SERVO_ID)gripper_id, GRIPPER_MIN);
+			servo_control((SERVO_ID)gripper_id, GRIPPER_MED);
 		}
 	}
 }
@@ -89,13 +89,13 @@ void gripper_push_control(GRIPPER_ID gripper_id, u8 state){
 
 //state: 0 = open, 1 = close
 void gripper_claw_control(GRIPPER_ID gripper_id, u8 state){
-	if (state == 0) {
+	if (state == 1) {
 		if (gripper_id == GRIPPER_1) {
 			pneumatic_on(&GRIPPER_L_CLAW_PORT);
 		} else if (gripper_id == GRIPPER_2) {
 			pneumatic_on(&GRIPPER_R_CLAW_PORT);
 		}
-	} else if (state == 1) {
+	} else if (state == 0) {
 		if (gripper_id == GRIPPER_1) {
 			pneumatic_off(&GRIPPER_L_CLAW_PORT);
 		} else if (gripper_id == GRIPPER_2) {

@@ -6,6 +6,13 @@ const MUSIC_NOTE SUCCESSFUL_SOUND[] = {{NOTE_C,7}, {NOTE_D,7}, {NOTE_E,7}, {NOTE
 const MUSIC_NOTE FAIL_SOUND[] = {{NOTE_C, 4}, {NOTE_C, 4}, {NOTE_END}};
 const MUSIC_NOTE CLICK[] = {{NOTE_G, 7}, {NOTE_END}};
 
+const MUSIC_NOTE HIGH_1[] = {{NOTE_A, 6}, {NOTE_END}};
+const MUSIC_NOTE HIGH_2[] = {{NOTE_A, 6}, {NOTE_A, 6}, {NOTE_END}};
+const MUSIC_NOTE HIGH_3[] = {{NOTE_A, 6}, {NOTE_A, 6}, {NOTE_A, 6}, {NOTE_END}};
+const MUSIC_NOTE HIGH_4[] = {{NOTE_A, 6}, {NOTE_A, 6}, {NOTE_A, 6}, {NOTE_A, 6}, {NOTE_END}};
+const MUSIC_NOTE RIVER_1[] = {{NOTE_C, 7}, {NOTE_D, 7}, {NOTE_E, 7}, {NOTE_F, 7}, {NOTE_G, 7}, {NOTE_END}};
+const MUSIC_NOTE RIVER_2[] = {{NOTE_G, 7}, {NOTE_F, 7}, {NOTE_E, 7}, {NOTE_D, 7}, {NOTE_C, 7}, {NOTE_END}};
+
 const MUSIC_NOTE MARIO_BEGIN[] = {
    {NOTE_E, 7}, {NOTE_REST}, {NOTE_E, 7}, {NOTE_E, 7}, {NOTE_REST}, {NOTE_REST}, {NOTE_E, 7}, {NOTE_E, 7},
   {NOTE_REST},{NOTE_REST},{NOTE_C, 7},{NOTE_C, 7},{NOTE_E, 7},{NOTE_E, 7},{NOTE_REST},{NOTE_REST},
