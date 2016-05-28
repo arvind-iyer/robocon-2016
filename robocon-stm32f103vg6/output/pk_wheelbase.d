@@ -28,3 +28,4 @@
 .\output\pk_wheelbase.o: .\src\ustrobo_min_system\inc\usart.h
 .\output\pk_wheelbase.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\output\pk_wheelbase.o: src\user\pk\pk_math.h
+.\output\pk_wheelbase.o: src\user\pk\pk_math_vector.h

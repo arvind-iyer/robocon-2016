@@ -5,7 +5,6 @@
 #include "pk_arm.h"
 #include "pk_climb.h"
 #include "pk_manual.h"
-#include "pk_pid.h"
 #include "pk_brushless.h"
 #include "hybrid_pneumatic.h"
 #include "hybrid_gpio.h"

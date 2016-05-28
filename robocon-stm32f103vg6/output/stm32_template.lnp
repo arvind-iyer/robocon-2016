@@ -68,8 +68,6 @@
 ".\output\pk.o"
 ".\output\pk_brushless.o"
 ".\output\pk_manual.o"
-".\output\pk_pid.o"
-".\output\pk_positioning.o"
 ".\output\hybrid_pneumatic.o"
 ".\output\hybrid_gpio.o"
 ".\output\hybrid_laser.o"
@@ -78,5 +76,6 @@
 ".\output\pk_climb.o"
 ".\output\pk_math.o"
 ".\output\pk_wheelbase.o"
+".\output\pk_math_vector.o"
 --library_type=microlib --strict --scatter ".\output\stm32_template.sct"
 --summary_stderr --info summarysizes -o .\output\stm32_template.axf

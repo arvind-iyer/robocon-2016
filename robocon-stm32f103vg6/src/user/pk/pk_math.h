@@ -5,4 +5,6 @@
 
 int max(int n, ...);
 
+#include "pk_math_vector.h"
+
 #endif
