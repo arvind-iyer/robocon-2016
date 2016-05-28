@@ -1,5 +1,28 @@
 #include "manual_mode.h"
 
+/**
+* Control Scheme:
+* Left joy stick for ground wheels movement
+* Right joy stick for moving brushless arm and servo
+* LB and RB for controlling brushless power, press once to inc./dec.
+* LT and RT for rotation
+*
+* X to switch mode 0 <---> 1, rotate by 90, perpare gribber
+* Back to activate auto go into pole mode
+*
+* In mode 0:
+* Y - Activate/Deactivate laser tracking
+* B - Rotating brushless servo by 90
+*
+* In mode 1:
+* A - Claw pneumatic control
+* B - Push pneumatic control
+* Y - Whole gibber servo control
+*
+* The arm should rise automatically using IR at all times.
+* Angel PID is disabled.
+*/
+
 static s32 curr_vx = 0, curr_vy = 0, curr_angle = 0;
 static u32 curr_speed = 0;
 static s16 curr_w = 0;
@@ -44,7 +67,10 @@ static u16 rotate_accel_remainder = 0;
 
 /*
 ** 0 - Blowing mode
-** 1 - Grabbing mode & climbing mode
+** 1 - Grabbing mode
+** 2 - Auto go into pole mode
+** 3 - Climb mode
+** 4 - Putting propeller
 */
 static u8 manual_stage = 0;
 
