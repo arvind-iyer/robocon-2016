@@ -16,7 +16,8 @@
 
 #define ls_port 					GPIOC
 #define ls_pin1 					GPIO_Pin_3
-#define ls_pin2 					GPIO_Pin_1 	
+#define ls_pin2 					GPIO_Pin_1
+#define ls_pin3						GPIO_Pin_2
 #define ls_rcc 						RCC_APB2Periph_GPIOC
 #define	ls_adc_address		((uint32_t)0x4001244C)
 
@@ -26,7 +27,7 @@
 //#define max_dis 					2500
 #define avg_length				10			//the total num of avg, increasing the number will provide more accuracy but decrease in response rtime
 
-#define ls_number					2				//number of sensors used
+#define ls_number					3				//number of sensors used
 
 
 void ls_init(void);

@@ -168,9 +168,14 @@ void updateQueue () {
 				dequeue(size);
 				lastWait = -1;
 				if((currentPath.position.x == 5019 && currentPath.position.y == 12660)
-					|| (currentPath.position.x == -3010 && currentPath.position.y == 12810)) {
+					|| (currentPath.position.x == -1200 && currentPath.position.y == 12810)) {
 					laserAuto = true;
 					pneumatics.P1 = true;
+				}
+				if(currentPath.position.x == -2715&& currentPath.position.y == 2072) {
+					autoModeLaser = true;
+					autoPIDMode = false;
+					manualMode = false;
 				}
 			} else{
 				finishing = true;
@@ -192,10 +197,10 @@ void updateQueue () {
 				int dt = get_full_ticks() - lastWait;
 				
 				if (dt >= 0 && dt < time/2) {
-					setBrushlessMagnitude(9); //12
+					setBrushlessMagnitude(7); //12
 				} 
 				else if (dt >= time/2 && dt < time*3/4) {
-					setBrushlessMagnitude(11); //18 
+					setBrushlessMagnitude(10); //18 
 				} 
 //				else if (dt >= time && dt < time*3/4) {
 //					setBrushlessMagnitude(35); //26

@@ -52,6 +52,8 @@ extern bool robotMode;
 extern bool armIr;
 extern bool manualMode;
 extern bool laserAuto;
+extern bool autoModeLaser;
+extern bool autoPIDMode;
 
 extern bool climbing;
 
