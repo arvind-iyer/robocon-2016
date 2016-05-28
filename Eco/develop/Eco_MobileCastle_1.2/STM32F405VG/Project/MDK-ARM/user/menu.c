@@ -1,7 +1,7 @@
 #include "menu.h"
 
 static const char* items_in_menu[NUMBER_OF_ITEMS] = {"START ZONE", "HILL 1", "HILL 2", 
-				"CROSS RIVER", "DOWN_HILL", "PURE SENSROBAR", "SENSOR CALI"};
+				"CROSS RIVER", "DOWN HILL", "STATION", "SENSOR CALI"};
 
 
 s8 selection = 0;
@@ -74,9 +74,12 @@ GAME_STAGE menu_update(){
 					return CROSSING_RIVER;
 				case 4:
 					path_down_init();
+					buzzer_play_song(HIGH_4, 200, 100);
 					return GOING_DOWN_HILL;
 				case 5:
-					return PURE_SENSOR_BAR;
+					buzzer_play_song(MARIO_BEGIN, 100, 0);
+					path_station_reset();
+					return IN_STATION;
 				case 6:
 					return SENSOR_BAR_CALI;
 			}

@@ -22,6 +22,15 @@ typedef enum{
 	SENSOR_BAR_ALL = 3 //Read all or mostly white
 }SENSOR_BAR_FLAG;
 
+typedef enum{
+	RED_START = 0,
+	BLUE_START = 1, 
+	SLOPE_GREEN = 2,
+	HIGH_ORANGE = 3,
+	RIVER_BLUE = 4, 
+	DOWN_GREEN = 5
+}COLOR_REGIONS;
+
 void sensorbar_init(void);
 
 //Use which shape for the correction, like error^2, error^3

@@ -7,8 +7,8 @@
 #include "lcd_main.h"
 
 #define SERVO_MED_PWM 15000
-#define SERVO_INC_PWM 9000
-#define SERVO_DEC_PWM 9000
+#define SERVO_INC_PWM 5000
+#define SERVO_DEC_PWM 5000
 
 #define SERVO_PROPER_INC 4000
 #define SERVO_PROPER_DEC 4000

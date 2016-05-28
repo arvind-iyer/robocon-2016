@@ -63,7 +63,7 @@ void si_execute(){
 
 //Clear all the bias except the static one
 void si_clear(){
-	pending_servo_pwm = SERVO_MED_PWM;
+	pending_servo_pwm = SERVO_MED_PWM + static_pwm_bias;
 }
 
 //Clear the static bias

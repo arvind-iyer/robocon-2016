@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri May 27 21:38:41 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Sat May 28 11:52:10 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -399,9 +399,9 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6d]"></a>__aeabi_llsr</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, llushr.o(.text), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
-<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
+<BR><BR>[Called By]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
 </UL>
 
 <P><STRONG><a name="[6f]"></a>_frnd</STRONG> (Thumb, 60 bytes, Stack size 0 bytes, frnd.o(.text))
@@ -411,25 +411,25 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6b]"></a>_double_round</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, depilogue.o(.text), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
-<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<BR><BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[6a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
+<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
 </UL>
 
 <P><STRONG><a name="[71]"></a>_double_epilogue</STRONG> (Thumb, 156 bytes, Stack size 0 bytes, depilogue.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
-<LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
+<BR><BR>[Calls]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
+<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
 </UL>
 <BR>[Called By]<UL><LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 <LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 </UL>
 
 <P><STRONG><a name="[72]"></a>__aeabi_dadd</STRONG> (Thumb, 322 bytes, Stack size 0 bytes, dadd.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
-<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
-<LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_lasr
+<BR><BR>[Calls]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_lasr
 <LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
+<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
+<LI><a href="#[6b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_round
 </UL>
 <BR>[Called By]<UL><LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_fp_digits
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_drsub
@@ -468,10 +468,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6e]"></a>__aeabi_llsl</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
-<BR><BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
-<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
+<BR><BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dadd
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2ulz
 <LI><a href="#[6c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+<LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
 </UL>
 
 <P><STRONG><a name="[73]"></a>__aeabi_lasr</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, llsshr.o(.text), UNUSED)
@@ -938,10 +938,10 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_roundf
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_value_update
-<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_init
+<LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_init
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_init
-<LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_init
+<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1067,6 +1067,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
 </UL>
 <BR>[Called By]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 </UL>
 
@@ -1102,11 +1103,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 444 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 424 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensorbar_init
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sb_cali_update
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 <LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
@@ -1142,14 +1143,15 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[d5]"></a>menu_update</STRONG> (Thumb, 272 bytes, Stack size 0 bytes, menu.o(i.menu_update))
+<P><STRONG><a name="[d5]"></a>menu_update</STRONG> (Thumb, 296 bytes, Stack size 0 bytes, menu.o(i.menu_update))
 <BR><BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_ticks
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
 <LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_text_color
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_bg_color
-<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_init
+<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_reset
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_init
+<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_init
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear
@@ -1162,11 +1164,11 @@ Global Symbols
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_update
 </UL>
 
-<P><STRONG><a name="[d9]"></a>path_down_update</STRONG> (Thumb, 66 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_update))
-<BR><BR>[Calls]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
-<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
+<P><STRONG><a name="[d9]"></a>path_down_update</STRONG> (Thumb, 86 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_update))
+<BR><BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
+<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1180,14 +1182,28 @@ Global Symbols
 <P><STRONG><a name="[d8]"></a>path_river_update</STRONG> (Thumb, 314 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
 <BR><BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
-<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
+<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
-<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_encoder
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IR_update
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
-<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
+<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
+<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_encoder
+<LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
+</UL>
+<BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[e0]"></a>path_station_reset</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, path_station.o(i.path_station_reset))
+<BR><BR>[Called By]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
+</UL>
+
+<P><STRONG><a name="[da]"></a>path_station_update</STRONG> (Thumb, 86 bytes, Stack size 0 bytes, path_station.o(i.path_station_update))
+<BR><BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
+<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
+<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_encoder
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1200,41 +1216,33 @@ Global Symbols
 
 <P><STRONG><a name="[d7]"></a>path_up_sb_update</STRONG> (Thumb, 296 bytes, Stack size 0 bytes, path_upslope_sb.o(i.path_up_sb_update))
 <BR><BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
+<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
+<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
+<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_encoder
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
-<LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
-<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[e6]"></a>s16_cap</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, quick_math.o(i.s16_cap))
-<BR><BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<BR><BR>[Called By]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_init
 </UL>
 
 <P><STRONG><a name="[db]"></a>sb_cali_update</STRONG> (Thumb, 76 bytes, Stack size 0 bytes, sb_cali.o(i.sb_cali_update))
-<BR><BR>[Calls]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
-<LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
+<BR><BR>[Calls]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[e0]"></a>sensor_bar_get_corr</STRONG> (Thumb, 282 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr))
-<BR><BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
-<LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
+<P><STRONG><a name="[e1]"></a>sensor_bar_get_corr</STRONG> (Thumb, 282 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr))
+<BR><BR>[Called By]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
-</UL>
-
-<P><STRONG><a name="[da]"></a>sensor_bar_track</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_track))
-<BR><BR>[Calls]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_add_pwm_bias
-<LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
-</UL>
-<BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[cb]"></a>sensorbar_init</STRONG> (Thumb, 62 bytes, Stack size 0 bytes, sensor_bar.o(i.sensorbar_init))
@@ -1246,7 +1254,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[e7]"></a>servo_control</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, servo.o(i.servo_control))
-<BR><BR>[Called By]<UL><LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<BR><BR>[Called By]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
 <LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_init
 </UL>
 
@@ -1271,26 +1279,24 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[e9]"></a>si_add_deg_bias</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, servo_interface.o(i.si_add_deg_bias))
-<BR><BR>[Called By]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
+<BR><BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
 </UL>
 
-<P><STRONG><a name="[e5]"></a>si_add_pwm_bias</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, servo_interface.o(i.si_add_pwm_bias))
-<BR><BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_track
-</UL>
-
-<P><STRONG><a name="[e1]"></a>si_clear</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, servo_interface.o(i.si_clear))
+<P><STRONG><a name="[e2]"></a>si_clear</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, servo_interface.o(i.si_clear))
 <BR><BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sb_cali_update
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 </UL>
 
-<P><STRONG><a name="[e3]"></a>si_execute</STRONG> (Thumb, 54 bytes, Stack size 0 bytes, servo_interface.o(i.si_execute))
+<P><STRONG><a name="[e4]"></a>si_execute</STRONG> (Thumb, 54 bytes, Stack size 0 bytes, servo_interface.o(i.si_execute))
 <BR><BR>[Calls]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;s16_cap
 </UL>
 <BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sb_cali_update
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 </UL>
@@ -1302,8 +1308,9 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[e2]"></a>si_set_pwm</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, servo_interface.o(i.si_set_pwm))
+<P><STRONG><a name="[e3]"></a>si_set_pwm</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, servo_interface.o(i.si_set_pwm))
 <BR><BR>[Called By]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 </UL>
@@ -1312,7 +1319,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 
-<P><STRONG><a name="[e4]"></a>targeting_update</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_update))
+<P><STRONG><a name="[e5]"></a>targeting_update</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_update))
 <BR><BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_add_deg_bias
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
@@ -1360,11 +1367,12 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sb_cali_update
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_pid
-<LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
+<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
 </UL>
 
 <P><STRONG><a name="[dc]"></a>tft_prints</STRONG> (Thumb, 194 bytes, Stack size 0 bytes, lcd_main.o(i.tft_prints))

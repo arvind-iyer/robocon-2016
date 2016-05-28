@@ -18,5 +18,9 @@ GAME_STAGE path_down_update(){
 		si_execute();
 	}
 	
+	if(flag == SENSOR_BAR_ALL || sensorbar_region == BLUE_START){
+		return (GAME_STAGE)(GOING_DOWN_HILL+1);
+	}
+	
 	return GOING_DOWN_HILL;
 }

@@ -282,6 +282,8 @@ void manual_fast_update(){
 			climbing_pneumatic_ticks = this_loop_ticks;
 			gripper_extended = false;
 			gripper_push_control(THIS_GRIPPER, gripper_extended);
+			gripper_down = false;
+			gripper_control(THIS_GRIPPER, gripper_down);
 		}else if((get_full_ticks() - climbing_pneumatic_ticks)>CLIMBING_TICKS_LIMIT){
 			climb_continue();
 			brushless_servo_val = BRUSHLESS_SERVO_MED;
@@ -412,6 +414,8 @@ void manual_interval_update(){
 		buzzer_beep(175);
 		limit_manual_init();
 		manual_stage = 2;
+		gripper_down = true;
+		gripper_control(THIS_GRIPPER, gripper_down);
 	}
 	
 	if (manual_stage == 0){

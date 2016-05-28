@@ -77,12 +77,9 @@ int main(void) {
 						//Update slower for down slope
 						break;
 					
-					case WINNING_THE_GAME:
-						tft_println("[WIN OR FUCK UP]");
-						break;
-					
-					case PURE_SENSOR_BAR:
-						sensor_bar_track(PURE_SENSOR_BAR_POWER, PURE_SENSOR_BAR_Kp);
+					case IN_STATION:
+						tft_println("[WIND STATION]");
+						game_stage = path_station_update();
 						break;
 					
 					case SENSOR_BAR_CALI:
@@ -127,13 +124,6 @@ int main(void) {
 						
 						case GOING_DOWN_HILL:
 							game_stage = path_down_update();
-							break;
-						
-						case WINNING_THE_GAME:
-							break;
-						
-						case PURE_SENSOR_BAR:
-							sensor_bar_track(PURE_SENSOR_BAR_POWER, PURE_SENSOR_BAR_Kp);
 							break;
 						
 						default:

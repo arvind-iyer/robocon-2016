@@ -39,7 +39,7 @@ GAME_STAGE path_up_sb_update(){
 			right_angle_ing = 1;
 		}
 		
-		if (sensorbar_region == 3 && current_state == 1 && (get_average_encoder() - last_encoder_val) > 5000){
+		if (sensorbar_region == HIGH_ORANGE && current_state == 1 && (get_average_encoder() - last_encoder_val) > 5000){
 			highland_count++;
 			switch (highland_count){
 				case 1:
@@ -59,7 +59,7 @@ GAME_STAGE path_up_sb_update(){
 					start_counting_encoder = get_average_encoder();
 				}
 			}
-		}else if(sensorbar_region == 2 && current_state == 0){
+		}else if(sensorbar_region == SLOPE_GREEN && current_state == 0){
 		//}else if(sensorbar_region != 3 && current_state == 0){
 			current_state = 1;
 			last_encoder_val = get_average_encoder();
