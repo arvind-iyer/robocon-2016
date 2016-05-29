@@ -22,7 +22,7 @@ GAME_STAGE path_up_sb_update(){
 	sensor_bar_get_corr(1, 100, &flag);
 	
 	if (right_angle_ing == 1){
-		if (abs(river_straight_yaw - ardu_int_ypr[0]) > 500){
+		if (abs(river_straight_yaw - ardu_int_ypr[0]) > RIVER_90_MAX_TURN_UNTIL){
 			si_clear();
 			#ifdef BLUE_FIELD
 				si_set_pwm(SERVO_PROPER_MAX_PWM);
@@ -39,7 +39,7 @@ GAME_STAGE path_up_sb_update(){
 			right_angle_ing = 1;
 		}
 		
-		if (sensorbar_region == HIGH_ORANGE && current_state == 1 && (get_average_encoder() - last_encoder_val) > 5000){
+		if (sensorbar_region == HIGH_ORANGE && current_state == 1 && (get_average_encoder() - last_encoder_val) > SLOPE_SECTION_ENC){
 			highland_count++;
 			switch (highland_count){
 				case 1:
@@ -65,12 +65,12 @@ GAME_STAGE path_up_sb_update(){
 			last_encoder_val = get_average_encoder();
 		}
 		
-		if (counting_encoder && (get_average_encoder() - start_counting_encoder)>RIVER_90_TURN_CONSTANT){
+		if (counting_encoder && (get_average_encoder() - start_counting_encoder)>RIVER_90_TURN_ENC_CONSTANT){
 			right_angle_ing = 1;
 		}
 		
 		if (flag != SENSOR_BAR_NTH){
-			upslope_servo_pwm = SERVO_PROPER_MIN_PWM + (SERVO_PROPER_MAX_PWM-SERVO_PROPER_MIN_PWM)*sensor_bar_mid/12;
+			upslope_servo_pwm = sb_pwm_1to1(SLOPE_SB_INC_PWM, SLOPE_SB_DEC_PWM);
 			si_clear();
 			si_set_pwm(upslope_servo_pwm);
 			si_execute();

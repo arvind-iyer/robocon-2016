@@ -41,7 +41,6 @@ void ardu_imu_update(){
 		#else
 			path_river_init(900);
 		#endif
-		path_down_init();
 		ardu_imu_staged = true;
 		//led_control(LED_D2, LED_ON);
 	}

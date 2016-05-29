@@ -21,6 +21,8 @@
 
 #define IR_BUFFER_LENGTH 8
 #define ENCODER_AFTER_THIRD_ISLAND 6000
+#define RIVER_SB_INC_PWM 4500
+#define RIVER_SB_DEC_PWM 4500
 
 extern s16 river_straight_yaw;
 

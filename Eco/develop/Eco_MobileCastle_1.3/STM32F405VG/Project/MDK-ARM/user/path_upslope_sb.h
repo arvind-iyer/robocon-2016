@@ -15,7 +15,11 @@
 #include "quick_math.h"
 #include "encoder.h"
 
-#define RIVER_90_TURN_CONSTANT 6000
+#define SLOPE_SECTION_ENC 5000
+#define SLOPE_SB_INC_PWM 4500
+#define SLOPE_SB_DEC_PWM 4500
+#define RIVER_90_TURN_ENC_CONSTANT 0
+#define RIVER_90_MAX_TURN_UNTIL 900
 
 void path_up_sb_init(u8 stage);
 GAME_STAGE path_up_sb_update(void);

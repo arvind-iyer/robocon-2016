@@ -73,7 +73,7 @@ GAME_STAGE menu_update(){
 					#endif
 					return CROSSING_RIVER;
 				case 4:
-					path_down_init();
+					path_down_reset();
 					buzzer_play_song(HIGH_4, 200, 100);
 					return GOING_DOWN_HILL;
 				case 5:

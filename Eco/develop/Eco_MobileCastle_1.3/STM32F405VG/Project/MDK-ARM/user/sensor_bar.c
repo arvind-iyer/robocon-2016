@@ -43,6 +43,10 @@ void sensorbar_init(){
 	can_rx_add_filter(SENSOR_BAR_FILTER_4, CAN_RX_MASK_EXACT, sensor_bar_receiver_d);
 }
 
+u16 sb_pwm_1to1(u16 inc_pwm, u16 dec_pwm){
+	return SERVO_MED_PWM - dec_pwm + (inc_pwm+dec_pwm)*sensor_bar_mid/16;
+}
+
 //Get correction without sign
 s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
 	s8 best_start_index = 0;
