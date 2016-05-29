@@ -48,6 +48,7 @@
 #define MTData2										(uint8_t)0x36
 #define ReqConfiguration					(uint8_t)0x0C
 #define SetOptionFlags 						(uint8_t)0x48
+#define ResetOrientation					(uint8_t)0xA4
 
 typedef enum
 {
@@ -72,4 +73,7 @@ void send_MTi_1_UART_msg(u8 *data, u8 MID, u16 data_length);
 void MTi_1_UART_Rx(u8 data);
 float get_MTi_acc(u8 index);
 float get_MTi_ang(u8 index);
+u8 get_ebuffer(u8 index);
+void clear_buffer(void);
+float flt_cal(u8 data[4]);
 #endif
