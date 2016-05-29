@@ -224,11 +224,11 @@ void controllerInputUpdate() {
 						queueTargetPoint(5019, 12660, 274, 240, 120.0, -1, 0);
 					}
 					else if(robotMode == BLUE_SIDE) {
-						setBrushlessMagnitude(14);
+						setBrushlessMagnitude(17);
 						queueTargetPoint(-650, 400, 270, -1, -1, -1, 0);
-						queueTargetPoint(-3091, 300, 270, 35, 15, 14, 0);
-						queueTargetPoint(-3091, 400, 270, 50, 50, 14, 0);
-						queueTargetPoint(-2715, 1872, 285, -1, -1, 11, 0); //12 //75, 20
+						queueTargetPoint(-3091, 300, 270, 35, 15, 17, 0);
+						queueTargetPoint(-3091, 400, 270, 50, 50, 17, 0);
+						queueTargetPoint(-2715, 1872, 285, -1, -1, 10, 0); //12 //75, 20
 						//queueTargetPoint(-2175, 1872, 285, 450, 200, 15, 0);
 //						queueTargetPoint(-2189, 3116, 316, -1, -1, 10, 0);
 //						queueTargetPoint(-1513, 3830, 303, -1, -1, 12, 0);
@@ -243,9 +243,7 @@ void controllerInputUpdate() {
 					}
 				}
 				else {
-					for(int i = getSize(); i>=1; i--) {
-						dequeue(getSize());
-					}
+					dequeueAll();
 					manualMode = true;
 				}
 			}
@@ -282,6 +280,20 @@ void controllerInputUpdate() {
 			robotMode = !robotMode;
 		}
 		else if(button_released(BUTTON_XBC_XBOX) && allowModeUpdate) {
+			allowModeUpdate = false;
+		}
+		
+		//EMERGENCY BUTTON
+		if(button_pressed(BUTTON_XBC_START) && !allowModeUpdate) {
+			allowModeUpdate = true;
+			dequeueAll();
+			wheelbaseLock();
+			setBrushlessMagnitude(0);
+			manualMode = true;
+			autoModeLaser = false;
+			autoPIDMode = false;
+		}
+		else if(button_released(BUTTON_XBC_START) && allowModeUpdate) {
 			allowModeUpdate = false;
 		}
 		

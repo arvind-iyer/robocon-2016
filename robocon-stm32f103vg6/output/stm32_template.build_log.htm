@@ -27,14 +27,35 @@ Project File Date:  05/29/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
-".\output\stm32_template.axf" - 0 Error(s), 0 Warning(s).
+compiling robocon.c...
+src\user\pk/pk_wheelbase.h(20): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
+  void pk_wheelbase_init();
+src\user\pk/pk_wheelbase.h(22): warning:  #1295-D: Deprecated declaration reset - give arg types
+  void reset();
+src\user\pk/pk_wheelbase.h(27): warning:  #1295-D: Deprecated declaration addComponent - give arg types
+  void addComponent();
+src\user\pk/pk_wheelbase.h(29): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
+  void parseWheelbaseValues();
+src\user\pk/pk_wheelbase.h(30): warning:  #1295-D: Deprecated declaration sendWheelbaseCommand - give arg types
+  void sendWheelbaseCommand();
+src\user\pk/pk_wheelbase.h(32): warning:  #1295-D: Deprecated declaration wheelbaseLock - give arg types
+  void wheelbaseLock();
+src\user\pk/pk_wheelbase.h(34): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
+  Wheelbase getWheelbaseValues();
+src\user\pk/pk_math.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+src\user\robocon.c: 8 warnings, 0 errors
+linking...
+Program Size: Code=43578 RO-data=1530 RW-data=5328 ZI-data=44536  
+FromELF: creating hex file...
+".\output\stm32_template.axf" - 0 Error(s), 8 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   D:\Data\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

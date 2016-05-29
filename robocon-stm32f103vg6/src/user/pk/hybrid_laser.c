@@ -104,8 +104,8 @@ void laserPID() {
 	addComponent();
 	
 	//Blowing speeds
-	if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(13);
-	if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(8);
+	if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(18);
+	if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(12);
 	
 	parseWheelbaseValues();
 	sendWheelbaseCommand();
@@ -117,10 +117,10 @@ void laserPID() {
 					autoModeLaser = false;
 					manualMode = false;
 					autoPIDMode = true;
-					queueTargetPoint(get_pos()->x + 250, 7505, 185, 35.0, 5.0, -1, 6000);
-					queueTargetPoint(-142, 11000, 200, 500, 200, -1, 0);//lost point
+					queueTargetPoint(get_pos()->x + 250, 7505, 185, 35.0, 5.0, -1, 6500);
+					queueTargetPoint(0, 11000, 200, 500, 200, -1, 0);//lost point
 					queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
-					queueTargetPoint(-503, 12046, 88, 800, 200, -1, 0);
+					queueTargetPoint(-103, 12046, 88, 800, 200, -1, 0);
 					queueTargetPoint(-1200, 12810, 86, 800, 200, -1, 0);
 	}
 }

@@ -208,7 +208,7 @@ void updateQueue () {
 //					setBrushlessMagnitude(35); //26
 			//}
 			 else {
-					setBrushlessMagnitude(30); //30
+					setBrushlessMagnitude(38); //30
 			}
 				
 //				if (Abs(robot.position.angle - baseAngle) >= 5) {
@@ -255,6 +255,12 @@ void dequeue (int _size) {
 		queue[i] = queue[i+1];
 	}
 	size--;
+}
+
+void dequeueAll() {
+	for(int i = getSize(); i>=1; i--) {
+			dequeue(getSize());
+	}
 }
 
 void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, int brushlessSpeed, int waitTime) {

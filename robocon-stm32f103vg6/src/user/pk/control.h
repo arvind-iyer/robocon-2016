@@ -40,9 +40,9 @@ typedef struct {
 	void updateQueue(void);
 	void robotInit(void);
 	void dequeue(int _size);
+	void dequeueAll(void);
 	void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, int brushlessSpeed, int waitTime);
 	int getSize(void);
-	void riverBlow();
 	
 	//extern Motors motor;	//pk
 	extern Robot robot;
