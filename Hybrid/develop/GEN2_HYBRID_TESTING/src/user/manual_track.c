@@ -3,7 +3,7 @@
 s32 last_laser_diff = 0;
 s32 laser_target_range_increment = 0;
 
-void laser_manual_update(s32 motor_vel[3], s32* rotate){
+bool laser_manual_update(s32 motor_vel[3], s32* rotate){
 	u32 laser_range[2];
 	
 	//0 is the front one
@@ -25,18 +25,10 @@ void laser_manual_update(s32 motor_vel[3], s32* rotate){
 	#endif
 	
 	//Decide the new laser_target_range_increment	
-	#ifdef RED_FIELD
-	if ((-get_pos()->x) < LASER_START_BACKING_OFF){
-	#else
-	if ((get_pos()->x) < LASER_START_BACKING_OFF){
-	#endif
+	if (abs(get_pos()->x) < LASER_START_BACKING_OFF){
 		laser_target_range_increment = 0;
 	}else{
-		#ifdef RED_FIELD
-		laser_target_range_increment = ((-get_pos()->x)  - LASER_START_BACKING_OFF) * LASER_BACK_OFF_DISTANCE / (LASER_TRACING_OFF_DISTANCE - LASER_START_BACKING_OFF) ;
-		#else
-		laser_target_range_increment = (get_pos()->x - LASER_START_BACKING_OFF) * LASER_BACK_OFF_DISTANCE / (LASER_TRACING_OFF_DISTANCE - LASER_START_BACKING_OFF);
-		#endif
+		laser_target_range_increment = (abs(get_pos()->x)  - LASER_START_BACKING_OFF) * LASER_BACK_OFF_DISTANCE / (LASER_OFF_MIN_DISTANCE - LASER_START_BACKING_OFF) ;
 	}
 	
 	//Rotation
@@ -71,6 +63,12 @@ void laser_manual_update(s32 motor_vel[3], s32* rotate){
 	motor_vel[0] = (int_sin(curr_angle%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
 	motor_vel[1] = (int_sin((curr_angle+1200)%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
 	motor_vel[2] = (int_sin((curr_angle+2400)%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
+	
+	if (abs(get_pos()->x) > LASER_OFF_MIN_DISTANCE && laser_range[0] > LASER_OUT_DISTANCE){
+		return false;
+	}
+	
+	return true;
 }
 
 static s32 start_X = 0, start_Y = 0, start_angle = 0;

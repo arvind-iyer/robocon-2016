@@ -20,6 +20,7 @@
 #include "main.h"
 #include "robot_control.h"
 #include "manual_track.h"
+#include "semi_auto.h"
 #include "quick_math.h"
 
 #define BLUE_FIELD
@@ -34,8 +35,6 @@
 		#error FIELD COLOR NOT YET DEFINED
 	#endif
 #endif
-
-#define LASER_TRACING_OFF_DISTANCE 6600
 
 //Scaled by 1000
 #define ANGLE_PID_P 300

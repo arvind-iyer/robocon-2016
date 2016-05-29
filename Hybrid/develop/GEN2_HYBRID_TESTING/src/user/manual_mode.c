@@ -71,6 +71,9 @@ static u16 rotate_accel_remainder = 0;
 ** 2 - Auto go into pole mode
 ** 3 - Climb mode
 ** 4 - Putting propeller
+** 5 - Semi-auto approach wall
+** 6 - Semi-auto calibrate gyro and xy reading
+** 7 - Semi-auto get propeller
 */
 static u8 manual_stage = 0;
 
@@ -297,9 +300,18 @@ void manual_fast_update(){
 		raise_arm();
 	}
 	
-	if (manual_stage == 2){
+	if (manual_stage == 5){
+		manual_stage = limit_sa_approach(motor_vel, &curr_rotate);		
+	}else if (manual_stage == 2){
 		raise_arm();
-		manual_stage = limit_manual_update(motor_vel, &curr_rotate);																																																																																																													
+		manual_stage = limit_manual_update(motor_vel, &curr_rotate);		
+		curr_heading = get_angle();		
+	}else if (manual_stage == 6){
+		raise_arm();
+		manual_stage = limit_sa_update(motor_vel, &curr_rotate);
+		curr_heading = get_angle();
+	}else if(manual_stage == 7){
+		manual_stage = sa_str_update(motor_vel, &curr_rotate);
 		curr_heading = get_angle();
 	}else if(manual_stage == 3){
 		raise_arm();
@@ -343,7 +355,7 @@ void manual_fast_update(){
 		}
 		
 	}else if(manual_stage == 0 && using_laser_sensor){
-		laser_manual_update(motor_vel, &curr_rotate);
+		using_laser_sensor = laser_manual_update(motor_vel, &curr_rotate);
 		curr_heading = get_angle();
 	}else if (rotating_machine_by_90){
 		curr_rotate += river_rotate_update(rotating_machine_by_90_target);
@@ -356,6 +368,10 @@ void manual_fast_update(){
 		if (!is_rotating){
 			//curr_rotate = -angle_pid()/1000;
 		}
+	}
+	
+	for (u8 i=0;i<3;i++){
+		motor_loop_state[i] = CLOSE_LOOP;
 	}
 	
 	s16 motor_vel_max = motor_vel[0];
@@ -373,8 +389,6 @@ void manual_fast_update(){
 	}
 	
 	for (u8 i=0;i<3;i++){
-		motor_vel[i] += curr_rotate/10;
-		motor_loop_state[i] = CLOSE_LOOP;
 		motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
 	}
 }
@@ -385,15 +399,6 @@ void manual_interval_update(){
 	
 	tft_append_line("%d", this_loop_ticks);
 	tft_append_line("%d", this_loop_ticks-last_long_loop_ticks);
-	
-	//If Y is too large, disable the laser tracking 
-	#ifdef RED_FIELD
-	if ((-get_pos()->x) > LASER_TRACING_OFF_DISTANCE){
-	#else
-	if (get_pos()->x > LASER_TRACING_OFF_DISTANCE){
-	#endif
-		using_laser_sensor = false;
-	}
 	
 	if (button_hitted[BUTTON_XBC_START]){
 		buzzer_beep(75);
@@ -434,7 +439,30 @@ void manual_interval_update(){
 			using_laser_sensor = false;
 			pole_as_front = !pole_as_front;
 			facing_pole = !facing_pole;
-			brushless_servo_control(brushless_servo_val);
+	}
+			
+	if (button_hitted[BUTTON_XBC_A]){
+		if (manual_stage == 0 || manual_stage == 1){
+			manual_stage = 5;
+			gripper_down = true;
+			gripper_extended = true;
+			gripper_clawed = false;
+			gripper_control(THIS_GRIPPER, gripper_down);
+			gripper_push_control(THIS_GRIPPER, gripper_extended);
+			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+			using_laser_sensor = false;
+			pole_as_front = true;
+		}else{
+			manual_stage = 1;
+			gripper_down = true;
+			gripper_extended = true;
+			gripper_clawed = false;
+			gripper_control(THIS_GRIPPER, gripper_down);
+			gripper_push_control(THIS_GRIPPER, gripper_extended);
+			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+			using_laser_sensor = false;
+			pole_as_front = true;
+		}
 	}
 	
 	if (button_hitted[BUTTON_XBC_BACK]){
