@@ -121,8 +121,9 @@ void _updateScreen() {
 	//tft_prints(0, 7, "L: %d | AL: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1), laserAuto);
 	//tft_prints(0, 8, "Q|ENC: %d|%d", getSize(), get_encoder_value(MOTOR8));
 	tft_prints(0,8, "CAL: %d|%d|%d", get_ls_cal_reading(0), get_ls_cal_reading(1), get_ls_cal_reading(2));
+	tft_prints(0, 9, "Blow Time : %d", blowTime);
 	//tft_prints(0, 9, "adc: %d|%d|%d", get_ls_adc_reading(0), get_ls_adc_reading(1), get_ls_adc_reading(2));
-	tft_prints(0, 9, "B: %d| W: %d", laserB, laserW);
+	//tft_prints(0, 9, "B: %d| W: %d", laserB, laserW);
 	//tft_prints(0, 9, "T: %d|%d|%d" , getWheelbaseValues().M1.target, getWheelbaseValues().M2.target, getWheelbaseValues().M3.target);
 	//tft_prints(0, 9, "%d", getRotationValue());
 	//tft_prints(0, 9, "RTZ: %d|%d", dispM, dispW);
@@ -223,11 +224,11 @@ void controllerInputUpdate() {
 						queueTargetPoint(5019, 12660, 274, 240, 120.0, -1, 0);
 					}
 					else if(robotMode == BLUE_SIDE) {
-						setBrushlessMagnitude(10);
+						setBrushlessMagnitude(14);
 						queueTargetPoint(-650, 400, 270, -1, -1, -1, 0);
-						queueTargetPoint(-3091, 300, 270, 35, 15, 10, 0);
-						queueTargetPoint(-3091, 400, 270, 50, 50, 10, 0);
-						queueTargetPoint(-2715, 1872, 285, -1, -1, 12, 0); //12 //75, 20
+						queueTargetPoint(-3091, 300, 270, 35, 15, 14, 0);
+						queueTargetPoint(-3091, 400, 270, 50, 50, 14, 0);
+						queueTargetPoint(-2715, 1872, 285, -1, -1, 11, 0); //12 //75, 20
 						//queueTargetPoint(-2175, 1872, 285, 450, 200, 15, 0);
 //						queueTargetPoint(-2189, 3116, 316, -1, -1, 10, 0);
 //						queueTargetPoint(-1513, 3830, 303, -1, -1, 12, 0);

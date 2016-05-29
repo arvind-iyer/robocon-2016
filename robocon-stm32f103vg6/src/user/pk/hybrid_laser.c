@@ -78,7 +78,7 @@ void enterPole() {
 
 void laserPID() {
 	int diff = get_ls_cal_reading(0) - get_ls_cal_reading(1);
-	int offsetDiff = (get_pos()->y < yCoordSystem * 0.578 ? diff : diff+80);
+	int offsetDiff = (get_pos()->y < yCoordSystem * 0.578 ? diff : diff+100);
 	laserW = offsetDiff < -35	 ? 50 : (offsetDiff > 35 ? -50 : 0);
 	//laserW = -((int_arc_tan2(diff, 510)-180) * 10 / 180);
 	//laserW = (Abs(laserW) > 50 ? (laserW > 0 ? 50 : -50) :laserW);
@@ -104,8 +104,8 @@ void laserPID() {
 	addComponent();
 	
 	//Blowing speeds
-	if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.78) setBrushlessMagnitude(20);
-	if(get_pos()->y > yCoordSystem * 0.78 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(7);
+	if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(13);
+	if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(8);
 	
 	parseWheelbaseValues();
 	sendWheelbaseCommand();
@@ -117,7 +117,7 @@ void laserPID() {
 					autoModeLaser = false;
 					manualMode = false;
 					autoPIDMode = true;
-					queueTargetPoint(255, 7505, 185, 35.0, 5.0, -1, 7500);
+					queueTargetPoint(get_pos()->x + 250, 7505, 185, 35.0, 5.0, -1, 6000);
 					queueTargetPoint(-142, 11000, 200, 500, 200, -1, 0);//lost point
 					queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
 					queueTargetPoint(-503, 12046, 88, 800, 200, -1, 0);
