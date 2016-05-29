@@ -3,9 +3,9 @@
 volatile extern u16 ADC_val[16];
 volatile u32 Avg_ADC_val[3][16];
 extern u8 calibrationStage;
-s32 calibratedHueAverage[5] = {0};
-s32 calibratedSaturationAverage[5] = {0};
-s32 calibratedValueAverage[5] = {0};
+s32 calibratedHueAverage[NUMOFAREAS] = {0};
+s32 calibratedSaturationAverage[NUMOFAREAS] = {0};
+s32 calibratedValueAverage[NUMOFAREAS] = {0};
 u8 currentZone;
 
 Reading now;
@@ -310,22 +310,38 @@ void analysisData(){
     }
     
     hueAverage /= 16;
-    if(get_ticks() % 200 == 0){
-        printf("hueAvg: %d\n",hueAverage);
-    }
-    for(u8 i = 0; i < 5 ; i++){
+    for(u8 i = 0; i < NUMOFAREAS ; i++){
         diff = Abs(calibratedHueAverage[i] - hueAverage);
-        //printf("diff: %d\n",diff);
         if(diff < minDiff){
             currentZone = i;
             minDiff = diff;
         }
     }
     
-    for(u8 i = 0 ; i < 16 ; i++){
-        if(now.s[i] >= calibratedSaturationAverage[currentZone] - (u8)SATOFFSET)sat[i] = 0;
-        else sat[i] = 1;
-    }
+    //2 here is green
+    
+//    if(currentZone == 1){
+//        if(currentZone == 1){
+//            for(u8 i = 0 ; i < 16 ; i++){
+//                if(now.v[i] >= (calibratedValueAverage[2] + (u8)VALUEOFFSET - 10))sat[i] = 1;
+//                else sat[i] = 0;
+//            }        
+//        }
+//        else if(currentZone == 3){
+//            for(u8 i = 0 ; i < 16 ; i++){
+//                if(now.v[i] >= (calibratedValueAverage[3] + (u8)VALUEOFFSET)- 12)sat[i] = 1;
+//                else sat[i] = 0;
+//            }              
+//            
+//        }
+//    }
+//    else{
+        for(u8 i = 0 ; i < 16 ; i++){
+            if(now.s[i] >= calibratedSaturationAverage[currentZone] - (u8)SATOFFSET)sat[i] = 0;
+            else sat[i] = 1;
+        }
+    //}
+
     #endif
     
     #ifdef HARDCODEMODE
@@ -401,7 +417,6 @@ void sendData(){
     msg2.data[1] = currentZone;
     if(currentZone == 3)msg2.data[0] = 1;
     else msg2.data[0] = 0;
-        
     can_tx_enqueue(msg);
     can_tx_enqueue(msg1);
     can_tx_enqueue(msg2);

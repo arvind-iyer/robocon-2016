@@ -17,16 +17,15 @@ float fabs_diff(float minuend, float subtrahend){
 		diff = 360.0f - diff;
         if(diff <= 180.0f){
             return diff;
-            break;
         }
 	}
 	while(diff < -180.0f){
 		diff = diff + 360.0f;
         if(diff >= 180.0f){
             return diff;
-            break;
         }
 	}
+    return diff;
 }
 
 

@@ -13,7 +13,7 @@ extern const MUSIC_NOTE CLICK[];
 extern const MUSIC_NOTE MARIO_BEGIN[];
 extern const MUSIC_NOTE MARIO[];
 
-#define START_UP_play                 buzzer_play_song(START_UP,20,0)
+#define START_UP_play                 buzzer_play_song(START_UP,40,10)
 #define	SUCCESSFUL_MUSIC			buzzer_play_song(SUCCESSFUL_SOUND, 100, 0)
 #define	FAIL_MUSIC 						buzzer_play_song(FAIL_SOUND, 120, 100)
 #define	CLICK_MUSIC						buzzer_play_song(CLICK, 20, 0)

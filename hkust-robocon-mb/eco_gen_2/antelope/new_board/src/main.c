@@ -1,6 +1,23 @@
 #include "main.h"
 
 //Extern variables, sorry if it is a mess,yolo global variables
+extern int MAX_NINETY_TURNING;
+extern int IMU_ANGLE1;
+extern int IMU_ANGLE2;
+extern int IMU_ANGLE3;
+extern float NINETY_IMU;
+extern int LESSER_TURNING;
+extern int SLOPE_TURNING_RIGHT;
+extern int SLOPE_TURNING_LEFT;
+extern int SLOPE_ENCODER;
+extern int DELAY;
+extern GAMESIDE side;
+extern INFRARED_SENSOR infrared1;
+extern INFRARED_SENSOR infrared2;
+extern SLOPEZONE currentSlopeZone;
+extern ZONE gameZone;
+
+
 bool sensorIsFlipped = true;
 u8 data1[8];
 u8 data2[8];
@@ -20,20 +37,17 @@ int yaw_of_imu = 0;
 int pitch_of_imu = 0;
 int lastMovement = SERVO_MICROS_MID;
 extern int passedRiver;
+extern char currentSlopeZoneString[10];
 
 int main(void) {
     //Initialization of all hardware
     systemInit();
     u32 ticks_ms_img = 0;
     bool songIsPlayed = false;
+    bool startSong = false;
     bool cali = false;
     while (1) {
         if(ticks_ms_img != get_ticks()){
-//            tft_clear();
-//            tft_prints(0,0,"%d",button_pressed(DEFAULT_BUTTON));
-//            tft_prints(0,1,"%d",button_pressed(BUTTON_WHITE));
-//            tft_prints(0,2,"%d",button_pressed(BUTTON_RED));
-//            tft_update();
             buzzer_check();
             ticks_ms_img = get_ticks();
             tft_clear();
@@ -66,12 +80,76 @@ int main(void) {
                     //else{
                         switch(globalState){
                             case NOT_RIVER:
-                                goNormal();
-                                if(river && !read_infrared_sensor(RIVER_INFRARED) && (fullWhite == 1) && !passedRiver)
-                                {
-                                    reset_encoder_1();
-                                    ardu_cal_ypr[0] = (float)IMU_ANGLE;
-                                    globalState = STAGE1;
+                                switch(currentSlopeZone){
+                                    case STARTZONE:
+                                        //goNormal();
+                                        if(!startSong){
+                                                START_UP_play;
+                                                startSong = true;
+                                        }                                  
+                                        if(gameZone == DARKGREENZONE){
+
+                                            goNormal();
+                                            currentSlopeZone = GREENSLOPE1;
+                                            strcpy(currentSlopeZoneString,"GREENSLOPE1");
+                                        }    
+                                    break;
+                                    case GREENSLOPE1:
+                                        goNormal();
+                                        if(gameZone == ORANGEZONE){
+                                            currentSlopeZone = ORANGE1;
+                                            strcpy(currentSlopeZoneString,"ORANGE1");
+                                        }   
+                                    break;
+                                    case ORANGE1:
+                                        goNormal();
+                                        if(gameZone == DARKGREENZONE){
+                                            currentSlopeZone = GREENSLOPE2;
+                                            strcpy(currentSlopeZoneString,"GREENSLOPE2");
+                                        }    
+                                    break;
+                                    case GREENSLOPE2:
+                                        goNormal();
+                                        if(gameZone == ORANGEZONE){
+                                            currentSlopeZone = ORANGE2;
+                                            strcpy(currentSlopeZoneString,"ORANGE2");
+                                        }    
+                                    break;
+                                    case ORANGE2:
+                                        goNormal();
+                                        if(gameZone == DARKGREENZONE){
+                                            currentSlopeZone = GREENSLOPE3;
+                                            strcpy(currentSlopeZoneString,"GREENSLOPE3");
+                                        }
+                                        if(!read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT)){
+                                            currentSlopeZone = FINISHEDSLOPE;
+                                            strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
+                                        }
+                                    break;
+                                    case GREENSLOPE3:
+                                        goNormal();
+                                        if(!read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT)){
+                                            currentSlopeZone = FINISHEDSLOPE;
+                                            strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
+                                        }    
+                                    break;
+                                    case FINISHEDSLOPE:
+                                        switch(fullWhite){
+                                            case 0:
+                                                ardu_cal_ypr[0] = (float)NINETY_IMU;
+                                                globalState = NINETY;
+                                            break;
+                                            default:
+                                                goNormal();
+                                                if(river && !read_infrared_sensor(infrared1) && fullWhite && !passedRiver)
+                                                    {
+                                                        reset_encoder_1();
+                                                        ardu_cal_ypr[0] = (float)IMU_ANGLE1;
+                                                        START_UP_play;
+                                                        globalState = STAGE1;
+                                                    }
+                                        }
+                                    break;                                           
                                 }
                             break;
                             case NINETY:
@@ -80,24 +158,29 @@ int main(void) {
                             case STAGE1:
                                 goUsingImu(); //Imu is bae, thx Rex!
                             break;
+//                            case STAGE3:
+//                                goUsingImu2();
+//                            break;
                             case STAGE2:
                                 goStraightLittleBit(); //Prevent it from falling down
                             break;
+//                            case STAGE4:
+//                                goUsingImu3();
+//                            break;
                         }
-                   
-                    print_data(); //Print every data in the on system
+                    print_data(); //Print every data in the on(servo is active) system
+                    runUserInterface(); //Button functions
                     break;
                
-                //Press down joystick if you want to turn it on
                 case OFF:
                     servo_control(BAJAJ_SERVO,SERVO_MICROS_MID);
-                    printSystemOff(); //Print every data in off system
+                    initializeValues();
+                    printSystemOff(); //Print every data in off(servo locked in 90 degrees) system
                     break;
-            }
-            length = 0;
+              }
+              length = 0;
             
-            //Button functions are run by this
-              runUserInterface();
+              //Button functions are run by this
               tft_update();
         }
     }

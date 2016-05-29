@@ -15,9 +15,11 @@
 
 #define DELAY_US 1000 //800
 #define scalar 1000
-#define MAXSAMPLETIMES 90
-#define NUMOFAREAS 5
+#define MAXSAMPLETIMES 50
+#define NUMOFAREAS 6
 #define SATOFFSET 30
+#define HUEOFFSET 30
+#define VALUEOFFSET 18
 
 #define RIGHT
 
@@ -29,7 +31,7 @@
 #define ORANGERIGHT 38
 #define ORANGEBORDER 60
 #define RIVERLEFT 220
-#define RIVERRIGHT 240
+#define RIVERRIGHT 240 
 #define RIVERBORDER 51
 #define LIGHTGREENLEFT 100
 #define LIGHTGREENRIGHT 180
@@ -58,12 +60,13 @@
 #endif
 
 typedef enum{
-	STARTOREND = 0, 
-    DARKGREEN = 1, 
-    ORANGE = 2, 
-    RIVER = 3,
-    LIGHTGREEN = 4,
-    UNKNOWN = 5
+	PINK = 0, 
+    LIGHTBLUE,
+    DARKGREEN, 
+    ORANGE, 
+    RIVER,
+    LIGHTGREEN,
+    UNKNOWN
 }Colour;
 
 typedef struct

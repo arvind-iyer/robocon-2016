@@ -17,9 +17,10 @@
 #include "button.h"
 #include "ardu_imu.h"
 #include "buzzer.h"
+#include "string.h"
 
 //Function prototypes and enumerations(Please do not change these)
-enum{NOT_RIVER = 0, NINETY = 1, STAGE1 = 2, STAGE2 = 3, STAGE3 = 4};
+enum{NOT_RIVER = 0, NINETY = 1, STAGE1 = 2, STAGE2 = 3, STAGE3 = 4 , STAGE4 = 5};
 
 enum{LEFT_SIDE = 5, RIGHT_SIDE = 6};
 
@@ -45,42 +46,58 @@ enum{LEFT_SIDE = 5, RIGHT_SIDE = 6};
 * 7th Param: DELAY: How long you want the eco to retain servo angle during the 90-degree turn: Value: in milli-second.
 */
 
-//You can change this
-#define RIGHT
+////You can change this
+//#define RIGHT
 
-//You can change these
-#ifdef LEFT
-#define MAX_NINETY_TURNING 1000
-#define IMU_ANGLE -115
-#define NINETY_IMU -180
-#define LESSER_TURNING 260
-#define RIVER_INFRARED INFRARED_SENSOR_RIGHT
-#define SLOPE_TURNING_RIGHT 1000
-#define SLOPE_TURNING_LEFT 1700
-#define SLOPE_ENCODER 46000
-#define DELAY 1000
-#define CURRENT_SIDE LEFT_SIDE
-#endif
+////You can change these
+//#ifdef LEFT
+//#define MAX_NINETY_TURNING 1000
+//#define IMU_ANGLE -115
+//#define NINETY_IMU -180
+//#define LESSER_TURNING 260
+//#define RIVER_INFRARED INFRARED_SENSOR_RIGHT
+//#define SLOPE_TURNING_RIGHT 1000
+//#define SLOPE_TURNING_LEFT 1700
+//#define SLOPE_ENCODER 46000
+//#define DELAY 1000
+//#define CURRENT_SIDE LEFT_SIDE
+//#endif
 
-//You can change these
-#ifdef RIGHT
-#define MAX_NINETY_TURNING 1875
-#define IMU_ANGLE 125
-#define LESSER_TURNING -160
-#define NINETY_IMU 160
-#define RIVER_INFRARED INFRARED_SENSOR_LEFT
-#define SLOPE_ENCODER 40000
-#define SLOPE_TURNING_RIGHT 1000
-#define SLOPE_TURNING_LEFT 1700
-#define DELAY 1000
-#define CURRENT_SIDE RIGHT_SIDE
-#endif
+////You can change these
+//#ifdef RIGHT
+//#define MAX_NINETY_TURNING 1875
+//#define IMU_ANGLE 130
+//#define LESSER_TURNING -160
+//#define NINETY_IMU 170
+//#define RIVER_INFRARED INFRARED_SENSOR_LEFT
+//#define SLOPE_ENCODER 45000
+//#define SLOPE_TURNING_RIGHT 1000
+//#define SLOPE_TURNING_LEFT 1700
+//#define DELAY 1000
+//#define CURRENT_SIDE RIGHT_SIDE
+//#endif
 
 typedef enum{
-    PINKZONE = 0, DARKGREENZONE = 1,ORANGEZONE = 2, BLUEZONE = 3, LIGHTGREENZONE = 4, NOCOLOURZONE = 5
+    PINKZONE = 0, LIGHTBLUEZONE, DARKGREENZONE, ORANGEZONE, BLUEZONE, LIGHTGREENZONE, NOCOLOURZONE
 }ZONE;
 
+typedef enum{
+   REDSIDE = 0 , BLUESIDE = 1 
+}GAMESIDE;
+
+typedef enum{
+    LEFT = 0 , RIGHT = 1
+}INFRARED;
+
+typedef enum{
+    STARTZONE = 0, GREENSLOPE1, ORANGE1, GREENSLOPE2, ORANGE2, GREENSLOPE3, FINISHEDSLOPE
+}SLOPEZONE;
+
 enum{OFF = 0 , ON = 1};
+
+//Function prototypes
+
+void initializeValues(void);
 
 void receive(CanRxMsg msg);
 void receive2(CanRxMsg msg);
@@ -110,6 +127,9 @@ void determineZone(void);
 
 void runUserInterface(void);
 
+void goUsingImu2(void);
+
+void goUsingImu3(void);
 
 #endif
 

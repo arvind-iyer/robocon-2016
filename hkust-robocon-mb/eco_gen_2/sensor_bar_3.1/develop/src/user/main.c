@@ -157,7 +157,7 @@ int main(void)
 	{
         if(ticks_ms_img != get_ticks()){
             ticks_ms_img = get_ticks();
-            if(calibrationStage < 6){
+            if(calibrationStage < 7){
                 //callibrate white color if you press the button
                 if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_13))
                 {
@@ -165,13 +165,12 @@ int main(void)
                     sensor_init(&max_1);
                     calibrationStage++;
                 }
-                if(calibrationStage >= 6)writeFlash();
+                if(calibrationStage >= 7)writeFlash();
             }   
             //Collect each value for Red,green,blue and normalize to RGB values
             dataCollect();
             rgb_hsv_converter(&now);
             analysisData();
-            //printInformation();
             sendData();
         }
     }

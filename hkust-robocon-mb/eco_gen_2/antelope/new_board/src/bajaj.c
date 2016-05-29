@@ -1,5 +1,69 @@
 #include "bajaj.h"
-#include "string.h"
+
+//Values Define which will be filled after starting the program
+int MAX_NINETY_TURNING;
+int IMU_ANGLE1;
+int IMU_ANGLE2;
+int IMU_ANGLE3;
+float NINETY_IMU;
+int LESSER_TURNING;
+int NINETY_TURNING;
+int SLOPE_TURNING_RIGHT;
+int SLOPE_TURNING_LEFT;
+int SLOPE_ENCODER;
+int DELAY;
+GAMESIDE side;
+INFRARED_SENSOR infrared1;
+INFRARED_SENSOR infrared2;
+extern bool systemOn;
+
+int buttonWhiteCount = 0;
+int buttonRedCount = 0;
+
+void initializeValues(void){
+    if(button_pressed(BUTTON_RED)){
+        while(button_pressed(BUTTON_RED));
+        tft_init(PIN_ON_BOTTOM,BLACK,ORANGE,RED); 
+        MAX_NINETY_TURNING = 1000;
+        IMU_ANGLE1 = -90;
+        IMU_ANGLE2 = 30;
+        IMU_ANGLE3 = -45;
+        NINETY_IMU = -180;
+        LESSER_TURNING = 260;
+        SLOPE_TURNING_RIGHT = 1100;
+        SLOPE_TURNING_LEFT = 1600;
+        SLOPE_ENCODER = 46000;
+        DELAY = 1000;
+        side = REDSIDE;
+        infrared1 = INFRARED_SENSOR_RIGHT;
+        infrared2 = INFRARED_SENSOR_LEFT;
+        buttonRedCount = 0;
+        NINETY_TURNING = 950;
+        systemOn = 1;
+    }
+    else if(button_pressed(BUTTON_WHITE)){
+        while(button_pressed(BUTTON_WHITE));
+        tft_init(PIN_ON_BOTTOM,BLACK,BLUE2,RED);
+        MAX_NINETY_TURNING = 1875;
+        IMU_ANGLE1 = 80;
+        IMU_ANGLE2 = -30;
+        IMU_ANGLE3 = 45;
+        NINETY_IMU = 180;
+        LESSER_TURNING = -180;
+        SLOPE_TURNING_RIGHT = 1100;
+        SLOPE_TURNING_LEFT = 1600;
+        SLOPE_ENCODER = 45000;
+        DELAY = 1000;
+        side = BLUESIDE;
+        infrared1 = INFRARED_SENSOR_LEFT;
+        infrared2 = INFRARED_SENSOR_RIGHT;
+        buttonWhiteCount = 0;
+        NINETY_TURNING = 1750;
+        systemOn = 1;
+    }
+}
+
+
 
 extern u8 data1[8];
 extern u8 data2[8];
@@ -7,7 +71,6 @@ extern u8 sensorbar_result[16];
 extern u8 river;
 extern u8 border;
 extern u8 globalState;
-
 extern int begin;
 extern int end;
 extern int length;
@@ -15,15 +78,14 @@ extern int lastMovement;
 extern int lastTurn;
 extern float factor;
 extern bool sensorIsFlipped;
-extern bool fullWhite;
-extern bool systemOn;
+extern int fullWhite;
 extern int yaw_of_imu;
 extern int pitch_of_imu;
 extern int hueAvg;
 int passedRiver = 0;
 int passedDownSlope = 0;
-int buttonWhiteCount = 0;
-int buttonRedCount = 0;
+
+
 
 float imuFactor;
 int imuMovement;
@@ -32,6 +94,9 @@ int value1;
 uint32_t encoder_revolution = 0;
 char gameZoneString[12]= "UNKNOWN";
 ZONE gameZone;
+ZONE expectedGameZone;
+SLOPEZONE currentSlopeZone = STARTZONE;
+char currentSlopeZoneString[10] = "STARTZONE";
 
 void update_encoder(){
     if(encoder_revolution > 3)encoder_revolution = 0;
@@ -42,7 +107,6 @@ void update_encoder(){
 }
 
 void systemInit(){
-    SystemCoreClockUpdate();
 	led_init();			//Initiate LED
 	ticks_init();		//Ticks initialization
     tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED);     //LCD Initialization
@@ -72,7 +136,6 @@ void receive2(CanRxMsg msg){
 }
 
 void receive3(CanRxMsg msg){
-    river  = msg.Data[0];
     hueAvg = msg.Data[1];
 }
 
@@ -90,17 +153,16 @@ void fill_sensorbar_array(){
 }
 
 void print_data(){
-    update_encoder();
-    tft_prints(0,0,"zone:%s",gameZoneString);
+    tft_prints(0,0,"ZONE: %s",gameZoneString);
     for(int i = 0; i < 16 ;i++) tft_prints(i,1,"%d",sensorbar_result[i]);
-    tft_prints(0,2,"y:%f",ardu_cal_ypr[0]);
+    tft_prints(0,9,"y:%f",ardu_cal_ypr[0]);
     tft_prints(0,3,"il:%d ir:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
     tft_prints(0,4,"ul:%d ur:%d", read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT),read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT));
     tft_prints(0,5,"le:%d state:%d",length,globalState);
-    tft_prints(0,6,"fullwhite:%d",fullWhite);
+    tft_prints(0,6,"fw:%d, river:%d",fullWhite,river);
     tft_prints(0,7,"e1:%d e2:%d",get_full_count(ENCODER1),get_full_count(ENCODER2));
     tft_prints(0,8,"priv: %d pds:%d",passedRiver,passedDownSlope);
-    tft_prints(0,9,"riv:%d count:%d",river,encoder_revolution); 
+    tft_prints(0,2,"%s",currentSlopeZoneString); 
 }
 
 void process_array(){
@@ -126,22 +188,13 @@ void process_array(){
 
 
 void goNormal(void){
-    if (get_full_ticks() - lastTurn >= (int)DELAY){
-        if(length > 8 && fullWhite == false && encoder_revolution > 1){
-            fullWhite = true;
-            ardu_cal_ypr[0] = (float)NINETY_IMU;
-            globalState = NINETY;
-        }
-        
-        else if (length > 8){
-            lastMovement = SERVO_MICROS_MID;
-        }
-        
-        else if((gameZone == BLUEZONE || gameZone == PINKZONE) && passedRiver && passedDownSlope){
-            lastMovement = SERVO_MICROS_MID;
-        }
-        
-        else if (length >= 1 && length <= 5) {
+    servo_control(BAJAJ_SERVO,lastMovement);
+    if (get_full_ticks() - lastTurn >= (int)DELAY){     
+//        if((gameZone == BLUEZONE || gameZone == PINKZONE) && passedRiver && passedDownSlope){
+//            lastMovement = SERVO_MICROS_MID;
+//        }
+//        
+        if (length >= 1 && length <= 5) {
             if(fullWhite){
                 float factor = ((begin + end) / 2) / (float) 16;
                 lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
@@ -159,81 +212,116 @@ void goNormal(void){
     }
 }
 void goNinety(void){
-    switch(CURRENT_SIDE){
-        case LEFT_SIDE:
+    switch(side){
+        case REDSIDE:
             if((int)ardu_cal_ypr[0] > -75){
+                fullWhite = 1;
                 globalState = NOT_RIVER;
             }
         break;
-        case RIGHT_SIDE:
-            if((int)ardu_cal_ypr[0] < 80){
+        case BLUESIDE:
+            if((int)ardu_cal_ypr[0] < 90){
+                fullWhite = 1;
                 globalState = NOT_RIVER;
             }
         break;
     }
     imuFactor = (float)ardu_cal_ypr[0] / 180.0f;
-    imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
-    servo_control(BAJAJ_SERVO,imuMovement);
+    lastMovement = NINETY_TURNING;
+    servo_control(BAJAJ_SERVO,lastMovement);
 }
 
 void goUsingImu(void){
-    if((get_count(ENCODER1) > 10000) && !read_infrared_sensor(RIVER_INFRARED)){
-        globalState = STAGE2;
-        reset_encoder_1();
-    }
     imuFactor = ardu_cal_ypr[0] / 180.0f;
-    imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
-    servo_control(BAJAJ_SERVO,imuMovement);
+    lastMovement = imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
+    servo_control(BAJAJ_SERVO,lastMovement);
+    
+    //Stopping condition
+    if((get_count(ENCODER1) > 20000) && !read_infrared_sensor(infrared2)){
+        reset_encoder_1();
+        globalState = STAGE2;
+    }
 }
 
+void goUsingImu2(void){
+    imuFactor = ardu_cal_ypr[0] / 180.0f;
+    imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
+    servo_control(BAJAJ_SERVO,imuMovement);   
+    
+    //Stopping condition
+    if((get_count(ENCODER1) > 3000) && !read_infrared_sensor(infrared1)){
+        ardu_cal_ypr[0] = IMU_ANGLE3;
+        reset_encoder_1();
+        globalState = STAGE4;
+    }
+}
+
+void goUsingImu3(void){
+    imuFactor = ardu_cal_ypr[0] / 180.0f;
+    imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
+    servo_control(BAJAJ_SERVO,imuMovement); 
+    
+    //Stopping condition
+    if((get_count(ENCODER1) > 2000) && !read_infrared_sensor(infrared2)){
+        reset_encoder_1();
+        globalState = STAGE2; // Go to last stage of the river part
+    }
+}
 void goStraightLittleBit(void){
-    servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + (int)LESSER_TURNING);
-    if(get_count(ENCODER1) > 9000){
-        lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
+    lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
+    servo_control(BAJAJ_SERVO, lastMovement);
+    //Stopping condition
+    if(get_count(ENCODER1) > 7000){
+        //lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
+        //servo_control(BAJAJ_SERVO, lastMovement);
         passedRiver = 1;
         globalState = NOT_RIVER;
-        lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
     }
 }
 
 void printSystemOff(void){
-    tft_prints(0,0,"e1:%d e2:%d",get_full_count(ENCODER1),get_full_count(ENCODER2));
-    tft_prints(0,1,"zone: %s",gameZoneString);
-    for(int i = 0; i < 16 ;i++) tft_prints(i,2,"%d",sensorbar_result[i]);
-    tft_prints(0,3,"river:%d",river);
+    tft_prints(0,0,"PRESS RED / WHITE");
+    tft_prints(0,1,"e1:%d e2:%d",get_full_count(ENCODER1),get_full_count(ENCODER2));
+    tft_prints(0,2,"zone: %s",gameZoneString);
+    for(int i = 0; i < 16 ;i++) tft_prints(i,3,"%d",sensorbar_result[i]);
     tft_prints(0,4,"calibrated:%d",ardu_imu_calibrated);
     tft_prints(0,5,"yaw:%f",ardu_cal_ypr[0]);
     tft_prints(0,6,"length:%d fw:%d",length,fullWhite);
-    tft_prints(0,7,"b:%d e:%d",begin,end);
-    tft_prints(0,8,"il:%d ir:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
-    tft_prints(0,9,"ul:%d ur:%d", read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT),read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT));
+    tft_prints(0,7,"il:%d ir:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
+    tft_prints(0,8,"ul:%d ur:%d", read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT),read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT));
 }
 
 void determineZone(){
     switch(hueAvg){
         case 0:
             gameZone = PINKZONE;
-            strcpy(gameZoneString,"Start/End");
+            strcpy(gameZoneString,"PinkStart");
             river  = 0;
             break;
         case 1:
-            gameZone = DARKGREENZONE;
-            strcpy(gameZoneString,"Darkgreen");
-            river = 1;
+            gameZone = LIGHTBLUEZONE;
+            strcpy(gameZoneString,"BlueStart");
+            river = 0;
             break;
         case 2:
+            gameZone = DARKGREENZONE;
+            strcpy(gameZoneString,"Darkgreen");
+            river = 0;
+            break;
+        case 3:
             gameZone = ORANGEZONE;
             strcpy(gameZoneString,"Orange");
             river = 0;
             break;
-        case 3:
+        case 4:
             gameZone = BLUEZONE;
-            strcpy(gameZoneString,"River");
+            strcpy(gameZoneString,"Darkblue");
             river = 1;
             break;
-        case 4:
+        case 5:
             gameZone = LIGHTGREENZONE;
             strcpy(gameZoneString,"Lightgreen");
+            river = 0;
             break;
         default:
             gameZone = NOCOLOURZONE;
@@ -244,37 +332,68 @@ void determineZone(){
 
 void runUserInterface(void){
     //User Interface Section
-    if(button_pressed(DEFAULT_BUTTON))
-        systemOn = true;
-    else if(button_pressed(BUTTON_WHITE)){
-        while(button_pressed(BUTTON_WHITE));
-        if(!buttonWhiteCount){
-            fullWhite = 1;
-            buttonWhiteCount++;
-        }
-        else if(buttonWhiteCount == 1){
-            passedRiver = 1;
-            buttonWhiteCount++;
-        }
-        else if(buttonWhiteCount == 2){
-            passedDownSlope = 1;
-            buttonWhiteCount++;
-        }
-    }
-    else if(button_pressed(BUTTON_RED)){
+    if(button_pressed(BUTTON_RED)){
         while(button_pressed(BUTTON_RED));
-        if(!buttonRedCount){
-            encoder_revolution = 0;
-            TIM_SetCounter(ENCODER_TIMER2,30000);
-            buttonRedCount++;
-        }
-        else if(buttonRedCount == 1){
-            encoder_revolution = 1;
-            TIM_SetCounter(ENCODER_TIMER2,30000);
-            buttonRedCount = 0;
+        switch(buttonRedCount){
+            case 0:
+                currentSlopeZone = GREENSLOPE1;
+                strcpy(currentSlopeZoneString,"GREENSLOPE1");
+                buttonRedCount++;
+            break;
+            case 1:
+                currentSlopeZone = ORANGE1;
+                strcpy(currentSlopeZoneString,"ORANGE1");
+                buttonRedCount++;
+            break;
+            case 2:
+                currentSlopeZone = GREENSLOPE2;
+                strcpy(currentSlopeZoneString,"GREENSLOPE2");
+                buttonRedCount++;    
+            break;
+            
+            case 3:
+                currentSlopeZone = ORANGE2;
+                strcpy(currentSlopeZoneString,"ORANGE2");
+                buttonRedCount++;     
+            break;
+            case 4:
+                currentSlopeZone = GREENSLOPE3;
+                strcpy(currentSlopeZoneString,"GREENSLOPE3");
+                buttonRedCount++;  
+            break;
+            case 5:
+                currentSlopeZone = STARTZONE;
+                strcpy(currentSlopeZoneString,"STARTZONE");
+                buttonRedCount = 0;    
+            break;
         }
     }
-        
+    
+    if(button_pressed(BUTTON_WHITE)){
+        while(button_pressed(BUTTON_WHITE));
+        switch(buttonWhiteCount){
+            case 0:
+                fullWhite = 1;
+                passedRiver = 0;
+                passedDownSlope = 0;
+                buttonWhiteCount++;
+            break;
+            case 1:
+                passedRiver = 1;
+                fullWhite = 1;
+                START_UP_play;
+                buttonWhiteCount++;
+            break;
+            case 2:
+                fullWhite = 1;
+                passedRiver = 1;
+                passedDownSlope = 1;
+                buttonWhiteCount++;
+            break;    
+        }
+        currentSlopeZone = FINISHEDSLOPE;
+        strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
+    }
 }
 
 

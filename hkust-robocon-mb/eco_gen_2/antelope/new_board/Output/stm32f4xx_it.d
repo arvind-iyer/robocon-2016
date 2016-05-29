@@ -64,3 +64,4 @@
 .\output\stm32f4xx_it.o: .\inc\main.h
 .\output\stm32f4xx_it.o: .\inc\ardu_imu.h
 .\output\stm32f4xx_it.o: .\inc\imu_math.h
+.\output\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
