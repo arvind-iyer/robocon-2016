@@ -67,3 +67,5 @@
 .\output\pk.o: .\src\ustrobo_min_system\inc\nec_mb.h
 .\output\pk.o: .\src\user\flash.h
 .\output\pk.o: .\src\ustrobo_min_system\inc\ultrasonic.h
+.\output\pk.o: src\user\pk\pk_math.h
+.\output\pk.o: src\user\pk\pk_math_vector.h

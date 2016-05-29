@@ -3,328 +3,38 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: µVision V5.17.0.0
-Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Christopher PK Wong, HKUST, LIC=ZB4CX-HJZD9-11BPY-I5TZB-PU1XS-7R4YZ
+IDE-Version: µVision V5.18a
+Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Kristian Suhartono, HKUST, LIC=TIVFW-QZBS5-X6UQZ-JLGKI-IDFAU-ETK4J
  
 Tool Versions:
-Toolchain:       MDK-ARM Standard  Version: 5.17
+Toolchain:       MDK-ARM Standard  Version: 5.18a
 Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 update 1 (build 61)
 Assembler:       Armasm.exe V5.06 update 1 (build 61)
 Linker/Locator:  ArmLink.exe V5.06 update 1 (build 61)
 Library Manager: ArmAr.exe V5.06 update 1 (build 61)
 Hex Converter:   FromElf.exe V5.06 update 1 (build 61)
-CPU DLL:         SARMCM3.DLL V5.17
-Dialog DLL:      DCM.DLL V1.13.4.0
-Target DLL:      UL2CM3.DLL V1.156.1.0
-Dialog DLL:      TCM.DLL V1.14.6.0
+CPU DLL:         SARMCM3.DLL V5.18a
+Dialog DLL:      DCM.DLL V1.13.6.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.18.0
+Dialog DLL:      TCM.DLL V1.14.8.0
  
 <h2>Project:</h2>
-C:\Users\USER\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\Project.uvprojx
-Project File Date:  05/28/2016
+D:\Data\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\Project.uvprojx
+Project File Date:  05/29/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
-Rebuild target 'stm32_template'
-compiling buzzer_song.c...
-compiling main.c...
-.\src\user\pk/pk_wheelbase.h(20): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
-  void pk_wheelbase_init();
-.\src\user\pk/pk_wheelbase.h(22): warning:  #1295-D: Deprecated declaration reset - give arg types
-  void reset();
-.\src\user\pk/pk_wheelbase.h(27): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-.\src\user\pk/pk_wheelbase.h(29): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
-  void parseWheelbaseValues();
-.\src\user\pk/pk_wheelbase.h(30): warning:  #1295-D: Deprecated declaration sendWheelbaseCommand - give arg types
-  void sendWheelbaseCommand();
-.\src\user\pk/pk_wheelbase.h(32): warning:  #1295-D: Deprecated declaration wheelbaseLock - give arg types
-  void wheelbaseLock();
-.\src\user\pk/pk_wheelbase.h(34): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
-  Wheelbase getWheelbaseValues();
-.\src\user\pk/control.h(45): warning:  #1295-D: Deprecated declaration riverBlow - give arg types
-  	void riverBlow();
-src\user\main.c: 8 warnings, 0 errors
-compiling robocon.c...
-src\user\pk/pk_wheelbase.h(20): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
-  void pk_wheelbase_init();
-src\user\pk/pk_wheelbase.h(22): warning:  #1295-D: Deprecated declaration reset - give arg types
-  void reset();
-src\user\pk/pk_wheelbase.h(27): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk/pk_wheelbase.h(29): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
-  void parseWheelbaseValues();
-src\user\pk/pk_wheelbase.h(30): warning:  #1295-D: Deprecated declaration sendWheelbaseCommand - give arg types
-  void sendWheelbaseCommand();
-src\user\pk/pk_wheelbase.h(32): warning:  #1295-D: Deprecated declaration wheelbaseLock - give arg types
-  void wheelbaseLock();
-src\user\pk/pk_wheelbase.h(34): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
-  Wheelbase getWheelbaseValues();
-src\user\pk/control.h(45): warning:  #1295-D: Deprecated declaration riverBlow - give arg types
-  	void riverBlow();
-src\user\robocon.c: 8 warnings, 0 errors
-compiling wheel_base_pid.c...
-src\user\pk/pk_wheelbase.h(20): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
-  void pk_wheelbase_init();
-src\user\pk/pk_wheelbase.h(22): warning:  #1295-D: Deprecated declaration reset - give arg types
-  void reset();
-src\user\pk/pk_wheelbase.h(27): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk/pk_wheelbase.h(29): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
-  void parseWheelbaseValues();
-src\user\pk/pk_wheelbase.h(30): warning:  #1295-D: Deprecated declaration sendWheelbaseCommand - give arg types
-  void sendWheelbaseCommand();
-src\user\pk/pk_wheelbase.h(32): warning:  #1295-D: Deprecated declaration wheelbaseLock - give arg types
-  void wheelbaseLock();
-src\user\pk/pk_wheelbase.h(34): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
-  Wheelbase getWheelbaseValues();
-src\user\pk/control.h(45): warning:  #1295-D: Deprecated declaration riverBlow - give arg types
-  	void riverBlow();
-src\user\wheel_base_pid.c: 8 warnings, 0 errors
-compiling special_char_handler.c...
-compiling wheel_base.c...
-src\user\pk/pk_wheelbase.h(20): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
-  void pk_wheelbase_init();
-src\user\pk/pk_wheelbase.h(22): warning:  #1295-D: Deprecated declaration reset - give arg types
-  void reset();
-src\user\pk/pk_wheelbase.h(27): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk/pk_wheelbase.h(29): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
-  void parseWheelbaseValues();
-src\user\pk/pk_wheelbase.h(30): warning:  #1295-D: Deprecated declaration sendWheelbaseCommand - give arg types
-  void sendWheelbaseCommand();
-src\user\pk/pk_wheelbase.h(32): warning:  #1295-D: Deprecated declaration wheelbaseLock - give arg types
-  void wheelbaseLock();
-src\user\pk/pk_wheelbase.h(34): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
-  Wheelbase getWheelbaseValues();
-src\user\pk/control.h(45): warning:  #1295-D: Deprecated declaration riverBlow - give arg types
-  	void riverBlow();
-src\user\wheel_base.c: 8 warnings, 0 errors
-compiling log.c...
-compiling send_debug_data.c...
-compiling flash.c...
-compiling pneumatic.c...
-compiling approx_math.c...
-compiling laser_sensor.c...
-src\user\laser_sensor.c(158): warning:  #1-D: last line of file ends without a newline
-  }
-src\user\laser_sensor.c: 1 warning, 0 errors
-compiling bluetooth.c...
-compiling button.c...
-compiling buzzer.c...
-compiling can_motor.c...
-compiling crc.c...
-compiling can_protocol.c...
-compiling delay.c...
-compiling encoder.c...
-compiling gpio.c...
-compiling gyro.c...
-compiling led.c...
-compiling interface.c...
-compiling motor_pwm.c...
-compiling servo.c...
-compiling ticks.c...
-compiling tft.c...
-compiling system_test.c...
-.\src\user\pk/pk_wheelbase.h(20): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
-  void pk_wheelbase_init();
-.\src\user\pk/pk_wheelbase.h(22): warning:  #1295-D: Deprecated declaration reset - give arg types
-  void reset();
-.\src\user\pk/pk_wheelbase.h(27): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-.\src\user\pk/pk_wheelbase.h(29): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
-  void parseWheelbaseValues();
-.\src\user\pk/pk_wheelbase.h(30): warning:  #1295-D: Deprecated declaration sendWheelbaseCommand - give arg types
-  void sendWheelbaseCommand();
-.\src\user\pk/pk_wheelbase.h(32): warning:  #1295-D: Deprecated declaration wheelbaseLock - give arg types
-  void wheelbaseLock();
-.\src\user\pk/pk_wheelbase.h(34): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
-  Wheelbase getWheelbaseValues();
-.\src\user\pk/control.h(45): warning:  #1295-D: Deprecated declaration riverBlow - give arg types
-  	void riverBlow();
-src\ustrobo_min_system\src\system_test.c: 8 warnings, 0 errors
-compiling usart.c...
-compiling xbc_mb.c...
-compiling bluetooth_xbc_mb.c...
-compiling can_xbc_mb.c...
-src\ustrobo_min_system\src\can_xbc_mb.c(188): warning:  #177-D: variable "data_prev" was declared but never referenced
-        XBC_LCD_DATA* data_prev = &xbc_lcd_data_prev[x][y];
-src\ustrobo_min_system\src\can_xbc_mb.c(152): warning:  #177-D: function "xbc_lcd_data_diff" was declared but never referenced
-  static u8 xbc_lcd_data_diff(XBC_LCD_DATA* data1, XBC_LCD_DATA* data2) 
-src\ustrobo_min_system\src\can_xbc_mb.c: 2 warnings, 0 errors
-compiling mb1240.c...
-src\ustrobo_min_system\src\mb1240.c(17): warning:  #177-D: variable "TIM_OCInitStructure" was declared but never referenced
-    TIM_OCInitTypeDef  TIM_OCInitStructure;
-src\ustrobo_min_system\src\mb1240.c(5): warning:  #550-D: variable "mb1240_pulse_on_flag" was set but never used
-  static u8 mb1240_pulse_on_flag = 0;
-src\ustrobo_min_system\src\mb1240.c: 2 warnings, 0 errors
-compiling adc.c...
-compiling adc_app.c...
-compiling nec_remote.c...
-compiling nec.c...
-src\ustrobo_min_system\src\nec.c(21): warning:  #69-D: integer conversion resulted in truncation
-  static NEC_Data_TypeDef nec_last_data = (u16)-1;
-src\ustrobo_min_system\src\nec.c: 1 warning, 0 errors
-compiling core_cm3.c...
-compiling nec_mb.c...
-compiling ultrasonic_mb.c...
-src\ustrobo_min_system\src\ultrasonic_mb.c(20): warning:  #177-D: variable "id" was declared but never referenced
-  			u8 id = msg.StdId - US_CAN_ID;
-src\ustrobo_min_system\src\ultrasonic_mb.c(21): warning:  #177-D: variable "in_range_time" was declared but never referenced
-  			u16 in_range_time = (msg.Data[1] << 8) | msg.Data[2];
-src\ustrobo_min_system\src\ultrasonic_mb.c(22): warning:  #177-D: variable "in_range_distance" was declared but never referenced
-  			u16 in_range_distance = (msg.Data[3] << 8) | msg.Data[4];
-src\ustrobo_min_system\src\ultrasonic_mb.c: 3 warnings, 0 errors
-compiling misc.c...
-compiling stm32f10x_adc.c...
-compiling stm32f10x_bkp.c...
-compiling stm32f10x_cec.c...
-compiling stm32f10x_can.c...
-compiling stm32f10x_crc.c...
-compiling stm32f10x_dbgmcu.c...
-compiling stm32f10x_dac.c...
-compiling stm32f10x_dma.c...
-compiling stm32f10x_exti.c...
-compiling stm32f10x_fsmc.c...
-compiling stm32f10x_flash.c...
-compiling stm32f10x_gpio.c...
-compiling stm32f10x_iwdg.c...
-compiling stm32f10x_i2c.c...
-compiling stm32f10x_pwr.c...
-compiling stm32f10x_rtc.c...
-compiling stm32f10x_rcc.c...
-compiling stm32f10x_sdio.c...
-compiling stm32f10x_spi.c...
-compiling stm32f10x_tim.c...
-compiling stm32f10x_usart.c...
-assembling startup_stm32f10x_xl.s...
-compiling stm32f10x_wwdg.c...
-compiling system_stm32f10x.c...
-compiling pk.c...
-src\user\pk\pk_wheelbase.h(20): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
-  void pk_wheelbase_init();
-src\user\pk\pk_wheelbase.h(22): warning:  #1295-D: Deprecated declaration reset - give arg types
-  void reset();
-src\user\pk\pk_wheelbase.h(27): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk\pk_wheelbase.h(29): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
-  void parseWheelbaseValues();
-src\user\pk\pk_wheelbase.h(30): warning:  #1295-D: Deprecated declaration sendWheelbaseCommand - give arg types
-  void sendWheelbaseCommand();
-src\user\pk\pk_wheelbase.h(32): warning:  #1295-D: Deprecated declaration wheelbaseLock - give arg types
-  void wheelbaseLock();
-src\user\pk\pk_wheelbase.h(34): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
-  Wheelbase getWheelbaseValues();
-.\src\user\pk/control.h(45): warning:  #1295-D: Deprecated declaration riverBlow - give arg types
-  	void riverBlow();
-src\user\pk\pk.c: 8 warnings, 0 errors
-compiling pk_brushless.c...
-compiling pk_manual.c...
-src\user\pk\pk_wheelbase.h(20): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
-  void pk_wheelbase_init();
-src\user\pk\pk_wheelbase.h(22): warning:  #1295-D: Deprecated declaration reset - give arg types
-  void reset();
-src\user\pk\pk_wheelbase.h(27): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk\pk_wheelbase.h(29): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
-  void parseWheelbaseValues();
-src\user\pk\pk_wheelbase.h(30): warning:  #1295-D: Deprecated declaration sendWheelbaseCommand - give arg types
-  void sendWheelbaseCommand();
-src\user\pk\pk_wheelbase.h(32): warning:  #1295-D: Deprecated declaration wheelbaseLock - give arg types
-  void wheelbaseLock();
-src\user\pk\pk_wheelbase.h(34): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
-  Wheelbase getWheelbaseValues();
-src\user\pk\control.h(45): warning:  #1295-D: Deprecated declaration riverBlow - give arg types
-  	void riverBlow();
-src\user\pk\pk_manual.c: 8 warnings, 0 errors
-compiling hybrid_pneumatic.c...
-compiling hybrid_gpio.c...
-src\user\pk\pk_wheelbase.h(20): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
-  void pk_wheelbase_init();
-src\user\pk\pk_wheelbase.h(22): warning:  #1295-D: Deprecated declaration reset - give arg types
-  void reset();
-src\user\pk\pk_wheelbase.h(27): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk\pk_wheelbase.h(29): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
-  void parseWheelbaseValues();
-src\user\pk\pk_wheelbase.h(30): warning:  #1295-D: Deprecated declaration sendWheelbaseCommand - give arg types
-  void sendWheelbaseCommand();
-src\user\pk\pk_wheelbase.h(32): warning:  #1295-D: Deprecated declaration wheelbaseLock - give arg types
-  void wheelbaseLock();
-src\user\pk\pk_wheelbase.h(34): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
-  Wheelbase getWheelbaseValues();
-.\src\user\pk/control.h(45): warning:  #1295-D: Deprecated declaration riverBlow - give arg types
-  	void riverBlow();
-src\user\pk\hybrid_gpio.c: 8 warnings, 0 errors
-compiling control.c...
-src\user\pk\pk_wheelbase.h(20): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
-  void pk_wheelbase_init();
-src\user\pk\pk_wheelbase.h(22): warning:  #1295-D: Deprecated declaration reset - give arg types
-  void reset();
-src\user\pk\pk_wheelbase.h(27): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk\pk_wheelbase.h(29): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
-  void parseWheelbaseValues();
-src\user\pk\pk_wheelbase.h(30): warning:  #1295-D: Deprecated declaration sendWheelbaseCommand - give arg types
-  void sendWheelbaseCommand();
-src\user\pk\pk_wheelbase.h(32): warning:  #1295-D: Deprecated declaration wheelbaseLock - give arg types
-  void wheelbaseLock();
-src\user\pk\pk_wheelbase.h(34): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
-  Wheelbase getWheelbaseValues();
-src\user\pk\control.h(45): warning:  #1295-D: Deprecated declaration riverBlow - give arg types
-  	void riverBlow();
-src\user\pk\control.c: 8 warnings, 0 errors
-compiling hybrid_laser.c...
-.\src\user\pk/pk_wheelbase.h(20): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
-  void pk_wheelbase_init();
-.\src\user\pk/pk_wheelbase.h(22): warning:  #1295-D: Deprecated declaration reset - give arg types
-  void reset();
-.\src\user\pk/pk_wheelbase.h(27): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-.\src\user\pk/pk_wheelbase.h(29): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
-  void parseWheelbaseValues();
-.\src\user\pk/pk_wheelbase.h(34): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
-  Wheelbase getWheelbaseValues();
-.\src\user\pk/control.h(45): warning:  #1295-D: Deprecated declaration riverBlow - give arg types
-  	void riverBlow();
-src\user\pk\hybrid_laser.c: 8 warnings, 0 errors
-compiling pk_arm.c...
-compiling pk_math.c...
-src\user\pk\pk_math.h(10): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\pk\pk_math.c: 1 warning, 0 errors
-compiling pk_climb.c...
-compiling pk_math_vector.c...
-compiling pk_wheelbase.c...
-src\user\pk\pk_wheelbase.h(20): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
-  void pk_wheelbase_init();
-src\user\pk\pk_wheelbase.h(22): warning:  #1295-D: Deprecated declaration reset - give arg types
-  void reset();
-src\user\pk\pk_wheelbase.h(27): warning:  #1295-D: Deprecated declaration addComponent - give arg types
-  void addComponent();
-src\user\pk\pk_wheelbase.h(29): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
-  void parseWheelbaseValues();
-src\user\pk\pk_wheelbase.h(30): warning:  #1295-D: Deprecated declaration sendWheelbaseCommand - give arg types
-  void sendWheelbaseCommand();
-src\user\pk\pk_wheelbase.h(32): warning:  #1295-D: Deprecated declaration wheelbaseLock - give arg types
-  void wheelbaseLock();
-src\user\pk\pk_wheelbase.h(34): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
-  Wheelbase getWheelbaseValues();
-src\user\pk\pk_math.h(10): warning:  #1-D: last line of file ends without a newline
-  #endif
-src\user\pk\pk_wheelbase.c: 8 warnings, 0 errors
-linking...
-Program Size: Code=43526 RO-data=1530 RW-data=5332 ZI-data=44540  
-FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 96 Warning(s).
+Build target 'stm32_template'
+".\output\stm32_template.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\USER\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\RTE
+  D:\Data\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.0.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:18
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

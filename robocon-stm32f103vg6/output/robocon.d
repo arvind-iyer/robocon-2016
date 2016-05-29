@@ -67,3 +67,5 @@
 .\output\robocon.o: src\user\pk/pk_arm.h
 .\output\robocon.o: src\user\pk/pk_climb.h
 .\output\robocon.o: src\user\pk/hybrid_laser.h
+.\output\robocon.o: src\user\pk/pk_math.h
+.\output\robocon.o: src\user\pk/pk_math_vector.h

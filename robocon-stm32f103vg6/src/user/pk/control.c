@@ -172,7 +172,7 @@ void updateQueue () {
 					laserAuto = true;
 					pneumatics.P1 = true;
 				}
-				if(currentPath.position.x == -2715&& currentPath.position.y == 2072) {
+				if(currentPath.position.x == -2715&& currentPath.position.y == 1872) {
 					autoModeLaser = true;
 					autoPIDMode = false;
 					manualMode = false;

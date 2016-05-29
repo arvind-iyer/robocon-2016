@@ -4,6 +4,7 @@
 #include <stdarg.h>
 
 int max(int n, ...);
+int min(int n, ...);
 
 #include "pk_math_vector.h"
 
