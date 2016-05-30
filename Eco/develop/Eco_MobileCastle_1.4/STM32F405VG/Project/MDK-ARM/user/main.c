@@ -24,7 +24,22 @@ int main(void) {
 	button_init();
 	buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 	tft_put_logo(85, 120);
-	ardu_adapter_init();
+	//ardu_adapter_init();
+	
+	MTi_1_UART_init();
+	while(1){
+		tft_clear();
+		tft_println("%d", get_full_ticks());
+		tft_println("DEGREE: XYZ");
+		for (u8 i=0;i<3;i++){
+			tft_println("%f", get_MTi_ang(i));
+		}
+		tft_println("ACCEL: XYZ");
+		for (u8 i=0;i<3;i++){
+			tft_println("%f", get_MTi_acc(i));
+		}
+		tft_update();
+	}
 	
 	GAME_STAGE game_stage = SYSTEM_WAITING;
 	

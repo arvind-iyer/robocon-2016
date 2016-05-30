@@ -27,7 +27,7 @@ int main(void) {
 	can_xbc_mb_init();
 	can_xbc_mb_tx_enable(true);
 	gpio_init_all();
-	ls_init();
+	adc_init();
 	i2c_init();
 	pca9685_init();
 

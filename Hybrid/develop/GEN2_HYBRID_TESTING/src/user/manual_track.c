@@ -3,6 +3,7 @@
 s32 last_laser_diff = 0;
 s32 laser_target_range_increment = 0;
 u32 laser_range[2] = {0};
+u32 laser_use_range[2] = {0};
 
 bool laser_manual_update(s32 motor_vel[3], s32* rotate){
 	//0 is the front one
@@ -11,14 +12,18 @@ bool laser_manual_update(s32 motor_vel[3], s32* rotate){
 		for (s8 i=0;i<2;i++){
 			laser_range[i] = get_ls_cal_reading(i);
 			if (laser_range[i]>LASER_OUT_DISTANCE){
-				laser_range[i] = LASER_OUT_DISTANCE;
+				laser_use_range[i] = LASER_TARGET_RANGE;
+			}else{
+				laser_use_range[i] = laser_range[i];
 			}
 		}
 	#else
 		for (s8 i=1;i>=0;i--){
 			laser_range[i] = get_ls_cal_reading(i);
-			if (laser_range[i]>650){
-				laser_range[i] = LASER_OUT_DISTANCE;
+			if (laser_range[i]>LASER_OUT_DISTANCE){
+				laser_use_range[i] = LASER_TARGET_RANGE;
+			}else{
+				laser_use_range[i] = laser_range[i];
 			}
 		}
 	#endif
@@ -32,13 +37,13 @@ bool laser_manual_update(s32 motor_vel[3], s32* rotate){
 	
 	//Rotation
 	//If laser_diff < 0, *rotate anti-clockwise
-	s32 laser_diff = laser_range[0] - laser_range[1];
+	s32 laser_diff = laser_use_range[0] - laser_use_range[1];
 	*rotate = -(laser_diff * LASER_ROTATE_P / 1000) + (laser_diff - last_laser_diff) * LASER_ROTATE_D / 1000;
 	*rotate = *rotate>350?350:(*rotate<-350?-350:*rotate);
 	last_laser_diff = laser_diff;
 	
 	//Perpendicular
-	u32 laser_avg = (laser_range[0] + laser_range[1])/2;
+	u32 laser_avg = (laser_use_range[0] + laser_use_range[1])/2;
 	s32 perpend_speed = 0;
 	if (laser_avg>180){
 		//If perpend_diff>0, move further away

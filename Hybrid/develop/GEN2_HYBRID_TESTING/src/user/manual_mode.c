@@ -487,7 +487,7 @@ void manual_interval_update(){
 	tft_append_line("%d", curr_speed);
 	tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_angle());
 	tft_append_line("%d %d %d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str, rotating_machine_by_90, rotating_machine_by_90_target);
-	tft_append_line("LS: %d %d", laser_range[0], laser_range[1]);
+	tft_append_line("LS: %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	tft_update();
 }
