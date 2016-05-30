@@ -32,6 +32,7 @@ int main(void) {
 	pca9685_init();
 
 	tft_put_logo(85, 120);            
+	pneumatic_off(&PD10); //Targeting Laser
 	CONTROL_STATE last_control_state = MANUAL_MODE;
 	
 	while(1){

@@ -358,7 +358,10 @@ void manual_fast_update(){
 		using_laser_sensor = laser_manual_update(motor_vel, &curr_rotate);
 		curr_heading = get_angle();
 	}else if (rotating_machine_by_90){
-		curr_rotate += river_rotate_update(rotating_machine_by_90_target);
+		s32 this_rotate = river_rotate_update(rotating_machine_by_90_target);
+		for (u8 i=0;i<3;i++){
+			motor_vel[i] += this_rotate/10;
+		}
 		if (abs(rotating_machine_by_90_target - get_angle())%3600 < 50){
 			rotating_machine_by_90 = false;
 		}
@@ -442,7 +445,7 @@ void manual_interval_update(){
 	}
 			
 	if (button_hitted[BUTTON_XBC_A]){
-		if (manual_stage == 0 || manual_stage == 1){
+		if (manual_stage == 0){
 			manual_stage = 5;
 			gripper_down = true;
 			gripper_extended = true;
@@ -484,6 +487,7 @@ void manual_interval_update(){
 	tft_append_line("%d", curr_speed);
 	tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_angle());
 	tft_append_line("%d %d %d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str, rotating_machine_by_90, rotating_machine_by_90_target);
+	tft_append_line("LS: %d %d", laser_range[0], laser_range[1]);
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	tft_update();
 }

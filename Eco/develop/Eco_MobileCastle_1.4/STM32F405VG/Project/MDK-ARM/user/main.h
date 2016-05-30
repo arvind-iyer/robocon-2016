@@ -71,6 +71,7 @@
 #include "encoder.h"
 #include "sensor_bar.h"
 #include "ardu_imu_adp.h"
+#include "MTi-1_UART.h"
 #include "imu_targeting.h"
 #include "button.h"
 #include "buzzer.h"

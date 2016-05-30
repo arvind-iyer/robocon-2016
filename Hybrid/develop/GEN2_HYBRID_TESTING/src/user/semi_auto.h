@@ -19,8 +19,9 @@
 #include "quick_math.h"
 #include "manual_mode.h"
 
-#define LM_SA_ROTATE_P 250
+#define LM_SA_ROTATE_P 450
 #define LM_SA_ROTATE_D 1100
+#define LM_SA_ROTATE_MAX 300
 #define LM_SA_CALI_TIME 800
 
 #define LM_SA_APP_FAST_SPEED 800

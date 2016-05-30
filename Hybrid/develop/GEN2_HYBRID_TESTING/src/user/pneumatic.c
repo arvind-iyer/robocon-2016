@@ -3,6 +3,8 @@
 void pneumatic_init(){
 
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE,ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD,ENABLE);
 	
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -19,11 +21,9 @@ void pneumatic_init(){
 }
 
 void pneumatic_control(GPIO_TypeDef* PORT, u16 gpio_pin,u8 state){
-	
 	if (state==1){
 		GPIO_SetBits(PORT,gpio_pin);
 	}else {
 		GPIO_ResetBits(PORT,gpio_pin);
 	} 
-
 }

@@ -56,6 +56,10 @@ __inline int16_t s16_cap(int16_t in_num, int16_t upper_bound, int16_t lower_boun
 	return in_num>upper_bound?upper_bound:in_num<lower_bound?lower_bound:in_num;
 }
 
+__inline int32_t s32_cap(int32_t in_num, int32_t upper_bound, int32_t lower_bound){
+	return in_num>upper_bound?upper_bound:in_num<lower_bound?lower_bound:in_num;
+}
+
 
 /**
 ** This function tries to cap a u16 within a specific range.

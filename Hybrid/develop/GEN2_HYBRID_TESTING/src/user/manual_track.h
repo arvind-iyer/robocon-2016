@@ -23,13 +23,13 @@
 #define RIVER_ROTATE_D 1400 //Scaled by 1000
 
 #define LASER_START_BACKING_OFF 6000
-#define LASER_BACK_OFF_DISTANCE 250
-#define LASER_OFF_MIN_DISTANCE 6300
+#define LASER_BACK_OFF_DISTANCE 0 //250
+#define LASER_OFF_MIN_DISTANCE 6001
 
 #define LASER_ROTATE_P 650 //Scaled by 1000
 #define LASER_ROTATE_D 2100 //Scaled by 1000
 
-#define LASER_PERPEND_P 1000 //Scaled by 1000
+#define LASER_PERPEND_P 2200 //Scaled by 1000
 #define LASER_TARGET_RANGE 300 //In mm
 #define LASER_OUT_DISTANCE 800
 
@@ -50,6 +50,8 @@
 
 #define LIMIT_PERPEND_NORM 20
 #define LIMIT_PERPEND_FAST 80
+
+extern u32 laser_range[2];
 
 bool laser_manual_update(s32 motor_vel[3], s32* rotate);
 void limit_manual_init(void);
