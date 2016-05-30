@@ -1,10 +1,10 @@
 #include "bajaj.h"
+#include "string.h"
 
 extern u8 data1[8];
 extern u8 data2[8];
 extern u8 sensorbar_result[16];
 extern u8 river;
-extern u8 hueAvg;
 extern u8 border;
 extern u8 globalState;
 
@@ -14,16 +14,28 @@ extern int length;
 extern int lastMovement;
 extern int lastTurn;
 extern float factor;
-extern bool inBlue;
 extern bool sensorIsFlipped;
 extern bool fullWhite;
 extern bool systemOn;
-
 extern int yaw_of_imu;
+extern int pitch_of_imu;
+extern int hueAvg;
 
 float imuFactor;
 int imuMovement;
+int sat1;
+int value1;
+uint32_t encoder_revolution = 0;
+char gameZoneString[12]= "UNKNOWN";
+ZONE gameZone;
 
+void update_encoder(){
+    if(encoder_revolution > 10)encoder_revolution = 0;
+    if(get_count(ENCODER1) > (int)SLOPE_ENCODER){
+        encoder_revolution++;
+        reset_encoder_1();
+    }
+}
 
 void systemInit(){
     SystemCoreClockUpdate();
@@ -34,10 +46,9 @@ void systemInit(){
     servo_init();
     buzzer_init();
     button_init();
-    
     encoder_init();
     infrared_sensor_init();
-      
+    ardu_imu_init();
 	//Initialize the CAN protocol for motor
     can_init();
     can_rx_init();
@@ -48,7 +59,7 @@ void systemInit(){
 
 void receive(CanRxMsg msg){
     for(int i = 0; i < 8 ;i++){
-        data1[i] = msg.Data[i];       
+        data1[i] = msg.Data[i]; 
     }
 }
 void receive2(CanRxMsg msg){
@@ -58,46 +69,43 @@ void receive2(CanRxMsg msg){
 }
 
 void receive3(CanRxMsg msg){
-    river = msg.Data[0];
+    river  = msg.Data[0];
     hueAvg = msg.Data[1];
-    border = msg.Data[2];
 }
 
 void fill_sensorbar_array(){
-    for(int i = 0; i < 8; i++){
-        if(sensorIsFlipped) sensorbar_result[i] = data2[7 - i];
-        else sensorbar_result[i] = data1[i];
-    }
-    for(int i = 0; i < 8; i++){
-        if(sensorIsFlipped) sensorbar_result[8+i] = data1[7 - i];
-        else sensorbar_result[8 + i] = data2[i];
+    if(get_ticks() % 10 == 0){
+        for(int i = 0; i < 8; i++){
+            if(sensorIsFlipped) sensorbar_result[i] = data2[7 - i];
+            else sensorbar_result[i] = data1[i];
+        }
+        for(int i = 0; i < 8; i++){
+            if(sensorIsFlipped) sensorbar_result[8+i] = data1[7 - i];
+            else sensorbar_result[8 + i] = data2[i];
+        }
     }
 }
 
 void print_data(){
-    tft_prints(0,0,"Sensor output");
+    update_encoder();
+    tft_prints(0,0,"zone:%s",gameZoneString);
     for(int i = 0; i < 16 ;i++) tft_prints(i,1,"%d",sensorbar_result[i]);
-    tft_prints(0,2,"yaw :%d cal:%d",yaw_of_imu,ardu_imu_calibrated);
-    tft_prints(0,3,"i1:%d i2:%d",read_infrared_sensor(INFRARED_SENSOR_1),read_infrared_sensor(INFRARED_SENSOR_2));
-    tft_prints(0,4,"length: %d",length);
-    tft_prints(0,5,"fullwhite:%d",fullWhite);
-    tft_prints(0,6,"e1:%d e2:%d",get_count(ENCODER1),get_count(ENCODER2));
-    tft_prints(0,7,"state: %d",globalState);
-    tft_prints(0,8,"riv:%d inB:%d",river,inBlue);
-    tft_prints(0,9,"system: %d",systemOn);    
+    tft_prints(0,2,"y:%f",ardu_cal_ypr[0]);
+    tft_prints(0,3,"il:%d ir:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
+    tft_prints(0,4,"ul:%d ur:%d", read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT),read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT));
+    tft_prints(0,5,"le:%d havg:%d",length,hueAvg);
+    tft_prints(0,6,"fullwhite:%d",fullWhite);
+    tft_prints(0,7,"e1:%d e2:%d",get_full_count(ENCODER1),get_full_count(ENCODER2));
+    tft_prints(0,8,"state: %d",globalState);
+    tft_prints(0,9,"riv:%d count:%d",river,encoder_revolution);    
 }
 
 void process_array(){
+    //Seperate the marking into a 2 stage process
     for(int k = 0; k < 16; k++) {
         int el = sensorbar_result[k];
         if (el == 1) {
-            length++;
-            if (begin == -1) begin = k; 
-            
-            //Add more conditioning here
-            else if(sensorbar_result[k+1] > 15){
-                end = 15;
-            }
+            if (begin == -1) begin = k;
             else if(sensorbar_result[k+1] == 0){
                 end = k; //If the rest is zero, regards others as noise
                 break;
@@ -107,104 +115,119 @@ void process_array(){
             }  
         }   
     }
+    for(int i = 0 ; i < 16 ;i++){
+        if(sensorbar_result[i])
+            length++;
+    }
 }
 
+
 void goNormal(void){
-    if (get_full_ticks() - lastTurn >= 500){
-        if(length >= 15 && fullWhite == false){
-            lastMovement = SERVO_MICROS_RIGHT;
+    if (get_full_ticks() - lastTurn >= (int)DELAY){    
+        if(length > 9 && fullWhite == false && encoder_revolution > 3 && gameZone == ORANGEZONE){
+            lastMovement = (int)MAX_NINETY_TURNING;
             fullWhite = true;
             lastTurn = get_full_ticks();
         }
         
-        else if (length >= 15 && fullWhite == true){
-            lastMovement = SERVO_MICROS_MID;
-        }
+//        else if (length > 6){
+//            lastMovement = SERVO_MICROS_MID;
+//        }
 
-        else if (length >= 2 && length <= 7) {
+        else if (length >= 1 && length <= 6) {
             float factor = ((begin + end) / 2) / (float) 16;
             lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
-        } 
-
-        //((begin + end)/2) < 6
-        else if (length > 7 && length < 16){
-            if ((begin + end) / 2 < 8 ){
-                lastMovement = SERVO_MICROS_LEFT;
-            }
-            else if((begin + end) / 2 >= 8 && river && inBlue){
-                lastMovement = SERVO_MICROS_RIGHT + 250;
-            }
-            else lastMovement = SERVO_MICROS_RIGHT;
         }  
     begin = -1;
-    servo_control(SERVO1,lastMovement);
+    servo_control(BAJAJ_SERVO,lastMovement);
     }
 }
-
-void goFindWall(void){
-    if(!read_infrared_sensor(INFRARED_SENSOR_1)){
-        servo_control(SERVO1,SERVO_MICROS_MID + 50);
-        globalState = STAGE2;
-        reset_all_encoder();
-    }
-}
-
-void goStraightYolo(void){
-    if(get_count(ENCODER1) > 45000){
-        globalState = NOT_RIVER;
-        inBlue = false;
-    }
-}
-
 void goUsingImu(void){
-    if(get_count(ENCODER1) > 30000 && !read_infrared_sensor(INFRARED_SENSOR_1)){
+    if((get_count(ENCODER1) > 20000) && !read_infrared_sensor(RIVER_INFRARED)){
         globalState = STAGE2;
-        reset_all_encoder();
+        reset_encoder_1();
     }
-    else{
-        if(yaw_of_imu >= -5 && yaw_of_imu <= 5)servo_control(SERVO1,SERVO_MICROS_MID);
-        else if(yaw_of_imu > 120) servo_control(SERVO1,SERVO_MICROS_LEFT);
-        else if(yaw_of_imu < -120) servo_control(SERVO1,SERVO_MICROS_RIGHT);
-        else{
-            //non-extreme angle movement
-            imuFactor = (float)yaw_of_imu / 120;
-            imuMovement = SERVO_MICROS_MID + (imuFactor * 600);
-            servo_control(SERVO1,imuMovement);
-        }
-    }
-}
-
-void goDetectRightWall(void){
-    if(river && !read_infrared_sensor(INFRARED_SENSOR_2)){
-        servo_control(SERVO1,SERVO_MICROS_MID + 150);
-        globalState = STAGE3;
-    }
-}
-
-void goDetectLeftWall(void){
-    if(river && !read_infrared_sensor(INFRARED_SENSOR_1)){
-        globalState = NOT_RIVER;
-    }
+    imuFactor = ardu_cal_ypr[0] / 180.0f;
+    imuMovement = SERVO_MICROS_MID - (imuFactor * 600);
+    servo_control(BAJAJ_SERVO,imuMovement);
 }
 
 void goStraightLittleBit(void){
-    servo_control(SERVO1,SERVO_MICROS_MID + 150);
-    if(get_count(ENCODER1) > 4000){
+    servo_control(BAJAJ_SERVO,SERVO_MICROS_MID - LESSER_TURNING);
+    if(get_count(ENCODER1) > 8000){
+        lastMovement = SERVO_MICROS_MID - (int)LESSER_TURNING;
         globalState = NOT_RIVER;
+        lastMovement = SERVO_MICROS_MID - (int)LESSER_TURNING;
     }
 }
 
 void printSystemOff(void){
-    tft_prints(0,3,"SYSTEM IS OFF");
-    tft_prints(0,0,"Sensor output");
-    for(int i = 0; i < 16 ;i++) tft_prints(i,1,"%d",sensorbar_result[i]);
-    tft_prints(0,2,"River: %d",river);
+    tft_prints(0,0,"e1:%d e2:%d",get_full_count(ENCODER1),get_full_count(ENCODER2));
+    tft_prints(0,1,"zone: %s",gameZoneString);
+    for(int i = 0; i < 16 ;i++) tft_prints(i,2,"%d",sensorbar_result[i]);
+    tft_prints(0,3,"river:%d",river);
     tft_prints(0,4,"calibrated:%d",ardu_imu_calibrated);
     tft_prints(0,5,"yaw:%f",ardu_cal_ypr[0]);
-    tft_prints(0,6,"length:%d",length);
+    tft_prints(0,6,"length:%d fw:%d",length,fullWhite);
     tft_prints(0,7,"b:%d e:%d",begin,end);
-    tft_prints(0,8,"i1:%d i2:%d",read_infrared_sensor(INFRARED_SENSOR_1),read_infrared_sensor(INFRARED_SENSOR_2));
+    tft_prints(0,8,"il:%d ir:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
+    tft_prints(0,9,"ul:%d ur:%d", read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT),read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT));
 }
+
+void determineZone(){
+//    //Dark blue
+//    if(hueAvg >= RIVERLEFT && hueAvg <= RIVERRIGHT){gameZone = BLUEZONE;}
+//    
+//    //Orange
+//    else if(hueAvg <= ORANGERIGHT && hueAvg > ORANGELEFT){gameZone = ORANGEZONE;}
+//    
+//    //Light green
+//    else if(hueAvg > LIGHTGREENLEFT && hueAvg < LIGHTGREENRIGHT){gameZone = LIGHTGREENZONE;}
+//    
+//    //Dark green
+//    else if(hueAvg >= DARKGREENLEFT && hueAvg < DARKGREENRIGHT){gameZone = DARKGREENZONE;}
+//    
+//    //Pink
+//    else if(hueAvg > PINKLEFT && hueAvg <= PINKRIGHT){gameZone = PINKZONE;}
+    switch(hueAvg){
+        case 0:
+            gameZone = PINKZONE;
+            strcpy(gameZoneString,"Start/End");
+            river  = 0;
+            break;
+        case 1:
+            gameZone = DARKGREENZONE;
+            strcpy(gameZoneString,"Darkgreen");
+            river = 0;
+            break;
+        case 2:
+            gameZone = ORANGEZONE;
+            strcpy(gameZoneString,"Orange");
+            river = 0;
+            break;
+        case 3:
+            gameZone = BLUEZONE;
+            strcpy(gameZoneString,"River");
+            river = 1;
+            break;
+        case 4:
+            gameZone = LIGHTGREENZONE;
+            strcpy(gameZoneString,"Lightgreen");
+            break;
+        default:
+            gameZone = NOCOLOURZONE;
+            strcpy(gameZoneString,"Unknown");
+            
+    }
+}
+
+void runUserInterface(void){
+    //User Interface Section
+    if(button_pressed(BUTTON_JS_DOWN))fullWhite = true;
+    if(button_pressed(BUTTON_JS_LEFT))systemOn = 0;
+    if(button_pressed(BUTTON_JS_RIGHT))systemOn = 1;
+}
+
 
 
 
