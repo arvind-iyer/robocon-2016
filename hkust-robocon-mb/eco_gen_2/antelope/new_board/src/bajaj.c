@@ -24,7 +24,6 @@ void initializeValues(void){
     if(button_pressed(BUTTON_RED)){
         while(button_pressed(BUTTON_RED));
         tft_init(PIN_ON_BOTTOM,BLACK,ORANGE,RED); 
-        MAX_NINETY_TURNING = 1000;
         IMU_ANGLE1 = -90;
         IMU_ANGLE2 = 30;
         IMU_ANGLE3 = -45;
@@ -44,7 +43,6 @@ void initializeValues(void){
     else if(button_pressed(BUTTON_WHITE)){
         while(button_pressed(BUTTON_WHITE));
         tft_init(PIN_ON_BOTTOM,BLACK,BLUE2,RED);
-        MAX_NINETY_TURNING = 1875;
         IMU_ANGLE1 = 80;
         IMU_ANGLE2 = -30;
         IMU_ANGLE3 = 45;

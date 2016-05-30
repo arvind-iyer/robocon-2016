@@ -135,15 +135,15 @@ void sensor_init(Reading*  max){
         GPIO_ResetBits(GPIOB,GPIO_Pin_10);
         DMA_ClearFlag(DMA1_FLAG_TC1);
         
-        for(u8 i=0;i < 16;i++)
-		{   
-			//normalizing RGB
-			tempReading.red_reading[i] = (tempReading.red_reading[i])*255 / (max_1.red_reading[i]);
-			tempReading.green_reading[i] = (tempReading.green_reading[i])*255 / (max_1.green_reading[i]);
-            tempReading.blue_reading[i] = (tempReading.blue_reading[i])*255 / (max_1.blue_reading[i]);
-		}
+        for(u8 i=0;i < 16;i++) {   
+					//normalizing RGB
+					tempReading.red_reading[i] = (tempReading.red_reading[i])*255 / (max_1.red_reading[i]);
+					tempReading.green_reading[i] = (tempReading.green_reading[i])*255 / (max_1.green_reading[i]);
+					tempReading.blue_reading[i] = (tempReading.blue_reading[i])*255 / (max_1.blue_reading[i]);
+				}
         
         rgb_hsv_converter(&tempReading);
+				//rgb_yuv_converter(&tempReading); // rawr budi - kenta owo
         
         //copy values of temp reading to the corresponding array
         for(u8 i = 0 ; i < 16 ;i++){
@@ -242,6 +242,15 @@ void dataCollect(){
 			now.blue_reading[i] = (now.blue_reading[i])*255 / (max_1.blue_reading[i]);
 		}
 }
+
+// hai budi owo - Kenta
+void rgb_yuv_converter(Reading* reading) {
+	for (int i = 0; i < 16; i++) {
+		reading->h[i] = (257 * reading->red_reading[i] / 1000) + (504 * reading->green_reading[i] / 1000) + (98 * reading->blue_reading[i] / 1000) + 16;
+		reading->s[i] = (439 * reading->red_reading[i] / 1000) - (368 * reading->green_reading[i] / 1000) - (71 * reading->blue_reading[i] / 1000) + 128;
+		reading->s[i] = -(148 * reading->red_reading[i] / 1000) - (291 * reading->green_reading[i] / 1000) + (439 * reading->blue_reading[i] / 1000) + 128;
+	}
+}
    
 //RGB to HSV converter
 void rgb_hsv_converter(Reading* reading){
@@ -305,11 +314,17 @@ void analysisData(){
     #ifndef HARDCODEMODE
     s32 minDiff = 10000;
     s32 diff;
+	
+	int count = 0;
+	
     for(u8 i = 0 ; i < 16 ; i++){
-        hueAverage += now.h[i];
+        if(now.s[i] >= calibratedSaturationAverage[currentZone] - (u8)SATOFFSET) {
+					hueAverage += now.h[i];
+					count++;
+				}
     }
     
-    hueAverage /= 16;
+    hueAverage /= count;
     for(u8 i = 0; i < NUMOFAREAS ; i++){
         diff = Abs(calibratedHueAverage[i] - hueAverage);
         if(diff < minDiff){
@@ -317,30 +332,11 @@ void analysisData(){
             minDiff = diff;
         }
     }
-    
-    //2 here is green
-    
-//    if(currentZone == 1){
-//        if(currentZone == 1){
-//            for(u8 i = 0 ; i < 16 ; i++){
-//                if(now.v[i] >= (calibratedValueAverage[2] + (u8)VALUEOFFSET - 10))sat[i] = 1;
-//                else sat[i] = 0;
-//            }        
-//        }
-//        else if(currentZone == 3){
-//            for(u8 i = 0 ; i < 16 ; i++){
-//                if(now.v[i] >= (calibratedValueAverage[3] + (u8)VALUEOFFSET)- 12)sat[i] = 1;
-//                else sat[i] = 0;
-//            }              
-//            
-//        }
-//    }
-//    else{
-        for(u8 i = 0 ; i < 16 ; i++){
-            if(now.s[i] >= calibratedSaturationAverage[currentZone] - (u8)SATOFFSET)sat[i] = 0;
-            else sat[i] = 1;
-        }
-    //}
+		
+		for(u8 i = 0 ; i < 16 ; i++){
+				if(now.s[i] >= calibratedSaturationAverage[currentZone] - (u8)SATOFFSET)sat[i] = 0;
+				else sat[i] = 1;
+		}
 
     #endif
     
