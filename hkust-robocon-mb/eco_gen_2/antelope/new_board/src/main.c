@@ -51,6 +51,7 @@ int main(void) {
             buzzer_check();
             ticks_ms_img = get_ticks();
             tft_clear();
+            int initInfra = 0;
             fill_sensorbar_array();
             process_array();
             if(get_ticks() % 800 == 0)determineZone();
@@ -87,15 +88,24 @@ int main(void) {
                                                 START_UP_play;
                                                 startSong = true;
                                         }                                  
+                                        
                                         if(gameZone == DARKGREENZONE){
 
                                             goNormal();
                                             currentSlopeZone = GREENSLOPE1;
                                             strcpy(currentSlopeZoneString,"GREENSLOPE1");
                                         }    
+                                        if(side == BLUESIDE){
+                                            lastMovement = SERVO_MICROS_MID - 100;
+                                            servo_control(BAJAJ_SERVO, lastMovement);
+                                        }
+                                        else goNormal();
                                     break;
                                     case GREENSLOPE1:
-                                        goNormal();
+                                        if(!read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT) && !initInfra){
+                                            goNormal();
+                                            initInfra = 0;
+                                        }
                                         if(gameZone == ORANGEZONE){
                                             currentSlopeZone = ORANGE1;
                                             strcpy(currentSlopeZoneString,"ORANGE1");
