@@ -18,6 +18,8 @@
 #include "auto_mode.h"
 
 #define THRESHOLD 10
+#define KP 0.4
+#define KI 0.012
 
 //#define DEBUG_MODE
 
@@ -53,7 +55,7 @@ int dist_last, time, time_last, measured_vel;
 int start, passed;
 int err_d, err_sum;
 int auto_ticks = 0;
-s16 cur_vel = 90;
+s16 cur_vel = 0;
 
 u8 side_switch_val = 0;
 u8 back_switch_val = 0;
@@ -119,9 +121,11 @@ void auto_tar_dequeue() {
 		ori_y = 0;
 	}
 	
-	//temp speed control
+	//speed control
 	if (tar_end == 1)
 		cur_vel = 65;
+	if (tar_end == 5)
+		cur_vel = 80;
 	
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
@@ -138,6 +142,7 @@ void auto_tar_dequeue() {
 	tar_cen_x = (ori_x + tar_x)/2 + mid_length * int_cos(tar_dir * 10) / 10000;
 	tar_cen_y = (ori_y + tar_y)/2 - mid_length * int_sin(tar_dir * 10) / 10000;
 	
+	err_sum = 0;
 	tar_end++;
 }
 
@@ -215,7 +220,7 @@ void auto_reset() {
 	
 	deg_ratio = 0;
 	start = 0;
-	cur_vel = 90;
+	cur_vel = 120;
 	pid_stopped = false;
 	transform[1][0] = 0;
 	
@@ -264,6 +269,9 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	int err, err_pid;
 	double dotcheck;
 	
+	double kp = KP;
+	double ki = KI;
+	
 	//determine if overflow
 	dotcheck = (cur_x-tar_x)*(ori_x-tar_x) + (cur_y-tar_y)*(ori_y-tar_y);
 	dotcheck /= Sqrt(Sqr(ori_x-tar_x)+Sqr(ori_y-tar_y));
@@ -276,8 +284,8 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//determine velocity coefficient
-	double acc = passed / 800.0;
-	double dec = dist / ((double)(cur_vel * 7));
+	double acc = passed / 850.0;
+	double dec = dist / ((double)(cur_vel * 8));
 	//double dec = sqrt(dist / 680.0);	//twice of acceleration (v = (2as)^(0.5))
 	if (acc > 1.0)
 		acc = 1.0;
@@ -320,7 +328,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		}
 		if ((side_switch_val == 3) || (side_switch_val == 7)) {
 			if (Abs(cur_x) < 7000) {
-				off_deg = get_angle();
+				off_deg = get_angle(); // + 20*vel_coeff;
 			} else {
 				off_deg = get_angle() - 1800;
 			}
@@ -364,15 +372,30 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		reset_vel[2] = cur_vel/(-5);
 	}
 	
-	//ls cal first part
+	//ls cal straight section
 	if ((tar_end == 1) && (get_pos()->y < (4165 - wall_dist))) //measured distance less than actual distance
 		off_y = get_pos()->y - 4165 + wall_dist; //negative
 	
-	//perpendicular PID
-	err_pid = err * 0.4 + err_sum * 0.006 + (err-err_d) * 0.0;
+	//disable kI during blowing eco
+	if ((tar_end == 2) || (tar_end == 3) || ((tar_end == 4) && (dist > 800))) {
+		ki = 0;
+	} else {
+		ki = KI;
+	}
+	
+	//end path by switch
+	if (gpio_read_input(&PE2)) {
+		tar_end = tar_head;
+		cur_x = tar_x;
+		cur_y = tar_y;
+		cur_deg = tar_deg*10;
+	}
+	
+	//perpendicular PI
+	err_pid = err * kp + err_sum * ki; // + (err-err_d) * 0.0;
 	 
 	//rotational P
-	rotate *= 0.7;
+	rotate *= 1.3;
 	
 	angle *= 10;
 	for (int i = 0; i < 3; i++) {
@@ -388,7 +411,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	motor_set_vel(MOTOR1, vel[0], CLOSE_LOOP);
 	motor_set_vel(MOTOR2, vel[1], CLOSE_LOOP);
-	motor_set_vel(MOTOR3, vel[2], CLOSE_LOOP);
+	motor_set_vel(MOTOR3, vel[2], CLOSE_LOOP);  
 	
 	err_d = err;
 	err_sum += err;
@@ -623,7 +646,7 @@ void auto_var_update() {
 			diff += 360;		
 		deg_ratio = (pythag(ori_x, ori_y, tar_x, tar_y) - dist)*diff;
 		deg_ratio /= pythag(ori_x, ori_y, tar_x, tar_y);
-		tar_deg = auto_tar_ret(tar_end-2).deg + (int)deg_ratio;
+		tar_deg = (int)((double)auto_tar_ret(tar_end-2).deg + deg_ratio);
 	}
 	
 	dist_last = dist;
@@ -660,6 +683,8 @@ void auto_motor_update(){
 			pid_stopped = true;
 			auto_motor_stop();
 		}
+	} else if (gpio_read_input(&PE2)) {
+		auto_motor_stop();
 	} else {
 		auto_track_path(degree, degree_diff, cur_vel, false);
 	}
