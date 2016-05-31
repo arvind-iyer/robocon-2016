@@ -161,6 +161,6 @@ int main(void){
 		}
 		dataCollect();
 		sendData();
-		printInformation();
+		//printInformation();
   }
 }

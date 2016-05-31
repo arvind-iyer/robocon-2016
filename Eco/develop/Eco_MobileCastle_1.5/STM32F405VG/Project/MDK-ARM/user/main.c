@@ -22,7 +22,7 @@ int main(void) {
 	#endif
 	buzzer_init();
 	button_init();
-	buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
+	buzzer_play_song(START_UP, 100, 0);
 	tft_put_logo(85, 120);
 	
 	mti_init();

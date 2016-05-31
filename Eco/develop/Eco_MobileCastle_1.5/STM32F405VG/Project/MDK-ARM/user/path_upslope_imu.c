@@ -11,7 +11,7 @@ static s16 last_pitch;
 
 #ifdef BLUE_FIELD
 	//This array marks the CHANGE in yaw, with repesct to the last value
-	static const s16 path_yaw_change[TOTAL_PATH_SIZE] = {0, 270, 270, 270, -350, -300, -1200};
+	static const s16 path_yaw_change[TOTAL_PATH_SIZE] = {0, -150, -150, -150, 150, 150, 1200};
 	//This array marks the pitch of the slope, with repesct to starting pitch
 	static const s16 path_pitch_change[TOTAL_PATH_SIZE] = {0, -60, 0, -60, 0, -60, 0};
 #else
@@ -78,43 +78,10 @@ GAME_STAGE path_up_imu_update(){
 		}
 	}
 	
-	SENSOR_BAR_FLAG flag;
-	s16 correction = sensor_bar_get_corr(UP_SENSOR_BAR_POWER, UP_SENSOR_BAR_Kp, &flag);
-
-	u16 sensorbar_trust = 0; //Scaled by 100
-	switch(abs((s8)sensor_bar_mid - SENSOR_BAR_MID)){
-		case 0:
-		case 1:
-			sensorbar_trust = 0;
-			break;
-		case 2:
-			sensorbar_trust = 5;
-			break;
-		case 3:
-			sensorbar_trust = 10;
-			break;
-		case 4:
-			sensorbar_trust = 15;
-			break;
-		case 5:
-			sensorbar_trust = 35;
-			break;
-		case 6:
-			sensorbar_trust = 60;
-			break;
-		case 7:
-			sensorbar_trust = 80;
-			break;
-		case 8:
-			sensorbar_trust = 100;
-			break;
-	}
-	
 	si_clear();
 	si_add_deg_bias(targeting_pid(mti_int_ypr[0]));
-	si_add_pwm_bias(correction*sensorbar_trust/100);
 	si_execute();
-	tft_println("PP:%d ST:%d MD:%d", path_pointer, sensorbar_trust, abs((s8)sensor_bar_mid - SENSOR_BAR_MID));
+	tft_println("PP:%d", path_pointer);
 //	tft_println("AP:%d", awaiting_pitch);
 //	tft_println("AV:%d", median_pitch);
 	return CLIMBING_SLOPE;

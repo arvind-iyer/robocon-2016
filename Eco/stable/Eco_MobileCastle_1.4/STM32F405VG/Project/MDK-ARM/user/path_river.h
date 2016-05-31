@@ -20,9 +20,9 @@
 #define IR_2_Pin GPIO_Pin_1
 
 #ifdef BLUE_FIELD
-	#define RIVER_STRAIGHT_YAW (-900)
-#else
 	#define RIVER_STRAIGHT_YAW (900)
+#else
+	#define RIVER_STRAIGHT_YAW (-900)
 #endif
 
 #define IR_BUFFER_LENGTH 8

@@ -22,6 +22,7 @@ extern s16 mti_int_acc[3];
 extern s16 mti_start_bias_yaw;
 
 bool mti_all_ready(void);
+void mti_immediate_ready(void);
 void mti_init(void);
 void mti_update(void);
 

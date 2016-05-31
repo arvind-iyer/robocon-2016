@@ -59,7 +59,7 @@ u8 limit_sa_approach(s32 motor_vel[3], s32* rotate){
 											- (get_ap_new_X())*(get_ap_new_X())))))
 											* LM_SA_APP_CURVE_GAIN /100;
 	s32 y_error = get_ap_new_Y() - target_new_y;
-	lm_sa_app_y_spped = y_error * LM_SA_APP_Y_P /1000;
+	lm_sa_app_y_spped = (y_error * LM_SA_APP_Y_P + lm_sa_app_sum_y_error * LM_SA_APP_Y_I) /1000;
 	lm_sa_app_sum_y_error += y_error;
 	#ifdef BLUE_FIELD
 	 lm_sa_app_y_spped = -lm_sa_app_y_spped;

@@ -46,9 +46,9 @@ GAME_STAGE menu_update(){
 						path_up_sb_init(selection);
 					#endif
 					#ifdef BLUE_FIELD
-						mti_int_ypr[0] = 300;
-					#else
 						mti_int_ypr[0] = -300;
+					#else
+						mti_int_ypr[0] = 300;
 					#endif
 					buzzer_play_song(HIGH_1, 500, 50);
 					return CLIMBING_SLOPE;
@@ -60,16 +60,16 @@ GAME_STAGE menu_update(){
 					#endif
 					buzzer_play_song(HIGH_2, 300, 150);
 					#ifdef BLUE_FIELD
-						mti_int_ypr[0] = 450;
-					#else
 						mti_int_ypr[0] = -450;
+					#else
+						mti_int_ypr[0] = 450;
 					#endif
 					return CLIMBING_SLOPE;
 				case 3:
 					#ifdef BLUE_FIELD
-						mti_int_ypr[0] = -900;
-					#else
 						mti_int_ypr[0] = 900;
+					#else
+						mti_int_ypr[0] = -900;
 					#endif
 					return CROSSING_RIVER;
 				case 4:
@@ -83,6 +83,7 @@ GAME_STAGE menu_update(){
 				case 6:
 					return SENSOR_BAR_CALI;
 			}
+			mti_immediate_ready();
 		}else{
 			selection = (selection+1) % NUMBER_OF_ITEMS;
 		}
