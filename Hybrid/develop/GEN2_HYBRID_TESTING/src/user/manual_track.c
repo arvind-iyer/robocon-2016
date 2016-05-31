@@ -139,7 +139,8 @@ u8 limit_manual_update(s32 motor_vel[3], s32* rotate){
 		parallel_speed = (get_passed_ticks())*LIMIT_PARA_CONSTANT/LIMIT_ACCEL_TIME;
 	}else if(abs(get_new_Y())>LIMIT_START_DECEL_Y){
 		if (abs(get_new_Y())>LIMIT_END_DECEL_Y){
-			parallel_speed = LIMIT_PARA_SLOW_CONSTANT + (abs(get_new_Y()) - LIMIT_START_DECEL_Y)*(LIMIT_PARA_CONSTANT-LIMIT_PARA_SLOW_CONSTANT)/(LIMIT_END_DECEL_Y-LIMIT_START_DECEL_Y);
+			parallel_speed = LIMIT_PARA_SLOW_CONSTANT + 
+			(abs(get_new_Y()) - LIMIT_START_DECEL_Y)*(LIMIT_PARA_CONSTANT-LIMIT_PARA_SLOW_CONSTANT)/(LIMIT_END_DECEL_Y-LIMIT_START_DECEL_Y);
 		}else{
 			parallel_speed = LIMIT_PARA_SLOW_CONSTANT;
 		}
@@ -168,6 +169,7 @@ s32 river_rotate_update(s32 target){
 	this_angle_error = this_angle_error<-1800?3600+this_angle_error:this_angle_error;
 	
 	s32 pid_rotate = -(this_angle_error*RIVER_ROTATE_P/1000 + (this_angle_error - last_angle_error)*RIVER_ROTATE_D/1000);
+	s32_cap(pid_rotate, RIVER_ROTATE_MAX, -RIVER_ROTATE_MAX);
 	last_angle_error = this_angle_error;
 	return pid_rotate;
 }

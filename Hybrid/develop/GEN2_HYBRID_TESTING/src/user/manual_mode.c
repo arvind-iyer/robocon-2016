@@ -448,6 +448,7 @@ void manual_interval_update(){
 	if (button_hitted[BUTTON_XBC_A]){
 		if (manual_stage == 0){
 			manual_stage = 5;
+			limit_sa_approach_init();
 			gripper_down = true;
 			gripper_extended = true;
 			gripper_clawed = false;

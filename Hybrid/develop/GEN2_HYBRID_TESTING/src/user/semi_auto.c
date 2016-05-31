@@ -194,5 +194,5 @@ u8 sa_str_update(s32 motor_vel[3], s32* rotate){
 }
 
 void sa_print_info(){
-	tft_append_line("SA:%d %d",lm_sa_app_x_spped, lm_sa_app_y_spped);
+	tft_append_line("L%d %d %d %d",get_lm_new_X(), get_lm_new_Y(), get_lm_new_angle(), get_lm_passed_ticks());
 }
