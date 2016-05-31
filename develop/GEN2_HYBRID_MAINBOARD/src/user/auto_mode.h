@@ -24,7 +24,8 @@ typedef enum {
 
 typedef enum {
 	MENU_MODE,
-	RUNNING_MODE
+	RUNNING_MODE,
+	CLIMBING_MODE
 } PID_MODE;
 
 typedef struct {
@@ -55,6 +56,7 @@ PID_MODE auto_get_state(void);
 u32 auto_get_flash(u8 page, u8 offset);
 void auto_track_path(int angle, int rotate, int maxvel, bool curved);
 void auto_robot_control(void);
+void auto_pole_climb(void);
 void auto_motor_stop(void);
 void auto_calibrate(void);
 void auto_menu_update(void);

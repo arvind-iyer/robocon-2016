@@ -28,6 +28,7 @@ u8 field = 1;
 
 double transform[2][2] = {{1, 0}, {0, 1}};
 u16 wall_dist = 0;
+u8 hill_cal = 1;
 
 //mode variables
 PID_MODE pid_state;
@@ -223,6 +224,7 @@ void auto_reset() {
 	cur_vel = 120;
 	pid_stopped = false;
 	transform[1][0] = 0;
+	hill_cal = 1;
 	
 	tar_arm = 0;
 	brushless_time = 0;
@@ -383,6 +385,20 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		ki = KI;
 	}
 	
+	/*
+	//ls cal pass hill
+	if ((tar_end == 6) && hill_cal) {
+		if ((field == 0) && (get_ls_cal_reading(1) > 600)) {
+			off_x = raw_x + 6765;
+			hill_cal = 0;
+		}
+		if ((field == 1) && (get_ls_cal_reading(0) > 600)) {
+			off_x = raw_x - 6765;
+			hill_cal = 0;
+		}
+	}
+	*/
+	
 	//end path by switch
 	if (gpio_read_input(&PE2)) {
 		tar_end = tar_head;
@@ -415,6 +431,19 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	err_d = err;
 	err_sum += err;
+}
+
+void auto_pole_climb(){
+	motor_set_vel(MOTOR1, 0, OPEN_LOOP);
+	motor_set_vel(MOTOR2, 0, OPEN_LOOP);
+	motor_set_vel(MOTOR3, 0, OPEN_LOOP);
+	pneumatic_off(&PB9);
+	
+	tft_clear();
+	tft_prints(0,0,"[AUTO-CLIMB]");
+	tft_prints(0,5,"REC %3d",time/1000);
+	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
+	tft_update();
 }
 
 /**
@@ -685,6 +714,7 @@ void auto_motor_update(){
 		}
 	} else if (gpio_read_input(&PE2)) {
 		auto_motor_stop();
+		pid_state = CLIMBING_MODE;
 	} else {
 		auto_track_path(degree, degree_diff, cur_vel, false);
 	}
@@ -702,7 +732,9 @@ void auto_motor_update(){
 	//tft_prints(0,7,"Test %d",measured_vel);
 	//tft_prints(0,7,"Test %d %d %d", arm_vel, get_arm_pos(), tar_arm);
 	//tft_prints(0,7,"Test %d %d", dist, degree_diff);
-	tft_prints(0,7,"Test %d %d %d", err_sum);
+	//tft_prints(0,7,"Test %d", err_sum);
+	//tft_prints(0,7,"Test %d %d", side_switch_val, back_switch_val);
+	tft_prints(0,7,"Test %d %d", raw_x, get_pos()->x);
 	tft_prints(0,8,"Trans: %d",(int)(transform[1][0]*700));
 	tft_prints(0,9,"Wall: %d",wall_dist);
 	tft_update();

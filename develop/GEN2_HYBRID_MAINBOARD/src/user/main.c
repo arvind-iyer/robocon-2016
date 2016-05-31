@@ -92,6 +92,8 @@ int main(void) {
 						auto_motor_update();
 						//manual_controls_update();
 						//auto_calibrate();
+					} else if (auto_get_state() == CLIMBING_MODE) {
+						auto_pole_climb();
 					} else if (auto_get_state() == MENU_MODE) {
 						auto_menu_update();
 					}
