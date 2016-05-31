@@ -384,21 +384,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	} else {
 		ki = KI;
 	}
-	
-	/*
-	//ls cal pass hill
-	if ((tar_end == 6) && hill_cal) {
-		if ((field == 0) && (get_ls_cal_reading(1) > 600)) {
-			off_x = raw_x + 6765;
-			hill_cal = 0;
-		}
-		if ((field == 1) && (get_ls_cal_reading(0) > 600)) {
-			off_x = raw_x - 6765;
-			hill_cal = 0;
-		}
-	}
-	*/
-	
+		
 	//end path by switch
 	if (gpio_read_input(&PE2)) {
 		tar_end = tar_head;
@@ -733,8 +719,8 @@ void auto_motor_update(){
 	//tft_prints(0,7,"Test %d %d %d", arm_vel, get_arm_pos(), tar_arm);
 	//tft_prints(0,7,"Test %d %d", dist, degree_diff);
 	//tft_prints(0,7,"Test %d", err_sum);
-	//tft_prints(0,7,"Test %d %d", side_switch_val, back_switch_val);
-	tft_prints(0,7,"Test %d %d", raw_x, get_pos()->x);
+	tft_prints(0,7,"Test %d %d", side_switch_val, back_switch_val);
+	//tft_prints(0,7,"Test %d %d", get_pos()->x, get_pos()->y);
 	tft_prints(0,8,"Trans: %d",(int)(transform[1][0]*700));
 	tft_prints(0,9,"Wall: %d",wall_dist);
 	tft_update();
