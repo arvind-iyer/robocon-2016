@@ -85,7 +85,6 @@ typedef struct
 void sensor_init(Reading*  max);
 void initToZero(void);
 void dataCollect(void);
-void rgb_yuv_converter(Reading* reading); // budzi my mahn - kenta owo
 void rgb_hsv_converter(Reading* reading);
 void printInformation(void);
 void sendData(void);

@@ -46,8 +46,9 @@ void sensor_init(Reading*  max){
             while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
             for(u8 i=0;i<16;i++)
             {
-                if((s32)ADC_val[i] < max->off_reading[i])max->red_reading[i] = max->off_reading[i];
-                else max->red_reading[i] = (s32)ADC_val[i] - max->off_reading[i];
+                //if((s32)ADC_val[i] < max->off_reading[i])max->red_reading[i] = max->off_reading[i];
+                //else max->red_reading[i] = (s32)ADC_val[i] - max->off_reading[i];
+								 if((s32)ADC_val[i] < max->red_reading[i])max->red_reading[i] = ADC_val[i];
             }
             GPIO_ResetBits(GPIOB,GPIO_Pin_11);
             DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -59,8 +60,9 @@ void sensor_init(Reading*  max){
             while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
             for(u8 i=0;i<16;i++)
             {
-                if((s32)ADC_val[i] < max->off_reading[i])max->green_reading[i] = max->off_reading[i];
-                else max->green_reading[i] = (s32)ADC_val[i] - max->off_reading[i];
+                //if((s32)ADC_val[i] < max->off_reading[i])max->green_reading[i] = max->off_reading[i];
+                //else max->green_reading[i] = (s32)ADC_val[i]; // - max->off_reading[i];
+								if((s32)ADC_val[i] < max->green_reading[i])max->green_reading[i] = ADC_val[i];
             }
             GPIO_ResetBits(GPIOB,GPIO_Pin_12);
             DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -72,8 +74,9 @@ void sensor_init(Reading*  max){
             while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
             for(u8 i=0;i<16;i++)
             {
-                if((s32)ADC_val[i] < max->off_reading[i])max->blue_reading[i] = max->off_reading[i];
-                else max->blue_reading[i] = (s32)ADC_val[i] - max->off_reading[i];
+                //if((s32)ADC_val[i] < max->off_reading[i])max->blue_reading[i] = max->off_reading[i];
+                //else max->blue_reading[i] = (s32)ADC_val[i]; // - max->off_reading[i];
+								if((s32)ADC_val[i] < max->blue_reading[i])max->blue_reading[i] = ADC_val[i];
             }
             GPIO_ResetBits(GPIOB,GPIO_Pin_10);
             DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -104,7 +107,8 @@ void sensor_init(Reading*  max){
         for(u8 i=0;i<16;i++)
         {
             if((s32)ADC_val[i] < tempReading.off_reading[i])tempReading.red_reading[i] = tempReading.off_reading[i];
-            else tempReading.red_reading[i] = (s32)ADC_val[i] - tempReading.off_reading[i];
+            else tempReading.red_reading[i] = (((s32)ADC_val[i] - tempReading.off_reading[i])*255)/(max_1.red_reading[i]-tempReading.off_reading[i]);
+						//tempReading.red_reading[i] = (s32)ADC_val[i] - tempReading.off_reading[i];
         }
         GPIO_ResetBits(GPIOB,GPIO_Pin_11);
         DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -117,7 +121,8 @@ void sensor_init(Reading*  max){
         for(u8 i=0;i<16;i++)
         {
             if((s32)ADC_val[i]< tempReading.off_reading[i])tempReading.green_reading[i] = tempReading.off_reading[i];
-            else tempReading.green_reading[i] = (s32)ADC_val[i] - tempReading.off_reading[i];
+            else tempReading.green_reading[i] = (((s32)ADC_val[i] - tempReading.off_reading[i])*255)/(max_1.green_reading[i]-tempReading.off_reading[i]);
+							//tempReading.green_reading[i] = (s32)ADC_val[i] - tempReading.off_reading[i];
         }
         GPIO_ResetBits(GPIOB,GPIO_Pin_12);
         DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -130,20 +135,21 @@ void sensor_init(Reading*  max){
         for(u8 i=0;i<16;i++)
         {
             if((s32)ADC_val[i] < tempReading.off_reading[i])tempReading.blue_reading[i] = tempReading.off_reading[i];
-            else tempReading.blue_reading[i] = (s32)ADC_val[i] - tempReading.off_reading[i];
+            else tempReading.blue_reading[i] = (((s32)ADC_val[i] - tempReading.off_reading[i])*255)/(max_1.blue_reading[i]-tempReading.off_reading[i]);
+							//tempReading.blue_reading[i] = (s32)ADC_val[i] - tempReading.off_reading[i];
         }
         GPIO_ResetBits(GPIOB,GPIO_Pin_10);
         DMA_ClearFlag(DMA1_FLAG_TC1);
         
-        for(u8 i=0;i < 16;i++) {   
-					//normalizing RGB
-					tempReading.red_reading[i] = (tempReading.red_reading[i])*255 / (max_1.red_reading[i]);
-					tempReading.green_reading[i] = (tempReading.green_reading[i])*255 / (max_1.green_reading[i]);
-					tempReading.blue_reading[i] = (tempReading.blue_reading[i])*255 / (max_1.blue_reading[i]);
-				}
+        for(u8 i=0;i < 16;i++)
+		{   
+			//normalizing RGB
+			//tempReading.red_reading[i] = (tempReading.red_reading[i])*255 / (max_1.red_reading[i]);
+			//tempReading.green_reading[i] = (tempReading.green_reading[i])*255 / (max_1.green_reading[i]);
+      //tempReading.blue_reading[i] = (tempReading.blue_reading[i])*255 / (max_1.blue_reading[i]);
+		}
         
         rgb_hsv_converter(&tempReading);
-				//rgb_yuv_converter(&tempReading); // rawr budi - kenta owo
         
         //copy values of temp reading to the corresponding array
         for(u8 i = 0 ; i < 16 ;i++){
@@ -186,7 +192,8 @@ void dataCollect(){
             for(u8 i=0;i<16;i++){
             //now.red_reading[i] = ADC_val[i];
                 if(ADC_val[i] < now.off_reading[i])Avg_ADC_val[0][i] += now.off_reading[i];
-                Avg_ADC_val[0][i] += ADC_val[i] - now.off_reading[i];
+                else Avg_ADC_val[0][i] += ((ADC_val[i] - now.off_reading[i])*255)/(max_1.red_reading[i]-now.off_reading[i]);
+								//Avg_ADC_val[0][i] += ADC_val[i] - now.off_reading[i];
             }
         }
 		GPIO_ResetBits(GPIOB,GPIO_Pin_11);
@@ -202,7 +209,8 @@ void dataCollect(){
             for(u8 i = 0; i < 16;i++){
             //now.green_reading[i] = ADC_val[i];
                 if(ADC_val[i] < now.off_reading[i])Avg_ADC_val[1][i] += now.off_reading[i];
-                Avg_ADC_val[1][i] += ADC_val[i] - now.off_reading[i];
+                else Avg_ADC_val[1][i] += ((ADC_val[i] - now.off_reading[i])*255)/(max_1.green_reading[i]-now.off_reading[i]);
+								//Avg_ADC_val[1][i] += ADC_val[i] - now.off_reading[i];
             }
         }
         
@@ -219,7 +227,8 @@ void dataCollect(){
             for(u8 i=0;i<16;i++){
             //now.blue_reading[i] = ADC_val[i];
                 if(ADC_val[i] < now.off_reading[i])Avg_ADC_val[2][i] += now.off_reading[i];
-                Avg_ADC_val[2][i] += ADC_val[i] - now.off_reading[i];
+                else Avg_ADC_val[2][i] += ((ADC_val[i] - now.off_reading[i])*255)/(max_1.blue_reading[i]-now.off_reading[i]);  
+							//Avg_ADC_val[2][i] += ADC_val[i] - now.off_reading[i];
             }
         }
 		GPIO_ResetBits(GPIOB,GPIO_Pin_10);
@@ -234,22 +243,13 @@ void dataCollect(){
         }
 
 
-		for(u8 i=0;i < 16;i++)
-		{   
-			//normalizing RGB
-			now.red_reading[i] = (now.red_reading[i])*255 / (max_1.red_reading[i]);
-			now.green_reading[i] = (now.green_reading[i])*255 / (max_1.green_reading[i]);
-			now.blue_reading[i] = (now.blue_reading[i])*255 / (max_1.blue_reading[i]);
-		}
-}
-
-// hai budi owo - Kenta
-void rgb_yuv_converter(Reading* reading) {
-	for (int i = 0; i < 16; i++) {
-		reading->h[i] = (257 * reading->red_reading[i] / 1000) + (504 * reading->green_reading[i] / 1000) + (98 * reading->blue_reading[i] / 1000) + 16;
-		reading->s[i] = (439 * reading->red_reading[i] / 1000) - (368 * reading->green_reading[i] / 1000) - (71 * reading->blue_reading[i] / 1000) + 128;
-		reading->s[i] = -(148 * reading->red_reading[i] / 1000) - (291 * reading->green_reading[i] / 1000) + (439 * reading->blue_reading[i] / 1000) + 128;
-	}
+		//for(u8 i=0;i < 16;i++)
+		//{   
+		//	//normalizing RGB
+		//	now.red_reading[i] = (now.red_reading[i])*255 / (max_1.red_reading[i]);
+		//	now.green_reading[i] = (now.green_reading[i])*255 / (max_1.green_reading[i]);
+		//	now.blue_reading[i] = (now.blue_reading[i])*255 / (max_1.blue_reading[i]);
+		//}
 }
    
 //RGB to HSV converter
@@ -314,17 +314,20 @@ void analysisData(){
     #ifndef HARDCODEMODE
     s32 minDiff = 10000;
     s32 diff;
-	
-	int count = 0;
-	
-    for(u8 i = 0 ; i < 16 ; i++){
-        if(now.s[i] >= calibratedSaturationAverage[currentZone] - (u8)SATOFFSET) {
-					hueAverage += now.h[i];
-					count++;
-				}
-    }
+		u8 counter = 0;
+	  for(u8 i = 0 ; i < 16 ; i++){
+			if(now.s[i] >= calibratedSaturationAverage[currentZone] - (u8)SATOFFSET){
+				sat[i] = 0;
+				hueAverage += now.h[i];
+				counter ++;
+			}
+				else sat[i] = 1;
+		} 
+    //for(u8 i = 0 ; i < 16 ; i++){
+    //    hueAverage += now.h[i];
+    //}
     
-    hueAverage /= count;
+    hueAverage /= counter;
     for(u8 i = 0; i < NUMOFAREAS ; i++){
         diff = Abs(calibratedHueAverage[i] - hueAverage);
         if(diff < minDiff){
@@ -332,11 +335,30 @@ void analysisData(){
             minDiff = diff;
         }
     }
-		
-		for(u8 i = 0 ; i < 16 ; i++){
-				if(now.s[i] >= calibratedSaturationAverage[currentZone] - (u8)SATOFFSET)sat[i] = 0;
-				else sat[i] = 1;
-		}
+    
+    //2 here is green
+    
+//    if(currentZone == 1){
+//        if(currentZone == 1){
+//            for(u8 i = 0 ; i < 16 ; i++){
+//                if(now.v[i] >= (calibratedValueAverage[2] + (u8)VALUEOFFSET - 10))sat[i] = 1;
+//                else sat[i] = 0;
+//            }        
+//        }
+//        else if(currentZone == 3){
+//            for(u8 i = 0 ; i < 16 ; i++){
+//                if(now.v[i] >= (calibratedValueAverage[3] + (u8)VALUEOFFSET)- 12)sat[i] = 1;
+//                else sat[i] = 0;
+//            }              
+//            
+//        }
+//    }
+//    else{
+//       for(u8 i = 0 ; i < 16 ; i++){
+//            if(now.s[i] >= calibratedSaturationAverage[currentZone] - (u8)SATOFFSET)sat[i] = 0;
+//            else sat[i] = 1;
+//        }
+    //}
 
     #endif
     
