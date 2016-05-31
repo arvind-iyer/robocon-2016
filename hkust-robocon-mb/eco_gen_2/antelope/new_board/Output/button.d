@@ -64,3 +64,4 @@
 .\output\button.o: .\inc\ardu_imu.h
 .\output\button.o: .\inc\imu_math.h
 .\output\button.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\output\button.o: .\inc\MTi-1_UART.h

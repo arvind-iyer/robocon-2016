@@ -83,23 +83,15 @@ int main(void) {
                             case NOT_RIVER:
                                 switch(currentSlopeZone){
                                     case STARTZONE:
-                                        //goNormal();
+                                        goNormal();
                                         if(!startSong){
-                                                START_UP_play;
-                                                startSong = true;
-                                        }                                  
-                                        
+                                            START_UP_play;
+                                            startSong = true;
+                                        }                                       
                                         if(gameZone == DARKGREENZONE){
-
-                                            goNormal();
                                             currentSlopeZone = GREENSLOPE1;
                                             strcpy(currentSlopeZoneString,"GREENSLOPE1");
-                                        }    
-                                        if(side == BLUESIDE){
-                                            lastMovement = SERVO_MICROS_MID - 100;
-                                            servo_control(BAJAJ_SERVO, lastMovement);
-                                        }
-                                        else goNormal();
+                                        }   
                                     break;
                                     case GREENSLOPE1:
                                         if(!read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT) && !initInfra){
@@ -168,15 +160,9 @@ int main(void) {
                             case STAGE1:
                                 goUsingImu(); //Imu is bae, thx Rex!
                             break;
-//                            case STAGE3:
-//                                goUsingImu2();
-//                            break;
                             case STAGE2:
                                 goStraightLittleBit(); //Prevent it from falling down
                             break;
-//                            case STAGE4:
-//                                goUsingImu3();
-//                            break;
                         }
                     print_data(); //Print every data in the on(servo is active) system
                     runUserInterface(); //Button functions
