@@ -10,7 +10,7 @@ bool laser_manual_update(s32 motor_vel[3], s32* rotate){
 	//1 is the back one
 	#ifdef BLUE_FIELD
 		for (s8 i=0;i<2;i++){
-			laser_range[i] = get_ls_cal_reading(i);
+			laser_range[i] = get_ls_cal_reading(i==0?2:0);
 			if (laser_range[i]>LASER_OUT_DISTANCE){
 				laser_use_range[i] = LASER_TARGET_RANGE;
 			}else{
@@ -19,7 +19,7 @@ bool laser_manual_update(s32 motor_vel[3], s32* rotate){
 		}
 	#else
 		for (s8 i=1;i>=0;i--){
-			laser_range[i] = get_ls_cal_reading(i);
+			laser_range[i] = get_ls_cal_reading(i==0?0:2);
 			if (laser_range[i]>LASER_OUT_DISTANCE){
 				laser_use_range[i] = LASER_TARGET_RANGE;
 			}else{
@@ -37,7 +37,7 @@ bool laser_manual_update(s32 motor_vel[3], s32* rotate){
 	
 	//Rotation
 	//If laser_diff < 0, *rotate anti-clockwise
-	s32 laser_diff = laser_use_range[0] - laser_use_range[1];
+	s32 laser_diff = laser_use_range[1] - laser_use_range[0];
 	*rotate = -(laser_diff * LASER_ROTATE_P / 1000) + (laser_diff - last_laser_diff) * LASER_ROTATE_D / 1000;
 	*rotate = *rotate>350?350:(*rotate<-350?-350:*rotate);
 	last_laser_diff = laser_diff;

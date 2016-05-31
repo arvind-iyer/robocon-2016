@@ -12,22 +12,25 @@ void limit_sa_approach_init(){
 	ap_start_ticks = get_full_ticks();
 }
 
-static s32 get_ap_new_X(){
+inline static s32 get_ap_new_X(){
 	return get_pos()->x - ap_start_X;
 }
 
-static s32 get_ap_new_Y(){
+inline static s32 get_ap_new_Y(){
 	return get_pos()->y - ap_start_Y;
 }
 
-static s32 get_ap_new_angle(){
+inline static s32 get_ap_new_angle(){
 	return get_angle() - ap_start_angle;
 }
 
-static s32 get_ap_passed_ticks(){
+inline static s32 get_ap_passed_ticks(){
 	return this_loop_ticks - ap_start_ticks;
 }
 
+static s32 lm_sa_app_sum_y_error = 0;
+static s32 lm_sa_app_x_spped = 0;
+static s32 lm_sa_app_y_spped = 0;
 u8 limit_sa_approach(s32 motor_vel[3], s32* rotate){
 	s32 target_angle = 1800;
 	
@@ -40,21 +43,30 @@ u8 limit_sa_approach(s32 motor_vel[3], s32* rotate){
 	s32_cap(*rotate, LM_SA_ROTATE_MAX, -LM_SA_ROTATE_MAX);
 	last_angle_error = this_angle_error;
 	
-	s32 parallel_speed = 0;
 	if (abs(get_ap_new_X()) > LM_SA_APP_START_ACCEL){
 		if (abs(get_ap_new_X()) > LM_SA_APP_END_ACCEL){
-			parallel_speed = LM_SA_APP_SLOW_SPEED;
+			lm_sa_app_x_spped = LM_SA_APP_SLOW_SPEED;
 		}else{
-			parallel_speed = LM_SA_APP_SLOW_SPEED + (LM_SA_APP_FAST_SPEED - LM_SA_APP_SLOW_SPEED) 
+			lm_sa_app_x_spped = LM_SA_APP_SLOW_SPEED + (LM_SA_APP_FAST_SPEED - LM_SA_APP_SLOW_SPEED) 
 												* (abs(abs(get_ap_new_X())) - LM_SA_APP_START_ACCEL) 
 												/ (LM_SA_APP_END_ACCEL - LM_SA_APP_START_ACCEL);
 		}
 	}else{
-		parallel_speed = LM_SA_APP_FAST_SPEED;
+		lm_sa_app_x_spped = LM_SA_APP_FAST_SPEED;
 	}
 	
-	s32 curr_angle = int_arc_tan2(parallel_speed, LM_SA_TOWARDS_SPEED)*10 - get_angle();
-	u32 curr_speed = u32_sqrt((parallel_speed*parallel_speed) + (LM_SA_TOWARDS_SPEED*LM_SA_TOWARDS_SPEED));
+	s32 target_new_y = (LM_SA_APP_CURVE_RADIUS - ((s32)u32_sqrt(abs(LM_SA_APP_CURVE_RADIUS*LM_SA_APP_CURVE_RADIUS 
+											- (get_ap_new_X())*(get_ap_new_X())))))
+											* LM_SA_APP_CURVE_GAIN /100;
+	s32 y_error = get_ap_new_Y() - target_new_y;
+	lm_sa_app_y_spped = y_error * LM_SA_APP_Y_P /1000;
+	lm_sa_app_sum_y_error += y_error;
+	#ifdef BLUE_FIELD
+	 lm_sa_app_y_spped = -lm_sa_app_y_spped;
+	#endif
+	
+	s32 curr_angle = int_arc_tan2(lm_sa_app_x_spped, lm_sa_app_y_spped)*10 - get_angle();
+	u32 curr_speed = u32_sqrt((lm_sa_app_x_spped*lm_sa_app_x_spped) + (lm_sa_app_y_spped*lm_sa_app_y_spped));
 	
 	motor_vel[0] = (int_sin(curr_angle%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
 	motor_vel[1] = (int_sin((curr_angle+1200)%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
@@ -75,19 +87,19 @@ void limit_sa_init(){
 	lm_start_ticks = this_loop_ticks;
 }
 
-static s32 get_lm_new_X(){
+inline static s32 get_lm_new_X(){
 	return get_pos()->x - lm_start_X;
 }
 
-static s32 get_lm_new_Y(){
+inline static s32 get_lm_new_Y(){
 	return get_pos()->y - lm_start_Y;
 }
 
-static s32 get_lm_new_angle(){
+inline static s32 get_lm_new_angle(){
 	return get_angle() - lm_start_angle;
 }
 
-static s32 get_lm_passed_ticks(){
+inline static s32 get_lm_passed_ticks(){
 	return this_loop_ticks - lm_start_ticks;
 }
 
@@ -179,4 +191,8 @@ u8 sa_str_update(s32 motor_vel[3], s32* rotate){
 	motor_vel[2] = (int_sin((curr_angle+2400)%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
 	
 	return 7;
+}
+
+void sa_print_info(){
+	tft_append_line("SA:%d %d",lm_sa_app_x_spped, lm_sa_app_y_spped);
 }

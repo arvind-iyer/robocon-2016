@@ -7,7 +7,7 @@
 #include "stm32f10x_dma.h"
 
 #define ADC_GPIO_RCC	(RCC_APB2Periph_GPIOC | RCC_APB2Periph_GPIOA)
-#define ADC_Device		2
+#define ADC_Device		9
 
 //Under port C
 #define ADC_1_Pin 		GPIO_Pin_3

@@ -402,6 +402,7 @@ void manual_interval_update(){
 	
 	tft_append_line("%d", this_loop_ticks);
 	tft_append_line("%d", this_loop_ticks-last_long_loop_ticks);
+	sa_print_info();
 	
 	if (button_hitted[BUTTON_XBC_START]){
 		buzzer_beep(75);
@@ -487,13 +488,13 @@ void manual_interval_update(){
 	tft_append_line("%d", curr_speed);
 	tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_angle());
 	tft_append_line("%d %d %d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str, rotating_machine_by_90, rotating_machine_by_90_target);
-	tft_append_line("LS: %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
+	tft_append_line("LS: %d %d", get_ls_cal_reading(0), get_ls_cal_reading(2));
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	tft_update();
 }
 
 void manual_first_control_update(){
-	manual_control_brushless_update();
+	manual_control_brushless_update(); 
 	
 	if (button_hitted[BUTTON_XBC_B]){
 		if (brushless_str){

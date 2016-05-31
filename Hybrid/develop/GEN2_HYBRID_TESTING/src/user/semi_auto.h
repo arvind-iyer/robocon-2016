@@ -21,14 +21,18 @@
 
 #define LM_SA_ROTATE_P 450
 #define LM_SA_ROTATE_D 1100
-#define LM_SA_ROTATE_MAX 300
+#define LM_SA_ROTATE_MAX 200
 #define LM_SA_CALI_TIME 800
 
-#define LM_SA_APP_FAST_SPEED 800
+#define LM_SA_APP_FAST_SPEED 500
 #define LM_SA_APP_SLOW_SPEED 300
 #define LM_SA_TOWARDS_SPEED 220
 #define LM_SA_APP_START_ACCEL 5500
 #define LM_SA_APP_END_ACCEL 6200
+#define LM_SA_APP_CURVE_RADIUS 6500
+#define LM_SA_APP_CURVE_GAIN 70 //Scaled by 100
+#define LM_SA_APP_Y_P 1000
+#define LM_SA_APP_Y_I 50
 
 #define LM_SA_STR_ANGLE_P 400
 #define LM_SA_STR_FAST 1000
@@ -39,6 +43,7 @@
 
 void limit_sa_init(void);
 void limit_sa_approach_init(void);
+void sa_print_info(void);
 u8 limit_sa_approach(s32 motor_vel[3], s32* rotate);
 u8 limit_sa_update(s32 motor_vel[3], s32* rotate);
 u8 sa_str_update(s32 motor_vel[3], s32* rotate);

@@ -11,12 +11,12 @@
 ADC_structure adc_struct[] = {{GPIOC, ADC_1_Pin, ADC_Channel_13, 1, ADC_SampleTime_239Cycles5}, 
 															{GPIOC,	ADC_2_Pin, ADC_Channel_12, 2, ADC_SampleTime_239Cycles5},
 															{GPIOC,	ADC_3_Pin, ADC_Channel_11, 3, ADC_SampleTime_239Cycles5},
-															{GPIOC,	ADC_4_Pin, ADC_Channel_4, 4, ADC_SampleTime_239Cycles5},
-															{GPIOC,	ADC_5_Pin, ADC_Channel_5, 5, ADC_SampleTime_239Cycles5},
-															{GPIOC,	ADC_6_Pin, ADC_Channel_6, 6, ADC_SampleTime_239Cycles5},
-															{GPIOC,	ADC_7_Pin, ADC_Channel_7, 7, ADC_SampleTime_239Cycles5},
+															{GPIOA,	ADC_4_Pin, ADC_Channel_4, 4, ADC_SampleTime_239Cycles5},
+															{GPIOA,	ADC_5_Pin, ADC_Channel_5, 5, ADC_SampleTime_239Cycles5},
+															{GPIOA,	ADC_6_Pin, ADC_Channel_6, 6, ADC_SampleTime_239Cycles5},
+															{GPIOA,	ADC_7_Pin, ADC_Channel_7, 7, ADC_SampleTime_239Cycles5},
 															{GPIOC,	ADC_8_Pin, ADC_Channel_14, 8, ADC_SampleTime_239Cycles5},
-															{GPIOC,	ADC_9_Pin, ADC_Channel_15, 2, ADC_SampleTime_239Cycles5}};
+															{GPIOC,	ADC_9_Pin, ADC_Channel_15, 9, ADC_SampleTime_239Cycles5}};
 
 static u32 adc_value[ADC_Device];		//Data array that stores ADC result
 
