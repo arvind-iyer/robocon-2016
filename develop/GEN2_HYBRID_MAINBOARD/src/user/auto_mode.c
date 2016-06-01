@@ -19,7 +19,10 @@
 
 #define THRESHOLD 10
 #define KP 0.4
-#define KI 0.012
+#define KI 0.04
+#define RKP 2.4
+#define DEC_COEFF 8.5
+#define WALL_CAL 4190
 
 //#define DEBUG_MODE
 
@@ -287,7 +290,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	//determine velocity coefficient
 	double acc = passed / 850.0;
-	double dec = dist / ((double)(cur_vel * 8));
+	double dec = dist / ((double)(cur_vel * DEC_COEFF));
 	//double dec = sqrt(dist / 680.0);	//twice of acceleration (v = (2as)^(0.5))
 	if (acc > 1.0)
 		acc = 1.0;
@@ -375,11 +378,11 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//ls cal straight section
-	if ((tar_end == 1) && (get_pos()->y < (4165 - wall_dist))) //measured distance less than actual distance
-		off_y = get_pos()->y - 4165 + wall_dist; //negative
+	if ((tar_end == 1) && (get_pos()->y < (WALL_CAL - wall_dist))) //measured distance less than actual distance
+		off_y = get_pos()->y - WALL_CAL + wall_dist; //negative
 	
 	//disable kI during blowing eco
-	if ((tar_end == 2) || (tar_end == 3) || ((tar_end == 4) && (dist > 800))) {
+	if ((tar_end >= 2) && (tar_end <= 4)) {
 		ki = 0;
 	} else {
 		ki = KI;
@@ -397,7 +400,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	err_pid = err * kp + err_sum * ki; // + (err-err_d) * 0.0;
 	 
 	//rotational P
-	rotate *= 1.3;
+	rotate *= RKP;
 	
 	angle *= 10;
 	for (int i = 0; i < 3; i++) {
@@ -610,17 +613,19 @@ void auto_var_update() {
 			reading2 = 200;
 		if (Abs(reading2 - reading1) < 150) {
 			wall_dist = (reading1 + reading2)/2;
-			if (field == 0) {
-				if (wall_dist < 275)
-					transform[1][0] -= (5.0/7000.0);
-				if ((wall_dist > 325) && (wall_dist < 500))
-					transform[1][0] += (5.0/7000.0);
-			}
-			if (field == 1) {
-				if (wall_dist < 275)
-					transform[1][0] += (5.0/7000.0);
-				if ((wall_dist > 325) && (wall_dist < 500))
-					transform[1][0] -= (5.0/7000.0);		
+			if (!((tar_end == 4) && (dist < 500))) {
+				if (field == 0) {
+					if (wall_dist < 275)
+						transform[1][0] -= (5.0/7000.0);
+					if ((wall_dist > 325) && (wall_dist < 500))
+						transform[1][0] += (5.0/7000.0);
+				}
+				if (field == 1) {
+					if (wall_dist < 275)
+						transform[1][0] += (5.0/7000.0);
+					if ((wall_dist > 325) && (wall_dist < 500))
+						transform[1][0] -= (5.0/7000.0);		
+				}
 			}
 		} else {
 			wall_dist = 0;
