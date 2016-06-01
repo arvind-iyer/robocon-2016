@@ -23,6 +23,7 @@
 #define RKP 2.4
 #define DEC_COEFF 8.5
 #define WALL_CAL 4190
+#define SHIFT 3.5
 
 //#define DEBUG_MODE
 
@@ -613,18 +614,18 @@ void auto_var_update() {
 			reading2 = 200;
 		if (Abs(reading2 - reading1) < 150) {
 			wall_dist = (reading1 + reading2)/2;
-			if (!((tar_end == 4) && (dist < 500))) {
+			if (!((tar_end == 4) && (dist < 500))) { //stop shift when approach hill3
 				if (field == 0) {
 					if (wall_dist < 275)
-						transform[1][0] -= (5.0/7000.0);
+						transform[1][0] -= (SHIFT/7000.0);
 					if ((wall_dist > 325) && (wall_dist < 500))
-						transform[1][0] += (5.0/7000.0);
+						transform[1][0] += (SHIFT/7000.0);
 				}
 				if (field == 1) {
 					if (wall_dist < 275)
-						transform[1][0] += (5.0/7000.0);
+						transform[1][0] += (SHIFT/7000.0);
 					if ((wall_dist > 325) && (wall_dist < 500))
-						transform[1][0] -= (5.0/7000.0);		
+						transform[1][0] -= (SHIFT/7000.0);		
 				}
 			}
 		} else {
@@ -714,12 +715,15 @@ void auto_motor_update(){
 	//print debug info
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
+	/*
 	tft_prints(0,1,"X %5d -> %5d",cur_x,tar_x);
 	tft_prints(0,2,"Y %5d -> %5d",cur_y,tar_y);
 	tft_prints(0,3,"D %5d -> %5d",cur_deg,tar_deg);
+	*/
 	tft_prints(0,4,">> %2d / %2d",tar_end,tar_head);
-	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
+	//tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",time/1000);
+	/*
 	//tft_prints(0,7,"Test %d",measured_vel);
 	//tft_prints(0,7,"Test %d %d %d", arm_vel, get_arm_pos(), tar_arm);
 	//tft_prints(0,7,"Test %d %d", dist, degree_diff);
@@ -728,7 +732,10 @@ void auto_motor_update(){
 	//tft_prints(0,7,"Test %d %d", get_pos()->x, get_pos()->y);
 	tft_prints(0,8,"Trans: %d",(int)(transform[1][0]*700));
 	tft_prints(0,9,"Wall: %d",wall_dist);
+	*/
 	tft_update();
+	
+	uart_tx(COM2, (uint8_t *)"%d, %d, %d\n", cur_x, cur_y, cur_deg);
 	
 	//handle input
 	if (button_pressed(BUTTON_XBC_BACK)) {
