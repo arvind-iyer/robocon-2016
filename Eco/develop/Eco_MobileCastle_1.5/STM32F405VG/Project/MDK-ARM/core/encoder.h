@@ -25,8 +25,8 @@ typedef struct {
 // Encoder 1 details
 #define ENCODER_TIMER1										TIM8
 #define ENCODER_TIMER1_AF                       GPIO_AF_TIM8
-#define ENCODER_TIMER1_CLOCK_SOURCE				RCC_APB2Periph_TIM8						// in APB 1
-#define ENCODER_TIMER1_GPIO_CLOCK_SOURCE	    RCC_AHB1Periph_GPIOC					// in APB 2
+#define ENCODER_TIMER1_CLOCK_SOURCE				RCC_APB2Periph_TIM8	
+#define ENCODER_TIMER1_GPIO_CLOCK_SOURCE	    RCC_AHB1Periph_GPIOC			
 #define ENCODER_TIMER1_PORT1							GPIO_Pin_6
 #define ENCODER_TIMER1_PORT2							GPIO_Pin_7
 #define ENCODER_TIMER1_GPIOx							GPIOC
@@ -36,8 +36,8 @@ typedef struct {
 // Encoder 2 details
 #define ENCODER_TIMER2							TIM4
 #define ENCODER_TIMER2_AF                       GPIO_AF_TIM4
-#define ENCODER_TIMER2_CLOCK_SOURCE				RCC_APB1Periph_TIM4						// in APB 1
-#define ENCODER_TIMER2_GPIO_CLOCK_SOURCE	    RCC_AHB1Periph_GPIOB					// in APB 2
+#define ENCODER_TIMER2_CLOCK_SOURCE				RCC_APB1Periph_TIM4	
+#define ENCODER_TIMER2_GPIO_CLOCK_SOURCE	    RCC_AHB1Periph_GPIOB
 #define ENCODER_TIMER2_PORT1							GPIO_Pin_6
 #define ENCODER_TIMER2_PORT2							GPIO_Pin_7
 #define ENCODER_TIMER2_GPIOx							GPIOB
@@ -45,6 +45,7 @@ typedef struct {
 #define ENCODER_TIMER2_GPIO_PINSOURCE2          GPIO_PinSource7
 
 #define ENCODER_MAX_CHANGE								20000
+#define ENCODER_RATIO 65*18/60/1024/2
 
 typedef enum {
 	ENCODER1 = 0,

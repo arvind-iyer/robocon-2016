@@ -10,8 +10,6 @@ void path_station_reset(){
 
 GAME_STAGE path_station_update(){
 	
-	tft_println("%d %d", get_average_encoder(), last_encoder_count);
-	
 	if ((get_average_encoder() - last_encoder_count) > STOPPED_RUNNING_TOL && !stopped){
 		si_clear();
 		si_execute();

@@ -37,7 +37,7 @@ GAME_STAGE menu_update(){
 					#else
 						path_up_sb_init(selection);
 					#endif
-					mti_int_ypr[0] = 0;
+					mti_start_bias_yaw = 0;
 					return CLIMBING_SLOPE;
 				case 1:
 					#ifdef IMU_UPSLOPE
@@ -46,9 +46,9 @@ GAME_STAGE menu_update(){
 						path_up_sb_init(selection);
 					#endif
 					#ifdef BLUE_FIELD
-						mti_int_ypr[0] = -300;
+						mti_start_bias_yaw = -300;
 					#else
-						mti_int_ypr[0] = 300;
+						mti_start_bias_yaw = 300;
 					#endif
 					buzzer_play_song(HIGH_1, 500, 50);
 					return CLIMBING_SLOPE;
@@ -60,16 +60,16 @@ GAME_STAGE menu_update(){
 					#endif
 					buzzer_play_song(HIGH_2, 300, 150);
 					#ifdef BLUE_FIELD
-						mti_int_ypr[0] = -450;
+						mti_start_bias_yaw = -300;
 					#else
-						mti_int_ypr[0] = 450;
+						mti_start_bias_yaw = 300;
 					#endif
 					return CLIMBING_SLOPE;
 				case 3:
 					#ifdef BLUE_FIELD
-						mti_int_ypr[0] = 900;
+						mti_start_bias_yaw = 900;
 					#else
-						mti_int_ypr[0] = -900;
+						mti_start_bias_yaw = -900;
 					#endif
 					return CROSSING_RIVER;
 				case 4:

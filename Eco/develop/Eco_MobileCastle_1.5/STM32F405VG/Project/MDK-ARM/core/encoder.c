@@ -104,11 +104,11 @@ s32 get_count(ENCODER ENCODERx){
 }
 
 s32 get_dis(ENCODER ENCODERx){
-	return get_count(ENCODERx)*65*18/60/1024/2;
+	return get_count(ENCODERx)*ENCODER_RATIO;
 }
 
 s32 get_average_dis(){
-	return get_average_encoder()*65*18/60/1024/2;
+	return get_average_encoder()*ENCODER_RATIO;
 }
 
 s32 get_average_encoder(){

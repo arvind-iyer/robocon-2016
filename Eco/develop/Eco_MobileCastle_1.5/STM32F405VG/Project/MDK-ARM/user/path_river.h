@@ -27,8 +27,8 @@
 
 #define IR_BUFFER_LENGTH 8
 #define ENCODER_AFTER_THIRD_ISLAND 6000
-#define RIVER_SB_INC_PWM 4500
-#define RIVER_SB_DEC_PWM 4500
+#define RIVER_SB_INC_PWM 5000
+#define RIVER_SB_DEC_PWM 5000
 
 void path_river_init(s16 straight_yaw);
 GAME_STAGE path_river_update(void);
