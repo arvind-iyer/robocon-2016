@@ -18,12 +18,12 @@
 #include "auto_mode.h"
 
 #define THRESHOLD 10
-#define KP 0.4
-#define KI 0.04
-#define RKP 2.4
-#define DEC_COEFF 8.5
+#define KP 0.3
+#define KI 0.12
+#define RKP 3.6
+#define DEC_COEFF 8.0
 #define WALL_CAL 4190
-#define SHIFT 3.5
+#define SHIFT 3.0
 
 //#define DEBUG_MODE
 
@@ -225,7 +225,7 @@ void auto_reset() {
 	
 	deg_ratio = 0;
 	start = 0;
-	cur_vel = 120;
+	cur_vel = 100;
 	pid_stopped = false;
 	transform[1][0] = 0;
 	hill_cal = 1;
@@ -290,11 +290,13 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//determine velocity coefficient
-	double acc = passed / 850.0;
+	double acc;
+	if (passed < 1200)
+		acc = int_sin((passed-600)*1.5)/20000.0+0.5; //passed / 1500.0;
+	else
+		acc = 1.0;
 	double dec = dist / ((double)(cur_vel * DEC_COEFF));
 	//double dec = sqrt(dist / 680.0);	//twice of acceleration (v = (2as)^(0.5))
-	if (acc > 1.0)
-		acc = 1.0;
 	if (tar_queue[tar_end-1].type == NODE_PASS)
 		dec = 1.0;
 	double vel_coeff = acc < dec ? acc : dec;
@@ -721,7 +723,7 @@ void auto_motor_update(){
 	tft_prints(0,3,"D %5d -> %5d",cur_deg,tar_deg);
 	*/
 	tft_prints(0,4,">> %2d / %2d",tar_end,tar_head);
-	//tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
+	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",time/1000);
 	/*
 	//tft_prints(0,7,"Test %d",measured_vel);
@@ -735,7 +737,7 @@ void auto_motor_update(){
 	*/
 	tft_update();
 	
-	uart_tx(COM2, (uint8_t *)"%d, %d, %d\n", cur_x, cur_y, cur_deg);
+	uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d\n", time, cur_x, cur_y, cur_deg, side_switch_val);
 	
 	//handle input
 	if (button_pressed(BUTTON_XBC_BACK)) {
