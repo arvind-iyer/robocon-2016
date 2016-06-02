@@ -46,6 +46,14 @@ void robocon_main(void);
 void _updateScreen(void);
 void controllerInputUpdate(void);
 
+typedef enum {
+	STAGE1,
+	STAGE2,
+	STAGE3,
+	STAGE4,
+	STAGE5
+} STAGES;
+
 extern Pneumatics pneumatics;
 extern bool prevLimitSwitch[4];
 extern bool robotMode;
@@ -54,6 +62,7 @@ extern bool manualMode;
 extern bool laserAuto;
 extern bool autoModeLaser;
 extern bool autoPIDMode;
+extern STAGES currStage;
 
 extern bool climbing;
 

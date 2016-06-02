@@ -18,5 +18,6 @@ extern int laserW;
 
 void enterPole(void);
 void laserPID(void);
+void laserCallbacks(STAGES stage);
 
 #endif

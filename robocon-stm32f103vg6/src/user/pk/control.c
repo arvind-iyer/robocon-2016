@@ -16,7 +16,7 @@ void calculatePIDMotorValues(int vel, int bearing, int w){
 	setW(w);
 	addComponent();
 	parseWheelbaseValues();
-	sendWheelbaseCommand();
+	//sendWheelbaseCommand();
 }
 
 void robotInit() {

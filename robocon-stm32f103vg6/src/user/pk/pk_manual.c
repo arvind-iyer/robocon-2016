@@ -20,7 +20,7 @@ void manualControl() {
 	setW(getRotationValue());
 	addComponent();
 	parseWheelbaseValues();
-	sendWheelbaseCommand();
+	//sendWheelbaseCommand();
 }
 
 int getTranslationMagnitude() {

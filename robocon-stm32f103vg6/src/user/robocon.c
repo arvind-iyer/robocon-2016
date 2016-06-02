@@ -23,36 +23,46 @@ bool _allowUpdate = false, allowDPadUpdate = false, allowArm = false, allowArmUp
 bool allowAngleUpdate = true, allowAutoLazers = false;
 bool climbing = false;
 
+STAGES currStage = STAGE1;
+
 void robocon_main(void)
 {	
 		tft_init(0, BLACK, WHITE, SKY_BLUE);
 		pk_init();
-	
 	while (1) {
-		if(get_full_ticks()%25 == 0){
-			reset();
-			button_update();
+		reset();
+		if (manualMode)manualControl();
+		if(allowArm) {
+			armIr = gpio_read_input(&PE8);
+			armUpdate();
+		}
+		robotUpdate();
+		if(autoModeLaser) {
+			laserCallbacks(currStage);
+		}
+		
+		if(autoPIDMode) {
+			manualMode = false;
+			updateQueue();
+		}
+		if(laserAuto){
+			manualMode = false;
+			enterPole();
+		}
+//			if(autoModeLaser) {
+//				manualMode = false;
+//				laserPID();
+//			}
+
+		if(get_full_ticks()%10 == 0){
 			_updateScreen();
-			controllerInputUpdate();
-			if (manualMode)manualControl();
 			hybridPneumaticControl();
+		}
+		if(get_full_ticks()%3 == 0) {
 			limitSwitchCheck();
-			if(allowArm) {
-				armIr = gpio_read_input(&PE8);
-				armUpdate();
-			}
-			robotUpdate();
-			if(autoPIDMode) {
-				manualMode = false;
-				updateQueue();
-			}
-			if(laserAuto){
-				manualMode = false;
-				enterPole();
-			}
-			if(autoModeLaser) {
-				laserPID();
-			}
+			button_update();
+			controllerInputUpdate();
+			sendWheelbaseCommand();
 		}
 		
 	}
@@ -246,12 +256,14 @@ void controllerInputUpdate() {
 			else if(button_released(BUTTON_XBC_Y) && allowPIDUpdate) {
 				allowPIDUpdate = false;
 			}
-			if(button_pressed(BUTTON_XBC_B))
+			if(button_pressed(BUTTON_XBC_B) && !allowModeUpdate)
 		{
+			allowModeUpdate = true;
 			sendClimbCommand(1200);
 		}
-		else if(button_released(BUTTON_XBC_B))
+		else if(button_released(BUTTON_XBC_B) && allowModeUpdate)
 		{
+			allowModeUpdate = false;
 			sendClimbCommand(0);
 		}
 		if(button_pressed(BUTTON_XBC_X) && !allowArmUpdate) {

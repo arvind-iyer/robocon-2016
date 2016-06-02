@@ -27,21 +27,21 @@ void enterPole() {
 			setW(angularVelocity);
 			addComponent();
 			parseWheelbaseValues();
-			sendWheelbaseCommand();
+			//sendWheelbaseCommand();
 		} else if (haha < 245) {
 			setM(40);
 			setBearing(180+increment);
 			setW(angularVelocity);
 			addComponent();
 			parseWheelbaseValues();
-			sendWheelbaseCommand();
+			//sendWheelbaseCommand();
 		} else {
 			setM(40);
 			setBearing(180);
 			setW(angularVelocity);
 			addComponent();
 			parseWheelbaseValues();
-			sendWheelbaseCommand();
+			//sendWheelbaseCommand();
 		}
 	}
 	else if(robotMode == BLUE_SIDE) {
@@ -57,21 +57,21 @@ void enterPole() {
 			setW(angularVelocity);
 			addComponent();
 			parseWheelbaseValues();
-			sendWheelbaseCommand();
+			//sendWheelbaseCommand();
 		} else if (haha < 2) {
 			setM(40);
 			setBearing(180-increment);
 			setW(angularVelocity);
 			addComponent();
 			parseWheelbaseValues();
-			sendWheelbaseCommand();
+			//sendWheelbaseCommand();
 		} else {
 			setM(40);
 			setBearing(180);
 			setW(angularVelocity);
 			addComponent();
 			parseWheelbaseValues();
-			sendWheelbaseCommand();
+			//sendWheelbaseCommand();
 		}
 	}
 }
@@ -112,7 +112,7 @@ void laserPID() {
 	if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
 	
 	parseWheelbaseValues();
-	sendWheelbaseCommand();
+	//sendWheelbaseCommand();
 	
 	//if(get_ls_cal_reading(0) > 800){
 	//Finish Conditions
@@ -126,5 +126,21 @@ void laserPID() {
 					queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
 					queueTargetPoint(-103, 12046, 88, 800, 200, -1, 0);
 					queueTargetPoint(-1200, 12810, 86, 800, 200, -1, 0);
+	}
+}
+
+void laserCallbacks(STAGES stage) {
+	int laserR = get_ls_cal_reading(0), laserL = get_ls_cal_reading(1);
+	switch (stage) {
+		case STAGE1:
+			break;
+		case STAGE2:
+			break;
+		case STAGE3:
+			break;
+		case STAGE4:
+			break;
+		case STAGE5:
+			break;
 	}
 }
