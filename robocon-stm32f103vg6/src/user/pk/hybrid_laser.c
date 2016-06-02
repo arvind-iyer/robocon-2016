@@ -3,7 +3,7 @@
 int yCoordSystem = 7000;
 
 int y = 0, x = 0, increment = 0, haha = 0;
-int laserM = 45, laserW = 0, laserB = 0;
+int laserM = 45, laserW = 0, laserB = 0, verticalM = 0;
 
 void enterPole() {
 	int angleDiff = getAngleDifference(robot.position.angle, (robotMode == RED_SIDE) ? 270 : 90);
@@ -78,34 +78,38 @@ void enterPole() {
 
 void laserPID() {
 	int diff = get_ls_cal_reading(0) - get_ls_cal_reading(1);
-	int offsetDiff = (get_pos()->y < yCoordSystem * 0.578 ? diff : diff+100);
-	laserW = offsetDiff < -35	 ? 50 : (offsetDiff > 35 ? -50 : 0);
+	int offsetDiff = (get_pos()->y < yCoordSystem * 0.578 ? diff : diff+50);
+	int laserTargVal = 520;
+	int horizontalM = 30;
+	laserW = offsetDiff < -35	 ? 30 : (offsetDiff > 35 ? -30 : 0);
 	//laserW = -((int_arc_tan2(diff, 510)-180) * 10 / 180);
 	//laserW = (Abs(laserW) > 50 ? (laserW > 0 ? 50 : -50) :laserW);
   //laserB = robotMode == RED_SIDE ? 270 : 90;
 	//laserB = 90;
 	//if(get_ls_cal_reading(0) + get_ls_cal_reading(1) > 590) laserB = robotMode == RED_SIDE ? 180+45 : 65;
 	//else if (get_ls_cal_reading(0) + get_ls_cal_reading(1) < 450) laserB = robotMode == RED_SIDE ? 180+115 : 110;
-	setM(60);
+	setM(horizontalM);
 	setBearing(90);
 	setW(laserW);
 	addComponent();
 	
 	int sum = get_ls_cal_reading(0) + get_ls_cal_reading(1);
-	int laserM = sum - 520;
+	int verticalM = sum - laserTargVal;
+	int range = laserTargVal - 200;
+	
 //	if (Abs(laserM) < 50) {
 //		laserM = 0;
 //	}
-	laserM = laserM * 3 / 16;
-	laserM = min(2, 40, max(2, -40, laserM));
-	setM(laserM);
+	verticalM = verticalM  * horizontalM / range;
+	verticalM = min(2, 30, max(2, -30, verticalM));
+	setM(verticalM);
 	setBearing(0);
 	setW(0);
 	addComponent();
 	
 	//Blowing speeds
-	if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(18);
-	if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(12);
+	if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(21);
+	if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
 	
 	parseWheelbaseValues();
 	sendWheelbaseCommand();
@@ -118,7 +122,7 @@ void laserPID() {
 					manualMode = false;
 					autoPIDMode = true;
 					queueTargetPoint(get_pos()->x + 250, 7505, 185, 35.0, 5.0, -1, 6500);
-					queueTargetPoint(0, 11000, 200, 500, 200, -1, 0);//lost point
+					//queueTargetPoint(0, 11000, 200, 500, 200, -1, 0);//lost point
 					queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
 					queueTargetPoint(-103, 12046, 88, 800, 200, -1, 0);
 					queueTargetPoint(-1200, 12810, 86, 800, 200, -1, 0);

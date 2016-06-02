@@ -53,10 +53,6 @@ void robocon_main(void)
 			if(autoModeLaser) {
 				laserPID();
 			}
-			
-			if (return_listener()) {
-					return; 
-				}
 		}
 		
 	}
@@ -224,11 +220,11 @@ void controllerInputUpdate() {
 						queueTargetPoint(5019, 12660, 274, 240, 120.0, -1, 0);
 					}
 					else if(robotMode == BLUE_SIDE) {
-						setBrushlessMagnitude(17);
+						setBrushlessMagnitude(7);
 						queueTargetPoint(-650, 400, 270, -1, -1, -1, 0);
-						queueTargetPoint(-3091, 300, 270, 35, 15, 17, 0);
-						queueTargetPoint(-3091, 400, 270, 50, 50, 17, 0);
-						queueTargetPoint(-2715, 1872, 285, -1, -1, 10, 0); //12 //75, 20
+						queueTargetPoint(-3081, 300, 275, 35, 15, 8, 750);
+						queueTargetPoint(-3121, 450, 270, 50, 50, 20, 0);
+						queueTargetPoint(-2715, 1872, 285, -1, -1, 11, 0); //12 //75, 20
 						//queueTargetPoint(-2175, 1872, 285, 450, 200, 15, 0);
 //						queueTargetPoint(-2189, 3116, 316, -1, -1, 10, 0);
 //						queueTargetPoint(-1513, 3830, 303, -1, -1, 12, 0);
@@ -295,6 +291,18 @@ void controllerInputUpdate() {
 		}
 		else if(button_released(BUTTON_XBC_START) && allowModeUpdate) {
 			allowModeUpdate = false;
+		}
+		
+		//Laser PID Trigger
+		if(button_pressed(BUTTON_XBC_BACK) && !allowModeUpdate) {
+			allowModeUpdate = true;
+			laserAuto = true;
+			manualMode = false;
+		}
+		else if(button_released(BUTTON_XBC_BACK) && allowModeUpdate) {
+			allowModeUpdate = false;
+			laserAuto = false;
+			manualMode = true;
 		}
 		
 //		if(can_xbc_get_joy(XBC_JOY_RX) == 0 && allowAngleUpdate) {

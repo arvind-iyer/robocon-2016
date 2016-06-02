@@ -58,9 +58,9 @@ int calculatePathVelocity (Path path, Robot robot) {
 		
 		if(path.vel != 0) magnitude = path.vel;
 		else {
-			magnitude = MIN(75.0, MAX(10, 75.0 * (distance / (float)1000)));
+			magnitude = MIN(50.0, MAX(10, 50.0 * (distance / (float)1000)));
 			if(distance >1250) {
-				magnitude = 65;
+				magnitude = 40;
 			}
 		}
 		dispM = magnitude;
@@ -159,23 +159,25 @@ void updateQueue () {
 			&& currentAngle <= (currentPath.bearingThreshold == -1 ? 70 : currentPath.bearingThreshold )) || finishing) {
 			
 			if(currentPath.waitTime <= 0) {
-				finishing = false;
+				if(finishing == true) finishing = false;
+				else {
 				//sendWheelBaseMotorCommands(0,0,0);
 				//wheelbaseLock();
-				if(currentPath.brushlessSpeed != -1) {
-					setBrushlessMagnitude(currentPath.brushlessSpeed);
-				}
-				dequeue(size);
-				lastWait = -1;
-				if((currentPath.position.x == 5019 && currentPath.position.y == 12660)
-					|| (currentPath.position.x == -1200 && currentPath.position.y == 12810)) {
-					laserAuto = true;
-					pneumatics.P1 = true;
-				}
-				if(currentPath.position.x == -2715&& currentPath.position.y == 1872) {
-					autoModeLaser = true;
-					autoPIDMode = false;
-					manualMode = false;
+					if(currentPath.brushlessSpeed != -1) {
+						setBrushlessMagnitude(currentPath.brushlessSpeed);
+					}
+					dequeue(size);
+					lastWait = -1;
+					if((currentPath.position.x == 5019 && currentPath.position.y == 12660)
+						|| (currentPath.position.x == -1200 && currentPath.position.y == 12810)) {
+						laserAuto = true;
+						pneumatics.P1 = true;
+					}
+					if(currentPath.position.x == -2715&& currentPath.position.y == 1872) {
+						autoModeLaser = true;
+						autoPIDMode = false;
+						manualMode = false;
+					}
 				}
 			} else{
 				finishing = true;
@@ -197,9 +199,9 @@ void updateQueue () {
 				int dt = get_full_ticks() - lastWait;
 				
 				blowTime = dt;
-				
-				if (dt >= 0 && dt < time/2) {
-					setBrushlessMagnitude(10); //12
+				if(currentPath.position.y == 7505) {
+					if (dt >= 0 && dt < time/2) {
+					setBrushlessMagnitude(8); //12
 				} 
 				//else if (dt >= time/2 && dt < time*3/4) {
 				//	setBrushlessMagnitude(10); //18 
@@ -207,9 +209,18 @@ void updateQueue () {
 //				else if (dt >= time && dt < time*3/4) {
 //					setBrushlessMagnitude(35); //26
 			//}
-			 else {
-					setBrushlessMagnitude(38); //30
-			}
+					else {
+						setBrushlessMagnitude(38); //30
+					}
+				}
+				else if(currentPath.position.y == 300) {
+					if(dt >= 0 && dt < time / 2) {
+						setBrushlessMagnitude(20);
+					}
+					else {
+						setBrushlessMagnitude(35);
+					}
+				}
 				
 //				if (Abs(robot.position.angle - baseAngle) >= 5) {
 //					setM(0);
@@ -224,7 +235,7 @@ void updateQueue () {
 				if (dt >= currentPath.waitTime) {
 					lastWait = -1;
 					baseAngle = -1;
-					setBrushlessMagnitude(0);
+					if(currentPath.position.y == 7505) setBrushlessMagnitude(0);
 					wheelbaseLock();
 					dequeue(size);
 				}
