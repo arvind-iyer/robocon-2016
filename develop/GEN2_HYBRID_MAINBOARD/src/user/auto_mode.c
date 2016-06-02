@@ -20,7 +20,7 @@
 #define THRESHOLD 10
 #define KP 0.3
 #define KI 0.12
-#define RKP 3.6
+#define RKP 1.8
 #define DEC_COEFF 8.0
 #define WALL_CAL 4190
 #define SHIFT 3.0
@@ -290,15 +290,20 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//determine velocity coefficient
-	double acc;
+	double acc, dec;
 	if (passed < 1200)
-		acc = int_sin((passed-600)*1.5)/20000.0+0.5; //passed / 1500.0;
+		acc = int_sin((passed-600)*1.5)/20000.0+0.5;
 	else
 		acc = 1.0;
-	double dec = dist / ((double)(cur_vel * DEC_COEFF));
-	//double dec = sqrt(dist / 680.0);	//twice of acceleration (v = (2as)^(0.5))
-	if (tar_queue[tar_end-1].type == NODE_PASS)
+	if ((dist < 960) && (tar_queue[tar_end-1].type == NODE_STOP)) {
+		if (dotcheck <= 0.0)
+			dec = dist/250.0;
+		else
+			dec = sqrt(dist / 1360.0);
+	}	else {
 		dec = 1.0;
+	}
+	//double dec = dist / ((double)(cur_vel * DEC_COEFF));
 	double vel_coeff = acc < dec ? acc : dec;
 	if (vel_coeff > 1.0)
 		vel_coeff = 1.0;
@@ -682,6 +687,8 @@ void auto_var_update() {
   * @retval None
   */
 void auto_motor_update(){
+	s32 temp_deg;
+	
 	if ((dist < THRESHOLD) && (Abs(degree_diff) < 2)) {
 		
 		//ensure touches both switches before next path
@@ -737,7 +744,8 @@ void auto_motor_update(){
 	*/
 	tft_update();
 	
-	uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d\n", time, cur_x, cur_y, cur_deg, side_switch_val);
+	temp_deg = (cur_deg < -1800) ? (cur_deg+1800) : ((cur_deg >= 1800) ? (cur_deg - 1800) : cur_deg);
+	uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, side_switch_val, dist);
 	
 	//handle input
 	if (button_pressed(BUTTON_XBC_BACK)) {
