@@ -171,13 +171,7 @@ void dataCollect(){
         //discrete data collect
 		_delay_us(DELAY_US);
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-    
-    	for (int i = 0; i < 3; ++i){
-            for(int k = 0 ; k < 16 ;k++){
-                Avg_ADC_val[i][k] = 0;
-            }
-        }
-		
+ 	
         //Collect off reading
         while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));      
         for(u8 i = 0;i < 16;i++) now.off_reading[i] = ADC_val[i];
@@ -188,13 +182,9 @@ void dataCollect(){
 		_delay_us(DELAY_US);
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
         while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-        for(u8 k = 0 ; k < (u8)MAXSAMPLETIMES ; k++){
-            for(u8 i=0;i<16;i++){
-            //now.red_reading[i] = ADC_val[i];
-                if(ADC_val[i] < now.off_reading[i])Avg_ADC_val[0][i] += now.off_reading[i];
-                else Avg_ADC_val[0][i] += ((ADC_val[i] - now.off_reading[i])*255)/(max_1.red_reading[i]-now.off_reading[i]);
-								//Avg_ADC_val[0][i] += ADC_val[i] - now.off_reading[i];
-            }
+        for(u8 i=0;i<16;i++){
+            if(ADC_val[i] < now.off_reading[i])now.red_reading[i] = now.off_reading[i];
+            else now.red_reading[i] = ((ADC_val[i] - now.off_reading[i])*255)/(max_1.red_reading[i]-now.off_reading[i]);
         }
 		GPIO_ResetBits(GPIOB,GPIO_Pin_11);
         DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -205,13 +195,9 @@ void dataCollect(){
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
         
-        for(u8 k = 0 ; k < (u8)MAXSAMPLETIMES ;k++){
-            for(u8 i = 0; i < 16;i++){
-            //now.green_reading[i] = ADC_val[i];
-                if(ADC_val[i] < now.off_reading[i])Avg_ADC_val[1][i] += now.off_reading[i];
-                else Avg_ADC_val[1][i] += ((ADC_val[i] - now.off_reading[i])*255)/(max_1.green_reading[i]-now.off_reading[i]);
-								//Avg_ADC_val[1][i] += ADC_val[i] - now.off_reading[i];
-            }
+        for(u8 i = 0; i < 16;i++){
+            if(ADC_val[i] < now.off_reading[i])now.green_reading[i] = now.off_reading[i];
+            else now.green_reading[i] = ((ADC_val[i] - now.off_reading[i])*255)/(max_1.green_reading[i]-now.off_reading[i]);
         }
         
         
@@ -223,33 +209,12 @@ void dataCollect(){
 		_delay_us(DELAY_US);
 		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-        for(u8 k = 0 ; k < (u8)MAXSAMPLETIMES ;k++){
-            for(u8 i=0;i<16;i++){
-            //now.blue_reading[i] = ADC_val[i];
-                if(ADC_val[i] < now.off_reading[i])Avg_ADC_val[2][i] += now.off_reading[i];
-                else Avg_ADC_val[2][i] += ((ADC_val[i] - now.off_reading[i])*255)/(max_1.blue_reading[i]-now.off_reading[i]);  
-							//Avg_ADC_val[2][i] += ADC_val[i] - now.off_reading[i];
-            }
+        for(u8 i=0;i<16;i++){
+            if(ADC_val[i] < now.off_reading[i])now.blue_reading[i] = now.off_reading[i];
+            else now.blue_reading[i] = ((ADC_val[i] - now.off_reading[i])*255)/(max_1.blue_reading[i]-now.off_reading[i]);  
         }
 		GPIO_ResetBits(GPIOB,GPIO_Pin_10);
         DMA_ClearFlag(DMA1_FLAG_TC1);
-        
-        
-        //Do averaging here
-        for(u8 i = 0 ; i < 16 ; i++){
-            now.red_reading[i] = Avg_ADC_val[0][i] / (u16)MAXSAMPLETIMES;
-            now.green_reading[i] = Avg_ADC_val[1][i] / (u16)MAXSAMPLETIMES;
-            now.blue_reading[i] = Avg_ADC_val[2][i] / (u16)MAXSAMPLETIMES;
-        }
-
-
-		//for(u8 i=0;i < 16;i++)
-		//{   
-		//	//normalizing RGB
-		//	now.red_reading[i] = (now.red_reading[i])*255 / (max_1.red_reading[i]);
-		//	now.green_reading[i] = (now.green_reading[i])*255 / (max_1.green_reading[i]);
-		//	now.blue_reading[i] = (now.blue_reading[i])*255 / (max_1.blue_reading[i]);
-		//}
 }
    
 //RGB to HSV converter
@@ -323,9 +288,6 @@ void analysisData(){
 			}
 				else sat[i] = 1;
 		} 
-    //for(u8 i = 0 ; i < 16 ; i++){
-    //    hueAverage += now.h[i];
-    //}
     
     hueAverage /= counter;
     for(u8 i = 0; i < NUMOFAREAS ; i++){
@@ -335,30 +297,6 @@ void analysisData(){
             minDiff = diff;
         }
     }
-    
-    //2 here is green
-    
-//    if(currentZone == 1){
-//        if(currentZone == 1){
-//            for(u8 i = 0 ; i < 16 ; i++){
-//                if(now.v[i] >= (calibratedValueAverage[2] + (u8)VALUEOFFSET - 10))sat[i] = 1;
-//                else sat[i] = 0;
-//            }        
-//        }
-//        else if(currentZone == 3){
-//            for(u8 i = 0 ; i < 16 ; i++){
-//                if(now.v[i] >= (calibratedValueAverage[3] + (u8)VALUEOFFSET)- 12)sat[i] = 1;
-//                else sat[i] = 0;
-//            }              
-//            
-//        }
-//    }
-//    else{
-//       for(u8 i = 0 ; i < 16 ; i++){
-//            if(now.s[i] >= calibratedSaturationAverage[currentZone] - (u8)SATOFFSET)sat[i] = 0;
-//            else sat[i] = 1;
-//        }
-    //}
 
     #endif
     
