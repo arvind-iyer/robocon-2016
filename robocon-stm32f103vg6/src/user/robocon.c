@@ -8,8 +8,8 @@ extern int timediff;
 extern bool laserAuto;
 
 //#define DEBUG_MODE
-#define RED_SIDE 0
-#define BLUE_SIDE 1
+//#define RED_SIDE 0
+//#define BLUE_SIDE 1
 
 bool robotMode = false;
 bool manualMode = true;
@@ -17,10 +17,11 @@ bool autoPIDMode = false;
 bool autoModeLaser = false;
 bool rightJoyInUse = false;
 bool laserAuto = false;
+bool benMode = false;
 
 //Variables for allowing the update of the button
 bool _allowUpdate = false, allowDPadUpdate = false, allowArm = false, allowArmUpdate = false, allowModeUpdate = false, allowPIDUpdate = false;
-bool allowAngleUpdate = true, allowAutoLazers = false;
+bool allowAngleUpdate = true, allowAutoLazers = false, benUpdate = false;
 bool climbing = false;
 
 STAGES currStage = STAGE1;
@@ -49,10 +50,10 @@ void robocon_main(void)
 			manualMode = false;
 			enterPole();
 		}
-//			if(autoModeLaser) {
-//				manualMode = false;
-//				laserPID();
-//			}
+			if(autoModeLaser) {
+				manualMode = false;
+				laserPID();
+			}
 
 		if(get_full_ticks()%10 == 0){
 			_updateScreen();
@@ -127,7 +128,8 @@ void _updateScreen() {
 	//tft_prints(0, 7, "L: %d | AL: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1), laserAuto);
 	//tft_prints(0, 8, "Q|ENC: %d|%d", getSize(), get_encoder_value(MOTOR8));
 	tft_prints(0,8, "CAL: %d|%d|%d", get_ls_cal_reading(0), get_ls_cal_reading(1), get_ls_cal_reading(2));
-	tft_prints(0, 9, "Blow Time : %d", blowTime);
+	tft_prints(0,9, "BEN? : %d|%d", benMode, button_pressed(BUTTON_XBC_XBOX));
+	//tft_prints(0, 9, "Blow Time : %d", blowTime);
 	//tft_prints(0, 9, "adc: %d|%d|%d", get_ls_adc_reading(0), get_ls_adc_reading(1), get_ls_adc_reading(2));
 	//tft_prints(0, 9, "B: %d| W: %d", laserB, laserW);
 	//tft_prints(0, 9, "T: %d|%d|%d" , getWheelbaseValues().M1.target, getWheelbaseValues().M2.target, getWheelbaseValues().M3.target);
@@ -142,33 +144,65 @@ void _updateScreen() {
   */
 
 void controllerInputUpdate() {
+	if(!benMode) {
+					//Button LB, RB
+				if(button_pressed(BUTTON_XBC_RB)) {
+					sendArmCommand(40);
+				}
+				else if(button_released(BUTTON_XBC_RB)) {
+					sendArmCommand(0);
+				}
+				if(button_pressed(BUTTON_XBC_LB)) {
+					sendArmCommand(-40);
+				}
+				else if(button_released(BUTTON_XBC_LB)) {
+					sendArmCommand(0);
+				}
+				
+				//Button LT, RT
+				if(can_xbc_get_joy(XBC_JOY_LT) == 255 && _allowUpdate) {
+					_allowUpdate = false;
+					setBrushlessMagnitude((getBrushlessMagnitude() <=96)  ? getBrushlessMagnitude() + 4 : 100);
+				}
+				if(can_xbc_get_joy(XBC_JOY_RT) == 255 && _allowUpdate) {
+					_allowUpdate = false;
+					setBrushlessMagnitude((getBrushlessMagnitude() >=4)  ? getBrushlessMagnitude() - 4 : 0);
+				}
+				if(can_xbc_get_joy(XBC_JOY_LT) == 0 && can_xbc_get_joy(XBC_JOY_RT) == 0 && !_allowUpdate) {
+					_allowUpdate = true;
+				}
+	}
+	else {
+					//Button LB, RB
+				if(button_pressed(BUTTON_XBC_RB)) {
+					sendArmCommand(40);
+				}
+				else if(button_released(BUTTON_XBC_RB)) {
+					sendArmCommand(0);
+				}
+				if(button_pressed(BUTTON_XBC_LB) && allowDPadUpdate) {
+					allowDPadUpdate = false;
+					setBrushlessMagnitude((getBrushlessMagnitude() <=96)  ? getBrushlessMagnitude() + 4 : 100);
+				}
+				else if(button_released(BUTTON_XBC_LB) && !allowDPadUpdate) {
+					allowDPadUpdate = true;
+				}
+				
+				//Button LT, RT
+				if(can_xbc_get_joy(XBC_JOY_LT) == 255 && _allowUpdate) {
+					_allowUpdate = false;
+					setBrushlessMagnitude((getBrushlessMagnitude() >=4)  ? getBrushlessMagnitude() - 4 : 0);
+				}
+				if(can_xbc_get_joy(XBC_JOY_RT) == 255  && _allowUpdate) {
+					sendArmCommand(-40);
+					_allowUpdate = false;
+				}
+				if(can_xbc_get_joy(XBC_JOY_LT) == 0 && can_xbc_get_joy(XBC_JOY_RT) == 0 && !_allowUpdate) {
+					sendArmCommand(0);
+					_allowUpdate = true;
+				}
+	}
 	
-	//Button LB, RB
-	if(button_pressed(BUTTON_XBC_RB)) {
-		sendArmCommand(40);
-	}
-	else if(button_released(BUTTON_XBC_RB)) {
-		sendArmCommand(0);
-	}
-	if(button_pressed(BUTTON_XBC_LB)) {
-		sendArmCommand(-40);
-	}
-	else if(button_released(BUTTON_XBC_LB)) {
-		sendArmCommand(0);
-	}
-	
-	//Button LT, RT
-	if(can_xbc_get_joy(XBC_JOY_LT) == 255 && _allowUpdate) {
-		_allowUpdate = false;
-		setBrushlessMagnitude((getBrushlessMagnitude() <=96)  ? getBrushlessMagnitude() + 4 : 100);
-	}
-	if(can_xbc_get_joy(XBC_JOY_RT) == 255 && _allowUpdate) {
-		_allowUpdate = false;
-		setBrushlessMagnitude((getBrushlessMagnitude() >=4)  ? getBrushlessMagnitude() - 4 : 0);
-	}
-	if(can_xbc_get_joy(XBC_JOY_LT) == 0 && can_xbc_get_joy(XBC_JOY_RT) == 0 && !_allowUpdate) {
-		_allowUpdate = true;
-	}
 	
 	//D-Pad Buttons
 	if(button_pressed(BUTTON_XBC_N) && allowDPadUpdate){
@@ -290,6 +324,12 @@ void controllerInputUpdate() {
 		else if(button_released(BUTTON_XBC_XBOX) && allowModeUpdate) {
 			allowModeUpdate = false;
 		}
+		
+		if(button_pressed(BUTTON_XBC_XBOX) > 1000 && !benUpdate) {
+			benUpdate = true;
+			benMode = !benMode;
+		}
+		else if(button_released(BUTTON_XBC_XBOX) && benUpdate) benUpdate = false;
 		
 		//EMERGENCY BUTTON
 		if(button_pressed(BUTTON_XBC_START) && !allowModeUpdate) {

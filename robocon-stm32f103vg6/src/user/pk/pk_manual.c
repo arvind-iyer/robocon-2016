@@ -4,6 +4,7 @@
 #include "can_xbc_mb.h"
 #include "pk_brushless.h"
 #include "control.h"
+#include "robocon.h"
 #include "gyro.h"
 
 extern bool rightJoyInUse;
@@ -24,11 +25,13 @@ void manualControl() {
 }
 
 int getTranslationMagnitude() {
-	return (xbc_get_joy(XBC_JOY_LY)*xbc_get_joy(XBC_JOY_LY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/12000;
+	if(!benMode) return (xbc_get_joy(XBC_JOY_LY)*xbc_get_joy(XBC_JOY_LY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/12000;
+	else return (xbc_get_joy(XBC_JOY_RY)*xbc_get_joy(XBC_JOY_RY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/12000;
 }
 
 int getTranslationBearing() {
-	return int_arc_tan2(xbc_get_joy(XBC_JOY_LX), xbc_get_joy(XBC_JOY_LY));
+	if(!benMode) return int_arc_tan2(xbc_get_joy(XBC_JOY_LX), xbc_get_joy(XBC_JOY_LY));
+	else return int_arc_tan2(xbc_get_joy(XBC_JOY_LX), xbc_get_joy(XBC_JOY_RY));
 }
 
 int getRotationValue() {

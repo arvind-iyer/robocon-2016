@@ -3,7 +3,7 @@
 int yCoordSystem = 7000;
 
 int y = 0, x = 0, increment = 0, haha = 0;
-int laserM = 45, laserW = 0, laserB = 0, verticalM = 0;
+int laserM = 45, laserW = 0, laserB = 0, verticalM = 0, targAngle = 270;
 
 void enterPole() {
 	int angleDiff = getAngleDifference(robot.position.angle, (robotMode == RED_SIDE) ? 270 : 90);
@@ -78,7 +78,8 @@ void enterPole() {
 
 void laserPID() {
 	int diff = get_ls_cal_reading(0) - get_ls_cal_reading(1);
-	int offsetDiff = (get_pos()->y < yCoordSystem * 0.578 ? diff : diff+50);
+	//int offsetDiff = (get_pos()->y < yCoordSystem * 0.578 ? diff : diff+50);
+	int offsetDiff = diff + 25;
 	int laserTargVal = 520;
 	int horizontalM = 30;
 	laserW = offsetDiff < -35	 ? 30 : (offsetDiff > 35 ? -30 : 0);
@@ -108,39 +109,95 @@ void laserPID() {
 	addComponent();
 	
 	//Blowing speeds
-	if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(21);
-	if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
+	//if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(21);
+	//if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
 	
 	parseWheelbaseValues();
 	//sendWheelbaseCommand();
 	
-	//if(get_ls_cal_reading(0) > 800){
+	if(get_ls_cal_reading(0) > 800){
 	//Finish Conditions
-	if(get_pos()->y > yCoordSystem) {
+	//if(get_pos()->y > yCoordSystem) {
 					wheelbaseLock();
 					autoModeLaser = false;
-					manualMode = false;
-					autoPIDMode = true;
-					queueTargetPoint(get_pos()->x + 250, 7505, 185, 35.0, 5.0, -1, 6500);
-					//queueTargetPoint(0, 11000, 200, 500, 200, -1, 0);//lost point
-					queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
-					queueTargetPoint(-103, 12046, 88, 800, 200, -1, 0);
-					queueTargetPoint(-1200, 12810, 86, 800, 200, -1, 0);
+					//manualMode = true;
+					currStage = STAGE4;
+//					manualMode = false;
+//					autoPIDMode = true;
+//					queueTargetPoint(get_pos()->x + 250, 7505, 185, 35.0, 5.0, -1, 6500);
+//					//queueTargetPoint(0, 11000, 200, 500, 200, -1, 0);//lost point
+//					queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
+//					queueTargetPoint(-103, 12046, 88, 800, 200, -1, 0);
+//					queueTargetPoint(-1200, 12810, 86, 800, 200, -1, 0);
 	}
 }
 
 void laserCallbacks(STAGES stage) {
-	int laserR = get_ls_cal_reading(0), laserL = get_ls_cal_reading(1);
+	int laserR = get_ls_cal_reading(0), laserL = get_ls_cal_reading(1), angle = get_pos()->angle/10;
+	double angularVelocity = getAngleDifference(angle, targAngle) * 50 / 180 * -1;
+		if (Abs(angularVelocity) >= 50) angularVelocity = angularVelocity < 0 ? -50 : 50;
+		else{
+			if (angularVelocity > 0) angularVelocity = MAX(18, angularVelocity);
+			if (angularVelocity < 0) angularVelocity = MIN(-18, angularVelocity);
+		}
+	
 	switch (stage) {
 		case STAGE1:
+			targAngle = 270;
+			if(laserR > 1000 && laserL > 1000 && (angle >= 268 && angle/10 <=272)) {
+				setM(45);
+				setBearing(0);
+				setW(0);
+				addComponent();
+				parseWheelbaseValues();
+			}
+			else if(angle < 268 || angle > 272){
+				setM(45);
+				setBearing(0);
+				setW(angularVelocity);
+				addComponent();
+				parseWheelbaseValues();
+			}
+			else {
+				wheelbaseLock();
+				currStage = STAGE2;
+			}
 			break;
 		case STAGE2:
+			if(laserR > 200 && laserL > 200) {
+				setM(30);
+				setBearing(90);
+				setW(0);
+				addComponent();
+				parseWheelbaseValues();
+			}
+			else {
+				wheelbaseLock();
+				currStage = STAGE3;
+			}
 			break;
 		case STAGE3:
+				autoModeLaser = true;
+				currStage = LISTEN;
 			break;
 		case STAGE4:
+			targAngle = 185;
+			if(laserL <350 && angle >= 184 && angle <= 186) {
+				setM(15);
+				setBearing(270);
+				setW(0);
+				addComponent();
+				parseWheelbaseValues();
+			}
+			else if(angle < 184 || angle > 186) {
+				setM(15);
+				setBearing(270);
+				setW(angularVelocity);
+			}
 			break;
 		case STAGE5:
+			break;
+		default:
 			break;
 	}
 }

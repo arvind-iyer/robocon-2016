@@ -51,8 +51,14 @@ typedef enum {
 	STAGE2,
 	STAGE3,
 	STAGE4,
-	STAGE5
+	STAGE5,
+	LISTEN
 } STAGES;
+
+typedef enum {
+	RED_SIDE,
+	BLUE_SIDE
+} GAMEMODES;
 
 extern Pneumatics pneumatics;
 extern bool prevLimitSwitch[4];
@@ -62,6 +68,7 @@ extern bool manualMode;
 extern bool laserAuto;
 extern bool autoModeLaser;
 extern bool autoPIDMode;
+extern bool benMode;
 extern STAGES currStage;
 
 extern bool climbing;
