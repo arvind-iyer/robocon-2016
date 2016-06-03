@@ -54,7 +54,7 @@ int main(void) {
             int initInfra = 0;
             fill_sensorbar_array();
             process_array();
-            if(get_ticks() % 800 == 0)determineZone();
+            determineZone();
             if(get_ticks() % 25 == 0)ardu_imu_value_update();
             //Play song when IMU is calibrated
               if(ardu_imu_calibrated){
@@ -130,7 +130,8 @@ int main(void) {
                                     break;
                                     case GREENSLOPE3:
                                         goNormal();
-                                        if(!read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT)){
+                                        if(gameZone == ORANGEZONE){
+                                        //if(!read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT)){
                                             currentSlopeZone = FINISHEDSLOPE;
                                             strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
                                         }    
