@@ -21,10 +21,10 @@ void hybridGPIOInit() {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 	
 	// Limit switch GPIO initialization.
-	gpio_init(&PE6, GPIO_Speed_50MHz, GPIO_Mode_IPD, 1);
-	gpio_init(&PE7, GPIO_Speed_50MHz, GPIO_Mode_IPD, 1);
-	gpio_init(&PE9, GPIO_Speed_50MHz, GPIO_Mode_IPD, 1);
-	gpio_init(&PE11, GPIO_Speed_50MHz,GPIO_Mode_IPD, 1);
+	gpio_init(&PE6, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
+	gpio_init(&PE7, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
+	gpio_init(&PE9, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
+	gpio_init(&PE11, GPIO_Speed_50MHz,GPIO_Mode_IPU, 1);
 	// IR Sensor GPIO initialization.
 	gpio_init(&PE8, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
 }
@@ -37,18 +37,20 @@ long lastLimitCheck = 0;
    */
 
 void limitSwitchCheck() {
-  limitSwitch[0] = gpio_read_input(&PE6);
-	limitSwitch[1]= gpio_read_input(&PE7);
-	limitSwitch[2] = gpio_read_input(&PE9);
-	limitSwitch[3] = gpio_read_input(&PE11);
+  limitSwitch[0] = !gpio_read_input(&PE6);
+	limitSwitch[1]=  !gpio_read_input(&PE7);
+	limitSwitch[2] = !gpio_read_input(&PE9);
+	limitSwitch[3] = !gpio_read_input(&PE11);
 	if (get_full_ticks() - lastLimitCheck >= 100 && (fixingArm)) {
 		fixingArm = false;
 		climbLimit  = false;
 		motor_set_vel (MOTOR8, 0, CLOSE_LOOP);
 		lastLimitCheck = get_full_ticks();
 	}
-	
+	prevLimitSwitch[0] = (prevLimitSwitch[0] != limitSwitch[0] ? limitSwitch[0] : prevLimitSwitch[0]);
+		prevLimitSwitch[1] = (prevLimitSwitch[1] != limitSwitch[1] ? limitSwitch[1] : prevLimitSwitch[1]);
 	if (limitSwitch[0] || limitSwitch[1]) {
+		
 		armDir = limitSwitch[1] ? 1 : 0;
 		motor_set_vel(MOTOR8, armDir ? -10 : 10, CLOSE_LOOP);
 		fixingArm = true;

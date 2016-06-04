@@ -13,10 +13,10 @@ static u16 ls_dma_reading[ls_number];
 
 static u32 avg[ls_number][avg_length];
 
-static const u16 min_adc[ls_number] = {16, 16, 16};
-static const u16 max_adc[ls_number] = {6074, 6074, 6074};
-static const u16 min_dis[ls_number] = {200, 200, 200};
-static const u16 max_dis[ls_number] = {5000, 5000, 5000};
+static const u16 min_adc[ls_number] = {16, 16, 16, 16};
+static const u16 max_adc[ls_number] = {2852, 2852, 6074, 6074};
+static const u16 min_dis[ls_number] = {100, 100, 200, 200};
+static const u16 max_dis[ls_number] = {1000, 1000, 5000, 5000};
 
 u16* ls_dma_reading_ptr = &ls_dma_reading[0];
 
@@ -36,16 +36,16 @@ void ls_init(void)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(ls_port,&GPIO_InitStructure);
 	
-//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN; //see data sheet p.29 to see which pin can be used
-//	GPIO_InitStructure.GPIO_Pin = ls_pin3;
-//	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
-//	GPIO_Init(GPIOA,&GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN; //see data sheet p.29 to see which pin can be used
+	GPIO_InitStructure.GPIO_Pin = ls_pin4;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
+	GPIO_Init(ls_port2,&GPIO_InitStructure);
 	
 	DMA_DeInit(DMA1_Channel1);
 	DMA_InitStructure.DMA_PeripheralBaseAddr = (u32)&ADC1->DR;
 	DMA_InitStructure.DMA_MemoryBaseAddr = (u32) &ls_dma_reading[0];
 	DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
-	DMA_InitStructure.DMA_BufferSize = 3; // buffer size 8
+	DMA_InitStructure.DMA_BufferSize = 4; // buffer size 8
 	DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
 	DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
 	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
@@ -69,13 +69,14 @@ void ls_init(void)
 	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
 	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
 	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-	ADC_InitStructure.ADC_NbrOfChannel = 3;
+	ADC_InitStructure.ADC_NbrOfChannel = 4;
 	ADC_Init(ADC1, &ADC_InitStructure);
 	
 	RCC_ADCCLKConfig(RCC_PCLK2_Div8);
 		ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 3, ADC_SampleTime_1Cycles5);
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_12, 1, ADC_SampleTime_1Cycles5);
 	ADC_RegularChannelConfig(ADC1, ADC_Channel_13, 2, ADC_SampleTime_1Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_4, 4, ADC_SampleTime_1Cycles5);
 
 	
 	ADC_Cmd(ADC1, ENABLE);

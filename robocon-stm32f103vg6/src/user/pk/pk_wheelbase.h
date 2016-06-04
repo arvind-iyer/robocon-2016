@@ -2,8 +2,8 @@
 #define _PK_WHEELBASE
 
 #define MAX_VEL 200
-#define INTERVAL 3
-#define ACCELERATION 1
+#define INTERVAL 12
+#define ACCELERATION 4
 
 
 typedef struct {

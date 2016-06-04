@@ -38,9 +38,9 @@ void robocon_main(void)
 			armUpdate();
 		}
 		robotUpdate();
-		if(autoModeLaser) {
-			laserCallbacks(currStage);
-		}
+//		if(autoModeLaser) {
+//			laserCallbacks(currStage);
+//		}
 		
 		if(autoPIDMode) {
 			manualMode = false;
@@ -122,13 +122,14 @@ void _updateScreen() {
 	tft_prints(0, 2, "B: %d | ARM: %d", getBrushlessMagnitude(), allowArm);
 	tft_prints(0, 3, "P: %d|%d|%d|%d", getPneumaticState().P1, getPneumaticState().P2, getPneumaticState().P3, getPneumaticState().P4);
 	tft_prints(0, 4, "G: %d|%d|%d", get_pos()->x, get_pos()->y, get_pos()->angle);
-	tft_prints(0, 5, "LS: %d|%d|%d|%d|%d", gpio_read_input(&PE6), gpio_read_input(&PE7),  prevLimitSwitch[2], prevLimitSwitch[3], armIr); 
+	tft_prints(0, 5, "LS: %d|%d|%d|%d|%d", prevLimitSwitch[0], prevLimitSwitch[1],  prevLimitSwitch[2], prevLimitSwitch[3], armIr); 
 	tft_prints(0, 6, (robotMode == RED_SIDE) ? "MODE: RED SIDE" : "MODE:BLUE SIDE");
 	tft_prints(0, 7, "L: %d|%d |LM: %d", get_ls_cal_reading(0), get_ls_cal_reading(1), autoModeLaser);
 	//tft_prints(0, 7, "L: %d | AL: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1), laserAuto);
 	//tft_prints(0, 8, "Q|ENC: %d|%d", getSize(), get_encoder_value(MOTOR8));
-	tft_prints(0,8, "CAL: %d|%d|%d", get_ls_cal_reading(0), get_ls_cal_reading(1), get_ls_cal_reading(2));
-	tft_prints(0,9, "BEN? : %d|%d", benMode, button_pressed(BUTTON_XBC_XBOX));
+	tft_prints(0,8, "CAL: %d|%d", get_ls_cal_reading(0), get_ls_cal_reading(1));
+	tft_prints(0,9, "CAL: %d|%d", get_ls_cal_reading(2), get_ls_cal_reading(3));
+	//tft_prints(0,9, "BEN? : %d|%d", benMode, button_pressed(BUTTON_XBC_XBOX));
 	//tft_prints(0, 9, "Blow Time : %d", blowTime);
 	//tft_prints(0, 9, "adc: %d|%d|%d", get_ls_adc_reading(0), get_ls_adc_reading(1), get_ls_adc_reading(2));
 	//tft_prints(0, 9, "B: %d| W: %d", laserB, laserW);

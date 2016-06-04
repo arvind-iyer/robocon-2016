@@ -78,8 +78,8 @@ void enterPole() {
 
 void laserPID() {
 	int diff = get_ls_cal_reading(0) - get_ls_cal_reading(1);
-	//int offsetDiff = (get_pos()->y < yCoordSystem * 0.578 ? diff : diff+50);
-	int offsetDiff = diff + 25;
+	int offsetDiff = (get_pos()->y < yCoordSystem * 0.578 ? diff : diff+50);
+	//int offsetDiff = diff + 25;
 	int laserTargVal = 520;
 	int horizontalM = 30;
 	laserW = offsetDiff < -35	 ? 30 : (offsetDiff > 35 ? -30 : 0);
@@ -109,26 +109,26 @@ void laserPID() {
 	addComponent();
 	
 	//Blowing speeds
-	//if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(21);
-	//if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
+	if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(21);
+	if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
 	
 	parseWheelbaseValues();
 	//sendWheelbaseCommand();
 	
-	if(get_ls_cal_reading(0) > 800){
+	//if(get_ls_cal_reading(0) > 800){
 	//Finish Conditions
-	//if(get_pos()->y > yCoordSystem) {
+	if(get_pos()->y > yCoordSystem) {
 					wheelbaseLock();
 					autoModeLaser = false;
 					//manualMode = true;
-					currStage = STAGE4;
-//					manualMode = false;
-//					autoPIDMode = true;
-//					queueTargetPoint(get_pos()->x + 250, 7505, 185, 35.0, 5.0, -1, 6500);
-//					//queueTargetPoint(0, 11000, 200, 500, 200, -1, 0);//lost point
-//					queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
-//					queueTargetPoint(-103, 12046, 88, 800, 200, -1, 0);
-//					queueTargetPoint(-1200, 12810, 86, 800, 200, -1, 0);
+					//currStage = STAGE4;
+					manualMode = false;
+					autoPIDMode = true;
+					queueTargetPoint(get_pos()->x + 250, 7505, 185, 35.0, 5.0, -1, 6500);
+					//queueTargetPoint(0, 11000, 200, 500, 200, -1, 0);//lost point
+					queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
+					queueTargetPoint(-103, 12046, 88, 800, 200, -1, 0);
+					queueTargetPoint(-1200, 12810, 86, 800, 200, -1, 0);
 	}
 }
 

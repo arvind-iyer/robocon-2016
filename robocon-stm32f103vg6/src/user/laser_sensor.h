@@ -15,10 +15,13 @@
 #include "stm32f10x.h"
 
 #define ls_port 					GPIOC
+#define ls_port2					GPIOA
 #define ls_pin1 					GPIO_Pin_3
 #define ls_pin2 					GPIO_Pin_1
 #define ls_pin3						GPIO_Pin_2
+#define ls_pin4						GPIO_Pin_4
 #define ls_rcc 						RCC_APB2Periph_GPIOC
+#define ls_rcc2						RCC_APB2Periph_GPIOA
 #define	ls_adc_address		((uint32_t)0x4001244C)
 
 //#define min_adc						18 
@@ -27,7 +30,7 @@
 //#define max_dis 					2500
 #define avg_length				10			//the total num of avg, increasing the number will provide more accuracy but decrease in response rtime
 
-#define ls_number					3				//number of sensors used
+#define ls_number					4				//number of sensors used
 
 
 void ls_init(void);
