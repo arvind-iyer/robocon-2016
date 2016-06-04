@@ -82,7 +82,7 @@ u8 rx_node_no = 0;
 u32 rx_node_list[30][NODE_SIZE];
 bool to_be_saved = false;
 
-s16 temp;
+s32 temp, temp2, temp3, temp4, temp5, temp6;
 
 s32 rx_merge(void) {
 	s32 val = 0;
@@ -290,7 +290,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	//determine velocity coefficient
 	double acc, dec;
-	if (passed < 1500)
+	if (passed < 1200)
 		acc = int_sin((passed-600)*1.5)/20000.0+0.5;
 	else
 		acc = 1.0;
@@ -419,7 +419,12 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		vel[i] += (reset_rot + reset_vel[i]);
 	}
 	
-	temp = reset_rot;
+	temp = angle;
+	temp2 = err_pid;
+	temp3 = vel_coeff*1000;
+	//temp4 = rotate;
+	//temp5 = reset_rot;
+	//temp6 = reset_vel[0];
 	
 	motor_set_vel(MOTOR1, vel[0], CLOSE_LOOP);
 	motor_set_vel(MOTOR2, vel[1], CLOSE_LOOP);
@@ -748,6 +753,7 @@ void auto_motor_update(){
 	
 	temp_deg = (cur_deg < -1800) ? (cur_deg+3600) : ((cur_deg >= 1800) ? (cur_deg-3600) : cur_deg);
 	uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, side_switch_val, back_switch_val, dist, err_sum);
+	//uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d, %d, %d, %d\n", time, cur_x, cur_y, dist, temp_deg, temp, temp2, temp3);
 	
 	//handle input
 	if (button_pressed(BUTTON_XBC_BACK)) {
