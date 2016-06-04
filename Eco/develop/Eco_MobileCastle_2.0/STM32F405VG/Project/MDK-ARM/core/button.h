@@ -7,11 +7,18 @@
 #include "lcd_main.h"
 #include "main.h"
 
-#define BUTTON_ONE_PIN  	GPIO_Pin_4
-#define BUTTON_JS_GPIO 			GPIOC
+#define BUTTON_1_PIN  				GPIO_Pin_10
+#define BUTTON_2_PIN  				GPIO_Pin_11
+#define BUTTON_3_PIN					GPIO_Pin_12
+#define BUTTON_4_PIN  				GPIO_Pin_2
+#define BUTTON_1_3_GPIO 			GPIOC
+#define BUTTON_4_GPIO 				GPIOD
 
 typedef enum{
-	BUTTON_PIN = BUTTON_ONE_PIN, 
+	BUT_1 = BUTTON_1_PIN, 
+	BUT_2 = BUTTON_2_PIN, 
+	BUT_3 = BUTTON_3_PIN, 
+	BUT_4 = BUTTON_4_PIN, 
 }BUTTON;
 
 void button_init(void);

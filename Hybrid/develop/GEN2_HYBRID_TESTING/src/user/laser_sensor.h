@@ -6,5 +6,5 @@
 
 u32 get_ls_cal_reading(u8 device);
 u32 get_ls_adc_reading(u8 device);
-
+ 
 #endif	

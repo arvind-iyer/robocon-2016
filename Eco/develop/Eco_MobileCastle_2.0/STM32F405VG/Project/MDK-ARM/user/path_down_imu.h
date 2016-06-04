@@ -13,11 +13,5 @@
 #include "sensor_bar.h"
 #include "servo_interface.h"
 #include "path.h"
-#include "path_downslope.h"
-
-void coord_update(void);
-s32 get_x(void);
-s32 get_y(void);
-s32 get_z(void);
 
 #endif

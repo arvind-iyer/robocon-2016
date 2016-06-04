@@ -16,7 +16,7 @@
   (byte & 0x01 ? 1 : 0) 
 
 
-#define LED_1  GPIO_Pin_2
+#define LED_1  GPIO_Pin_4
 #define LED_GPIO GPIOC
 
 #define LED_COUNT 1

@@ -10,9 +10,6 @@
 #include "path.h"
 #include "buzzer.h"
 
-#define NUMBER_OF_ITEMS 7
-
-void menu_init(void);
-GAME_STAGE menu_update(void);
+GAME_STAGE menu_update(GAME_STAGE current);
 
 #endif

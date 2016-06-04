@@ -5,6 +5,7 @@ u32 last_long_loop_ticks = 0;
 u32 this_loop_ticks = 0;
 u32 last_short_loop_ticks = 0;
 u32 any_loop_diff = 0;
+u8 short_loop_per_long_loop = 0;
 
 int main(void) {
 	SystemInit();
@@ -24,6 +25,7 @@ int main(void) {
 	button_init();
 	buzzer_play_song(START_UP, 100, 0);
 	tft_put_logo(85, 120);
+	adc_init();
 	
 	mti_init();
 	
@@ -31,9 +33,6 @@ int main(void) {
 	
 	while (1) {
 		this_loop_ticks = get_full_ticks();
-		
-		mti_update();
-		coord_update();
 						
 		//Long loop action
 		any_loop_diff = this_loop_ticks - last_long_loop_ticks;
@@ -42,16 +41,9 @@ int main(void) {
 			tft_clear();
 			tft_println("[~MOBILE CASTLE~]");
 
-			if (button_pressed(BUTTON_PIN) && game_stage != IN_MENU){
-				game_stage = IN_MENU;
-				menu_init();
-			}
+			game_stage = menu_update(game_stage);
 			
 			switch(game_stage){
-				case IN_MENU:
-					game_stage = menu_update();
-					break;
-				
 				case SYSTEM_WAITING:
 					if (mti_all_ready()){
 						game_stage++;
@@ -93,24 +85,26 @@ int main(void) {
 					tft_println("[WTF]");
 			}
 			
-			if (game_stage != IN_MENU){
-				tft_println("LP: %d %d", this_loop_ticks, any_loop_diff);
-				tft_println("ANG:%d %d %d", mti_int_ypr[0], mti_int_ypr[1], mti_int_ypr[2]);
-				tft_println("EN:%d %d", get_dis(ENCODER1), get_dis(ENCODER2));
-				tft_println("CS:%d %d %d", get_x(), get_y(), get_z());
-				tft_println("SR: %s", colors_string[sensorbar_region]);
-				
-				for (u8 i=0; i<16; i++){
-					tft_prints(i, 8, "%d", sensor_bar_filtered[i]);
-				}
-				tft_update();
+			tft_println("LP: %d %d", this_loop_ticks, any_loop_diff, short_loop_per_long_loop);
+			tft_println("ANG:%d %d %d", mti_int_ypr[0], mti_int_ypr[1], mti_int_ypr[2]);
+			tft_println("EN:%d %d", get_dis(ENCODER1), get_dis(ENCODER2));
+			tft_println("CS:%d %d %d", get_x(), get_y(), get_z());
+			tft_println("SR: %s", colors_string[sensorbar_region]);
+			short_loop_per_long_loop = 0;
+			
+			for (u8 i=0; i<16; i++){
+				tft_prints(i, 8, "%d", sensor_bar_filtered[i]);
 			}
+			tft_update();
 			last_long_loop_ticks = this_loop_ticks;
 			last_short_loop_ticks = this_loop_ticks;
 		}else{
 			//Short loop action
 			any_loop_diff = this_loop_ticks - last_short_loop_ticks;
 			if (any_loop_diff > SHORT_LOOP_TICKS){
+				short_loop_per_long_loop++;
+				mti_update();
+				coord_update();
 				get_count(ENCODER1);
 				get_count(ENCODER2);
 				switch(game_stage){

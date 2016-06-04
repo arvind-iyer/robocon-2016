@@ -7,12 +7,13 @@
 #include "ticks.h"
 
 //UART setting
-#define MTi_1_UART								USART2
-#define MTi_1_UART_Tx_Pin					GPIO_Pin_2
-#define	MTi_1_UART_Rx_Pin					GPIO_Pin_3
-#define MTi_1_UART_RTS_Pin				GPIO_Pin_4
+#define MTi_1_UART								USART1
+#define MTi_1_COM									COM1
+#define MTi_1_UART_Tx_Pin					GPIO_Pin_9
+#define	MTi_1_UART_Rx_Pin					GPIO_Pin_10
+#define MTi_1_UART_RTS_Pin				GPIO_Pin_12
 #define MTi_1_UART_GPIO						GPIOA
-#define MTi_1_UART_RCC						RCC_APB1Periph_USART2
+#define MTi_1_UART_RCC						RCC_APB2Periph_USART1
 #define MTi_1_UART_GPIO_RCC				RCC_AHB1Periph_GPIOA
 #define MTi_1_default_BR					(uint32_t)115200
 

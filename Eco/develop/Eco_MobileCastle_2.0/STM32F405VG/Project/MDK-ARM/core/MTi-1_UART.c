@@ -16,18 +16,18 @@ u8 raw_buffer[4];
 **/
 void MTi_1_UART_init(void)
 {
-	uart_init(COM2, MTi_1_default_BR);
-	uart_interrupt_init(COM2, MTi_1_UART_Rx);
+	uart_init(MTi_1_COM, MTi_1_default_BR);
+	uart_interrupt_init(MTi_1_COM, MTi_1_UART_Rx);
+	RCC_AHB2PeriphClockCmd(MTi_1_UART_RCC, ENABLE);
 	RCC_AHB1PeriphClockCmd(MTi_1_UART_GPIO_RCC, ENABLE);
 	
-	GPIO_InitTypeDef GPIOInitStructure;
-	GPIOInitStructure.GPIO_Pin = MTi_1_UART_RTS_Pin;
-	GPIOInitStructure.GPIO_Mode = GPIO_Mode_IN;
-	GPIOInitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
-	GPIOInitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIOInitStructure.GPIO_Speed = GPIO_Fast_Speed;
-	GPIO_Init(MTi_1_UART_GPIO, &GPIOInitStructure);
-	
+//	GPIO_InitTypeDef GPIOInitStructure;
+//	GPIOInitStructure.GPIO_Pin = MTi_1_UART_RTS_Pin;
+//	GPIOInitStructure.GPIO_Mode = GPIO_Mode_IN;
+//	GPIOInitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
+//	GPIOInitStructure.GPIO_OType = GPIO_OType_PP;
+//	GPIOInitStructure.GPIO_Speed = GPIO_Fast_Speed;
+//	GPIO_Init(MTi_1_UART_GPIO, &GPIOInitStructure);
 	
 	clear_buffer();
 	send_MTi_1_UART_msg(NULL, GoToMeasurement, 0);
@@ -73,7 +73,7 @@ void send_MTi_1_UART_msg(u8 *data, u8 mid, u16 data_length)
 	
 	for(u8 k=0; k<(data_length + 5); k++)
 	{
-		uart_tx_byte(COM2, temp[k]);
+		uart_tx_byte(MTi_1_COM, temp[k]);
 	}
 }
 
@@ -217,8 +217,8 @@ float flt_cal(u8 data[4]){
 	temp = (0x800000|data[1]<<16)|(data[2]<<8)|data[3];
 	result = (float)temp;
 	temp = 127-e+23;
-	if(temp>0)for(i=0;i<temp;i++)result=result/2.0;
-	else for(i=0;i>temp;i--)result = result * 2.0;
+	if(temp>0)for(i=0;i<temp;i++)result=result/2.0f;
+	else for(i=0;i>temp;i--)result = result * 2.0f;
 	return data[0]&0x80?-result:result;
 }
 

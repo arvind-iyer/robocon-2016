@@ -77,6 +77,9 @@
 #include "buzzer_song.h"
 #include "menu.h"
 #include "lcd_main.h"
+#include "coord.h"
+#include "adc.h"
+#include "adc_ir.h"
 
 //path files
 #include "path_upslope_imu.h"

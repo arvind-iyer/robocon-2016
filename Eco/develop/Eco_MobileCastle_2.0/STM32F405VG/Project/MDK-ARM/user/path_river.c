@@ -16,25 +16,6 @@ void path_river_init(s16 straight_yaw){
 		islands_end_count[i] = 0;
 		last_IR_read[i] = false;
 	}
-	TM_GPIO_Init(IR_GPIO,IR_1_Pin|IR_2_Pin,TM_GPIO_Mode_IN,TM_GPIO_OType_PP,TM_GPIO_PuPd_DOWN,TM_GPIO_Speed_High); 
-}
-
-bool readIR(u8 id){
-	//Invert the 2 IR when switch game field
-	//Aftering inverting, id=0 is the first island it encounters
-	#ifdef BLUE_FIELD
-		if (id == 0){
-			return !GPIO_ReadInputDataBit(IR_GPIO, IR_1_Pin);
-		}else{
-			return !GPIO_ReadInputDataBit(IR_GPIO, IR_2_Pin);
-		}
-	#else
-		if (id == 1){
-			return !GPIO_ReadInputDataBit(IR_GPIO, IR_1_Pin);
-		}else{
-			return !GPIO_ReadInputDataBit(IR_GPIO, IR_2_Pin);
-		}
-	#endif
 }
 
 void IR_buffer_update(u8 i){
@@ -151,7 +132,7 @@ GAME_STAGE path_river_update(){
 			path_down_reset();
 			return (GAME_STAGE) (CROSSING_RIVER + 1);
 	}
-	tft_println("IR:%d %d %d %d", readIR(0), readIR(1), last_IR_read[0], last_IR_read[1]);
+	tft_println("IR:%d %d %d %d", readIR(0), readIR(1), get_ir_dis(0), get_ir_dis(1));
 	tft_println("IC: %d %d", islands_start_count[0], islands_start_count[1], islands_end_count[0], islands_end_count[1]);
 	return CROSSING_RIVER;
 }

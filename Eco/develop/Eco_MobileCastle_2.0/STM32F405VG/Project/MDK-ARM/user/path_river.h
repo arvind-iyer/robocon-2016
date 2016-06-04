@@ -14,10 +14,15 @@
 #include "servo_interface.h"
 #include "path.h"
 #include "MTi_adp.h"
+#include "adc_ir.h"
 
-#define IR_GPIO GPIOC
-#define IR_1_Pin GPIO_Pin_0
-#define IR_2_Pin GPIO_Pin_1
+#ifdef BLUE_FIELD
+	#define FIRST_IR_ID 0
+	#define SECOND_IR_ID 1
+#else
+	#define FIRST_IR_ID 1
+	#define SECOND_IR_ID 0
+#endif
 
 #ifdef BLUE_FIELD
 	#define RIVER_STRAIGHT_YAW (900)

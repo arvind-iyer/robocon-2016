@@ -152,17 +152,17 @@ u8 gyro_pos_set(s16 x, s16 y, s16 a)
 }
 
 /**
-  * @brief  Interrupt for UART4
+  * @brief  Interrupt for UART5
   * @param  None
   * @retval None
   */
-void UART4_IRQHandler(void)
+void UART5_IRQHandler(void)
 {
 	u8 rx_data, i;
 	u16 x, y, a;
-	if (USART_GetITStatus(UART4, USART_IT_RXNE) != RESET)
+	if (USART_GetITStatus(UART5, USART_IT_RXNE) != RESET)
 	{
-		rx_data = (u8)USART_ReceiveData(UART4);
+		rx_data = (u8)USART_ReceiveData(UART5);
 		
 		switch (rx_state) {
 			case 0:	// wakeup

@@ -24,16 +24,11 @@ void mti_init(){
 	first_init_ticks = get_full_ticks();
 }
 
-static float last_yaw_float = 0.0f; 
-static float yaw_remainder = 0.0f;
 void mti_update(){
 	
-	//float change_in_yaw = (get_MTi_ang(2) - last_yaw_float)*10.0f + yaw_remainder;
 	mti_int_ypr[0] = (s16)roundf(get_MTi_ang(2)*10)+mti_start_bias_yaw;
-	//yaw_remainder = change_in_yaw - roundf(change_in_yaw);
 	mti_int_ypr[1] = (s16)roundf(get_MTi_ang(1)*10);
 	mti_int_ypr[2] = (s16)roundf(get_MTi_ang(0)*10);
-	//last_yaw_float = get_MTi_ang(2);
 	
 	for (u8 i=0;i<3;i++){
 		mti_int_acc[i] = (s16)roundf(get_MTi_acc(i)*10);
@@ -42,7 +37,6 @@ void mti_update(){
 	if (!second_reset && (this_loop_ticks - first_init_ticks) > 500){
 		MTi_1_UART_init();
 		second_reset = true;
-		mti_int_ypr[0] = last_yaw_float = yaw_remainder = 0.0f;
 		buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 	}
 	
