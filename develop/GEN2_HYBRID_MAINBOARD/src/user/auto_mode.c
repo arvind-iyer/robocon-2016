@@ -82,8 +82,6 @@ u8 rx_node_no = 0;
 u32 rx_node_list[30][NODE_SIZE];
 bool to_be_saved = false;
 
-s32 temp, temp2, temp3, temp4, temp5, temp6;
-
 s32 rx_merge(void) {
 	s32 val = 0;
 	val |= rx_buffer[0] << 0;
@@ -340,9 +338,11 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		}
 		if ((side_switch_val == 3) || (side_switch_val == 7)) {
 			if (Abs(cur_x) < 7000) {
-				off_deg = get_angle(); // + 20*vel_coeff;
+				off_deg = get_angle();
 			} else {
 				off_deg = get_angle() - 1800;
+				if (tar_end == 9) //directly dequeue if touch wall before 12900
+					auto_tar_dequeue();
 			}
 			err_sum = 0;
 		}
@@ -385,7 +385,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//ls cal straight section
-	if ((tar_end == 1) && (get_pos()->y < (WALL_CAL - wall_dist))) //measured distance less than actual distance
+	if ((tar_end == 1) && (get_pos()->y < (WALL_CAL - wall_dist)) && wall_dist) //encoder dist less than actual dist
 		off_y = get_pos()->y - WALL_CAL + wall_dist; //negative
 	
 	//disable kI during blowing eco
@@ -394,7 +394,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	} else {
 		ki = KI;
 	}
-		
+	
 	//end path by switch
 	if (gpio_read_input(&PE2)) {
 		tar_end = tar_head;
@@ -418,14 +418,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		vel[i] -= rotate*acc;	//subtract rotational negative feedback
 		vel[i] += (reset_rot + reset_vel[i]);
 	}
-	
-	temp = angle;
-	temp2 = err_pid;
-	temp3 = vel_coeff*1000;
-	//temp4 = rotate;
-	//temp5 = reset_rot;
-	//temp6 = reset_vel[0];
-	
+		
 	motor_set_vel(MOTOR1, vel[0], CLOSE_LOOP);
 	motor_set_vel(MOTOR2, vel[1], CLOSE_LOOP);
 	motor_set_vel(MOTOR3, vel[2], CLOSE_LOOP);  
@@ -753,7 +746,6 @@ void auto_motor_update(){
 	
 	temp_deg = (cur_deg < -1800) ? (cur_deg+3600) : ((cur_deg >= 1800) ? (cur_deg-3600) : cur_deg);
 	uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, side_switch_val, back_switch_val, dist, err_sum);
-	//uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d, %d, %d, %d\n", time, cur_x, cur_y, dist, temp_deg, temp, temp2, temp3);
 	
 	//handle input
 	if (button_pressed(BUTTON_XBC_BACK)) {

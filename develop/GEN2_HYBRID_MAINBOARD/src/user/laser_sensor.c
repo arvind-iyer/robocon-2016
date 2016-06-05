@@ -21,7 +21,7 @@ static u32 avg[ls_number][avg_length] = {	{0} };
 static const u16 min_adc[2] = {18, 18};
 static const u16 max_adc[2] = {3036, 3036};
 static const u16 min_dis[2] = {200, 200};
-static const u16 max_dis[2] = {2500, 2500};
+static const u16 max_dis[2] = {5000, 5000};
 
 
 void ls_init(void)
