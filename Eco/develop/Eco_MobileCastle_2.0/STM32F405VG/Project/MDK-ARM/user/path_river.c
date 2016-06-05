@@ -69,7 +69,7 @@ GAME_STAGE path_river_update(){
 		
 		//Keep going until first island
 		case 1:
-			IR_island_update(0);
+			IR_island_update(FIRST_IR_ID);
 			SENSOR_BAR_FLAG flag;
 	
 			sensor_bar_get_corr(1, 100, &flag);
@@ -83,7 +83,7 @@ GAME_STAGE path_river_update(){
 			}
 		
 			//When it reaches the first island
-			if (islands_start_count[0] >= 1){
+			if (islands_start_count[FIRST_IR_ID] >= 1){
 				river_stage++;
 				#ifdef BLUE_FIELD
 					set_target(RIVER_STRAIGHT_YAW);
@@ -99,7 +99,7 @@ GAME_STAGE path_river_update(){
 			IR_island_update(0);
 			IR_island_update(1);
 			//When it reaches the last island
-			if (islands_end_count[0] >= 2){
+			if (islands_end_count[FIRST_IR_ID] >= 2){
 				river_stage++;
 				encoder_start_reading = get_average_encoder();
 				buzzer_play_song(RIVER_2, 200, 30);
@@ -132,7 +132,7 @@ GAME_STAGE path_river_update(){
 			path_down_reset();
 			return (GAME_STAGE) (CROSSING_RIVER + 1);
 	}
-	tft_println("IR:%d %d %d %d", readIR(0), readIR(1), get_ir_dis(0), get_ir_dis(1));
+	tft_println("IR:%d %d %d %d", readIR(FIRST_IR_ID), readIR(SECOND_IR_ID), get_ir_dis(FIRST_IR_ID), get_ir_dis(SECOND_IR_ID));
 	tft_println("IC: %d %d", islands_start_count[0], islands_start_count[1], islands_end_count[0], islands_end_count[1]);
 	return CROSSING_RIVER;
 }

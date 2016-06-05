@@ -30,7 +30,7 @@ int main(void) {
 	mti_init();
 	
 	GAME_STAGE game_stage = SYSTEM_WAITING;
-	
+
 	while (1) {
 		this_loop_ticks = get_full_ticks();
 						

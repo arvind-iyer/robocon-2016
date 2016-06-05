@@ -6,82 +6,55 @@
 ** Author: Rex Cheng
 **/
 
-static u8 laser_byte_array[2][11] = {0};
-static u8 laser_byte_pointer[2] = {0};
+static u8 laser_byte_array[3][11] = {0};
+static u8 laser_byte_pointer[3] = {0};
 
 void cheap_laser_init(){
-	uart_init(CHEAP_LASER_1_UART, 9600);
-	uart_interrupt(CHEAP_LASER_1_UART);
-	uart_init(CHEAP_LASER_2_UART, 9600);
-	uart_interrupt(CHEAP_LASER_2_UART);
-	
-	_delay_ms(500);
-	tft_clear();
-	
-	//Set freq
-	uart_tx_byte(COM2, 0xFA);
-	uart_tx_byte(COM2, 0x04);
-	uart_tx_byte(COM2, 0x0A);
-	uart_tx_byte(COM2, 0x14);
-	uart_tx_byte(COM2, 0xE4);
-	pointer = 0;
-	tft_println("S1");
-	tft_update();
-	
-	_delay_ms(450);
-	
-	while (byte_array[0] != 0xFA ||
-		byte_array[1] != 0x04 ||
-		byte_array[2] != 0x8A ||
-		byte_array[3] != 0x78);
-	
-	//Set range
-	uart_tx_byte(COM2, 0xFA);
-	uart_tx_byte(COM2, 0x04);
-	uart_tx_byte(COM2, 0x09);
-	uart_tx_byte(COM2, 0x1E);
-	uart_tx_byte(COM2, 0xDB);
-	pointer = 0;
-	tft_println("S2");
-	tft_update();
-	
-	_delay_ms(450);
-	
-	while (byte_array[0] != 0xFA ||
-		byte_array[1] != 0x04 ||
-		byte_array[2] != 0x89 ||
-		byte_array[3] != 0x79) {
+	for (u8 i=COM3;i<=COM5;i++){
+		uart_init(i, 9600);
 	}
 	
-	//Change time
-	uart_tx_byte(COM2, 0xFA);
-	uart_tx_byte(COM2, 0x04);
-	uart_tx_byte(COM2, 0x05);
-	uart_tx_byte(COM2, 0x01);
-	uart_tx_byte(COM2, 0xFC);
-	pointer = 0;
-	tft_println("S3");
-	tft_update();
+	uart_interrupt(CHEAP_LASER_1_UART);
+	uart_interrupt(CHEAP_LASER_2_UART);
+	uart_interrupt(CHEAP_LASER_3_UART);
+	
+	_delay_ms(500);
+	
+	//Set freq
+	for (u8 i=COM3;i<=COM5;i++){
+		uart_tx_byte(i, 0xFA);
+		uart_tx_byte(i, 0x04);
+		uart_tx_byte(i, 0x0A);
+		uart_tx_byte(i, 0x14);
+		uart_tx_byte(i, 0xE4);
+		laser_byte_pointer[(u8)COM3 - 2] = 0;
+	}
 	
 	_delay_ms(450);
 	
-	while (byte_array[0] != 0xFA ||
-		byte_array[1] != 0x04 ||
-		byte_array[2] != 0x85 ||
-		byte_array[3] != 0x7D);
-		
-	//Open laser
-//	uart_tx_byte(COM2, 0x80);
-//	uart_tx_byte(COM2, 0x06);
-//	uart_tx_byte(COM2, 0x03);
-//	uart_tx_byte(COM2, 0x77);
+	//Set range
+	for (u8 i=COM3;i<=COM5;i++){
+		uart_tx_byte(i, 0xFA);
+		uart_tx_byte(i, 0x04);
+		uart_tx_byte(i, 0x09);
+		uart_tx_byte(i, 0x1E);
+		uart_tx_byte(i, 0xDB);
+		laser_byte_pointer[(u8)COM3 - 2] = 0;
+	}
 	
-	tft_println("S4");
-	tft_update();
+	_delay_ms(450);
 	
-	tft_clear();
-	pointer = 0;
-	_delay_ms(500);
+	//Change time
+	for (u8 i=COM3;i<=COM5;i++){
+		uart_tx_byte(i, 0xFA);
+		uart_tx_byte(i, 0x04);
+		uart_tx_byte(i, 0x05);
+		uart_tx_byte(i, 0x01);
+		uart_tx_byte(i, 0xFC);
+		laser_byte_pointer[(u8)COM3 - 2] = 0;
+	}
+	
+	_delay_ms(450);
 }
 
 void UART3_IRQHandler(void){
@@ -100,6 +73,16 @@ void UART4_IRQHandler(void){
 		laser_byte_array[1][laser_byte_pointer[1]] = rx_data;
 		if (laser_byte_pointer[1] > 10){
 			laser_byte_pointer[1] = 0;
+		}
+	}
+}
+
+void UART5_IRQHandler(void){
+	if (USART_GetITStatus(UART5, USART_IT_RXNE) != RESET){
+		u8 rx_data = (u8)USART_ReceiveData(UART5);
+		laser_byte_array[2][laser_byte_pointer[2]] = rx_data;
+		if (laser_byte_pointer[2] > 10){
+			laser_byte_pointer[2] = 0;
 		}
 	}
 }
