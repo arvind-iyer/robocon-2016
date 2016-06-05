@@ -1,9 +1,10 @@
 #include "hybrid_laser.h"
 
-int yCoordSystem = 7000;
+int yCoordSystem = 13300;
 
 int y = 0, x = 0, increment = 0, haha = 0;
 int laserM = 45, laserW = 0, laserB = 0, verticalM = 0, targAngle = 270;
+bool fieldDetected = false;
 
 void enterPole() {
 	int angleDiff = getAngleDifference(robot.position.angle, (robotMode == RED_SIDE) ? 270 : 90);
@@ -58,7 +59,7 @@ void enterPole() {
 			addComponent();
 			parseWheelbaseValues();
 			//sendWheelbaseCommand();
-		} else if (haha < 2) {
+		} else if (haha < 205) {
 			setM(40);
 			setBearing(180-increment);
 			setW(angularVelocity);
@@ -77,59 +78,76 @@ void enterPole() {
 }
 
 void laserPID() {
-	int diff = get_ls_cal_reading(0) - get_ls_cal_reading(1);
-	int offsetDiff = (get_pos()->y < yCoordSystem * 0.578 ? diff : diff+50);
-	//int offsetDiff = diff + 25;
-	int laserTargVal = 520;
-	int horizontalM = 30;
-	laserW = offsetDiff < -35	 ? 30 : (offsetDiff > 35 ? -30 : 0);
-	//laserW = -((int_arc_tan2(diff, 510)-180) * 10 / 180);
-	//laserW = (Abs(laserW) > 50 ? (laserW > 0 ? 50 : -50) :laserW);
-  //laserB = robotMode == RED_SIDE ? 270 : 90;
-	//laserB = 90;
-	//if(get_ls_cal_reading(0) + get_ls_cal_reading(1) > 590) laserB = robotMode == RED_SIDE ? 180+45 : 65;
-	//else if (get_ls_cal_reading(0) + get_ls_cal_reading(1) < 450) laserB = robotMode == RED_SIDE ? 180+115 : 110;
-	setM(horizontalM);
-	setBearing(90);
-	setW(laserW);
-	addComponent();
-	
-	int sum = get_ls_cal_reading(0) + get_ls_cal_reading(1);
-	int verticalM = sum - laserTargVal;
-	int range = laserTargVal - 200;
-	
-//	if (Abs(laserM) < 50) {
-//		laserM = 0;
-//	}
-	verticalM = verticalM  * horizontalM / range;
-	verticalM = min(2, 30, max(2, -30, verticalM));
-	setM(verticalM);
-	setBearing(0);
-	setW(0);
-	addComponent();
-	
-	//Blowing speeds
-	if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(21);
-	if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
-	
-	parseWheelbaseValues();
-	//sendWheelbaseCommand();
-	
-	//if(get_ls_cal_reading(0) > 800){
-	//Finish Conditions
-	if(get_pos()->y > yCoordSystem) {
-					wheelbaseLock();
-					autoModeLaser = false;
-					//manualMode = true;
-					//currStage = STAGE4;
-					manualMode = false;
-					autoPIDMode = true;
-					queueTargetPoint(get_pos()->x + 250, 7505, 185, 35.0, 5.0, -1, 6500);
-					//queueTargetPoint(0, 11000, 200, 500, 200, -1, 0);//lost point
-					queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
-					queueTargetPoint(-103, 12046, 88, 800, 200, -1, 0);
-					queueTargetPoint(-1200, 12810, 86, 800, 200, -1, 0);
+	if(fieldDetected) {
+			int diff = get_ls_cal_reading(0) - get_ls_cal_reading(1);
+		//int offsetDiff = (get_pos()->y < yCoordSystem * 0.648 ? diff : diff+10);
+		int offsetDiff = diff;
+		int laserTargVal = 495;
+		int horizontalM = 30;
+		laserW = offsetDiff < -35	 ? 30 : (offsetDiff > 35 ? -30 : 0);
+		//laserW = -((int_arc_tan2(diff, 510)-180) * 10 / 180);
+		//laserW = (Abs(laserW) > 50 ? (laserW > 0 ? 50 : -50) :laserW);
+		//laserB = robotMode == RED_SIDE ? 270 : 90;
+		//laserB = 90;
+		//if(get_ls_cal_reading(0) + get_ls_cal_reading(1) > 590) laserB = robotMode == RED_SIDE ? 180+45 : 65;
+		//else if (get_ls_cal_reading(0) + get_ls_cal_reading(1) < 450) laserB = robotMode == RED_SIDE ? 180+115 : 110;
+		setM(horizontalM);
+		setBearing(90);
+		setW(laserW);
+		addComponent();
+		
+		int sum = get_ls_cal_reading(0) + get_ls_cal_reading(1);
+		int verticalM = sum - laserTargVal;
+		int range = laserTargVal - 200;
+		
+	//	if (Abs(laserM) < 50) {
+	//		laserM = 0;
+	//	}
+		verticalM = verticalM  * horizontalM / range;
+		verticalM = min(2, 30, max(2, -30, verticalM));
+		setM(verticalM);
+		setBearing(0);
+		setW(0);
+		addComponent();
+		
+		//Blowing speeds
+		if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(21);
+		if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
+		
+		parseWheelbaseValues();
+		//sendWheelbaseCommand();
+		
+		//if(get_ls_cal_reading(0) > 800){
+		//Finish Conditions
+		if(get_pos()->y > yCoordSystem) {
+						wheelbaseLock();
+						autoModeLaser = false;
+						//manualMode = true;
+						//currStage = STAGE4;
+						manualMode = false;
+						autoPIDMode = true;
+						queueTargetPoint(get_pos()->x + 300, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0);
+						queueTargetPoint(get_pos()->x + 250, 14000, 185, 35, 5, -1, 6500);
+						//queueTargetPoint(0, 11000, 200, 500, 200, -1, 0);//lost point
+						//queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
+						//queueTargetPoint(-103, 12046, 88, 800, 200, -1, 0);
+						//queueTargetPoint(-1200, 12810, 86, 800, 200, -1, 0);
+		}
 	}
+	else {
+		int sum = get_ls_cal_reading(0) + get_ls_cal_reading(1);
+		if(sum <1250 && get_ls_cal_reading(0) < 999 && get_ls_cal_reading(1) < 999){
+			fieldDetected = true;
+		}
+		else{
+			setM(30);
+			setBearing(101);
+			setW(0);
+			addComponent();
+			parseWheelbaseValues();
+		}
+	}
+	
 }
 
 void laserCallbacks(STAGES stage) {
@@ -144,7 +162,7 @@ void laserCallbacks(STAGES stage) {
 	switch (stage) {
 		case STAGE1:
 			targAngle = 270;
-			if(laserR > 1000 && laserL > 1000 && (angle >= 268 && angle/10 <=272)) {
+			if(laserR > 950 && laserL > 950 && (angle >= 268 && angle/10 <=272)) {
 				setM(45);
 				setBearing(0);
 				setW(0);
@@ -154,7 +172,7 @@ void laserCallbacks(STAGES stage) {
 			else if(angle < 268 || angle > 272){
 				setM(45);
 				setBearing(0);
-				setW(angularVelocity);
+				setW(-angularVelocity);
 				addComponent();
 				parseWheelbaseValues();
 			}
@@ -164,7 +182,7 @@ void laserCallbacks(STAGES stage) {
 			}
 			break;
 		case STAGE2:
-			if(laserR > 200 && laserL > 200) {
+			if(laserR > 270 && laserL > 270) {
 				setM(30);
 				setBearing(90);
 				setW(0);
@@ -173,7 +191,7 @@ void laserCallbacks(STAGES stage) {
 			}
 			else {
 				wheelbaseLock();
-				currStage = STAGE3;
+				//currStage = STAGE3;
 			}
 			break;
 		case STAGE3:

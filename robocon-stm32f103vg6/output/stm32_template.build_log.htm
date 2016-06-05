@@ -27,11 +27,26 @@ Project File Date:  05/29/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
-compiling gyro.c...
+compiling control.c...
+src\user\pk\pk_wheelbase.h(21): warning:  #1295-D: Deprecated declaration pk_wheelbase_init - give arg types
+  void pk_wheelbase_init();
+src\user\pk\pk_wheelbase.h(23): warning:  #1295-D: Deprecated declaration reset - give arg types
+  void reset();
+src\user\pk\pk_wheelbase.h(28): warning:  #1295-D: Deprecated declaration addComponent - give arg types
+  void addComponent();
+src\user\pk\pk_wheelbase.h(30): warning:  #1295-D: Deprecated declaration parseWheelbaseValues - give arg types
+  void parseWheelbaseValues();
+src\user\pk\pk_wheelbase.h(31): warning:  #1295-D: Deprecated declaration sendWheelbaseCommand - give arg types
+  void sendWheelbaseCommand();
+src\user\pk\pk_wheelbase.h(33): warning:  #1295-D: Deprecated declaration wheelbaseLock - give arg types
+  void wheelbaseLock();
+src\user\pk\pk_wheelbase.h(35): warning:  #1295-D: Deprecated declaration getWheelbaseValues - give arg types
+  Wheelbase getWheelbaseValues();
+src\user\pk\control.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=44446 RO-data=1538 RW-data=5340 ZI-data=44580  
+Program Size: Code=44938 RO-data=1538 RW-data=5348 ZI-data=44580  
 FromELF: creating hex file...
-".\output\stm32_template.axf" - 0 Error(s), 0 Warning(s).
+".\output\stm32_template.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   D:\Data\Documents\GitHub\robocon-2016\robocon-stm32f103vg6\RTE

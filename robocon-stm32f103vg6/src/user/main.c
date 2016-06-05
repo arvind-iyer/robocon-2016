@@ -44,6 +44,7 @@ int main(void)
 
 	menu_add("Your program", robocon_main);
 	menu_add("Position test", position_test);
+	menu_add("POS Shift", shift_test);
 	menu_add("Motor test", motor_test);
 	menu_add("ADC test", adc_test);
   menu_add("ADC app test", adc_app_test);

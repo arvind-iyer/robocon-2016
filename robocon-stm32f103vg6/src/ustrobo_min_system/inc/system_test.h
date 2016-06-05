@@ -51,5 +51,6 @@ void uart_test(void);
 void mb1240_test(void);
 void us_mb_test(void);
 void nec_mb_test(void);
+void shift_test(void);
  
 #endif /* __SYSTEM_TEST_H */

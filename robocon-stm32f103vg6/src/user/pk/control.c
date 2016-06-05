@@ -155,8 +155,8 @@ void updateQueue () {
 			robot.pathLength = calculateDistance(robot.start, currentPath.position);
 		}
 		
-		if((currentDistance <= (currentPath.distanceThreshold == -1 ? 240 : currentPath.distanceThreshold)
-			&& currentAngle <= (currentPath.bearingThreshold == -1 ? 70 : currentPath.bearingThreshold )) || finishing) {
+		if((currentDistance <= (currentPath.distanceThreshold == -1 ? 400 : currentPath.distanceThreshold)
+			&& currentAngle <= (currentPath.bearingThreshold == -1 ? 240 : currentPath.bearingThreshold )) || finishing) {
 			
 			if(currentPath.waitTime <= 0) {
 				if(finishing == true) finishing = false;
@@ -173,7 +173,7 @@ void updateQueue () {
 						laserAuto = true;
 						pneumatics.P1 = true;
 					}
-					if(currentPath.position.x == -2715&& currentPath.position.y == 1872) {
+					if(currentPath.position.x == -3982&& currentPath.position.y == 0) {
 						autoModeLaser = true;
 						autoPIDMode = false;
 						manualMode = false;
@@ -213,12 +213,12 @@ void updateQueue () {
 						setBrushlessMagnitude(38); //30
 					}
 				}
-				else if(currentPath.position.y == 300) {
-					if(dt >= 0 && dt < time / 2) {
-						setBrushlessMagnitude(20);
+				else if(currentPath.position.y == 0) {
+					if(dt >= 0 && dt < time *3 / 4) {
+						setBrushlessMagnitude(7);
 					}
 					else {
-						setBrushlessMagnitude(35);
+						setBrushlessMagnitude(22);
 					}
 				}
 				
@@ -237,7 +237,14 @@ void updateQueue () {
 					baseAngle = -1;
 					if(currentPath.position.y == 7505) setBrushlessMagnitude(0);
 					wheelbaseLock();
+					finishing = false;
 					dequeue(size);
+					if(currentPath.position.x == -4232&& currentPath.position.y == 0) {
+						autoModeLaser = true;
+						autoPIDMode = false;
+						manualMode = false;
+						setBrushlessMagnitude(currentPath.brushlessSpeed);
+					}
 				}
 				
 			}

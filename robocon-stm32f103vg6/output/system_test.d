@@ -66,3 +66,9 @@
 .\output\system_test.o: .\src\user\flash.h
 .\output\system_test.o: .\src\ustrobo_min_system\inc\ultrasonic.h
 .\output\system_test.o: .\src\ustrobo_min_system\inc\bluetooth_xbc_mb.h
+.\output\system_test.o: .\src\user\pk/pk.h
+.\output\system_test.o: .\src\user\pk/pk_arm.h
+.\output\system_test.o: .\src\user\pk/pk_climb.h
+.\output\system_test.o: .\src\user\pk/hybrid_laser.h
+.\output\system_test.o: .\src\user\pk/pk_math.h
+.\output\system_test.o: .\src\user\pk/pk_math_vector.h

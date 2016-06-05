@@ -123,8 +123,13 @@ void _updateScreen() {
 	tft_prints(0, 3, "P: %d|%d|%d|%d", getPneumaticState().P1, getPneumaticState().P2, getPneumaticState().P3, getPneumaticState().P4);
 	tft_prints(0, 4, "G: %d|%d|%d", get_pos()->x, get_pos()->y, get_pos()->angle);
 	tft_prints(0, 5, "LS: %d|%d|%d|%d|%d", prevLimitSwitch[0], prevLimitSwitch[1],  prevLimitSwitch[2], prevLimitSwitch[3], armIr); 
+	
 	tft_prints(0, 6, (robotMode == RED_SIDE) ? "MODE: RED SIDE" : "MODE:BLUE SIDE");
-	tft_prints(0, 7, "L: %d|%d |LM: %d", get_ls_cal_reading(0), get_ls_cal_reading(1), autoModeLaser);
+	tft_prints(0, 7, "L: %d|%d| Q:%d", autoModeLaser, fieldDetected, getSize());
+	
+	//tft_prints(0,6, "ADC: %d|%d", get_ls_adc_reading(0), get_ls_adc_reading(1));
+	//tft_prints(0,7, "ADC: %d|%d", get_ls_adc_reading(2), get_ls_adc_reading(3));
+	
 	//tft_prints(0, 7, "L: %d | AL: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1), laserAuto);
 	//tft_prints(0, 8, "Q|ENC: %d|%d", getSize(), get_encoder_value(MOTOR8));
 	tft_prints(0,8, "CAL: %d|%d", get_ls_cal_reading(0), get_ls_cal_reading(1));
@@ -266,10 +271,17 @@ void controllerInputUpdate() {
 					}
 					else if(robotMode == BLUE_SIDE) {
 						setBrushlessMagnitude(7);
-						queueTargetPoint(-650, 400, 270, -1, -1, -1, 0);
+						queueTargetPoint(-900, 400, 270, -1, -1, -1, 0);
+						queueTargetPoint(-4232, 0, 277, 35, 15, 18, 2000);
+						//queueTargetPoint(-3500, 1897, 291, 50, 50, 20, 0);
+						//queueTargetPoint(-2900, 3000, 303, -1, -1, 11, 0);
+						
+						/*queueTargetPoint(-650, 400, 270, -1, -1, -1, 0);
 						queueTargetPoint(-3081, 300, 275, 35, 15, 8, 750);
 						queueTargetPoint(-3121, 450, 270, 50, 50, 20, 0);
 						queueTargetPoint(-2715, 1872, 285, -1, -1, 11, 0); //12 //75, 20
+						*/
+						
 						//queueTargetPoint(-2175, 1872, 285, 450, 200, 15, 0);
 //						queueTargetPoint(-2189, 3116, 316, -1, -1, 10, 0);
 //						queueTargetPoint(-1513, 3830, 303, -1, -1, 12, 0);

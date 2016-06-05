@@ -1,5 +1,6 @@
 #include "system_test.h"
 #include <string.h>
+#include "pk/pk.h"
 
 static u16 ticks_img 	= (u16)-1;
 static u8 received_data[5] = {0};
@@ -277,6 +278,61 @@ void motor_test(void)
 			}
 		}
 	}		
+}
+
+int chutiya = 0;
+
+void shift_test(void) {
+	
+	pk_init();
+	while (1) {
+		reset();
+		//manualControl();
+		robotUpdate();
+
+		if (get_full_ticks()%10 == 0){
+			tft_clear();
+	
+			tft_prints(0, 6, "%d %d %d", getWheelbaseValues().M1.sent, getWheelbaseValues().M2.sent, getWheelbaseValues().M3.sent);
+			tft_prints(16, 6, "%d", get_ticks());
+			
+			tft_prints(0, 0, "FIERY DRAGON");
+			tft_prints(0, 1, "%d %d %d", get_pos()->x, get_pos()->y, get_pos()->angle);
+			tft_prints(0, 2, "SX: %d", gyro_get_shift_x());
+			tft_prints(0, 3, "SY: %d", gyro_get_shift_y());
+			
+			tft_update();
+		}
+		if(get_full_ticks()%3 == 0) {
+			setW(10);
+			addComponent();
+			parseWheelbaseValues();
+			button_update();
+			
+			if(button_pressed(BUTTON_XBC_N)>100){
+				if (get_full_ticks() - chutiya >= 100) {plus_y();
+					chutiya = get_full_ticks();
+				}
+			}
+			if(button_pressed(BUTTON_XBC_E)>100){
+				if (get_full_ticks() - chutiya >= 100) {plus_x();
+					chutiya = get_full_ticks();
+				}
+			}
+			if(button_pressed(BUTTON_XBC_W)>100){
+				if (get_full_ticks() - chutiya >= 100) {minus_x();
+					chutiya = get_full_ticks();
+				}
+			}
+			if(button_pressed(BUTTON_XBC_S)>100){
+				if (get_full_ticks() - chutiya >= 100) {minus_y();
+					chutiya = get_full_ticks();
+				}
+	}
+			sendWheelbaseCommand();
+		}
+		
+	}
 }
 
 void position_test(void)
