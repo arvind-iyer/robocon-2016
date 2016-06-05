@@ -48,7 +48,7 @@
 #include "xbc_control.h"
 #include "robot_control.h"
 #include "pca9685.h"
-#include "laser_sensor_cheap.h"
+#include "dual_cheap_laser.h"
 
 /**
 ** The following ticks is to avoid ticks passed in execution in order to give consistent result

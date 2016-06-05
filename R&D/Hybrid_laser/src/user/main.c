@@ -18,7 +18,7 @@ int main(void) {
 	//encoder_init();
 	button_init();
 	gpio_init_all();
-	cheap_laser_init();
+	dual_laser_init();
 
 //	gpio_init(&PE6, GPIO_Speed_50MHz, GPIO_Mode_Out_PP, 0);
 //	gpio_init(&PE7, GPIO_Speed_50MHz, GPIO_Mode_Out_PP, 0);
@@ -37,26 +37,16 @@ int main(void) {
 			continue;
 		}
 		
-		if ((this_loop_ticks - last_long_loop_ticks) > 300){
-			for (u8 i=COM3;i<=COM5;i++){
-//				uart_tx_byte(i, 0x80);
-//				uart_tx_byte(i, 0x06);
-//				uart_tx_byte(i, 0x02);
-//				uart_tx_byte(i, 0x78);
-			}
-			last_long_loop_ticks = this_loop_ticks;
+		if (!is_dual_laser_ready()){
+			dual_laser_init_update();
 		}
 
 		if ((this_loop_ticks - last_short_loop_ticks) > 10){
 			led_blink(LED_D1);
 			tft_clear();
-			
-			for (u8 i=0;i<3;i++){
-				for (u8 x=0;x<7;x++){
-					tft_prints(x, i+1, "%c", laser_byte_array[i][x+3]);
-				}
-				tft_prints(0, i+4, "%d", ticks_diff_laser[i]);
-			}
+			tft_append_line("%d", get_full_ticks());
+			tft_append_line("%d", get_dual_laser_dis());
+			tft_append_line("%d", get_dual_laser_avg_dis());
 			tft_update();
 			last_short_loop_ticks = this_loop_ticks;
 		}
