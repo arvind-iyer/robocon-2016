@@ -10,7 +10,6 @@
 #include "ticks.h"
 #include "buzzer.h"
 #include "gyro.h"
-#include "pid_lock.h"
 #include "led.h"
 #include "lcd_main.h"
 #include "robot_control.h"

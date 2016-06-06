@@ -30,8 +30,8 @@
 #define LASER_ROTATE_P 650 //Scaled by 1000
 #define LASER_ROTATE_D 2100 //Scaled by 1000
 
-#define LASER_PERPEND_P 2200 //Scaled by 1000
-#define LASER_TARGET_RANGE 300 //In mm
+#define LASER_PERPEND_P 5000 //Scaled by 1000
+#define LASER_TARGET_RANGE 250 //In mm
 #define LASER_OUT_DISTANCE 800
 
 #define LASER_PARA_P 550 //Scaled by 1000

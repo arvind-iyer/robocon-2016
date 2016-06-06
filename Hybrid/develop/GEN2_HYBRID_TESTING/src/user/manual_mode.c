@@ -65,6 +65,8 @@ static s32 sum_of_last_angle_error = 0;
 static u16 accel_remainder = 0;
 static u16 rotate_accel_remainder = 0;
 
+static u8 fast_per_long = 0;
+
 /*
 ** 0 - Blowing mode
 ** 1 - Grabbing mode
@@ -102,6 +104,7 @@ void manual_reset(){
 }
 
 void manual_vel_set_zero(){
+	curr_vx = curr_vy = curr_angle = curr_heading = curr_w = rotating_machine_by_90_target = 0;
 	for (u8 i=0;i<3;i++){
 		motor_vel[i] = 0;
 		motor_loop_state[i] = OPEN_LOOP;
@@ -187,13 +190,10 @@ void manual_update_wheel_base(){
 			*/
 			
 			u16 acceleration_amount;
-			if (abs(vx)<10 && abs(vy)<10){
-				acceleration_amount = BASE_ACCEL_CONSTANT + accel_remainder; //Scaled by 1000
+			if ((vx*vx+vy*vy) > (curr_vx*curr_vx + curr_vy*curr_vy)){
+				acceleration_amount = BASE_ACC_CONSTANT + accel_remainder; //Scaled by 1000
 			}else{
-				s32 target_angle = int_arc_tan2(vx, vy);
-				s32 last_angle = int_arc_tan2(curr_vx, curr_vy);
-				s32 angle_diff = abs(target_angle - last_angle);
-				acceleration_amount = BASE_ACCEL_CONSTANT*(angle_diff+90)/90 + accel_remainder; //Scaled by 1000
+				acceleration_amount = BASE_DEC_CONSTANT + accel_remainder; //Scaled by 1000
 			}
 			
 			accel_remainder = acceleration_amount % 1000;
@@ -227,13 +227,13 @@ void manual_update_wheel_base(){
 			}
 			
 			s32 w = (xbc_get_joy(XBC_JOY_LT)-xbc_get_joy(XBC_JOY_RT))*8/5;
-			if (Abs(w-curr_w) < 5){
+			s32 rotate_accel_amount = ROTATE_ACCEL_CONSTANT + rotate_accel_remainder;
+			rotate_accel_remainder = rotate_accel_amount % 1000;
+			rotate_accel_amount /= 1000;
+			
+			if (Abs(w-curr_w) < (rotate_accel_amount+1)){
 				curr_w = w;
 			}else{
-				s32 rotate_accel_amount = ROTATE_ACCEL_CONSTANT + rotate_accel_remainder;
-				rotate_accel_remainder = rotate_accel_amount % 1000;
-				rotate_accel_amount /= 1000;
-				
 				if (w > curr_w){
 					curr_w += rotate_accel_amount;
 				}else{
@@ -290,6 +290,7 @@ void manual_update_wheel_base(){
 ** - Laser tracking
 */
 void manual_fast_update(){
+	fast_per_long++;
 	s32 curr_rotate = 0;
 	
 	for (u8 i=0;i<3;i++){
@@ -401,8 +402,9 @@ void manual_interval_update(){
 	tft_clear();
 	
 	tft_append_line("%d", this_loop_ticks);
-	tft_append_line("%d", this_loop_ticks-last_long_loop_ticks);
-	sa_print_info();
+	tft_append_line("%d %d", this_loop_ticks-last_long_loop_ticks, fast_per_long);
+	fast_per_long = 0;
+	//sa_print_info();
 	
 	if (button_hitted[BUTTON_XBC_START]){
 		buzzer_beep(75);

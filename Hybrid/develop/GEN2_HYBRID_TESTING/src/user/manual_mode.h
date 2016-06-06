@@ -15,7 +15,6 @@
 #include "led.h"
 #include "auto_mode.h"
 #include "gyro.h"
-#include "pid_lock.h"
 #include "xbc_control.h"
 #include "main.h"
 #include "robot_control.h"
@@ -45,10 +44,12 @@
 #define ARM_IR_PORT PE0
 #define HIT_BOX_PORT PE3
 
-#define BASE_ACCEL_CONSTANT 3400 //Scaled by 1000
-#define ROTATE_ACCEL_CONSTANT 8700 //Scaled by 1000
+//Make deceleration faster than acceleration
+#define BASE_ACC_CONSTANT 3500 //Scaled by 1000
+#define BASE_DEC_CONSTANT 8500 //Scaled by 1000
+#define ROTATE_ACCEL_CONSTANT 14000 //Scaled by 1000 
 
-#define BRUSHLESS_POWER_STEP 5
+#define BRUSHLESS_POWER_STEP 8
 #define BRUSHLESS_SERVO_STEP 2
 
 #define GRIPPER_STATES_NO 4
