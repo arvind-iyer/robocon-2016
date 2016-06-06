@@ -41,7 +41,7 @@ void brushless_servo_control(s16 value){
 	if (get_emergency_lock() == LOCKED) return;
 	value = (value > 140) ? 140 : ((value < -140) ? -140 : value);
 	u16 pwm_val = (value*(BRUSHLESS_SERVO_RANGE)/140)+BRUSHLESS_SERVO_MED;
-	servo_control(BRUSHLESS_SERVO_PORT+BRUSHLESS_SERVO_OFFSET, pwm_val);
+	servo_control(BRUSHLESS_SERVO_PORT, pwm_val+BRUSHLESS_SERVO_OFFSET);
 }
 
 //Gripper control

@@ -104,14 +104,14 @@ void ls_init(void)
 		while(ADC_GetCalibrationStatus(ADC3));	/* Check the end of ADC1 calibration */
 		ADC_SoftwareStartConvCmd(ADC3, ENABLE);
 		while(!ADC_GetFlagStatus(ADC3, ADC_FLAG_EOC));
-		ls_adc_reading[1] = ADC_GetConversionValue(ADC3);
+//		ls_adc_reading[1] = ADC_GetConversionValue(ADC3);
 	}
 
-	for(u8 i=0;i<ls_number;i++)
-	{
-		for(u8 j=0;j<avg_length;j++)
-			avg[i][j] = ls_adc_reading[i];
-	}
+//	for(u8 i=0;i<ls_number;i++)
+//	{
+//		for(u8 j=0;j<avg_length;j++)
+//			avg[i][j] = ls_adc_reading[i];
+//	}
 }
 /**
 *	@brief return the range found
@@ -134,7 +134,7 @@ u32 get_ls_cal_reading(u8 device)
 		ls_adc_reading[1] = ADC_GetConversionValue(ADC3);
 	}
 
-	ls_avg(device);
+	//ls_avg(device);
 	
 	if(ls_adc_reading[device]>=min_adc[device])
 	{
@@ -171,28 +171,28 @@ u32 get_ls_adc_reading(u8 device)
 *	@return NULL
 **/
 
-void ls_avg(u8 device)
-{
-	u32 temp;
-	
-	if(device==0)
-	{
-		for(u8 h=0;h<avg_length-1;h++)
-			avg[device][h] = avg[device][h+1];
-		avg[device][avg_length-1] = ls_adc_reading[0];
-	
-		for(u8 i=0;i<avg_length;i++)
-			temp += avg[device][i];
-		ls_adc_reading[device] = temp/avg_length;
-	}
-	else
-	{
-		for(u8 h=0;h<avg_length-1;h++)
-			avg[device][h] = avg[device][h+1];
-		avg[device][avg_length-1] = ls_adc_reading[1];
-	
-		for(u8 i=0;i<avg_length;i++)
-			temp += avg[device][i];
-		ls_adc_reading[device] = temp/avg_length;
-	}
-}
+//void ls_avg(u8 device)
+//{
+//	u32 temp;
+//	
+//	if(device==0)
+//	{
+//		for(u8 h=0;h<avg_length-1;h++)
+//			avg[device][h] = avg[device][h+1];
+//		avg[device][avg_length-1] = ls_adc_reading[0];
+//	
+//		for(u8 i=0;i<avg_length;i++)
+//			temp += avg[device][i];
+//		ls_adc_reading[device] = temp/avg_length;
+//	}
+//	else
+//	{
+//		for(u8 h=0;h<avg_length-1;h++)
+//			avg[device][h] = avg[device][h+1];
+//		avg[device][avg_length-1] = ls_adc_reading[1];
+//	
+//		for(u8 i=0;i<avg_length;i++)
+//			temp += avg[device][i];
+//		ls_adc_reading[device] = temp/avg_length;
+//	}
+//}

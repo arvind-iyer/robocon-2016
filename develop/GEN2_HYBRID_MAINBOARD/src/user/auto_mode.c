@@ -23,7 +23,10 @@
 #define RKP 1.8
 #define DEC_COEFF 8.0
 #define WALL_CAL 4190
+#define LS_DIFF 400
 #define SHIFT 3.0
+#define INNER_DIST 295
+#define OUTER_DIST 345
 
 //#define DEBUG_MODE
 
@@ -128,7 +131,7 @@ void auto_tar_dequeue() {
 	if (tar_end == 1)
 		cur_vel = 65;
 	if (tar_end == 5)
-		cur_vel = 70;	
+		cur_vel = 85;	
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
 	//tar_deg = tar_queue[tar_end].deg;
@@ -616,19 +619,19 @@ void auto_var_update() {
 			reading1 = 200;
 		if (reading2 == 0)
 			reading2 = 200;
-		if (Abs(reading2 - reading1) < 150) {
+		if (Abs(reading2 - reading1) < LS_DIFF) {
 			wall_dist = (reading1 + reading2)/2;
 			if (!((tar_end == 4) && (dist < 500)) && !(tar_end >= 5)) { //stop shift when approach hill3
 				if (field == 0) {
-					if (wall_dist < 275)
+					if (wall_dist < INNER_DIST)
 						transform[1][0] -= (SHIFT/7000.0);
-					if ((wall_dist > 325) && (wall_dist < 500))
+					if ((wall_dist > OUTER_DIST) && (wall_dist < 500))
 						transform[1][0] += (SHIFT/7000.0);
 				}
 				if (field == 1) {
-					if (wall_dist < 275)
+					if (wall_dist < INNER_DIST)
 						transform[1][0] += (SHIFT/7000.0);
-					if ((wall_dist > 325) && (wall_dist < 500))
+					if ((wall_dist > OUTER_DIST) && (wall_dist < 500))
 						transform[1][0] -= (SHIFT/7000.0);		
 				}
 			}
@@ -740,12 +743,13 @@ void auto_motor_update(){
 	//tft_prints(0,7,"Test %d %d", get_pos()->x, get_pos()->y);
 	tft_prints(0,7,"Test %d %d", side_switch_val, back_switch_val);
 	*/
-	tft_prints(0,8,"Trans: %d",(int)(transform[1][0]*700));
-	tft_prints(0,9,"Wall: %d",wall_dist);
+	tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));
+	tft_prints(0,9,"Wall: %d %d", wall_dist, get_ls_cal_reading(0));
 	tft_update();
 	
 	temp_deg = (cur_deg < -1800) ? (cur_deg+3600) : ((cur_deg >= 1800) ? (cur_deg-3600) : cur_deg);
-	uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, side_switch_val, back_switch_val, dist, err_sum);
+	//uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, side_switch_val, back_switch_val, dist, err_sum);
+	uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, get_ls_cal_reading(0), get_ls_cal_reading(1), wall_dist, dist);
 	
 	//handle input
 	if (button_pressed(BUTTON_XBC_BACK)) {
