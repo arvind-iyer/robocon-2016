@@ -36,7 +36,7 @@ int systemOn = 0;
 int yaw_of_imu = 0;
 int pitch_of_imu = 0;
 int lastMovement = SERVO_MICROS_MID;
-extern int passedRiver;
+extern int passedDownSlope;
 extern char currentSlopeZoneString[10];
 
 int main(void) {
@@ -69,12 +69,12 @@ int main(void) {
                 case ON:
                     //Emergency turning system
                     if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT)){
-                        if(!fullWhite)servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT + 50);
+                        if(!fullWhite)servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT + 240);
                         else servo_control(BAJAJ_SERVO, SERVO_MICROS_RIGHT);
                     }
                     else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT)){
-                        if(!fullWhite)servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT);
-                        else servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT - 50);
+                        if(!fullWhite)servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT - 240);
+                        else servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT);
                     }
                     
                     //Normal working state
@@ -94,10 +94,7 @@ int main(void) {
                                         }   
                                     break;
                                     case GREENSLOPE1:
-                                        if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT) && !initInfra){
-                                            goNormal();
-                                            initInfra = 0;
-                                        }
+                                        goNormal();
                                         if(gameZone == ORANGEZONE){
                                             currentSlopeZone = ORANGE1;
                                             strcpy(currentSlopeZoneString,"ORANGE1");
@@ -123,15 +120,10 @@ int main(void) {
                                             currentSlopeZone = GREENSLOPE3;
                                             strcpy(currentSlopeZoneString,"GREENSLOPE3");
                                         }
-                                        if(!read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT)){
-                                            currentSlopeZone = FINISHEDSLOPE;
-                                            strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
-                                        }
                                     break;
                                     case GREENSLOPE3:
                                         goNormal();
                                         if(gameZone == ORANGEZONE){
-                                        //if(!read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT)){
                                             currentSlopeZone = FINISHEDSLOPE;
                                             strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
                                         }    
@@ -144,7 +136,7 @@ int main(void) {
                                             break;
                                             default:
                                                 goNormal();
-                                                if(river && !read_infrared_sensor(infrared1) && fullWhite && !passedRiver)
+                                                if(river && !read_infrared_sensor(infrared1) && fullWhite && !passedDownSlope)
                                                     {
                                                         reset_encoder_1();
                                                         ardu_cal_ypr[0] = determine_imu_angle();

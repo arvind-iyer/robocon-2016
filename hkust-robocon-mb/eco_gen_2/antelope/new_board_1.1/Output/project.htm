@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\Output\project.hex]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Output\project.hex</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Sat Jun 04 17:44:11 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Mon Jun 06 23:51:09 2016
 <BR><P>
-<H3>Maximum Stack Usage =        368 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        376 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-main &rArr; printSystemOff &rArr; determine_velocity &rArr; tft_prints &rArr; vsprintf
+main &rArr; print_data &rArr; determine_velocity &rArr; tft_prints &rArr; vsprintf
 <P>
 <H3>
 Mutually Recursive functions
@@ -1171,7 +1171,9 @@ Global Symbols
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_count
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
 </UL>
-<BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
+<BR>[Called By]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_data
+<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
+<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goStraightLittleBit
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;determine_imu_angle
 </UL>
 
@@ -1266,11 +1268,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[cf]"></a>goStraightLittleBit</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, bajaj.o(i.goStraightLittleBit))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = goStraightLittleBit
+<P><STRONG><a name="[cf]"></a>goStraightLittleBit</STRONG> (Thumb, 102 bytes, Stack size 16 bytes, bajaj.o(i.goStraightLittleBit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 360<LI>Call Chain = goStraightLittleBit &rArr; determine_velocity &rArr; tft_prints &rArr; vsprintf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
+<LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;determine_velocity
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1294,7 +1297,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systemInit
 </UL>
 
-<P><STRONG><a name="[d3]"></a>initializeValues</STRONG> (Thumb, 218 bytes, Stack size 40 bytes, bajaj.o(i.initializeValues))
+<P><STRONG><a name="[d3]"></a>initializeValues</STRONG> (Thumb, 216 bytes, Stack size 40 bytes, bajaj.o(i.initializeValues))
 <BR><BR>[Stack]<UL><LI>Max Depth = 156<LI>Call Chain = initializeValues &rArr; tft_init &rArr; tft_spi_init &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
@@ -1313,8 +1316,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systemInit
 </UL>
 
-<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 534 bytes, Stack size 0 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 368<LI>Call Chain = main &rArr; printSystemOff &rArr; determine_velocity &rArr; tft_prints &rArr; vsprintf
+<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 508 bytes, Stack size 0 bytes, main.o(i.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 376<LI>Call Chain = main &rArr; print_data &rArr; determine_velocity &rArr; tft_prints &rArr; vsprintf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear
@@ -1355,11 +1358,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[d9]"></a>print_data</STRONG> (Thumb, 222 bytes, Stack size 24 bytes, bajaj.o(i.print_data))
-<BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = print_data &rArr; tft_prints &rArr; vsprintf
+<P><STRONG><a name="[d9]"></a>print_data</STRONG> (Thumb, 240 bytes, Stack size 32 bytes, bajaj.o(i.print_data))
+<BR><BR>[Stack]<UL><LI>Max Depth = 376<LI>Call Chain = print_data &rArr; determine_velocity &rArr; tft_prints &rArr; vsprintf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_infrared_sensor
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_minimize_count
+<LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;determine_velocity
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 </UL>

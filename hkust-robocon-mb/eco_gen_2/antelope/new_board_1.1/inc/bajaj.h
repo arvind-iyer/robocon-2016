@@ -168,6 +168,11 @@ void determineZone(void);
 */
 void runUserInterface(void);
 
+/*
+* desc: based on the velocity of the encoder, determine the IMU angle for turning
+* param: void
+* retval: angle of the IMU in float
+*/
 float determine_imu_angle(void);
 
 /*

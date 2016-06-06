@@ -77,7 +77,7 @@ void initializeValues(void){
         IMU_ANGLE2 = -30;
         IMU_ANGLE3 = 45;
         NINETY_IMU = 180;
-        LESSER_TURNING = -220;
+        LESSER_TURNING = -300;
         SLOPE_TURNING_RIGHT = 1100;
         SLOPE_TURNING_LEFT = 1600;
         SLOPE_ENCODER = 45000;
@@ -150,7 +150,7 @@ void fill_sensorbar_array(){
 void print_data(){
     tft_prints(0,0,"ZONE: %s",gameZoneString);
     for(int i = 0; i < 16 ;i++) tft_prints(i,1,"%d",sensorbar_result[i]);
-    tft_prints(0,9,"y:%f",ardu_cal_ypr[0]);
+    tft_prints(0,9,"y:%.2f v:%.2f",ardu_cal_ypr[0],determine_velocity(ENCODER1));
     tft_prints(0,3,"il:%d ir:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
     tft_prints(0,4,"ul:%d ur:%d", read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT),read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT));
     tft_prints(0,5,"le:%d state:%d",length,globalState);
@@ -220,7 +220,7 @@ void process_array(){
 void goNormal(void){
     servo_control(BAJAJ_SERVO,lastMovement);
     if (get_full_ticks() - lastTurn >= (int)DELAY){            
-        if (length >= 1 && length <= 11) {
+        if (length >= 1 && length <= 16) {
             if(fullWhite){
                 float factor = ((begin + end) / 2) / (float) 16;
                 lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
@@ -262,7 +262,7 @@ void goUsingImu(void){
     servo_control(BAJAJ_SERVO,lastMovement);
     
     //Stopping condition
-    if((get_count(ENCODER1) > 20000) && !read_infrared_sensor(infrared2)){
+    if((get_count(ENCODER1) > 15000) && !read_infrared_sensor(infrared2)){
         reset_encoder_1();
         globalState = STAGE2;
     }
@@ -294,9 +294,17 @@ void goUsingImu3(void){
 }
 void goStraightLittleBit(void){
     lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
+    switch(side){
+        case BLUESIDE:
+            lastMovement = SERVO_MICROS_MID - (int)determine_velocity(ENCODER1) * 15;
+            break;
+        case REDSIDE:
+            lastMovement = SERVO_MICROS_MID + (int)determine_velocity(ENCODER1) * 15;
+            break;
+    } 
     servo_control(BAJAJ_SERVO, lastMovement);
     //Stopping condition
-    if(get_count(ENCODER1) > 5000){
+    if(get_count(ENCODER1) > 6000){
         //lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
         //servo_control(BAJAJ_SERVO, lastMovement);
         passedRiver = 1;
@@ -435,10 +443,10 @@ float determine_imu_angle(void){
     float incremental_value = 0;
     switch(side){
         case BLUESIDE:
-            incremental_value = determine_velocity(ENCODER1) > 2 ? IMU_ANGLE1 + determine_velocity(ENCODER1) * (float)1.5 : IMU_ANGLE1;
+            incremental_value = determine_velocity(ENCODER1) > 2 ? (float)IMU_ANGLE1 + (determine_velocity(ENCODER1) * 4) : IMU_ANGLE1;
             break;
         case REDSIDE:
-            incremental_value = determine_velocity(ENCODER1) > 2 ? IMU_ANGLE1 - determine_velocity(ENCODER1) * (float)1.5 : IMU_ANGLE1;
+            incremental_value = determine_velocity(ENCODER1) > 2 ? (float)IMU_ANGLE1 - (determine_velocity(ENCODER1) * 4) : IMU_ANGLE1;
             break;
     }        
     return incremental_value;
