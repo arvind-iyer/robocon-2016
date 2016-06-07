@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Output\project.hex]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Output\project.hex</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Mon Jun 06 23:51:09 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Tue Jun 07 23:03:44 2016
 <BR><P>
 <H3>Maximum Stack Usage =        376 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1081,8 +1081,7 @@ Global Symbols
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_set_note_period
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_on
 </UL>
-<BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
-<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[a1]"></a>buzzer_set_note_period</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, buzzer.o(i.buzzer_set_note_period))
@@ -1297,7 +1296,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systemInit
 </UL>
 
-<P><STRONG><a name="[d3]"></a>initializeValues</STRONG> (Thumb, 216 bytes, Stack size 40 bytes, bajaj.o(i.initializeValues))
+<P><STRONG><a name="[d3]"></a>initializeValues</STRONG> (Thumb, 184 bytes, Stack size 40 bytes, bajaj.o(i.initializeValues))
 <BR><BR>[Stack]<UL><LI>Max Depth = 156<LI>Call Chain = initializeValues &rArr; tft_init &rArr; tft_spi_init &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
@@ -1406,11 +1405,10 @@ Global Symbols
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_count
 </UL>
 
-<P><STRONG><a name="[da]"></a>runUserInterface</STRONG> (Thumb, 210 bytes, Stack size 24 bytes, bajaj.o(i.runUserInterface))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = runUserInterface &rArr; buzzer_play_song
+<P><STRONG><a name="[da]"></a>runUserInterface</STRONG> (Thumb, 240 bytes, Stack size 16 bytes, bajaj.o(i.runUserInterface))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = runUserInterface &rArr; button_pressed
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
+<BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main

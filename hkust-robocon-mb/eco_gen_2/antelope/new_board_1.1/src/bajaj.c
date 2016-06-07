@@ -3,14 +3,11 @@
 //Values Define which will be filled after starting the program
 int MAX_NINETY_TURNING;
 int IMU_ANGLE1;
-int IMU_ANGLE2;
-int IMU_ANGLE3;
 float NINETY_IMU;
 int LESSER_TURNING;
 int NINETY_TURNING;
 int SLOPE_TURNING_RIGHT;
 int SLOPE_TURNING_LEFT;
-int SLOPE_ENCODER;
 int DELAY;
 GAMESIDE side;
 INFRARED_SENSOR infrared1;
@@ -43,44 +40,41 @@ float imuFactor;
 int imuMovement;
 int sat1;
 int value1;
+int button_count_red = 0;
+int button_count_white = 0;
 uint32_t encoder_revolution = 0;
 char gameZoneString[12]= "UNKNOWN";
 ZONE gameZone;
 ZONE expectedGameZone;
 SLOPEZONE currentSlopeZone = STARTZONE;
-char currentSlopeZoneString[10] = "STARTZONE";
+char currentSlopeZoneString[16] = "STARTZONE";
+
 
 void initializeValues(void){
     if(button_pressed(BUTTON_RED)){
         while(button_pressed(BUTTON_RED));
-        tft_init(PIN_ON_BOTTOM,BLACK,ORANGE,RED); 
-        IMU_ANGLE1 = -90;
-        IMU_ANGLE2 = 30;
-        IMU_ANGLE3 = -45;
+        tft_init(PIN_ON_BOTTOM,DARKWHITE,DARK_RED,RED); 
+        IMU_ANGLE1 = -60;
         NINETY_IMU = -180;
-        LESSER_TURNING = 260;
+        LESSER_TURNING = 300;
         SLOPE_TURNING_RIGHT = 1100;
         SLOPE_TURNING_LEFT = 1600;
-        SLOPE_ENCODER = 46000;
         DELAY = 1000;
         side = REDSIDE;
         infrared1 = INFRARED_SENSOR_RIGHT;
         infrared2 = INFRARED_SENSOR_LEFT;
         buttonRedCount = 0;
-        NINETY_TURNING = 950;
+        NINETY_TURNING = 1000;
         systemOn = 1;
     }
     else if(button_pressed(BUTTON_WHITE)){
         while(button_pressed(BUTTON_WHITE));
-        tft_init(PIN_ON_BOTTOM,BLACK,BLUE2,RED);
+        tft_init(PIN_ON_BOTTOM,DARKWHITE,DARKBLUE,RED);
         IMU_ANGLE1 = 80;
-        IMU_ANGLE2 = -30;
-        IMU_ANGLE3 = 45;
         NINETY_IMU = 180;
         LESSER_TURNING = -300;
         SLOPE_TURNING_RIGHT = 1100;
         SLOPE_TURNING_LEFT = 1600;
-        SLOPE_ENCODER = 45000;
         DELAY = 1000;
         side = BLUESIDE;
         infrared1 = INFRARED_SENSOR_LEFT;
@@ -88,14 +82,6 @@ void initializeValues(void){
         buttonWhiteCount = 0;
         NINETY_TURNING = 1800;
         systemOn = 1;
-    }
-}
-
-void update_encoder(){
-    if(encoder_revolution > 3)encoder_revolution = 0;
-    if(get_count(ENCODER2) > (int)SLOPE_ENCODER){
-        encoder_revolution++;
-        reset_encoder_2();
     }
 }
 
@@ -268,30 +254,6 @@ void goUsingImu(void){
     }
 }
 
-void goUsingImu2(void){
-    imuFactor = ardu_cal_ypr[0] / 180.0f;
-    imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
-    servo_control(BAJAJ_SERVO,imuMovement);   
-    
-    //Stopping condition
-    if((get_count(ENCODER1) > 3000) && !read_infrared_sensor(infrared1)){
-        ardu_cal_ypr[0] = IMU_ANGLE3;
-        reset_encoder_1();
-        globalState = STAGE4;
-    }
-}
-
-void goUsingImu3(void){
-    imuFactor = ardu_cal_ypr[0] / 180.0f;
-    imuMovement = SERVO_MICROS_MID + (imuFactor * 500);
-    servo_control(BAJAJ_SERVO,imuMovement); 
-    
-    //Stopping condition
-    if((get_count(ENCODER1) > 2000) && !read_infrared_sensor(infrared2)){
-        reset_encoder_1();
-        globalState = STAGE2; // Go to last stage of the river part
-    }
-}
 void goStraightLittleBit(void){
     lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
     switch(side){
@@ -305,8 +267,6 @@ void goStraightLittleBit(void){
     servo_control(BAJAJ_SERVO, lastMovement);
     //Stopping condition
     if(get_count(ENCODER1) > 6000){
-        //lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
-        //servo_control(BAJAJ_SERVO, lastMovement);
         passedRiver = 1;
         globalState = NOT_RIVER;
     }
@@ -323,15 +283,6 @@ void printSystemOff(void){
       tft_prints(0,7,"length:%d fw:%d",length,fullWhite);
       tft_prints(0,8,"il:%d ir:%d",read_infrared_sensor(INFRARED_SENSOR_LEFT),read_infrared_sensor(INFRARED_SENSOR_RIGHT));
       tft_prints(0,9,"ul:%d ur:%d", read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT),read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT));
-        
-    
-//        tft_prints(0,0,"%d",get_MTi_acc(0));
-//        tft_prints(0,1,"%d",get_MTi_acc(1));
-//        tft_prints(0,2,"%d",get_MTi_acc(2));
-//        tft_prints(0,3,"%d",get_MTi_ang(3));
-//        tft_prints(0,4,"%d",get_MTi_ang(4));
-//        tft_prints(0,5,"%d",get_MTi_ang(5));
-        
 }
 
 void determineZone(){
@@ -376,66 +327,81 @@ void determineZone(){
 void runUserInterface(void){
     //User Interface Section
     if(button_pressed(BUTTON_RED)){
-        while(button_pressed(BUTTON_RED));
-        switch(buttonRedCount){
-            case 0:
-                currentSlopeZone = GREENSLOPE1;
-                strcpy(currentSlopeZoneString,"GREENSLOPE1");
-                buttonRedCount++;
-            break;
-            case 1:
-                currentSlopeZone = ORANGE1;
-                strcpy(currentSlopeZoneString,"ORANGE1");
-                buttonRedCount++;
-            break;
-            case 2:
-                currentSlopeZone = GREENSLOPE2;
-                strcpy(currentSlopeZoneString,"GREENSLOPE2");
-                buttonRedCount++;    
-            break;
-            
-            case 3:
-                currentSlopeZone = ORANGE2;
-                strcpy(currentSlopeZoneString,"ORANGE2");
-                buttonRedCount++;     
-            break;
-            case 4:
-                currentSlopeZone = GREENSLOPE3;
-                strcpy(currentSlopeZoneString,"GREENSLOPE3");
-                buttonRedCount++;  
-            break;
-            case 5:
-                currentSlopeZone = STARTZONE;
-                strcpy(currentSlopeZoneString,"STARTZONE");
-                buttonRedCount = 0;    
-            break;
+        button_count_red++;
+        if(button_count_red > 100){
+            while(button_pressed(BUTTON_RED));
+            switch(buttonRedCount){
+                case 0:
+                    currentSlopeZone = GREENSLOPE1;
+                    strcpy(currentSlopeZoneString,"GREENSLOPE1");
+                    buttonRedCount++;
+                break;
+                case 1:
+                    currentSlopeZone = ORANGE1;
+                    strcpy(currentSlopeZoneString,"ORANGE1");
+                    buttonRedCount++;
+                break;
+                case 2:
+                    currentSlopeZone = GREENSLOPE2;
+                    strcpy(currentSlopeZoneString,"GREENSLOPE2");
+                    buttonRedCount++;    
+                break;
+                case 3:
+                    currentSlopeZone = ORANGE2;
+                    strcpy(currentSlopeZoneString,"ORANGE2");
+                    buttonRedCount++;     
+                break;
+                case 4:
+                    currentSlopeZone = GREENSLOPE3;
+                    strcpy(currentSlopeZoneString,"GREENSLOPE3");
+                    buttonRedCount++;  
+                break;
+                case 5:
+                    currentSlopeZone = STARTZONE;
+                    strcpy(currentSlopeZoneString,"STARTZONE");
+                    buttonRedCount = 0;    
+                break;
+            }
+            button_count_red = 0;
         }
     }
     
     if(button_pressed(BUTTON_WHITE)){
-        while(button_pressed(BUTTON_WHITE));
-        switch(buttonWhiteCount){
-            case 0:
-                fullWhite = 1;
-                passedRiver = 0;
-                passedDownSlope = 0;
-                buttonWhiteCount++;
-            break;
-            case 1:
-                passedRiver = 1;
-                fullWhite = 1;
-                START_UP_play;
-                buttonWhiteCount++;
-            break;
-            case 2:
-                fullWhite = 1;
-                passedRiver = 1;
-                passedDownSlope = 1;
-                buttonWhiteCount++;
-            break;    
+        button_count_white++;
+        if(button_count_white > 100){
+            while(button_pressed(BUTTON_WHITE));
+            switch(buttonWhiteCount){
+                case 0:
+                    fullWhite = 1;
+                    passedRiver = 0;
+                    passedDownSlope = 0;
+                    strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
+                    buttonWhiteCount++;
+                break;
+                case 1:
+                    passedRiver = 1;
+                    fullWhite = 1;
+                    strcpy(currentSlopeZoneString,"FINISHEDRIVER");
+                    buttonWhiteCount++;
+                break;
+                case 2:
+                    fullWhite = 1;
+                    passedRiver = 1;
+                    passedDownSlope = 1;
+                    strcpy(currentSlopeZoneString,"PASSDOWNSLOPE");
+                    buttonWhiteCount++;
+                break;
+                case 3:
+                    fullWhite = 1;
+                    passedRiver = 0;
+                    passedDownSlope = 0;                
+                    strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
+                    buttonWhiteCount = 0;
+                break;    
+            }
+            currentSlopeZone = FINISHEDSLOPE;
+            button_count_white = 0;
         }
-        currentSlopeZone = FINISHEDSLOPE;
-        strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
     }
 }
 

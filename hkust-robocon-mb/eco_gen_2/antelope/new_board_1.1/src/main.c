@@ -3,13 +3,10 @@
 //Extern variables, sorry if it is a mess,yolo global variables
 extern int MAX_NINETY_TURNING;
 extern int IMU_ANGLE1;
-extern int IMU_ANGLE2;
-extern int IMU_ANGLE3;
 extern float NINETY_IMU;
 extern int LESSER_TURNING;
 extern int SLOPE_TURNING_RIGHT;
 extern int SLOPE_TURNING_LEFT;
-extern int SLOPE_ENCODER;
 extern int DELAY;
 extern GAMESIDE side;
 extern INFRARED_SENSOR infrared1;
@@ -36,7 +33,7 @@ int systemOn = 0;
 int yaw_of_imu = 0;
 int pitch_of_imu = 0;
 int lastMovement = SERVO_MICROS_MID;
-extern int passedDownSlope;
+extern int passedRiver;
 extern char currentSlopeZoneString[10];
 
 int main(void) {
@@ -51,7 +48,6 @@ int main(void) {
             buzzer_check();
             ticks_ms_img = get_ticks();
             tft_clear();
-            int initInfra = 0;
             fill_sensorbar_array();
             process_array();
             determineZone();
@@ -136,7 +132,7 @@ int main(void) {
                                             break;
                                             default:
                                                 goNormal();
-                                                if(river && !read_infrared_sensor(infrared1) && fullWhite && !passedDownSlope)
+                                                if(river && !read_infrared_sensor(infrared1) && fullWhite && !passedRiver)
                                                     {
                                                         reset_encoder_1();
                                                         ardu_cal_ypr[0] = determine_imu_angle();

@@ -44,7 +44,7 @@ typedef enum {
 #define DARK_GREY           0x52AA//    (RGB888TO565(0x555555))
 #define GREY                0x001F//    (RGB888TO565(0xAAAAAA))
 #define RED                 0xAD55//    (RGB888TO565(0xFF0000))
-#define DARK_RED            (RGB888TO565(0x800000))
+#define DARK_RED            (RGB888TO565(0xF20000))
 #define ORANGE              0x04DF//    (RGB888TO565(0xFF9900))
 #define YELLOW              0x07FF//    (RGB888TO565(0xFFFF00))
 #define GREEN               0x07E0//    (RGB888TO565(0x00FF00))
@@ -55,6 +55,8 @@ typedef enum {
 #define CYAN                0xFC51//    (RGB888TO565(0x8888FF))
 #define PURPLE              0xAD40//    (RGB888TO565(0x00AAAA))
 #define PINK                RGB888TO565(0xFFB6C1)
+#define DARKBLUE            RGB888TO565(0x000083)
+#define DARKWHITE           RGB888TO565(0x9F9F9F)
 
 
 

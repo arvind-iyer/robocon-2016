@@ -175,27 +175,6 @@ void runUserInterface(void);
 */
 float determine_imu_angle(void);
 
-/*
-*  
-* DEPRECATED
-* 
-*/
-void goUsingImu2(void);
-
-/*
-*
-* DEPRECATED
-*
-*/
-void goUsingImu3(void);
-
-/*
-*   
-* DEPRECATED
-* 
-*/
-void update_encoder(void);
-
 #endif
 
 
