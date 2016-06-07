@@ -485,7 +485,7 @@ void auto_robot_control(void) {
 	}
 	
 	if (tar_end <= 1) {
-		brushless_servo_control(-90 + 90*2*field);
+		brushless_servo_control(-85 + 85*2*field);
 		brushless_control(0, true);
 		if (auto_get_ticks() - brushless_time > 1200)
 			brushless_control(34, true);
@@ -499,7 +499,7 @@ void auto_robot_control(void) {
 			brushless_control(50, true);
 	} else if (tar_end <= 4) {
 		brushless_servo_control(-80 + 80*2*field);
-		if (auto_get_ticks() - brushless_time > 1000)
+		if (auto_get_ticks() - brushless_time > 1600)
 			brushless_control(0, true);
 	} else if (tar_end <= 5) {
 		brushless_servo_control(0);		
