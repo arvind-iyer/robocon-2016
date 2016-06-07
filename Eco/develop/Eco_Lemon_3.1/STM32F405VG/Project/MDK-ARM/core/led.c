@@ -37,7 +37,7 @@ void led_control(LED led, LED_STATE state){
 void led_blink(LED led){
 	for (u8 i=0;i<LED_COUNT;i++){
 		if (led & (1 << i)) {
-			led_control(1 << i, (LED_STATE) !(led_state&LED_D1));
+			led_control((LED)(1 << i), (LED_STATE) !(led_state&LED_D1));
 		}
 	}
 }

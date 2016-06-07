@@ -32,6 +32,7 @@ typedef enum{
 }COLOR_REGIONS;
 
 void sensorbar_init(void);
+void request_color_msg(void);
 u16 sb_pwm_1to1(u16 inc_pwm, u16 dec_pwm);
 //Use which shape for the correction, like error^2, error^3
 SENSOR_BAR_FLAG sensor_bar_track(u8 power, u16 sensor_bar_Kp);
