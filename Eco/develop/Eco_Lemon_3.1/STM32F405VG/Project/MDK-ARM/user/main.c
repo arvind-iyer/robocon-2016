@@ -51,7 +51,7 @@ int main(void) {
 		if (any_loop_diff > LONG_LOOP_TICKS){
 			led_blink(LED_D1);
 			tft_clear();
-			tft_println("[~L E M O N~]");
+			tft_println("[<3 ~LEMON~ <3]");
 
 			game_stage = menu_update(game_stage);
 			

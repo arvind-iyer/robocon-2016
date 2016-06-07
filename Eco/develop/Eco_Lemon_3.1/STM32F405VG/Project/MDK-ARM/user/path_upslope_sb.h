@@ -15,10 +15,10 @@
 #include "quick_math.h"
 #include "encoder.h"
 
-#define SLOPE_SECTION_ENC 5000
-#define SLOPE_SB_INC_PWM 4500
-#define SLOPE_SB_DEC_PWM 4500
-#define RIVER_90_TURN_ENC_CONSTANT 5500
+#define SLOPE_SECTION_ENC 3000
+#define SLOPE_SB_INC_PWM 3000 //4500
+#define SLOPE_SB_DEC_PWM 3000 //4500
+#define RIVER_90_TURN_ENC_CONSTANT 3500
 #define RIVER_90_MAX_TURN_UNTIL 500
 
 void path_up_sb_init(u8 stage);

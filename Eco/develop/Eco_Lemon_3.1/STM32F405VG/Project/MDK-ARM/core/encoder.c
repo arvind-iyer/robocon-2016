@@ -3,8 +3,8 @@
 s32 encoder_cycles[2] = {0};
 s32 encoder_cur_cycle[2] = {0};
 
-//Wheel diameter: 65/2, same rmp as gear
-//Gear:encoder ratio: 60:18
+//Wheel diameter: 93/2, same rmp as gear
+//Gear:encoder ratio: 93:18
 //Resol: 1024
 
 static Encoder_Typedef encoder = {{ENCODER_TIMER1,ENCODER_TIMER1_CLOCK_SOURCE,ENCODER_TIMER1_GPIO_CLOCK_SOURCE,

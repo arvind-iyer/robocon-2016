@@ -132,3 +132,8 @@ u16 get_dual_laser_avg_dis(){
 	}
 	return sum/2;
 }
+
+u16 get_laser_dis(u8 id){
+	return a2d(laser_byte_array[id][3])*100000 + a2d(laser_byte_array[id][4])*10000 + a2d(laser_byte_array[id][5])*1000
+						+ a2d(laser_byte_array[id][7])*100 + a2d(laser_byte_array[id][8])*10 + a2d(laser_byte_array[id][9]);
+}

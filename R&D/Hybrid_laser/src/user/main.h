@@ -55,7 +55,7 @@
 **
 ** Short loop and long loop are bigger loops than the main loop, with a greater interval.
 ** The actual interval may be larger than the stated one, but will never be smaller.
-** They are the actual ticks count instead of passed ticks(might be a possible improvement)
+** They are the actual ticks count instead of passed ticks
 ** They are updated in main.c
 **/
 

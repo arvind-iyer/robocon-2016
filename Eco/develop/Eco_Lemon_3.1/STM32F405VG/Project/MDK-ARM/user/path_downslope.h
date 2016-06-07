@@ -15,8 +15,8 @@
 #include "path.h"
 #include "path_downslope.h"
 
-#define DOWN_SB_INC_PWM 5500
-#define DOWN_SB_DEC_PWM 5500
+#define DOWN_SB_INC_PWM 4800
+#define DOWN_SB_DEC_PWM 4800
 
 void path_down_reset(void);
 GAME_STAGE path_down_update(void);

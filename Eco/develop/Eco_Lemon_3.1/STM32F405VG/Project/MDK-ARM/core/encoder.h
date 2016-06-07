@@ -45,7 +45,7 @@ typedef struct {
 #define ENCODER_TIMER2_GPIO_PINSOURCE2          GPIO_PinSource7
 
 #define ENCODER_MAX_CHANGE								20000
-#define ENCODER_RATIO 65*18/60/1024/2
+#define ENCODER_RATIO 93*18/60/1024/2
 
 typedef enum {
 	ENCODER1 = 0,

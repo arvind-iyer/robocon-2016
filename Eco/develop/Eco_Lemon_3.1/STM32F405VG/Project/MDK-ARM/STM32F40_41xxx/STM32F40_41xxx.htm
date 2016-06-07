@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Sat Jun 04 12:47:09 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Tue Jun 07 13:07:55 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -539,7 +539,7 @@ Global Symbols
 <P><STRONG><a name="[7d]"></a>CAN_DeInit</STRONG> (Thumb, 58 bytes, Stack size 0 bytes, stm32f4xx_can.o(i.CAN_DeInit))
 <BR><BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphResetCmd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
+<BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 </UL>
 
 <P><STRONG><a name="[c1]"></a>CAN_FilterInit</STRONG> (Thumb, 216 bytes, Stack size 0 bytes, stm32f4xx_can.o(i.CAN_FilterInit))
@@ -553,11 +553,11 @@ Global Symbols
 
 <P><STRONG><a name="[be]"></a>CAN_ITConfig</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, stm32f4xx_can.o(i.CAN_ITConfig))
 <BR><BR>[Called By]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_init
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
+<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 </UL>
 
 <P><STRONG><a name="[bd]"></a>CAN_Init</STRONG> (Thumb, 232 bytes, Stack size 0 bytes, stm32f4xx_can.o(i.CAN_Init))
-<BR><BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
+<BR><BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 </UL>
 
 <P><STRONG><a name="[7b]"></a>CAN_Receive</STRONG> (Thumb, 180 bytes, Stack size 0 bytes, stm32f4xx_can.o(i.CAN_Receive))
@@ -565,7 +565,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[bc]"></a>CAN_StructInit</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, stm32f4xx_can.o(i.CAN_StructInit))
-<BR><BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
+<BR><BR>[Called By]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 </UL>
 
 <P><STRONG><a name="[c3]"></a>CAN_Transmit</STRONG> (Thumb, 192 bytes, Stack size 0 bytes, stm32f4xx_can.o(i.CAN_Transmit))
@@ -589,40 +589,40 @@ Global Symbols
 </UL>
 <P><STRONG><a name="[a2]"></a>GPIO_Init</STRONG> (Thumb, 150 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_init
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_init
-<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
+<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 </UL>
 
-<P><STRONG><a name="[b3]"></a>GPIO_PinAFConfig</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_PinAFConfig))
+<P><STRONG><a name="[b4]"></a>GPIO_PinAFConfig</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_PinAFConfig))
 <BR><BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
-<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
+<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 </UL>
 
-<P><STRONG><a name="[af]"></a>GPIO_ReadInputDataBit</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_ReadInputDataBit))
+<P><STRONG><a name="[b0]"></a>GPIO_ReadInputDataBit</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_ReadInputDataBit))
 <BR><BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_MTi_1_UART_msg
-<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readIR
 </UL>
 
 <P><STRONG><a name="[d6]"></a>GPIO_ResetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_ResetBits))
 <BR><BR>[Called By]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
-<P><STRONG><a name="[106]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_SetBits))
-<BR><BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
+<P><STRONG><a name="[107]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_SetBits))
+<BR><BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
@@ -684,11 +684,11 @@ Global Symbols
 <P><STRONG><a name="[bf]"></a>NVIC_Init</STRONG> (Thumb, 110 bytes, Stack size 0 bytes, misc.o(i.NVIC_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt_init
 <LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_init
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
+<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ticks_init
 </UL>
 
-<P><STRONG><a name="[115]"></a>NVIC_SetVectorTable</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, misc.o(i.NVIC_SetVectorTable))
+<P><STRONG><a name="[116]"></a>NVIC_SetVectorTable</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, misc.o(i.NVIC_SetVectorTable))
 <BR><BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt_init
 </UL>
 
@@ -697,12 +697,13 @@ Global Symbols
 </UL>
 <P><STRONG><a name="[88]"></a>RCC_AHB1PeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd))
 <BR><BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_init
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_init
-<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MTi_1_UART_init
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
+<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 </UL>
 
@@ -710,16 +711,17 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MTi_1_UART_init
 </UL>
 
-<P><STRONG><a name="[bb]"></a>RCC_APB1PeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_APB1PeriphClockCmd))
+<P><STRONG><a name="[ae]"></a>RCC_APB1PeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_APB1PeriphClockCmd))
 <BR><BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
-<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_init
+<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
+<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ticks_init
 </UL>
 
-<P><STRONG><a name="[10a]"></a>RCC_APB1PeriphClockLPModeCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_APB1PeriphClockLPModeCmd))
-<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<P><STRONG><a name="[10b]"></a>RCC_APB1PeriphClockLPModeCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_APB1PeriphClockLPModeCmd))
+<BR><BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 </UL>
 
 <P><STRONG><a name="[7e]"></a>RCC_APB1PeriphResetCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_APB1PeriphResetCmd))
@@ -729,7 +731,7 @@ Global Symbols
 
 <P><STRONG><a name="[a1]"></a>RCC_APB2PeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_APB2PeriphClockCmd))
 <BR><BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_init
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
@@ -743,35 +745,35 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
 </UL>
 
-<P><STRONG><a name="[10d]"></a>SPI_CalculateCRC</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_CalculateCRC))
-<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<P><STRONG><a name="[10e]"></a>SPI_CalculateCRC</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_CalculateCRC))
+<BR><BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 </UL>
 
-<P><STRONG><a name="[10c]"></a>SPI_Cmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_Cmd))
-<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<P><STRONG><a name="[10d]"></a>SPI_Cmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_Cmd))
+<BR><BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 </UL>
 
-<P><STRONG><a name="[110]"></a>SPI_I2S_GetFlagStatus</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_I2S_GetFlagStatus))
-<BR><BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
+<P><STRONG><a name="[111]"></a>SPI_I2S_GetFlagStatus</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_I2S_GetFlagStatus))
+<BR><BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 </UL>
 
-<P><STRONG><a name="[112]"></a>SPI_I2S_ReceiveData</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_I2S_ReceiveData))
-<BR><BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
+<P><STRONG><a name="[113]"></a>SPI_I2S_ReceiveData</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_I2S_ReceiveData))
+<BR><BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 </UL>
 
-<P><STRONG><a name="[111]"></a>SPI_I2S_SendData</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_I2S_SendData))
-<BR><BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
+<P><STRONG><a name="[112]"></a>SPI_I2S_SendData</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_I2S_SendData))
+<BR><BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 </UL>
 
-<P><STRONG><a name="[10b]"></a>SPI_Init</STRONG> (Thumb, 84 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_Init))
-<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<P><STRONG><a name="[10c]"></a>SPI_Init</STRONG> (Thumb, 84 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_Init))
+<BR><BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 </UL>
 
-<P><STRONG><a name="[10e]"></a>SPI_SSOutputCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_SSOutputCmd))
-<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<P><STRONG><a name="[10f]"></a>SPI_SSOutputCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_spi.o(i.SPI_SSOutputCmd))
+<BR><BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 </UL>
 
 <P><STRONG><a name="[9]"></a>SVC_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.SVC_Handler))
@@ -796,8 +798,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f40_41xxx.o(RESET)
 </UL>
-<P><STRONG><a name="[b5]"></a>TIM_ARRPreloadConfig</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_ARRPreloadConfig))
-<BR><BR>[Called By]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<P><STRONG><a name="[b6]"></a>TIM_ARRPreloadConfig</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_ARRPreloadConfig))
+<BR><BR>[Called By]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 </UL>
 
@@ -810,15 +812,15 @@ Global Symbols
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ticks_init
 </UL>
 
-<P><STRONG><a name="[b8]"></a>TIM_Cmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_Cmd))
+<P><STRONG><a name="[b9]"></a>TIM_Cmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_Cmd))
 <BR><BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ticks_init
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 </UL>
 
-<P><STRONG><a name="[b7]"></a>TIM_CtrlPWMOutputs</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_CtrlPWMOutputs))
-<BR><BR>[Called By]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<P><STRONG><a name="[b8]"></a>TIM_CtrlPWMOutputs</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_CtrlPWMOutputs))
+<BR><BR>[Called By]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 </UL>
 
@@ -841,30 +843,30 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM5_IRQHandler
 </UL>
 
-<P><STRONG><a name="[113]"></a>TIM_ITConfig</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_ITConfig))
+<P><STRONG><a name="[114]"></a>TIM_ITConfig</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_ITConfig))
 <BR><BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ticks_init
 </UL>
 
 <P><STRONG><a name="[1]"></a>TIM_OC1Init</STRONG> (Thumb, 104 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_OC1Init))
-<BR><BR>[Called By]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<BR><BR>[Called By]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> servo.o(.data)
 </UL>
-<P><STRONG><a name="[b6]"></a>TIM_OC1PreloadConfig</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_OC1PreloadConfig))
-<BR><BR>[Called By]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<P><STRONG><a name="[b7]"></a>TIM_OC1PreloadConfig</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_OC1PreloadConfig))
+<BR><BR>[Called By]<UL><LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 </UL>
 
-<P><STRONG><a name="[b1]"></a>TIM_SetAutoreload</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_SetAutoreload))
-<BR><BR>[Called By]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
+<P><STRONG><a name="[b2]"></a>TIM_SetAutoreload</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_SetAutoreload))
+<BR><BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_check
 </UL>
 
 <P><STRONG><a name="[2]"></a>TIM_SetCompare1</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_SetCompare1))
-<BR><BR>[Called By]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
-<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_on
+<BR><BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_on
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_check
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> servo.o(.data)
@@ -873,9 +875,9 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
 </UL>
 
-<P><STRONG><a name="[b4]"></a>TIM_TimeBaseInit</STRONG> (Thumb, 118 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_TimeBaseInit))
+<P><STRONG><a name="[b5]"></a>TIM_TimeBaseInit</STRONG> (Thumb, 118 bytes, Stack size 0 bytes, stm32f4xx_tim.o(i.TIM_TimeBaseInit))
 <BR><BR>[Called By]<UL><LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ticks_init
 <LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 </UL>
@@ -917,12 +919,12 @@ Global Symbols
 <LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
 
-<P><STRONG><a name="[114]"></a>USART_Cmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_usart.o(i.USART_Cmd))
+<P><STRONG><a name="[115]"></a>USART_Cmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_usart.o(i.USART_Cmd))
 <BR><BR>[Called By]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 </UL>
 
-<P><STRONG><a name="[117]"></a>USART_GetFlagStatus</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32f4xx_usart.o(i.USART_GetFlagStatus))
-<BR><BR>[Called By]<UL><LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx_byte
+<P><STRONG><a name="[118]"></a>USART_GetFlagStatus</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32f4xx_usart.o(i.USART_GetFlagStatus))
+<BR><BR>[Called By]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx_byte
 </UL>
 
 <P><STRONG><a name="[91]"></a>USART_GetITStatus</STRONG> (Thumb, 66 bytes, Stack size 0 bytes, stm32f4xx_usart.o(i.USART_GetITStatus))
@@ -931,7 +933,7 @@ Global Symbols
 <LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
 
-<P><STRONG><a name="[116]"></a>USART_ITConfig</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, stm32f4xx_usart.o(i.USART_ITConfig))
+<P><STRONG><a name="[117]"></a>USART_ITConfig</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, stm32f4xx_usart.o(i.USART_ITConfig))
 <BR><BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_interrupt_init
 </UL>
 
@@ -947,8 +949,8 @@ Global Symbols
 <LI><a href="#[32]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART1_IRQHandler
 </UL>
 
-<P><STRONG><a name="[118]"></a>USART_SendData</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, stm32f4xx_usart.o(i.USART_SendData))
-<BR><BR>[Called By]<UL><LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx_byte
+<P><STRONG><a name="[119]"></a>USART_SendData</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, stm32f4xx_usart.o(i.USART_SendData))
+<BR><BR>[Called By]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx_byte
 </UL>
 
 <P><STRONG><a name="[8]"></a>UsageFault_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.UsageFault_Handler))
@@ -963,7 +965,7 @@ Global Symbols
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
 </UL>
 
-<P><STRONG><a name="[107]"></a>vsprintf</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printfa.o(i.__0vsprintf))
+<P><STRONG><a name="[108]"></a>vsprintf</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printfa.o(i.__0vsprintf))
 <BR><BR>[Called By]<UL><LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
@@ -979,7 +981,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;simple_delay10_us
 </UL>
 <BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mti_init
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
+<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
@@ -1005,53 +1007,55 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ad]"></a>button_init</STRONG> (Thumb, 56 bytes, Stack size 0 bytes, button.o(i.button_init))
-<BR><BR>[Calls]<UL><LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
+<P><STRONG><a name="[ad]"></a>button_init</STRONG> (Thumb, 96 bytes, Stack size 0 bytes, button.o(i.button_init))
+<BR><BR>[Calls]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHB1PeriphClockCmd
+<LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ae]"></a>button_pressed</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, button.o(i.button_pressed))
-<BR><BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
+<P><STRONG><a name="[af]"></a>button_pressed</STRONG> (Thumb, 62 bytes, Stack size 0 bytes, button.o(i.button_pressed))
+<BR><BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
 <P><STRONG><a name="[8c]"></a>buzzer_check</STRONG> (Thumb, 274 bytes, Stack size 0 bytes, buzzer.o(i.buzzer_check))
 <BR><BR>[Calls]<UL><LI><a href="#[2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCompare1
-<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetAutoreload
-<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_on
+<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetAutoreload
+<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_on
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM5_IRQHandler
 </UL>
 
-<P><STRONG><a name="[b2]"></a>buzzer_init</STRONG> (Thumb, 242 bytes, Stack size 0 bytes, buzzer.o(i.buzzer_init))
+<P><STRONG><a name="[b3]"></a>buzzer_init</STRONG> (Thumb, 242 bytes, Stack size 0 bytes, buzzer.o(i.buzzer_init))
 <BR><BR>[Calls]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHB1PeriphClockCmd
-<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
-<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TimeBaseInit
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TimeBaseInit
 <LI><a href="#[2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCompare1
-<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC1PreloadConfig
+<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC1PreloadConfig
 <LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC1Init
-<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CtrlPWMOutputs
-<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ARRPreloadConfig
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CtrlPWMOutputs
+<LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
+<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ARRPreloadConfig
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[b0]"></a>buzzer_on</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, buzzer.o(i.buzzer_on))
+<P><STRONG><a name="[b1]"></a>buzzer_on</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, buzzer.o(i.buzzer_on))
 <BR><BR>[Calls]<UL><LI><a href="#[2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCompare1
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
+<BR>[Called By]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_check
 </UL>
 
-<P><STRONG><a name="[b9]"></a>buzzer_play_song</STRONG> (Thumb, 108 bytes, Stack size 0 bytes, buzzer.o(i.buzzer_play_song))
+<P><STRONG><a name="[ba]"></a>buzzer_play_song</STRONG> (Thumb, 108 bytes, Stack size 0 bytes, buzzer.o(i.buzzer_play_song))
 <BR><BR>[Calls]<UL><LI><a href="#[2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCompare1
-<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetAutoreload
-<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_on
+<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetAutoreload
+<LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_on
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mti_update
@@ -1060,11 +1064,11 @@ Global Symbols
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
 </UL>
 
-<P><STRONG><a name="[ba]"></a>can_init</STRONG> (Thumb, 202 bytes, Stack size 0 bytes, can_protocol.o(i.can_init))
+<P><STRONG><a name="[bb]"></a>can_init</STRONG> (Thumb, 202 bytes, Stack size 0 bytes, can_protocol.o(i.can_init))
 <BR><BR>[Calls]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHB1PeriphClockCmd
-<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_StructInit
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_Init
@@ -1110,16 +1114,16 @@ Global Symbols
 
 <P><STRONG><a name="[c8]"></a>encoder_init</STRONG> (Thumb, 342 bytes, Stack size 0 bytes, encoder.o(i.encoder_init))
 <BR><BR>[Calls]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHB1PeriphClockCmd
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_StructInit
-<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
-<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TimeBaseInit
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TimeBaseInit
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCounter
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_EncoderInterfaceConfig
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_DeInit
-<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
+<LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1129,15 +1133,15 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MTi_1_UART_Rx
 </UL>
 
-<P><STRONG><a name="[fc]"></a>free</STRONG> (Thumb, 76 bytes, Stack size 0 bytes, malloc.o(i.free))
+<P><STRONG><a name="[fd]"></a>free</STRONG> (Thumb, 76 bytes, Stack size 0 bytes, malloc.o(i.free))
 <BR><BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_MTi_1_UART_msg
 </UL>
 
-<P><STRONG><a name="[f2]"></a>get_MTi_acc</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, mti-1_uart.o(i.get_MTi_acc))
+<P><STRONG><a name="[f3]"></a>get_MTi_acc</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, mti-1_uart.o(i.get_MTi_acc))
 <BR><BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mti_update
 </UL>
 
-<P><STRONG><a name="[f1]"></a>get_MTi_ang</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, mti-1_uart.o(i.get_MTi_ang))
+<P><STRONG><a name="[f2]"></a>get_MTi_ang</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, mti-1_uart.o(i.get_MTi_ang))
 <BR><BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mti_update
 </UL>
 
@@ -1145,7 +1149,7 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
-<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_reset
+<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_reset
 </UL>
 
 <P><STRONG><a name="[c5]"></a>get_average_encoder</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, encoder.o(i.get_average_encoder))
@@ -1235,8 +1239,8 @@ Global Symbols
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
 <LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;coord_update
-<LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
+<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
+<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_init
 <LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_init
 <LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
@@ -1256,14 +1260,15 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
-<P><STRONG><a name="[fa]"></a>malloc</STRONG> (Thumb, 92 bytes, Stack size 0 bytes, malloc.o(i.malloc))
+<P><STRONG><a name="[fb]"></a>malloc</STRONG> (Thumb, 92 bytes, Stack size 0 bytes, malloc.o(i.malloc))
 <BR><BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_MTi_1_UART_msg
 </UL>
 
-<P><STRONG><a name="[e2]"></a>menu_update</STRONG> (Thumb, 174 bytes, Stack size 0 bytes, menu.o(i.menu_update))
-<BR><BR>[Calls]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
-<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
-<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_reset
+<P><STRONG><a name="[e2]"></a>menu_update</STRONG> (Thumb, 204 bytes, Stack size 0 bytes, menu.o(i.menu_update))
+<BR><BR>[Calls]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
+<LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
+<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_reset
+<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_init
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1282,56 +1287,62 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[ee]"></a>mti_update</STRONG> (Thumb, 288 bytes, Stack size 0 bytes, mti_adp.o(i.mti_update))
-<BR><BR>[Calls]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
+<BR><BR>[Calls]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_roundf
-<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_MTi_ang
-<LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_MTi_acc
+<LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_MTi_ang
+<LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_MTi_acc
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MTi_1_UART_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[f0]"></a>path_down_reset</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_reset))
+<P><STRONG><a name="[f1]"></a>path_down_reset</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_reset))
 <BR><BR>[Calls]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_dis
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
-<P><STRONG><a name="[e6]"></a>path_down_update</STRONG> (Thumb, 86 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_update))
+<P><STRONG><a name="[e6]"></a>path_down_update</STRONG> (Thumb, 84 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_update))
 <BR><BR>[Calls]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_dis
-<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
-<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
-<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
-<LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
-<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sb_pwm_1to1
+<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
+<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
+<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sb_pwm_1to1
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[e5]"></a>path_river_update</STRONG> (Thumb, 302 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
-<BR><BR>[Calls]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
-<LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
-<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
+<P><STRONG><a name="[f0]"></a>path_river_init</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, path_river.o(i.path_river_init))
+<BR><BR>[Called By]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
+</UL>
+
+<P><STRONG><a name="[e5]"></a>path_river_update</STRONG> (Thumb, 300 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
+<BR><BR>[Calls]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
+<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
+<LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_target
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readIR
-<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_reset
+<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_reset
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_ir_dis
 <LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IR_island_update
-<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
-<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
-<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
-<LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
-<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sb_pwm_1to1
+<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
+<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
+<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sb_pwm_1to1
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_encoder
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[e7]"></a>path_station_update</STRONG> (Thumb, 72 bytes, Stack size 0 bytes, path_station.o(i.path_station_update))
-<BR><BR>[Calls]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
-<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
-<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
+<P><STRONG><a name="[e7]"></a>path_station_update</STRONG> (Thumb, 108 bytes, Stack size 0 bytes, path_station.o(i.path_station_update))
+<BR><BR>[Calls]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
+<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
+<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sb_pwm_1to1
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_encoder
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
@@ -1343,12 +1354,12 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[e4]"></a>path_up_sb_update</STRONG> (Thumb, 274 bytes, Stack size 0 bytes, path_upslope_sb.o(i.path_up_sb_update))
-<BR><BR>[Calls]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
-<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
-<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
-<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
-<LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
-<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sb_pwm_1to1
+<BR><BR>[Calls]<UL><LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
+<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
+<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
+<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_bar_get_corr
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sb_pwm_1to1
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_encoder
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
@@ -1356,42 +1367,44 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[80]"></a>readIR</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, adc_ir.o(i.readIR))
-<BR><BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
+<BR><BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IR_buffer_update
 </UL>
 
-<P><STRONG><a name="[fd]"></a>s16_cap</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, quick_math.o(i.s16_cap))
-<BR><BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<P><STRONG><a name="[fe]"></a>s16_cap</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, quick_math.o(i.s16_cap))
+<BR><BR>[Called By]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_init
 </UL>
 
 <P><STRONG><a name="[e8]"></a>sb_cali_update</STRONG> (Thumb, 76 bytes, Stack size 0 bytes, sb_cali.o(i.sb_cali_update))
-<BR><BR>[Calls]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
-<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
+<BR><BR>[Calls]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_clear
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[f4]"></a>sb_pwm_1to1</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, sensor_bar.o(i.sb_pwm_1to1))
-<BR><BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
+<P><STRONG><a name="[f5]"></a>sb_pwm_1to1</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, sensor_bar.o(i.sb_pwm_1to1))
+<BR><BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
+<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
 </UL>
 
 <P><STRONG><a name="[89]"></a>send_MTi_1_UART_msg</STRONG> (Thumb, 138 bytes, Stack size 0 bytes, mti-1_uart.o(i.send_MTi_1_UART_msg))
-<BR><BR>[Calls]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
-<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx_byte
-<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
-<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free
+<BR><BR>[Calls]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
+<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx_byte
+<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;malloc
+<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free
 </UL>
 <BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MTi_1_UART_init
 </UL>
 
-<P><STRONG><a name="[f3]"></a>sensor_bar_get_corr</STRONG> (Thumb, 282 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr))
-<BR><BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
+<P><STRONG><a name="[f4]"></a>sensor_bar_get_corr</STRONG> (Thumb, 282 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_get_corr))
+<BR><BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
+<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
 </UL>
@@ -1399,40 +1412,40 @@ Global Symbols
 <P><STRONG><a name="[d9]"></a>sensorbar_init</STRONG> (Thumb, 62 bytes, Stack size 0 bytes, sensor_bar.o(i.sensorbar_init))
 <BR><BR>[Calls]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_init
 <LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_add_filter
-<LI><a href="#[ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
+<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[fe]"></a>servo_control</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, servo.o(i.servo_control))
-<BR><BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
+<P><STRONG><a name="[ff]"></a>servo_control</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, servo.o(i.servo_control))
+<BR><BR>[Called By]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_init
 </UL>
 
 <P><STRONG><a name="[da]"></a>servo_init</STRONG> (Thumb, 200 bytes, Stack size 0 bytes, servo.o(i.servo_init))
 <BR><BR>[Calls]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHB1PeriphClockCmd
-<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
-<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TimeBaseInit
-<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC1PreloadConfig
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TimeBaseInit
+<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC1PreloadConfig
 <LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC1Init
-<LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CtrlPWMOutputs
-<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
-<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ARRPreloadConfig
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CtrlPWMOutputs
+<LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
+<LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ARRPreloadConfig
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[f8]"></a>set_target</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, imu_targeting.o(i.set_target))
+<P><STRONG><a name="[f9]"></a>set_target</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, imu_targeting.o(i.set_target))
 <BR><BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 </UL>
 
-<P><STRONG><a name="[100]"></a>si_add_deg_bias</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, servo_interface.o(i.si_add_deg_bias))
-<BR><BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
+<P><STRONG><a name="[101]"></a>si_add_deg_bias</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, servo_interface.o(i.si_add_deg_bias))
+<BR><BR>[Called By]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
 </UL>
 
-<P><STRONG><a name="[f5]"></a>si_clear</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, servo_interface.o(i.si_clear))
+<P><STRONG><a name="[f6]"></a>si_clear</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, servo_interface.o(i.si_clear))
 <BR><BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
@@ -1440,9 +1453,9 @@ Global Symbols
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
 </UL>
 
-<P><STRONG><a name="[f7]"></a>si_execute</STRONG> (Thumb, 54 bytes, Stack size 0 bytes, servo_interface.o(i.si_execute))
-<BR><BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
-<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;s16_cap
+<P><STRONG><a name="[f8]"></a>si_execute</STRONG> (Thumb, 54 bytes, Stack size 0 bytes, servo_interface.o(i.si_execute))
+<BR><BR>[Calls]<UL><LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
+<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;s16_cap
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
@@ -1452,31 +1465,31 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[db]"></a>si_init</STRONG> (Thumb, 60 bytes, Stack size 0 bytes, servo_interface.o(i.si_init))
-<BR><BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
-<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;s16_cap
+<BR><BR>[Calls]<UL><LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
+<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;s16_cap
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[f6]"></a>si_set_pwm</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, servo_interface.o(i.si_set_pwm))
+<P><STRONG><a name="[f7]"></a>si_set_pwm</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, servo_interface.o(i.si_set_pwm))
 <BR><BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_down_update
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
 </UL>
 
-<P><STRONG><a name="[ff]"></a>targeting_pid</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_pid), UNUSED)
+<P><STRONG><a name="[100]"></a>targeting_pid</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_pid), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 
-<P><STRONG><a name="[f9]"></a>targeting_update</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_update))
-<BR><BR>[Calls]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_add_deg_bias
+<P><STRONG><a name="[fa]"></a>targeting_update</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, imu_targeting.o(i.targeting_update))
+<BR><BR>[Calls]<UL><LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_add_deg_bias
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_println
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 </UL>
 
-<P><STRONG><a name="[10f]"></a>tft_char_is_changed</STRONG> (Thumb, 138 bytes, Stack size 0 bytes, lcd_main.o(i.tft_char_is_changed))
+<P><STRONG><a name="[110]"></a>tft_char_is_changed</STRONG> (Thumb, 138 bytes, Stack size 0 bytes, lcd_main.o(i.tft_char_is_changed))
 <BR><BR>[Called By]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 </UL>
 
@@ -1484,127 +1497,127 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[101]"></a>tft_config</STRONG> (Thumb, 534 bytes, Stack size 0 bytes, lcd_main.o(i.tft_config))
-<BR><BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
+<P><STRONG><a name="[102]"></a>tft_config</STRONG> (Thumb, 534 bytes, Stack size 0 bytes, lcd_main.o(i.tft_config))
+<BR><BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_delay_ms
 </UL>
 <BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
-<P><STRONG><a name="[104]"></a>tft_fill_color</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, lcd_main.o(i.tft_fill_color))
-<BR><BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
+<P><STRONG><a name="[105]"></a>tft_fill_color</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, lcd_main.o(i.tft_fill_color))
+<BR><BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 </UL>
 <BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
 <P><STRONG><a name="[dc]"></a>tft_init</STRONG> (Thumb, 234 bytes, Stack size 0 bytes, lcd_main.o(i.tft_init))
-<BR><BR>[Calls]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<BR><BR>[Calls]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
-<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_fill_color
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
+<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_fill_color
+<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_delay_ms
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[e1]"></a>tft_println</STRONG> (Thumb, 210 bytes, Stack size 0 bytes, lcd_main.o(i.tft_println))
-<BR><BR>[Calls]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
+<BR><BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_pid
-<LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
+<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_pid
+<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;targeting_update
 <LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sb_cali_update
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
 </UL>
 
 <P><STRONG><a name="[ec]"></a>tft_prints</STRONG> (Thumb, 194 bytes, Stack size 0 bytes, lcd_main.o(i.tft_prints))
-<BR><BR>[Calls]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
+<BR><BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[dd]"></a>tft_put_logo</STRONG> (Thumb, 4824 bytes, Stack size 0 bytes, lcd_main.o(i.tft_put_logo))
-<BR><BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_pixel
+<BR><BR>[Calls]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_pixel
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[108]"></a>tft_put_pixel</STRONG> (Thumb, 86 bytes, Stack size 0 bytes, lcd_main.o(i.tft_put_pixel))
-<BR><BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
-<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_pixel_pos
+<P><STRONG><a name="[109]"></a>tft_put_pixel</STRONG> (Thumb, 86 bytes, Stack size 0 bytes, lcd_main.o(i.tft_put_pixel))
+<BR><BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_pixel_pos
 </UL>
 <BR>[Called By]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_logo
 </UL>
 
-<P><STRONG><a name="[109]"></a>tft_set_pixel_pos</STRONG> (Thumb, 80 bytes, Stack size 0 bytes, lcd_main.o(i.tft_set_pixel_pos))
-<BR><BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
+<P><STRONG><a name="[10a]"></a>tft_set_pixel_pos</STRONG> (Thumb, 80 bytes, Stack size 0 bytes, lcd_main.o(i.tft_set_pixel_pos))
+<BR><BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 </UL>
-<BR>[Called By]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_pixel
+<BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_pixel
 </UL>
 
-<P><STRONG><a name="[105]"></a>tft_spi_init</STRONG> (Thumb, 262 bytes, Stack size 0 bytes, lcd_main.o(i.tft_spi_init))
-<BR><BR>[Calls]<UL><LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockLPModeCmd
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<P><STRONG><a name="[106]"></a>tft_spi_init</STRONG> (Thumb, 262 bytes, Stack size 0 bytes, lcd_main.o(i.tft_spi_init))
+<BR><BR>[Calls]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockLPModeCmd
+<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHB1PeriphClockCmd
-<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_SSOutputCmd
-<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Init
-<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Cmd
-<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_CalculateCRC
-<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
+<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_SSOutputCmd
+<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Init
+<LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_Cmd
+<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_CalculateCRC
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
 <P><STRONG><a name="[ed]"></a>tft_update</STRONG> (Thumb, 1502 bytes, Stack size 0 bytes, lcd_main.o(i.tft_update))
-<BR><BR>[Calls]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
-<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_char_is_changed
+<BR><BR>[Calls]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
+<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_char_is_changed
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[102]"></a>tft_write_command</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, lcd_main.o(i.tft_write_command))
-<BR><BR>[Calls]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_SendData
-<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_ReceiveData
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_GetFlagStatus
-<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<P><STRONG><a name="[103]"></a>tft_write_command</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, lcd_main.o(i.tft_write_command))
+<BR><BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_SendData
+<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_ReceiveData
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_GetFlagStatus
+<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
-<BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_pixel_pos
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_fill_color
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
+<BR>[Called By]<UL><LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_pixel_pos
+<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_fill_color
+<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
-<P><STRONG><a name="[103]"></a>tft_write_data</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, lcd_main.o(i.tft_write_data))
-<BR><BR>[Calls]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_SendData
-<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_ReceiveData
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_GetFlagStatus
-<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
+<P><STRONG><a name="[104]"></a>tft_write_data</STRONG> (Thumb, 78 bytes, Stack size 0 bytes, lcd_main.o(i.tft_write_data))
+<BR><BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_SendData
+<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_ReceiveData
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_GetFlagStatus
+<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_SetBits
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ResetBits
 </UL>
-<BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_pixel_pos
-<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_pixel
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_fill_color
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
+<BR>[Called By]<UL><LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_pixel_pos
+<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_put_pixel
+<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_fill_color
+<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 </UL>
 
 <P><STRONG><a name="[d8]"></a>ticks_init</STRONG> (Thumb, 98 bytes, Stack size 0 bytes, ticks.o(i.ticks_init))
 <BR><BR>[Calls]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
-<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TimeBaseInit
-<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ITConfig
-<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
+<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<LI><a href="#[b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TimeBaseInit
+<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ITConfig
+<LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -1612,27 +1625,27 @@ Global Symbols
 
 <P><STRONG><a name="[85]"></a>uart_init</STRONG> (Thumb, 232 bytes, Stack size 0 bytes, usart.o(i.uart_init))
 <BR><BR>[Calls]<UL><LI><a href="#[94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Init
-<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Cmd
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_Cmd
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHB1PeriphClockCmd
-<LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
+<LI><a href="#[b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MTi_1_UART_init
 </UL>
 
 <P><STRONG><a name="[86]"></a>uart_interrupt_init</STRONG> (Thumb, 100 bytes, Stack size 0 bytes, usart.o(i.uart_interrupt_init))
-<BR><BR>[Calls]<UL><LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITConfig
-<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_SetVectorTable
+<BR><BR>[Calls]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_ITConfig
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_SetVectorTable
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MTi_1_UART_init
 </UL>
 
-<P><STRONG><a name="[fb]"></a>uart_tx_byte</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, usart.o(i.uart_tx_byte))
-<BR><BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_SendData
-<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GetFlagStatus
+<P><STRONG><a name="[fc]"></a>uart_tx_byte</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, usart.o(i.uart_tx_byte))
+<BR><BR>[Calls]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_SendData
+<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART_GetFlagStatus
 </UL>
 <BR>[Called By]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_MTi_1_UART_msg
 </UL>

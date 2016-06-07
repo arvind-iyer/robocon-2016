@@ -23,8 +23,8 @@ typedef enum{
 }SENSOR_BAR_FLAG;
 
 typedef enum{
-	RED_START = 0,
-	BLUE_START = 1, 
+	BLUE_START = 0,
+	RED_START = 1,
 	SLOPE_GREEN = 2,
 	HIGH_ORANGE = 3,
 	RIVER_BLUE = 4, 
