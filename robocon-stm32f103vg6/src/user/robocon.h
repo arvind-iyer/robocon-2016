@@ -69,6 +69,7 @@ extern bool laserAuto;
 extern bool autoModeLaser;
 extern bool autoPIDMode;
 extern bool benMode;
+extern bool wallApproach;
 extern STAGES currStage;
 
 extern bool climbing;

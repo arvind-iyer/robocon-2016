@@ -9,7 +9,7 @@
 //in mm the radius from the two encoders to the center encoder
 //you must measure the RADIUS if you are not using ROBOCON's encoders set
 //shape of Encoder is  |-|  V2 V0 V1.  R1 is the distance between V0 and V1, R2 is the dis between V0 and V2  
-#define RADIUS 124
+#define RADIUS 171
 #define LSB 0.07326	// degree
 #define Encoder_Count 2000 
 #define Encoder_Circumference 160.2212253 //mm

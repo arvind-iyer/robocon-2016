@@ -18,20 +18,20 @@ typedef struct {
 	int lastTick;
 } Wheelbase;
 
-void pk_wheelbase_init();
+void pk_wheelbase_init(void);
 
-void reset();
+void reset(void);
 
 void setM(int _M);
 void setBearing(int _bearing);
 void setW(int _W);
-void addComponent();
+void addComponent(void);
 
-void parseWheelbaseValues();
-void sendWheelbaseCommand();
+void parseWheelbaseValues(void);
+void sendWheelbaseCommand(void);
 
-void wheelbaseLock();
+void wheelbaseLock(void);
 
-Wheelbase getWheelbaseValues();
+Wheelbase getWheelbaseValues(void);
 
 #endif

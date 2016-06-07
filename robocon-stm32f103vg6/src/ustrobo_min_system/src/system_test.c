@@ -298,8 +298,9 @@ void shift_test(void) {
 			
 			tft_prints(0, 0, "FIERY DRAGON");
 			tft_prints(0, 1, "%d %d %d", get_pos()->x, get_pos()->y, get_pos()->angle);
-			tft_prints(0, 2, "SX: %d", gyro_get_shift_x());
-			tft_prints(0, 3, "SY: %d", gyro_get_shift_y());
+			tft_prints(0, 2, "%d %d %d", get_pos_raw()->x, get_pos_raw()->y, get_pos_raw()->angle);
+			tft_prints(0, 3, "SX: %d", gyro_get_shift_x());
+			tft_prints(0, 4, "SY: %d", gyro_get_shift_y());
 			
 			tft_update();
 		}

@@ -12,6 +12,7 @@ extern int haha;
 extern int laserB;
 extern int laserW;
 extern bool fieldDetected;
+extern int wagateki;
 //extern u16 ls_cal_reading[2];
 
 #define RED_SIDE 0
@@ -19,6 +20,7 @@ extern bool fieldDetected;
 
 void enterPole(void);
 void laserPID(void);
+void moveToWall(void);
 void laserCallbacks(STAGES stage);
 
 #endif

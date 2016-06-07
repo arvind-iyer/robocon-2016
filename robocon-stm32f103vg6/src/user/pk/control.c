@@ -1,6 +1,7 @@
 #include "control.h"
 #include "pk_wheelbase.h"
 #include "robocon.h"
+#include "hybrid_laser.h"
 
 #define PI 3.14159265359
 #define MAX_MOTOR_PWM 200
@@ -9,6 +10,11 @@ Robot robot;
 Path queue [40];
 int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0, dispW = 0, dispM =0, timediff = 0, time = 0, blowTime = 0;
 bool finishing = false;
+
+/**
+	* @brief Calculates the motor speeds for the Wheelbase motors based on target M, bearing and W
+	* @params int vel, bearing, w
+	*/
 
 void calculatePIDMotorValues(int vel, int bearing, int w){
 	setM(vel);
@@ -19,6 +25,10 @@ void calculatePIDMotorValues(int vel, int bearing, int w){
 	//sendWheelbaseCommand();
 }
 
+/**
+	* @brief Initializes the robot structure that is storing information related to the robot
+	*/
+
 void robotInit() {
 	robot.position.x = get_pos()->x;
 	robot.position.y = get_pos()->y;
@@ -26,11 +36,21 @@ void robotInit() {
 	robot.pathLength = 0;
 }
 
+/**
+	* @brief Updates data on the robot
+	*/
+
 void robotUpdate () {
 	robot.position.x = get_pos()->x;
 	robot.position.y = get_pos()->y;
 	robot.position.angle = get_pos()->angle/10;
 }
+
+/**
+	* @brief Calculates the distance between two points
+	* @params POSITION origin and target
+	* @retval int distance between the origin and target
+	*/
 
 int calculateDistance (POSITION origin, POSITION target) {
 	int distance = Sqrt(Sqr(target.x - origin.x) + Sqr (target.y - origin.y));
@@ -47,9 +67,18 @@ float MAX (float a, float b) {
 //int MIN (int a, int b) {
 	//return (a < b) ? a : b;
 //}
+
 float MIN (float a, float b) {
 	return ( a < b) ? a : b;
 }
+
+/////////DO NOT USE THESE MAX MIN FUNCTIONS, USE THE ONE IN PK_MATH
+
+/**
+	* @brief Calculates the velocity required to reach the target point from robot current position
+	* @params Path path and Robot robot
+	* @retval int magnitude of the velocity or M
+	*/
 
 int calculatePathVelocity (Path path, Robot robot) {
 	if(path.distanceThreshold != -1 && path.bearingThreshold != -1){
@@ -71,6 +100,12 @@ int calculatePathVelocity (Path path, Robot robot) {
 		return 60;
 	}
 }
+
+/**
+	* @brief Calculates the bearing required to reach the target point from robot current position
+	* @params Path path and Robot robot
+	* @retval int bearing
+	*/
 
 int calculatePathBearing(Path path, Robot robot) {
 //	int lineDiffX = path.position.x - robot.start.x;
@@ -103,6 +138,12 @@ int calculatePathBearing(Path path, Robot robot) {
 	
 }
 
+/**
+	* @brief Calculates the angular velocity required to reach the target point from robot current position
+	* @params Path path and Robot robot
+	* @retval int magnitude of the angular velocity or W
+	*/
+
 int calculatePathAngularVelocity (Path path, Robot robot) {
 	int magnitude = 0;
 	float fmagnitude  = getAngleDifference(path.position.angle, robot.position.angle) * 100 / (float)180.0;
@@ -127,6 +168,12 @@ int binomial (int n, int k) {
 	return b;
 }
 
+/**
+	* @brief Returns the angle difference between the two inputs origin and target, in bearing, unscaled
+	* @params int origin and target
+	* @retval int difference
+	*/
+
 int getAngleDifference(int origin, int target) {
 	int diff = origin - target;
 	if (diff < -180) diff += 360;
@@ -137,6 +184,10 @@ int getAngleDifference(int origin, int target) {
 long lastWait = -1;
 bool currentOscDir = false;
 int baseAngle = -1;
+
+/**
+	* @brief Updating the queue, standard queue operations for auto PID movement executed here
+	*/
 
 void updateQueue () {
 	if(size != 0) {
@@ -168,11 +219,11 @@ void updateQueue () {
 					}
 					dequeue(size);
 					lastWait = -1;
-					if((currentPath.position.x == 5019 && currentPath.position.y == 12660)
-						|| (currentPath.position.x == -1200 && currentPath.position.y == 12810)) {
-						laserAuto = true;
-						pneumatics.P1 = true;
-					}
+//					if((currentPath.position.x == 5019 && currentPath.position.y == 12660)
+//						|| (currentPath.position.x == -1200 && currentPath.position.y == 12810)) {
+//						laserAuto = true;
+//						pneumatics.P1 = true;
+//					}
 					if(currentPath.position.x == -3982&& currentPath.position.y == 0) {
 						autoModeLaser = true;
 						autoPIDMode = false;
@@ -199,9 +250,9 @@ void updateQueue () {
 				int dt = get_full_ticks() - lastWait;
 				
 				blowTime = dt;
-				if(currentPath.position.y == 7505) {
+				if(currentPath.position.y == wagateki) {
 					if (dt >= 0 && dt < time/2) {
-					setBrushlessMagnitude(8); //12
+					setBrushlessMagnitude(12); //12
 				} 
 				//else if (dt >= time/2 && dt < time*3/4) {
 				//	setBrushlessMagnitude(10); //18 
@@ -210,10 +261,10 @@ void updateQueue () {
 //					setBrushlessMagnitude(35); //26
 			//}
 					else {
-						setBrushlessMagnitude(38); //30
+						setBrushlessMagnitude(25); //30
 					}
 				}
-				else if(currentPath.position.y == 0) {
+				else if(currentPath.position.y == 366 || currentPath.position.y == 502) {
 					if(dt >= 0 && dt < time *3 / 4) {
 						setBrushlessMagnitude(7);
 					}
@@ -235,11 +286,23 @@ void updateQueue () {
 				if (dt >= currentPath.waitTime) {
 					lastWait = -1;
 					baseAngle = -1;
-					if(currentPath.position.y == 7505) setBrushlessMagnitude(0);
+					
+					//Conditions for after reaching the blowing position
+					//TODO: ADD CONDITION FOR RED_SIDE
+					if(currentPath.position.y == wagateki) {
+						setBrushlessMagnitude(0);
+						autoPIDMode = false;
+						manualMode = false;
+						wallApproach = true;
+					}
 					wheelbaseLock();
-					finishing = false;
+					//finishing = false;
 					dequeue(size);
-					if(currentPath.position.x == -4232&& currentPath.position.y == 0) {
+					
+					//Exit PID Mode, goto Laser Mode --> after reaching first point for either side of gamefield
+					//TODO: ADD CONDITION FOR RED SIDE
+					if((currentPath.position.x == -3176&& currentPath.position.y == 366) || 
+						(currentPath.position.x == 3321 && currentPath.position.y == 502)) {
 						autoModeLaser = true;
 						autoPIDMode = false;
 						manualMode = false;
@@ -267,6 +330,10 @@ void updateQueue () {
 	}
 }
 
+/**
+	* @brief Dequeue the topmost item in the queue
+	*/
+
 void dequeue (int _size) {
 	if (size == 0) return;
 	for(int i = 0; i<_size-1; i++) {
@@ -275,11 +342,21 @@ void dequeue (int _size) {
 	size--;
 }
 
+/**
+	* @brief Dequeue all items in the queue
+	*/
+
 void dequeueAll() {
 	for(int i = getSize(); i>=1; i--) {
 			dequeue(getSize());
 	}
 }
+
+/**
+	* @brief Queue an item to the queue
+* @param Integers: xCoord, yCoord, bearing (degrees and no scaling), brushlessSpeed = -1 for ignore prev speed, waitTime : -1 if doesn't exist
+* 		 , Float: distanceThreshold and bearingThreshold : for how close the robot should go to a certain point, -1 for ignore threshold
+	*/
 
 void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, int brushlessSpeed, int waitTime) {
 	queue[size].position.x = x;
@@ -293,6 +370,10 @@ void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, i
 	size++;
 }
 
+/**
+	* @brief Returns the size of the queue
+* @retval int: size of the queue
+	*/
 int getSize() {
 	return size;
 }

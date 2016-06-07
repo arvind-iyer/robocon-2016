@@ -38,14 +38,14 @@ void ls_init(void)
 	
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AIN; //see data sheet p.29 to see which pin can be used
 	GPIO_InitStructure.GPIO_Pin = ls_pin4;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_10MHz;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(ls_port2,&GPIO_InitStructure);
 	
 	DMA_DeInit(DMA1_Channel1);
 	DMA_InitStructure.DMA_PeripheralBaseAddr = (u32)&ADC1->DR;
 	DMA_InitStructure.DMA_MemoryBaseAddr = (u32) &ls_dma_reading[0];
 	DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;
-	DMA_InitStructure.DMA_BufferSize = 4; // buffer size 8
+	DMA_InitStructure.DMA_BufferSize = ls_number; // buffer size 8
 	DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
 	DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
 	DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
@@ -69,7 +69,7 @@ void ls_init(void)
 	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
 	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
 	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-	ADC_InitStructure.ADC_NbrOfChannel = 4;
+	ADC_InitStructure.ADC_NbrOfChannel = ls_number;
 	ADC_Init(ADC1, &ADC_InitStructure);
 	
 	RCC_ADCCLKConfig(RCC_PCLK2_Div8);

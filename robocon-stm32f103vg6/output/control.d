@@ -63,3 +63,6 @@
 .\output\control.o: .\src\ustrobo_min_system\inc\nec_mb.h
 .\output\control.o: .\src\user\flash.h
 .\output\control.o: .\src\ustrobo_min_system\inc\ultrasonic.h
+.\output\control.o: src\user\pk\hybrid_laser.h
+.\output\control.o: src\user\pk\pk_math.h
+.\output\control.o: src\user\pk\pk_math_vector.h
