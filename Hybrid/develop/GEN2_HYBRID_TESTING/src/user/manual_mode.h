@@ -22,8 +22,8 @@
 #include "semi_auto.h"
 #include "quick_math.h"
 
-#define BLUE_FIELD
-//#define RED_FIELD
+//#define BLUE_FIELD
+#define RED_FIELD
 
 #ifdef RED_FIELD
 	#ifdef BLUE_FIELD

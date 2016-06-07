@@ -5,6 +5,7 @@
 #include "usart.h"
 #include "stm32f4xx_gpio.h"
 #include "ticks.h"
+#include "vector_math.h"
 
 //UART setting
 #define MTi_1_UART								USART1
@@ -51,6 +52,8 @@
 #define SetOptionFlags 						(uint8_t)0x48
 #define ResetOrientation					(uint8_t)0xA4
 
+extern f_vector MTi_acc;
+
 typedef enum
 {
 	MTi_Data_Ready 			= 1,
@@ -70,6 +73,7 @@ typedef enum
 
 //Functions
 void MTi_1_UART_init(void);
+void MTi_1_reset(void);
 void send_MTi_1_UART_msg(u8 *data, u8 MID, u16 data_length);
 void MTi_1_UART_Rx(u8 data);
 float get_MTi_acc(u8 index);

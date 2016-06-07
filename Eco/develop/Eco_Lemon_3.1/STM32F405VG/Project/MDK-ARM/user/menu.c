@@ -17,6 +17,7 @@ GAME_STAGE menu_update(GAME_STAGE current){
 //		#endif
 		buzzer_play_song(HIGH_1, 500, 50);
 //		return CLIMBING_SLOPE;
+		MTi_1_reset();
 		return SENSOR_BAR_CALI;
 	}
 	
@@ -34,6 +35,7 @@ GAME_STAGE menu_update(GAME_STAGE current){
 			mti_start_bias_yaw = 300;
 		#endif
 		buzzer_play_song(HIGH_1, 500, 50);
+		MTi_1_reset();
 		return CLIMBING_SLOPE;
 	}
 	
@@ -51,6 +53,7 @@ GAME_STAGE menu_update(GAME_STAGE current){
 			mti_start_bias_yaw = 300;
 		#endif
 		buzzer_play_song(HIGH_2, 500, 50);
+		MTi_1_reset();
 		return CLIMBING_SLOPE;
 	}
 	
@@ -64,6 +67,7 @@ GAME_STAGE menu_update(GAME_STAGE current){
 			mti_start_bias_yaw = -900;
 			path_river_init(-900);
 		#endif
+		MTi_1_reset();
 		return CROSSING_RIVER;
 	}
 	
@@ -72,6 +76,7 @@ GAME_STAGE menu_update(GAME_STAGE current){
 		while(button_pressed(BUT_8));
 		path_down_reset();
 		buzzer_play_song(HIGH_4, 200, 100);
+		MTi_1_reset();
 		return GOING_DOWN_HILL;
 	}
 

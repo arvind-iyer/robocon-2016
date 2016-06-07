@@ -6,7 +6,7 @@
 **/
 
 float MTi_ang[3] = {0, 0, 0};
-float MTi_acc[3] = {0, 0, 0};
+f_vector MTi_acc = {0, 0, 0};
 
 u8 MTi_msg[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 u8 raw_buffer[4];
@@ -39,7 +39,16 @@ void MTi_1_UART_init(void)
 	MTi_msg[1] = 0;
 }
 
-
+void MTi_1_reset(){
+	clear_buffer();
+	send_MTi_1_UART_msg(NULL, GoToMeasurement, 0);
+	//Setup the x,y,z axis
+	MTi_msg[1] = 3;
+	send_MTi_1_UART_msg(&MTi_msg[0], ResetOrientation,2);
+	MTi_msg[1] = 1;
+	send_MTi_1_UART_msg(&MTi_msg[0], ResetOrientation,2);
+	MTi_msg[1] = 0;
+}
 
 /**
 **	@descript Construct the message to the IMU. See MT Datasheet for details
