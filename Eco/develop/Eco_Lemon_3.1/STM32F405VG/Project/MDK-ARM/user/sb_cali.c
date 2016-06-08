@@ -18,8 +18,18 @@ GAME_STAGE sb_cali_update(){
 	cali_in_each_region = sensorbar_cali % 10;
 	
 	tft_println(colors_string[region_index]);
-	tft_println("REGION: %d", region_index);
-	tft_println("TIMES: %d", cali_in_each_region);
+	tft_println("REG: %d TIME: %d", region_index, cali_in_each_region);
+	tft_println("%d %d", compensated_region_color[0][0], region_color_average[0][0]);
+	
+//	while(1){
+//		tft_clear();
+//		tft_println("%d", raw[0]);
+//		tft_println("%d %d", raw[1], raw[2]);
+//		tft_println("%d %d", raw[3], raw[4]);
+//		tft_println("%d %d", raw[5], raw[6]);
+//		tft_println("%d %d %d", raw[8], raw[9], raw[10]);
+//		tft_update();
+//	}
 	
 	si_execute();
 	return SENSOR_BAR_CALI;

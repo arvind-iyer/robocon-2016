@@ -5,19 +5,15 @@ GAME_STAGE menu_update(GAME_STAGE current){
 	//Sensor bar calibration
 	if (button_pressed(BUT_1)){
 		while(button_pressed(BUT_1));
-//		#ifdef IMU_UPSLOPE
-//			path_up_imu_init(1);
-//		#else
-//			path_up_sb_init(1);
-//		#endif
-//		#ifdef BLUE_FIELD
-//			mti_start_bias_yaw = -300;
-//		#else
-//			mti_start_bias_yaw = 300;
-//		#endif
 		buzzer_play_song(HIGH_1, 500, 50);
-//		return CLIMBING_SLOPE;
 		MTi_1_reset();
+		return SENSOR_BAR_CALI;
+	}
+	
+	//Give data to PC
+	if (button_pressed(BUT_3)){
+		while(button_pressed(BUT_3));
+		request_color_msg();
 		return SENSOR_BAR_CALI;
 	}
 	

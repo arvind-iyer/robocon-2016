@@ -4,12 +4,23 @@
 #include "can_protocol.h"
 #include "lcd_main.h"
 #include <stdbool.h>
+#include "usart.h"
 #include "servo_interface.h"
 
 #define SENSOR_BAR_FILTER_1 0x0C5
 #define SENSOR_BAR_FILTER_2 0x0C6
 #define SENSOR_BAR_FILTER_3 0x0C7
 #define SENSOR_BAR_FILTER_4 0x0C8
+
+#define SENSOR_BAR_UART_COM COM2
+
+#define TOTAL_COLOR			6
+#define CALI_PRE_COLOR	3
+#define REGIONS (TOTAL_COLOR*CALI_PRE_COLOR)
+
+#define SENSOR_BAR_REQUEST_COLOR 0x0B0
+#define SENSOR_BAR_AVG_COLOR_RETURN 0x0B1
+#define SENSOR_BAR_WHITE_COLOR_RETURN 0x0B2
 
 #define WHITE_LINE_WIDTH 3
 #define SENSOR_BAR_MID 8
@@ -43,5 +54,8 @@ extern u8 sensor_bar_mid;
 extern u16 sensor_bar_filtered[16];
 extern u8 sensorbar_region;
 extern u8 sensorbar_cali;
+extern s16 compensated_region_color[REGIONS][3];
+extern s16 region_color_average[REGIONS][3];
+extern s16 raw[11];
 
 #endif

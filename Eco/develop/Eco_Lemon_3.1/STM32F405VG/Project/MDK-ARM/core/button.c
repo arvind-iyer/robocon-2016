@@ -14,7 +14,7 @@ void button_init(){
 	GPIO_InitStruct.GPIO_Pin = BUTTON_4_PIN;
 	GPIO_Init(BUTTON_4_GPIO, &GPIO_InitStruct);
 	
-	GPIO_InitStruct.GPIO_Pin = BUTTON_1_PIN | BUTTON_2_PIN;
+	GPIO_InitStruct.GPIO_Pin = BUTTON_1_PIN | BUTTON_3_PIN;
 	GPIO_Init(BUTTON_1_3_GPIO, &GPIO_InitStruct);
 	
 	//Pull down for external buttons
@@ -27,7 +27,7 @@ void button_init(){
 bool button_pressed(BUTTON button){
 	if (button == BUT_4){
 		return !GPIO_ReadInputDataBit(BUTTON_4_GPIO, button);
-	}else if(button == BUT_1 || button == BUT_2){
+	}else if(button == BUT_1 || button == BUT_3){
 		return !GPIO_ReadInputDataBit(BUTTON_1_3_GPIO, button);
 	}else{
 		return GPIO_ReadInputDataBit(BUTTON_5_8_GPIO, button);
