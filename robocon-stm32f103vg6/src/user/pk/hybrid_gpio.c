@@ -1,17 +1,18 @@
 #include "hybrid_gpio.h"
 #include "pneumatic.h"
 #include "gpio.h"
-#include "stdbool.h"
 #include "ticks.h"
 #include "can_motor.h"
 #include "pk_wheelbase.h"
 #include "pk_arm.h"
 #include "pk_climb.h"
 #include "robocon.h"
+#include "ticks.h"
 
 bool limitSwitch[4] = {false, false, false, false};
 bool prevLimitSwitch[4] = {false, false, false, false};
-bool armIr = false, prevArmIr = false;
+bool armIr = false, prevArmIr = false, readyToClimb = false;
+int climbDelay = 0;
 
 /**
   * @brief Initializes the Hybrid's GPIO ports and some required variables
@@ -75,17 +76,27 @@ void limitSwitchCheck() {
 	// Move arm to correct position.
 	int armError = get_encoder_value(MOTOR8) - (pneumatics.P1 == false ? 80000 : 42928);
 	if (prevLimitSwitch[3] == 1 && !climbing) {
+		if(pneumatics.P1 != false) {
+			pneumatics.P1 = false;
+			_delay_ms(20);
+			pneumatic_control(GPIOE, GPIO_Pin_15, pneumatics.P1);
+		}
 		if (!(Abs(armError) <= 1000))
 			sendArmCommand(armError < 0 ? -40 : 40);
 		else if (Abs(armError) <= 1000) {
 			sendArmCommand(0);
-			if (pneumatics.P1 != false) {
-				pneumatics.P1 = false;
-				pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P1);
+			if (pneumatics.P3 != true) {
+				pneumatics.P3 = true;
+				pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
 			} else {
 				climbing = true;
+				climbDelay = get_full_ticks();
 			}
 		}
+	}
+	
+	if (climbing && climbDelay - get_full_ticks() >= 500) {
+		// start climbing motors.
 	}
 }
 

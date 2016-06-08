@@ -7,16 +7,13 @@ extern int dispW;
 extern int timediff;
 extern bool laserAuto;
 
-//#define DEBUG_MODE
-//#define RED_SIDE 0
-//#define BLUE_SIDE 1
-
 bool robotMode = false;
 bool manualMode = true;
 bool autoPIDMode = false;
 bool autoModeLaser = false;
 bool rightJoyInUse = false;
 bool laserAuto = false;
+bool semiAuto = false;
 bool benMode = false;
 
 //Variables for allowing the update of the button
@@ -31,6 +28,7 @@ void robocon_main(void)
 		tft_init(0, BLACK, WHITE, SKY_BLUE);
 		pk_init();
 	while (1) {
+		dataSampling();
 		reset();
 		if (manualMode)manualControl();
 		if(allowArm) {
@@ -121,6 +119,7 @@ void _updateScreen() {
 	tft_prints(0, 0, "FIERY DRAGON |%s", benMode ? "BEN" : "NO");
 	tft_prints(0, 1, "M: %d|%d|%d" , getWheelbaseValues().M1.sent, getWheelbaseValues().M2.sent, getWheelbaseValues().M3.sent);
 	tft_prints(0, 2, "B: %d | ARM: %d", getBrushlessMagnitude(), allowArm);
+	//tft_prints(0, 3, "R : %d|%d|%d", get_pos_raw()->x, get_pos_raw()->y, get_pos_raw()->angle);
 	tft_prints(0, 3, "P: %d|%d|%d|%d", getPneumaticState().P1, getPneumaticState().P2, getPneumaticState().P3, getPneumaticState().P4);
 	tft_prints(0, 4, "G: %d|%d|%d", get_pos()->x, get_pos()->y, get_pos()->angle);
 	tft_prints(0, 5, "LS: %d|%d|%d|%d|%d", prevLimitSwitch[0], prevLimitSwitch[1],  prevLimitSwitch[2], prevLimitSwitch[3], armIr); 
@@ -128,8 +127,8 @@ void _updateScreen() {
 	tft_prints(0, 6, (robotMode == RED_SIDE) ? "MODE: RED SIDE" : "MODE:BLUE SIDE");
 	tft_prints(0, 7, "L: %d|%d| Q:%d", autoModeLaser, fieldDetected, getSize());
 	
-	//tft_prints(0,6, "ADC: %d|%d", get_ls_adc_reading(0), get_ls_adc_reading(1));
-	//tft_prints(0,7, "ADC: %d|%d", get_ls_adc_reading(2), get_ls_adc_reading(3));
+//	tft_prints(0,6, "ADC: %d|%d", get_ls_adc_reading(0), get_ls_adc_reading(1));
+//	tft_prints(0,7, "ADC: %d|%d", get_ls_adc_reading(2), get_ls_adc_reading(3));
 	
 	//tft_prints(0, 7, "L: %d | AL: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1), laserAuto);
 	//tft_prints(0, 8, "Q|ENC: %d|%d", getSize(), get_encoder_value(MOTOR8));
@@ -331,6 +330,15 @@ void controllerInputUpdate() {
 			laserAuto = !laserAuto;
 			manualMode = (laserAuto ? false : true);
 			allowAutoLazers = true;
+			climbing = false;
+			if(pneumatics.P1 != true) {
+				pneumatics.P1 = true;
+				pneumatic_control(GPIOE, GPIO_Pin_15, pneumatics.P1);
+			}
+			if(pneumatics.P3 != false) {
+					pneumatics.P3 = false;
+					pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
+				}
 		}
 		else if (button_released(BUTTON_XBC_A) && allowAutoLazers) {
 			allowAutoLazers = false;
@@ -371,12 +379,14 @@ void controllerInputUpdate() {
 		//Laser PID Trigger
 		if(button_pressed(BUTTON_XBC_BACK) && !allowModeUpdate) {
 			allowModeUpdate = true;
-			laserAuto = true;
+			autoModeLaser = true;
+			semiAuto = true;
 			manualMode = false;
 		}
 		else if(button_released(BUTTON_XBC_BACK) && allowModeUpdate) {
 			allowModeUpdate = false;
-			laserAuto = false;
+			semiAuto = false;
+			autoModeLaser = false;
 			manualMode = true;
 		}
 		

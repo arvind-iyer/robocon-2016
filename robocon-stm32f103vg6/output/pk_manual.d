@@ -41,6 +41,7 @@
 .\output\pk_manual.o: .\src\user\robocon.h
 .\output\pk_manual.o: .\src\stm32f10x_std\inc\stm32f10x_crc.h
 .\output\pk_manual.o: .\src\ustrobo_min_system\inc\led.h
+.\output\pk_manual.o: .\src\user\pneumatic.h
 .\output\pk_manual.o: .\src\ustrobo_min_system\inc\interface.h
 .\output\pk_manual.o: .\src\ustrobo_min_system\inc\adc_app.h
 .\output\pk_manual.o: .\src\ustrobo_min_system\inc\adc.h

@@ -36,6 +36,7 @@
 .\output\control.o: .\src\ustrobo_min_system\inc\led.h
 .\output\control.o: .\src\ustrobo_min_system\inc\tft.h
 .\output\control.o: .\src\ustrobo_min_system\inc\tft_ascii.h
+.\output\control.o: .\src\user\pneumatic.h
 .\output\control.o: .\src\ustrobo_min_system\inc\interface.h
 .\output\control.o: .\src\ustrobo_min_system\inc\adc_app.h
 .\output\control.o: .\src\ustrobo_min_system\inc\adc.h

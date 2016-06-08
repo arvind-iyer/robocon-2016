@@ -48,6 +48,7 @@
 .\output\system_test.o: .\src\ustrobo_min_system\inc\bluetooth.h
 .\output\system_test.o: .\src\ustrobo_min_system\inc\crc.h
 .\output\system_test.o: .\src\user\robocon.h
+.\output\system_test.o: .\src\user\pneumatic.h
 .\output\system_test.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
 .\output\system_test.o: .\src\user\laser_sensor.h
 .\output\system_test.o: .\src\user\pk/pk_wheelbase.h

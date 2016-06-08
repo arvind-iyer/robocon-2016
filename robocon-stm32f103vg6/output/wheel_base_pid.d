@@ -39,6 +39,7 @@
 .\output\wheel_base_pid.o: src\user\wheel_base_pid.h
 .\output\wheel_base_pid.o: src\user\robocon.h
 .\output\wheel_base_pid.o: .\src\stm32f10x_std\inc\stm32f10x_crc.h
+.\output\wheel_base_pid.o: src\user\pneumatic.h
 .\output\wheel_base_pid.o: .\src\ustrobo_min_system\inc\interface.h
 .\output\wheel_base_pid.o: .\src\ustrobo_min_system\inc\adc_app.h
 .\output\wheel_base_pid.o: .\src\ustrobo_min_system\inc\adc.h

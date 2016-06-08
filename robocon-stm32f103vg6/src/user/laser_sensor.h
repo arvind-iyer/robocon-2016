@@ -13,6 +13,8 @@
 #include "stm32f10x_dma.h"
 #include "stm32f10x_gpio.h"
 #include "stm32f10x.h"
+#include "delay.h"
+#include "ticks.h"
 
 #define ls_port 					GPIOC
 #define ls_port2					GPIOA
@@ -34,6 +36,7 @@
 
 
 void ls_init(void);
+void dataSampling(void);
 u32 get_ls_cal_reading(u8 device);
 u32 get_ls_adc_reading(u8 device);
 void ls_avg(u8 device);

@@ -29,6 +29,7 @@
 .\output\robocon.o: .\src\ustrobo_min_system\inc\led.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\tft.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\tft_ascii.h
+.\output\robocon.o: src\user\pneumatic.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\interface.h
 .\output\robocon.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\output\robocon.o: .\src\ustrobo_min_system\inc\adc_app.h

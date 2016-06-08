@@ -16,3 +16,8 @@
 .\output\laser_sensor.o: .\src\stm32f10x_std\inc\stm32f10x_spi.h
 .\output\laser_sensor.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\laser_sensor.o: .\src\stm32f10x_std\inc\misc.h
+.\output\laser_sensor.o: .\src\ustrobo_min_system\inc\delay.h
+.\output\laser_sensor.o: .\src\ustrobo_min_system\inc\ticks.h
+.\output\laser_sensor.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
+.\output\laser_sensor.o: .\src\ustrobo_min_system\inc\buzzer.h
+.\output\laser_sensor.o: .\src\ustrobo_min_system\inc\gpio.h

@@ -17,14 +17,14 @@
 .\output\hybrid_laser.o: .\src\stm32f10x_std\inc\stm32f10x_spi.h
 .\output\hybrid_laser.o: .\src\stm32f10x_std\inc\stm32f10x_usart.h
 .\output\hybrid_laser.o: .\src\stm32f10x_std\inc\misc.h
+.\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\delay.h
+.\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\ticks.h
+.\output\hybrid_laser.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
+.\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\buzzer.h
+.\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\hybrid_laser.o: .\src\user\robocon.h
 .\output\hybrid_laser.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\output\hybrid_laser.o: .\src\stm32f10x_std\inc\stm32f10x_crc.h
-.\output\hybrid_laser.o: .\src\stm32f10x_std\inc\stm32f10x_tim.h
-.\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\ticks.h
-.\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\buzzer.h
-.\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\gpio.h
-.\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\delay.h
 .\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\gyro.h
 .\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\usart.h
 .\output\hybrid_laser.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
@@ -32,6 +32,7 @@
 .\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\led.h
 .\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\tft.h
 .\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\tft_ascii.h
+.\output\hybrid_laser.o: .\src\user\pneumatic.h
 .\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\interface.h
 .\output\hybrid_laser.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\adc_app.h

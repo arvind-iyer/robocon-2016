@@ -16,6 +16,7 @@
 #include "buzzer.h"
 #include "led.h"
 #include "tft.h"
+#include "pneumatic.h"
 #include "interface.h"
 #include "xbc_mb.h"
 #include "button.h"
@@ -69,6 +70,7 @@ extern bool laserAuto;
 extern bool autoModeLaser;
 extern bool autoPIDMode;
 extern bool benMode;
+extern bool semiAuto;
 extern bool wallApproach;
 extern STAGES currStage;
 

@@ -13,8 +13,8 @@ static u16 ls_dma_reading[ls_number];
 
 static u32 avg[ls_number][avg_length];
 
-static const u16 min_adc[ls_number] = {16, 16, 16, 16};
-static const u16 max_adc[ls_number] = {2852, 2852, 6074, 6074};
+static const u16 min_adc[ls_number] = {0, 0, 1, 1};
+static const u16 max_adc[ls_number] = {2480, 2480, 3900, 3900}; //2852 6074 
 static const u16 min_dis[ls_number] = {100, 100, 200, 200};
 static const u16 max_dis[ls_number] = {1000, 1000, 5000, 5000};
 
@@ -41,6 +41,30 @@ void ls_init(void)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(ls_port2,&GPIO_InitStructure);
 	
+	ADC_DeInit(ADC1);
+	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
+	ADC_InitStructure.ADC_ScanConvMode = ENABLE;
+	ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;
+	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
+	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+	ADC_InitStructure.ADC_NbrOfChannel = ls_number;
+	ADC_Init(ADC1, &ADC_InitStructure);
+	
+	RCC_ADCCLKConfig(RCC_PCLK2_Div8);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_12, 1, ADC_SampleTime_239Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_13, 2, ADC_SampleTime_239Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 3, ADC_SampleTime_239Cycles5);
+	ADC_RegularChannelConfig(ADC1, ADC_Channel_4, 4, ADC_SampleTime_239Cycles5);
+
+	ADC_Cmd(ADC1, ENABLE);
+	ADC_DMACmd(ADC1, ENABLE);
+	
+	ADC_ResetCalibration(ADC1);
+	while(ADC_GetResetCalibrationStatus(ADC1)); //Initial calib
+	ADC_StartCalibration(ADC1);	/* Start ADC1 calibaration */
+	while(ADC_GetCalibrationStatus(ADC1));	/* Check the end of ADC1 calibration */
+	ADC_SoftwareStartConvCmd(ADC1, ENABLE);  /* Start ADC1 Software Conversion */
+	
 	DMA_DeInit(DMA1_Channel1);
 	DMA_InitStructure.DMA_PeripheralBaseAddr = (u32)&ADC1->DR;
 	DMA_InitStructure.DMA_MemoryBaseAddr = (u32) &ls_dma_reading[0];
@@ -62,31 +86,6 @@ void ls_init(void)
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
-
-	ADC_DeInit(ADC1);
-	ADC_InitStructure.ADC_Mode = ADC_Mode_Independent;
-	ADC_InitStructure.ADC_ScanConvMode = ENABLE;
-	ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
-	ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_None;
-	ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
-	ADC_InitStructure.ADC_NbrOfChannel = ls_number;
-	ADC_Init(ADC1, &ADC_InitStructure);
-	
-	RCC_ADCCLKConfig(RCC_PCLK2_Div8);
-		ADC_RegularChannelConfig(ADC1, ADC_Channel_11, 3, ADC_SampleTime_1Cycles5);
-	ADC_RegularChannelConfig(ADC1, ADC_Channel_12, 1, ADC_SampleTime_1Cycles5);
-	ADC_RegularChannelConfig(ADC1, ADC_Channel_13, 2, ADC_SampleTime_1Cycles5);
-	ADC_RegularChannelConfig(ADC1, ADC_Channel_4, 4, ADC_SampleTime_1Cycles5);
-
-	
-	ADC_Cmd(ADC1, ENABLE);
-	ADC_DMACmd(ADC1, ENABLE);
-	
-	ADC_ResetCalibration(ADC1);
-	while(ADC_GetResetCalibrationStatus(ADC1)); //Initial calib
-	ADC_StartCalibration(ADC1);	/* Start ADC1 calibaration */
-	while(ADC_GetCalibrationStatus(ADC1));	/* Check the end of ADC1 calibration */
-	ADC_SoftwareStartConvCmd(ADC1, ENABLE);  /* Start ADC1 Software Conversion */
 	
 	
 	
@@ -151,6 +150,14 @@ void ls_avg(u8 device)
 	for(u8 i=0;i<avg_length;i++)
 		temp += avg[device][i];
 	ls_adc_reading[device] = temp/avg_length;
+}
+
+long lastSampleTime = 0;
+void dataSampling(void) {
+	if (get_full_ticks() - lastSampleTime >= 10) {
+		ADC_SoftwareStartConvCmd(ADC1, ENABLE);  /* Start ADC1 Software Conversion */
+		lastSampleTime = get_full_ticks();
+	}
 }
 
 u16 ls_cal_reading_one(void)

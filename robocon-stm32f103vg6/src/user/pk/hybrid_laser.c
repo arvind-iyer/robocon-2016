@@ -84,7 +84,7 @@ void enterPole() {
 	*/
 
 void laserPID() {
-	int yCoordSystem = robotMode == RED_SIDE ? 7682 : 13300;
+	int yCoordSystem = robotMode == RED_SIDE ? 7682 : 7682;
 	if(fieldDetected) {
 		int diff = get_ls_cal_reading(0) - get_ls_cal_reading(1);
 		int offsetDiff = (get_pos()->y < yCoordSystem * 0.7 ? diff : diff+10);
@@ -117,15 +117,17 @@ void laserPID() {
 		
 		//Blowing speeds
 			if(robotMode == RED_SIDE) {
-				if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(21);
-				if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
+				if(!semiAuto){
+					if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(21);
+					if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
+				}
 
 				parseWheelbaseValues();
 
 				//if(get_ls_cal_reading(0) > 800){
 				
 					//Finish Conditions
-					if(get_pos()->y > yCoordSystem) {
+					if(get_pos()->y > 5000 && get_ls_cal_reading(1) > 800 && !semiAuto) {
 						wheelbaseLock();
 						autoModeLaser = false;
 						//manualMode = true;
@@ -133,7 +135,7 @@ void laserPID() {
 						manualMode = false;
 						autoPIDMode = true;
 						fieldDetected = false;
-		
+						
 						queueTargetPoint(get_pos()->x - 300, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0);
 						queueTargetPoint(get_pos()->x - 250, get_pos()->y + 200, 175, 35, 5, -1, 6500);
 						wagateki = get_pos()->y + 200;
@@ -145,15 +147,16 @@ void laserPID() {
 					}
 			}
 			else if(robotMode == BLUE_SIDE) {
-				if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(21);
-				if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
-
+				if(!semiAuto) {
+					if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(21);
+					if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
+				}
 				parseWheelbaseValues();
 
 				//if(get_ls_cal_reading(0) > 800){
 				
 					//Finish Conditions
-					if(get_pos()->y > 5000 && get_ls_cal_reading(1) >800) {
+					if(get_pos()->y > 5000 && get_ls_cal_reading(0) >800 && !semiAuto) {
 						wheelbaseLock();
 						autoModeLaser = false;
 						//manualMode = true;
@@ -214,17 +217,33 @@ void moveToWall() {
 		addComponent();
 		parseWheelbaseValues();
 		if(robotMode == RED_SIDE) {
-			if(get_ls_cal_reading(2) < 650 && robot.position.angle < 272 && robot.position.angle > 268){
+			if(get_ls_cal_reading(2) < 650 && robot.position.angle < 278 && robot.position.angle > 262){
 				laserAuto = true;
 				pneumatics.P1 = true;
 				wallApproach = false;
+				if(pneumatics.P1 != true) {
+					pneumatics.P1 = true;
+					pneumatic_control(GPIOE, GPIO_Pin_15, pneumatics.P1);
+				}
+				if(pneumatics.P3 != false) {
+					pneumatics.P3 = false;
+					pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
+				}
 			}
 		}
 		else if(robotMode == BLUE_SIDE){
-			if(get_ls_cal_reading(3) < 650 && robot.position.angle < 92 && robot.position.angle > 88){
+			if(get_ls_cal_reading(3) < 650 && robot.position.angle < 98 && robot.position.angle > 82){
 				laserAuto = true;
 				pneumatics.P1 = true;
 				wallApproach = false;
+				if(pneumatics.P1 != true) {
+					pneumatics.P1 = true;
+					pneumatic_control(GPIOE, GPIO_Pin_15, pneumatics.P1);
+				}
+				if(pneumatics.P3 != false) {
+					pneumatics.P3 = false;
+					pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
+				}
 			}
 		}
 }
