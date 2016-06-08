@@ -11,10 +11,10 @@ static u16 ls_adc_reading[ls_number];
 static u16 ls_cal_reading[ls_number];
 static u16 ls_dma_reading[ls_number];
 
-static const u16 min_adc[ls_number] = {16, 16, 16};
-static const u16 max_adc[ls_number] = {3037, 3037, 3037};
+static const u16 min_adc[ls_number] = {5, 16, 16};
+static const u16 max_adc[ls_number] = {3029, 3037, 3037};
 static const u16 min_dis[ls_number] = {200, 200, 200};
-static const u16 max_dis[ls_number] = {2500, 2500, 2500};
+static const u16 max_dis[ls_number] = {5000, 5000, 5000};
 
 /**
 *	@brief return the range found
@@ -24,6 +24,8 @@ static const u16 max_dis[ls_number] = {2500, 2500, 2500};
 
 u32 get_ls_cal_reading(u8 device)
 {
+	
+	
 	if(get_adc(device)>=min_adc[device])
 	{
 		ls_cal_reading[device] = (get_adc(device) - min_adc[device]) * (max_dis[device] - min_dis[device]) / (max_adc[device] - min_adc[device]) + min_dis[device];
@@ -33,7 +35,9 @@ u32 get_ls_cal_reading(u8 device)
 	else
 		ls_cal_reading[device] = 0;
 	
-	return ls_cal_reading[device];
+	//return ls_cal_reading[device];
+	return lowpass_filter(ls_cal_reading[device]);
+	//return kalman_filter(ls_cal_reading[device]);
 }
 
 /**
@@ -46,4 +50,15 @@ u32 get_ls_adc_reading(u8 device)
 {
 	ls_adc_reading[device] = get_adc(device);
 	return ls_adc_reading[device];
+}
+
+
+
+u32 lowpass_filter(u32 input){
+	static u32 past = 0;
+	static u32 now 	= 0;
+	
+	now 	= input + LPcons*(past - now);
+	past 	= now;
+	return now;
 }
