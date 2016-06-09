@@ -279,15 +279,13 @@ void analysisData(){
     #ifndef HARDCODEMODE
     s32 minDiff = 10000;
     s32 diff;
-		u8 counter = 0;
-	  for(u8 i = 0 ; i < 16 ; i++){
-			if(now.s[i] >= (calibratedSaturationAverage[currentZone] - (u8)SATOFFSET)){
-				sat[i] = 0;
-				hueAverage += now.h[i];
-				counter++;
-			}
-				else sat[i] = 1;
-		} 
+	u8 counter = 0;
+    for(u8 i = 0 ; i < 16 ; i++){
+        if(now.s[i] >= (calibratedSaturationAverage[currentZone] - (u8)SATOFFSET)){
+            hueAverage += now.h[i];
+            counter++;
+        }   
+    } 
     
     hueAverage /= counter;
     for(u8 i = 0; i < NUMOFAREAS ; i++){
@@ -296,6 +294,12 @@ void analysisData(){
             currentZone = i;
             minDiff = diff;
         }
+    }
+    for(u8 i = 0; i < 16 ;i++){
+        if(now.s[i] >= (calibratedSaturationAverage[currentZone] - (u8)SATOFFSET))
+            sat[i] = 0;
+        else 
+            sat[i] = 1;
     }
 
     #endif

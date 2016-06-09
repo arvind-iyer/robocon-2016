@@ -43,6 +43,7 @@ int main(void) {
     bool songIsPlayed = false;
     bool startSong = false;
     bool cali = false;
+    servo_control(BAJAJ_SERVO,SERVO_MICROS_LEFT);
     while (1) {
         if(ticks_ms_img != get_ticks()){
             buzzer_check();

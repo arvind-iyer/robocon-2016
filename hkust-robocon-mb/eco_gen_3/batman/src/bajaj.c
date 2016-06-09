@@ -54,17 +54,17 @@ void initializeValues(void){
     if(button_pressed(BUTTON_RED)){
         while(button_pressed(BUTTON_RED));
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARK_RED,RED); 
-        IMU_ANGLE1 = -50;
-        NINETY_IMU = -220;
-        LESSER_TURNING = 100;
-        SLOPE_TURNING_RIGHT = 1900;
+        IMU_ANGLE1 = -25;
+        NINETY_IMU = -180;
+        LESSER_TURNING = -300;
+        SLOPE_TURNING_RIGHT = 1800;
         SLOPE_TURNING_LEFT = 1300;
         DELAY = 1000;
         side = REDSIDE;
         infrared1 = INFRARED_SENSOR_RIGHT;
         infrared2 = INFRARED_SENSOR_LEFT;
         buttonRedCount = 0;
-        NINETY_TURNING = 1950;
+        NINETY_TURNING = 1875;
         currentSlopeZone = STARTZONE;
         strcpy(currentSlopeZoneString,"STARTZONE");
         systemOn = 1;
@@ -74,8 +74,8 @@ void initializeValues(void){
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARKBLUE,RED);
         IMU_ANGLE1 = 80;
         NINETY_IMU = 180;
-        LESSER_TURNING = -300;
-        SLOPE_TURNING_RIGHT = 1900;
+        LESSER_TURNING = 300;
+        SLOPE_TURNING_RIGHT = 1800;
         SLOPE_TURNING_LEFT = 1300;
         DELAY = 1000;
         side = BLUESIDE;
@@ -249,7 +249,6 @@ void goNinety(void){
             }
         break;
     }
-    imuFactor = (float)ardu_cal_ypr[0] / 180.0f;
     lastMovement = NINETY_TURNING;
     servo_control(BAJAJ_SERVO,lastMovement);
 }
@@ -283,7 +282,7 @@ void goRiver(void) {
 
 void goUsingImu(void){
     imuFactor = ardu_cal_ypr[0] / 180.0f;
-    lastMovement = imuMovement = SERVO_MICROS_MID - (imuFactor * 500);
+    lastMovement = imuMovement = SERVO_MICROS_MID - (imuFactor * 400);
     servo_control(BAJAJ_SERVO,lastMovement);
     
     //Stopping condition
@@ -308,13 +307,12 @@ int getLineCenter(void) {
 }
 
 void goStraightLittleBit(void){
-    lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
     switch(side){
         case BLUESIDE:
-            lastMovement = SERVO_MICROS_MID - (int)determine_velocity(ENCODER1) * 15;
+            lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING + (int)determine_velocity(ENCODER1) * 15;
             break;
         case REDSIDE:
-            lastMovement = SERVO_MICROS_MID - 350;
+            lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING - (int)(determine_velocity(ENCODER1) * 10.0);
             break;
     } 
     servo_control(BAJAJ_SERVO, lastMovement);
