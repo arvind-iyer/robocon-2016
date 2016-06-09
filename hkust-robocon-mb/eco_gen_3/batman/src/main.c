@@ -34,6 +34,7 @@ int yaw_of_imu = 0;
 int pitch_of_imu = 0;
 int lastMovement = SERVO_MICROS_MID;
 extern int passedRiver;
+extern int passedDownSlope;
 extern char currentSlopeZoneString[10];
 
 int main(void) {
@@ -43,7 +44,6 @@ int main(void) {
     bool songIsPlayed = false;
     bool startSong = false;
     bool cali = false;
-    servo_control(BAJAJ_SERVO,SERVO_MICROS_LEFT);
     while (1) {
         if(ticks_ms_img != get_ticks()){
             buzzer_check();
@@ -88,28 +88,28 @@ int main(void) {
                                         if(gameZone == DARKGREENZONE){
                                             currentSlopeZone = GREENSLOPE1;
                                             strcpy(currentSlopeZoneString,"GREENSLOPE1");
-                                        }   
+                                        } 
                                     break;
                                     case GREENSLOPE1:
                                         goNormal();
                                         if(gameZone == ORANGEZONE){
                                             currentSlopeZone = ORANGE1;
                                             strcpy(currentSlopeZoneString,"ORANGE1");
-                                        }   
+                                        }  
                                     break;
                                     case ORANGE1:
                                         goNormal();
                                         if(gameZone == DARKGREENZONE){
                                             currentSlopeZone = GREENSLOPE2;
                                             strcpy(currentSlopeZoneString,"GREENSLOPE2");
-                                        }    
+                                        }   
                                     break;
                                     case GREENSLOPE2:
                                         goNormal();
                                         if(gameZone == ORANGEZONE){
                                             currentSlopeZone = ORANGE2;
                                             strcpy(currentSlopeZoneString,"ORANGE2");
-                                        }    
+                                        }
                                     break;
                                     case ORANGE2:
                                         goNormal();
@@ -123,7 +123,7 @@ int main(void) {
                                         if(gameZone == ORANGEZONE){
                                             currentSlopeZone = FINISHEDSLOPE;
                                             strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
-                                        }    
+                                        }   
                                     break;
                                     case FINISHEDSLOPE:
                                         switch(fullWhite){
@@ -131,15 +131,16 @@ int main(void) {
                                                 ardu_cal_ypr[0] = (float)NINETY_IMU;
                                                 globalState = NINETY;
                                             break;
-                                            default:
-                                                goNormal();
-                                                if(river && !read_infrared_sensor(infrared1) && fullWhite && !passedRiver)
+                                            case 1:
+                                                if((river || gameZone == LIGHTGREENZONE) && fullWhite && !passedRiver)
                                                     {
-                                                        reset_encoder_1();
-                                                        ardu_cal_ypr[0] = determine_imu_angle();
                                                         START_UP_play;
-                                                        globalState = STAGE1;
+                                                        servo_control(BAJAJ_SERVO, SERVO_MICROS_MID - 300);
+                                                        globalState = STAGE3;
                                                     }
+                                                else 
+                                                    goNormal();
+                                            break;
                                         }
                                     break;                                           
                                 }
@@ -152,6 +153,25 @@ int main(void) {
                             break;
                             case STAGE2:
                                 goStraightLittleBit(); //Prevent it from falling down
+                            break;
+                            case STAGE3: //Right before locking the angle with IMU
+                                if(!read_infrared_sensor(infrared1)){
+                                    reset_encoder_1();
+                                    ardu_cal_ypr[0] = (float)IMU_ANGLE1;
+                                    globalState = STAGE1;
+                                }
+                            break;
+                            case STAGE4: //End game, make it turn extreme right / left for the hybrid to grip propeller
+                                if(determine_velocity(ENCODER1) < (float)1.0){
+                                    switch(side){
+                                        case REDSIDE:
+                                            servo_control(BAJAJ_SERVO,2300);
+                                        break;
+                                        case BLUESIDE:
+                                            servo_control(BAJAJ_SERVO,900);
+                                        break;
+                                    }
+                                }
                             break;
                         }
                     }
@@ -166,7 +186,6 @@ int main(void) {
                     break;
               }
               length = 0;
-            
               //Button functions are run by this
               tft_update();
         }

@@ -21,17 +21,23 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.17.0
 Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
-C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_2\antelope\new_board_1.1\Project.uvprojx
-Project File Date:  06/03/2016
+C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_3\batman\Project.uvprojx
+Project File Date:  06/09/2016
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'STM32F4_Robocon'
-compiling main.c...
+compiling bajaj.c...
+src\bajaj.c(315): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+              lastMovement = 
+ERVO_MICROS_MID + (int)LESSER_TURNING - (int)(determine_velocity(ENCODER1) * 10.0);
+src\bajaj.c(460): warning:  #550-D: variable "incremental_value" was set but never used
+      float incremental_value = 0;
+src\bajaj.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=17000 RO-data=548 RW-data=4504 ZI-data=35760  
+Program Size: Code=17164 RO-data=548 RW-data=4488 ZI-data=35776  
 FromELF: creating hex file...
-".\Output\project.hex" - 0 Error(s), 0 Warning(s).
+".\Output\project.hex" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -42,14 +48,14 @@ Package Vendor: ARM
    * Component: CORE Version: 4.3.0
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_2\antelope\new_board_1.1\RTE
+  C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_3\batman\RTE
   C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include
   C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:4.3.0
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:11
 </pre>
 </body>
 </html>
