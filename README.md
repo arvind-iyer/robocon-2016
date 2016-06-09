@@ -1,5 +1,7 @@
 # HKUST Robocon 2016 Code Repository
 
+[Browse Issues](https://waffle.io/arvind-iyer/robocon-2016)
+
 Download the tutorial files from [here](http://bit.ly/swadvanced)
 
 Let the master branch only contain the library and important files
