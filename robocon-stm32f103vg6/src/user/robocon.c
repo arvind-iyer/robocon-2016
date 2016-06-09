@@ -28,6 +28,9 @@ void robocon_main(void)
 		tft_init(0, BLACK, WHITE, SKY_BLUE);
 		pk_init();
 	while (1) {
+		if (can_xbc_get_connection() != CAN_XBC_ALL_CONNECTED) {
+			wheelbaseLock();
+		}
 		dataSampling();
 		reset();
 		if (manualMode)manualControl();
@@ -180,7 +183,7 @@ void controllerInputUpdate() {
 	}
 	else {
 					//Button LB, RB
-				if(button_pressed(BUTTON_XBC_RB)) {
+				if(can_xbc_get_joy(XBC_JOY_RT) == 255) {
 					sendArmCommand(40);
 				}
 				else if(button_released(BUTTON_XBC_RB)) {
@@ -199,7 +202,7 @@ void controllerInputUpdate() {
 					_allowUpdate = false;
 					setBrushlessMagnitude((getBrushlessMagnitude() >=4)  ? getBrushlessMagnitude() - 4 : 0);
 				}
-				if(can_xbc_get_joy(XBC_JOY_RT) == 255  && _allowUpdate) {
+				if(button_pressed(BUTTON_XBC_RB)  && _allowUpdate) {
 					sendArmCommand(-40);
 					_allowUpdate = false;
 				}

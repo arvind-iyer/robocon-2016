@@ -26,7 +26,7 @@ void manualControl() {
 
 int getTranslationMagnitude() {
 	if(!benMode) return (xbc_get_joy(XBC_JOY_LY)*xbc_get_joy(XBC_JOY_LY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/12000;
-	else return (xbc_get_joy(XBC_JOY_RY)*xbc_get_joy(XBC_JOY_RY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/12000;
+	else return -(xbc_get_joy(XBC_JOY_RY)*xbc_get_joy(XBC_JOY_RY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/12000;
 }
 
 int getTranslationBearing() {
