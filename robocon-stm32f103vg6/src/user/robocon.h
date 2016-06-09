@@ -72,7 +72,10 @@ extern bool autoPIDMode;
 extern bool benMode;
 extern bool semiAuto;
 extern bool wallApproach;
+extern bool approachFirstPosition;
 extern STAGES currStage;
+
+extern int timeSinceButtonPressed;
 
 extern bool climbing;
 

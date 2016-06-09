@@ -251,20 +251,18 @@ void updateQueue () {
 				
 				blowTime = dt;
 				if(currentPath.position.y == wagateki) {
-					if (dt >= 0 && dt < time/2) {
-					setBrushlessMagnitude(12); //12
-				} 
+					setBrushlessMagnitude(13); //12
 				//else if (dt >= time/2 && dt < time*3/4) {
 				//	setBrushlessMagnitude(10); //18 
 				//} 
 //				else if (dt >= time && dt < time*3/4) {
 //					setBrushlessMagnitude(35); //26
 			//}
-					else {
-						setBrushlessMagnitude(25); //30
-					}
+//					else {
+//						setBrushlessMagnitude(25); //30
+//					}
 				}
-				else if(currentPath.position.y == 366 || currentPath.position.y == 502) {
+				else if(currentPath.position.y == savedY) {
 					if(dt >= 0 && dt < time *3 / 4) {
 						setBrushlessMagnitude(7);
 					}
@@ -301,8 +299,7 @@ void updateQueue () {
 					
 					//Exit PID Mode, goto Laser Mode --> after reaching first point for either side of gamefield
 					//TODO: ADD CONDITION FOR RED SIDE
-					if((currentPath.position.x == -3176&& currentPath.position.y == 366) || 
-						(currentPath.position.x == 3321 && currentPath.position.y == 502)) {
+					if(currentPath.position.x == savedX && currentPath.position.y == savedY) {
 						autoModeLaser = true;
 						autoPIDMode = false;
 						manualMode = false;

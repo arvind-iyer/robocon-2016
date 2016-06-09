@@ -15,11 +15,14 @@ bool rightJoyInUse = false;
 bool laserAuto = false;
 bool semiAuto = false;
 bool benMode = false;
+bool approachFirstPosition = false;
 
 //Variables for allowing the update of the button
 bool _allowUpdate = false, allowDPadUpdate = false, allowArm = false, allowArmUpdate = false, allowModeUpdate = false, allowPIDUpdate = false;
 bool allowAngleUpdate = true, allowAutoLazers = false, benUpdate = false, wallApproach = false;
 bool climbing = false;
+
+int timeSinceButtonPressed = 0;
 
 STAGES currStage = STAGE1;
 
@@ -55,6 +58,9 @@ void robocon_main(void)
 		if(wallApproach) {
 			manualMode = false;
 			moveToWall();
+		}
+		if(approachFirstPosition) {
+			moveToFirstPosition();
 		}
 
 		if(get_full_ticks()%10 == 0){
@@ -246,77 +252,55 @@ void controllerInputUpdate() {
 	//Button A, B, X, Y
 			if(button_pressed(BUTTON_XBC_Y) && !allowPIDUpdate){
 				allowPIDUpdate = true;
-				
+				if(manualMode) {
+					timeSinceButtonPressed = get_full_ticks();
+					manualMode = false;
+					//allowArm = true;
+					setBrushlessMagnitude(robotMode == RED_SIDE ? 7 : 7);
+					approachFirstPosition = true;
+				}
+				else {
+					approachFirstPosition = false;
+					manualMode = true;
+				}
 				
 //				autoModeLaser = !autoModeLaser;
 //				manualMode = autoModeLaser ? false : true;
 //				wheelbaseLock();
 //				allowArm = true;
-				if(getSize() == 0) {
-					autoPIDMode = true;
-					allowArm = true;
-					manualMode = false;
-					if(robotMode == RED_SIDE) {
-						setBrushlessMagnitude(7);
-						queueTargetPoint(1000, 400, 90, -1, -1, -1, 0);
-						queueTargetPoint(3321, 502, 83, 35, 15, 15, 500);
-						
-//						queueTargetPoint(650, 400, 90, -1, -1, -1, 0);
-//						queueTargetPoint(3121, 200, 90, 75, 50, 15, 0);
-//						queueTargetPoint(2865, 2152, 75, -1, -1, 15, 0);
-//						queueTargetPoint(2169, 3266, 44, -1, -1, 10, 0);
-//						queueTargetPoint(1553, 3960, 57, -1, -1, 16, 0);
-//						queueTargetPoint(989, 5117, 74, -1, -1, 7, 0);
-//						queueTargetPoint(242, 5662, 160, 610, 200, -1, 0);
-//						queueTargetPoint(625, 7505, 175 , 35.0, 5.0, -1, 6000);
-//						queueTargetPoint(242, 11000, 160, 500, 200 , -1, 0);//lost point
-//						queueTargetPoint(575, 8508, 160, 500, 200 , -1, 0);
-//						queueTargetPoint(1653, 12046, 272, 800, 200, -1, 0);
-//						queueTargetPoint(4359, 12610, 274, 800, 200, -1, 0);
-//						queueTargetPoint(5019, 12660, 274, 240, 120.0, -1, 0);
-					}
-					else if(robotMode == BLUE_SIDE) {
-						setBrushlessMagnitude(7);
-						queueTargetPoint(-1000, 400, 270, -1, -1, -1, 0);
-						queueTargetPoint(-3176, 366, 277, 35, 15, 18, 500);
-						
-						//queueTargetPoint(-3500, 1897, 291, 50, 50, 20, 0);
-						//queueTargetPoint(-2900, 3000, 303, -1, -1, 11, 0);
-						
-						/*
-						OLD POINTS
-						queueTargetPoint(-650, 400, 270, -1, -1, -1, 0);
-						queueTargetPoint(-3081, 300, 275, 35, 15, 8, 750);
-						queueTargetPoint(-3121, 450, 270, 50, 50, 20, 0);
-						queueTargetPoint(-2715, 1872, 285, -1, -1, 11, 0); //12 //75, 20
-						*/
-						
-//						queueTargetPoint(-2175, 1872, 285, 450, 200, 15, 0);
-//						queueTargetPoint(-2189, 3116, 316, -1, -1, 10, 0);
-//						queueTargetPoint(-1513, 3830, 303, -1, -1, 12, 0);
-//						queueTargetPoint(-659, 5017, 286, -1, -1, 7, 0);
-//						queueTargetPoint(150, 5562, 200, 610, 200, -1, 0);
-//						queueTargetPoint(55, 7505, 185, 35.0, 5.0, -1, 6000);
-//						queueTargetPoint(-142, 11000, 200, 500, 200, -1, 0);//lost point
-//						queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
-//						queueTargetPoint(-503, 12046, 88, 800, 200, -1, 0);
-//						queueTargetPoint(-1200, 12810, 86, 800, 200, -1, 0);
-//						queueTargetPoint(-3010, 12810, 86, 240, 120.0, -1, 0);
-					}
-				}
-				else {
-					dequeueAll();
-					manualMode = true;
-				}
+				
+//				if(getSize() == 0) {
+//					autoPIDMode = true;
+//					allowArm = true;
+//					manualMode = false;
+//					if(robotMode == RED_SIDE) {
+//						setBrushlessMagnitude(7);
+//						queueTargetPoint(1000, 400, 90, -1, -1, -1, 0);
+//						queueTargetPoint(3321, 502, 83, 35, 15, 15, 500);
+//						
+//					}
+//					else if(robotMode == BLUE_SIDE) {
+//						setBrushlessMagnitude(7);
+//						queueTargetPoint(-1000, 400, 270, -1, -1, -1, 0);
+//						queueTargetPoint(-3176, 366, 277, 35, 15, 18, 500);
+//						
+//						//queueTargetPoint(-3500, 1897, 291, 50, 50, 20, 0);
+//						//queueTargetPoint(-2900, 3000, 303, -1, -1, 11, 0);
+//					}
+//				}
+//				else {
+//					dequeueAll();
+//					manualMode = true;
+//				}
 			}
 			else if(button_released(BUTTON_XBC_Y) && allowPIDUpdate) {
 				allowPIDUpdate = false;
 			}
 			if(button_pressed(BUTTON_XBC_B) && !allowModeUpdate)
-		{
-			allowModeUpdate = true;
-			sendClimbCommand(1200);
-		}
+				{
+					allowModeUpdate = true;
+					sendClimbCommand(1200);
+				}
 		else if(button_released(BUTTON_XBC_B) && allowModeUpdate)
 		{
 			allowModeUpdate = false;
@@ -374,6 +358,7 @@ void controllerInputUpdate() {
 			autoModeLaser = false;
 			benMode = false;
 			autoPIDMode = false;
+			approachFirstPosition = false;
 		}
 		else if(button_released(BUTTON_XBC_START) && allowModeUpdate) {
 			allowModeUpdate = false;
