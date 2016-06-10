@@ -14,6 +14,10 @@ Reading tempReading;
 
 u8 sat[16] = {0};
 
+bool first_scan = false;
+
+
+
 //Hue average
 u32 hueAverage = 0; 
 int green = 0;
@@ -46,9 +50,7 @@ void sensor_init(Reading*  max){
             while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
             for(u8 i=0;i<16;i++)
             {
-                //if((s32)ADC_val[i] < max->off_reading[i])max->red_reading[i] = max->off_reading[i];
-                //else max->red_reading[i] = (s32)ADC_val[i] - max->off_reading[i];
-								 if((s32)ADC_val[i] < max->red_reading[i])max->red_reading[i] = ADC_val[i];
+                if((s32)ADC_val[i] < max->red_reading[i])max->red_reading[i] = ADC_val[i];
             }
             GPIO_ResetBits(GPIOB,GPIO_Pin_11);
             DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -60,9 +62,7 @@ void sensor_init(Reading*  max){
             while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
             for(u8 i=0;i<16;i++)
             {
-                //if((s32)ADC_val[i] < max->off_reading[i])max->green_reading[i] = max->off_reading[i];
-                //else max->green_reading[i] = (s32)ADC_val[i]; // - max->off_reading[i];
-								if((s32)ADC_val[i] < max->green_reading[i])max->green_reading[i] = ADC_val[i];
+                if((s32)ADC_val[i] < max->green_reading[i])max->green_reading[i] = ADC_val[i];
             }
             GPIO_ResetBits(GPIOB,GPIO_Pin_12);
             DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -74,9 +74,7 @@ void sensor_init(Reading*  max){
             while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
             for(u8 i=0;i<16;i++)
             {
-                //if((s32)ADC_val[i] < max->off_reading[i])max->blue_reading[i] = max->off_reading[i];
-                //else max->blue_reading[i] = (s32)ADC_val[i]; // - max->off_reading[i];
-								if((s32)ADC_val[i] < max->blue_reading[i])max->blue_reading[i] = ADC_val[i];
+                if((s32)ADC_val[i] < max->blue_reading[i])max->blue_reading[i] = ADC_val[i];
             }
             GPIO_ResetBits(GPIOB,GPIO_Pin_10);
             DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -108,7 +106,6 @@ void sensor_init(Reading*  max){
         {
             if((s32)ADC_val[i] < tempReading.off_reading[i])tempReading.red_reading[i] = tempReading.off_reading[i];
             else tempReading.red_reading[i] = (((s32)ADC_val[i] - tempReading.off_reading[i])*255)/(max_1.red_reading[i]-tempReading.off_reading[i]);
-						//tempReading.red_reading[i] = (s32)ADC_val[i] - tempReading.off_reading[i];
         }
         GPIO_ResetBits(GPIOB,GPIO_Pin_11);
         DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -122,7 +119,6 @@ void sensor_init(Reading*  max){
         {
             if((s32)ADC_val[i]< tempReading.off_reading[i])tempReading.green_reading[i] = tempReading.off_reading[i];
             else tempReading.green_reading[i] = (((s32)ADC_val[i] - tempReading.off_reading[i])*255)/(max_1.green_reading[i]-tempReading.off_reading[i]);
-							//tempReading.green_reading[i] = (s32)ADC_val[i] - tempReading.off_reading[i];
         }
         GPIO_ResetBits(GPIOB,GPIO_Pin_12);
         DMA_ClearFlag(DMA1_FLAG_TC1);
@@ -136,19 +132,10 @@ void sensor_init(Reading*  max){
         {
             if((s32)ADC_val[i] < tempReading.off_reading[i])tempReading.blue_reading[i] = tempReading.off_reading[i];
             else tempReading.blue_reading[i] = (((s32)ADC_val[i] - tempReading.off_reading[i])*255)/(max_1.blue_reading[i]-tempReading.off_reading[i]);
-							//tempReading.blue_reading[i] = (s32)ADC_val[i] - tempReading.off_reading[i];
         }
         GPIO_ResetBits(GPIOB,GPIO_Pin_10);
         DMA_ClearFlag(DMA1_FLAG_TC1);
-        
-        for(u8 i=0;i < 16;i++)
-		{   
-			//normalizing RGB
-			//tempReading.red_reading[i] = (tempReading.red_reading[i])*255 / (max_1.red_reading[i]);
-			//tempReading.green_reading[i] = (tempReading.green_reading[i])*255 / (max_1.green_reading[i]);
-      //tempReading.blue_reading[i] = (tempReading.blue_reading[i])*255 / (max_1.blue_reading[i]);
-		}
-        
+            
         rgb_hsv_converter(&tempReading);
         
         //copy values of temp reading to the corresponding array
@@ -163,7 +150,6 @@ void sensor_init(Reading*  max){
         calibratedValueAverage[calibrationStage - 1] /= 16;
 
     }
-    //writeFlash();
     _delay_ms(500);
 }
 
@@ -275,17 +261,18 @@ void rgb_hsv_converter(Reading* reading){
 
 void analysisData(){
     hueAverage = 0;
-    
-    #ifndef HARDCODEMODE
     s32 minDiff = 10000;
     s32 diff;
 	u8 counter = 0;
-    for(u8 i = 0 ; i < 16 ; i++){
-        if(now.s[i] >= (calibratedSaturationAverage[currentZone] - (u8)SATOFFSET)){
-            hueAverage += now.h[i];
-            counter++;
-        }   
-    } 
+    
+    if(first_scan){
+        for(u8 i = 0 ; i < 16 ; i++){
+            if(now.s[i] >= (calibratedSaturationAverage[currentZone] - (u8)SATOFFSET)){
+                hueAverage += now.h[i];
+                counter++;
+            }   
+        } 
+    }
     
     hueAverage /= counter;
     for(u8 i = 0; i < NUMOFAREAS ; i++){
@@ -294,6 +281,8 @@ void analysisData(){
             currentZone = i;
             minDiff = diff;
         }
+        if(!first_scan)
+            first_scan = true;
     }
     for(u8 i = 0; i < 16 ;i++){
         if(now.s[i] >= (calibratedSaturationAverage[currentZone] - (u8)SATOFFSET))
@@ -301,63 +290,6 @@ void analysisData(){
         else 
             sat[i] = 1;
     }
-
-    #endif
-    
-    #ifdef HARDCODEMODE
-    //locate the location of whiteline
-    //Dark blue
-    if(hueAverage > RIVERLEFT && hueAverage <= RIVERRIGHT){
-        border = RIVERBORDER;
-        currentZone = RIVER;
-        for(int i = 0 ; i < 16 ; i++){
-            if(now.s[i] > border)sat[i] = 0;
-            else sat[i] = 1;
-        }
-    }
-    
-    //Orange
-    else if(hueAverage <= ORANGERIGHT && hueAverage > ORANGELEFT){
-        border = ORANGEBORDER;
-        currentZone = ORANGE;
-        for(int i = 0 ; i < 16 ; i++){
-            if(now.s[i] > border)sat[i] = 0;
-            else sat[i] = 1;
-        }
-    }
-    
-    //Light green
-    else if(hueAverage > LIGHTGREENLEFT && hueAverage <= LIGHTGREENRIGHT){
-        border = LIGHTGREENBORDER;
-        currentZone = LIGHTGREEN;
-        for(int i = 0 ; i < 16 ; i++){
-            if(now.s[i] > border)sat[i] = 0;
-            else sat[i] = 1;
-        }
-    }
-    
-    //Dark green
-    else if(hueAverage >= DARKGREENLEFT && hueAverage < DARKGREENRIGHT){
-        border = DARKGREENBORDER;
-        currentZone = DARKGREEN;
-        for(int i = 0 ; i < 16 ; i++){
-            if(now.v[i] > border)sat[i] = 1;
-            else sat[i] = 0;
-        }
-    }
-    
-    //Pink
-    else if(hueAverage > PINKLEFT && hueAverage <= PINKRIGHT){
-        border = PINKBORDER;
-        currentZone = STARTOREND;
-        for(int i = 0 ; i < 16 ; i++){
-            if(now.v[i] > border)sat[i] = 1;
-            else sat[i] = 0;
-        }
-    }
-    else currentZone = UNKNOWN;
-    //printInformation();
-    #endif
 }
 
 void sendData(){
@@ -387,7 +319,7 @@ void printInformation(){
     if (get_full_ticks() % 200 == 0){
         printf("Sensor:%d\n",0);
         printf("N : %d \tR: %d\tG: %d\tB: %d\r\n",max_1.off_reading[0],max_1.red_reading[0], max_1.green_reading[0], max_1.blue_reading[0]);
-        printf("N: %d\tR: %d\tG: %d\tB: %d\r\n",now.off_reading[0], now.red_reading[0], now.green_reading[0], now.blue_reading[0]);
+        printf("N : %d \tR: %d\tG: %d\tB: %d\r\n",now.off_reading[0], now.red_reading[0], now.green_reading[0], now.blue_reading[0]);
         printf("[hsv] H(360): %d\tS(100): %d\tV(100): %d\r\n",now.h[0],now.s[0],now.v[0]);
         for(u8 i = 0; i < 5 ; i++)printf("hue%d:%d\n",i,calibratedHueAverage[i]);
         printf("\n");

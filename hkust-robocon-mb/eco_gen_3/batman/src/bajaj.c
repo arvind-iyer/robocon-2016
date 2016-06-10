@@ -36,6 +36,7 @@ extern int pitch_of_imu;
 extern int hueAvg;
 int passedRiver = 0;
 int passedDownSlope = 0;
+int passedOrangeBeforeDownSlope = 0;
 float imuFactor;
 int imuMovement;
 int sat1;
@@ -54,17 +55,17 @@ void initializeValues(void){
     if(button_pressed(BUTTON_RED)){
         while(button_pressed(BUTTON_RED));
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARK_RED,RED); 
-        IMU_ANGLE1 = -25;
+        IMU_ANGLE1 = -35;
         NINETY_IMU = -180;
-        LESSER_TURNING = -300;
-        SLOPE_TURNING_RIGHT = 1800;
-        SLOPE_TURNING_LEFT = 1300;
+        LESSER_TURNING = -275;
+        SLOPE_TURNING_RIGHT = 1850;
+        SLOPE_TURNING_LEFT = 1250;
         DELAY = 1000;
         side = REDSIDE;
         infrared1 = INFRARED_SENSOR_RIGHT;
         infrared2 = INFRARED_SENSOR_LEFT;
         buttonRedCount = 0;
-        NINETY_TURNING = 1875;
+        NINETY_TURNING = 1750;
         currentSlopeZone = STARTZONE;
         strcpy(currentSlopeZoneString,"STARTZONE");
         systemOn = 1;
@@ -75,8 +76,8 @@ void initializeValues(void){
         IMU_ANGLE1 = 80;
         NINETY_IMU = 180;
         LESSER_TURNING = 300;
-        SLOPE_TURNING_RIGHT = 1800;
-        SLOPE_TURNING_LEFT = 1300;
+        SLOPE_TURNING_RIGHT = 1850;
+        SLOPE_TURNING_LEFT = 1250;
         DELAY = 1000;
         side = BLUESIDE;
         infrared1 = INFRARED_SENSOR_LEFT;
@@ -90,18 +91,18 @@ void initializeValues(void){
 }
 
 void systemInit(){
-		led_init();			//Initiate LED
-		ticks_init();		//Ticks initialization
+    led_init();			//Initiate LED
+    ticks_init();		//Ticks initialization
     tft_init(PIN_ON_BOTTOM,BLACK,WHITE,RED);     //LCD Initialization
-		buzzer_init();	//Initialize buzzer
+    buzzer_init();	//Initialize buzzer
     servo_init();
     button_init();
     encoder_init();
     infrared_sensor_init();
     ardu_imu_init();
     //MTi_1_UART_init();
-    
-	//Initialize the CAN protocol for motor
+
+    //Initialize the CAN protocol for motor
     can_init();
     can_rx_init();
     can_rx_add_filter(0x0C5,CAN_RX_MASK_EXACT,receive);
@@ -145,7 +146,7 @@ void print_data(){
     tft_prints(0,4,"ul:%d ur:%d", read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT),read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT));
     tft_prints(0,5,"le:%d state:%d",length,globalState);
     tft_prints(0,6,"fw:%d, river:%d",fullWhite,river);
-    tft_prints(0,7,"Center: %d", getLineCenter());
+    tft_prints(0,7,"v: %.2f e:%d", determine_velocity(ENCODER1),get_minimize_count(ENCODER1));
 	tft_prints(0,8,"priv: %d pds:%d",passedRiver,passedDownSlope);
     tft_prints(0,2,"%s",currentSlopeZoneString); 
 }
@@ -219,6 +220,15 @@ void goNormal(void){
                     lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                 }
             }
+            else if(passedDownSlope){
+                if ((((begin + end)/ 2) + 3) > 16) {
+                    lastMovement = SERVO_MICROS_RIGHT;
+                }
+                else{
+                    float factor = (((begin + end)/ 2) + 3) / (float) 16;
+                    lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
+                }   
+            }
             else if(fullWhite && passedRiver){
                 float factor = ((begin + end)/ 2) / (float) 16;
                 lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
@@ -228,7 +238,10 @@ void goNormal(void){
                 lastMovement = (SLOPE_TURNING_LEFT) - (factor * (SLOPE_TURNING_LEFT - SLOPE_TURNING_RIGHT));
             }
         }
-        if(gameZone == LIGHTGREENZONE && passedRiver && fullWhite){
+        if(passedRiver && fullWhite && gameZone == ORANGEZONE){
+            passedOrangeBeforeDownSlope = 1;
+        }
+        if(gameZone == LIGHTGREENZONE && passedOrangeBeforeDownSlope){
             passedDownSlope = 1;
         }
     servo_control(BAJAJ_SERVO,lastMovement);
@@ -237,7 +250,7 @@ void goNormal(void){
 void goNinety(void){
     switch(side){
         case REDSIDE:
-            if((int)ardu_cal_ypr[0] > -75){
+            if((int)ardu_cal_ypr[0] > -85){
                 fullWhite = 1;
                 globalState = NOT_RIVER;
             }
@@ -249,7 +262,7 @@ void goNinety(void){
             }
         break;
     }
-    lastMovement = NINETY_TURNING;
+    lastMovement = NINETY_TURNING  + ((int)determine_velocity(ENCODER1) * 20);
     servo_control(BAJAJ_SERVO,lastMovement);
 }
 /*
@@ -312,7 +325,7 @@ void goStraightLittleBit(void){
             lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING + (int)determine_velocity(ENCODER1) * 15;
             break;
         case REDSIDE:
-            lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING - (int)(determine_velocity(ENCODER1) * 10.0);
+            lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING - (int)(determine_velocity(ENCODER1) * 10);
             break;
     } 
     servo_control(BAJAJ_SERVO, lastMovement);
@@ -324,7 +337,7 @@ void goStraightLittleBit(void){
 }
 
 void printSystemOff(void){
-      //tft_prints(0,0,"PRESS RED / WHITE")
+      tft_prints(0,0,"PRESS RED / WHITE");
       tft_prints(0,1,"e1:%d e1f:%d",get_minimize_count(ENCODER1),get_full_count(ENCODER1));
       tft_prints(0,2,"velo:%.2f",determine_velocity(ENCODER1));
       tft_prints(0,3,"zone: %s",gameZoneString);
@@ -339,13 +352,29 @@ void printSystemOff(void){
 void determineZone(){
     switch(hueAvg){
         case 0:
-            gameZone = PINKZONE;
-            strcpy(gameZoneString,"PinkStart");
+            switch(side){
+                case REDSIDE:
+                    gameZone = PINKZONE;
+                    strcpy(gameZoneString,"PinkStart");
+                    break;
+                case BLUESIDE:
+                    gameZone = LIGHTBLUEZONE;
+                    strcpy(gameZoneString,"BlueStart");
+                    break;
+            }
             river  = 0;
             break;
         case 1:
-            gameZone = LIGHTBLUEZONE;
-            strcpy(gameZoneString,"BlueStart");
+            switch(side){
+                case REDSIDE:
+                    gameZone = PINKZONE;
+                    strcpy(gameZoneString,"PinkStart");
+                    break;
+                case BLUESIDE:
+                    gameZone = LIGHTBLUEZONE;
+                    strcpy(gameZoneString,"BlueStart");
+                    break;
+            }
             river = 0;
             break;
         case 2:

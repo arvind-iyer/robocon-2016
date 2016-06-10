@@ -35,12 +35,14 @@ int pitch_of_imu = 0;
 int lastMovement = SERVO_MICROS_MID;
 extern int passedRiver;
 extern int passedDownSlope;
+extern int passedOrangeBeforeDownSlope;
 extern char currentSlopeZoneString[10];
 
 int main(void) {
     //Initialization of all hardware
     systemInit();
     u32 ticks_ms_img = 0;
+    bool ready_to_end_game = false;
     bool songIsPlayed = false;
     bool startSong = false;
     bool cali = false;
@@ -85,7 +87,7 @@ int main(void) {
                                             START_UP_play;
                                             startSong = true;
                                         }                                       
-                                        if(gameZone == DARKGREENZONE){
+                                        if(gameZone == DARKGREENZONE && (get_minimize_count(ENCODER1) > 12)){
                                             currentSlopeZone = GREENSLOPE1;
                                             strcpy(currentSlopeZoneString,"GREENSLOPE1");
                                         } 
@@ -132,13 +134,18 @@ int main(void) {
                                                 globalState = NINETY;
                                             break;
                                             case 1:
-                                                if((river || gameZone == LIGHTGREENZONE) && fullWhite && !passedRiver)
+                                                if((river || gameZone == LIGHTGREENZONE) && !passedRiver)
                                                     {
                                                         START_UP_play;
-                                                        servo_control(BAJAJ_SERVO, SERVO_MICROS_MID - 300);
+                                                        servo_control(BAJAJ_SERVO, SERVO_MICROS_MID - 250);
                                                         globalState = STAGE3;
-                                                    }
-                                                else 
+                                                    } 
+                                                else if(passedDownSlope){
+                                                    reset_encoder_1();
+                                                    START_UP_play;
+                                                    globalState = STAGE4;
+                                                }
+                                                else
                                                     goNormal();
                                             break;
                                         }
@@ -157,22 +164,25 @@ int main(void) {
                             case STAGE3: //Right before locking the angle with IMU
                                 if(!read_infrared_sensor(infrared1)){
                                     reset_encoder_1();
-                                    ardu_cal_ypr[0] = (float)IMU_ANGLE1;
+                                    ardu_cal_ypr[0] = (float)(IMU_ANGLE1 - (determine_velocity(ENCODER1) * 5.0));
                                     globalState = STAGE1;
                                 }
                             break;
                             case STAGE4: //End game, make it turn extreme right / left for the hybrid to grip propeller
-                                if(determine_velocity(ENCODER1) < (float)1.0){
-                                    switch(side){
-                                        case REDSIDE:
-                                            servo_control(BAJAJ_SERVO,2300);
-                                        break;
-                                        case BLUESIDE:
-                                            servo_control(BAJAJ_SERVO,900);
-                                        break;
-                                    }
-                                }
+                                goNormal();
+                                if(determine_velocity(ENCODER1) < (float)1.0 && get_minimize_count(ENCODER1) > 15 && gameZone != LIGHTGREENZONE)
+                                    globalState = STAGE5;
                             break;
+                            case STAGE5:
+                                switch(side){
+                                    case REDSIDE:
+                                        servo_control(BAJAJ_SERVO,2250);
+                                    break;
+                                    case BLUESIDE:
+                                        servo_control(BAJAJ_SERVO,950);
+                                    break;
+                                }
+                            break;          
                         }
                     }
                     print_data(); //Print every data in the on(servo is active) system

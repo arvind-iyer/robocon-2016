@@ -140,7 +140,6 @@ float determine_velocity(ENCODER ENCODERx){
     //count velo only if end is larger or the same than start
     if(end_enc >= start_enc)
         velocity = (float)end_enc - (float)start_enc;
-    tft_prints(0,0,"s: %d, e: %d", start_enc, end_enc);
     return velocity;
 }
 

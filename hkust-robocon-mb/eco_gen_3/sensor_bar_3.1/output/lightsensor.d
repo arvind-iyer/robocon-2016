@@ -31,3 +31,4 @@
 .\output\lightsensor.o: .\src\stm32f10x_std\inc\stm32f10x_adc.h
 .\output\lightsensor.o: .\src\ustrobo_min_system\inc\approx_math.h
 .\output\lightsensor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\output\lightsensor.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

@@ -17,7 +17,7 @@ I (.\src\stm32f10x_std\inc\stm32f10x_usart.h)(0x574B1DD0)
 I (.\src\stm32f10x_std\inc\misc.h)(0x574B1DD0)
 I (.\src\stm32f10x_std\inc\stm32f10x_adc.h)(0x574B1DD0)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x55AEF5F2)
-F (.\src\user\main.c)(0x574B1E38)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_3\sensor_bar_3.1\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -DUSE_STM3210B_EVAL-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
+F (.\src\user\main.c)(0x575AE8CA)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_3\sensor_bar_3.1\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -DUSE_STM3210B_EVAL-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
 I (src\user\main.h)(0x574B1DD0)
 I (.\src\stm32f10x_std\inc\stm32f10x.h)(0x574B1DD0)
 I (.\src\stm32f10x_std\inc\core_cm3.h)(0x574B1DD0)
@@ -48,8 +48,9 @@ I (.\src\stm32f10x_std\inc\stm32f10x_adc.h)(0x574B1DD0)
 I (.\src\ustrobo_min_system\inc\delay.h)(0x574B1DD0)
 I (src\user\led.h)(0x574B1DD0)
 I (src\user\flashMem.h)(0x574B1DD0)
-I (src\user\lightSensor.h)(0x57592077)
+I (src\user\lightSensor.h)(0x575AD87E)
 I (.\src\ustrobo_min_system\inc\approx_math.h)(0x574B1DD0)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
 F (.\src\user\can_protocol.c)(0x574B1DD0)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_3\sensor_bar_3.1\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -DUSE_STM3210B_EVAL-o .\output\can_protocol.o --omf_browse .\output\can_protocol.crf --depend .\output\can_protocol.d)
 I (src\user\can_protocol.h)(0x574B1DD0)
 I (.\src\ustrobo_min_system\inc\ticks.h)(0x574B1DD0)
@@ -148,7 +149,7 @@ I (.\src\stm32f10x_std\inc\stm32f10x_rcc.h)(0x574B1DD0)
 I (.\src\stm32f10x_std\inc\stm32f10x_spi.h)(0x574B1DD0)
 I (.\src\stm32f10x_std\inc\stm32f10x_usart.h)(0x574B1DD0)
 I (.\src\stm32f10x_std\inc\misc.h)(0x574B1DD0)
-I (src\user\lightSensor.h)(0x57592077)
+I (src\user\lightSensor.h)(0x575AD87E)
 I (src\user\can.h)(0x574B1DD0)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
 I (.\src\stm32f10x_std\inc\stm32f10x_can.h)(0x574B1DD0)
@@ -163,8 +164,9 @@ I (.\src\ustrobo_min_system\inc\delay.h)(0x574B1DD0)
 I (.\src\stm32f10x_std\inc\stm32f10x_adc.h)(0x574B1DD0)
 I (.\src\ustrobo_min_system\inc\approx_math.h)(0x574B1DD0)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
-F (.\src\user\lightSensor.c)(0x5759270F)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_3\sensor_bar_3.1\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -DUSE_STM3210B_EVAL-o .\output\lightsensor.o --omf_browse .\output\lightsensor.crf --depend .\output\lightsensor.d)
-I (src\user\lightSensor.h)(0x57592077)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
+F (.\src\user\lightSensor.c)(0x575AD673)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_3\sensor_bar_3.1\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -DUSE_STM3210B_EVAL-o .\output\lightsensor.o --omf_browse .\output\lightsensor.crf --depend .\output\lightsensor.d)
+I (src\user\lightSensor.h)(0x575AD87E)
 I (.\src\stm32f10x_std\inc\stm32f10x.h)(0x574B1DD0)
 I (.\src\stm32f10x_std\inc\core_cm3.h)(0x574B1DD0)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
@@ -194,6 +196,7 @@ I (src\user\flashMem.h)(0x574B1DD0)
 I (.\src\stm32f10x_std\inc\stm32f10x_adc.h)(0x574B1DD0)
 I (.\src\ustrobo_min_system\inc\approx_math.h)(0x574B1DD0)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x55AEF5F2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
 F (.\src\ustrobo_min_system\src\approx_math.c)(0x574B1DD0)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O3 --apcs=interwork -I.\src -I.\src\stm32f10x_std\inc -I.\src\ustrobo_min_system\inc -I.\src\user-I C:\Users\BudiRyan\Documents\GitHub\robocon-2016\hkust-robocon-mb\eco_gen_3\sensor_bar_3.1\RTE-I C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include-I C:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="516" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -DSTM32F10X_MD -DUSE_STM3210B_EVAL-o .\output\approx_math.o --omf_browse .\output\approx_math.crf --depend .\output\approx_math.d)
 I (.\src\ustrobo_min_system\inc\approx_math.h)(0x574B1DD0)
 I (.\src\stm32f10x_std\inc\stm32f10x.h)(0x574B1DD0)
