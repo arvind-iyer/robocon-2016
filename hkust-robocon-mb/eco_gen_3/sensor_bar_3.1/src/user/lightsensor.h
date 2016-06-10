@@ -12,10 +12,12 @@
 #include "stm32f10x_dma.h"
 #include "approx_math.h"
 #include <stdlib.h>
+#include <stdbool.h>
 
 #define DELAY_US 1000 //800
 #define scalar 1000
 #define NUMOFAREAS 6
+#define NUMCALI 4
 #define SATOFFSET 30
 #define HUEOFFSET 30
 #define VALUEOFFSET 18
@@ -74,9 +76,9 @@ typedef struct
 	s32 blue_reading[16];
 	s32 green_reading[16];
 	s32 off_reading[16];
-	u16 h[16];
-	u16 s[16];
-	u16 v[16];
+	u32 h[16];
+	u32 s[16];
+	u32 v[16];
 }Reading;
 
 

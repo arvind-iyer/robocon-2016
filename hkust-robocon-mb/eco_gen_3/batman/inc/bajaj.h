@@ -37,7 +37,7 @@
 #define BAJAJ_SERVO SERVO1
 
 //Function enumerations(Please do not change these)
-enum{NOT_RIVER = 0, NINETY = 1, STAGE1 = 2, STAGE2 = 3, STAGE3 = 4 , STAGE4 = 5};
+enum{NOT_RIVER = 0, NINETY = 1, STAGE1 = 2, STAGE2 = 3, STAGE3 = 4 , STAGE4 = 5, STAGE5 = 6};
 
 enum{LEFT_SIDE = 5, RIGHT_SIDE = 6};
 

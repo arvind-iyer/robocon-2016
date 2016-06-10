@@ -33,3 +33,4 @@
 .\output\main.o: src\user\flashMem.h
 .\output\main.o: src\user\lightSensor.h
 .\output\main.o: .\src\ustrobo_min_system\inc\approx_math.h
+.\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
