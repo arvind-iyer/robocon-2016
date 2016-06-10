@@ -34,8 +34,8 @@ typedef enum{
 }SENSOR_BAR_FLAG;
 
 typedef enum{
-	BLUE_START = 0,
-	RED_START = 1,
+	RED_START = 0,
+	BLUE_START = 1,
 	SLOPE_GREEN = 2,
 	HIGH_ORANGE = 3,
 	RIVER_BLUE = 4, 
@@ -44,7 +44,7 @@ typedef enum{
 
 void sensorbar_init(void);
 void request_color_msg(void);
-u16 sb_pwm_1to1(u16 inc_pwm, u16 dec_pwm);
+u16 sb_pwm_1to1(u16 inc_pwm, u16 dec_pwm, s8 sensor_bar_bias);
 //Use which shape for the correction, like error^2, error^3
 SENSOR_BAR_FLAG sensor_bar_track(u8 power, u16 sensor_bar_Kp);
 s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag);

@@ -75,7 +75,11 @@ GAME_STAGE path_river_update(){
 			sensor_bar_get_corr(1, 100, &flag);
 			
 			if (flag != SENSOR_BAR_NTH){
-				u16 river_servo_pwm = sb_pwm_1to1(RIVER_SB_INC_PWM, RIVER_SB_DEC_PWM);
+				#ifdef BLUE_FIELD
+					u16 river_servo_pwm = sb_pwm_1to1(RIVER_SB_INC_PWM, RIVER_SB_DEC_PWM, -3);
+				#else
+					u16 river_servo_pwm = sb_pwm_1to1(RIVER_SB_INC_PWM, RIVER_SB_DEC_PWM, 3);
+				#endif
 				
 				si_clear();
 				si_set_pwm(river_servo_pwm);
@@ -103,11 +107,7 @@ GAME_STAGE path_river_update(){
 				river_stage++;
 				encoder_start_reading = get_average_encoder();
 				buzzer_play_song(RIVER_2, 200, 30);
-				#ifdef BLUE_FIELD
-					set_target(RIVER_STRAIGHT_YAW + 30);
-				#else
-					set_target(RIVER_STRAIGHT_YAW - 30);
-				#endif
+				set_target(RIVER_STRAIGHT_YAW + TURNING_AFTER_SECOND_ISLAND);
 			}
 			si_clear();
 			targeting_update(mti_int_ypr[0]);
@@ -116,9 +116,9 @@ GAME_STAGE path_river_update(){
 			
 		case 3:
 			#ifdef BLUE_FIELD
-				if (get_average_encoder()-encoder_start_reading > ENCODER_AFTER_THIRD_ISLAND){
+				if (get_average_encoder() - encoder_start_reading > ENCODER_AFTER_THIRD_ISLAND){
 			#else
-				if (get_average_encoder()-encoder_start_reading > ENCODER_AFTER_THIRD_ISLAND){
+				if (get_average_encoder() - encoder_start_reading > ENCODER_AFTER_THIRD_ISLAND){
 			#endif
 				river_stage++;
 			}

@@ -25,7 +25,7 @@ namespace Eco_Robot_Supporter {
 
         private void convert_to_255() {
             for (int i = 0; i < 3; i++) {
-                rgb_255[i] = raw_rgb[i] / 2;
+                rgb_255[i] = raw_rgb[i] *255 / 512;
             }
         }
 

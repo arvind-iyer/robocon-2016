@@ -142,6 +142,7 @@
             this.but_connect_3 = new System.Windows.Forms.Button();
             this.but_connect_2 = new System.Windows.Forms.Button();
             this.but_save = new System.Windows.Forms.Button();
+            this.but_load = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -311,7 +312,7 @@
             this.DS3_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DS3_white.Controls.Add(this.panel86);
-            this.DS3_white.Location = new System.Drawing.Point(4, 103);
+            this.DS3_white.Location = new System.Drawing.Point(4, 89);
             this.DS3_white.Margin = new System.Windows.Forms.Padding(4);
             this.DS3_white.Name = "DS3_white";
             this.DS3_white.Size = new System.Drawing.Size(229, 82);
@@ -330,6 +331,7 @@
             this.DS3_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DS3_label.AutoSize = true;
+            this.DS3_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.DS3_label.Location = new System.Drawing.Point(4, 175);
             this.DS3_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.DS3_label.Name = "DS3_label";
@@ -376,7 +378,7 @@
             this.RB3_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RB3_white.Controls.Add(this.panel81);
-            this.RB3_white.Location = new System.Drawing.Point(4, 103);
+            this.RB3_white.Location = new System.Drawing.Point(4, 89);
             this.RB3_white.Margin = new System.Windows.Forms.Padding(4);
             this.RB3_white.Name = "RB3_white";
             this.RB3_white.Size = new System.Drawing.Size(228, 82);
@@ -395,6 +397,7 @@
             this.RB3_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RB3_label.AutoSize = true;
+            this.RB3_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.RB3_label.Location = new System.Drawing.Point(4, 175);
             this.RB3_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.RB3_label.Name = "RB3_label";
@@ -441,7 +444,7 @@
             this.OH3_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OH3_white.Controls.Add(this.panel76);
-            this.OH3_white.Location = new System.Drawing.Point(4, 103);
+            this.OH3_white.Location = new System.Drawing.Point(4, 89);
             this.OH3_white.Margin = new System.Windows.Forms.Padding(4);
             this.OH3_white.Name = "OH3_white";
             this.OH3_white.Size = new System.Drawing.Size(228, 82);
@@ -460,6 +463,7 @@
             this.OH3_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OH3_label.AutoSize = true;
+            this.OH3_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.OH3_label.Location = new System.Drawing.Point(4, 175);
             this.OH3_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.OH3_label.Name = "OH3_label";
@@ -506,7 +510,7 @@
             this.GU3_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GU3_white.Controls.Add(this.panel71);
-            this.GU3_white.Location = new System.Drawing.Point(4, 103);
+            this.GU3_white.Location = new System.Drawing.Point(4, 89);
             this.GU3_white.Margin = new System.Windows.Forms.Padding(4);
             this.GU3_white.Name = "GU3_white";
             this.GU3_white.Size = new System.Drawing.Size(228, 82);
@@ -525,6 +529,7 @@
             this.GU3_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GU3_label.AutoSize = true;
+            this.GU3_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.GU3_label.Location = new System.Drawing.Point(4, 175);
             this.GU3_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.GU3_label.Name = "GU3_label";
@@ -571,7 +576,7 @@
             this.BS3_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BS3_white.Controls.Add(this.panel66);
-            this.BS3_white.Location = new System.Drawing.Point(4, 103);
+            this.BS3_white.Location = new System.Drawing.Point(4, 89);
             this.BS3_white.Margin = new System.Windows.Forms.Padding(4);
             this.BS3_white.Name = "BS3_white";
             this.BS3_white.Size = new System.Drawing.Size(228, 82);
@@ -590,6 +595,7 @@
             this.BS3_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BS3_label.AutoSize = true;
+            this.BS3_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.BS3_label.Location = new System.Drawing.Point(4, 175);
             this.BS3_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.BS3_label.Name = "BS3_label";
@@ -636,7 +642,7 @@
             this.RS3_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RS3_white.Controls.Add(this.panel61);
-            this.RS3_white.Location = new System.Drawing.Point(4, 103);
+            this.RS3_white.Location = new System.Drawing.Point(4, 89);
             this.RS3_white.Margin = new System.Windows.Forms.Padding(4);
             this.RS3_white.Name = "RS3_white";
             this.RS3_white.Size = new System.Drawing.Size(228, 82);
@@ -655,6 +661,7 @@
             this.RS3_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RS3_label.AutoSize = true;
+            this.RS3_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.RS3_label.Location = new System.Drawing.Point(4, 175);
             this.RS3_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.RS3_label.Name = "RS3_label";
@@ -701,7 +708,7 @@
             this.DS2_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DS2_white.Controls.Add(this.panel56);
-            this.DS2_white.Location = new System.Drawing.Point(4, 103);
+            this.DS2_white.Location = new System.Drawing.Point(4, 87);
             this.DS2_white.Margin = new System.Windows.Forms.Padding(4);
             this.DS2_white.Name = "DS2_white";
             this.DS2_white.Size = new System.Drawing.Size(229, 82);
@@ -720,6 +727,7 @@
             this.DS2_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DS2_label.AutoSize = true;
+            this.DS2_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.DS2_label.Location = new System.Drawing.Point(4, 173);
             this.DS2_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.DS2_label.Name = "DS2_label";
@@ -766,7 +774,7 @@
             this.RB2_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RB2_white.Controls.Add(this.panel51);
-            this.RB2_white.Location = new System.Drawing.Point(4, 103);
+            this.RB2_white.Location = new System.Drawing.Point(0, 87);
             this.RB2_white.Margin = new System.Windows.Forms.Padding(4);
             this.RB2_white.Name = "RB2_white";
             this.RB2_white.Size = new System.Drawing.Size(228, 82);
@@ -785,6 +793,7 @@
             this.RB2_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RB2_label.AutoSize = true;
+            this.RB2_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.RB2_label.Location = new System.Drawing.Point(4, 173);
             this.RB2_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.RB2_label.Name = "RB2_label";
@@ -831,7 +840,7 @@
             this.OH2_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OH2_white.Controls.Add(this.panel46);
-            this.OH2_white.Location = new System.Drawing.Point(4, 103);
+            this.OH2_white.Location = new System.Drawing.Point(4, 87);
             this.OH2_white.Margin = new System.Windows.Forms.Padding(4);
             this.OH2_white.Name = "OH2_white";
             this.OH2_white.Size = new System.Drawing.Size(228, 82);
@@ -850,6 +859,7 @@
             this.OH2_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OH2_label.AutoSize = true;
+            this.OH2_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.OH2_label.Location = new System.Drawing.Point(4, 173);
             this.OH2_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.OH2_label.Name = "OH2_label";
@@ -896,7 +906,7 @@
             this.GU2_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GU2_white.Controls.Add(this.panel41);
-            this.GU2_white.Location = new System.Drawing.Point(4, 103);
+            this.GU2_white.Location = new System.Drawing.Point(4, 87);
             this.GU2_white.Margin = new System.Windows.Forms.Padding(4);
             this.GU2_white.Name = "GU2_white";
             this.GU2_white.Size = new System.Drawing.Size(228, 82);
@@ -915,6 +925,7 @@
             this.GU2_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GU2_label.AutoSize = true;
+            this.GU2_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.GU2_label.Location = new System.Drawing.Point(4, 173);
             this.GU2_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.GU2_label.Name = "GU2_label";
@@ -961,7 +972,7 @@
             this.BS2_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BS2_white.Controls.Add(this.panel36);
-            this.BS2_white.Location = new System.Drawing.Point(4, 103);
+            this.BS2_white.Location = new System.Drawing.Point(4, 87);
             this.BS2_white.Margin = new System.Windows.Forms.Padding(4);
             this.BS2_white.Name = "BS2_white";
             this.BS2_white.Size = new System.Drawing.Size(228, 82);
@@ -980,6 +991,7 @@
             this.BS2_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BS2_label.AutoSize = true;
+            this.BS2_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.BS2_label.Location = new System.Drawing.Point(4, 173);
             this.BS2_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.BS2_label.Name = "BS2_label";
@@ -1026,7 +1038,7 @@
             this.RS2_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RS2_white.Controls.Add(this.panel31);
-            this.RS2_white.Location = new System.Drawing.Point(4, 103);
+            this.RS2_white.Location = new System.Drawing.Point(4, 87);
             this.RS2_white.Margin = new System.Windows.Forms.Padding(4);
             this.RS2_white.Name = "RS2_white";
             this.RS2_white.Size = new System.Drawing.Size(228, 82);
@@ -1045,6 +1057,7 @@
             this.RS2_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RS2_label.AutoSize = true;
+            this.RS2_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.RS2_label.Location = new System.Drawing.Point(4, 173);
             this.RS2_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.RS2_label.Name = "RS2_label";
@@ -1091,7 +1104,7 @@
             this.DS1_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DS1_white.Controls.Add(this.panel26);
-            this.DS1_white.Location = new System.Drawing.Point(4, 103);
+            this.DS1_white.Location = new System.Drawing.Point(4, 87);
             this.DS1_white.Margin = new System.Windows.Forms.Padding(4);
             this.DS1_white.Name = "DS1_white";
             this.DS1_white.Size = new System.Drawing.Size(229, 82);
@@ -1110,6 +1123,7 @@
             this.DS1_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DS1_label.AutoSize = true;
+            this.DS1_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.DS1_label.Location = new System.Drawing.Point(4, 173);
             this.DS1_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.DS1_label.Name = "DS1_label";
@@ -1156,7 +1170,7 @@
             this.RB1_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RB1_white.Controls.Add(this.panel21);
-            this.RB1_white.Location = new System.Drawing.Point(4, 103);
+            this.RB1_white.Location = new System.Drawing.Point(4, 87);
             this.RB1_white.Margin = new System.Windows.Forms.Padding(4);
             this.RB1_white.Name = "RB1_white";
             this.RB1_white.Size = new System.Drawing.Size(228, 82);
@@ -1175,6 +1189,7 @@
             this.RB1_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RB1_label.AutoSize = true;
+            this.RB1_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.RB1_label.Location = new System.Drawing.Point(4, 173);
             this.RB1_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.RB1_label.Name = "RB1_label";
@@ -1221,7 +1236,7 @@
             this.OH1_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OH1_white.Controls.Add(this.panel16);
-            this.OH1_white.Location = new System.Drawing.Point(4, 103);
+            this.OH1_white.Location = new System.Drawing.Point(4, 87);
             this.OH1_white.Margin = new System.Windows.Forms.Padding(4);
             this.OH1_white.Name = "OH1_white";
             this.OH1_white.Size = new System.Drawing.Size(228, 82);
@@ -1240,6 +1255,7 @@
             this.OH1_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.OH1_label.AutoSize = true;
+            this.OH1_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.OH1_label.Location = new System.Drawing.Point(4, 173);
             this.OH1_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.OH1_label.Name = "OH1_label";
@@ -1286,7 +1302,7 @@
             this.GU1_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GU1_white.Controls.Add(this.panel11);
-            this.GU1_white.Location = new System.Drawing.Point(4, 103);
+            this.GU1_white.Location = new System.Drawing.Point(4, 87);
             this.GU1_white.Margin = new System.Windows.Forms.Padding(4);
             this.GU1_white.Name = "GU1_white";
             this.GU1_white.Size = new System.Drawing.Size(228, 82);
@@ -1305,6 +1321,7 @@
             this.GU1_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.GU1_label.AutoSize = true;
+            this.GU1_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.GU1_label.Location = new System.Drawing.Point(4, 173);
             this.GU1_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.GU1_label.Name = "GU1_label";
@@ -1351,7 +1368,7 @@
             this.BS1_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BS1_white.Controls.Add(this.panel5);
-            this.BS1_white.Location = new System.Drawing.Point(4, 103);
+            this.BS1_white.Location = new System.Drawing.Point(2, 87);
             this.BS1_white.Margin = new System.Windows.Forms.Padding(4);
             this.BS1_white.Name = "BS1_white";
             this.BS1_white.Size = new System.Drawing.Size(228, 82);
@@ -1370,6 +1387,7 @@
             this.BS1_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BS1_label.AutoSize = true;
+            this.BS1_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.BS1_label.Location = new System.Drawing.Point(4, 173);
             this.BS1_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.BS1_label.Name = "BS1_label";
@@ -1416,7 +1434,7 @@
             this.RS1_white.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RS1_white.Controls.Add(this.panel6);
-            this.RS1_white.Location = new System.Drawing.Point(4, 103);
+            this.RS1_white.Location = new System.Drawing.Point(6, 87);
             this.RS1_white.Margin = new System.Windows.Forms.Padding(4);
             this.RS1_white.Name = "RS1_white";
             this.RS1_white.Size = new System.Drawing.Size(228, 82);
@@ -1435,6 +1453,7 @@
             this.RS1_label.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RS1_label.AutoSize = true;
+            this.RS1_label.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.RS1_label.Location = new System.Drawing.Point(4, 173);
             this.RS1_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.RS1_label.Name = "RS1_label";
@@ -1468,15 +1487,14 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage2.Size = new System.Drawing.Size(1457, 750);
+            this.tabPage2.Size = new System.Drawing.Size(1457, 701);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // console
             // 
-            this.console.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.console.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.console.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.console.ForeColor = System.Drawing.SystemColors.Window;
@@ -1491,10 +1509,10 @@
             // 
             // but_connect_3
             // 
-            this.but_connect_3.Location = new System.Drawing.Point(383, 16);
+            this.but_connect_3.Location = new System.Drawing.Point(381, 12);
             this.but_connect_3.Margin = new System.Windows.Forms.Padding(4);
             this.but_connect_3.Name = "but_connect_3";
-            this.but_connect_3.Size = new System.Drawing.Size(147, 28);
+            this.but_connect_3.Size = new System.Drawing.Size(151, 30);
             this.but_connect_3.TabIndex = 4;
             this.but_connect_3.Text = "Connect to COM3";
             this.but_connect_3.UseVisualStyleBackColor = true;
@@ -1502,10 +1520,10 @@
             // 
             // but_connect_2
             // 
-            this.but_connect_2.Location = new System.Drawing.Point(383, 43);
+            this.but_connect_2.Location = new System.Drawing.Point(381, 43);
             this.but_connect_2.Margin = new System.Windows.Forms.Padding(4);
             this.but_connect_2.Name = "but_connect_2";
-            this.but_connect_2.Size = new System.Drawing.Size(148, 28);
+            this.but_connect_2.Size = new System.Drawing.Size(151, 28);
             this.but_connect_2.TabIndex = 5;
             this.but_connect_2.Text = "Connect to COM15";
             this.but_connect_2.UseVisualStyleBackColor = true;
@@ -1513,13 +1531,23 @@
             // 
             // but_save
             // 
-            this.but_save.Location = new System.Drawing.Point(383, 69);
+            this.but_save.Location = new System.Drawing.Point(381, 67);
             this.but_save.Name = "but_save";
-            this.but_save.Size = new System.Drawing.Size(149, 28);
+            this.but_save.Size = new System.Drawing.Size(151, 28);
             this.but_save.TabIndex = 6;
             this.but_save.Text = "Save Config";
             this.but_save.UseVisualStyleBackColor = true;
             this.but_save.Click += new System.EventHandler(this.but_save_Click);
+            // 
+            // but_load
+            // 
+            this.but_load.Location = new System.Drawing.Point(381, 101);
+            this.but_load.Name = "but_load";
+            this.but_load.Size = new System.Drawing.Size(151, 28);
+            this.but_load.TabIndex = 7;
+            this.but_load.Text = "Load Config";
+            this.but_load.UseVisualStyleBackColor = true;
+            this.but_load.Click += new System.EventHandler(this.but_load_Click);
             // 
             // Main
             // 
@@ -1527,6 +1555,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(1507, 881);
+            this.Controls.Add(this.but_load);
             this.Controls.Add(this.but_save);
             this.Controls.Add(this.but_connect_2);
             this.Controls.Add(this.but_connect_3);
@@ -1739,6 +1768,7 @@
         private System.Windows.Forms.Button but_connect_3;
         private System.Windows.Forms.Button but_connect_2;
         private System.Windows.Forms.Button but_save;
+        private System.Windows.Forms.Button but_load;
     }
 }
 

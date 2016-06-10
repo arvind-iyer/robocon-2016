@@ -11,6 +11,7 @@ namespace Eco_Robot_Supporter {
         private Panel[,,] colorBoxes;
         private Label[,] labels;
         public Config config = new Config();
+        public RichTextBox console_box;
         delegate void updateDisplayDelegate(String msg);
 
         public Main() {
@@ -28,6 +29,7 @@ namespace Eco_Robot_Supporter {
                                            { OH1_label, OH2_label, OH3_label },
                                            { RB1_label, RB2_label, RB3_label },
                                            { DS1_label, DS2_label, DS3_label } };
+            console_box = console;
         }
 
         private void Form1_Load(object sender, EventArgs e) {
@@ -58,7 +60,7 @@ namespace Eco_Robot_Supporter {
             port.DataReceived += colorDataReceiver;
         }
 
-        private void updateDisplay(String msg) {
+        public void updateDisplay(String msg) {
             if (InvokeRequired) {
                 this.BeginInvoke(new updateDisplayDelegate(updateDisplay), new object[] {msg});
                 return;
@@ -82,9 +84,9 @@ namespace Eco_Robot_Supporter {
             while ((sender as SerialPort).BytesToRead>=3) {
                 byte[] buffer = new byte[3];
                 (sender as SerialPort).Read(buffer, 0, 3);
-                int region = buffer[0] & 31;    //Mask of 00011111 0~18
-                int type = (buffer[0] & 128)>>7;     //Mask of 10000000 0-White 1-Color
-                int rgb = ((buffer[0] & 96)>>5) - 1;     //Mask of 01100000 01-Red 10-Green 11-Blue
+                int region = buffer[0] & 31;            //Mask of 00011111 0~18
+                int type = (buffer[0] & 128)>>7;        //Mask of 10000000 0-White 1-Color
+                int rgb = ((buffer[0] & 96)>>5) - 1;    //Mask of 01100000 01-Red 10-Green 11-Blue
                 int color = (buffer[1]<<8) | buffer[2];
                 String msg = String.Format("Received! Region: {0}, Type: {1}, RGB: {2}, Color: {3}, Raw: {4} {5}\n",
                         region, type, rgb, color, buffer[0], buffer[1], buffer[2]);
@@ -97,6 +99,11 @@ namespace Eco_Robot_Supporter {
         private void but_save_Click(object sender, EventArgs e) {
             FileHandle fileHandle = new FileHandle(this);
             fileHandle.saveConfig();
+        }
+
+        private void but_load_Click(object sender, EventArgs e) {
+            FileHandle fileHandle = new FileHandle(this);
+            fileHandle.loadConfig();
         }
     }
 }

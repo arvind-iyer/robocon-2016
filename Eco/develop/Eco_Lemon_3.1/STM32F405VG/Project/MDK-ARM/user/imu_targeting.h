@@ -12,6 +12,8 @@
 #include "servo_interface.h"
 #include "quick_math.h"
 
+#define IMU_PID_P 450 //Scaled by 100
+
 extern s16 target_yaw;
 
 void targeting_update(s16 current_yaw);

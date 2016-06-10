@@ -26,8 +26,10 @@
 
 #ifdef BLUE_FIELD
 	#define RIVER_STRAIGHT_YAW (900)
+	#define TURNING_AFTER_SECOND_ISLAND (-10)
 #else
 	#define RIVER_STRAIGHT_YAW (-900)
+	#define TURNING_AFTER_SECOND_ISLAND (10)
 #endif
 
 #define IR_BUFFER_LENGTH 8

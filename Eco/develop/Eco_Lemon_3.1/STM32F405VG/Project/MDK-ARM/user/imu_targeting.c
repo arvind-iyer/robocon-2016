@@ -15,5 +15,5 @@ s16 targeting_pid(s16 current_yaw){
 }
 
 void targeting_update(s16 current_yaw){
-	si_add_deg_bias(targeting_pid(current_yaw)*5);
+	si_add_deg_bias(targeting_pid(current_yaw)*IMU_PID_P/100);
 }

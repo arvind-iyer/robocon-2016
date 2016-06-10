@@ -19,13 +19,29 @@ namespace Eco_Robot_Supporter {
             saveFileDialog.Title = "Save Lemon's configuration";
             saveFileDialog.AddExtension = true;
             saveFileDialog.DefaultExt = ".config";
-            saveFileDialog.ShowDialog();
-            if (saveFileDialog.FileName != "") {
-                FileStream fileStream = (FileStream)saveFileDialog.OpenFile();
+            saveFileDialog.FileName = "config";
+            saveFileDialog.Filter = "Configuration (.config)|*.config";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK) {
                 string json = JsonConvert.SerializeObject(main.config);
-                byte[] info = new UTF8Encoding(true).GetBytes(json);
-                fileStream.Write(info, 0, info.Length);
-                fileStream.Close();
+                File.WriteAllText(Path.GetFullPath(saveFileDialog.FileName), json);
+
+                String formatted_text = String.Format("File saved. Path: {0}\r\n", Path.GetFullPath(saveFileDialog.FileName));
+                main.updateDisplay(formatted_text);
+            }
+        }
+
+        public void loadConfig() {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Load Lemon's configuration";
+            openFileDialog.Filter = "Configuration (.config)|*.config|All Files (*.*)|*.*";
+            openFileDialog.FilterIndex = 1;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK) {
+                String json = File.ReadAllText(Path.GetFullPath(openFileDialog.FileName));
+                main.config = JsonConvert.DeserializeObject<Config>(json);
+
+                String formatted_text = String.Format("File loaded. Path: {0}\r\n", Path.GetFullPath(openFileDialog.FileName));
+                main.updateDisplay(formatted_text);
             }
         }
     }

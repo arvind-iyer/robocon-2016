@@ -45,12 +45,15 @@
 #define HIT_BOX_PORT PE3
 
 //Make deceleration faster than acceleration
-#define BASE_ACC_CONSTANT 3500 //Scaled by 1000
-#define BASE_DEC_CONSTANT 8500 //Scaled by 1000
-#define ROTATE_ACCEL_CONSTANT 14000 //Scaled by 1000 
+#define BASE_ACC_CONSTANT 2700 //3500 //Scaled by 1000
+#define BASE_DEC_CONSTANT 2800 //8500 //Scaled by 1000
+#define BASE_VEL_JOYSTICK_GAIN 1300 //Scaled by 1000
+#define ROTATE_ACCEL_CONSTANT 3500 //14000 //Scaled by 1000 
+#define MOTOR_MAX_MY_BOUND 50 //<150
 
 #define BRUSHLESS_POWER_STEP 5
-#define BRUSHLESS_SERVO_STEP 2
+#define BRUSHLESS_SERVO_SMALL_STEP 2
+#define BRUSHLESS_SERVO_LARGE_STEP 5
 
 #define GRIPPER_STATES_NO 4
 #define GRIPPER_TICKS_THRESHOLD 50

@@ -70,7 +70,7 @@ GAME_STAGE path_up_sb_update(){
 		}
 		
 		if (flag != SENSOR_BAR_NTH){
-			upslope_servo_pwm = sb_pwm_1to1(SLOPE_SB_INC_PWM, SLOPE_SB_DEC_PWM);
+			upslope_servo_pwm = sb_pwm_1to1(SLOPE_SB_INC_PWM, SLOPE_SB_DEC_PWM, 0);
 			si_clear();
 			si_set_pwm(upslope_servo_pwm);
 			si_execute();

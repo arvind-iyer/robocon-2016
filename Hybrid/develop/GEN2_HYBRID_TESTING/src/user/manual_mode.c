@@ -173,8 +173,8 @@ void manual_update_wheel_base(){
 			global_axis = true;
 			
 		}else{
-			vx = xbc_get_joy(XBC_JOY_LX);
-			vy = xbc_get_joy(XBC_JOY_LY);
+			vx = xbc_get_joy(XBC_JOY_LX) *BASE_VEL_JOYSTICK_GAIN /1000;
+			vy = xbc_get_joy(XBC_JOY_LY) *BASE_VEL_JOYSTICK_GAIN /1000;
 			
 			if (vx!=0 || vy!=0){
 				global_axis = false;
@@ -263,8 +263,8 @@ void manual_update_wheel_base(){
 				}
 			}
 			
-			if (abs(motor_vel_max)>150){
-				s32 motor_ratio = 150*10000/abs(motor_vel_max); //Scaled by 10000
+			if (abs(motor_vel_max)>MOTOR_MAX_MY_BOUND){
+				s32 motor_ratio = MOTOR_MAX_MY_BOUND*10000/abs(motor_vel_max); //Scaled by 10000
 				for (u8 i=0;i<3;i++){
 					motor_vel[i] = (s32)motor_vel[i]*motor_ratio/10000;
 				}
@@ -286,7 +286,7 @@ void manual_update_wheel_base(){
 ** This fast update is for controlling things that require a high refresh rate
 ** It contains:
 ** - Locking itself in place
-** - Angle PID (disabled)
+** - Angle PID (disabled)f
 ** - Laser tracking
 */
 void manual_fast_update(){
@@ -385,8 +385,8 @@ void manual_fast_update(){
 		}
 	}
 	
-	if (abs(motor_vel_max)>150){
-		s32 motor_ratio = 150*10000/abs(motor_vel_max); //Scaled by 10000
+	if (abs(motor_vel_max)>MOTOR_MAX_MY_BOUND){
+		s32 motor_ratio = MOTOR_MAX_MY_BOUND*10000/abs(motor_vel_max); //Scaled by 10000
 		for (u8 i=0;i<3;i++){
 			motor_vel[i] = (s32)motor_vel[i]*motor_ratio/10000;
 		}
@@ -491,7 +491,7 @@ void manual_interval_update(){
 	tft_append_line("%d", curr_speed);
 	tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_angle());
 	tft_append_line("%d %d %d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str, rotating_machine_by_90, rotating_machine_by_90_target);
-	tft_append_line("LS: %d %d", get_ls_cal_reading(0), get_ls_cal_reading(2));
+	tft_append_line("LS: %d %d IR:%d", get_ls_cal_reading(0), get_ls_cal_reading(2), gpio_read_input(&ARM_IR_PORT));
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	tft_update();
 }
@@ -563,14 +563,22 @@ void manual_control_brushless_update(){
 	tft_append_line("%d", brushless_power_percent);
 	
 	// brushless arm
-	if (xbc_get_joy(XBC_JOY_RX)>500){
-		brushless_servo_val += BRUSHLESS_SERVO_STEP;
+	if (xbc_get_joy(XBC_JOY_RX)>450){
+		if (xbc_get_joy(XBC_JOY_RX)>750){
+			brushless_servo_val += BRUSHLESS_SERVO_LARGE_STEP;
+		}else{
+			brushless_servo_val += BRUSHLESS_SERVO_SMALL_STEP;
+		}
 		if (brushless_servo_val > 140)
 			brushless_servo_val = 140;
 		brushless_servo_control(brushless_servo_val);
 	}
-	if (xbc_get_joy(XBC_JOY_RX)<-500){
-		brushless_servo_val -= BRUSHLESS_SERVO_STEP;
+	if (xbc_get_joy(XBC_JOY_RX)<-450){
+		if (xbc_get_joy(XBC_JOY_RX)<-750){
+			brushless_servo_val -= BRUSHLESS_SERVO_LARGE_STEP;
+		}else{
+			brushless_servo_val -= BRUSHLESS_SERVO_SMALL_STEP;
+		}
 		if (brushless_servo_val < -140)
 			brushless_servo_val = -140;
 		brushless_servo_control(brushless_servo_val);

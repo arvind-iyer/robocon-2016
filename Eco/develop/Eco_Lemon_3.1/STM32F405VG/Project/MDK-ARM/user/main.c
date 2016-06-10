@@ -51,7 +51,7 @@ int main(void) {
 		if (any_loop_diff > LONG_LOOP_TICKS){
 			led_blink(LED_D1);
 			tft_clear();
-			tft_println("[  <3 ~LEMON~ <3]");
+			tft_println("[ <3 ~LEMON~ <3]");
 
 			game_stage = menu_update(game_stage);
 			
@@ -100,7 +100,7 @@ int main(void) {
 			tft_println("LP: %d %d", this_loop_ticks, any_loop_diff, short_loop_per_long_loop);
 			tft_println("ANG:%d %d %d", mti_int_ypr[0], mti_int_ypr[1], mti_int_ypr[2]);
 			tft_println("EN:%d %d", get_dis(ENCODER1), get_dis(ENCODER2));
-			tft_println("ACC:%d %d %d", mti_int_acc[0], mti_int_acc[1], mti_int_acc[2]);
+			tft_println("VEL:%d", get_vel());
 			tft_println("CS:%d %d %d", get_x(), get_y(), get_z());
 			tft_println("SR: %s", colors_string[sensorbar_region]);
 			short_loop_per_long_loop = 0;

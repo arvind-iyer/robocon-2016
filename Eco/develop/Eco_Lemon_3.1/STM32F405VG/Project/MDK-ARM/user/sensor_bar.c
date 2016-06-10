@@ -96,8 +96,8 @@ void sensorbar_init(){
 	can_rx_add_filter(SENSOR_BAR_WHITE_COLOR_RETURN, CAN_RX_MASK_EXACT, sensor_bar_cali_color_receiver);
 }
 
-u16 sb_pwm_1to1(u16 inc_pwm, u16 dec_pwm){
-	return SERVO_MED_PWM - dec_pwm + (inc_pwm+dec_pwm)*sensor_bar_mid/16;
+u16 sb_pwm_1to1(u16 inc_pwm, u16 dec_pwm, s8 sensor_bar_bias){
+	return SERVO_MED_PWM - dec_pwm + (inc_pwm+dec_pwm)*(sensor_bar_mid+sensor_bar_bias)/16;
 }
 
 void request_color_msg(){
