@@ -8,8 +8,7 @@
 #include "main.h"
 
 void dual_laser_init(void);
-u16 get_dual_laser_dis(void);
-u16 get_dual_laser_avg_dis(void);
+s16 get_cheap_laser_dis(u8 id);
 void dual_laser_init_update(void);
 bool is_dual_laser_ready(void);
 

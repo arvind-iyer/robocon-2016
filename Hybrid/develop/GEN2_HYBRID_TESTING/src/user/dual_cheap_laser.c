@@ -105,30 +105,15 @@ inline static u8 a2d(u8 ascii){
 }
 
 //Find the newest data and convert it
-u16 get_dual_laser_dis(){
+s16 get_cheap_laser_dis(u8 id){
 	if (!is_ready){
 		return 0;
 	}
 	
-	u8 pointer = 0;
-	if (last_ticks_laser[0] < last_ticks_laser[1]){
-		pointer = 1;
+	if (laser_byte_array[id][3] == 'E'){
+		return -1;
+	}else{
+		return a2d(laser_byte_array[id][3])*100000 + a2d(laser_byte_array[id][4])*10000 + a2d(laser_byte_array[id][5])*1000
+				+ a2d(laser_byte_array[id][7])*100 + a2d(laser_byte_array[id][8])*10 + a2d(laser_byte_array[id][9]);
 	}
-	
-	return a2d(laser_byte_array[pointer][3])*100000 + a2d(laser_byte_array[pointer][4])*10000 + a2d(laser_byte_array[pointer][5])*1000
-						+ a2d(laser_byte_array[pointer][7])*100 + a2d(laser_byte_array[pointer][8])*10 + a2d(laser_byte_array[pointer][9]);
-}
-
-//Find the average distance
-u16 get_dual_laser_avg_dis(){
-	if (!is_ready){
-		return 0;
-	}
-	
-	u16 sum = 0;
-	for (u8 pointer=0;pointer<2;pointer++){
-		sum += a2d(laser_byte_array[pointer][3])*100000 + a2d(laser_byte_array[pointer][4])*10000 + a2d(laser_byte_array[pointer][5])*1000
-						+ a2d(laser_byte_array[pointer][7])*100 + a2d(laser_byte_array[pointer][8])*10 + a2d(laser_byte_array[pointer][9]);
-	}
-	return sum/2;
 }

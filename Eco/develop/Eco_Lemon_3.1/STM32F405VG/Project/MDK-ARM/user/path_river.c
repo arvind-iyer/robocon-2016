@@ -76,9 +76,9 @@ GAME_STAGE path_river_update(){
 			
 			if (flag != SENSOR_BAR_NTH){
 				#ifdef BLUE_FIELD
-					u16 river_servo_pwm = sb_pwm_1to1(RIVER_SB_INC_PWM, RIVER_SB_DEC_PWM, -3);
+					u16 river_servo_pwm = sb_pwm_1to1(RIVER_SB_INC_PWM, RIVER_SB_DEC_PWM, -RIVER_FIRST_SENSOR_BAR_BIAS);
 				#else
-					u16 river_servo_pwm = sb_pwm_1to1(RIVER_SB_INC_PWM, RIVER_SB_DEC_PWM, 3);
+					u16 river_servo_pwm = sb_pwm_1to1(RIVER_SB_INC_PWM, RIVER_SB_DEC_PWM, RIVER_FIRST_SENSOR_BAR_BIAS);
 				#endif
 				
 				si_clear();
