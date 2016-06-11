@@ -14,6 +14,8 @@ void dual_laser_init_update(void);
 bool is_dual_laser_ready(void);
 u16 get_laser_dis(u8 id);
 
+extern u8 laser_byte_array[2][100];
+
 #define DUAL_INIT_TICKS_DELAY 100
 #define DUAL_LASER1_UART COM3
 #define DUAL_LASER2_UART COM4

@@ -20,14 +20,14 @@ void xbc_global_update(){
 	//Turn on the emergency lock if the xbox controller is loose
 	CAN_XBC_CONNECTION_MODE this_connection_state = can_xbc_get_connection();
 	if (this_connection_state != last_connection_state){
-		if (this_connection_state == CAN_XBC_DISCONNECTED){
+		if (this_connection_state == CAN_XBC_DISCONNECTED || this_connection_state == CAN_XBC_CAN_CONNECTED){
 			emergency_lock = LOCKED;
 			emergency_stop();
-			buzzer_beep(2500);
+			buzzer_play_song(CRAZY_YELL, 100, 0);
 		}else if(this_connection_state == CAN_XBC_ALL_CONNECTED){
 			emergency_lock = UNLOCKED;
 			manual_vel_set_zero();
-			buzzer_beep(500);
+			buzzer_play_song(START_UP2, 100, 0);
 		}
 		last_connection_state = this_connection_state;
 	}

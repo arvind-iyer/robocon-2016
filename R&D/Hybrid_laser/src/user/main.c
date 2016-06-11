@@ -45,8 +45,11 @@ int main(void) {
 			led_blink(LED_D1);
 			tft_clear();
 			tft_append_line("%d", get_full_ticks());
+			tft_append_line("%d", get_laser_dis(1));
 			tft_append_line("%d", get_dual_laser_dis());
 			tft_append_line("%d", get_dual_laser_avg_dis());
+			tft_append_line("%c%c%c%c%c%c%c", laser_byte_array[1][3],laser_byte_array[1][4], laser_byte_array[1][5], laser_byte_array[1][6]
+			, laser_byte_array[1][7], laser_byte_array[1][8], laser_byte_array[1][9]);
 			tft_update();
 			last_short_loop_ticks = this_loop_ticks;
 		}

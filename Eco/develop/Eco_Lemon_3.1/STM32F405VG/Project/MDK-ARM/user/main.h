@@ -87,6 +87,7 @@
 #include "path_downslope.h"
 #include "path_down_imu.h"
 #include "path_river.h"
+#include "path_river_new.h"
 #include "path_station.h"
 
 #include "sb_cali.h"

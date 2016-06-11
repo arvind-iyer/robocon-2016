@@ -22,11 +22,11 @@ GAME_STAGE path_down_update(){
 	tft_println("SE: %d", start_dis);
 	
 	#ifdef BLUE_FIELD
-		if((get_average_dis() - start_dis > 800) && (flag == SENSOR_BAR_ALL || sensorbar_region == BLUE_START)){
+		if((get_average_dis() - start_dis > DOWN_SLOPE_MIN_DIS) && (flag == SENSOR_BAR_ALL || sensorbar_region == BLUE_START)){
 			return (GAME_STAGE)(GOING_DOWN_HILL+1);
 		}
 	#else
-		if((get_average_dis() - start_dis > 800) && (flag == SENSOR_BAR_ALL || sensorbar_region == RED_START)){
+		if((get_average_dis() - start_dis > DOWN_SLOPE_MIN_DIS) && (flag == SENSOR_BAR_ALL || sensorbar_region == RED_START)){
 			return (GAME_STAGE)(GOING_DOWN_HILL+1);
 		}
 	#endif

@@ -36,6 +36,9 @@ static LOCK_STATE ground_wheels_lock = UNLOCKED;
 static LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
 
 static u16 brushless_power_percent = 20;
+static u32 brushless_pressed_ticks = 0;
+static u32 brushless_counted_ticks = 0;
+static bool brushless_last_press_inc_flag = true;
 
 static s16 brushless_servo_val = 0;
 static u16 encoder_val = 0;
@@ -407,7 +410,7 @@ void manual_interval_update(){
 	//sa_print_info();
 	
 	if (button_hitted[BUTTON_XBC_START]){
-		buzzer_beep(75);
+		buzzer_play_song(SUCCESSFUL_SOUND, 75, 0);
 		if (manual_stage == 0){
 			pole_as_front = true;
 			using_laser_sensor = false;
@@ -473,7 +476,7 @@ void manual_interval_update(){
 	}
 	
 	if (button_hitted[BUTTON_XBC_BACK]){
-		buzzer_beep(175);
+		buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
 		limit_manual_init();
 		manual_stage = 2;
 		gripper_down = true;
@@ -499,23 +502,9 @@ void manual_interval_update(){
 void manual_first_control_update(){
 	manual_control_brushless_update(); 
 	
-	if (button_hitted[BUTTON_XBC_B]){
-		if (brushless_str){
-			#ifdef BLUE_FIELD
-				brushless_servo_val = 90;
-			#else
-				brushless_servo_val = -90;
-			#endif
-		}else{
-			brushless_servo_val = 0;
-		}
-		brushless_str = !brushless_str;
-		brushless_servo_control(brushless_servo_val);
-	}
-	
 	//Pressing the back button to enable laser tracking
 	if (button_hitted[BUTTON_XBC_Y]){
-		buzzer_beep(75);
+		buzzer_play_song(SUCCESSFUL_SOUND, 75, 0);
 		using_laser_sensor = !using_laser_sensor;
 	}
 }
@@ -525,37 +514,77 @@ void manual_second_control_update() {
 	
 	//Gripper servo
 	if (button_hitted[BUTTON_XBC_Y]){
+		buzzer_play_song(HIGH_BEEP, 125, 0);
 		gripper_down = !gripper_down;
 		gripper_control(THIS_GRIPPER, gripper_down);
 	}
 	//Gripper push
 	if (button_hitted[BUTTON_XBC_B]){
+		buzzer_play_song(HIGH_BEEP, 125, 0);
 		gripper_extended = !gripper_extended;
 		gripper_push_control(THIS_GRIPPER, gripper_extended);
 	}
 	//Gripper claw
 	if (button_hitted[BUTTON_XBC_A]){
+		buzzer_play_song(HIGH_BEEP, 125, 0);
 		gripper_clawed = !gripper_clawed;
 		gripper_claw_control(THIS_GRIPPER, gripper_clawed);
 	}
 }
 
+void manual_brushless_inc_step(){
+	buzzer_play_song(BEEP, 75, 0);
+	if (brushless_power_percent < 100){
+		brushless_power_percent += BRUSHLESS_POWER_STEP;
+	}
+	if (brushless_power_percent == (20 + BRUSHLESS_POWER_STEP)){
+		brushless_power_percent += BRUSHLESS_POWER_STEP;
+	}
+}
+
+void manual_brushless_dec_step(){
+	buzzer_play_song(BEEP, 75, 0);
+	if (brushless_power_percent > 20){
+		brushless_power_percent -= BRUSHLESS_POWER_STEP;
+	}
+}
+
 void manual_control_brushless_update(){
-	//Brushless power control
+	//Brushless power control, one hit
 	if (button_hitted[BUTTON_XBC_RB]){
-		buzzer_beep(75);
-		if (brushless_power_percent < 100){
-			brushless_power_percent += BRUSHLESS_POWER_STEP;
-		}
-		if (brushless_power_percent == (20 + BRUSHLESS_POWER_STEP)){
-			brushless_power_percent += BRUSHLESS_POWER_STEP;
-		}
+		brushless_last_press_inc_flag = true;
+		brushless_pressed_ticks = this_loop_ticks;
+		brushless_counted_ticks = 0;
+		manual_brushless_inc_step();
 	}
 	
 	if (button_hitted[BUTTON_XBC_LB]){
-		buzzer_beep(75);
-		if (brushless_power_percent > 20){
-			brushless_power_percent -= BRUSHLESS_POWER_STEP;
+		brushless_last_press_inc_flag = false;
+		brushless_pressed_ticks = this_loop_ticks;
+		brushless_counted_ticks = 0;
+		manual_brushless_dec_step();
+	}
+	
+	//Brushless continuous control, i.e. holding
+	if (button_pressed(BUTTON_XBC_RB) && brushless_last_press_inc_flag){
+		if ((this_loop_ticks - brushless_pressed_ticks) > BRUSHLESS_START_CONTIN_TICKS && brushless_counted_ticks==0){
+			brushless_counted_ticks += BRUSHLESS_START_CONTIN_TICKS;
+			manual_brushless_inc_step();
+		}
+		
+		if ((this_loop_ticks - brushless_pressed_ticks) > (BRUSHLESS_KEEP_CONTIN_TICKS + brushless_counted_ticks)){
+			brushless_counted_ticks += BRUSHLESS_KEEP_CONTIN_TICKS;
+			manual_brushless_inc_step();
+		}
+	}else if(button_pressed(BUTTON_XBC_LB) && !brushless_last_press_inc_flag){
+		if ((this_loop_ticks - brushless_pressed_ticks) > BRUSHLESS_START_CONTIN_TICKS && brushless_counted_ticks==0){
+			brushless_counted_ticks += BRUSHLESS_START_CONTIN_TICKS;
+			manual_brushless_dec_step();
+		}
+		
+		if ((this_loop_ticks - brushless_pressed_ticks) > (BRUSHLESS_KEEP_CONTIN_TICKS + brushless_counted_ticks)){
+			brushless_counted_ticks += BRUSHLESS_KEEP_CONTIN_TICKS;
+			manual_brushless_dec_step();
 		}
 	}
 	

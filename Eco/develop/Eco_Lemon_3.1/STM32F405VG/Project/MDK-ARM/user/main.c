@@ -51,7 +51,6 @@ int main(void) {
 		if (any_loop_diff > LONG_LOOP_TICKS){
 			led_blink(LED_D1);
 			tft_clear();
-			tft_println("[ <3 ~LEMON~ <3]");
 
 			game_stage = menu_update(game_stage);
 			
@@ -60,12 +59,12 @@ int main(void) {
 					if (mti_all_ready()){
 						game_stage++;
 					}else{
-						tft_println("[SYSTEM WAITING]");
+						tft_println("[LEMON WAITING]");
 					}
 					break;
 					
 				case CLIMBING_SLOPE:
-					tft_println("[CLIMBING]");
+					tft_println("[LEMON CLIMB]");
 					#ifdef IMU_UPSLOPE
 						game_stage = path_up_imu_update(); 
 					#else
@@ -74,18 +73,18 @@ int main(void) {
 					break;
 				
 				case CROSSING_RIVER:
-					tft_println("[RIVERING]");
+					tft_println("[LEMON RIVER]");
 					game_stage = path_river_update();
 					break;
 				
 				case GOING_DOWN_HILL:
-					tft_println("[GOING DOWN]");
+					tft_println("[LEMON DOWN]");
 					game_stage = path_down_update();                                                                                                                  
 					//Update slower for down slope
 					break;
 				
 				case IN_STATION:
-					tft_println("[WIND STATION]");
+					tft_println("[LEMON STATION]");
 					game_stage = path_station_update();
 					break;
 				
@@ -94,19 +93,18 @@ int main(void) {
 					break;
 				
 				default:
-					tft_println("[WTF]");
+					tft_println("[LEMON WTF]");
 			}
 			
 			tft_println("LP: %d %d", this_loop_ticks, any_loop_diff, short_loop_per_long_loop);
 			tft_println("ANG:%d %d %d", mti_int_ypr[0], mti_int_ypr[1], mti_int_ypr[2]);
-			tft_println("EN:%d %d", get_dis(ENCODER1), get_dis(ENCODER2));
-			tft_println("VEL:%d", get_vel());
-			tft_println("CS:%d %d %d", get_x(), get_y(), get_z());
+			tft_println("EN:%d %d %d", get_dis(ENCODER1), get_dis(ENCODER2), get_vel());
+			//tft_println("CS:%d %d %d", get_x(), get_y(), get_z());
 			tft_println("SR: %s", colors_string[sensorbar_region]);
 			short_loop_per_long_loop = 0;
 			
 			for (u8 i=0; i<16; i++){
-				tft_prints(i, 8, "%d", sensor_bar_filtered[i]);
+				tft_prints(i, 9, "%d", sensor_bar_filtered[i]);
 			}
 			tft_update();
 			last_long_loop_ticks = this_loop_ticks;

@@ -30,6 +30,7 @@
 #include "encoder.h"
 
 /*** Optional ***/
+#include "buzzer_song.h"
 #include "can.h"
 #include "can_protocol.h"
 #include "can_motor.h"

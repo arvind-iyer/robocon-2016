@@ -80,7 +80,7 @@ TICKS_IRQHandler
     } else {
       ticks++;
     }
-		buzzer_update();
+		buzzer_check();
   }
 	
 }

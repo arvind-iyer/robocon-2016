@@ -6,7 +6,7 @@
 ** Author: Rex Cheng
 **/
 
-static u8 laser_byte_array[2][100] = {65};
+u8 laser_byte_array[2][100] = {65};
 static u8 laser_byte_pointer[2] = {0};
 static u32 last_ticks_laser[2] = {0};
 static u32 last_init_ticks = 0;
@@ -134,6 +134,10 @@ u16 get_dual_laser_avg_dis(){
 }
 
 u16 get_laser_dis(u8 id){
-	return a2d(laser_byte_array[id][3])*100000 + a2d(laser_byte_array[id][4])*10000 + a2d(laser_byte_array[id][5])*1000
-						+ a2d(laser_byte_array[id][7])*100 + a2d(laser_byte_array[id][8])*10 + a2d(laser_byte_array[id][9]);
+	if (laser_byte_array[id][3] == 'E'){
+		return -1;
+	}else{
+		return a2d(laser_byte_array[id][3])*100000 + a2d(laser_byte_array[id][4])*10000 + a2d(laser_byte_array[id][5])*1000
+				+ a2d(laser_byte_array[id][7])*100 + a2d(laser_byte_array[id][8])*10 + a2d(laser_byte_array[id][9]);
+	}
 }
