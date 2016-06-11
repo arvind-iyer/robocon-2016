@@ -95,7 +95,16 @@ void laserPID() {
 		int horizontalM = 50;
 		if(get_pos()->y > 5500) horizontalM = 30;
 		else if(get_pos()->y < yCoordSystem * 0.37) horizontalM = 30;
-		laserW = offsetDiff < -35	 ? 30 : (offsetDiff > 35 ? -30 : 0);
+		/* this is yours Kristian */
+		//laserW = offsetDiff < -35	 ? 30 : (offsetDiff > 35 ? -30 : 0);
+		/* PK */
+		laserW = -offsetDiff * 1.2;
+		if (laserW > 30) {
+			laserW = 30;
+		}
+		if (laserW < -30) {
+			laserW = -30;
+		}
 		//laserW = robotMode == RED_SIDE ? -laserW : laserW;
 		//laserW = -((int_arc_tan2(diff, 510)-180) * 10 / 180);
 		//laserW = (Abs(laserW) > 50 ? (laserW > 0 ? 50 : -50) :laserW);
@@ -105,19 +114,23 @@ void laserPID() {
 		//else if (get_ls_cal_reading(0) + get_ls_cal_reading(1) < 450) laserB = robotMode == RED_SIDE ? 180+115 : 110;
 		setM(horizontalM);
 		setBearing(robotMode == RED_SIDE ? 270 : 90);
-		setW(laserW);
-		addComponent();
-		
-		int sum = min(2, get_ls_cal_reading(0), get_ls_cal_reading(1)) * 2;
-		int verticalM = sum - laserTargVal;
-		int range = laserTargVal - 200;
-		
-		verticalM = verticalM  * (horizontalM) / range;
-		verticalM = min(2, 30, max(2, -30, verticalM));
-		setM(verticalM);
-		setBearing(0);
 		setW(0);
 		addComponent();
+		
+		/* PK */
+		if (get_ls_cal_reading(0) != 1000 && get_ls_cal_reading(1) != 1000) {
+		
+			int sum = min(2, get_ls_cal_reading(0), get_ls_cal_reading(1)) * 2;
+			int verticalM = sum - laserTargVal;
+			int range = laserTargVal - 200;
+			
+			verticalM = verticalM  * (horizontalM) / range;
+			verticalM = min(2, 30, max(2, -30, verticalM));
+			setM(verticalM);
+			setBearing(0);
+			setW(laserW);
+			addComponent();
+		}
 		
 		//Blowing speeds
 			if(robotMode == RED_SIDE) {

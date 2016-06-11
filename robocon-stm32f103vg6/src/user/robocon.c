@@ -36,7 +36,12 @@ void robocon_main(void)
 		}
 		dataSampling();
 		reset();
-		if (manualMode)manualControl();
+		if (manualMode) {
+			lockBearing(LOCK);
+			manualControl();
+		} else {
+			lockBearing(UNLOCK);
+		}
 		if(allowArm) {
 			armIr = gpio_read_input(&PE8);
 			armUpdate();
@@ -73,7 +78,6 @@ void robocon_main(void)
 			controllerInputUpdate();
 			sendWheelbaseCommand();
 		}
-		
 	}
 }
 

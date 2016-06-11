@@ -11,6 +11,9 @@ extern bool rightJoyInUse;
 
 int targetAngle = 0;
 
+int lockBearingState;
+int lockedBearing;
+
 /**
   * @brief Manual Control of the robot based on the LEFT_JOY and RIGHT_JOY axis values
   */
@@ -18,7 +21,23 @@ int targetAngle = 0;
 void manualControl() {
 	setM(getTranslationMagnitude());
 	setBearing(getTranslationBearing());
-	setW(getRotationValue());
+	if (lockBearingState == LOCK && 1 != 1) {
+		if (getRotationValue() != 0) {
+			lockedBearing = get_pos()->angle / 10;
+			setW(getRotationValue());
+		} else {
+			int diff = lockedBearing - get_pos()->angle / 10;
+			if (diff > 180) {
+				diff = diff - 360;
+			}
+			if (diff < -180) {
+				diff = diff + 360;
+			}
+			setW(diff * 0.8);
+		}
+	} else {
+		setW(getRotationValue());
+	}
 	addComponent();
 	parseWheelbaseValues();
 	//sendWheelbaseCommand();
@@ -26,7 +45,7 @@ void manualControl() {
 
 int getTranslationMagnitude() {
 	if(!benMode) return (xbc_get_joy(XBC_JOY_LY)*xbc_get_joy(XBC_JOY_LY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/12000;
-	else return -(xbc_get_joy(XBC_JOY_RY)*xbc_get_joy(XBC_JOY_RY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/12000;
+	else return -(xbc_get_joy(XBC_JOY_RY)*xbc_get_joy(XBC_JOY_RY)+xbc_get_joy(XBC_JOY_LX)*xbc_get_joy(XBC_JOY_LX))/12000 / 1.8; //pk wants it slow
 }
 
 int getTranslationBearing() {
@@ -53,3 +72,11 @@ int generateWForTargetAngle(int angle) {
 	return magnitude;
 }
 
+void lockBearing(int state) {
+	if (lockBearingState != state) {
+		lockBearingState = state;
+		if (lockBearingState == LOCK) {
+			lockedBearing = get_pos()->angle / 10;
+		}
+	}
+}
