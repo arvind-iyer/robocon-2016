@@ -251,7 +251,7 @@ void updateQueue () {
 				
 				blowTime = dt;
 				if(currentPath.position.y == wagateki) {
-					setBrushlessMagnitude(13); //12
+					setBrushlessMagnitude(14); //12
 				//else if (dt >= time/2 && dt < time*3/4) {
 				//	setBrushlessMagnitude(10); //18 
 				//} 
@@ -318,6 +318,8 @@ void updateQueue () {
 			int magnitude = calculatePathVelocity(currentPath, robot);
 			int translationBearing = calculatePathBearing(currentPath, robot);
 			int angularVelocity = calculatePathAngularVelocity(currentPath, robot);
+			
+			if(currentPath.position.y == wagateki && currentPath.position.x == wagamama && currentDistance < currentPath.distanceThreshold) magnitude = 0;
 			
 			calculatePIDMotorValues(magnitude, translationBearing, angularVelocity);
 		}

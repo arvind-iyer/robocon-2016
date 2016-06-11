@@ -2,7 +2,7 @@
 
 #define MOVETIME 1500
 
-int y = 0, x = 0, increment = 0, haha = 0, wagateki = 0, savedX=0, savedY=0;
+int y = 0, x = 0, increment = 0, haha = 0, wagateki = 0, wagamama = 0, savedX=0, savedY=0;
 int laserM = 45, laserW = 0, laserB = 0, verticalM = 0, targAngle = 270;
 bool fieldDetected = false, targetReached = false;
 
@@ -172,26 +172,32 @@ void enterPole() {
 /**
 	* @brief Laser auto movement part for the uphill part of the game
 	*/
+int offsetDiff = 0;
 
 void laserPID() {
-	int yCoordSystem = robotMode == RED_SIDE ? (semiAuto ? 8200 : 7682) : (semiAuto ? 9800 : 7682);
+	int yCoordSystem = robotMode == RED_SIDE ? (semiAuto ? 8200 : 7400) : (semiAuto ? 9800 : 7400);
 	if(fieldDetected) {
 		int diff = get_ls_cal_reading(0) - get_ls_cal_reading(1);
-		int offsetDiff = (get_pos()->y < yCoordSystem * 0.7 ? diff - 4 : diff+10);
+		
+		if(robotMode == RED_SIDE) offsetDiff = (get_pos()->y < yCoordSystem * 0.7 ? diff: diff-10);
+		else if (robotMode == BLUE_SIDE) offsetDiff = (get_pos()->y < yCoordSystem * 0.7 ? diff - 4 : diff+10);
 		//int offsetDiff = diff;
+		
 		int laserTargVal = robotMode == RED_SIDE ? 495 : 495;
-		int horizontalM = semiAuto ? 65 : 50;
-		if(get_pos()->y > 0.9 * yCoordSystem) horizontalM = 30;
-		else if(get_pos()->y < yCoordSystem * 0.4 && !semiAuto ) horizontalM = 30;
+		int horizontalM = semiAuto ? 65 : 70;
+		if(get_pos()->y > 0.86 * yCoordSystem) {
+			horizontalM = 30;
+		}
+		else if(get_pos()->y < yCoordSystem * 0.35 && !semiAuto ) horizontalM = 50;
 		/* this is yours Kristian */
 		//laserW = offsetDiff < -35	 ? 30 : (offsetDiff > 35 ? -30 : 0);
 		/* PK */
-		laserW = -offsetDiff * 1.2;
-		if (laserW > (semiAuto ? 60 : 30)) {
-			laserW = semiAuto ? 60 : 30;
+		laserW = -offsetDiff * (semiAuto ? 1.2 : (get_pos()->y > 0.86 * yCoordSystem ? 1.2 : 1.4));
+		if (laserW > (semiAuto ? 55 : (get_pos()->y > 0.86 * yCoordSystem ? 30 : 60))) {
+			laserW = semiAuto ? 55 : 60;
 		}
-		if (laserW < (semiAuto ? -60 : -30)) {
-			laserW = semiAuto ? -60 : -30;
+		if (laserW < (semiAuto ? -55 : (get_pos()->y > 0.86 * yCoordSystem ? -30 : -60))) {
+			laserW = semiAuto ? -55 : (get_pos()->y > 0.86 * yCoordSystem ? -30 : -60);
 		}
 		//laserW = robotMode == RED_SIDE ? -laserW : laserW;
 		//laserW = -((int_arc_tan2(diff, 510)-180) * 10 / 180);
@@ -211,7 +217,7 @@ void laserPID() {
 			int sum = min(2, get_ls_cal_reading(0), get_ls_cal_reading(1)) * 2;
 			int verticalM = sum - laserTargVal;
 			int range = laserTargVal - 200;
-			int cap = semiAuto ? 15 : 11;
+			int cap = semiAuto ? 18 : 21;
 			
 			verticalM = verticalM  * (cap) / range;
 			verticalM = min(2, cap, max(2, -cap, verticalM));
@@ -226,8 +232,8 @@ void laserPID() {
 		//Blowing speeds
 			if(robotMode == RED_SIDE) {
 				if(!semiAuto){
-					if(get_pos()->y > yCoordSystem * 0.4 && get_pos()->y < yCoordSystem * 0.6) setBrushlessMagnitude(14);
-					if(get_pos()->y > yCoordSystem * 0.6 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(16);
+					if(get_pos()->y > yCoordSystem * 0.4 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(13);
+					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(10);
 					if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(0);
 				}
 
@@ -236,7 +242,7 @@ void laserPID() {
 				//if(get_ls_cal_reading(0) > 800){
 				
 					//Finish Conditions
-				if(get_pos()->y > 4000 && get_ls_cal_reading(1) > 800 && !semiAuto) {
+				if(get_pos()->y > yCoordSystem /* && get_ls_cal_reading(1) > 775*/ && !semiAuto) {
 						wheelbaseLock();
 						autoModeLaser = false;
 						//manualMode = true;
@@ -245,9 +251,10 @@ void laserPID() {
 						autoPIDMode = true;
 						fieldDetected = false;
 						
-						queueTargetPoint(get_pos()->x - 300, get_pos()->y-300, get_pos()->angle/10, 100, 50, -1, 0);
-						queueTargetPoint(get_pos()->x - 250, get_pos()->y-300, 175, 35, 5, -1, 6500);
-						wagateki = get_pos()->y - 300;
+						queueTargetPoint(get_pos()->x - 300, get_pos()->y-200, get_pos()->angle/10, 100, 50, -1, 0);
+						queueTargetPoint(get_pos()->x - 200, get_pos()->y-200, 175, 2000, 10, -1, 6500);
+						wagateki = get_pos()->y -200;
+						wagamama = get_pos()->x - 200;
 						
 						//queueTargetPoint(0, 11000, 200, 500, 200, -1, 0);//lost point
 						//queueTargetPoint(50, 8508, 200, 500, 200, -1, 0);
@@ -277,6 +284,7 @@ void laserPID() {
 		
 						queueTargetPoint(get_pos()->x + 300, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0);
 						queueTargetPoint(get_pos()->x + 250, get_pos()->y, 185, 35, 5, -1, 6500);
+						wagamama = get_pos()->x + 250;
 						wagateki = get_pos()->y;
 						
 						//queueTargetPoint(0, 11000, 200, 500, 200, -1, 0);//lost point
@@ -298,8 +306,8 @@ void laserPID() {
 					fieldDetected = true;
 				}
 				else{
-					setM(30);
-					setBearing(robotMode == RED_SIDE ? 263 : 97);
+					setM(45);
+					setBearing(robotMode == RED_SIDE ? 264 : 97);
 					setW(angularVelocity);
 					addComponent();
 					parseWheelbaseValues();
@@ -380,7 +388,7 @@ void moveToFirstPosition (void) {
 						approachFirstPosition = false;
 						savedX = get_pos()->x;
 						savedY = get_pos()->y;
-						queueTargetPoint(savedX, savedY, get_pos()->angle/10, 35, 15, 15, 500);
+						queueTargetPoint(savedX, savedY, get_pos()->angle/10, 35, 15, 16, 500);
 						autoPIDMode = true;
 						allowArm = true;
 						//manualMode = true;
