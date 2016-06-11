@@ -6,6 +6,94 @@ int y = 0, x = 0, increment = 0, haha = 0, wagateki = 0, savedX=0, savedY=0;
 int laserM = 45, laserW = 0, laserB = 0, verticalM = 0, targAngle = 270;
 bool fieldDetected = false, targetReached = false;
 
+static u8 laser_byte_array[2][100] = {65};
+static u8 laser_byte_pointer[2] = {0};
+static u32 last_ticks_laser[2] = {0};
+static u32 last_init_ticks = 0;
+static u8 init_stage = 0;
+static bool is_ready = false;
+
+void dual_laser_init(){
+	
+	last_init_ticks = get_full_ticks();
+	init_stage = 0;
+}
+
+void dual_laser_init_update(){
+	if (get_full_ticks() - last_init_ticks > TICKS_DELAY){
+		switch (init_stage){
+			case 0:
+				//Change data output time
+					uart_tx_byte(COM1, 0xFA);
+					uart_tx_byte(COM1, 0x04);
+					uart_tx_byte(COM1, 0x05);
+					uart_tx_byte(COM1, 0x00);
+					uart_tx_byte(COM1, 0xFD);
+					laser_byte_pointer[COM1] = 0;
+				init_stage++;
+				break;
+				
+			case 1:
+				//Set freq
+					uart_tx_byte(COM1, 0xFA);
+
+					uart_tx_byte(COM1, 0x04);
+					uart_tx_byte(COM1, 0x0A);
+					uart_tx_byte(COM1, 0x14);
+					uart_tx_byte(COM1, 0xE4);
+					laser_byte_pointer[COM1] = 0;
+				init_stage++;
+				break;
+				
+			case 2:
+				//Start laser
+					uart_tx_byte(COM1, 0x80);
+					uart_tx_byte(COM1, 0x06);
+					uart_tx_byte(COM1, 0x03);
+					uart_tx_byte(COM1, 0x77);
+				init_stage++;
+				break;
+				
+			case 3:
+				is_ready = true;
+				break;
+		}
+		last_init_ticks = get_full_ticks();
+	}
+}
+
+bool is_dual_laser_ready(){
+	return is_ready;
+}
+
+void LaserHandlerFunction(u8 rx_data) {
+	
+		laser_byte_array[0][laser_byte_pointer[0]++] = rx_data;
+		if (rx_data == 0x80){
+			laser_byte_pointer[0] = 1;
+			last_ticks_laser[0] = get_full_ticks();
+		}
+}
+
+//ascii to decimal
+inline static u8 a2d(u8 ascii){
+	return ascii - 48;
+}
+
+//Find the newest data and convert it
+s16 get_cheap_laser_dis(u8 id){
+	if (!is_ready){
+		return 0;
+	}
+	
+	if (laser_byte_array[id][3] == 'E'){
+		return -1;
+	}else{
+		return a2d(laser_byte_array[id][3])*100000 + a2d(laser_byte_array[id][4])*10000 + a2d(laser_byte_array[id][5])*1000
+				+ a2d(laser_byte_array[id][7])*100 + a2d(laser_byte_array[id][8])*10 + a2d(laser_byte_array[id][9]);
+	}
+}
+
 /**
 	* @brief Calculates values for the motor required to enter the pole
 	*/
@@ -86,24 +174,24 @@ void enterPole() {
 	*/
 
 void laserPID() {
-	int yCoordSystem = robotMode == RED_SIDE ? 7682 : 7682;
+	int yCoordSystem = robotMode == RED_SIDE ? (semiAuto ? 8200 : 7682) : (semiAuto ? 9800 : 7682);
 	if(fieldDetected) {
 		int diff = get_ls_cal_reading(0) - get_ls_cal_reading(1);
-		int offsetDiff = (get_pos()->y < yCoordSystem * 0.7 ? diff : diff+10);
+		int offsetDiff = (get_pos()->y < yCoordSystem * 0.7 ? diff - 4 : diff+10);
 		//int offsetDiff = diff;
 		int laserTargVal = robotMode == RED_SIDE ? 495 : 495;
-		int horizontalM = 50;
-		if(get_pos()->y > 5500) horizontalM = 30;
-		else if(get_pos()->y < yCoordSystem * 0.37) horizontalM = 30;
+		int horizontalM = semiAuto ? 65 : 50;
+		if(get_pos()->y > 0.9 * yCoordSystem) horizontalM = 30;
+		else if(get_pos()->y < yCoordSystem * 0.4 && !semiAuto ) horizontalM = 30;
 		/* this is yours Kristian */
 		//laserW = offsetDiff < -35	 ? 30 : (offsetDiff > 35 ? -30 : 0);
 		/* PK */
 		laserW = -offsetDiff * 1.2;
-		if (laserW > 30) {
-			laserW = 30;
+		if (laserW > (semiAuto ? 60 : 30)) {
+			laserW = semiAuto ? 60 : 30;
 		}
-		if (laserW < -30) {
-			laserW = -30;
+		if (laserW < (semiAuto ? -60 : -30)) {
+			laserW = semiAuto ? -60 : -30;
 		}
 		//laserW = robotMode == RED_SIDE ? -laserW : laserW;
 		//laserW = -((int_arc_tan2(diff, 510)-180) * 10 / 180);
@@ -123,9 +211,12 @@ void laserPID() {
 			int sum = min(2, get_ls_cal_reading(0), get_ls_cal_reading(1)) * 2;
 			int verticalM = sum - laserTargVal;
 			int range = laserTargVal - 200;
+			int cap = semiAuto ? 15 : 11;
 			
-			verticalM = verticalM  * (horizontalM) / range;
-			verticalM = min(2, 30, max(2, -30, verticalM));
+			verticalM = verticalM  * (cap) / range;
+			verticalM = min(2, cap, max(2, -cap, verticalM));
+			verticalM = verticalM > 0 ? verticalM : verticalM*2;
+			
 			setM(verticalM);
 			setBearing(0);
 			setW(laserW);
@@ -136,7 +227,7 @@ void laserPID() {
 			if(robotMode == RED_SIDE) {
 				if(!semiAuto){
 					if(get_pos()->y > yCoordSystem * 0.4 && get_pos()->y < yCoordSystem * 0.6) setBrushlessMagnitude(14);
-					if(get_pos()->y > yCoordSystem * 0.6 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(24);
+					if(get_pos()->y > yCoordSystem * 0.6 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(16);
 					if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(0);
 				}
 
@@ -166,8 +257,8 @@ void laserPID() {
 			}
 			else if(robotMode == BLUE_SIDE) {
 				if(!semiAuto) {
-					if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(21);
-					if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(14);
+					if(get_pos()->y > yCoordSystem * 0.5 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(14);
+					if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(16);
 				}
 				parseWheelbaseValues();
 

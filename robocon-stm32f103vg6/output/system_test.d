@@ -42,6 +42,8 @@
 .\output\system_test.o: .\src\stm32f10x_std\inc\stm32f10x_can.h
 .\output\system_test.o: .\src\ustrobo_min_system\inc\usart.h
 .\output\system_test.o: .\src\ustrobo_min_system\inc\encoder.h
+.\output\system_test.o: .\src\user\pk/hybrid_gpio.h
+.\output\system_test.o: .\src\user\pk/hybrid_pneumatic.h
 .\output\system_test.o: .\src\ustrobo_min_system\inc\can_motor.h
 .\output\system_test.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\system_test.o: .\src\ustrobo_min_system\inc\gyro.h
@@ -52,8 +54,6 @@
 .\output\system_test.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
 .\output\system_test.o: .\src\user\laser_sensor.h
 .\output\system_test.o: .\src\user\pk/pk_wheelbase.h
-.\output\system_test.o: .\src\user\pk/hybrid_pneumatic.h
-.\output\system_test.o: .\src\user\pk/hybrid_gpio.h
 .\output\system_test.o: .\src\user\pk/control.h
 .\output\system_test.o: .\src\user\pk/pk_manual.h
 .\output\system_test.o: .\src\user\pk/pk_brushless.h

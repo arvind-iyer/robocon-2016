@@ -43,6 +43,8 @@
 .\output\main.o: .\src\ustrobo_min_system\inc\usart.h
 .\output\main.o: .\src\ustrobo_min_system\inc\encoder.h
 .\output\main.o: .\src\ustrobo_min_system\inc\system_test.h
+.\output\main.o: .\src\user\pk/hybrid_gpio.h
+.\output\main.o: .\src\user\pk/hybrid_pneumatic.h
 .\output\main.o: .\src\ustrobo_min_system\inc\can_motor.h
 .\output\main.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\main.o: .\src\ustrobo_min_system\inc\gyro.h
@@ -53,8 +55,6 @@
 .\output\main.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
 .\output\main.o: .\src\user\laser_sensor.h
 .\output\main.o: .\src\user\pk/pk_wheelbase.h
-.\output\main.o: .\src\user\pk/hybrid_pneumatic.h
-.\output\main.o: .\src\user\pk/hybrid_gpio.h
 .\output\main.o: .\src\user\pk/control.h
 .\output\main.o: .\src\user\pk/pk_manual.h
 .\output\main.o: .\src\user\pk/pk_brushless.h

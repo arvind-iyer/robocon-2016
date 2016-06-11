@@ -78,6 +78,72 @@ void adc_app_test(void)
 	}  
 }
 
+bool updating = true;
+
+void climbing_test(void) {
+	hybridGPIOInit();
+	hybridPneumaticInit();
+	pk_init();
+	while(true) {
+		if(get_full_ticks() % 3 == 0) {
+			limitSwitchCheck();
+			button_update();
+			
+			if(button_pressed(BUTTON_XBC_RB)) {
+				sendArmCommand(40);
+			}
+			else if(button_released(BUTTON_XBC_RB)) {
+				sendArmCommand(0);
+			}
+			if(button_pressed(BUTTON_XBC_LB)) {
+				sendArmCommand(-40);
+			}
+			else if(button_released(BUTTON_XBC_LB)) {
+				sendArmCommand(0);
+			}
+			
+			if(button_pressed(BUTTON_XBC_Y) && updating){
+				updating = false;
+				pneumatics.P1 = !pneumatics.P1;
+			}
+			else if(button_released(BUTTON_XBC_Y) && !updating){
+				updating = true;
+			}
+			if(button_pressed(BUTTON_XBC_X) && updating){
+				updating = false;
+				pneumatics.P2 = !pneumatics.P2;
+			}
+			else if(button_released(BUTTON_XBC_X) && !updating){
+				updating = true;
+			}
+			if(button_pressed(BUTTON_XBC_A) && updating){
+				updating = false;
+				pneumatics.P3 = !pneumatics.P3;
+			}
+			else if(button_released(BUTTON_XBC_A) && !updating){
+				updating = true;
+			}
+			
+			if(button_pressed(BUTTON_XBC_B) && updating){
+				updating = false;
+				sendClimbCommand(1200);
+			}
+			else if(button_released(BUTTON_XBC_B) && !updating){
+				updating = true;
+				sendClimbCommand(0);
+			}
+			
+		}
+		if(get_full_ticks() % 10 == 0) {
+			tft_prints(0, 0, "P: %d|%d|%d|%d", getPneumaticState().P1, getPneumaticState().P2, getPneumaticState().P3, getPneumaticState().P4);
+			tft_prints(0, 1, "LS: %d|%d|%d|%d|%d", prevLimitSwitch[0], prevLimitSwitch[1],  prevLimitSwitch[2], prevLimitSwitch[3], armIr); 
+			tft_prints(0, 2, "ENC: %d", get_encoder_value(MOTOR8));
+			hybridPneumaticControl();
+		}
+		
+	}
+}
+
 void bluetooth_test(void)
 {
 	while (true) {

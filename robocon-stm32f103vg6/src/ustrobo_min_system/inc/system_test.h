@@ -18,6 +18,8 @@
 #include "can_xbc_mb.h"
 #include "button.h"
 #include "encoder.h"
+#include "pk/hybrid_gpio.h"
+#include "pk/hybrid_pneumatic.h"
 
 /*** Optional ***/
 #include "can_protocol.h"
@@ -52,5 +54,6 @@ void mb1240_test(void);
 void us_mb_test(void);
 void nec_mb_test(void);
 void shift_test(void);
+void climbing_test(void);
  
 #endif /* __SYSTEM_TEST_H */
