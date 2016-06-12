@@ -5,8 +5,8 @@ s16 angle = 0, real_x = 0, real_y = 0;
 s16 angle_offset = 0, x_offset = 0, y_offset = 0;
 
 //unusable for some reason =,=
-s32 SHIFT_X = 0;
-s32 SHIFT_Y = 0;
+s32 SHIFT_X = 39;
+s32 SHIFT_Y = 539;
 
 static POSITION gyro_pos = {0, 0, 0};
 static POSITION gyro_pos_raw = {0, 0, 0};
@@ -223,8 +223,8 @@ void UART5_IRQHandler(void)
 							gyro_pos_raw.y = (s16) y;
 							gyro_pos_raw.angle = (s16) a;
 							
-              gyro_pos.x = (X_FLIP*x*10000-SHIFT_X*10000+SHIFT_X*int_cos(gyro_pos_raw.angle)+SHIFT_Y*int_sin(gyro_pos_raw.angle))/10000;
-              gyro_pos.y = (Y_FLIP*y*10000-SHIFT_Y*10000+SHIFT_Y*int_cos(gyro_pos_raw.angle)-SHIFT_X*int_sin(gyro_pos_raw.angle))/10000;
+              gyro_pos.x = (X_FLIP*x*10000-SHIFT_X*10000+SHIFT_X*int_cos(gyro_pos_raw.angle)-SHIFT_Y*int_sin(gyro_pos_raw.angle))/10000;
+              gyro_pos.y = (Y_FLIP*y*10000-SHIFT_Y*10000+SHIFT_Y*int_cos(gyro_pos_raw.angle)+SHIFT_X*int_sin(gyro_pos_raw.angle))/10000;
               gyro_pos.angle = gyro_pos_raw.angle;
 							
 						} else {

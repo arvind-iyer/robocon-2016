@@ -228,7 +228,9 @@ void manual_interval_update(){
 			xy_rotate(&cal_x, &cal_y, get_pos()->angle);
 			tft_append_line("%d %d %d", (temp_x + cal_x - 39), (temp_y + cal_y - 336), get_pos()->angle);
 			*/
-			uart_tx(COM2, (uint8_t *)"%d, %d\n", get_pos_raw()->x, get_pos_raw()->y);
+			//tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_pos()->angle);
+			//uart_tx(COM2, (uint8_t *)"%d, %d\n", get_pos_raw()->x, get_pos_raw()->y);
+			uart_tx(COM2, (uint8_t *)"%d, %d\n", get_pos()->x, get_pos()->y);
 			
 			tft_append_line("GRIP %d %d", gripper_states[0], gripper_states[1]);
 			//tft_append_line("LS %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
