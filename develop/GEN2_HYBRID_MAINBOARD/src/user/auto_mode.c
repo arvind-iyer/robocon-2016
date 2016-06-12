@@ -18,11 +18,13 @@
 #include "auto_mode.h"
 
 #define THRESHOLD 10
+#define CAL_X 39
+#define CAL_Y 336
 #define KP 0.3
 #define KI 0.015
 #define RKP 1.8
 #define DEC_COEFF 8.0
-#define WALL_CAL 4190
+#define WALL_CAL 4220
 #define LS_DIFF 400
 #define SHIFT 3.0
 #define INNER_DIST 295
@@ -31,7 +33,7 @@
 //#define DEBUG_MODE
 
 //Ground: 0 = Red, 1 = Blue
-u8 field = 1;
+u8 field = 0;
 
 double transform[2][2] = {{1, 0}, {0, 1}};
 u16 wall_dist = 0;
@@ -55,7 +57,7 @@ s32 off_x, off_y, off_deg;
 double deg_ratio;
 
 //auto properties
-s32 raw_x, raw_y;
+s32 raw_x, raw_y, cal_x, cal_y, temp_x, temp_y;
 s32 cur_x, cur_y, cur_deg;
 int vel[3];
 int degree, degree_diff, dist, speed;
@@ -388,8 +390,8 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//ls cal straight section
-	if ((tar_end == 1) && (get_pos()->y < (WALL_CAL - wall_dist)) && wall_dist) //encoder dist less than actual dist
-		off_y = get_pos()->y - WALL_CAL + wall_dist; //negative
+	if ((tar_end == 1) && (raw_y < (WALL_CAL - wall_dist)) && wall_dist) //encoder dist less than actual dist
+		off_y = raw_y - WALL_CAL + wall_dist; //negative
 	
 	//disable kI during blowing eco
 	if ((tar_end >= 2) && (tar_end <= 4)) {
@@ -625,13 +627,13 @@ void auto_var_update() {
 				if (field == 0) {
 					if (wall_dist < INNER_DIST)
 						transform[1][0] -= (SHIFT/7000.0);
-					if ((wall_dist > OUTER_DIST) && (wall_dist < 500))
+					if ((wall_dist > OUTER_DIST) && (wall_dist < 1000))
 						transform[1][0] += (SHIFT/7000.0);
 				}
 				if (field == 1) {
 					if (wall_dist < INNER_DIST)
 						transform[1][0] += (SHIFT/7000.0);
-					if ((wall_dist > OUTER_DIST) && (wall_dist < 500))
+					if ((wall_dist > OUTER_DIST) && (wall_dist < 1000))
 						transform[1][0] -= (SHIFT/7000.0);		
 				}
 			}
@@ -639,9 +641,14 @@ void auto_var_update() {
 			wall_dist = 0;
 		}
 	#endif
-
-	raw_x = transform[0][0]*(get_pos()->x) + transform[0][1]*(get_pos()->y);
-	raw_y = transform[1][0]*(get_pos()->x) + transform[1][1]*(get_pos()->y);
+	
+	temp_x = get_pos()->x;
+	temp_y = get_pos()->y;
+	cal_x = CAL_X;
+	cal_y = CAL_Y;
+	xy_rotate(&cal_x, &cal_y, get_pos()->angle);
+	raw_x = transform[0][0]*(temp_x + cal_x - CAL_X) + transform[0][1]*(temp_y + cal_y - CAL_Y);
+	raw_y = transform[1][0]*(temp_x + cal_x - CAL_X) + transform[1][1]*(temp_y + cal_y - CAL_Y);
 	
 	cur_x = raw_x - off_x;
 	cur_y = raw_y - off_y;
@@ -729,8 +736,8 @@ void auto_motor_update(){
 	tft_prints(0,2,"Y %5d -> %5d",cur_y,tar_y);
 	tft_prints(0,3,"D %5d -> %5d",cur_deg,tar_deg);
 	*/
-	tft_prints(0,1,"X %5d",cur_x);
-	tft_prints(0,2,"Y %5d",cur_y);
+	tft_prints(0,1,"X %5d",raw_x);
+	tft_prints(0,2,"Y %5d",raw_y);
 	tft_prints(0,3,"D %5d",cur_deg);
 	tft_prints(0,4,">> %2d / %2d",tar_end,tar_head);
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
@@ -744,12 +751,12 @@ void auto_motor_update(){
 	tft_prints(0,7,"Test %d %d", side_switch_val, back_switch_val);
 	*/
 	tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));
-	tft_prints(0,9,"Wall: %d %d", wall_dist, get_ls_cal_reading(0));
+	tft_prints(0,9,"Wall: %d %d", (WALL_CAL - wall_dist), raw_y);
 	tft_update();
 	
 	temp_deg = (cur_deg < -1800) ? (cur_deg+3600) : ((cur_deg >= 1800) ? (cur_deg-3600) : cur_deg);
 	//uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, side_switch_val, back_switch_val, dist, err_sum);
-	uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, get_ls_cal_reading(0), get_ls_cal_reading(1), wall_dist, dist);
+	uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, dist);
 	
 	//handle input
 	if (button_pressed(BUTTON_XBC_BACK)) {

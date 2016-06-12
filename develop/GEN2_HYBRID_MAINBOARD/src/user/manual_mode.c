@@ -13,6 +13,9 @@
 
 #include "manual_mode.h"
 
+static s16 temp_x, temp_y;
+static s32 cal_x, cal_y;
+
 static s32 curr_vx = 0, curr_vy = 0, curr_angle = 0;
 static s32 curr_heading = 0;
 static s32 actual_speed[2] = {0};
@@ -216,10 +219,20 @@ void manual_interval_update(){
 			}
 			tft_append_line("%d %d", curr_vx, curr_vy);
 			tft_append_line("%d", curr_rotate);
-			tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_pos()->angle);
+			
+			/*
+			temp_x = get_pos()->x;
+			temp_y = get_pos()->y;
+			cal_x = 39;
+			cal_y = 336;
+			xy_rotate(&cal_x, &cal_y, get_pos()->angle);
+			tft_append_line("%d %d %d", (temp_x + cal_x - 39), (temp_y + cal_y - 336), get_pos()->angle);
+			*/
+			uart_tx(COM2, (uint8_t *)"%d, %d\n", get_pos_raw()->x, get_pos_raw()->y);
+			
 			tft_append_line("GRIP %d %d", gripper_states[0], gripper_states[1]);
 			//tft_append_line("LS %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
-			tft_append_line("LS %d %d", get_ls_adc_reading(0), get_ls_cal_reading(0));
+			tft_append_line("LS %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
 			tft_append_line("DEG %d", brushless_servo_val);
 			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
