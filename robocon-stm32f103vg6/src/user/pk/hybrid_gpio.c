@@ -80,6 +80,10 @@ void limitSwitchCheck() {
 			pneumatics.P1 = false;
 			_delay_ms(20);
 			pneumatic_control(GPIOE, GPIO_Pin_15, pneumatics.P1);
+			_delay_ms(100);
+			motor_set_vel(MOTOR1, 0, OPEN_LOOP);
+			motor_set_vel(MOTOR2, 0, OPEN_LOOP);
+			motor_set_vel(MOTOR3, 0, OPEN_LOOP);
 		}
 		if (!(Abs(armError) <= 1000))
 			sendArmCommand(armError < 0 ? -40 : 40);
