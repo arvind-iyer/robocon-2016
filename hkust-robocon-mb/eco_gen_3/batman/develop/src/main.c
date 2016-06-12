@@ -154,7 +154,7 @@ int main(void) {
                                                         globalState = ENTER_RIVER;
                                                     } 
                                                 else if(passedDownSlope && (get_minimize_count(ENCODER1)> 10)){
-                                                    START_UP_play;
+                                                    BIRTHDAY_SONG_GO;
                                                     strcpy(globalStateString,"DOWN SLOPE");
                                                     reset_encoder_1();
                                                     globalState = DOWN_SLOPE;
@@ -179,16 +179,17 @@ int main(void) {
                             case ENTER_RIVER: //Right before locking the angle with IMU
                                 //Stopping condition:
                                 if(!read_infrared_sensor(infrared1)){
-//                                    switch(side){
-//                                        case REDSIDE:
-//                                            ardu_cal_ypr[0] = (float)(IMU_ANGLE1 - (determine_velocity(ENCODER1) * 7.0));
-//                                        break;
-//                                        case BLUESIDE:
-//                                            ardu_cal_ypr[0] = (float)(IMU_ANGLE1 + (determine_velocity(ENCODER1) * 7.0));
-//                                        break;
-//                                    }
+                                    switch(side){
+                                        case REDSIDE:
+                                            ardu_cal_ypr[0] = (float)(IMU_ANGLE1 - (determine_velocity(ENCODER1) * 7.0));
+																						goUsingImu();
+                                        break;
+                                        case BLUESIDE:
+                                            ardu_cal_ypr[0] = (float)(IMU_ANGLE1 + (determine_velocity(ENCODER1) * 7.0));
+                                        break;
+                                    }
                                     strcpy(globalStateString,"RIVERRING");
-                                    START_UP_play;
+                                    FAIL_MUSIC;
                                     reset_encoder_1();
                                     time2 = get_full_ticks();
                                     globalState = RIVER2; 
@@ -206,15 +207,18 @@ int main(void) {
                                 //Lock the servo angle
                                 switch(side){
                                     case REDSIDE:
-                                        servo_control(BAJAJ_SERVO,750);
+																				_delay_ms(2000);
+                                        servo_control(BAJAJ_SERVO,2350);
                                     break;
                                     case BLUESIDE:
-                                        servo_control(BAJAJ_SERVO,2350);
+                                        servo_control(BAJAJ_SERVO,750);
                                     break;
                                 }
                             break;   
                             case RIVER2:
+																strcpy(globalStateString,"RIVERINGDONE");
                                 goRiver2();
+																//globalState = RIVERING;
                             break;
                         }
                     //}

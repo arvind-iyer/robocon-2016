@@ -59,7 +59,7 @@ void initializeValues(void){
         while(button_pressed(BUTTON_RED));
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARK_RED,RED); 
         IMU_ANGLE1 = -100;
-        NINETY_IMU = -180;
+        NINETY_IMU = -200;
         LESSER_TURNING = -275;
         SLOPE_TURNING_RIGHT = 1750;
         SLOPE_TURNING_LEFT = 1350;
@@ -225,12 +225,12 @@ void goNormal(void){
     if (get_full_ticks() - lastTurn >= (int)DELAY){            
         if (length >= 1 && length <= 16) {
             if (fullWhite && !passedRiver){
-                if ((((begin + end)/ 2) - 4) < 0) {
+                if ((((begin + end)/ 2) - 5) < 0) {
                     float factor = 0;
                     lastMovement = (SERVO_MICROS_LEFT ) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                 }
                 else{
-                    float factor = (((begin + end)/ 2) - 4) / (float) 16;
+                    float factor = (((begin + end)/ 2) -5) / (float) 16;
                     lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                 }
             }
@@ -288,7 +288,7 @@ void goUsingImu(void){
     servo_control(BAJAJ_SERVO,lastMovement);
     
     //Stopping condition
-    if((get_count(ENCODER1) > 20000) && !read_infrared_sensor(infrared2)){
+    if((get_count(ENCODER1) > 10000) && !read_infrared_sensor(infrared2)){
         reset_encoder_1();
         strcpy(globalStateString,"EXIT RIVER");
         START_UP_play;
@@ -316,7 +316,7 @@ void goStraightLittleBit(void){
             lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING + (int)determine_velocity(ENCODER1) * 15;
             break;
         case REDSIDE:
-            lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING - (int)(determine_velocity(ENCODER1) * 10);
+            lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING - (int)(determine_velocity(ENCODER1) * 30);
             break;
     } 
     servo_control(BAJAJ_SERVO, lastMovement);
@@ -493,14 +493,17 @@ void goScanRiver(void){
 }
 
 void goScanRiver2(void){
+	  const int RIVER_TURNING_LEFT = 1050;
+    const int RIVER_TURNING_RIGHT = 2050;
     if ((((begin + end)/ 2) + 6) > 15) {
-        lastMovement = SERVO_MICROS_RIGHT;
+        lastMovement = RIVER_TURNING_RIGHT;
     }
     else{
-        float factor = (((begin + end)/ 4) + 6) / (float) 16;
-        lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
+        float factor = (((begin + end)/ 2) + 6) / (float) 16;
+        lastMovement = (RIVER_TURNING_LEFT) - (factor * (RIVER_TURNING_LEFT - RIVER_TURNING_RIGHT));
     }
     servo_control(BAJAJ_SERVO, lastMovement);
+		//_delay_ms(500); 
 }
 
 void goRiver(void){
@@ -515,11 +518,11 @@ void goRiver(void){
 }
 
 void goRiver2(void){
-    if(read_infrared_sensor(infrared1)){
-        START_UP_play;
+    if(get_minimize_count(ENCODER1) > 5){
+        CLICK_MUSIC;
         globalState = RIVERING;
     }
-    goScanRiver2();
+    //goScanRiver2();
 }
 
 

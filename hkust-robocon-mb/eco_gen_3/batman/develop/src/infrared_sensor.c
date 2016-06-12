@@ -19,6 +19,13 @@ void infrared_sensor_init(){
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_Init(INFRARED_SENSOR_GPIO, &GPIO_InitStructure);
 	
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
+	GPIO_InitStructure.GPIO_Pin = THOMAS_THE_DANK_ENGINE;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	
 }
 
 /**
@@ -28,4 +35,8 @@ void infrared_sensor_init(){
 **/
 u8 read_infrared_sensor(INFRARED_SENSOR sensor){
     return GPIO_ReadInputDataBit(INFRARED_SENSOR_GPIO,infrared_gpio_pins[sensor]);
+}
+
+u8 read_thomas_the_dank_engine () {
+	return GPIO_ReadInputDataBit(GPIOA, THOMAS_THE_DANK_ENGINE);
 }

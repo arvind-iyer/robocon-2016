@@ -8,6 +8,7 @@
 #define INFRARED_RIGHT_PIN GPIO_Pin_1
 #define INFRARED_UPPER_LEFT_PIN GPIO_Pin_2
 #define INFRARED_UPPER_RIGHT_PIN GPIO_Pin_3
+#define THOMAS_THE_DANK_ENGINE GPIO_Pin_0
 
 
 typedef enum{
@@ -20,6 +21,7 @@ typedef enum{
 
 void infrared_sensor_init(void);
 u8 read_infrared_sensor(INFRARED_SENSOR sensor);
+u8 read_thomas_the_dank_engine(void);
 
 
 #endif
