@@ -171,6 +171,7 @@ int main(void)
             dataCollect();
             rgb_hsv_converter(&now);
             analysisData();
+            //printInformation();
             sendData();
         }
     }

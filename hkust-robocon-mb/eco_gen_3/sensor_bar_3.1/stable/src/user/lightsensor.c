@@ -1,11 +1,10 @@
 #include "lightSensor.h"
 
 volatile extern u16 ADC_val[16];
-volatile u32 Avg_ADC_val[3][16];
 extern u8 calibrationStage;
-s32 calibratedHueAverage[NUMOFAREAS] = {0};
-s32 calibratedSaturationAverage[NUMOFAREAS] = {0};
-s32 calibratedValueAverage[NUMOFAREAS] = {0};
+u16 calibratedHueAverage[NUMOFAREAS] = {0};
+u16 calibratedSaturationAverage[NUMOFAREAS] = {0};
+u16 calibratedValueAverage[NUMOFAREAS] = {0};
 u8 currentZone;
 
 Reading now;
@@ -36,49 +35,57 @@ void initToZero(){
 void sensor_init(Reading*  max){
     while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14));
     if(calibrationStage == 0){
-        for (u8 i=0;i<40;i++){
-            _delay_us(DELAY_US);
-            ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-            while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-            for(u8 i=0;i<16;i++)max->off_reading[i] = (s32)ADC_val[i];
-            DMA_ClearFlag(DMA1_FLAG_TC1);
-            
-            //Collect red
-            GPIO_SetBits(GPIOB,GPIO_Pin_11);
-            _delay_us(DELAY_US);
-            ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-            while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-            for(u8 i=0;i<16;i++)
-            {
-                if((s32)ADC_val[i] < max->red_reading[i])max->red_reading[i] = ADC_val[i];
-            }
-            GPIO_ResetBits(GPIOB,GPIO_Pin_11);
-            DMA_ClearFlag(DMA1_FLAG_TC1);
-
-            //Collect Green
-            GPIO_SetBits(GPIOB,GPIO_Pin_12);
-            _delay_us(DELAY_US);
-            ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-            while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-            for(u8 i=0;i<16;i++)
-            {
-                if((s32)ADC_val[i] < max->green_reading[i])max->green_reading[i] = ADC_val[i];
-            }
-            GPIO_ResetBits(GPIOB,GPIO_Pin_12);
-            DMA_ClearFlag(DMA1_FLAG_TC1);
-            
-            //Collect blue
-            GPIO_SetBits(GPIOB,GPIO_Pin_10);
-            _delay_us(DELAY_US);
-            ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-            while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-            for(u8 i=0;i<16;i++)
-            {
-                if((s32)ADC_val[i] < max->blue_reading[i])max->blue_reading[i] = ADC_val[i];
-            }
-            GPIO_ResetBits(GPIOB,GPIO_Pin_10);
-            DMA_ClearFlag(DMA1_FLAG_TC1);
+        for(u8 i=0;i<16;i++)
+        {
+            max->off_reading[i] = 0;
+            max->red_reading[i] = 0;
+            max->green_reading[i] = 0;
+            max->blue_reading[i] = 0;
         }
+        _delay_us(DELAY_US);
+        ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+        while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+        for(u8 i=0;i<16;i++)max->off_reading[i] = ADC_val[i];
+        DMA_ClearFlag(DMA1_FLAG_TC1);
+        
+        //Collect red
+        GPIO_SetBits(GPIOB,GPIO_Pin_11);
+        _delay_us(DELAY_US);
+        ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+        while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+        for(u8 i=0;i<16;i++)
+        {
+            if(max->red_reading[i] < (ADC_val[i] - max->off_reading[i]))
+                max->red_reading[i] = ADC_val[i];
+        }
+        GPIO_ResetBits(GPIOB,GPIO_Pin_11);
+        DMA_ClearFlag(DMA1_FLAG_TC1);
+
+        //Collect Green
+        GPIO_SetBits(GPIOB,GPIO_Pin_12);
+        _delay_us(DELAY_US);
+        ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+        while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+        for(u8 i=0;i<16;i++)
+        {
+            if(max->green_reading[i] < (ADC_val[i] - max->off_reading[i]))
+                max->green_reading[i] = ADC_val[i];
+        }
+        GPIO_ResetBits(GPIOB,GPIO_Pin_12);
+        DMA_ClearFlag(DMA1_FLAG_TC1);
+        
+        //Collect blue
+        GPIO_SetBits(GPIOB,GPIO_Pin_10);
+        _delay_us(DELAY_US);
+        ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+        while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+        for(u8 i=0;i<16;i++)
+        {
+            if(max->blue_reading[i] < (ADC_val[i] - max->off_reading[i]))
+                max->blue_reading[i] = ADC_val[i];
+        }
+        GPIO_ResetBits(GPIOB,GPIO_Pin_10);
+        DMA_ClearFlag(DMA1_FLAG_TC1);
     }
     else{
         for(u8 i = 0 ; i < 16 ; i++){
@@ -154,53 +161,58 @@ void sensor_init(Reading*  max){
 }
 
 void dataCollect(){
-        //discrete data collect
-		_delay_us(DELAY_US);
-		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
- 	
-        //Collect off reading
-        while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));      
-        for(u8 i = 0;i < 16;i++) now.off_reading[i] = ADC_val[i];
-        DMA_ClearFlag(DMA1_FLAG_TC1);
+    //discrete data collect
+    _delay_us(DELAY_US);
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+    
+    //Collect off reading
+    while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+    
+    
+    for(u8 i=0;i<16;i++) now.off_reading[i] = ADC_val[i];
+    DMA_ClearFlag(DMA1_FLAG_TC1);
 
-		//Collect Red
-        GPIO_SetBits(GPIOB,GPIO_Pin_11); //Red
-		_delay_us(DELAY_US);
-		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-        while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-        for(u8 i=0;i<16;i++){
-            if(ADC_val[i] < now.off_reading[i])now.red_reading[i] = now.off_reading[i];
-            else now.red_reading[i] = ((ADC_val[i] - now.off_reading[i])*255)/(max_1.red_reading[i]-now.off_reading[i]);
-        }
-		GPIO_ResetBits(GPIOB,GPIO_Pin_11);
-        DMA_ClearFlag(DMA1_FLAG_TC1);
+    //Collect Red
+    GPIO_SetBits(GPIOB,GPIO_Pin_11); //Red
+    _delay_us(DELAY_US);
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+    while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+    for(u8 i=0;i<16;i++)now.red_reading[i] = ADC_val[i];
+    GPIO_ResetBits(GPIOB,GPIO_Pin_11);
+    DMA_ClearFlag(DMA1_FLAG_TC1);
 
-		//Collect Green
-        GPIO_SetBits(GPIOB,GPIO_Pin_12); //Green
-		_delay_us(DELAY_US);
-		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+    //Collect Green
+    GPIO_SetBits(GPIOB,GPIO_Pin_12); //Green
+    _delay_us(DELAY_US);
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+    while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+    for(u8 i=0;i<16;i++)now.green_reading[i] = ADC_val[i];
+    GPIO_ResetBits(GPIOB,GPIO_Pin_12);
+    DMA_ClearFlag(DMA1_FLAG_TC1);
+    
+    //Collect Blue
+    GPIO_SetBits(GPIOB,GPIO_Pin_10); //Blue
+    _delay_us(DELAY_US);
+    ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+    while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+    for(u8 i=0;i<16;i++)now.blue_reading[i] = ADC_val[i];
+    GPIO_ResetBits(GPIOB,GPIO_Pin_10);
+    DMA_ClearFlag(DMA1_FLAG_TC1);
+
+    for(u8 i=0;i < 16;i++)
+    {
+        if(now.red_reading[i] < now.off_reading[i]) now.red_reading[i] = now.off_reading[i];
+        if(now.green_reading[i] < now.off_reading[i]) now.green_reading[i] = now.off_reading[i];
+        if(now.blue_reading[i] < now.off_reading[i]) now.blue_reading[i] = now.off_reading[i];
+        if(now.red_reading[i] > max_1.red_reading[i]) now.red_reading[i] = max_1.red_reading[i];
+        if(now.green_reading[i] > max_1.green_reading[i]) now.green_reading[i] = max_1.green_reading[i];
+        if(now.blue_reading[i] > max_1.blue_reading[i]) now.blue_reading[i] = max_1.blue_reading[i];
         
-        for(u8 i = 0; i < 16;i++){
-            if(ADC_val[i] < now.off_reading[i])now.green_reading[i] = now.off_reading[i];
-            else now.green_reading[i] = ((ADC_val[i] - now.off_reading[i])*255)/(max_1.green_reading[i]-now.off_reading[i]);
-        }
-        
-        
-		GPIO_ResetBits(GPIOB,GPIO_Pin_12);
-        DMA_ClearFlag(DMA1_FLAG_TC1);
-		
-		//Collect Blue
-        GPIO_SetBits(GPIOB,GPIO_Pin_10); //Blue
-		_delay_us(DELAY_US);
-		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-        for(u8 i=0;i<16;i++){
-            if(ADC_val[i] < now.off_reading[i])now.blue_reading[i] = now.off_reading[i];
-            else now.blue_reading[i] = ((ADC_val[i] - now.off_reading[i])*255)/(max_1.blue_reading[i]-now.off_reading[i]);  
-        }
-		GPIO_ResetBits(GPIOB,GPIO_Pin_10);
-        DMA_ClearFlag(DMA1_FLAG_TC1);
+        //normalizing RGB
+        now.red_reading[i] = (now.red_reading[i] - now.off_reading[i])*255 / (max_1.red_reading[i] - now.off_reading[i]);
+        now.green_reading[i] = (now.green_reading[i] - now.off_reading[i])*255 / (max_1.green_reading[i] - now.off_reading[i]);
+        now.blue_reading[i] = (now.blue_reading[i] - now.off_reading[i])*255 / (max_1.blue_reading[i] - now.off_reading[i]);
+    }
 }
    
 //RGB to HSV converter
@@ -305,10 +317,8 @@ void sendData(){
     
     CAN_MESSAGE msg2;
     msg2.id = 0x0C7;
-    msg2.length = 2;
-    msg2.data[1] = currentZone;
-    if(currentZone == 3)msg2.data[0] = 1;
-    else msg2.data[0] = 0;
+    msg2.length = 1;
+    msg2.data[0] = currentZone;
     can_tx_enqueue(msg);
     can_tx_enqueue(msg1);
     can_tx_enqueue(msg2);
@@ -321,12 +331,12 @@ void printInformation(){
         printf("N : %d \tR: %d\tG: %d\tB: %d\r\n",max_1.off_reading[0],max_1.red_reading[0], max_1.green_reading[0], max_1.blue_reading[0]);
         printf("N : %d \tR: %d\tG: %d\tB: %d\r\n",now.off_reading[0], now.red_reading[0], now.green_reading[0], now.blue_reading[0]);
         printf("[hsv] H(360): %d\tS(100): %d\tV(100): %d\r\n",now.h[0],now.s[0],now.v[0]);
-        for(u8 i = 0; i < 5 ; i++)printf("hue%d:%d\n",i,calibratedHueAverage[i]);
-        printf("\n");
-        for(u8 i = 0; i < 5 ; i++)printf("sat%d:%d\n",i,calibratedSaturationAverage[i]);
-        printf("\n");
-        for(u8 i = 0; i < 5 ; i++)printf("value%d:%d\n",i,calibratedValueAverage[i]);
-        printf("\n");
-        printf("currentzone:%d",currentZone);
+//        for(u8 i = 0; i < 5 ; i++)printf("hue%d:%d\n",i,calibratedHueAverage[i]);
+//        printf("\n");
+//        for(u8 i = 0; i < 5 ; i++)printf("sat%d:%d\n",i,calibratedSaturationAverage[i]);
+//        printf("\n");
+//        for(u8 i = 0; i < 5 ; i++)printf("value%d:%d\n",i,calibratedValueAverage[i]);
+//        printf("\n");
+//        printf("currentzone:%d",currentZone);
     }
 }

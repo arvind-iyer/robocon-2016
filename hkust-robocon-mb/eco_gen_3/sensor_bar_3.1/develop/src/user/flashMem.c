@@ -2,9 +2,9 @@
 #include "lightSensor.h"
 
 extern Reading max_1;
-extern s32 calibratedRedAverage[NUMOFAREAS];
-extern s32 calibratedGreenAverage[NUMOFAREAS];
-extern s32 calibratedBlueAverage[NUMOFAREAS];
+extern u16 calibratedRedAverage[NUMOFAREAS];
+extern u16 calibratedGreenAverage[NUMOFAREAS];
+extern u16 calibratedBlueAverage[NUMOFAREAS];
 uint32_t startAddress = 0x8009000; //0x8019000;
 
 void writeFlash(void){
@@ -35,17 +35,17 @@ void writeFlash(void){
     }
     
     for(i = 0 ; i < 6 ; i++){
-        FLASH_ProgramHalfWord(currentAddress,calibratedHueAverage[i]);
+        FLASH_ProgramHalfWord(currentAddress,calibratedRedAverage[i]);
         currentAddress += 4;
     }
     
     for(i = 0 ; i < 6 ; i++){
-        FLASH_ProgramHalfWord(currentAddress,calibratedSaturationAverage[i]);
+        FLASH_ProgramHalfWord(currentAddress,calibratedGreenAverage[i]);
         currentAddress += 4;
     }
     
     for(i = 0 ; i < 6 ; i++){
-        FLASH_ProgramHalfWord(currentAddress,calibratedValueAverage[i]);
+        FLASH_ProgramHalfWord(currentAddress,calibratedBlueAverage[i]);
         currentAddress += 4;
     }
     
@@ -72,17 +72,17 @@ void readFlash(void){
         currentAddress += 4;
 	}
     for(i = 0 ; i < (u8)NUMOFAREAS ; i++){
-        calibratedHueAverage[i] = *(uint16_t *)currentAddress;
+        calibratedRedAverage[i] = *(uint16_t *)currentAddress;
         currentAddress += 4;
     }
     
     for(i = 0 ; i < (u8)NUMOFAREAS ; i++){
-        calibratedSaturationAverage[i] = *(uint16_t *)currentAddress;
+        calibratedGreenAverage[i] = *(uint16_t *)currentAddress;
         currentAddress += 4;
     }
     
     for(i = 0 ; i < (u8)NUMOFAREAS ; i++){
-        calibratedValueAverage[i] = *(uint16_t *)currentAddress;
+        calibratedBlueAverage[i] = *(uint16_t *)currentAddress;
         currentAddress += 4;
     }
 }

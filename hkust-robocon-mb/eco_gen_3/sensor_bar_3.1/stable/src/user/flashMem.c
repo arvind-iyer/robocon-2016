@@ -2,9 +2,9 @@
 #include "lightSensor.h"
 
 extern Reading max_1;
-extern s32 calibratedHueAverage[NUMOFAREAS];
-extern s32 calibratedSaturationAverage[NUMOFAREAS];
-extern s32 calibratedValueAverage[NUMOFAREAS];
+extern u16 calibratedHueAverage[NUMOFAREAS];
+extern u16 calibratedSaturationAverage[NUMOFAREAS];
+extern u16 calibratedValueAverage[NUMOFAREAS];
 uint32_t startAddress = 0x8009000; //0x8019000;
 
 void writeFlash(void){

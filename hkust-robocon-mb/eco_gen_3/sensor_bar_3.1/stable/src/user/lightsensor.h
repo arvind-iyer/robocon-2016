@@ -72,13 +72,13 @@ typedef enum{
 
 typedef struct
 {
-	s32 red_reading[16];
-	s32 blue_reading[16];
-	s32 green_reading[16];
-	s32 off_reading[16];
-	u32 h[16];
-	u32 s[16];
-	u32 v[16];
+	u16 red_reading[16];
+	u16 blue_reading[16];
+	u16 green_reading[16];
+	u16 off_reading[16];
+	u16 h[16];
+	u16 s[16];
+	u16 v[16];
 }Reading;
 
 

@@ -58,11 +58,11 @@ void initializeValues(void){
     if(button_pressed(BUTTON_RED)){
         while(button_pressed(BUTTON_RED));
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARK_RED,RED); 
-        IMU_ANGLE1 = -100;
+        IMU_ANGLE1 = -90;
         NINETY_IMU = -180;
         LESSER_TURNING = -275;
-        SLOPE_TURNING_RIGHT = 1750;
-        SLOPE_TURNING_LEFT = 1350;
+        SLOPE_TURNING_RIGHT = 1700;
+        SLOPE_TURNING_LEFT = 1200;
         DELAY = 1000;
         side = REDSIDE;
         infrared1 = INFRARED_SENSOR_RIGHT;
@@ -79,8 +79,8 @@ void initializeValues(void){
         IMU_ANGLE1 = 80;
         NINETY_IMU = 180;
         LESSER_TURNING = 300;
-        SLOPE_TURNING_RIGHT = 1850;
-        SLOPE_TURNING_LEFT = 1250;
+        SLOPE_TURNING_RIGHT = 1700;
+        SLOPE_TURNING_LEFT = 1200;
         DELAY = 1000;
         side = BLUESIDE;
         infrared1 = INFRARED_SENSOR_LEFT;
@@ -124,7 +124,7 @@ void receive2(CanRxMsg msg){
 }
 
 void receive3(CanRxMsg msg){
-    hueAvg = msg.Data[1];
+    hueAvg = msg.Data[0];
 }
 
 void fill_sensorbar_array(){
@@ -462,26 +462,6 @@ void runUserInterface(void){
             button_count_white = 0;
         }
     }
-}
-
-float determine_imu_angle(void){
-    float incremental_value = 0;
-    switch(side){
-        case BLUESIDE:
-            incremental_value = determine_velocity(ENCODER1) > 2 ? (float)IMU_ANGLE1 + (determine_velocity(ENCODER1) * 3) : IMU_ANGLE1;
-            break;
-        case REDSIDE:
-					if (determine_velocity(ENCODER1) <= 2){
-						incremental_value = -20;
-					}
-					else{
-						incremental_value = IMU_ANGLE1;
-					
-					}
-            //incremental_value = determine_velocity(ENCODER1) > 2 ? (float)IMU_ANGLE1 - (determine_velocity(ENCODER1) * 3) : IMU_ANGLE1;
-            break;
-    }        
-    return IMU_ANGLE1;
 }
 
 

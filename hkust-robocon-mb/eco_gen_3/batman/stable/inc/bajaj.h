@@ -33,9 +33,9 @@
 //Default Defines (Please do not change these)
 
 //These defines control the maximum left / right turning of th servo (in PWM values)
-#define SERVO_MICROS_MID 1550
-#define SERVO_MICROS_RIGHT 1950
-#define SERVO_MICROS_LEFT 1150
+#define SERVO_MICROS_MID 1450
+#define SERVO_MICROS_RIGHT 1850
+#define SERVO_MICROS_LEFT 1050
 #define BAJAJ_SERVO SERVO1
 
 
@@ -178,21 +178,11 @@ void determineZone(void);
 void runUserInterface(void);
 
 /*
-* desc: based on the velocity of the encoder, determine the IMU angle for turning
-* param: void
-* retval: angle of the IMU in float
-*/
-float determine_imu_angle(void);
-
-/*
 * @desc: Returns the central position of the line as read by the sensor bar
 * @param: void
 * @retval: int, ranges from -8 to +8 where 0 implies line is at the center of the bar -8 is left most and 8 is right
 */
 int getLineCenter(void);
- 
-void goRiver(void);
- 
 #endif
 
 

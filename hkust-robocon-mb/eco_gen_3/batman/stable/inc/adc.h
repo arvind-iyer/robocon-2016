@@ -7,3 +7,7 @@ void adc_init(void);
 u16 adc_get(u8 i);
 
 #endif
+
+
+
+

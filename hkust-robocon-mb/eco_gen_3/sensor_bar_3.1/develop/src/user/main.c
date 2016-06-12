@@ -165,11 +165,13 @@ int main(void)
                     sensor_init(&max_1);
                     calibrationStage++;
                 }
-                if(calibrationStage >= 7)writeFlash();
+                if(calibrationStage >= 7)
+                    writeFlash();
             }   
             //Collect each value for Red,green,blue and normalize to RGB values
             dataCollect();
             analysisData();
+            //printInformation();
             sendData();
         }
     }

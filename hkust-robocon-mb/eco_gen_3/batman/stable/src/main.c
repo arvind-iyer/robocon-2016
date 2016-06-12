@@ -45,7 +45,6 @@ int main(void) {
     //Initialization of all hardware
     systemInit();
     u32 ticks_ms_img = 0;
-    bool ready_to_end_game = false;
     bool songIsPlayed = false;
     bool startSong = false;
     bool cali = false;
@@ -70,9 +69,9 @@ int main(void) {
                 case ON:
                     //Emergency turning system
                     if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT))
-                        servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT - 100);
+                        servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT - 150);
                     else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT))
-                        servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT + 100);
+                        servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT + 150);
                     //Normal working state
                     else{
                         switch(globalState){
@@ -180,10 +179,10 @@ int main(void) {
                                 if(!read_infrared_sensor(infrared1)){
                                     switch(side){
                                         case REDSIDE:
-                                            ardu_cal_ypr[0] = (float)(IMU_ANGLE1 - (determine_velocity(ENCODER1) * 7.0));
+                                            ardu_cal_ypr[0] = (float)(IMU_ANGLE1 - (determine_velocity(ENCODER1) * (float)7.0));
                                         break;
                                         case BLUESIDE:
-                                            ardu_cal_ypr[0] = (float)(IMU_ANGLE1 + (determine_velocity(ENCODER1) * 7.0));
+                                            ardu_cal_ypr[0] = (float)(IMU_ANGLE1 + (determine_velocity(ENCODER1) * (float)7.0));
                                         break;
                                     }
                                     strcpy(globalStateString,"RIVERRING");
