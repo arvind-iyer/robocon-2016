@@ -154,7 +154,7 @@ void print_data(){
 }
 void printSystemOff(void){
     tft_prints(0,0,"PRESS RED / WHITE");
-    tft_prints(0,1,"e1:%d e1f:%d",get_minimize_count(ENCODER1),get_full_count(ENCODER1));
+    tft_prints(0,1,"e1:%d e2 :%d",get_minimize_count(ENCODER1),get_minimize_count(ENCODER2));
     tft_prints(0,2,"velo:%.2f",determine_velocity(ENCODER1));
     tft_prints(0,3,"zone: %s",gameZoneString);
     for(int i = 0; i < 16 ;i++) tft_prints(i,4,"%d",sensorbar_result[i]);
