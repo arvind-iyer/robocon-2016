@@ -68,3 +68,11 @@
 .\output\main.o: .\src\user\flash.h
 .\output\main.o: .\src\ustrobo_min_system\inc\ultrasonic.h
 .\output\main.o: .\src\ustrobo_min_system\inc\bluetooth_xbc_mb.h
+.\output\main.o: src\user\manual.h
+.\output\main.o: src\user\pk/pk.h
+.\output\main.o: src\user\pk/pk_arm.h
+.\output\main.o: src\user\pk/pk_climb.h
+.\output\main.o: src\user\pk/hybrid_laser.h
+.\output\main.o: src\user\pk/pk_math.h
+.\output\main.o: src\user\pk/pk_math_vector.h
+.\output\main.o: src\user\semi_auto.h

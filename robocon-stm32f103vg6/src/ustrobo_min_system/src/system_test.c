@@ -135,9 +135,11 @@ void climbing_test(void) {
 			
 		}
 		if(get_full_ticks() % 10 == 0) {
+			tft_clear();
 			tft_prints(0, 0, "P: %d|%d|%d|%d", getPneumaticState().P1, getPneumaticState().P2, getPneumaticState().P3, getPneumaticState().P4);
 			tft_prints(0, 1, "LS: %d|%d|%d|%d|%d", prevLimitSwitch[0], prevLimitSwitch[1],  prevLimitSwitch[2], prevLimitSwitch[3], armIr); 
 			tft_prints(0, 2, "ENC: %d", get_encoder_value(MOTOR8));
+			tft_update();
 			hybridPneumaticControl();
 		}
 		

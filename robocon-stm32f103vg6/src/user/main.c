@@ -1,5 +1,6 @@
 #include "main.h"
-
+#include "manual.h"
+#include "semi_auto.h"
 
 /**
   * @brief Main function
@@ -42,6 +43,8 @@ int main(void)
   
   system_start(1200);
 
+	menu_add("Manual", manual_control);
+	menu_add("Semi Auto", semi_auto_control);
 	menu_add("Your program", robocon_main);
 	menu_add("Position test", position_test);
 	menu_add("POS Shift", shift_test);

@@ -57,6 +57,15 @@ typedef enum {
 } STAGES;
 
 typedef enum {
+	MANUAL,
+	LASERPID,
+	POLELASER,
+	APPROACHWALL,
+	PIDMODE, 
+	FIRSTPOS
+} STATEMODES;
+
+typedef enum {
 	RED_SIDE,
 	BLUE_SIDE
 } GAMEMODES;
