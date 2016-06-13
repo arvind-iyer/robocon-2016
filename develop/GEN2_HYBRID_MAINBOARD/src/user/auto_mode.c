@@ -18,8 +18,6 @@
 #include "auto_mode.h"
 
 #define THRESHOLD 10
-#define CAL_X 39
-#define CAL_Y 336
 #define KP 0.3
 #define KI 0.015
 #define RKP 1.8
@@ -57,7 +55,7 @@ s32 off_x, off_y, off_deg;
 double deg_ratio;
 
 //auto properties
-s32 raw_x, raw_y, cal_x, cal_y, temp_x, temp_y;
+s32 raw_x, raw_y;
 s32 cur_x, cur_y, cur_deg;
 int vel[3];
 int degree, degree_diff, dist, speed;
@@ -624,6 +622,7 @@ void auto_var_update() {
 		if (Abs(reading2 - reading1) < LS_DIFF) {
 			wall_dist = (reading1 + reading2)/2;
 			if (!((tar_end == 4) && (dist < 500)) && !(tar_end >= 5)) { //stop shift when approach hill3
+				/*
 				if (field == 0) {
 					if (wall_dist < INNER_DIST)
 						transform[1][0] -= (SHIFT/7000.0);
@@ -634,21 +633,17 @@ void auto_var_update() {
 					if (wall_dist < INNER_DIST)
 						transform[1][0] += (SHIFT/7000.0);
 					if ((wall_dist > OUTER_DIST) && (wall_dist < 1000))
-						transform[1][0] -= (SHIFT/7000.0);		
+						transform[1][0] -= (SHIFT/7000.0);
 				}
+				*/
 			}
 		} else {
 			wall_dist = 0;
 		}
 	#endif
 	
-	temp_x = get_pos()->x;
-	temp_y = get_pos()->y;
-	cal_x = CAL_X;
-	cal_y = CAL_Y;
-	xy_rotate(&cal_x, &cal_y, get_pos()->angle);
-	raw_x = transform[0][0]*(temp_x + cal_x - CAL_X) + transform[0][1]*(temp_y + cal_y - CAL_Y);
-	raw_y = transform[1][0]*(temp_x + cal_x - CAL_X) + transform[1][1]*(temp_y + cal_y - CAL_Y);
+	raw_x = transform[0][0]*get_pos()->x + transform[0][1]*get_pos()->y;
+	raw_y = transform[1][0]*get_pos()->x + transform[1][1]*get_pos()->y;
 	
 	cur_x = raw_x - off_x;
 	cur_y = raw_y - off_y;

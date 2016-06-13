@@ -121,8 +121,8 @@ void calculation(u8 system )
 			curr_angle_r = (real_angle * PI) / 1800; 
 			sin_value = sin(-curr_angle_r);
 			cos_value = cos(-curr_angle_r);
-			curr_vel_Y = (sin_value*vel_buf[0][head] + cos_value*(vel_buf[1][head]-y_displacement_offset));
-			curr_vel_X = (cos_value*vel_buf[0][head] - sin_value*(vel_buf[1][head]-y_displacement_offset));
+			curr_vel_Y = (sin_value*vel_buf[0][head] - cos_value*(vel_buf[1][head]-y_displacement_offset));
+			curr_vel_X = (cos_value*vel_buf[0][head] + sin_value*(vel_buf[1][head]-y_displacement_offset));
 			
 			abs_X += (curr_vel_X+prev_vel_X)/2;
 			abs_Y += (curr_vel_Y+prev_vel_Y)/2;
