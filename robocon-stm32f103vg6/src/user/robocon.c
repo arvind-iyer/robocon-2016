@@ -30,6 +30,8 @@ void robocon_main(void)
 {	
 		tft_init(0, BLACK, WHITE, SKY_BLUE);
 		pk_init();
+		pneumatics.P3 = true;
+		pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
 	while (1) {
 		if (can_xbc_get_connection() != CAN_XBC_ALL_CONNECTED) {
 			wheelbaseLock();
@@ -138,13 +140,13 @@ void _updateScreen() {
 	tft_prints(0, 5, "LS: %d|%d|%d|%d|%d", prevLimitSwitch[0], prevLimitSwitch[1],  prevLimitSwitch[2], prevLimitSwitch[3], armIr); 
 	
 	tft_prints(0, 6, (robotMode == RED_SIDE) ? "MODE: RED SIDE" : "MODE:BLUE SIDE");
-	tft_prints(0, 7, "L: %d|%d| Q:%d", autoModeLaser, fieldDetected, getSize());
+	//tft_prints(0, 7, "L: %d|%d| Q:%d", autoModeLaser, fieldDetected, getSize());
 	
 //	tft_prints(0,6, "ADC: %d|%d", get_ls_adc_reading(0), get_ls_adc_reading(1));
 //	tft_prints(0,7, "ADC: %d|%d", get_ls_adc_reading(2), get_ls_adc_reading(3));
 	
 	//tft_prints(0, 7, "L: %d | AL: %d", get_ls_cal_reading((robotMode == RED_SIDE) ? 0 : 1), laserAuto);
-	//tft_prints(0, 8, "Q|ENC: %d|%d", getSize(), get_encoder_value(MOTOR8));
+	tft_prints(0, 7, "Q|ENC: %d|%d", getSize(), get_encoder_value(MOTOR8));
 	tft_prints(0,8, "CAL: %d|%d", get_ls_cal_reading(0), get_ls_cal_reading(1));
 	tft_prints(0,9, "CAL: %d|%d", get_ls_cal_reading(2), get_ls_cal_reading(3));
 	//tft_prints(0,9, "BEN? : %d|%d", benMode, button_pressed(BUTTON_XBC_XBOX));
@@ -318,6 +320,7 @@ void controllerInputUpdate() {
 			allowArmUpdate = false;
 		}
 		if(button_pressed(BUTTON_XBC_A) && !allowAutoLazers) {
+			setBrushlessMagnitude(0);
 			laserAuto = !laserAuto;
 			manualMode = (laserAuto ? false : true);
 			allowAutoLazers = true;
@@ -357,6 +360,7 @@ void controllerInputUpdate() {
 			dequeueAll();
 			wheelbaseLock();
 			setBrushlessMagnitude(0);
+			sendArmCommand(0);
 			manualMode = true;
 			laserAuto = false;
 			autoModeLaser = false;

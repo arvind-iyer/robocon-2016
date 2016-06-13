@@ -67,3 +67,4 @@
 .\output\hybrid_laser.o: .\src\ustrobo_min_system\inc\ultrasonic.h
 .\output\hybrid_laser.o: src\user\pk\pk_math.h
 .\output\hybrid_laser.o: src\user\pk\pk_math_vector.h
+.\output\hybrid_laser.o: src\user\pk\pk_arm.h

@@ -1,10 +1,11 @@
 #include "hybrid_laser.h"
+#include "pk_arm.h"
 
 #define MOVETIME 1500
 
 int y = 0, x = 0, increment = 0, haha = 0, wagateki = 0, wagamama = 0, savedX=0, savedY=0;
 int laserM = 45, laserW = 0, laserB = 0, verticalM = 0, targAngle = 270;
-bool fieldDetected = false, targetReached = false;
+bool fieldDetected = false, targetReached = false, onReach = false;
 
 static u8 laser_byte_array[2][100] = {65};
 static u8 laser_byte_pointer[2] = {0};
@@ -94,7 +95,19 @@ s16 get_cheap_laser_dis(u8 id){
 	}
 }
 
+bool armPrepped = false;
+bool armReturned = false;
+
 void moveToFirstPosition (void) {
+	if(!armPrepped) {
+			int armError = get_encoder_value(MOTOR8) - (pneumatics.P1 == false ? 80000 : 42928);
+			if (!(Abs(armError) <= 1000))
+			sendArmCommand(armError < 0 ? -40 : 40);
+		else if (Abs(armError) <= 1000) {
+			sendArmCommand(0);
+			armPrepped = true;
+			}
+		}
 	if(get_full_ticks() - timeSinceButtonPressed < MOVETIME) {
 		setM(30);
 		setBearing(0);
@@ -103,24 +116,52 @@ void moveToFirstPosition (void) {
 		parseWheelbaseValues();
 	}
 	else{
-			int laserTargVal = 1000;
+		int laserTargVal = robotMode == RED_SIDE ? 900 : 1100; //1000  //TEST FIELD : 900 : 900
 			int horizontalM = 45;
 			double angularVelocity;
-			if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) > (robotMode == RED_SIDE ? 4600 : 2300) && 
+			if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) > (robotMode == RED_SIDE ? 4200 : 2300) && //4600 //TEST FIELD : 4200 : 2300
+				get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) < (robotMode == RED_SIDE ? 4450 : 2300) && // TEST FIELD: 4450 : 2550
 				robot.position.angle < 185 && robot.position.angle > 175 && !targetReached){
 					targetReached = true;
 			}
 			else if (targetReached) {
-				if(robot.position.angle <= (robotMode == RED_SIDE ? 85 : 265) && robot.position.angle >= (robotMode == RED_SIDE ? 80 : 260)){
-						wheelbaseLock();
-						approachFirstPosition = false;
-						savedX = get_pos()->x;
-						savedY = get_pos()->y;
-						queueTargetPoint(savedX, savedY, get_pos()->angle/10, 35, 15, 16, 500);
-						autoPIDMode = true;
-						allowArm = true;
-						//manualMode = true;
+				if(robot.position.angle <= (robotMode == RED_SIDE ? 85 : 265) && robot.position.angle >= (robotMode == RED_SIDE ? 80 : 260) && onReach){
+					int armError = get_encoder_value(MOTOR8) - 5500;
+					if (!(Abs(armError) <= 1000))
+						sendArmCommand(armError < 0 ? -40 : 40);
+					else if (Abs(armError) <= 1000) {
+						sendArmCommand(0);
+						armReturned = true;
 					}
+					wheelbaseLock();
+						if(armReturned) {
+							approachFirstPosition = false;
+							savedX = get_pos()->x;
+							savedY = get_pos()->y;
+							queueTargetPoint(savedX, savedY, get_pos()->angle/10, 35, 15, 16, 1000);
+							autoPIDMode = true;
+							allowArm = true;
+							//manualMode = true;
+						}
+					}
+				else if(!onReach) {
+					if(get_ls_cal_reading(0) + get_ls_cal_reading(1) < laserTargVal) {
+						onReach = true;
+					}
+					else{
+						angularVelocity = getAngleDifference(robot.position.angle, 180 ) * 30 / 180 * -1;
+						if (Abs(angularVelocity) >= 70) angularVelocity = angularVelocity < 0 ? -30 : 30;
+						else{
+							if (angularVelocity > 0) angularVelocity = MAX(30, angularVelocity);
+							if (angularVelocity < 0) angularVelocity = MIN(-30, angularVelocity);
+						}
+						setM(10);
+						setBearing(180 - robot.position.angle);
+						setW(angularVelocity);
+						addComponent();
+						parseWheelbaseValues();
+					}
+				}
 					else{
 						angularVelocity = getAngleDifference(robot.position.angle, (robotMode == RED_SIDE ? 83 : 263) ) * 80 / 180 * -1;
 						if (Abs(angularVelocity) >= 70) angularVelocity = angularVelocity < 0 ? -70 : 70;
@@ -137,24 +178,27 @@ void moveToFirstPosition (void) {
 			}
 			else{
 				//Horizontal Vector
-				if(robot.position.angle > 165 && robot.position.angle < 195) {
-					angularVelocity = getAngleDifference(robot.position.angle, 180 ) * 40 / 180 * -1;
-					if (Abs(angularVelocity) >= 60) angularVelocity = angularVelocity < 0 ? -50 : 50;
+				if(robot.position.angle > 160 && robot.position.angle < 200) {
+					angularVelocity = getAngleDifference(robot.position.angle, 180 ) * 35 / 180 * -1;
+					if (Abs(angularVelocity) >= 35) angularVelocity = angularVelocity < 0 ? -35 : 35;
 					else{
 						if (angularVelocity > 0) angularVelocity = MAX(35, angularVelocity);
 						if (angularVelocity < 0) angularVelocity = MIN(-35, angularVelocity);
 					}
 				}
 				else {
-					angularVelocity = getAngleDifference(robot.position.angle, 180 ) * 90 / 180 * -1;
-					if (Abs(angularVelocity) >= 90) angularVelocity = angularVelocity < 0 ? -90 : 90;
+					angularVelocity = getAngleDifference(robot.position.angle, 180 ) * 80 / 180 * -1;
+					if (Abs(angularVelocity) >= 90) angularVelocity = angularVelocity < 0 ? -80 : 100;
 					else{
-						if (angularVelocity > 0) angularVelocity = MAX(90, angularVelocity);
-						if (angularVelocity < 0) angularVelocity = MIN(-90, angularVelocity);
+						if (angularVelocity > 0) angularVelocity = MAX(80, angularVelocity);
+						if (angularVelocity < 0) angularVelocity = MIN(-80, angularVelocity);
 					}
 				}
 				setM(horizontalM);
-				if(robotMode == RED_SIDE) setBearing(90 - robot.position.angle);
+				if(robotMode == RED_SIDE) {
+					if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) < 4450) setBearing(90 - robot.position.angle); //TEST FIELD : 4450
+					else setBearing(-90 - robot.position.angle);
+				}
 				else if(robotMode == BLUE_SIDE) setBearing (270 - robot.position.angle);
 				setW(angularVelocity);
 				addComponent();
@@ -163,11 +207,12 @@ void moveToFirstPosition (void) {
 				int sum = min(2, get_ls_cal_reading(0), get_ls_cal_reading(1)) * 2;
 				int verticalM = sum - laserTargVal;
 				int range = laserTargVal - 200;
-				if(robot.position.angle > 175 && robot.position.angle < 185){
-					verticalM = verticalM  * horizontalM / range;
-					verticalM = min(2, 30, max(2, -30, verticalM));
+				int limiter = 55; //Test Field : 55
+				if(robot.position.angle > 170 && robot.position.angle < 180){
+					verticalM = verticalM  * limiter / range;
+					verticalM = min(2, limiter, max(2, -limiter, verticalM));
 					setM(verticalM);
-					setBearing(0);
+					setBearing(180 - robot.position.angle);
 					setW(0);
 					addComponent();
 				}
@@ -182,35 +227,29 @@ void moveToFirstPosition (void) {
 int offsetDiff = 0;
 
 void laserPID() {
-	int yCoordSystem = robotMode == RED_SIDE ? (semiAuto ? 8200 : 7400) : (semiAuto ? 9800 : 7400);
+	int yCoordSystem = robotMode == RED_SIDE ? (semiAuto ? 8200 : 7552) : (semiAuto ? 9800 : 7552);  //Test Field : 7552
 	if(fieldDetected) {
 		int diff = get_ls_cal_reading(0) - get_ls_cal_reading(1);
 		
 		if(robotMode == RED_SIDE) offsetDiff = (get_pos()->y < yCoordSystem * 0.7 ? diff: diff-10);
 		else if (robotMode == BLUE_SIDE) offsetDiff = (get_pos()->y < yCoordSystem * 0.7 ? diff - 4 : diff+10);
 		
-		int laserTargVal = robotMode == RED_SIDE ? 495 : 495;
-		int horizontalM = semiAuto ? 65 : 70;
+		int laserTargVal = robotMode == RED_SIDE ? 600 : 600; //495 //Test Field : 600 600
+		int horizontalM = semiAuto ? 60 : 50; //70 //Test Field : 60 50
 		
 		if(get_pos()->y > 0.86 * yCoordSystem) {
 			horizontalM = 30;
 		}
-		else if(get_pos()->y < yCoordSystem * 0.35 && !semiAuto ) horizontalM = 50;
+		else if(get_pos()->y < yCoordSystem * 0.35 && !semiAuto ) horizontalM = 40; //50 //Test Field 40
 		
-		laserW = -offsetDiff * (semiAuto ? 1.2 : (get_pos()->y > 0.86 * yCoordSystem ? 1.2 : 1.4));
-		if (laserW > (semiAuto ? 55 : (get_pos()->y > 0.86 * yCoordSystem ? 30 : 60))) {
-			laserW = semiAuto ? 55 : 60;
+		laserW = -offsetDiff * (semiAuto ? 1.2 : (get_pos()->y > 0.86 * yCoordSystem ? 1.2 : 1.25)); //1.4 // Test Field 1.2 1.25
+		if (laserW > (semiAuto ? 55 : (get_pos()->y > 0.86 * yCoordSystem ? 30 : 40))) { //60 //Test Field 55 30 40
+			laserW = semiAuto ? 55 : (get_pos()->y > 0.86 * yCoordSystem ? 30 : 40);
 		}
-		if (laserW < (semiAuto ? -55 : (get_pos()->y > 0.86 * yCoordSystem ? -30 : -60))) {
-			laserW = semiAuto ? -55 : (get_pos()->y > 0.86 * yCoordSystem ? -30 : -60);
+		if (laserW < (semiAuto ? -55 : (get_pos()->y > 0.86 * yCoordSystem ? -30 : -40))) { //-60 //Test Field -55 -30 -40
+			laserW = semiAuto ? -55 : (get_pos()->y > 0.86 * yCoordSystem ? -30 : -40); //-60
 		}
-		//laserW = robotMode == RED_SIDE ? -laserW : laserW;
-		//laserW = -((int_arc_tan2(diff, 510)-180) * 10 / 180);
-		//laserW = (Abs(laserW) > 50 ? (laserW > 0 ? 50 : -50) :laserW);
-		//laserB = robotMode == RED_SIDE ? 270 : 90;
-		//laserB = 90;
-		//if(get_ls_cal_reading(0) + get_ls_cal_reading(1) > 590) laserB = robotMode == RED_SIDE ? 180+45 : 65;
-		//else if (get_ls_cal_reading(0) + get_ls_cal_reading(1) < 450) laserB = 	robotMode == RED_SIDE ? 180+115 : 110;
+		
 		setM(horizontalM);
 		setBearing(robotMode == RED_SIDE ? 270 : 90);
 		setW(0);
@@ -222,7 +261,7 @@ void laserPID() {
 			int sum = min(2, get_ls_cal_reading(0), get_ls_cal_reading(1)) * 2;
 			int verticalM = sum - laserTargVal;
 			int range = laserTargVal - 200;
-			int cap = semiAuto ? 18 : 21;
+			int cap = semiAuto ? 18 : 16; //20
 			
 			verticalM = verticalM  * (cap) / range;
 			verticalM = min(2, cap, max(2, -cap, verticalM));
@@ -237,9 +276,9 @@ void laserPID() {
 		//Blowing speeds
 			if(robotMode == RED_SIDE) {
 				if(!semiAuto){
-					if(get_pos()->y > yCoordSystem * 0.4 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(10);
-					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(9);
-					if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(0);
+					if(get_pos()->y > yCoordSystem * 0.4 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(14); //TEST FIELD 14
+					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(12); //TEST FIELD 12
+					if(get_pos()->y > yCoordSystem * 0.7 && get_pos()->y < yCoordSystem * 0.81) setBrushlessMagnitude(2); //TEST FIELD 2
 				}
 
 				parseWheelbaseValues();
@@ -253,10 +292,10 @@ void laserPID() {
 						autoPIDMode = true;
 						fieldDetected = false;
 						
-						queueTargetPoint(get_pos()->x - 300, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0);
-						queueTargetPoint(get_pos()->x - 200, get_pos()->y, 175, 2000, 10, -1, 6500);
-						wagateki = get_pos()->y;
-						wagamama = get_pos()->x - 200;
+					queueTargetPoint(get_pos()->x - 150, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0); //-300 // TEST FIELD -150 0
+						queueTargetPoint(get_pos()->x - 50, get_pos()->y, 175, 2000, 10, -1, 6500); //-200 //TEST FIELD -50 0
+						wagateki = get_pos()->y; 
+						wagamama = get_pos()->x - 50; //-200
 						
 					}
 			}
@@ -297,7 +336,7 @@ void laserPID() {
 				}
 				else{
 					setM(45);
-					setBearing(robotMode == RED_SIDE ? 264 : 97);
+					setBearing(robotMode == RED_SIDE ? 266 : 94); //264 //TEST FIELD 266 97
 					setW(angularVelocity);
 					addComponent();
 					parseWheelbaseValues();
@@ -363,9 +402,9 @@ void moveToWall() {
 void enterPole() {
 	int angleDiff = getAngleDifference(robot.position.angle, (robotMode == RED_SIDE) ? 270 : 90);
 	haha = int_cos(angleDiff * 10) * get_ls_cal_reading((robotMode == RED_SIDE) ? 2 : 3)/10000;
-	x = Abs(((robotMode == RED_SIDE) ? 250: 210) - haha);
-	if(robotMode == RED_SIDE) y = 250;
-	else if(robotMode == BLUE_SIDE) y = 210;
+	x = Abs(((robotMode == RED_SIDE) ? 295: 210) - haha);  //RED : 230 BLUE : 210 //TEST FIELD 295 
+	if(robotMode == RED_SIDE) y = 300; // 230 //TEST FIELD 295
+	else if(robotMode == BLUE_SIDE) y = 210; //210
 	increment = 90 - MIN(90, int_arc_tan2(y,x));
 	
 	if (robotMode == RED_SIDE) {
@@ -376,14 +415,14 @@ void enterPole() {
 			if (angularVelocity < 0) angularVelocity = MIN(-18, angularVelocity);
 		}
 		//}
-		if (haha > 265) {
+		if (haha > 315) { //245
 			setM(40);
 			setBearing(180-increment);
 			setW(angularVelocity);
 			addComponent();
 			parseWheelbaseValues();
 			//sendWheelbaseCommand();
-		} else if (haha < 235) {
+		} else if (haha < 285) { //215
 			setM(40);
 			setBearing(180+increment);
 			setW(angularVelocity);
