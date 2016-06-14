@@ -114,3 +114,7 @@ void armUpdate() {
 		prevArmIr = armIr;
 	}
 }
+
+bool getLS(int index) {
+	return limitSwitch[index];
+}

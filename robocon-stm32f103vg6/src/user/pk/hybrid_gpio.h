@@ -7,4 +7,6 @@ void hybridGPIOInit(void);
 void limitSwitchCheck(void);
 void armUpdate(void);
 
+bool getLS(int index);
+
 #endif
