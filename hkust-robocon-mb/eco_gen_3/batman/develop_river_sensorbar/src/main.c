@@ -16,6 +16,7 @@ extern ZONE gameZone;
 
 
 bool sensorIsFlipped = true;
+bool ecoFinish = false;
 u8 data1[8];
 u8 data2[8];
 u8 sensorbar_result[16];
@@ -24,6 +25,7 @@ int hueAvg;
 u8 border;
 u8 globalState = NORMAL;
 int begin = -1;
+int eco_finish_timestamp = 0;
 int end = 0;
 int length = 0;
 int lastTurn = 0;
@@ -49,7 +51,9 @@ int main(void) {
     bool startSong = false;
     bool cali = false;
     reset_encoder_1();
-    while (1) {
+    
+		bool done_turning = false;
+		while (1) {
         if(ticks_ms_img != get_ticks()){
             buzzer_check();
             ticks_ms_img = get_ticks();
@@ -68,12 +72,12 @@ int main(void) {
             switch(systemOn){
                 case ON:
                     //Emergency turning system
-                    if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT))
-                        servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT - 150);
-                    else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT))
-                        servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT + 150);
-                    //Normal working state
-                    else{
+//                    if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT))
+//                        servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT - 150);
+//                    else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT))
+//                        servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT + 150);
+//                    //Normal working state
+                    /*else*/{
                         switch(globalState){
                             case NORMAL:
                                 switch(currentSlopeZone){
@@ -141,7 +145,7 @@ int main(void) {
                                                         START_UP_play;
                                                         switch(side){
                                                             case REDSIDE:                                                               
-                                                                servo_control(BAJAJ_SERVO, SERVO_MICROS_MID - 100 - (determine_velocity(ENCODER1) * 15));
+                                                                servo_control(BAJAJ_SERVO, SERVO_MICROS_MID - 160 /*- (determine_velocity(ENCODER1) * 15)*/);
                                                             break;
                                                             case BLUESIDE:
                                                                 servo_control(BAJAJ_SERVO, SERVO_MICROS_MID + 100 + (determine_velocity(ENCODER1) * 15));
@@ -173,10 +177,11 @@ int main(void) {
                             break;
                             case ENTER_RIVER: //Right before locking the angle with IMU
                                 //Stopping condition:
-                                if(get_minimize_count(ENCODER1) > 3){
+                                if(get_minimize_count(ENCODER1) > 6/*5 for retry*/){
                                     switch(side){
                                         case REDSIDE:
-                                            ardu_cal_ypr[0] = (float)(IMU_ANGLE1 - (determine_velocity(ENCODER1) * (float)7.0));
+                                            //ardu_cal_ypr[0] = (float)(IMU_ANGLE1 - (determine_velocity(ENCODER1) * (float)15.0));
+																				  servo_control(BAJAJ_SERVO,1800);
                                         break;
                                         case BLUESIDE:
                                             ardu_cal_ypr[0] = (float)(IMU_ANGLE1 + (determine_velocity(ENCODER1) * (float)7.0));
@@ -190,11 +195,27 @@ int main(void) {
                                 }
                             break;
                             case ESCAPEFIRSTISLAND:
-                                escapeFirstIsland();
+                                //escapeFirstIsland();
+																
+																if(!done_turning && get_minimize_count(ENCODER1) > 5){
+																	CLICK_MUSIC;
+																	servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 45);
+																	reset_encoder_1();
+																	done_turning = true;
+																}
+																if(done_turning && get_minimize_count(ENCODER1) > 15) {
+																	START_UP_play;
+																	servo_control(BAJAJ_SERVO, 1000);
+																	reset_encoder_1();
+																	globalState = RIVERING;
+																}
+														
                             break;
                             case RIVERING:
                                 //goUsingImu(); //Imu is bae, thx Rex!
-                                avoidIslands();
+                                //avoidIslands();
+																scanRiver();
+																globalState = EXIT_RIVER;
                             break;
                             case DOWN_SLOPE: //End game, make it turn extreme right / left for the hybrid to grip propeller
                                 goNormal();
@@ -208,7 +229,14 @@ int main(void) {
                                 //Lock the servo angle
                                 switch(side){
                                     case REDSIDE:
-                                        servo_control(BAJAJ_SERVO,750);
+																				if(!ecoFinish){
+																					eco_finish_timestamp = get_full_ticks();
+																					ecoFinish = true;
+																				}
+																				if(ecoFinish){
+																					if(get_full_ticks() - eco_finish_timestamp > 2500)
+																						servo_control(BAJAJ_SERVO, 2350);
+																				}
                                     break;
                                     case BLUESIDE:
                                         servo_control(BAJAJ_SERVO,2350);

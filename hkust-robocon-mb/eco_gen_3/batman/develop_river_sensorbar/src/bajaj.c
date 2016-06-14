@@ -230,7 +230,8 @@ void goNormal(void){
                     lastMovement = (SERVO_MICROS_LEFT ) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                 }
                 else{
-                    float factor = (((begin + end)/ 2)) / (float) 16;
+                    float factor = (((begin + end)/ 2)
+											) / (float) 16;
                     lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                 }
             }
@@ -476,24 +477,25 @@ void escapeFirstIsland(void){
 }
 
 void scanRiver(void){
-    const int RIVER_TURNING_LEFT = 1050;
-    const int RIVER_TURNING_RIGHT = 1850;
+    const int RIVER_TURNING_LEFT = 1150;
+    const int RIVER_TURNING_RIGHT = 1750;
 //    if ((((begin + end)/ 2) + 2) > 16) {
 //        lastMovement = SERVO_MICROS_RIGHT;
 //    }
         float factor = (((begin + end)/ 2)) / (float) 16;
-        lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
+        lastMovement = (RIVER_TURNING_LEFT) - (factor * (RIVER_TURNING_LEFT - RIVER_TURNING_RIGHT));
         servo_control(BAJAJ_SERVO, lastMovement);
+		
 }
 
 void avoidIslands(void){
     //ending condition
-    if((get_minimize_count(ENCODER1) > 25)){
+    if((get_minimize_count(ENCODER1) > 5 && !read_infrared_sensor(infrared2))){
         reset_encoder_1();
         strcpy(globalStateString,"EXIT RIVER");
         START_UP_play;
         passedRiver = 1;
-        globalState = NORMAL;
+        globalState = EXIT_RIVER;
     }
      
     //Stay away from the monsters
