@@ -22,7 +22,9 @@
 #define KI 0.015
 #define RKP 1.8
 #define DEC_COEFF 8.0
-#define WALL_CAL 4220
+//#define WALL_CAL 4220
+#define WALL_CAL 6600
+//#define WALL_CAL 6750
 #define LS_DIFF 400
 #define SHIFT 3.0
 #define INNER_DIST 295
@@ -388,9 +390,9 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//ls cal straight section
-	if ((tar_end == 1) && (raw_y < (WALL_CAL - wall_dist)) && wall_dist) //encoder dist less than actual dist
+	if ((tar_end == 1) && (raw_y > 1500) && (raw_y < (WALL_CAL - wall_dist)) && wall_dist) //encoder dist less than actual dist
 		off_y = raw_y - WALL_CAL + wall_dist; //negative
-	
+		
 	//disable kI during blowing eco
 	if ((tar_end >= 2) && (tar_end <= 4)) {
 		ki = 0;
@@ -474,7 +476,7 @@ void auto_robot_control(void) {
 		} else if (Abs(cur_x) < 5000) {
 			tar_arm = 7200;
 		} else {
-			tar_arm = 10800;
+			tar_arm = 11400;
 		}
 		
 		motor_set_vel(MOTOR7, arm_vel*MOTOR7_FLIP, OPEN_LOOP);
@@ -488,18 +490,19 @@ void auto_robot_control(void) {
 		brushless_servo_control(-85 + 85*2*field);
 		brushless_control(0, true);
 		if (auto_get_ticks() - brushless_time > 1200)
-			brushless_control(34, true);
+			brushless_control(45, true);
 	} else if (tar_end <= 2) {
 		brushless_control(42, true);
-		if (auto_get_ticks() - brushless_time > 300)
-			brushless_control(44, true);
+		//if (auto_get_ticks() - brushless_time > 300)
+		//	brushless_control(40, true);
 	} else if (tar_end <= 3) {
 		brushless_control(47, true);
 		if (auto_get_ticks() - brushless_time > 300)
-			brushless_control(50, true);
+			brushless_control(40, true);
 	} else if (tar_end <= 4) {
 		brushless_servo_control(-80 + 80*2*field);
-		if (auto_get_ticks() - brushless_time > 1600)
+			brushless_control(35, true);
+		if (auto_get_ticks() - brushless_time > 2000)
 			brushless_control(0, true);
 	} else if (tar_end <= 5) {
 		brushless_servo_control(0);		
@@ -642,8 +645,8 @@ void auto_var_update() {
 		}
 	#endif
 	
-	raw_x = transform[0][0]*get_pos()->x + transform[0][1]*get_pos()->y;
-	raw_y = transform[1][0]*get_pos()->x + transform[1][1]*get_pos()->y;
+	raw_x = transform[0][0]*((-1)*get_pos()->x) + transform[0][1]*get_pos()->y;
+	raw_y = transform[1][0]*((-1)*get_pos()->x) + transform[1][1]*get_pos()->y;
 	
 	cur_x = raw_x - off_x;
 	cur_y = raw_y - off_y;
@@ -742,7 +745,7 @@ void auto_motor_update(){
 	//tft_prints(0,7,"Test %d %d %d", arm_vel, get_arm_pos(), tar_arm);
 	//tft_prints(0,7,"Test %d %d", dist, degree_diff);
 	//tft_prints(0,7,"Test %d", err_sum);
-	//tft_prints(0,7,"Test %d %d", get_pos()->x, get_pos()->y);
+	//tft_prints(0,7,"Test %d %d", ((-1)*get_pos()->x), get_pos()->y);
 	tft_prints(0,7,"Test %d %d", side_switch_val, back_switch_val);
 	*/
 	tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));

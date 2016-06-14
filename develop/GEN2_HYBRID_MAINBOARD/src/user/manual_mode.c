@@ -216,10 +216,10 @@ void manual_interval_update(){
 			}
 			tft_append_line("%d %d", curr_vx, curr_vy);
 			tft_append_line("%d", curr_rotate);
-			tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_pos()->angle);
-			//uart_tx(COM2, (uint8_t *)"%d, %d, %d\n", get_pos()->x, get_pos()->y, get_pos()->angle);
+			tft_append_line("%d %d %d", ((-1)*get_pos()->x), get_pos()->y, get_pos()->angle);
+			//uart_tx(COM2, (uint8_t *)"%d, %d, %d\n", ((-1)*get_pos()->x), get_pos()->y, get_pos()->angle);
 			
-			tft_append_line("GRIP %d %d", gripper_states[0], gripper_states[1]);
+			//tft_append_line("GRIP %d %d", gripper_states[0], gripper_states[1]);
 			//tft_append_line("LS %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
 			tft_append_line("LS %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
 			tft_append_line("DEG %d", brushless_servo_val);
