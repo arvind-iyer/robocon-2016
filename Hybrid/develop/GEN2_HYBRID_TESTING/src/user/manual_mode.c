@@ -141,48 +141,47 @@ s32 angle_pid(){
 
 
 //This part deals with moving the robot around
-void manual_update_wheel_base(){
+void manual_update_wheel_base(bool use_laser_avoid){
 	if (ground_wheels_lock == UNLOCKED){
 	
 		//Calcuate 3 base wheels movement
 		s32 vx = 0;
 		s32 vy = 0;
-		//TODO: Reverse higher acceleration
-		if (button_pressed(BUTTON_XBC_E) || button_pressed(BUTTON_XBC_S) || button_pressed(BUTTON_XBC_W) || button_pressed(BUTTON_XBC_N)
-			|| button_pressed(BUTTON_XBC_NE) || button_pressed(BUTTON_XBC_SE) || button_pressed(BUTTON_XBC_NW) || button_pressed(BUTTON_XBC_SW)){
-				
-			if (button_pressed(BUTTON_XBC_N)){
-				vy = 800;
-			}else if (button_pressed(BUTTON_XBC_E)){
-				vx = 800;
-			}else if (button_pressed(BUTTON_XBC_S)){
-				vy = -800;
-			}else if (button_pressed(BUTTON_XBC_W)){
-				vx = -800;
-			}else if (button_pressed(BUTTON_XBC_NE)){
-				vx = 566;
-				vy = 566;
-			}else if (button_pressed(BUTTON_XBC_SE)){
-				vx = 566;
-				vy = -566;
-			}else if (button_pressed(BUTTON_XBC_SW)){
-				vx = -566;
-				vy = -566;
-			}else if (button_pressed(BUTTON_XBC_NW)){
-				vx = -566;
-				vy = 566;
-			}
-			
-			global_axis = true;
-			
-		}else{
+//		if (button_pressed(BUTTON_XBC_E) || button_pressed(BUTTON_XBC_S) || button_pressed(BUTTON_XBC_W) || button_pressed(BUTTON_XBC_N)
+//			|| button_pressed(BUTTON_XBC_NE) || button_pressed(BUTTON_XBC_SE) || button_pressed(BUTTON_XBC_NW) || button_pressed(BUTTON_XBC_SW)){
+//				
+//			if (button_pressed(BUTTON_XBC_N)){
+//				vy = 800;
+//			}else if (button_pressed(BUTTON_XBC_E)){
+//				vx = 800;
+//			}else if (button_pressed(BUTTON_XBC_S)){
+//				vy = -800;
+//			}else if (button_pressed(BUTTON_XBC_W)){
+//				vx = -800;
+//			}else if (button_pressed(BUTTON_XBC_NE)){
+//				vx = 566;
+//				vy = 566;
+//			}else if (button_pressed(BUTTON_XBC_SE)){
+//				vx = 566;
+//				vy = -566;
+//			}else if (button_pressed(BUTTON_XBC_SW)){
+//				vx = -566;
+//				vy = -566;
+//			}else if (button_pressed(BUTTON_XBC_NW)){
+//				vx = -566;
+//				vy = 566;
+//			}
+//			
+//			global_axis = true;
+//			
+//		}else{
 			vx = xbc_get_joy(XBC_JOY_LX) *BASE_VEL_JOYSTICK_GAIN /1000;
 			vy = xbc_get_joy(XBC_JOY_LY) *BASE_VEL_JOYSTICK_GAIN /1000;
 			
 			if (vx!=0 || vy!=0){
 				global_axis = false;
 			}
-		}
+//		}
 		
 		if (climbing_induced_ground_lock == UNLOCKED){
 			/*
@@ -191,6 +190,22 @@ void manual_update_wheel_base(){
 			** By finding the axis with more difference(thus more acceleration), cap it
 			** Then use the same proportion for the another axis to ensure the angle is correct
 			*/
+			
+			if (use_laser_avoid){
+				u32 avg_dis = (get_ls_cal_reading(FRONT_LASER_ID) + get_ls_cal_reading(BACK_LASER_ID))/2;
+				if (avg_dis < LASER_RETREAT_AVG_DIS){
+					//vy = -(LASER_RETREAT_SPEED + (LASER_RETREAT_AVG_DIS - avg_dis)*LASER_RETRAET_P/1000);
+					vy = -LASER_RETREAT_SPEED;
+					
+				}else if(get_ls_cal_reading(FRONT_LASER_ID) < LASER_RETREAT_ONE_SIDE_DIS){
+					//vy = -(LASER_RETREAT_SPEED + (LASER_RETREAT_ONE_SIDE_DIS - get_ls_cal_reading(FRONT_LASER_ID)*LASER_RETRAET_P/1000));
+					vy = -LASER_RETREAT_SPEED;
+					
+				}else if(get_ls_cal_reading(BACK_LASER_ID) < LASER_RETREAT_ONE_SIDE_DIS){
+					//vy = -(LASER_RETREAT_SPEED + (LASER_RETREAT_ONE_SIDE_DIS - get_ls_cal_reading(BACK_LASER_ID)*LASER_RETRAET_P/1000));
+					vy = -LASER_RETREAT_SPEED;
+				}
+			}
 			
 			u16 acceleration_amount;
 			if ((vx*vx+vy*vy) > (curr_vx*curr_vx + curr_vy*curr_vy)){
@@ -294,18 +309,15 @@ void manual_update_wheel_base(){
 */
 void manual_fast_update(){
 	fast_per_long++;
+	ir_update();
 	s32 curr_rotate = 0;
 	
 	for (u8 i=0;i<3;i++){
 		motor_vel[i] = 0;
 	}
-	
-	if (!gpio_read_input(&ARM_IR_PORT)){
-		raise_arm();
-	}
-	
+	 
 	if (manual_stage == 5){
-		manual_stage = limit_sa_approach(motor_vel, &curr_rotate);		
+		manual_stage = limit_sa_approach(motor_vel,  &curr_rotate);		
 	}else if (manual_stage == 2){
 		raise_arm();
 		manual_stage = limit_manual_update(motor_vel, &curr_rotate);		
@@ -331,7 +343,7 @@ void manual_fast_update(){
 			climb_continue();
 			brushless_servo_val = 0;
 			brushless_servo_control(brushless_servo_val);
-			brushless_control(CLIMBING_BRUSHLESS_POWER, true);
+			//brushless_control(CLIMBING_BRUSHLESS_POWER, true);
 			if (!gpio_read_input(&HIT_BOX_PORT)){
 				manual_stage++;
 				putting_propeller_ticks[0] = this_loop_ticks;
@@ -359,7 +371,8 @@ void manual_fast_update(){
 		}
 		
 	}else if(manual_stage == 0 && using_laser_sensor){
-		using_laser_sensor = laser_manual_update(motor_vel, &curr_rotate);
+		//using_laser_sensor = laser_manual_update(motor_vel, &curr_rotate);
+		manual_update_wheel_base(true);
 		curr_heading = get_angle();
 	}else if (rotating_machine_by_90){
 		s32 this_rotate = river_rotate_update(rotating_machine_by_90_target);
@@ -371,7 +384,7 @@ void manual_fast_update(){
 		}
 		curr_heading = get_angle();
 	}else if (!using_laser_sensor){
-		manual_update_wheel_base();
+		manual_update_wheel_base(false);
 		if (!is_rotating){
 			//curr_rotate = -angle_pid()/1000;
 		}
@@ -420,60 +433,60 @@ void manual_interval_update(){
 		}
 	}
 	
-	if (button_hitted[BUTTON_XBC_X]){
-		#ifdef BLUE_FIELD
-			if (!facing_pole){
-		#else
-			if (facing_pole){
-		#endif
-				rotating_machine_by_90_target = (get_angle() - 900)%3600;
-				manual_stage = 1;
-				gripper_down = true;
-				gripper_extended = true;
-				gripper_clawed = false;
-				gripper_control(THIS_GRIPPER, gripper_down);
-				gripper_push_control(THIS_GRIPPER, gripper_extended);
-				gripper_claw_control(THIS_GRIPPER, gripper_clawed);
-			}else{
-				rotating_machine_by_90_target = (get_angle() + 900)%3600;
-				manual_stage = 0;
-				gripper_down = false;
-				gripper_extended = false;
-				gripper_clawed = true;
-				gripper_control(THIS_GRIPPER, gripper_down);
-				gripper_push_control(THIS_GRIPPER, gripper_extended);
-				gripper_claw_control(THIS_GRIPPER, gripper_clawed);
-			}
-			rotating_machine_by_90 = true;
-			using_laser_sensor = false;
-			pole_as_front = !pole_as_front;
-			facing_pole = !facing_pole;
-	}
-			
-	if (button_hitted[BUTTON_XBC_A]){
-		if (manual_stage == 0){
-			manual_stage = 5;
-			limit_sa_approach_init();
-			gripper_down = true;
-			gripper_extended = true;
-			gripper_clawed = false;
-			gripper_control(THIS_GRIPPER, gripper_down);
-			gripper_push_control(THIS_GRIPPER, gripper_extended);
-			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
-			using_laser_sensor = false;
-			pole_as_front = true;
-		}else{
-			manual_stage = 1;
-			gripper_down = true;
-			gripper_extended = true;
-			gripper_clawed = false;
-			gripper_control(THIS_GRIPPER, gripper_down);
-			gripper_push_control(THIS_GRIPPER, gripper_extended);
-			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
-			using_laser_sensor = false;
-			pole_as_front = true;
-		}
-	}
+//	if (button_hitted[BUTTON_XBC_X]){
+//		#ifdef BLUE_FIELD
+//			if (!facing_pole){
+//		#else
+//			if (facing_pole){
+//		#endif
+//				rotating_machine_by_90_target = (get_angle() - 900)%3600;
+//				manual_stage = 1;
+//				gripper_down = true;
+//				gripper_extended = true;
+//				gripper_clawed = false;
+//				gripper_control(THIS_GRIPPER, gripper_down);
+//				gripper_push_control(THIS_GRIPPER, gripper_extended);
+//				gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+//			}else{
+//				rotating_machine_by_90_target = (get_angle() + 900)%3600;
+//				manual_stage = 0;
+//				gripper_down = false;
+//				gripper_extended = false;
+//				gripper_clawed = true;
+//				gripper_control(THIS_GRIPPER, gripper_down);
+//				gripper_push_control(THIS_GRIPPER, gripper_extended);
+//				gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+//			}
+//			rotating_machine_by_90 = true;
+//			using_laser_sensor = false;
+//			pole_as_front = !pole_as_front;
+//			facing_pole = !facing_pole;
+//	}
+//			
+//	if (button_hitted[BUTTON_XBC_A]){
+//		if (manual_stage == 0){
+//			manual_stage = 5;
+//			limit_sa_approach_init();
+//			gripper_down = true;
+//			gripper_extended = true;
+//			gripper_clawed = false;
+//			gripper_control(THIS_GRIPPER, gripper_down);
+//			gripper_push_control(THIS_GRIPPER, gripper_extended);
+//			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+//			using_laser_sensor = false;
+//			pole_as_front = true;
+//		}else{
+//			manual_stage = 1;
+//			gripper_down = true;
+//			gripper_extended = true;
+//			gripper_clawed = false;
+//			gripper_control(THIS_GRIPPER, gripper_down);
+//			gripper_push_control(THIS_GRIPPER, gripper_extended);
+//			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+//			using_laser_sensor = false;
+//			pole_as_front = true;
+//		}
+//	}
 	
 	if (button_hitted[BUTTON_XBC_BACK]){
 		buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
@@ -494,7 +507,7 @@ void manual_interval_update(){
 	tft_append_line("%d", curr_speed);
 	tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_angle());
 	tft_append_line("%d %d %d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str, rotating_machine_by_90, rotating_machine_by_90_target);
-	tft_append_line("LS: %d %d IR:%d", get_ls_cal_reading(0), get_ls_cal_reading(2), gpio_read_input(&ARM_IR_PORT));
+	tft_append_line("LR:%d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(2), get_ir_dis());
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	tft_update();
 }
@@ -613,14 +626,18 @@ void manual_control_brushless_update(){
 		brushless_servo_control(brushless_servo_val);
 	}
 	
-	if (xbc_get_joy(XBC_JOY_RY)>700){
+	if ((get_ir_dis() < IR_ORIGINAL_TARGET_DIS) && (xbc_get_joy(XBC_JOY_RY)>-100)){
 		raise_arm();
-		tft_append_line("RAISING ARM");
-	}else if (xbc_get_joy(XBC_JOY_RY)<-700){
-		lower_arm();
-		tft_append_line("LOWERING ARM");
-	}else {
-		stop_arm();
+	}else{
+		if (xbc_get_joy(XBC_JOY_RY)>700){
+			raise_arm();
+			tft_append_line("RAISING ARM");
+		}else if (xbc_get_joy(XBC_JOY_RY)<-700){
+			lower_arm();
+			tft_append_line("LOWERING ARM");
+		}else {
+			stop_arm();
+		}
 	}
 }
 

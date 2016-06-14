@@ -21,6 +21,7 @@
 #include "manual_track.h"
 #include "semi_auto.h"
 #include "quick_math.h"
+#include "adc_ir.h"
 
 //#define BLUE_FIELD
 #define RED_FIELD
@@ -41,21 +42,36 @@
 #define ANGLE_PID_D 0
 #define ANGLE_PID_MAX 400000
 
-#define ARM_IR_PORT PE0
+#define IR_ORIGINAL_TARGET_DIS 45 //in mm
 #define HIT_BOX_PORT PE3
 
+//Laser avoid hitting
+#define LASER_RETREAT_AVG_DIS 200
+#define LASER_RETREAT_ONE_SIDE_DIS 180
+#define LASER_RETREAT_SPEED 560
+#define LASER_RETRAET_P 2000 //Scaled by 1000
+#define LASER_RETREAT_ROTATE 350
+
+#ifdef BLUE_FIELD
+	#define FRONT_LASER_ID 2
+	#define BACK_LASER_ID 0
+#else
+	#define FRONT_LASER_ID 0
+	#define BACK_LASER_ID 2
+#endif
+
 //Make deceleration faster than acceleration
-#define BASE_ACC_CONSTANT 2700 //3500 //Scaled by 1000
-#define BASE_DEC_CONSTANT 2800 //8500 //Scaled by 1000
-#define BASE_VEL_JOYSTICK_GAIN 1300 //Scaled by 1000
-#define ROTATE_ACCEL_CONSTANT 3500 //14000 //Scaled by 1000 
+#define BASE_ACC_CONSTANT 4000 //3200 //Scaled by 1000
+#define BASE_DEC_CONSTANT 5600 //3400 //Scaled by 1000
+#define BASE_VEL_JOYSTICK_GAIN 1450 //Scaled by 1000
+#define ROTATE_ACCEL_CONSTANT 5200 //3500 //Scaled by 1000 
 #define MOTOR_MAX_MY_BOUND 150 //<150
 
 #define BRUSHLESS_POWER_STEP 5
-#define BRUSHLESS_SERVO_SMALL_STEP 2
-#define BRUSHLESS_SERVO_LARGE_STEP 5
-#define BRUSHLESS_START_CONTIN_TICKS 500
-#define BRUSHLESS_KEEP_CONTIN_TICKS 200
+#define BRUSHLESS_SERVO_SMALL_STEP 1
+#define BRUSHLESS_SERVO_LARGE_STEP 3
+#define BRUSHLESS_START_CONTIN_TICKS 750
+#define BRUSHLESS_KEEP_CONTIN_TICKS 350
 
 #define GRIPPER_STATES_NO 4
 #define GRIPPER_TICKS_THRESHOLD 50

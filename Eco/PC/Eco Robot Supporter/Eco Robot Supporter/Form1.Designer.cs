@@ -1525,13 +1525,13 @@
             this.but_connect_2.Name = "but_connect_2";
             this.but_connect_2.Size = new System.Drawing.Size(151, 28);
             this.but_connect_2.TabIndex = 5;
-            this.but_connect_2.Text = "Connect to COM15";
+            this.but_connect_2.Text = "Connect to COM18";
             this.but_connect_2.UseVisualStyleBackColor = true;
             this.but_connect_2.Click += new System.EventHandler(this.but_connect_2_Click);
             // 
             // but_save
             // 
-            this.but_save.Location = new System.Drawing.Point(381, 67);
+            this.but_save.Location = new System.Drawing.Point(381, 101);
             this.but_save.Name = "but_save";
             this.but_save.Size = new System.Drawing.Size(151, 28);
             this.but_save.TabIndex = 6;
@@ -1541,7 +1541,7 @@
             // 
             // but_load
             // 
-            this.but_load.Location = new System.Drawing.Point(381, 101);
+            this.but_load.Location = new System.Drawing.Point(381, 125);
             this.but_load.Name = "but_load";
             this.but_load.Size = new System.Drawing.Size(151, 28);
             this.but_load.TabIndex = 7;

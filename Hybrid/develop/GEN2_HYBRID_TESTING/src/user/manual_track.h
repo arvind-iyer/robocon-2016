@@ -19,6 +19,10 @@
 #include "quick_math.h"
 #include "manual_mode.h"
 
+#define WALL_1_LIMIT_SWITCH &PE11
+#define WALL_2_LIMIT_SWITCH &PE10
+#define POLE_LIMIT_SWITCH &PE2
+
 #define RIVER_ROTATE_P 1000 //Scaled by 1000 
 #define RIVER_ROTATE_D 1400 //Scaled by 1000
 #define RIVER_ROTATE_MAX 450
@@ -33,9 +37,10 @@
 #define LASER_PERPEND_P 5000 //Scaled by 1000
 #define LASER_TARGET_RANGE 250 //In mm
 #define LASER_OUT_DISTANCE 800
+#define LASER_MAX_PARA_SPEED 300
 
-#define LASER_PARA_P 550 //Scaled by 1000
-#define LASER_PARA_CONSTANT 550
+#define LASER_PARA_P 880 //Scaled by 1000
+#define LASER_PARA_CONSTANT 880
 
 #define LIMIT_START_DECEL_Y 4500
 #define LIMIT_END_DECEL_Y 5200
@@ -51,6 +56,8 @@
 
 #define LIMIT_PERPEND_NORM 20
 #define LIMIT_PERPEND_FAST 80
+
+#define TRACK_ACC_CONSTANT 5500 //Scaled by 1000
 
 extern u32 laser_range[2];
 
