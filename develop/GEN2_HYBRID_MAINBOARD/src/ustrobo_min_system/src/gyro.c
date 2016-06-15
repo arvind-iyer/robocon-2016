@@ -242,11 +242,19 @@ void UART5_IRQHandler(void)
 	}
 }
 
+/**
+  * @brief  Get the X coordinate
+  * @param  None
+  * @retval X coordinate
+  */
 s16 get_X(void)
 {
-   s32 pos_x = (real_x*10000-SHIFT_X*10000+SHIFT_X*int_cos(angle)+SHIFT_Y*int_sin(angle))/10000;
+  /*
+	s32 pos_x = (real_x*10000-SHIFT_X*10000+SHIFT_X*int_cos(angle)+SHIFT_Y*int_sin(angle))/10000;
 	//return real_x;
 	return pos_x;//real_x;
+	*/
+	return gyro_pos.x * X_SCALING;
 }
 
 /**
@@ -256,7 +264,10 @@ s16 get_X(void)
   */
 s16 get_Y(void)
 {
+	/*
 	s32 pos_y = (real_y*10000-SHIFT_Y*10000+SHIFT_Y*int_cos(angle)-SHIFT_X*int_sin(angle))/10000;
 	//return real_y;
 	return pos_y;//real_y;
+	*/
+	return gyro_pos.y * Y_SCALING;	
 }

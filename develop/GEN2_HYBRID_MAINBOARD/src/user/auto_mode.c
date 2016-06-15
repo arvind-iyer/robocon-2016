@@ -22,13 +22,12 @@
 #define KI 0.015
 #define RKP 1.8
 #define DEC_COEFF 8.0
-//#define WALL_CAL 4220
-#define WALL_CAL 6600
-//#define WALL_CAL 6750
+#define WALL_CAL 4220
+//#define WALL_CAL 6600
 #define LS_DIFF 400
 #define SHIFT 3.0
 #define INNER_DIST 295
-#define OUTER_DIST 345
+#define OUTER_DIST 325
 
 //#define DEBUG_MODE
 
@@ -132,8 +131,10 @@ void auto_tar_dequeue() {
 	//speed control
 	if (tar_end == 1)
 		cur_vel = 65;
-	if (tar_end == 5)
-		cur_vel = 85;	
+	if (tar_end == 4)
+		cur_vel = 35;
+	//if (tar_end == 5)
+	//	cur_vel = 85;	
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
 	//tar_deg = tar_queue[tar_end].deg;
@@ -472,11 +473,11 @@ void auto_robot_control(void) {
 		if (Abs(cur_x) < 1250) {
 			tar_arm = 0;
 		} else if (Abs(cur_x) < 3000) {
-			tar_arm = 3600;
+			tar_arm = 3900;
 		} else if (Abs(cur_x) < 5000) {
-			tar_arm = 7200;
+			tar_arm = 7800;
 		} else {
-			tar_arm = 11400;
+			tar_arm = 11700;
 		}
 		
 		motor_set_vel(MOTOR7, arm_vel*MOTOR7_FLIP, OPEN_LOOP);
@@ -487,23 +488,23 @@ void auto_robot_control(void) {
 	}
 	
 	if (tar_end <= 1) {
-		brushless_servo_control(-85 + 85*2*field);
+		brushless_servo_control(-90 + 90*2*field);
 		brushless_control(0, true);
 		if (auto_get_ticks() - brushless_time > 1200)
 			brushless_control(45, true);
 	} else if (tar_end <= 2) {
 		brushless_control(42, true);
-		//if (auto_get_ticks() - brushless_time > 300)
-		//	brushless_control(40, true);
+		if (auto_get_ticks() - brushless_time > 300)
+			brushless_control(55, true);
 	} else if (tar_end <= 3) {
 		brushless_control(47, true);
 		if (auto_get_ticks() - brushless_time > 300)
-			brushless_control(40, true);
+			brushless_control(49, true);
 	} else if (tar_end <= 4) {
 		brushless_servo_control(-80 + 80*2*field);
-			brushless_control(35, true);
+		brushless_control(46, true);
 		if (auto_get_ticks() - brushless_time > 2000)
-			brushless_control(0, true);
+			brushless_control(49, true);
 	} else if (tar_end <= 5) {
 		brushless_servo_control(0);		
 	} else {
@@ -625,7 +626,6 @@ void auto_var_update() {
 		if (Abs(reading2 - reading1) < LS_DIFF) {
 			wall_dist = (reading1 + reading2)/2;
 			if (!((tar_end == 4) && (dist < 500)) && !(tar_end >= 5)) { //stop shift when approach hill3
-				/*
 				if (field == 0) {
 					if (wall_dist < INNER_DIST)
 						transform[1][0] -= (SHIFT/7000.0);
@@ -638,15 +638,14 @@ void auto_var_update() {
 					if ((wall_dist > OUTER_DIST) && (wall_dist < 1000))
 						transform[1][0] -= (SHIFT/7000.0);
 				}
-				*/
 			}
 		} else {
 			wall_dist = 0;
 		}
 	#endif
 	
-	raw_x = transform[0][0]*((-1)*get_pos()->x) + transform[0][1]*get_pos()->y;
-	raw_y = transform[1][0]*((-1)*get_pos()->x) + transform[1][1]*get_pos()->y;
+	raw_x = transform[0][0]*get_X() + transform[0][1]*get_Y();
+	raw_y = transform[1][0]*get_X() + transform[1][1]*get_Y();
 	
 	cur_x = raw_x - off_x;
 	cur_y = raw_y - off_y;
@@ -745,11 +744,11 @@ void auto_motor_update(){
 	//tft_prints(0,7,"Test %d %d %d", arm_vel, get_arm_pos(), tar_arm);
 	//tft_prints(0,7,"Test %d %d", dist, degree_diff);
 	//tft_prints(0,7,"Test %d", err_sum);
-	//tft_prints(0,7,"Test %d %d", ((-1)*get_pos()->x), get_pos()->y);
+	//tft_prints(0,7,"Test %d %d", get_X(), get_Y());
 	tft_prints(0,7,"Test %d %d", side_switch_val, back_switch_val);
 	*/
 	tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));
-	tft_prints(0,9,"Wall: %d %d", (WALL_CAL - wall_dist), raw_y);
+	tft_prints(0,9,"W %d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1), wall_dist);
 	tft_update();
 	
 	temp_deg = (cur_deg < -1800) ? (cur_deg+3600) : ((cur_deg >= 1800) ? (cur_deg-3600) : cur_deg);

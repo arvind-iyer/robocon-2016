@@ -462,7 +462,7 @@ void manual_controls_update(void) {
 	** Hold button Y to descend
 	** While climbing, the ground wheels should be locked
 	*/
-	if (button_pressed(BUTTON_XBC_A) && gpio_read_input(&PE3)){
+	if (button_pressed(BUTTON_XBC_A) && !gpio_read_input(&PE3)){
 		climb_continue();
 		climbing_induced_ground_lock = LOCKED;
 		tft_append_line("CLIMBING");
