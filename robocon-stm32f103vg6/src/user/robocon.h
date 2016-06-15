@@ -74,15 +74,10 @@ extern Pneumatics pneumatics;
 extern bool prevLimitSwitch[4];
 extern bool robotMode;
 extern bool armIr;
-extern bool manualMode;
-extern bool laserAuto;
-extern bool autoModeLaser;
-extern bool autoPIDMode;
 extern bool benMode;
 extern bool semiAuto;
-extern bool wallApproach;
-extern bool approachFirstPosition;
 extern STAGES currStage;
+extern STATEMODES currMode;
 
 extern int timeSinceButtonPressed;
 

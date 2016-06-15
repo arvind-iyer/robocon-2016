@@ -219,16 +219,6 @@ void updateQueue () {
 					}
 					dequeue(size);
 					lastWait = -1;
-//					if((currentPath.position.x == 5019 && currentPath.position.y == 12660)
-//						|| (currentPath.position.x == -1200 && currentPath.position.y == 12810)) {
-//						laserAuto = true;
-//						pneumatics.P1 = true;
-//					}
-					if(currentPath.position.x == -3982&& currentPath.position.y == 0) {
-						autoModeLaser = true;
-						autoPIDMode = false;
-						manualMode = false;
-					}
 				}
 			} else{
 				finishing = true;
@@ -264,10 +254,10 @@ void updateQueue () {
 				}
 				else if(currentPath.position.y == savedY) {
 					if(dt >= 0 && dt < time *3 / 4) {
-						setBrushlessMagnitude(7);
+						setBrushlessMagnitude(8);
 					}
 					else {
-						setBrushlessMagnitude(22);
+						setBrushlessMagnitude(23);
 					}
 				}
 				
@@ -289,9 +279,7 @@ void updateQueue () {
 					//TODO: ADD CONDITION FOR RED_SIDE
 					if(currentPath.position.y == wagateki) {
 						setBrushlessMagnitude(0);
-						autoPIDMode = false;
-						manualMode = false;
-						wallApproach = true;
+						currMode = APPROACHWALL;
 					}
 					wheelbaseLock();
 					//finishing = false;
@@ -300,9 +288,7 @@ void updateQueue () {
 					//Exit PID Mode, goto Laser Mode --> after reaching first point for either side of gamefield
 					//TODO: ADD CONDITION FOR RED SIDE
 					if(currentPath.position.x == savedX && currentPath.position.y == savedY) {
-						autoModeLaser = true;
-						autoPIDMode = false;
-						manualMode = false;
+						currMode = LASERPID;
 						setBrushlessMagnitude(currentPath.brushlessSpeed);
 					}
 				}
@@ -325,7 +311,7 @@ void updateQueue () {
 		}
 	}
 	else {
-		manualMode = true;
+		currMode = MANUAL;
 	}
 }
 

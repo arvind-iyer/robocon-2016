@@ -13,6 +13,7 @@ bool limitSwitch[4] = {false, false, false, false};
 bool prevLimitSwitch[4] = {false, false, false, false};
 bool armIr = false, prevArmIr = false, readyToClimb = false;
 int climbDelay = 0;
+int moveDelay = 0;
 
 /**
   * @brief Initializes the Hybrid's GPIO ports and some required variables
@@ -30,8 +31,9 @@ void hybridGPIOInit() {
 	gpio_init(&PE8, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
 }
 
-bool armDir = false, fixingArm = false, climbLimit = false; // False = down, True = up
+bool armDir = false, fixingArm = false, climbLimit = false, topHit = false; // False = down, True = up
 long lastLimitCheck = 0;
+int waitDelay = 0;
 
 /**
   * @brief Checks all the limit switches on the hybrid
@@ -51,7 +53,6 @@ void limitSwitchCheck() {
 	prevLimitSwitch[0] = (prevLimitSwitch[0] != limitSwitch[0] ? limitSwitch[0] : prevLimitSwitch[0]);
 		prevLimitSwitch[1] = (prevLimitSwitch[1] != limitSwitch[1] ? limitSwitch[1] : prevLimitSwitch[1]);
 	if (limitSwitch[0] || limitSwitch[1]) {
-		
 		armDir = limitSwitch[1] ? 1 : 0;
 		motor_set_vel(MOTOR8, armDir ? -10 : 10, CLOSE_LOOP);
 		fixingArm = true;
@@ -61,33 +62,71 @@ void limitSwitchCheck() {
 	 if(prevLimitSwitch[2] != limitSwitch[2]) {
 		prevLimitSwitch[2] = limitSwitch[2];
 		sendClimbCommand(0);
+		if(limitSwitch[2] == true) {
+			topHit = true;
+			waitDelay = get_full_ticks();
+		}
+		 
 		//climbLimit = true;	
 		//lastLimitCheck = get_full_ticks();
 	}
 	if(prevLimitSwitch[3] != limitSwitch[3]){
 		prevLimitSwitch[3] = limitSwitch[3];
-		//sendWheelBaseMotorCommands(0,0,0);
-		wheelbaseLock();
-		laserAuto = false;
-		manualMode = true;
+		moveDelay = get_full_ticks();
+		currMode = MANUAL;
+
 		//pneumatics.P1 = false;
 	}
 	
 	// Move arm to correct position.
-	int armError = get_encoder_value(MOTOR8) - (pneumatics.P1 == false ? 80000 : 42928);
+	int armError = get_encoder_value(MOTOR8) - (pneumatics.P3 == false ? 17000 : 79433);
 	if (prevLimitSwitch[3] == 1 && !climbing) {
+		double angularVelocity = getAngleDifference(robot.position.angle, robotMode == RED_SIDE ? 270 : 90 ) * 50 / 180 * -1;
+		if (Abs(angularVelocity) >= 50) angularVelocity = angularVelocity < 0 ? -50 : 50;
+		else{
+			if (angularVelocity > 0) angularVelocity = MAX(30, angularVelocity);
+			if (angularVelocity < 0) angularVelocity = MIN(-30, angularVelocity);
+		}
+		if(get_full_ticks() - moveDelay < 1000){
+			reset();
+			setM(3);
+			setBearing(180);
+			setW(angularVelocity);
+			addComponent();
+			parseWheelbaseValues();
+		}
+		
+	if(get_full_ticks() - moveDelay >1000) {
 		if(pneumatics.P1 != false) {
-			pneumatics.P1 = false;
-			_delay_ms(20);
-			pneumatic_control(GPIOE, GPIO_Pin_15, pneumatics.P1);
-			_delay_ms(100);
+				pneumatics.P1 = false;
+				pneumatic_control(GPIOE, GPIO_Pin_15, pneumatics.P1);
+		}
+	if(get_full_ticks() - moveDelay > 1000 && get_full_ticks() - moveDelay < 1250) {
+			motor_set_vel(MOTOR1, 2, CLOSE_LOOP);
+			motor_set_vel(MOTOR2, 2, CLOSE_LOOP);
+			motor_set_vel(MOTOR3, 2, CLOSE_LOOP);
+	}
+	else if(get_full_ticks() - moveDelay > 1250 && get_full_ticks() - moveDelay < 1500) {
+			motor_set_vel(MOTOR1, -2, CLOSE_LOOP);
+			motor_set_vel(MOTOR2, -2, CLOSE_LOOP);
+			motor_set_vel(MOTOR3, -2, CLOSE_LOOP);
+	}
+	else if(get_full_ticks() - moveDelay > 1500) {
 			motor_set_vel(MOTOR1, 0, OPEN_LOOP);
 			motor_set_vel(MOTOR2, 0, OPEN_LOOP);
 			motor_set_vel(MOTOR3, 0, OPEN_LOOP);
-		}
-		if (!(Abs(armError) <= 1000))
-			sendArmCommand(armError < 0 ? -40 : 40);
-		else if (Abs(armError) <= 1000) {
+	}
+		
+		
+//		setM(0);
+//		setBearing(0);
+//		setW(0);
+//		addComponent();
+//		parseWheelbaseValues();
+		
+		if (!(Abs(armError) <= 2000))
+			sendArmCommand(armError < 0 ? -60 : 60);
+		else if (Abs(armError) <= 2000) {
 			sendArmCommand(0);
 			if (pneumatics.P3 != true) {
 				pneumatics.P3 = true;
@@ -98,8 +137,27 @@ void limitSwitchCheck() {
 			}
 		}
 	}
+	}
 	
 	if (climbing && climbDelay - get_full_ticks() >= 500) {
+		if(!topHit)sendClimbCommand(1200);
+		else {
+			sendClimbCommand(0);
+			if(get_full_ticks() - waitDelay >= 500 && get_full_ticks() - waitDelay < 1200) {
+				pneumatics.P2 = true;
+				pneumatic_control(GPIOE, GPIO_Pin_13, pneumatics.P2);
+			}
+			if(get_full_ticks() - waitDelay >= 1200) {
+					int armError = get_encoder_value(MOTOR8) - 25890;
+					if (!(Abs(armError) <= 1000))
+						sendArmCommand(armError < 0 ? -60 : 60);
+					else if (Abs(armError) <= 1000) {
+						sendArmCommand(0);
+						pneumatics.P2 = false;
+						pneumatic_control(GPIOE, GPIO_Pin_13, pneumatics.P2);
+					}
+			}
+		}
 		// start climbing motors.
 	}
 }

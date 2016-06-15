@@ -2,8 +2,8 @@
 #include "approx_math.h"
 
 
-s32 SHIFT_X = -150; //20
-s32 SHIFT_Y = -165; //-180
+s32 SHIFT_X = -150; //150 171
+s32 SHIFT_Y = -165; //-165 159
 
 static POSITION gyro_pos = {0, 0, 0};
 static POSITION gyro_pos_raw = {0, 0, 0};

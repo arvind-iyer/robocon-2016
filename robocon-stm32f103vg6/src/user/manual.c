@@ -3,28 +3,35 @@
 bool listening = false, brushlessListening = false, holdListening = false;
 
 void manual_control () {
-	if (can_xbc_get_connection() != CAN_XBC_ALL_CONNECTED) {
-			wheelbaseLock();
-		}
-	tft_init(0, BLACK, WHITE, SKY_BLUE);
+		tft_init(0, BLACK, WHITE, SKY_BLUE);
 		pk_init();
 		pneumatics.P3 = true;
 		pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
+		allowArm = true;
 	while (1) {
+		if (can_xbc_get_connection() != CAN_XBC_ALL_CONNECTED) {
+				wheelbaseLock();
+			}
 		if (return_listener()) {
 					return; 
 				}
 		dataSampling();
 		reset();
-		if (manualMode) {
-			lockBearing(LOCK);
-			manualControl();
-		} else {
-			lockBearing(UNLOCK);
-		}
-		if(laserAuto){
-			manualMode = false;
-			enterPole();
+//		if (manualMode) {
+//			lockBearing(LOCK);
+//			manualControl();
+//		} else {
+//			lockBearing(UNLOCK);
+//		}
+		switch (currMode) {
+			case MANUAL:
+				manualControl();
+				break;
+			case POLELASER:
+				enterPole();
+				break;
+			default:
+				break;
 		}
 		
 		if(allowArm) {
@@ -172,8 +179,12 @@ void manual_control () {
 		}
 		if(button_pressed(BUTTON_XBC_A) && !listening) {
 			setBrushlessMagnitude(0);
-			laserAuto = !laserAuto;
-			manualMode = (laserAuto ? false : true);
+			if(currMode == MANUAL) {
+				currMode = POLELASER;
+			}
+			else if (currMode == POLELASER) {
+				currMode = MANUAL;
+			}
 			listening = true;
 			climbing = false;
 			if(pneumatics.P1 != true) {
@@ -207,20 +218,15 @@ void manual_control () {
 		//EMERGENCY BUTTON
 		if(button_pressed(BUTTON_XBC_START) && !listening) {
 			listening = true;
-			wallApproach = false;
 			dequeueAll();
 			wheelbaseLock();
 			setBrushlessMagnitude(0);
 			sendArmCommand(0);
-			manualMode = true;
-			laserAuto = false;
-			autoModeLaser = false;
-			benMode = false;
-			autoPIDMode = false;
-			approachFirstPosition = false;
+			currMode = MANUAL;
 		}
 		else if(button_released(BUTTON_XBC_START) && listening) {
 			listening = false;
 		}
 		
 	}
+	
