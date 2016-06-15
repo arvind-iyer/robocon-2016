@@ -9,4 +9,7 @@ void armUpdate(void);
 
 bool getLS(int index);
 
+extern int moveDelay;
+extern bool allow4thUpdate;
+
 #endif

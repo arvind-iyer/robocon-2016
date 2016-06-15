@@ -1,6 +1,8 @@
 #ifndef _PK_ROBOCON_AUTO
 #define _PK_ROBOCON_AUTO
 
+//#include "control.h"
+
 #define PNEUMATIC_POLE_GRIP 0
 #define PNEUMATIC_POLE_RELEASE 1
 #define PNEUMATIC_PROPELLER_GRIP 1
@@ -13,27 +15,31 @@
 #define LS_ARM_TOP 0
 
 enum auto_state {
-	PREPARATION,
-	MOVE_TO_POLE,
-	GRIP_POLE,
-	GRAB_PROPELLER,
-	CLIMB_POLE,
-	RAISE_ARM,
-	INSTALL_PROPELLER,
-	LOWER_ARM,
-	RESTORE
+	PREPARATION = 0,
+	MOVE_TO_POLE = 1,
+	RAM_POLE = 2,
+	GRIP_POLE = 3,
+	CLIMB_POLE = 4,
+	RAISE_ARM = 4,
+	INSTALL_PROPELLER = 5,
+	LOWER_ARM = 6,
+	RESTORE = 7
 };
 
-void auto_PREPARATION();
-void auto_MOVE_TO_POLE();
-void auto_GRIP_POLE();
-void auto_CLIMB_POLE();
-void auto_RAISE_ARM();
-void auto_INSTALL_PROPELLER();
-void auto_LOWER_ARM();
-void auto_RESTORE();
+void recordTick(void);
+int getTimer(void);
 
-void auto_next();
-void auto_execute();
+void auto_PREPARATION(void);
+void auto_MOVE_TO_POLE(void);
+void auto_RAM_POLE(void);
+void auto_GRIP_POLE(void);
+void auto_CLIMB_POLE(void);
+void auto_RAISE_ARM(void);
+void auto_INSTALL_PROPELLER(void);
+void auto_LOWER_ARM(void);
+void auto_RESTORE(void);
+
+void auto_next(void);
+void auto_execute(void);
 
 #endif

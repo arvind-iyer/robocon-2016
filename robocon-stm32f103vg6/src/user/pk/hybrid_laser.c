@@ -128,7 +128,7 @@ void moveToFirstPosition (void) {
 				if(robot.position.angle <= (robotMode == RED_SIDE ? 88 : 265) && robot.position.angle >= (robotMode == RED_SIDE ? 78 : 260) && onReach){
 					int armError = get_encoder_value(MOTOR8) - 11000;
 					if (!(Abs(armError) <= 1000))
-						sendArmCommand(armError < 0 ? -40 : 40);
+						sendArmCommand(armError < 0 ? -65 : 65);
 					else if (Abs(armError) <= 1000) {
 						sendArmCommand(0);
 						armReturned = true;
@@ -163,8 +163,11 @@ void moveToFirstPosition (void) {
 						parseWheelbaseValues();
 					}
 				} else{
-						angularVelocity = getAngleDifference(robot.position.angle, (robotMode == RED_SIDE ? 83 : 263) ) * 100 / 180 * -1;
-						if (Abs(angularVelocity) >= 50) angularVelocity = angularVelocity < 0 ? -50 : 50;
+					int benchmark = Abs(getAngleDifference(robot.position.angle, (robotMode == RED_SIDE ? 83 : 263))) < 10 ?  50 : 90 ;
+					int scale = 1;
+					if(benchmark == 90) scale = 4;
+						angularVelocity = getAngleDifference(robot.position.angle, (robotMode == RED_SIDE ? 83 : 263) ) * 100 * scale / 180 * -1;
+					if (Abs(angularVelocity) >= benchmark) angularVelocity = angularVelocity < 0 ? -benchmark : benchmark;
 						else{
 							if (angularVelocity > 0) angularVelocity = MAX(30, angularVelocity);
 							if (angularVelocity < 0) angularVelocity = MIN(-30, angularVelocity);
@@ -194,10 +197,17 @@ void moveToFirstPosition (void) {
 						if (angularVelocity < 0) angularVelocity = MIN(-80, angularVelocity);
 					}
 				}
-				setM(horizontalM);
 				if(robotMode == RED_SIDE) {
-					if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) < 4750) setBearing(90 - robot.position.angle); //TEST FIELD : 4450
-					else setBearing(-90 - robot.position.angle);
+					if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) < 4750) {
+						setM(horizontalM);
+						setBearing(90 - robot.position.angle); //TEST FIELD : 4450
+						
+					}
+					else {
+						setM(20);
+						setBearing(-90 - robot.position.angle);
+						
+					}
 				}
 				else if(robotMode == BLUE_SIDE) setBearing (270 - robot.position.angle);
 				setW(angularVelocity);
@@ -338,6 +348,9 @@ void laserPID() {
 			}
 		}
 
+		int slowdownDelay = 0;
+
+		
 /**
 	* @brief Calculates motor values for approaching the wall after blowing
 	*/
@@ -359,15 +372,16 @@ void moveToWall() {
 		}
 		
 		setM(targetM);
-		if(robotMode == RED_SIDE) setBearing(10 - robot.position.angle);
-		else if(robotMode == BLUE_SIDE) setBearing(350 - robot.position.angle);
+		if(robotMode == RED_SIDE) setBearing(5 - robot.position.angle);
+		else if(robotMode == BLUE_SIDE) setBearing(355 - robot.position.angle);
 		setW(angularVelocity);
 		addComponent();
 		parseWheelbaseValues();
 		if(robotMode == RED_SIDE) {
-			if(get_ls_cal_reading(2) < 850 && robot.position.angle < 278 && robot.position.angle > 262){
+			if(get_ls_cal_reading(2) < 950 && robot.position.angle < 278 && robot.position.angle > 262){
 				currMode = POLELASER;
 				pneumatics.P1 = true;
+				slowdownDelay = get_full_ticks();
 				if(pneumatics.P1 != true) {
 					pneumatics.P1 = true;
 					pneumatic_control(GPIOE, GPIO_Pin_15, pneumatics.P1);
@@ -405,7 +419,10 @@ void enterPole() {
 	if(robotMode == RED_SIDE) y = 300; // 230 //TEST FIELD 295
 	else if(robotMode == BLUE_SIDE) y = 210; //210
 	increment = 90 - MIN(90, int_arc_tan2(y,x));
-	int mag = 30;
+	int mag = 50;
+	if(get_full_ticks() - slowdownDelay >= 3500) {
+		mag = 20;
+	}
 	
 	if (robotMode == RED_SIDE) {
 		double angularVelocity = getAngleDifference(robot.position.angle, 270) * 50 / 180 * -1;

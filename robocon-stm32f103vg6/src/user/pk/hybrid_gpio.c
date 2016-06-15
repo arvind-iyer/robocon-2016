@@ -14,6 +14,7 @@ bool prevLimitSwitch[4] = {false, false, false, false};
 bool armIr = false, prevArmIr = false, readyToClimb = false;
 int climbDelay = 0;
 int moveDelay = 0;
+bool allow4thUpdate = false;
 
 /**
   * @brief Initializes the Hybrid's GPIO ports and some required variables
@@ -43,7 +44,7 @@ void limitSwitchCheck() {
   limitSwitch[0] = !gpio_read_input(&PE6);
 	limitSwitch[1]=  !gpio_read_input(&PE7);
 	limitSwitch[2] = !gpio_read_input(&PE9);
-	limitSwitch[3] = !gpio_read_input(&PE11);
+	if(allow4thUpdate) limitSwitch[3] = !gpio_read_input(&PE11);
 	if (get_full_ticks() - lastLimitCheck >= 100 && (fixingArm)) {
 		fixingArm = false;
 		climbLimit  = false;
@@ -128,7 +129,7 @@ void limitSwitchCheck() {
 			sendArmCommand(armError < 0 ? -60 : 60);
 		else if (Abs(armError) <= 2000) {
 			sendArmCommand(0);
-			if (pneumatics.P3 != true) {
+			if (pneumatics.P3 != true && allow4thUpdate) {
 				pneumatics.P3 = true;
 				pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
 			} else {

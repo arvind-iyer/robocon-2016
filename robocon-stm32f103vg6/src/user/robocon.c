@@ -13,6 +13,7 @@ bool robotMode = RED_SIDE;
 bool rightJoyInUse = false;
 bool semiAuto = false;
 bool benMode = false;
+bool START_ZONE_2 = false;
 
 //Variables for certain mode triggers
 bool allowArm = false;
@@ -26,6 +27,7 @@ STATEMODES currMode = MANUAL;
 STAGES currStage = STAGE1;
 
 void robocon_main(void) {
+	allow4thUpdate = true;
 	tft_init(0, BLACK, WHITE, SKY_BLUE);
 	pk_init();
 	pneumatics.P3 = true;
@@ -294,13 +296,14 @@ void controllerInputUpdate() {
 		} else if (currMode == POLELASER) {
 			currMode = MANUAL;
 		}
+		slowdownDelay = get_full_ticks();
 		m_listener = true;
 		climbing = false;
 		if (pneumatics.P1 != true) {
 			pneumatics.P1 = true;
 			pneumatic_control(GPIOE, GPIO_Pin_15, pneumatics.P1);
 		}
-		if (pneumatics.P3 != false) {
+		if (pneumatics.P3 != false  && !allow4thUpdate) {
 			pneumatics.P3 = false;
 			pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
 		}

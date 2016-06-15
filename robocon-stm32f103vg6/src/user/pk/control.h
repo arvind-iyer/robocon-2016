@@ -43,6 +43,7 @@ typedef struct {
 	void dequeueAll(void);
 	void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, int brushlessSpeed, int waitTime);
 	int getSize(void);
+	double calculateAngularVelocity(int targAngle, int max, int min, int scale);
 	
 	//extern Motors motor;	//pk
 	extern Robot robot;

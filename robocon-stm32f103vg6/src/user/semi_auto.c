@@ -71,6 +71,7 @@ void semiAutoScreenUpdater() {
 			get_ls_cal_reading(1));
 	tft_prints(0, 7, "CAL: %d|%d", get_ls_cal_reading(2),
 			get_ls_cal_reading(3));
+	tft_prints(0, 8, "4th Read? : %d", allow4thUpdate);
 	tft_update();
 }
 
@@ -159,7 +160,7 @@ void semiAutoListener() {
 	}
 	if (button_pressed(BUTTON_XBC_S) && !s_listening) {
 		s_listening = true;
-		pneumatics.P4 = !pneumatics.P4;
+		allow4thUpdate = !allow4thUpdate;
 	} else if (button_released(BUTTON_XBC_S) && s_listening) {
 		s_listening = false;
 	}
@@ -185,7 +186,7 @@ void semiAutoListener() {
 	} else if (button_released(BUTTON_XBC_X) && s_listening) {
 		s_listening = false;
 	}
-	if (button_pressed(BUTTON_XBC_A) && !s_listening) {
+	if (button_pressed(BUTTON_XBC_A) && !s_listening ) {
 		setBrushlessMagnitude(0);
 		if (currMode == MANUAL) {
 			currMode = POLELASER;
@@ -194,14 +195,15 @@ void semiAutoListener() {
 		}
 		s_listening = true;
 		climbing = false;
+		slowdownDelay = get_full_ticks();
 		if (pneumatics.P1 != true) {
 			pneumatics.P1 = true;
 			pneumatic_control(GPIOE, GPIO_Pin_15, pneumatics.P1);
 		}
-		if (pneumatics.P3 != false) {
-			pneumatics.P3 = false;
-			pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
-		}
+//		if (pneumatics.P3 != false && !allow4thUpdate) {
+//			pneumatics.P3 = false;
+//			pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
+//		}
 	} else if (button_released(BUTTON_XBC_A) && s_listening) {
 		s_listening = false;
 	}

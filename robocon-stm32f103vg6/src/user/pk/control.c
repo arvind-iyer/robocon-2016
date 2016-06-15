@@ -305,8 +305,10 @@ void updateQueue () {
 			int translationBearing = calculatePathBearing(currentPath, robot);
 			int angularVelocity = calculatePathAngularVelocity(currentPath, robot);
 			
-			if(currentPath.position.y == wagateki && currentPath.position.x == wagamama && currentDistance < currentPath.distanceThreshold) magnitude = 0;
-			
+			if(currentPath.position.y == wagateki && currentPath.position.x == wagamama && currentDistance < currentPath.distanceThreshold) {
+				magnitude = 0;
+				//if(Abs(getAngleDifference(robot.position.angle, currentPath.position.angle)) > 10) angularVelocity = 3* angularVelocity;
+			}
 			calculatePIDMotorValues(magnitude, translationBearing, angularVelocity);
 		}
 	}
@@ -361,4 +363,14 @@ void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, i
 	*/
 int getSize() {
 	return size;
+}
+
+double calculateAngularVelocity(int targAngle, int max, int min, int scale) {
+	double angularVelocity = getAngleDifference(robot.position.angle, targAngle) * scale / 180 * -1;
+		if (Abs(angularVelocity) >= max) angularVelocity = angularVelocity < 0 ? -max : max;
+		else{
+			if (angularVelocity > 0) angularVelocity = MAX(min, angularVelocity);
+			if (angularVelocity < 0) angularVelocity = MIN(-min, angularVelocity);
+		}
+		return angularVelocity;
 }

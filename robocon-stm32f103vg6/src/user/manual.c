@@ -65,6 +65,7 @@ void manual_control () {
 	tft_prints(0, 5, "LS: %d|%d|%d|%d|%d", prevLimitSwitch[0], prevLimitSwitch[1],  prevLimitSwitch[2], prevLimitSwitch[3], armIr); 
 	tft_prints(0, 6, "CAL: %d|%d", get_ls_cal_reading(0), get_ls_cal_reading(1));
 	tft_prints(0, 7, "CAL: %d|%d", get_ls_cal_reading(2), get_ls_cal_reading(3));
+		tft_prints(0, 8, "4th Read? : %d", allow4thUpdate);
 	tft_update();
 	}
 
@@ -153,7 +154,7 @@ void manual_control () {
 	}
 	if(button_pressed(BUTTON_XBC_S) && !listening){
 		listening = true;
-		pneumatics.P4 = !pneumatics.P4;
+		allow4thUpdate = !allow4thUpdate;
 	}
 	else if(button_released(BUTTON_XBC_S) && listening){
 		listening = false;
@@ -187,14 +188,15 @@ void manual_control () {
 			}
 			listening = true;
 			climbing = false;
+			slowdownDelay = get_full_ticks();
 			if(pneumatics.P1 != true) {
 				pneumatics.P1 = true;
 				pneumatic_control(GPIOE, GPIO_Pin_15, pneumatics.P1);
 			}
-			if(pneumatics.P3 != false) {
-					pneumatics.P3 = false;
-					pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
-				}
+//			if(pneumatics.P3 != false && !allow4thUpdate) {
+//					pneumatics.P3 = false;
+//					pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
+//				}
 		}
 		else if (button_released(BUTTON_XBC_A) && listening) {
 			listening = false;

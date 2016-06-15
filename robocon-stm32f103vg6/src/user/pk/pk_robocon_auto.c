@@ -8,13 +8,54 @@
 int auto_state = 0;
 int auto_action = 0;
 
+int tick;
+
+void recordTick() {
+	tick = get_full_ticks();
+}
+
+int getTimer() {
+	return get_full_ticks() - tick;
+}
+
 void auto_PREPARATION() {
+	tick = get_full_ticks();
+	currMode = MANUAL;
 	pneumatics.P1 = PNEUMATIC_POLE_RELEASE;
 	pneumatics.P3 = PNEUMATIC_PROPELLER_GRIP;
 }
 
 void auto_MOVE_TO_POLE() {
-	enterPole();
+	if (getLS(LS_POLE)) {
+		
+	} else {
+		enterPole();
+		auto_action++;
+	}
+}
+
+void auto_RAM_POLE() {
+	if (getTimer() < 1000) {
+		reset();
+		setM(3);
+		setBearing(180);
+		int angularVelocity;
+		if (robotMode == RED_SIDE) {
+			angularVelocity = 90 - robot.position.angle;
+		} else {
+			angularVelocity = 270 - robot.position.angle;
+		}
+		angularVelocity = angularVelocity * 50 / 180;
+		setW(angularVelocity);
+		addComponent();
+		parseWheelbaseValues();
+		sendWheelbaseCommand();
+		auto_action++;
+	} else {
+		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR3, 0, OPEN_LOOP);
+	}
 }
 
 void auto_GRIP_POLE() {
@@ -35,7 +76,7 @@ void auto_RAISE_ARM() {
 	if (getLS(LS_ARM_TOP)) {
 		sendArmCommand(0);
 	} else {
-		sendArmCommand(40);
+		sendArmCommand(-60);
 		auto_action++;
 	}
 }
@@ -45,7 +86,12 @@ void auto_INSTALL_PROPELLER() {
 }
 
 void auto_LOWER_ARM() {
-	
+		if (get_encoder_value(MOTOR8) < 25890) {
+			sendArmCommand(0);
+		} else {
+			sendArmCommand(60);
+			auto_action++;
+		}
 }
 
 void auto_RESTORE() {
@@ -67,6 +113,9 @@ void auto_execute() {
 	if (auto_state == GRIP_POLE) {
 		auto_GRIP_POLE();
 	}
+	if (auto_state == RAM_POLE) {
+		auto_RAM_POLE();
+	}
 	if (auto_state == CLIMB_POLE) {
 		auto_CLIMB_POLE();
 	}
@@ -83,6 +132,7 @@ void auto_execute() {
 		auto_RESTORE();
 	}
 	if (auto_action == 0) {
+		recordTick();
 		auto_state++;
 	}
 }

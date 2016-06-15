@@ -76,3 +76,4 @@
 .\output\main.o: src\user\pk/pk_math.h
 .\output\main.o: src\user\pk/pk_math_vector.h
 .\output\main.o: src\user\semi_auto.h
+.\output\main.o: src\user\auto_control.h

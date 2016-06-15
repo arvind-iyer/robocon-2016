@@ -17,6 +17,7 @@ extern bool fieldDetected;
 extern int wagateki;
 extern int savedX;
 extern int savedY;
+extern int slowdownDelay;
 extern int wagamama;
 //extern u16 ls_cal_reading[2];
 
