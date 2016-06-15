@@ -153,8 +153,8 @@ void print_data(){
     tft_prints(0,4,"GLOBAL STATE:");
     tft_prints(0,5,"%s",globalStateString);
     tft_prints(0,6,"yaw:%.2f",ardu_cal_ypr[0]);
-    tft_prints(0,7,"velo: %.2f",determine_velocity(ENCODER1));
-    tft_prints(0,8,"encoder: %d",get_minimize_count(ENCODER1));
+    tft_prints(0,7,"enc up: %d",ENTER_RIVER_ENCODER + (ENTER_RIVER_ENCODER - (ENTER_RIVER_ENCODER * int_sin((angle_enter_river - angle_after_ninety)*10)/10000)));
+    tft_prints(0,8,"encoder: %d",get_count(ENCODER1));
     tft_prints(0,9,"delta a:%.2f",angle_enter_river - angle_after_ninety);
 }
 void printSystemOff(void){
@@ -268,7 +268,7 @@ void goNinety(void){
     switch(side){
         case REDSIDE:
             lastMovement = NINETY_TURNING  + ((int)determine_velocity(ENCODER1) * 20);
-            if((int)ardu_cal_ypr[0] > -65){
+            if((int)ardu_cal_ypr[0] > -80){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
                 reset_encoder_1();
@@ -279,7 +279,7 @@ void goNinety(void){
         break;
         case BLUESIDE:
             lastMovement = NINETY_TURNING  - ((int)determine_velocity(ENCODER1) * 20);
-            if((int)ardu_cal_ypr[0] < 65){
+            if((int)ardu_cal_ypr[0] < 80){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
                 reset_encoder_1();

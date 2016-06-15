@@ -164,8 +164,10 @@ int main(void) {
                                                         strcpy(globalStateString,"ENTER_RIVER");  
                                                         time1 = get_full_ticks();
 																												angle_enter_river = ardu_cal_ypr[0];
-																												if((angle_enter_river - angle_after_ninety) > (float)70)
+																												if((float) 84 > (angle_enter_river - angle_after_ninety) > (float)70)
 																														ENTER_RIVER_ENCODER = 7200;
+																												else if((angle_enter_river - angle_after_ninety) > (float)85)
+																														ENTER_RIVER_ENCODER = 7400;
 																												else if((angle_enter_river - angle_after_ninety) < (float)60)
 																														ENTER_RIVER_ENCODER = 6800;
                                                         globalState = ENTER_RIVER;
