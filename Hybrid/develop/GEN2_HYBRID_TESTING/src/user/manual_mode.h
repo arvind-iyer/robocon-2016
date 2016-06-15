@@ -20,6 +20,7 @@
 #include "robot_control.h"
 #include "manual_track.h"
 #include "semi_auto.h"
+#include "acc_module.h"
 #include "quick_math.h"
 #include "adc_ir.h"
 
@@ -64,8 +65,8 @@
 #define BASE_ACC_CONSTANT 4000 //3200 //Scaled by 1000
 #define BASE_DEC_CONSTANT 5600 //3400 //Scaled by 1000
 #define BASE_VEL_JOYSTICK_GAIN 1450 //Scaled by 1000
-#define ROTATE_ACCEL_CONSTANT 5200 //3500 //Scaled by 1000 
-#define MOTOR_MAX_MY_BOUND 150 //<150
+#define ROTATE_ACC_CONSTANT 5200 //3500 //Scaled by 1000 
+#define ROTATE_DEC_CONSTANT 6700 //3500 //Scaled by 1000 
 
 #define BRUSHLESS_POWER_STEP 5
 #define BRUSHLESS_SERVO_SMALL_STEP 1
@@ -83,7 +84,7 @@
 #define PUTTING_PROPELLER_RETRACT_DELAY 400
 #define PUTTING_PROPELLER_YEAH_DELAY 500
 
-#ifdef RED_FIELD
+#ifdef BLUE_FIELD
 	#define THIS_GRIPPER GRIPPER_1
 #else
 	#define THIS_GRIPPER GRIPPER_2

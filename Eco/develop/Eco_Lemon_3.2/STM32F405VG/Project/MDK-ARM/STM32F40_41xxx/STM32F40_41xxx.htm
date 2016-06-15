@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Mon Jun 13 15:04:56 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Tue Jun 14 13:11:44 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1230,7 +1230,8 @@ Global Symbols
 <P><STRONG><a name="[d9]"></a>get_vel</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, velocity.o(i.get_vel))
 <BR><BR>[Calls]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_roundf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
+<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[cd]"></a>int_cos</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, approx_math.o(i.int_cos))
@@ -1389,8 +1390,9 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
-<P><STRONG><a name="[eb]"></a>path_up_sb_update</STRONG> (Thumb, 276 bytes, Stack size 0 bytes, path_upslope_sb.o(i.path_up_sb_update))
-<BR><BR>[Calls]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
+<P><STRONG><a name="[eb]"></a>path_up_sb_update</STRONG> (Thumb, 286 bytes, Stack size 0 bytes, path_upslope_sb.o(i.path_up_sb_update))
+<BR><BR>[Calls]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_vel
+<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_dis
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_encoder
 <LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
@@ -1703,7 +1705,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vel_update
 </UL>
 
-<P><STRONG><a name="[f3]"></a>vel_update</STRONG> (Thumb, 88 bytes, Stack size 0 bytes, velocity.o(i.vel_update))
+<P><STRONG><a name="[f3]"></a>vel_update</STRONG> (Thumb, 112 bytes, Stack size 0 bytes, velocity.o(i.vel_update))
 <BR><BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vector_len
 <LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_dis
 </UL>

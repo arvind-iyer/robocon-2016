@@ -19,7 +19,10 @@
 #define SLOPE_SB_INC_PWM 3800 //3000
 #define SLOPE_SB_DEC_PWM 3800 //3000
 #define RIVER_FIRST_SENSOR_BAR_BIAS 2
-#define RIVER_90_TURN_ENC_CONSTANT 3500
+
+//use the formula enc=y/(x+vel)
+#define RIVER_90_TURN_ENC_X (800/11)
+#define RIVER_90_TURN_ENC_Y (24000000/11)
 #define RIVER_90_MAX_TURN_UNTIL 500
 
 void path_up_sb_init(u8 stage);

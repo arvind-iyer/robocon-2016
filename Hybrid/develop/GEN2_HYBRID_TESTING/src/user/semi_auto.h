@@ -19,8 +19,8 @@
 #include "quick_math.h"
 #include "manual_mode.h"
 
-#define LM_SA_ROTATE_P 450
-#define LM_SA_ROTATE_D 1100
+#define LM_SA_ROTATE_P 300 //450
+#define LM_SA_ROTATE_D 0 //1100
 #define LM_SA_ROTATE_MAX 10 //100
 #define LM_SA_CALI_TIME 1200
 
@@ -31,7 +31,7 @@
 #define LM_SA_APP_CURVE_RADIUS 6500
 #define LM_SA_APP_CURVE_GAIN 70 //Scaled by 100
 #define LM_SA_APP_Y_P 1000
-#define LM_SA_APP_Y_I 50
+#define LM_SA_APP_Y_I 0 //50
 
 #define LM_SA_STR_ANGLE_P 400
 #define LM_SA_STR_FAST 1000

@@ -65,7 +65,9 @@ GAME_STAGE path_up_sb_update(){
 			last_encoder_dis = get_average_dis();
 		}
 		
-		if (counting_encoder && (get_average_encoder() - start_counting_encoder)>RIVER_90_TURN_ENC_CONSTANT){
+		u32 dynamic_river_dis = RIVER_90_TURN_ENC_Y/(RIVER_90_TURN_ENC_X+get_vel());
+		
+		if (counting_encoder && (get_average_encoder() - start_counting_encoder)>dynamic_river_dis){
 			right_angle_ing = 1;
 		}
 		
