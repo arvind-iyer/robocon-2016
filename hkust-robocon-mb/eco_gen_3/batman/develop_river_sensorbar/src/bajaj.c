@@ -46,12 +46,15 @@ int value1;
 int button_count_red = 0;
 int button_count_white = 0;
 uint32_t encoder_revolution = 0;
+int ENTER_RIVER_ENCODER = 7000;
 char gameZoneString[12]= "UNKNOWN";
 ZONE gameZone;
 ZONE expectedGameZone;
 SLOPEZONE currentSlopeZone;
 char currentSlopeZoneString[16];
 char globalStateString[16] = "UPSLOPE";
+extern float angle_after_ninety;
+extern float angle_enter_river;
 
 
 void initializeValues(void){
@@ -71,6 +74,7 @@ void initializeValues(void){
         NINETY_TURNING = 1750;
         currentSlopeZone = STARTZONE;
         strcpy(currentSlopeZoneString,"STARTZONE");
+				ardu_cal_ypr[0] = (float)0;
         systemOn = 1;
     }
     else if(button_pressed(BUTTON_WHITE)){
@@ -89,6 +93,7 @@ void initializeValues(void){
         NINETY_TURNING = 1250;
         currentSlopeZone = STARTZONE;
         strcpy(currentSlopeZoneString,"STARTZONE");
+				ardu_cal_ypr[0] = (float)0;
         systemOn = 1;
     }
 }
@@ -150,7 +155,7 @@ void print_data(){
     tft_prints(0,6,"yaw:%.2f",ardu_cal_ypr[0]);
     tft_prints(0,7,"velo: %.2f",determine_velocity(ENCODER1));
     tft_prints(0,8,"encoder: %d",get_minimize_count(ENCODER1));
-    tft_prints(0,9,"delta t:%d",time2 - time1);
+    tft_prints(0,9,"delta a:%.2f",angle_enter_river - angle_after_ninety);
 }
 void printSystemOff(void){
     tft_prints(0,0,"PRESS RED / WHITE");
@@ -236,11 +241,11 @@ void goNormal(void){
                 }
             }
             else if(passedDownSlope){
-                if ((((begin + end)/ 2) + 2) > 16) {
+                if ((((begin + end)/ 2)) > 16) {
                     lastMovement = SERVO_MICROS_RIGHT;
                 }
                 else{
-                    float factor = (((begin + end)/ 2) + 2) / (float) 16;
+                    float factor = (((begin + end)/ 2)) / (float) 16;
                     lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                 }   
             }
@@ -267,6 +272,8 @@ void goNinety(void){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
                 reset_encoder_1();
+								START_UP_play;
+								angle_after_ninety = ardu_cal_ypr[0];
                 globalState = NORMAL;
             }
         break;
@@ -276,6 +283,9 @@ void goNinety(void){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
                 reset_encoder_1();
+								START_UP_play;
+							  ardu_cal_ypr[0] = (float)0;
+								angle_after_ninety = ardu_cal_ypr[0];
                 globalState = NORMAL;
             }
         break;
@@ -326,6 +336,7 @@ void goStraightLittleBit(void){
         passedRiver = 1;
         strcpy(globalStateString,"AFTER RIVER");
         reset_encoder_1();
+			  START_UP_play;
         globalState = NORMAL;
     }
 }
@@ -423,7 +434,9 @@ void runUserInterface(void){
                     buttonRedCount = 0;    
                 break;
             }
+						START_UP_play;
             button_count_red = 0;
+						ardu_cal_ypr[0] = (float)0;
         }
     }
     
@@ -440,6 +453,7 @@ void runUserInterface(void){
                     reset_encoder_1();
                     IMU_ANGLE1 = -85;
                     strcpy(globalStateString,"BEFORE RIVER");
+										START_UP_play;
                     buttonWhiteCount++;
                 break;
                 case 1:
@@ -448,6 +462,7 @@ void runUserInterface(void){
                     passedDownSlope = 0;
                     globalState = NORMAL;
                     strcpy(globalStateString,"AFTER RIVER");
+										START_UP_play;
                     buttonWhiteCount++;
                 break;
                 case 2:
@@ -455,6 +470,7 @@ void runUserInterface(void){
                     passedRiver = 0;
                     passedDownSlope = 0;                
                     buttonWhiteCount = 0;
+										START_UP_play;
                     IMU_ANGLE1 = -50;
                 break;    
             }
@@ -476,13 +492,13 @@ void escapeFirstIsland(void){
     servo_control(BAJAJ_SERVO, SERVO_MICROS_MID + 100);
 }
 
-void scanRiver(void){
+void scanPink(void){
     const int RIVER_TURNING_LEFT = 1150;
     const int RIVER_TURNING_RIGHT = 1750;
 //    if ((((begin + end)/ 2) + 2) > 16) {
 //        lastMovement = SERVO_MICROS_RIGHT;
 //    }
-        float factor = (((begin + end)/ 2)) / (float) 16;
+        float factor = (((begin + end)/ 2) + 4) / (float) 16;
         lastMovement = (RIVER_TURNING_LEFT) - (factor * (RIVER_TURNING_LEFT - RIVER_TURNING_RIGHT));
         servo_control(BAJAJ_SERVO, lastMovement);
 		
@@ -505,7 +521,7 @@ void avoidIslands(void){
 //        servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT + 200);
     
     //Just follow the line
-      scanRiver();
+      //scanRiver();
 }
 
 

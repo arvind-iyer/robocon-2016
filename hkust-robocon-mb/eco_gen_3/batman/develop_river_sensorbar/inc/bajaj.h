@@ -189,7 +189,7 @@ void escapeFirstIsland(void);
 
 void avoidIslands(void);
 
-void scanRiver(void);
+void scanPink(void);
 #endif
 
 
