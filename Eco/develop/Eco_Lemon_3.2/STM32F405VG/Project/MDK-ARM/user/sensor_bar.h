@@ -35,7 +35,7 @@ typedef enum{
 	HIGH_ORANGE = 3,
 	RIVER_BLUE = 4, 
 	DOWN_GREEN = 5
-}COLOR_REGIONS;
+}COLOR_REGION;
 
 void sensorbar_init(void);
 void request_color_msg(void);

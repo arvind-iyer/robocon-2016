@@ -1,6 +1,12 @@
 #ifndef _CAN_MOTOR_H
 #define _CAN_MOTOR_H
 
+typedef enum {
+	OPEN_LOOP = 0,
+	CLOSE_LOOP = 1
+} CLOSE_LOOP_FLAG;
+
+
 #include "main.h"
 #include "can.h"
 #include "can_protocol.h"
@@ -50,12 +56,6 @@ typedef enum {
 	MOTOR15,
 	MOTOR16
 } MOTOR_ID;
-
-
-typedef enum {
-	OPEN_LOOP = 0,
-	CLOSE_LOOP = 1
-} CLOSE_LOOP_FLAG;
 
 void can_motor_init(void);
 void motor_set_vel(MOTOR_ID motor_id, s32 vel, CLOSE_LOOP_FLAG close_loop_flag);

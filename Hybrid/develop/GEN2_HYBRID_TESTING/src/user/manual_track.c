@@ -5,11 +5,9 @@ s32 laser_target_range_increment = 0;
 u32 laser_range[2] = {0};
 u32 laser_use_range[2] = {0};
 
-static s32 curr_vx = 0, curr_vy = 0, curr_w = 0;;
-static u16 accel_remainder = 0;
-static u16 rotate_accel_remainder = 0;
-
-bool laser_manual_update(s32 motor_vel[3], s32* rotate){
+bool laser_manual_update(s32 motor_vel[3]){
+	s32 w;
+	
 	//0 is the front one
 	//1 is the back one
 	for (s8 i=1;i>=0;i--){
@@ -21,18 +19,11 @@ bool laser_manual_update(s32 motor_vel[3], s32* rotate){
 		}
 	}
 	
-	//Decide the new laser_target_range_increment	
-//	if (abs(get_pos()->x) < LASER_START_BACKING_OFF){
-//		laser_target_range_increment = 0;
-//	}else{
-//		laser_target_range_increment = (abs(get_pos()->x)  - LASER_START_BACKING_OFF) * LASER_BACK_OFF_DISTANCE / (LASER_OFF_MIN_DISTANCE - LASER_START_BACKING_OFF) ;
-//	}
-	
 	//Rotation
 	//If laser_diff < 0, *rotate anti-clockwise
 	s32 laser_diff = laser_use_range[1] - laser_use_range[0];
-	*rotate = -(laser_diff * LASER_ROTATE_P / 1000) + (laser_diff - last_laser_diff) * LASER_ROTATE_D / 1000;
-	*rotate = *rotate>350?350:(*rotate<-350?-350:*rotate);
+	w = -(laser_diff * LASER_ROTATE_P / 1000) + (laser_diff - last_laser_diff) * LASER_ROTATE_D / 1000;
+	w = s32_cap(w, 350, -350);
 	last_laser_diff = laser_diff;
 	
 	//Perpendicular
@@ -57,11 +48,7 @@ bool laser_manual_update(s32 motor_vel[3], s32* rotate){
 	#endif
 	s32 parallel_speed = parallel_input * LASER_PARA_P /1000;
 	
-	s32 curr_angle = int_arc_tan2(parallel_speed, -perpend_speed)*10;
-	u32 curr_speed = u32_sqrt(perpend_speed * perpend_speed + parallel_speed * parallel_speed);
-	motor_vel[0] = (int_sin(curr_angle%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
-	motor_vel[1] = (int_sin((curr_angle+1200)%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
-	motor_vel[2] = (int_sin((curr_angle+2400)%3600)*(s32)curr_speed*(-1)/10000 + *rotate)/10;
+	acc_update(-perpend_speed, parallel_speed, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT);
 	
 	if ((abs(get_pos()->x) > LASER_OFF_MIN_DISTANCE) && (laser_range[0] >= LASER_OUT_DISTANCE)){
 		return false;
@@ -70,34 +57,31 @@ bool laser_manual_update(s32 motor_vel[3], s32* rotate){
 	return true;
 }
 
-static s32 start_X = 0, start_Y = 0, start_angle = 0;
+static s32 start_Y = 0;
 static s32 start_ticks = 0;
 void limit_manual_init(){
-	start_X = get_pos()->x;
 	start_Y = get_pos()->y;
-	start_angle = get_angle();
 	start_ticks = get_full_ticks();
 }
 
-static s32 get_new_X(){
-	return get_pos()->x - start_X;
-}
+//static s32 get_new_X(){
+//	return get_pos()->x - start_X;
+//}
 
 static s32 get_new_Y(){
 	return get_pos()->y - start_Y;
 }
 
-static s32 get_new_angle(){
-	return get_angle() - start_angle;
-}
+//static s32 get_new_angle(){
+//	return get_angle() - start_angle;
+//}
 
 static s32 get_passed_ticks(){
 	return get_full_ticks() - start_ticks;
 }
 
-static s32 last_Y = 0;
-static u8 buffer = 0;
-u8 limit_manual_update(s32 motor_vel[3], s32* rotate){
+u8 limit_manual_update(s32 motor_vel[3]){
+	s32 w = 0;
 	
 	if (gpio_read_input(POLE_LIMIT_SWITCH)){
 		return 3;
@@ -117,24 +101,11 @@ u8 limit_manual_update(s32 motor_vel[3], s32* rotate){
 	#else
 		//Rotation
 		if (!limit_switch_triggered[0] && limit_switch_triggered[1]){
-			*rotate = -LIMIT_ROTATE_BIGGER;
+			w = -LIMIT_ROTATE_BIGGER;
 		}else if(limit_switch_triggered[0] && !limit_switch_triggered[1]){
-			*rotate = LIMIT_ROTATE_SMALLER;
+			w = LIMIT_ROTATE_SMALLER;
 		}
 	#endif
-		
-	s32 rotate_accel_amount = ROTATE_ACCEL_CONSTANT + rotate_accel_remainder;
-	rotate_accel_remainder = rotate_accel_amount % 1000;
-	rotate_accel_amount /= 1000;
-	if (Abs(*rotate-curr_w) < (rotate_accel_amount+1)){
-		curr_w = *rotate;
-	}else{
-		if (*rotate > curr_w){
-			curr_w += rotate_accel_amount;
-		}else{
-			curr_w -= rotate_accel_amount;
-		}
-	}
 	
 	s32 perpend_speed = 0;
 	//Perpendicular
@@ -167,50 +138,8 @@ u8 limit_manual_update(s32 motor_vel[3], s32* rotate){
 		perpend_speed = -perpend_speed;
 	#endif
 	
-	u16 acceleration_amount;
-	if ((parallel_speed*parallel_speed+perpend_speed*perpend_speed) > (curr_vx*curr_vx + curr_vy*curr_vy)){
-		acceleration_amount = TRACK_ACC_CONSTANT + accel_remainder; //Scaled by 1000
-	}else{
-		acceleration_amount = TRACK_ACC_CONSTANT + accel_remainder; //Scaled by 1000
-	}
+	acc_update(parallel_speed, -perpend_speed, w, TRACK_ACC_CONSTANT, TRACK_ACC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_ACC_CONSTANT);
 	
-	accel_remainder = acceleration_amount % 1000;
-	acceleration_amount /= 1000;
-	
-	//If the difference is not that much, directly assign speed
-	if (Abs(curr_vx - parallel_speed) < (acceleration_amount+1) && Abs(curr_vy - perpend_speed) < (acceleration_amount+1)){
-		curr_vx = parallel_speed;
-		curr_vy = perpend_speed;
-	}else{
-		if (curr_vx > parallel_speed){
-			curr_vx -= acceleration_amount;
-		}else{
-			curr_vx += acceleration_amount;
-		}
-		if (curr_vy > perpend_speed){
-			curr_vy -= acceleration_amount;
-		}else{
-			curr_vy += acceleration_amount;
-		}
-	}
-	
-	s32 curr_angle = int_arc_tan2(-curr_vy, curr_vx)*10;
-	u32 curr_speed = u32_sqrt(curr_vy * perpend_speed + curr_vx * curr_vx);
-	motor_vel[0] = (int_sin(curr_angle%3600)*(s32)curr_speed*(-1)/10000 + curr_w)/10;
-	motor_vel[1] = (int_sin((curr_angle+1200)%3600)*(s32)curr_speed*(-1)/10000 + curr_w)/10;
-	motor_vel[2] = (int_sin((curr_angle+2400)%3600)*(s32)curr_speed*(-1)/10000 + curr_w)/10;
 	return 2;
-}
-
-static s32 last_angle_error = 0;
-s32 river_rotate_update(s32 target){
-	s32 this_angle_error = target - get_angle();
-	this_angle_error = this_angle_error>1800?3600-this_angle_error:this_angle_error;
-	this_angle_error = this_angle_error<-1800?3600+this_angle_error:this_angle_error;
-	
-	s32 pid_rotate = -(this_angle_error*RIVER_ROTATE_P/1000 + (this_angle_error - last_angle_error)*RIVER_ROTATE_D/1000);
-	s32_cap(pid_rotate, RIVER_ROTATE_MAX, -RIVER_ROTATE_MAX);
-	last_angle_error = this_angle_error;
-	return pid_rotate;
 }
 

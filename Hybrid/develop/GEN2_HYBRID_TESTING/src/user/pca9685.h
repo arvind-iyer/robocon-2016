@@ -27,9 +27,9 @@
 #define MED_PWM  2048
 #define MAX_PWM  2730
 
-void i2c_init();
-u8 pca9685_init();
+void i2c_init(void);
+u8 pca9685_init(void);
 u8 pca9685_set_pwm(u8 servoID, u16 offVal);
-u8 pca9685_reset_pwm();
+u8 pca9685_reset_pwm(void);
 
 #endif

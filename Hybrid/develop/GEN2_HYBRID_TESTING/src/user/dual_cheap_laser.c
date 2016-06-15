@@ -8,14 +8,14 @@
 
 static u8 laser_byte_array[2][100] = {65};
 static u8 laser_byte_pointer[2] = {0};
-static u32 last_ticks_laser[2] = {0};
+//static u32 last_ticks_laser[2] = {0};
 static u32 last_init_ticks = 0;
 static u8 init_stage = 0;
 static bool is_ready = false;
 
 void dual_laser_init(){
 	for (u8 i=DUAL_LASER1_UART;i<=DUAL_LASER2_UART;i++){
-		uart_init(i, 9600);
+		uart_init((COM_TypeDef)i, 9600);
 	}
 	
 	uart_interrupt(DUAL_LASER1_UART);
@@ -31,11 +31,11 @@ void dual_laser_init_update(){
 			case 0:
 				//Change data output time
 				for (u8 i=DUAL_LASER1_UART;i<=DUAL_LASER2_UART;i++){
-					uart_tx_byte(i, 0xFA);
-					uart_tx_byte(i, 0x04);
-					uart_tx_byte(i, 0x05);
-					uart_tx_byte(i, 0x00);
-					uart_tx_byte(i, 0xFD);
+					uart_tx_byte((COM_TypeDef)i, 0xFA);
+					uart_tx_byte((COM_TypeDef)i, 0x04);
+					uart_tx_byte((COM_TypeDef)i, 0x05);
+					uart_tx_byte((COM_TypeDef)i, 0x00);
+					uart_tx_byte((COM_TypeDef)i, 0xFD);
 					laser_byte_pointer[(u8)i - 2] = 0;
 				}
 				init_stage++;
@@ -44,11 +44,11 @@ void dual_laser_init_update(){
 			case 1:
 				//Set freq
 				for (u8 i=DUAL_LASER1_UART;i<=DUAL_LASER2_UART;i++){
-					uart_tx_byte(i, 0xFA);
-					uart_tx_byte(i, 0x04);
-					uart_tx_byte(i, 0x0A);
-					uart_tx_byte(i, 0x14);
-					uart_tx_byte(i, 0xE4);
+					uart_tx_byte((COM_TypeDef)i, 0xFA);
+					uart_tx_byte((COM_TypeDef)i, 0x04);
+					uart_tx_byte((COM_TypeDef)i, 0x0A);
+					uart_tx_byte((COM_TypeDef)i, 0x14);
+					uart_tx_byte((COM_TypeDef)i, 0xE4);
 					laser_byte_pointer[(u8)i - 2] = 0;
 				}
 				init_stage++;
@@ -57,10 +57,10 @@ void dual_laser_init_update(){
 			case 2:
 				//Start laser
 				for (u8 i=DUAL_LASER1_UART;i<=DUAL_LASER2_UART;i++){
-					uart_tx_byte(i, 0x80);
-					uart_tx_byte(i, 0x06);
-					uart_tx_byte(i, 0x03);
-					uart_tx_byte(i, 0x77);
+					uart_tx_byte((COM_TypeDef)i, 0x80);
+					uart_tx_byte((COM_TypeDef)i, 0x06);
+					uart_tx_byte((COM_TypeDef)i, 0x03);
+					uart_tx_byte((COM_TypeDef)i, 0x77);
 				}
 				init_stage++;
 				break;
@@ -83,7 +83,7 @@ void USART3_IRQHandler(void){
 		laser_byte_array[0][laser_byte_pointer[0]++] = rx_data;
 		if (rx_data == 0x80){
 			laser_byte_pointer[0] = 1;
-			last_ticks_laser[0] = get_full_ticks();
+			//last_ticks_laser[0] = get_full_ticks();
 		}
 	}
 }
@@ -94,7 +94,7 @@ void UART4_IRQHandler(void){
 		laser_byte_array[1][laser_byte_pointer[1]++] = rx_data;
 		if (rx_data == 0x80){
 			laser_byte_pointer[1] = 1;
-			last_ticks_laser[1] = get_full_ticks();
+			//last_ticks_laser[1] = get_full_ticks();
 		}
 	}
 }

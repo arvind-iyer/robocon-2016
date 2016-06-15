@@ -81,6 +81,6 @@ void acc_update(s32 vx, s32 vy, s32 w, s32 v_acc, s32 v_dec, s32 w_acc, s32 w_de
 	}
 	
 	for (u8 i=0;i<3;i++){
-		motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
+		motor_set_vel((MOTOR_ID)(MOTOR1 + i), motor_vel[i], motor_loop_state[i]);
 	}
 }

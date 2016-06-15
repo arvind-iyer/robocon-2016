@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "can_motor.h"
 #include "approx_math.h"
 #include "xbc_mb.h"
 #include "button.h"
@@ -61,9 +60,9 @@
 
 extern u32 laser_range[2];
 
-bool laser_manual_update(s32 motor_vel[3], s32* rotate);
+bool laser_manual_update(s32 motor_vel[3]);
 void limit_manual_init(void);
-u8 limit_manual_update(s32 motor_vel[3], s32* rotate);
+u8 limit_manual_update(s32 motor_vel[3]);
 s32 river_rotate_update(s32 target);
 
 #endif

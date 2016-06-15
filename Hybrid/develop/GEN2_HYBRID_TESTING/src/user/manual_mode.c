@@ -36,7 +36,6 @@ static u32 brushless_counted_ticks = 0;
 static bool brushless_last_press_inc_flag = true;
 
 static s16 brushless_servo_val = 0;
-static u16 encoder_val = 0;
 
 static bool using_laser_sensor = true;
 static bool pole_as_front = false;
@@ -53,13 +52,8 @@ static bool gripper_extended = false;
 static bool gripper_clawed = true;
 static bool gripper_down = false;
 
-static bool global_axis = false;
-
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
-
-static u16 accel_remainder = 0;
-static u16 rotate_accel_remainder = 0;
 
 static u8 fast_per_long = 0;
 
@@ -179,24 +173,24 @@ void manual_update_wheel_base(bool use_laser_avoid){
 void manual_fast_update(){
 	fast_per_long++;
 	ir_update();
-	s32 curr_rotate = 0;
 	
 	for (u8 i=0;i<3;i++){
 		motor_vel[i] = 0;
 	}
 	 
 	if (manual_stage == 5){
-		manual_stage = limit_sa_approach(motor_vel,  &curr_rotate);		
+		manual_stage = limit_sa_approach(motor_vel);		
 	}else if (manual_stage == 2){
 		raise_arm();
-		manual_stage = limit_manual_update(motor_vel, &curr_rotate);		
+		manual_stage = limit_manual_update(motor_vel);		
 		curr_heading = get_angle();		
 	}else if (manual_stage == 6){
 		raise_arm();
-		manual_stage = limit_sa_update(motor_vel, &curr_rotate);
+		manual_stage = limit_sa_update(motor_vel);
 		curr_heading = get_angle();
 	}else if(manual_stage == 7){
-		manual_stage = sa_str_update(motor_vel, &curr_rotate);
+		//manual_stage = sa_str_update(motor_vel, &curr_rotate);
+		manual_stage = 1;
 		curr_heading = get_angle();
 	}else if(manual_stage == 3){
 		raise_arm();

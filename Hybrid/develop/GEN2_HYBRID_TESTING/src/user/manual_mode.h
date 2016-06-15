@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "can_motor.h"
 #include "approx_math.h"
 #include "xbc_mb.h"
 #include "button.h"

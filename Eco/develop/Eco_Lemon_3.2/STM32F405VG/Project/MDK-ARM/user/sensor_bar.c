@@ -5,7 +5,7 @@ u16 sensor_bar_raw[16] = {0};
 u8 sensor_bar_mid = SENSOR_BAR_MID;
 u8 sensorbar_region = 0;
 u8 sensorbar_cali = 0;
-COLOR_REGIONS region_buffer[REGION_BUFFER_SIZE] = {DOWN_GREEN};
+COLOR_REGION region_buffer[REGION_BUFFER_SIZE] = {DOWN_GREEN};
 u8 region_buffer_pointer = 0;
 
 s16 compensated_region_color[REGIONS][3];
@@ -32,9 +32,9 @@ static void sensor_bar_receiver_b(CanRxMsg msg){
 
 //Receive the background region
 static void sensor_bar_receiver_c(CanRxMsg msg){
-	region_buffer[region_buffer_pointer] = msg.Data[0];
+	region_buffer[region_buffer_pointer] = (COLOR_REGION) msg.Data[0];
 	region_buffer_pointer = (region_buffer_pointer+1)%REGION_BUFFER_SIZE;
-	COLOR_REGIONS this_region = (COLOR_REGIONS) region_buffer[0];
+	COLOR_REGION this_region = (COLOR_REGION) region_buffer[0];
 	for (u8 i=1;i<REGION_BUFFER_SIZE;i++){
 		if (this_region != region_buffer[i]){
 			return;
@@ -106,6 +106,11 @@ s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
 		}
 	}
 	s8 line_mid = (best_start_index + best_end_index) / 2;
+	
+	// Force clear sensor 5 which gives 1 when it should not
+	if (best_start_index == 5 && best_end_index == 5){
+		line_mid = 0;
+	}
 	
 	s16 corr_angle = 0;
 	if (line_mid!=0){

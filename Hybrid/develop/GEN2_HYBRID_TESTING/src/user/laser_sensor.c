@@ -9,7 +9,7 @@
 
 static u16 ls_adc_reading[ls_number];
 static u16 ls_cal_reading[ls_number];
-static u16 ls_dma_reading[ls_number];
+//static u16 ls_dma_reading[ls_number];
 
 static const u16 min_adc[ls_number] = {5, 5, 16};
 static const u16 max_adc[ls_number] = {2910, 2910, 2910};

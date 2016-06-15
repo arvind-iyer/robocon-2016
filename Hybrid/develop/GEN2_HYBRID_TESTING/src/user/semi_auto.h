@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "can_motor.h"
 #include "approx_math.h"
 #include "xbc_mb.h"
 #include "button.h"
@@ -43,8 +42,7 @@
 void limit_sa_init(void);
 void limit_sa_approach_init(void);
 void sa_print_info(void);
-u8 limit_sa_approach(s32 motor_vel[3], s32* rotate);
-u8 limit_sa_update(s32 motor_vel[3], s32* rotate);
-u8 sa_str_update(s32 motor_vel[3], s32* rotate);
+u8 limit_sa_approach(s32 motor_vel[3]);
+u8 limit_sa_update(s32 motor_vel[3]);
 
 #endif
