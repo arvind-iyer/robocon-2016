@@ -1,7 +1,7 @@
 #include "rpm_sensor.h"
 
 u32 RPMS_vel = 0;		//Counter value always positive
-
+u16 cnt = 0;
 /**
 	*	@brief	Initializes RPM sensor and count, hardware usage defined in "rpm_sensor.h"
 	* @param	
@@ -45,8 +45,8 @@ void RPMS_init(void)
 	TIM_SelectSlaveMode(RPMS_CNT_TIMx, TIM_SlaveMode_External1);
 	
 	//Tim for calculating turning speed
-	TIM_TimeBaseStructure.TIM_Period = 50;	                 				       // update every 50ms
-	TIM_TimeBaseStructure.TIM_Prescaler = SystemCoreClock / 1000000 - 1;     // 72M/1M - 1 = 71
+	TIM_TimeBaseStructure.TIM_Period = 10000;	                 				       // update every 50ms
+	TIM_TimeBaseStructure.TIM_Prescaler = SystemCoreClock / 1000000 * 5 - 1;     // 72M/1M - 1 = 71
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
   TIM_TimeBaseInit(RPMS_UDT_TIMx, &TIM_TimeBaseStructure);
 	//Enable timer interrupt
@@ -71,9 +71,10 @@ void RPMS_init(void)
 void RPMS_UDT_Handler(void){
 	if (TIM_GetITStatus(RPMS_UDT_TIMx, TIM_IT_Update) != RESET) {
     TIM_ClearFlag(RPMS_UDT_TIMx, TIM_FLAG_Update);
-		RPMS_vel = TIM_GetCounter(RPMS_CNT_TIMx);
+		RPMS_vel = (s32)TIM_GetCounter(RPMS_CNT_TIMx);
 		TIM_SetCounter(RPMS_CNT_TIMx, 0);
 	}
+	cnt++;
 }
 
 
@@ -85,7 +86,7 @@ void RPMS_UDT_Handler(void){
 u16 RPMS_update(void)
 {
 	RPMS_vel = TIM_GetCounter(RPMS_CNT_TIMx);
-	TIM_SetCounter(RPMS_CNT_TIMx, 0);
+	//TIM_SetCounter(RPMS_CNT_TIMx, 0);
 }
 
 /**
