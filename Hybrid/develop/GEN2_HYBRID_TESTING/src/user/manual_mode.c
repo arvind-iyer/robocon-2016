@@ -48,9 +48,9 @@ static s32 climbing_pneumatic_ticks = 0;
 static u8 putting_propeller_state = 0;
 static s32 putting_propeller_ticks[4] = {0};
 
-static bool gripper_extended = false;
-static bool gripper_clawed = true;
-static bool gripper_down = false;
+bool gripper_extended = false;
+bool gripper_clawed = true;
+bool gripper_down = false;
 
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
@@ -80,7 +80,8 @@ void manual_reset(){
 	ground_wheels_lock = UNLOCKED;
 	brushless_power_percent = 20;
 	climbing_induced_ground_lock = UNLOCKED;
-	is_rotating = using_laser_sensor = pole_as_front = facing_pole = brushless_str = false;
+	is_rotating = pole_as_front = facing_pole = brushless_str = false;
+	using_laser_sensor = true;
 	gripper_extended = gripper_down = climbing_pneumatic_on = false;
 	gripper_clawed = true;
 	brushless_control(0, true);
@@ -152,7 +153,11 @@ void manual_update_wheel_base(bool use_laser_avoid){
 				}
 			}
 			
-			acc_update(vx, vy, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT);
+			if (pole_as_front){
+				acc_update(-vx, -vy, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT);
+			}else{
+				acc_update(vx, vy, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT);
+			}
 			
 		}else{
 			for (u8 i=0;i<3;i++){
@@ -164,11 +169,7 @@ void manual_update_wheel_base(bool use_laser_avoid){
 }
 
 /*
-** This fast update is for controlling things that require a high refresh rate
-** It contains:
-** - Locking itself in place
-** - Angle PID (disabled)f
-** - Laser tracking
+** This fast update is for controlling things that requires a high refresh rate
 */
 void manual_fast_update(){
 	fast_per_long++;
@@ -179,19 +180,23 @@ void manual_fast_update(){
 	}
 	 
 	if (manual_stage == 5){
-		manual_stage = limit_sa_approach(motor_vel);		
+		manual_stage = limit_sa_approach(motor_vel);	
+		
 	}else if (manual_stage == 2){
 		raise_arm();
 		manual_stage = limit_manual_update(motor_vel);		
 		curr_heading = get_angle();		
+		
 	}else if (manual_stage == 6){
 		raise_arm();
 		manual_stage = limit_sa_update(motor_vel);
 		curr_heading = get_angle();
+		
 	}else if(manual_stage == 7){
 		//manual_stage = sa_str_update(motor_vel, &curr_rotate);
 		manual_stage = 1;
 		curr_heading = get_angle();
+		
 	}else if(manual_stage == 3){
 		raise_arm();
 		if (!climbing_pneumatic_on){
@@ -199,14 +204,15 @@ void manual_fast_update(){
 			climbing_pneumatic_on = true;
 			climbing_pneumatic_ticks = this_loop_ticks;
 			gripper_extended = false;
-			gripper_push_control(THIS_GRIPPER, gripper_extended);
 			gripper_down = false;
+			gripper_push_control(THIS_GRIPPER, gripper_extended);
 			gripper_control(THIS_GRIPPER, gripper_down);
+			
 		}else if((get_full_ticks() - climbing_pneumatic_ticks)>CLIMBING_TICKS_LIMIT){
 			climb_continue();
-			brushless_servo_val = 0;
+			brushless_servo_val = CLIMBING_BRUSHLESS_ANGLE;
 			brushless_servo_control(brushless_servo_val);
-			//brushless_control(CLIMBING_BRUSHLESS_POWER, true);
+			brushless_control(CLIMBING_BRUSHLESS_POWER, true);
 			if (!gpio_read_input(&HIT_BOX_PORT)){
 				manual_stage++;
 				putting_propeller_ticks[0] = this_loop_ticks;
@@ -219,16 +225,19 @@ void manual_fast_update(){
 			gripper_extended = true;
 			gripper_push_control(THIS_GRIPPER, gripper_extended);
 			putting_propeller_ticks[1] = this_loop_ticks;
+			
 		}else	if (putting_propeller_state==1 && ((putting_propeller_ticks[1] - this_loop_ticks) > PUTTING_PROPELLER_UNCLAW_DELAY)){
 			gripper_clawed = false;
 			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
 			putting_propeller_state = 2;
 			putting_propeller_ticks[2] = this_loop_ticks;
+			
 		}else	if (putting_propeller_state==2 && ((putting_propeller_ticks[2] - this_loop_ticks) > PUTTING_PROPELLER_RETRACT_DELAY)){
 			gripper_extended = false;
 			gripper_push_control(THIS_GRIPPER, gripper_extended);
 			putting_propeller_state = 3;
 			putting_propeller_ticks[3] = this_loop_ticks;
+			
 		}else	if (putting_propeller_state==3 && ((putting_propeller_ticks[3] - this_loop_ticks) > PUTTING_PROPELLER_YEAH_DELAY)){
 			putting_propeller_state = 4;
 		}
@@ -237,7 +246,8 @@ void manual_fast_update(){
 		//using_laser_sensor = laser_manual_update(motor_vel, &curr_rotate);
 		manual_update_wheel_base(true);
 		curr_heading = get_angle();
-	}else if (!using_laser_sensor){
+		
+	}else{
 		manual_update_wheel_base(false);
 		if (!is_rotating){
 			//curr_rotate = -angle_pid()/1000;
@@ -266,14 +276,14 @@ void manual_interval_update(){
 	}
 	
 	if (button_hitted[BUTTON_XBC_A]){
-		if (manual_stage == 5){
+		if (manual_stage == 5 || manual_stage == 6){
 			manual_stage = 1;
-			gripper_down = true;
-			gripper_extended = true;
-			gripper_clawed = false;
-			gripper_control(THIS_GRIPPER, gripper_down);
-			gripper_push_control(THIS_GRIPPER, gripper_extended);
-			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+//			gripper_down = true;
+//			gripper_extended = true;
+//			gripper_clawed = false;
+//			gripper_control(THIS_GRIPPER, gripper_down);
+//			gripper_push_control(THIS_GRIPPER, gripper_extended);
+//			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
 			using_laser_sensor = false;
 			pole_as_front = true;
 		}
@@ -290,12 +300,12 @@ void manual_interval_update(){
 			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
 		}else{
 			manual_stage = 0;
-			gripper_down = false;
-			gripper_extended = false;
-			gripper_clawed = true;
-			gripper_control(THIS_GRIPPER, gripper_down);
-			gripper_push_control(THIS_GRIPPER, gripper_extended);
-			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+//			gripper_down = false;
+//			gripper_extended = false;
+//			gripper_clawed = true;
+//			gripper_control(THIS_GRIPPER, gripper_down);
+//			gripper_push_control(THIS_GRIPPER, gripper_extended);
+//			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
 		}
 		using_laser_sensor = false;
 		pole_as_front = !pole_as_front;
@@ -313,14 +323,14 @@ void manual_interval_update(){
 	
 	if (manual_stage == 0){
 		manual_first_control_update();
-	}else if(manual_stage == 1){
+	}else if(manual_stage == 1 || manual_stage == 5 || manual_stage == 6){
 		manual_second_control_update();
 	}
 	
 	//At last apply the motor velocity and display it
 	//Value from fast update should also be displayed here
-	tft_append_line("%d %d %d", get_pos()->x, get_pos()->y, get_angle());
-	tft_append_line("%d %d %d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str);
+	tft_append_line("%d %d %d %d", get_pos()->x, get_pos()->y, get_angle(), get_brushless_counter());
+	tft_append_line("%d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str);
 	tft_append_line("LR:%d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(2), get_ir_dis());
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	tft_update();
@@ -335,20 +345,20 @@ void manual_first_control_update(){
 		using_laser_sensor = !using_laser_sensor;
 	}
 	
-//	if (button_hitted[BUTTON_XBC_A]){
-//		if (manual_stage == 0){
-//			manual_stage = 5;
-//			limit_sa_approach_init();
-////			gripper_down = true;
-////			gripper_extended = true;
-////			gripper_clawed = false;
-////			gripper_control(THIS_GRIPPER, gripper_down);
-////			gripper_push_control(THIS_GRIPPER, gripper_extended);
-////			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
-//			using_laser_sensor = false;
-//			pole_as_front = true;
-//		}
-//	}
+	if (button_hitted[BUTTON_XBC_A]){
+		if (manual_stage == 0){
+			manual_stage = 5;
+			limit_sa_approach_init();
+//			gripper_down = true;
+//			gripper_extended = true;
+//			gripper_clawed = false;
+//			gripper_control(THIS_GRIPPER, gripper_down);
+//			gripper_push_control(THIS_GRIPPER, gripper_extended);
+//			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+			using_laser_sensor = false;
+			pole_as_front = true;
+		}
+	}
 }
 
 void manual_second_control_update() {

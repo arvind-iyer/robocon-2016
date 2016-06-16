@@ -89,7 +89,7 @@ void sensor_init(u8 cali_stage){
 	for (u8 i=0;i<SAMPELS_TIMES;i++){
 		for (u8 k=0;k<16;k++){
 			sum_of_all[0] += this_readings[i].red_reading[k];
-			if (k==8) continue;
+			if (k==7 || k==8) continue;
 			sum_of_bg[0] += this_readings[i].red_reading[k];
 		}
 		sum_of_mid[0] += (this_readings[i].red_reading[6] + this_readings[i].red_reading[7]*2 + this_readings[i].red_reading[8]*2 + this_readings[i].red_reading[9]);
@@ -99,7 +99,7 @@ void sensor_init(u8 cali_stage){
 	for (u8 i=0;i<SAMPELS_TIMES;i++){
 		for (u8 k=0;k<16;k++){
 			sum_of_all[1] += this_readings[i].green_reading[k];
-			if (k==8) continue;
+			if (k==7 || k==8) continue;
 			sum_of_bg[1] += this_readings[i].green_reading[k];
 		}
 		sum_of_mid[1] += (this_readings[i].green_reading[6] + this_readings[i].green_reading[7]*2 + this_readings[i].green_reading[8]*2 + this_readings[i].green_reading[9]);
@@ -109,7 +109,7 @@ void sensor_init(u8 cali_stage){
 	for (u8 i=0;i<SAMPELS_TIMES;i++){
 		for (u8 k=0;k<16;k++){
 			sum_of_all[2] += this_readings[i].blue_reading[k];
-			if (k==8) continue;
+			if (k==7 || k==8) continue;
 			sum_of_bg[2] += this_readings[i].blue_reading[k];
 		}
 		sum_of_mid[2] += (this_readings[i].blue_reading[6] + this_readings[i].blue_reading[7]*2 + this_readings[i].blue_reading[8]*2 + this_readings[i].blue_reading[9]);
@@ -117,7 +117,7 @@ void sensor_init(u8 cali_stage){
 	
 	for (u8 i=0;i<3;i++){
 		reading_in_area[cali_stage][0][i] = sum_of_mid[i] / SAMPELS_TIMES / 6;
-		reading_in_area[cali_stage][1][i] = sum_of_bg[i] / SAMPELS_TIMES / 15;
+		reading_in_area[cali_stage][1][i] = sum_of_bg[i] / SAMPELS_TIMES / 14;
 	}
 	
 	for (u8 i=0;i<3;i++){

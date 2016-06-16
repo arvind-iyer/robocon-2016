@@ -134,6 +134,11 @@ GAME_STAGE path_river_update(){
 		case 4:
 			buzzer_play_song(HIGH_4, 200, 50);
 			path_down_reset();
+			#ifdef BLUE_FIELD
+				si_set_st_deg_bias(100);
+			#else
+				si_set_st_deg_bias(-100);
+			#endif
 			return (GAME_STAGE) (CROSSING_RIVER + 1);
 	}
 	tft_println("IR:%d %d %d %d", readIR(FIRST_IR_ID), readIR(SECOND_IR_ID), get_ir_dis(FIRST_IR_ID), get_ir_dis(SECOND_IR_ID));

@@ -64,27 +64,26 @@ void limit_manual_init(){
 	start_ticks = get_full_ticks();
 }
 
-//static s32 get_new_X(){
-//	return get_pos()->x - start_X;
-//}
-
-static s32 get_new_Y(){
+inline static s32 get_new_Y(){
 	return get_pos()->y - start_Y;
 }
 
-//static s32 get_new_angle(){
-//	return get_angle() - start_angle;
-//}
 
-static s32 get_passed_ticks(){
+inline static s32 get_passed_ticks(){
 	return get_full_ticks() - start_ticks;
 }
 
+
+static u32 ls_hit_ticks = 0;
 u8 limit_manual_update(s32 motor_vel[3]){
 	s32 w = 0;
 	
 	if (gpio_read_input(POLE_LIMIT_SWITCH)){
-		return 3;
+		if (ls_hit_ticks == 0){
+			ls_hit_ticks = get_full_ticks();
+		}else if(ls_hit_ticks > TICKS_AFTER_HIT_POLE){
+			return 3;
+		}
 	}
 	
 	bool limit_switch_triggered[2] = {false};

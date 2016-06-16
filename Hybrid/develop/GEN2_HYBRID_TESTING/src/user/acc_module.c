@@ -56,7 +56,7 @@ void acc_update(s32 vx, s32 vy, s32 w, s32 v_acc, s32 v_dec, s32 w_acc, s32 w_de
 		}
 	}
 	
-	s32 curr_angle = int_arc_tan2(-curr_vy, curr_vx)*10;
+	s32 curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
 	u32 curr_speed = u32_sqrt(curr_vy * curr_vy + curr_vx * curr_vx);
 	motor_vel[0] = (int_sin(curr_angle%3600)*(s32)curr_speed*(-1)/10000 + curr_w)/10;
 	motor_vel[1] = (int_sin((curr_angle+1200)%3600)*(s32)curr_speed*(-1)/10000 + curr_w)/10;

@@ -21,18 +21,33 @@ inline static s32 get_ap_new_Y(){
 static s32 lm_sa_app_sum_y_error = 0;
 static s32 lm_sa_app_x_spped = 0;
 static s32 lm_sa_app_y_spped = 0;
+static bool gripper_ready = false;
 u8 limit_sa_approach(s32 motor_vel[3]){
 	s32 target_angle = 1800;
 	s32 w = 0;
 	
-	//angle pid
-	s32 this_angle_error = target_angle - get_angle();
-	this_angle_error = this_angle_error>1800?3600-this_angle_error:this_angle_error;
-	this_angle_error = this_angle_error<-1800?3600+this_angle_error:this_angle_error;
-	
-	w = -(this_angle_error*LM_SA_ROTATE_P/1000 + (this_angle_error - last_angle_error)*LM_SA_ROTATE_D/1000);
-	s32_cap(w, LM_SA_ROTATE_MAX, -LM_SA_ROTATE_MAX);
-	last_angle_error = this_angle_error;
+	if (abs(get_ap_new_X()) > LM_SA_APP_START_ROTATE_X){
+		if (!gripper_ready){
+			gripper_ready = true;
+			
+			gripper_down = true;
+			gripper_extended = true;
+			gripper_clawed = false;
+			gripper_control(THIS_GRIPPER, gripper_down);
+			gripper_push_control(THIS_GRIPPER, gripper_extended);
+			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+		}
+		
+		//angle pid
+		s32 this_angle_error =  abs(target_angle - get_angle())%3600;
+		
+		w = this_angle_error*LM_SA_ROTATE_P/1000 + (this_angle_error - last_angle_error)*LM_SA_ROTATE_D/1000;
+		#ifdef BLUE_FIELD
+			w = -w;
+		#endif
+		s32_cap(w, LM_SA_ROTATE_MAX, -LM_SA_ROTATE_MAX);
+		last_angle_error = this_angle_error;
+	}
 	
 	if (abs(get_ap_new_X()) > LM_SA_APP_START_ACCEL){
 		if (abs(get_ap_new_X()) > LM_SA_APP_END_ACCEL){
@@ -55,11 +70,7 @@ u8 limit_sa_approach(s32 motor_vel[3]){
 	s32 y_error = get_ap_new_Y() - target_new_y;
 	lm_sa_app_y_spped = (y_error * LM_SA_APP_Y_P + lm_sa_app_sum_y_error * LM_SA_APP_Y_I) /1000;
 	lm_sa_app_sum_y_error += y_error;
-	#ifdef RED_FIELD
-		lm_sa_app_y_spped = -lm_sa_app_y_spped;
-		//lm_sa_app_x_spped = -lm_sa_app_x_spped;
-	#endif
-	
+
 	acc_update(lm_sa_app_x_spped, lm_sa_app_y_spped, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT);
 	
 	//If reached limit switch

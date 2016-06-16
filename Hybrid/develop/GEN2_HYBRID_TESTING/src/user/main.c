@@ -30,6 +30,7 @@ int main(void) {
 	adc_init();
 	i2c_init();
 	pca9685_init();
+	brushless_counter_init();
 	
 	tft_put_logo(85, 120);            
 	pneumatic_off(&PD10); //Targeting Laser

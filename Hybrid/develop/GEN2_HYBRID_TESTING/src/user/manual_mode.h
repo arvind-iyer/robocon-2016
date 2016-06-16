@@ -61,8 +61,8 @@
 #endif
 
 //Make deceleration faster than acceleration
-#define BASE_ACC_CONSTANT 4000 //3200 //Scaled by 1000
-#define BASE_DEC_CONSTANT 5600 //3400 //Scaled by 1000
+#define BASE_ACC_CONSTANT 3500 //4000 //3200 //Scaled by 1000
+#define BASE_DEC_CONSTANT 4200 //5600 //3400 //Scaled by 1000
 #define BASE_VEL_JOYSTICK_GAIN 1450 //Scaled by 1000
 #define ROTATE_ACC_CONSTANT 5200 //3500 //Scaled by 1000 
 #define ROTATE_DEC_CONSTANT 6700 //3500 //Scaled by 1000 
@@ -77,7 +77,7 @@
 #define GRIPPER_TICKS_THRESHOLD 50
 
 #define CLIMBING_TICKS_LIMIT 500
-#define CLIMBING_BRUSHLESS_POWER 70
+#define CLIMBING_BRUSHLESS_POWER 50
 #define PUTTING_PROPELLER_PUSH_DELAY 200
 #define PUTTING_PROPELLER_UNCLAW_DELAY 400
 #define PUTTING_PROPELLER_RETRACT_DELAY 400
@@ -85,9 +85,13 @@
 
 #ifdef BLUE_FIELD
 	#define THIS_GRIPPER GRIPPER_1
+	#define CLIMBING_BRUSHLESS_ANGLE -20
 #else
 	#define THIS_GRIPPER GRIPPER_2
+	#define CLIMBING_BRUSHLESS_ANGLE 20
 #endif
+
+extern bool gripper_extended, gripper_clawed, gripper_down;
 
 void manual_reset(void);
 void manual_init(void);

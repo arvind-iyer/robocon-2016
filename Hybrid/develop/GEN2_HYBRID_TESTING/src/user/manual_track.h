@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 #include "approx_math.h"
+#include "ticks.h"
 #include "xbc_mb.h"
 #include "button.h"
 #include "servo.h"
@@ -18,9 +19,10 @@
 #include "quick_math.h"
 #include "manual_mode.h"
 
-#define WALL_1_LIMIT_SWITCH &PE11
+#define WALL_1_LIMIT_SWITCH &PE9
 #define WALL_2_LIMIT_SWITCH &PE10
 #define POLE_LIMIT_SWITCH &PE2
+#define TICKS_AFTER_HIT_POLE 800
 
 #define RIVER_ROTATE_P 1000 //Scaled by 1000 
 #define RIVER_ROTATE_D 1400 //Scaled by 1000
