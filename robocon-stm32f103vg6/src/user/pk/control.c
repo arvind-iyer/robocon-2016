@@ -9,6 +9,7 @@
 Robot robot;
 Path queue [40];
 int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0, dispW = 0, dispM =0, timediff = 0, time = 0, blowTime = 0;
+int expectRetry = 0;
 bool finishing = false;
 
 /**
@@ -241,7 +242,11 @@ void updateQueue () {
 				
 				blowTime = dt;
 				if(currentPath.position.y == wagateki) {
+					//retryProcedureCheck();
+					
 					setBrushlessMagnitude(14); //12
+					
+					
 				//else if (dt >= time/2 && dt < time*3/4) {
 				//	setBrushlessMagnitude(10); //18 
 				//} 
@@ -279,7 +284,8 @@ void updateQueue () {
 					//TODO: ADD CONDITION FOR RED_SIDE
 					if(currentPath.position.y == wagateki) {
 						setBrushlessMagnitude(0);
-						currMode = APPROACHWALL;
+						currMode = RETRYCHECK;
+						expectRetry = get_full_ticks();
 					}
 					wheelbaseLock();
 					//finishing = false;
@@ -373,4 +379,13 @@ double calculateAngularVelocity(int targAngle, int max, int min, int scale) {
 			if (angularVelocity < 0) angularVelocity = MIN(-min, angularVelocity);
 		}
 		return angularVelocity;
+}
+
+void waitingForRetry (void) {
+	if(get_full_ticks() - expectRetry >= 3000) {
+		currMode = APPROACHWALL;
+	}
+	else{
+		retryProcedureCheck();
+	}
 }

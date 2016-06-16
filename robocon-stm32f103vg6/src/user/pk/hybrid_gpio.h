@@ -6,10 +6,15 @@
 void hybridGPIOInit(void);
 void limitSwitchCheck(void);
 void armUpdate(void);
+bool retryIrChecking(void);
+void retryProcedureCheck(void);
 
 bool getLS(int index);
 
+extern int ctr;
 extern int moveDelay;
+extern bool retryIr;
+extern bool prevRetryIr;
 extern bool allow4thUpdate;
 
 #endif

@@ -3,15 +3,18 @@
 #include "gpio.h"
 #include "ticks.h"
 #include "can_motor.h"
+#include "hybrid_laser.h"
 #include "pk_wheelbase.h"
 #include "pk_arm.h"
 #include "pk_climb.h"
 #include "robocon.h"
 #include "ticks.h"
+#include "control.h"
 
 bool limitSwitch[4] = {false, false, false, false};
 bool prevLimitSwitch[4] = {false, false, false, false};
 bool armIr = false, prevArmIr = false, readyToClimb = false;
+bool retryIr = false, prevRetryIr = false;
 int climbDelay = 0;
 int moveDelay = 0;
 bool allow4thUpdate = false;
@@ -30,6 +33,8 @@ void hybridGPIOInit() {
 	gpio_init(&PE11, GPIO_Speed_50MHz,GPIO_Mode_IPU, 1);
 	// IR Sensor GPIO initialization.
 	gpio_init(&PE8, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
+	//Retry IR
+	gpio_init(&PE0, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
 }
 
 bool armDir = false, fixingArm = false, climbLimit = false, topHit = false; // False = down, True = up
@@ -176,4 +181,48 @@ void armUpdate() {
 
 bool getLS(int index) {
 	return limitSwitch[index];
+}
+
+int ctr = 1, retryDelay = 0;
+
+bool retryIrChecking(void) {
+	retryIr = gpio_read_input(&PE0);  //Replace With Proper Port
+	if(retryIr == 1 && prevRetryIr == 0) prevRetryIr =1;
+	if(retryIr == 0 && prevRetryIr == 1) {
+		prevRetryIr = 0;
+		if(ctr == 0) {
+			ctr = 1;
+			return false;
+		}
+		else if(ctr == 1) {
+			ctr++;
+			return true;
+		}
+		else {
+			return true;
+		}
+	}	
+}
+
+void retryProcedureCheck(void) {
+	if(retryIrChecking()) {
+		if(ctr == 2) {
+			ctr++;
+			//dequeue(getSize());
+			setBrushlessMagnitude(0);
+			retryDelay = get_full_ticks();
+			lastWait = -1;
+			currMode = WAITRETRY;
+		}
+		else if(ctr == 3){
+			if(get_full_ticks() - retryDelay > 5000) {
+				queueTargetPoint(wagamama, wagateki, 175, 2000, 10, -1, 6500); //-200 //TEST FIELD -50 0
+				ctr = 1;
+				currMode = PIDMODE;
+			}
+			else{
+				setBrushlessMagnitude(0);
+			}
+		}
+	}
 }

@@ -57,6 +57,11 @@ void robocon_main(void) {
 		case PIDMODE:
 			updateQueue();
 			break;
+		case AUTORETRY:
+			retryAutoPath();
+		break;
+		default:
+			break;
 		}
 //		if (manualMode) {
 //			lockBearing(LOCK);
@@ -131,7 +136,7 @@ void _updateScreen() {
 	tft_prints(0, 6, "%d %d %d", getWheelbaseValues().M1.sent, getWheelbaseValues().M2.sent, getWheelbasealues().M3.sent);
 	tft_prints(16, 6, "%d", get_ticks());
 #else
-	tft_prints(0, 0, "FIERY DRAGON |%s", benMode ? "BEN" : "NO");
+	tft_prints(0, 0, "FIERY DRAGON|%d|%d", gpio_read_input(&PE0), ctr);
 	tft_prints(0, 1, "M: %d|%d|%d", getWheelbaseValues().M1.sent,
 			getWheelbaseValues().M2.sent, getWheelbaseValues().M3.sent);
 	tft_prints(0, 2, "B: %d | ARM: %d", getBrushlessMagnitude(), allowArm);
@@ -267,6 +272,7 @@ void controllerInputUpdate() {
 	if (button_pressed(BUTTON_XBC_Y) && !m_listener) {
 		m_listener = true;
 		if (currMode == MANUAL) {
+			allowArm = true;
 			timeSinceButtonPressed = get_full_ticks();
 			setBrushlessMagnitude(robotMode == RED_SIDE ? 7 : 7);
 			currMode = FIRSTPOS;

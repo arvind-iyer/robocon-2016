@@ -36,5 +36,6 @@ void laserPID(void);
 void moveToWall(void);
 void laserCallbacks(STAGES stage);
 void moveToFirstPosition(void);
+void retryAutoPath (void);
 
 #endif

@@ -128,7 +128,7 @@ void moveToFirstPosition (void) {
 				if(robot.position.angle <= (robotMode == RED_SIDE ? 88 : 265) && robot.position.angle >= (robotMode == RED_SIDE ? 78 : 260) && onReach){
 					int armError = get_encoder_value(MOTOR8) - 11000;
 					if (!(Abs(armError) <= 1000))
-						sendArmCommand(armError < 0 ? -65 : 65);
+						sendArmCommand(armError < 0 ? -50 : 50);
 					else if (Abs(armError) <= 1000) {
 						sendArmCommand(0);
 						armReturned = true;
@@ -286,9 +286,9 @@ void laserPID() {
 		//Blowing speeds
 			if(robotMode == RED_SIDE) {
 				if(!semiAuto){
-					if(get_pos()->y > yCoordSystem * 0.35 && get_pos()->y < yCoordSystem * 0.45) setBrushlessMagnitude(22); //TEST FIELD 14
+					if(get_pos()->y > yCoordSystem * 0.35 && get_pos()->y < yCoordSystem * 0.45) setBrushlessMagnitude(18); //TEST FIELD 14
 					if(get_pos()->y > yCoordSystem * 0.45 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(10); //TEST FIELD 12
-					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.85) setBrushlessMagnitude(28); //TEST FIELD 2
+					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.85) setBrushlessMagnitude(22); //TEST FIELD 2
 					if(get_pos()->y > yCoordSystem * 0.95) setBrushlessMagnitude(14);
 				}
 
@@ -358,7 +358,7 @@ void laserPID() {
 void moveToWall() {
 	int armError = get_encoder_value(MOTOR8) - 11000;
 	if (!(Abs(armError) <= 1000))
-			sendArmCommand(armError < 0 ? -60 : 60);
+			sendArmCommand(armError < 0 ? -50 : 50);
 		else if (Abs(armError) <= 1000) {
 			sendArmCommand(0);
 		}
@@ -484,5 +484,18 @@ void enterPole() {
 			parseWheelbaseValues();
 			//sendWheelbaseCommand();
 		}
+	}
+}
+
+void retryAutoPath (void) {
+	if(get_ls_cal_reading(0) + get_ls_cal_reading(1) < 1000) {
+		currMode = LASERPID;
+	}
+	else{
+		setM(40);
+		setBearing(0);
+		setW(0);
+		addComponent();
+		parseWheelbaseValues();
 	}
 }

@@ -44,11 +44,13 @@ typedef struct {
 	void queueTargetPoint(int x, int y, int bearing, float thres, float bearThres, int brushlessSpeed, int waitTime);
 	int getSize(void);
 	double calculateAngularVelocity(int targAngle, int max, int min, int scale);
+	void waitingForRetry(void);
 	
 	//extern Motors motor;	//pk
 	extern Robot robot;
 	extern bool allowArm;
 	extern int dispM;
 	extern int blowTime;
+	extern long lastWait;
 
 #endif

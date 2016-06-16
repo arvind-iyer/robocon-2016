@@ -37,6 +37,17 @@ void auto_control() {
 		case PIDMODE:
 			updateQueue();
 			break;
+		case AUTORETRY:
+			retryAutoPath();
+			break;
+		case WAITRETRY:
+			retryProcedureCheck();
+			break;
+		case RETRYCHECK:
+			waitingForRetry();
+			break;
+		default:
+			break;
 	}
 
 		if (allowArm) {
@@ -77,6 +88,7 @@ tft_prints(0, 0, "AUTO |%s", benMode ? "BEN" : "NO");
 	tft_prints(0, 3, "LS: %d|%d|%d|%d|%d", prevLimitSwitch[0],
 			prevLimitSwitch[1], prevLimitSwitch[2], prevLimitSwitch[3], armIr);
 	tft_prints(0, 4, "4th Read? : %d", allow4thUpdate);
+	tft_prints(0, 5, "Ret: %d|%d|%d", retryIr, ctr,gpio_read_input(&PE0));
 	tft_prints(0, 7, "Q|ENC: %d|%d", getSize(), get_encoder_value(MOTOR8));
 		tft_prints(0, 8, "CAL: %d|%d", get_ls_cal_reading(0),
 			get_ls_cal_reading(1));
@@ -190,6 +202,7 @@ void autoControlListener() {
 	if (button_pressed(BUTTON_XBC_Y) && !au_listening) {
 		au_listening = true;
 		if (currMode == MANUAL) {
+			allowArm = true;
 			timeSinceButtonPressed = get_full_ticks();
 			setBrushlessMagnitude(robotMode == RED_SIDE ? 7 : 7);
 			currMode = FIRSTPOS;
@@ -199,12 +212,14 @@ void autoControlListener() {
 	} else if (button_released(BUTTON_XBC_Y) && au_listening) {
 		au_listening = false;
 	}
-//if (button_pressed(BUTTON_XBC_X) && !au_listening) {
-//	au_listening = true;
-//	allowArm = !allowArm;
-//} else if (button_released(BUTTON_XBC_X) && au_listening) {
-//	au_listening = false;
-//}
+if (button_pressed(BUTTON_XBC_X) && !au_listening) {
+	au_listening = true;
+	allowArm = true;
+	if(currMode == MANUAL) currMode = AUTORETRY;
+	else if(currMode == AUTORETRY) currMode = MANUAL;
+} else if (button_released(BUTTON_XBC_X) && au_listening) {
+	au_listening = false;
+}
 	if (button_pressed(BUTTON_XBC_A) && !au_listening ) {
 		setBrushlessMagnitude(0);
 		if (currMode == MANUAL) {
