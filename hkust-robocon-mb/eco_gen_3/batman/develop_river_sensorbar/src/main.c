@@ -164,14 +164,17 @@ int main(void) {
                                                         strcpy(globalStateString,"ENTER_RIVER");  
                                                         time1 = get_full_ticks();
 																												angle_enter_river = ardu_cal_ypr[0];
-																												if((float) 84 > (angle_enter_river - angle_after_ninety) > (float)70)
-																														ENTER_RIVER_ENCODER = 7200;
-																												else if((angle_enter_river - angle_after_ninety) > (float)85)
-																														ENTER_RIVER_ENCODER = 7400;
+																												if((float) 84 > (angle_enter_river - angle_after_ninety) && (angle_enter_river - angle_after_ninety) > (float)70)
+																														ENTER_RIVER_ENCODER = ENTER_RIVER_ENCODER + 200;
+																												else if((float)100 >(angle_enter_river - angle_after_ninety) && (angle_enter_river - angle_after_ninety) > (float)85)
+																														ENTER_RIVER_ENCODER = ENTER_RIVER_ENCODER + 400;
+																												else if((angle_enter_river - angle_after_ninety) > (float)100)
+																														ENTER_RIVER_ENCODER = ENTER_RIVER_ENCODER + 1000;
 																												else if((angle_enter_river - angle_after_ninety) < (float)60)
-																														ENTER_RIVER_ENCODER = 6800;
+																														ENTER_RIVER_ENCODER = ENTER_RIVER_ENCODER - 200;
                                                         globalState = ENTER_RIVER;
 																												reset_encoder_1();
+																												
                                                     } 
                                                 else if(passedDownSlope && (get_minimize_count(ENCODER1)> 10)){
                                                     START_UP_play;
@@ -236,7 +239,8 @@ int main(void) {
                             break;
                             case DOWN_SLOPE: //End game, make it turn extreme right / left for the hybrid to grip propeller
                                 goNormal();
-                                if(get_minimize_count(ENCODER1) > 15 && gameZone != LIGHTGREENZONE && determine_velocity(ENCODER1) < (float)1){
+                                if(get_minimize_count(ENCODER1) > 15 && gameZone != LIGHTGREENZONE /*&& determine_velocity(ENCODER1) < (float)1*/){
+																		_delay_ms(1000);
                                     strcpy(globalStateString,"FINISH GAME");
                                     START_UP_play;
                                     globalState = FINISH;

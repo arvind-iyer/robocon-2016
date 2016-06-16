@@ -46,7 +46,7 @@ int value1;
 int button_count_red = 0;
 int button_count_white = 0;
 uint32_t encoder_revolution = 0;
-int ENTER_RIVER_ENCODER = 7000;
+int ENTER_RIVER_ENCODER = 6500;
 char gameZoneString[12]= "UNKNOWN";
 ZONE gameZone;
 ZONE expectedGameZone;
@@ -267,7 +267,7 @@ void goNormal(void){
 void goNinety(void){
     switch(side){
         case REDSIDE:
-            lastMovement = NINETY_TURNING  + ((int)determine_velocity(ENCODER1) * 20);
+            lastMovement = NINETY_TURNING  /*+ ((int)determine_velocity(ENCODER1) * 20)*/;
             if((int)ardu_cal_ypr[0] > -80){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
@@ -327,7 +327,7 @@ void goStraightLittleBit(void){
             lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING + (int)determine_velocity(ENCODER1) * 15;
             break;
         case REDSIDE:
-            lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING - (int)(determine_velocity(ENCODER1) * 10);
+            lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING /*- (int)(determine_velocity(ENCODER1) * 10)*/;
             break;
     } 
     servo_control(BAJAJ_SERVO, lastMovement);

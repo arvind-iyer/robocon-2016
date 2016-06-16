@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Output\project.hex]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Output\project.hex</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Thu Jun 16 01:27:15 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060061: Last Updated: Thu Jun 16 19:02:14 2016
 <BR><P>
 <H3>Maximum Stack Usage =        344 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -978,7 +978,8 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;simple_delay1_ms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_reset
+<BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_reset
 </UL>
 
 <P><STRONG><a name="[92]"></a>ardu_imu_init</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, ardu_imu.o(i.ardu_imu_init))
@@ -1248,7 +1249,7 @@ Global Symbols
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ca]"></a>goNinety</STRONG> (Thumb, 218 bytes, Stack size 40 bytes, bajaj.o(i.goNinety))
+<P><STRONG><a name="[ca]"></a>goNinety</STRONG> (Thumb, 196 bytes, Stack size 40 bytes, bajaj.o(i.goNinety))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = goNinety &rArr; determine_velocity &rArr; get_full_count &rArr; get_minimize_count
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
@@ -1269,7 +1270,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[cd]"></a>goStraightLittleBit</STRONG> (Thumb, 130 bytes, Stack size 16 bytes, bajaj.o(i.goStraightLittleBit))
+<P><STRONG><a name="[cd]"></a>goStraightLittleBit</STRONG> (Thumb, 106 bytes, Stack size 16 bytes, bajaj.o(i.goStraightLittleBit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = goStraightLittleBit &rArr; determine_velocity &rArr; get_full_count &rArr; get_minimize_count
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
@@ -1316,7 +1317,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systemInit
 </UL>
 
-<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 1286 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 1342 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = main &rArr; print_data &rArr; tft_prints &rArr; vsprintf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
@@ -1343,6 +1344,7 @@ Global Symbols
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_check
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_value_update
+<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_delay_ms
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
