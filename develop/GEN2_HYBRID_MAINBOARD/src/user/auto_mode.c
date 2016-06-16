@@ -24,10 +24,11 @@
 #define DEC_COEFF 8.0
 #define WALL_CAL 4220
 //#define WALL_CAL 6600
+#define ARM_SPEED 1500
 #define LS_DIFF 400
 #define SHIFT 3.0
-#define INNER_DIST 295
-#define OUTER_DIST 325
+#define INNER_DIST 280
+#define OUTER_DIST 310
 
 //#define DEBUG_MODE
 
@@ -74,6 +75,7 @@ bool arm_init = false;
 s16 arm_vel = 0;
 s16 tar_arm = 0;
 s16 brushless_time = 0;
+s16 climbing_time = 0;
 
 //UART receiver
 u8 rx_state = 0;
@@ -128,13 +130,13 @@ void auto_tar_dequeue() {
 		ori_y = 0;
 	}
 	
-	//speed control
+	//speed control - notice tar_end needs to minus one
 	if (tar_end == 1)
 		cur_vel = 65;
 	if (tar_end == 4)
-		cur_vel = 35;
-	//if (tar_end == 5)
-	//	cur_vel = 85;	
+		cur_vel = 12;
+	if (tar_end == 5)
+		cur_vel = 60;	
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
 	//tar_deg = tar_queue[tar_end].deg;
@@ -235,6 +237,7 @@ void auto_reset() {
 	
 	tar_arm = 0;
 	brushless_time = 0;
+	climbing_time = 0;
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -347,7 +350,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 				off_deg = get_angle();
 			} else {
 				off_deg = get_angle() - 1800;
-				if (tar_end == 9) //directly dequeue if touch wall before 12900
+				if (tar_end == 8) //directly dequeue if touch wall before 12900
 					auto_tar_dequeue();
 			}
 			err_sum = 0;
@@ -434,10 +437,30 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 }
 
 void auto_pole_climb(){
-	motor_set_vel(MOTOR1, 0, OPEN_LOOP);
-	motor_set_vel(MOTOR2, 0, OPEN_LOOP);
-	motor_set_vel(MOTOR3, 0, OPEN_LOOP);
-	pneumatic_off(&PB9);
+	climbing_time = auto_get_ticks() - time;
+	
+	if (climbing_time < 500) { //release motor and clamp
+		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR3, 0, OPEN_LOOP);
+		pneumatic_off(&PB9);
+	} else if (climbing_time < 1000) { //re-lock motor, grip
+		motor_lock(MOTOR1);
+		motor_lock(MOTOR2);
+		motor_lock(MOTOR3);
+		pneumatic_off(&PD10);
+		//set brushless angle
+	} else if (climbing_time < 3000) {
+		//pneumatic_off(&PD11);
+		//turn on brushless
+		motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
+		motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
+		motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP, OPEN_LOOP);
+	} else {
+		motor_set_vel(MOTOR4, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR5, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR6, 0, OPEN_LOOP);
+	}
 	
 	tft_clear();
 	tft_prints(0,0,"[AUTO-CLIMB]");
@@ -465,16 +488,16 @@ void auto_motor_stop(){
 
 void auto_robot_control(void) {
 	if (arm_init) {
-		arm_vel = (tar_arm - get_arm_pos())*1800/1200; //diff / range * speed
-		arm_vel = ((arm_vel > -1800) ? ((arm_vel < 1800) ? arm_vel : 1800) : -1800);
+		arm_vel = (tar_arm - get_arm_pos())*ARM_SPEED/1200; //diff / range * speed
+		arm_vel = ((arm_vel > -ARM_SPEED) ? ((arm_vel < ARM_SPEED) ? arm_vel : ARM_SPEED) : -ARM_SPEED);
 		if (Abs(arm_vel) < 205) //biggold dead band >.<
 			arm_vel += (205 * (arm_vel / Abs(arm_vel)));
 		
-		if (Abs(cur_x) < 1250) {
+		if (tar_end == 1) {
 			tar_arm = 0;
 		} else if (Abs(cur_x) < 3000) {
 			tar_arm = 3900;
-		} else if (Abs(cur_x) < 5000) {
+		} else if (Abs(cur_x) < 4600) {
 			tar_arm = 7800;
 		} else {
 			tar_arm = 11700;
@@ -488,25 +511,32 @@ void auto_robot_control(void) {
 	}
 	
 	if (tar_end <= 1) {
-		brushless_servo_control(-90 + 90*2*field);
+		brushless_servo_control(-85 + 85*2*field);
 		brushless_control(0, true);
-		if (auto_get_ticks() - brushless_time > 1200)
+		if (dist < 100)
 			brushless_control(45, true);
 	} else if (tar_end <= 2) {
-		brushless_control(42, true);
-		if (auto_get_ticks() - brushless_time > 300)
-			brushless_control(55, true);
+		brushless_control(51, true);
 	} else if (tar_end <= 3) {
-		brushless_control(47, true);
+		brushless_control(51, true);
 		if (auto_get_ticks() - brushless_time > 300)
 			brushless_control(49, true);
 	} else if (tar_end <= 4) {
 		brushless_servo_control(-80 + 80*2*field);
-		brushless_control(46, true);
-		if (auto_get_ticks() - brushless_time > 2000)
-			brushless_control(49, true);
+		brushless_control(47, true);
+		if (auto_get_ticks() - brushless_time > 1500)
+			brushless_control(51, true);
 	} else if (tar_end <= 5) {
-		brushless_servo_control(0);		
+		brushless_servo_control(0);
+		brushless_control(40, true);
+		if (auto_get_ticks() - brushless_time > 3500)
+			brushless_control(42, true);
+		if (auto_get_ticks() - brushless_time > 4000)
+			brushless_control(44, true);
+		if (auto_get_ticks() - brushless_time > 4500)
+			brushless_control(47, true);
+		if (auto_get_ticks() - brushless_time > 5000)
+			brushless_control(50, true);	
 	} else {
 		brushless_control(0, true);
 	}
@@ -625,7 +655,7 @@ void auto_var_update() {
 			reading2 = 200;
 		if (Abs(reading2 - reading1) < LS_DIFF) {
 			wall_dist = (reading1 + reading2)/2;
-			if (!((tar_end == 4) && (dist < 500)) && !(tar_end >= 5)) { //stop shift when approach hill3
+			if (!((tar_end == 4) && (dist < 200)) && !(tar_end >= 5)) { //stop shift when approach hill3
 				if (field == 0) {
 					if (wall_dist < INNER_DIST)
 						transform[1][0] -= (SHIFT/7000.0);
@@ -720,8 +750,10 @@ void auto_motor_update(){
 	} else if (gpio_read_input(&PE2)) {
 		auto_motor_stop();
 		pid_state = CLIMBING_MODE;
-	} else {
+	} else if (!((tar_end == 5) && ((auto_get_ticks() - start) < 3000))){ //check midway stop
 		auto_track_path(degree, degree_diff, cur_vel, false);
+	} else {
+		auto_motor_stop(); //stop to ecoblow
 	}
 	auto_robot_control();
 	
@@ -733,8 +765,8 @@ void auto_motor_update(){
 	tft_prints(0,2,"Y %5d -> %5d",cur_y,tar_y);
 	tft_prints(0,3,"D %5d -> %5d",cur_deg,tar_deg);
 	*/
-	tft_prints(0,1,"X %5d",raw_x);
-	tft_prints(0,2,"Y %5d",raw_y);
+	tft_prints(0,1,"X %5d",cur_x);
+	tft_prints(0,2,"Y %5d",cur_y);
 	tft_prints(0,3,"D %5d",cur_deg);
 	tft_prints(0,4,">> %2d / %2d",tar_end,tar_head);
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
@@ -753,7 +785,7 @@ void auto_motor_update(){
 	
 	temp_deg = (cur_deg < -1800) ? (cur_deg+3600) : ((cur_deg >= 1800) ? (cur_deg-3600) : cur_deg);
 	//uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, side_switch_val, back_switch_val, dist, err_sum);
-	uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, dist);
+	//uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, dist);
 	
 	//handle input
 	if (button_pressed(BUTTON_XBC_BACK)) {
