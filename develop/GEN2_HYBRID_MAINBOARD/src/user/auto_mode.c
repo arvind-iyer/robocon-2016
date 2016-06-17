@@ -22,8 +22,8 @@
 #define KI 0.015
 #define RKP 1.8
 #define DEC_COEFF 8.0
-#define WALL_CAL 4220
-//#define WALL_CAL 6600
+//#define WALL_CAL 4220
+#define WALL_CAL 6700
 #define ARM_SPEED 1500
 #define LS_DIFF 400
 #define SHIFT 3.0
@@ -76,6 +76,8 @@ s16 arm_vel = 0;
 s16 tar_arm = 0;
 s16 brushless_time = 0;
 s16 climbing_time = 0;
+s16 arrived_time = 0;
+bool arrived = false;
 
 //UART receiver
 u8 rx_state = 0;
@@ -121,6 +123,7 @@ void auto_tar_dequeue() {
 	if (tar_end && (tar_queue[tar_end-1].type == NODE_STOP))
 		start = auto_get_ticks();
 	brushless_time = auto_get_ticks();
+	arrived = false;
 	
 	if (tar_end) {
 		ori_x = tar_queue[tar_end-1].x;
@@ -133,8 +136,10 @@ void auto_tar_dequeue() {
 	//speed control - notice tar_end needs to minus one
 	if (tar_end == 1)
 		cur_vel = 65;
+	if (tar_end == 2)
+		cur_vel = 50;
 	if (tar_end == 4)
-		cur_vel = 12;
+		cur_vel = 8;
 	if (tar_end == 5)
 		cur_vel = 60;	
 	tar_x = tar_queue[tar_end].x;
@@ -493,14 +498,14 @@ void auto_robot_control(void) {
 		if (Abs(arm_vel) < 205) //biggold dead band >.<
 			arm_vel += (205 * (arm_vel / Abs(arm_vel)));
 		
-		if (tar_end == 1) {
+		if ((tar_end == 1) && (!arrived || (arrived && ((auto_get_ticks() - arrived_time) < 1000)))) {
 			tar_arm = 0;
 		} else if (Abs(cur_x) < 3000) {
 			tar_arm = 3900;
 		} else if (Abs(cur_x) < 4600) {
 			tar_arm = 7800;
 		} else {
-			tar_arm = 11700;
+			tar_arm = 12100;
 		}
 		
 		motor_set_vel(MOTOR7, arm_vel*MOTOR7_FLIP, OPEN_LOOP);
@@ -516,27 +521,30 @@ void auto_robot_control(void) {
 		if (dist < 100)
 			brushless_control(45, true);
 	} else if (tar_end <= 2) {
-		brushless_control(51, true);
+		brushless_control(55, true);
+		brushless_servo_control(-90 + 90*2*field);
 	} else if (tar_end <= 3) {
-		brushless_control(51, true);
+		brushless_servo_control(-85 + 85*2*field);
 		if (auto_get_ticks() - brushless_time > 300)
-			brushless_control(49, true);
+			brushless_control(47, true);
 	} else if (tar_end <= 4) {
 		brushless_servo_control(-80 + 80*2*field);
-		brushless_control(47, true);
+		brushless_control(43, true);
 		if (auto_get_ticks() - brushless_time > 1500)
-			brushless_control(51, true);
+			brushless_control(54, true);
 	} else if (tar_end <= 5) {
 		brushless_servo_control(0);
 		brushless_control(40, true);
-		if (auto_get_ticks() - brushless_time > 3500)
-			brushless_control(42, true);
+		if (auto_get_ticks() - brushless_time > 3000)
+			brushless_control(55, true);
 		if (auto_get_ticks() - brushless_time > 4000)
-			brushless_control(44, true);
+			brushless_control(57, true);
 		if (auto_get_ticks() - brushless_time > 4500)
-			brushless_control(47, true);
+			brushless_control(59, true);
 		if (auto_get_ticks() - brushless_time > 5000)
-			brushless_control(50, true);	
+			brushless_control(62, true);
+		if (auto_get_ticks() - brushless_time > 5500)
+			brushless_control(65, true);	
 	} else {
 		brushless_control(0, true);
 	}
@@ -724,6 +732,10 @@ void auto_motor_update(){
 	s32 temp_deg;
 	
 	if ((dist < THRESHOLD) && (Abs(degree_diff) < 2)) {
+		if (!arrived) {
+			arrived = true;
+			arrived_time = auto_get_ticks();
+		}
 		
 		//ensure touches both switches before next path
 		u8 side_switch_states = 0;
@@ -737,11 +749,21 @@ void auto_motor_update(){
 		
 		if (auto_tar_queue_len()) {
 			if ((tar_x == 0) || (tar_x == 12900)) {
-				if (side_switch_states) auto_tar_dequeue();
+				if (side_switch_states) {
+					if (tar_end == 1) {
+						if ((auto_get_ticks() - arrived_time) > 1500) auto_tar_dequeue();
+					} else {
+						auto_tar_dequeue();
+					}
+				}
 			} else if (tar_y == 0) {
 				if (back_switch_states) auto_tar_dequeue();
 			} else {
-				auto_tar_dequeue();
+				if (tar_end == 2) {
+					if ((auto_get_ticks() - arrived_time) > 700) auto_tar_dequeue();
+				} else {
+					auto_tar_dequeue();
+				}
 			}
 		} else {
 			pid_stopped = true;
@@ -750,7 +772,7 @@ void auto_motor_update(){
 	} else if (gpio_read_input(&PE2)) {
 		auto_motor_stop();
 		pid_state = CLIMBING_MODE;
-	} else if (!((tar_end == 5) && ((auto_get_ticks() - start) < 3000))){ //check midway stop
+	} else if (!((tar_end == 5) && ((auto_get_ticks() - start) < 4000))){ //check midway stop
 		auto_track_path(degree, degree_diff, cur_vel, false);
 	} else {
 		auto_motor_stop(); //stop to ecoblow
@@ -779,6 +801,8 @@ void auto_motor_update(){
 	//tft_prints(0,7,"Test %d %d", get_X(), get_Y());
 	tft_prints(0,7,"Test %d %d", side_switch_val, back_switch_val);
 	*/
+	tft_prints(0,7,"Test %d", (auto_get_ticks() - arrived_time));
+	
 	tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));
 	tft_prints(0,9,"W %d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1), wall_dist);
 	tft_update();
