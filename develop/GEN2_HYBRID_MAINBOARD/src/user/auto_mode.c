@@ -245,6 +245,8 @@ void auto_reset() {
 	climbing_time = 0;
 	pneumatic_off(&PB9); //Open wheels
 	pneumatic_on(&PD10); //Open claw
+	pneumatic_on(&PD11); //Push out
+	servo_control(SERVO2, 855);
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -447,9 +449,10 @@ void auto_pole_climb(){
 	climbing_time = auto_get_ticks() - time;
 	
 	if (climbing_time < 500) { //release motor
-		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
-		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
-		motor_set_vel(MOTOR3, 0, OPEN_LOOP);
+		//Push forward at 50
+		motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
+		motor_set_vel(MOTOR2, 43, CLOSE_LOOP);
+		motor_set_vel(MOTOR3, -43, CLOSE_LOOP);
 	} else if (climbing_time < 1000) { //clamp
 		pneumatic_on(&PB9);		
 	} else if (climbing_time < 1500) { //re-lock motor, grip
@@ -458,16 +461,17 @@ void auto_pole_climb(){
 		motor_lock(MOTOR3);
 		pneumatic_off(&PD10); //claw
 		//set brushless angle
-	} else if (climbing_time < 3000) {
-		//pneumatic_off(&PD11); //push
+	} else if (climbing_time < 5500) {
+		servo_control(SERVO2, 660);
+		pneumatic_off(&PD11); //collect
 		//turn on brushless
-		motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
-		motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
-		motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP, OPEN_LOOP);
+		//motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
+		//motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
+		//motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP, OPEN_LOOP);
 	} else {
-		motor_set_vel(MOTOR4, 0, OPEN_LOOP);
-		motor_set_vel(MOTOR5, 0, OPEN_LOOP);
-		motor_set_vel(MOTOR6, 0, OPEN_LOOP);
+		//motor_set_vel(MOTOR4, 0, OPEN_LOOP);
+		//motor_set_vel(MOTOR5, 0, OPEN_LOOP);
+		//motor_set_vel(MOTOR6, 0, OPEN_LOOP);
 	}
 	
 	tft_clear();

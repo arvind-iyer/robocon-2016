@@ -64,8 +64,8 @@ void manual_reset(){
 	brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT + 1;
 	brushless_control(0, true);
 	brushless_servo_control(0);
-	gripper_control(GRIPPER_1, 0); 
-	gripper_control(GRIPPER_2, 0);
+	//gripper_control(GRIPPER_1, 0); 
+	//gripper_control(GRIPPER_2, 0);
 	pneumatic_off(&PD10);
 	pneumatic_off(&PD11);
 }
@@ -400,6 +400,7 @@ void manual_controls_update(void) {
 	}
 	encoder_val = get_encoder_count(ENCODER2);
 	
+	/*
 	//gripper controls
 	for (u8 i=0; i < GRIPPER_COUNT; i++) {
 		if (button_pressed(gripper_buttons[i])) {
@@ -455,6 +456,7 @@ void manual_controls_update(void) {
 			}
 		}
 	}
+	*/
 	
 	/*
 	** This part is related to climbing mechanism
