@@ -43,7 +43,8 @@ void robocon_main(void) {
 			manualControl();
 			break;
 		case FIRSTPOS:
-			moveToFirstPosition();
+			backupFirstPosition();
+			//moveToFirstPosition();
 			break;
 		case LASERPID:
 			laserPID();
@@ -274,7 +275,7 @@ void controllerInputUpdate() {
 		if (currMode == MANUAL) {
 			allowArm = true;
 			timeSinceButtonPressed = get_full_ticks();
-			setBrushlessMagnitude(robotMode == RED_SIDE ? 7 : 7);
+			//setBrushlessMagnitude(robotMode == RED_SIDE ? 7 : 7);
 			currMode = FIRSTPOS;
 		} else {
 			currMode = MANUAL;

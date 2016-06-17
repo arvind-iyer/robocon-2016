@@ -25,6 +25,7 @@ void auto_control() {
 			break;
 		case FIRSTPOS:
 			moveToFirstPosition();
+				//backupFirstPosition();
 			break;
 		case LASERPID:
 			laserPID();
@@ -266,6 +267,7 @@ if (button_pressed(BUTTON_XBC_X) && !au_listening) {
 		setBrushlessMagnitude(0);
 		sendArmCommand(0);
 		currMode = MANUAL;
+		climbing = false;
 	} else if (button_released(BUTTON_XBC_START) && au_listening) {
 		au_listening = false;
 	}

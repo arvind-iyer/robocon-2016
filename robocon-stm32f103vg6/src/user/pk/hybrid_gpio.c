@@ -185,9 +185,9 @@ int ctr = 1, retryDelay = 0;
 
 bool retryIrChecking(void) {
 	retryIr = gpio_read_input(&PE0);  //Replace With Proper Port
-	if(retryIr == 1 && prevRetryIr == 0) prevRetryIr =1;
-	if(retryIr == 0 && prevRetryIr == 1) {
-		prevRetryIr = 0;
+	//if(retryIr == 1 && prevRetryIr == 0) prevRetryIr =1;
+	if(retryIr == 0) {
+		//prevRetryIr = 0;
 		if(ctr == 0) {
 			ctr = 1;
 			return false;

@@ -99,7 +99,61 @@ bool armPrepped = false;
 bool armReturned = false;
 
 void backupFirstPosition(void) {
-	
+	int targM = 50, laserTargVal = 570;
+	if(get_full_ticks() - timeSinceButtonPressed < 1000) {
+		setM(30);
+		setBearing(0);
+		setW(0);
+		addComponent();
+		parseWheelbaseValues();
+	}
+	else {
+		double angularSpd = calculateAngularVelocity(robotMode == RED_SIDE ? 90 : 270, 60, 30, 60);
+		if(robotMode == RED_SIDE) {
+			//Horizontal Vector
+			if(get_ls_cal_reading(1) < 1000) {
+				targM = targM * (get_ls_cal_reading(0) - 200) / 1000;
+			}
+			if((get_ls_cal_reading(1) < 650 && robot.position.angle <= 92 && robot.position.angle >= 88)  ) {//||
+				//gpio_read_input(&PE0) == 0) {
+				wheelbaseLock();
+				//currMode = MANUAL;
+				currMode = PIDMODE;
+				savedX = get_pos()->x;
+				savedY = get_pos()->y;
+				queueTargetPoint(savedX, savedY, get_pos()->angle/10, 35, 15, 17, 1500);
+				allowArm = true;
+			}
+			setM(targM);
+			setBearing(90 - robot.position.angle);
+			setW(angularSpd);
+			addComponent();
+			
+			//Vertical Vector
+			int verticalM = Abs((get_ls_cal_reading(2) - laserTargVal) / (laserTargVal - 200) * targM / 2);
+			verticalM = verticalM > (targM / 2) ? targM / 2 : verticalM;
+			//verticalM = Abs(verticalM) > 40 ? (verticalM < 0 ? -40 : 40) : verticalM;
+			if(robot.position.angle <= 100 && robot.position.angle >= 80) { 
+				if(get_ls_cal_reading(2) > laserTargVal + 15) {
+					setM(verticalM);
+					setBearing(90);
+					setW(0);
+					addComponent();
+				}
+				else if(get_ls_cal_reading(2) < laserTargVal - 15){
+					setM(verticalM);
+					setBearing(270);
+					setW(0);
+					addComponent();
+				}
+			}
+			
+		}
+		else if (robotMode == BLUE_SIDE) {
+			
+		}
+		parseWheelbaseValues();
+	}
 }
 
 void moveToFirstPosition (void) {
