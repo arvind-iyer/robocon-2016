@@ -27,10 +27,10 @@
 #define GRIPPER_MED 660//680 //750
 #define GRIPPER_MAX 855 //1100
 #define GRIPPER_COUNT 2
-#define GRIPPER_R_PUSH_PORT PD11
-#define GRIPPER_R_CLAW_PORT PD10
-#define GRIPPER_L_PUSH_PORT PD9
-#define GRIPPER_L_CLAW_PORT PD8
+#define GRIPPER_R_PUSH_PORT PD9
+#define GRIPPER_R_CLAW_PORT PD8
+#define GRIPPER_L_PUSH_PORT PD11
+#define GRIPPER_L_CLAW_PORT PD10
 
 #define MOTOR4_FLIP 1
 #define MOTOR5_FLIP 1
@@ -49,8 +49,8 @@ typedef enum{
 }BRUSHLESS_ID;
 
 typedef enum{
-	GRIPPER_1 = 0,
-	GRIPPER_2 = 1
+	GRIPPER_R = 0,
+	GRIPPER_L = 1
 }GRIPPER_ID;
 
 void emergency_stop(void);

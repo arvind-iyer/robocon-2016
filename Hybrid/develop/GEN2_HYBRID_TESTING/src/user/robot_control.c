@@ -56,15 +56,15 @@ void stop_arm() {
 //state: 1 = down, 0 = upright
 void gripper_control(GRIPPER_ID gripper_id, u8 state) {
 	if (state == 1){
-		if (gripper_id == GRIPPER_1) {
+		if (gripper_id == GRIPPER_R) {
 			servo_control((SERVO_ID)gripper_id, GRIPPER_MIN);
-		} else if (gripper_id == GRIPPER_2) {
+		} else if (gripper_id == GRIPPER_L) {
 			servo_control((SERVO_ID)gripper_id, GRIPPER_MAX);
 		}
 	} else if (state == 0) {
-		if (gripper_id == GRIPPER_1) {
+		if (gripper_id == GRIPPER_R) {
 			servo_control((SERVO_ID)gripper_id, GRIPPER_MED);
-		} else if (gripper_id == GRIPPER_2) {
+		} else if (gripper_id == GRIPPER_L) {
 			servo_control((SERVO_ID)gripper_id, GRIPPER_MED);
 		}
 	}
@@ -73,15 +73,15 @@ void gripper_control(GRIPPER_ID gripper_id, u8 state) {
 //state: 0 = extend, 1 = retract
 void gripper_push_control(GRIPPER_ID gripper_id, u8 state){
 	if (state == 0) {
-		if (gripper_id == GRIPPER_1) {
+		if (gripper_id == GRIPPER_R) {
 			pneumatic_off(&GRIPPER_L_PUSH_PORT);
-		} else if (gripper_id == GRIPPER_2) {
+		} else if (gripper_id == GRIPPER_L) {
 			pneumatic_off(&GRIPPER_R_PUSH_PORT);
 		}
 	} else if (state == 1) {
-		if (gripper_id == GRIPPER_1) {
+		if (gripper_id == GRIPPER_R) {
 			pneumatic_on(&GRIPPER_L_PUSH_PORT);
-		} else if (gripper_id == GRIPPER_2) {
+		} else if (gripper_id == GRIPPER_L) {
 			pneumatic_on(&GRIPPER_R_PUSH_PORT);
 		}
 	}
@@ -90,15 +90,15 @@ void gripper_push_control(GRIPPER_ID gripper_id, u8 state){
 //state: 0 = open, 1 = close
 void gripper_claw_control(GRIPPER_ID gripper_id, u8 state){
 	if (state == 1) {
-		if (gripper_id == GRIPPER_1) {
+		if (gripper_id == GRIPPER_R) {
 			pneumatic_off(&GRIPPER_L_CLAW_PORT);
-		} else if (gripper_id == GRIPPER_2) {
+		} else if (gripper_id == GRIPPER_L) {
 			pneumatic_off(&GRIPPER_R_CLAW_PORT);
 		}
 	} else if (state == 0) {
-		if (gripper_id == GRIPPER_1) {
+		if (gripper_id == GRIPPER_R) {
 			pneumatic_on(&GRIPPER_L_CLAW_PORT);
-		} else if (gripper_id == GRIPPER_2) {
+		} else if (gripper_id == GRIPPER_L) {
 			pneumatic_on(&GRIPPER_R_CLAW_PORT);
 		}
 	}
