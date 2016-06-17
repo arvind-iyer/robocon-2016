@@ -26,3 +26,5 @@
 .\output\pk_arm.o: .\src\ustrobo_min_system\inc\gpio.h
 .\output\pk_arm.o: .\src\ustrobo_min_system\inc\usart.h
 .\output\pk_arm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+.\output\pk_arm.o: src\user\pk\hybrid_gpio.h
+.\output\pk_arm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h

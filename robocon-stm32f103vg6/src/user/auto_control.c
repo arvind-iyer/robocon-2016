@@ -14,6 +14,7 @@ void auto_control() {
 			wheelbaseLock();
 		}
 		if (return_listener()) {
+			wheelbaseLock();
 			return;
 		}
 		dataSampling();
@@ -50,10 +51,6 @@ void auto_control() {
 			break;
 	}
 
-		if (allowArm) {
-			armIr = gpio_read_input(&PE8);
-			armUpdate();
-		}
 		robotUpdate();
 
 		if (get_full_ticks() % 10 == 0) {
@@ -65,6 +62,10 @@ void auto_control() {
 			button_update();
 			autoControlListener();
 			sendWheelbaseCommand();
+			if (allowArm) {
+				armIr = gpio_read_input(&PE8);
+				armUpdate();
+			}
 		}
 
 	}
@@ -202,7 +203,7 @@ void autoControlListener() {
 	if (button_pressed(BUTTON_XBC_Y) && !au_listening) {
 		au_listening = true;
 		if (currMode == MANUAL) {
-			allowArm = true;
+			//allowArm = true;
 			timeSinceButtonPressed = get_full_ticks();
 			setBrushlessMagnitude(robotMode == RED_SIDE ? 7 : 7);
 			currMode = FIRSTPOS;
@@ -223,6 +224,7 @@ if (button_pressed(BUTTON_XBC_X) && !au_listening) {
 	if (button_pressed(BUTTON_XBC_A) && !au_listening ) {
 		setBrushlessMagnitude(0);
 		if (currMode == MANUAL) {
+			allowArm = false;
 			currMode = POLELASER;
 		} else if (currMode == POLELASER) {
 			currMode = MANUAL;

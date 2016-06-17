@@ -384,6 +384,7 @@ double calculateAngularVelocity(int targAngle, int max, int min, int scale) {
 void waitingForRetry (void) {
 	if(get_full_ticks() - expectRetry >= 3000) {
 		currMode = APPROACHWALL;
+		allowArm = false;
 	}
 	else{
 		retryProcedureCheck();

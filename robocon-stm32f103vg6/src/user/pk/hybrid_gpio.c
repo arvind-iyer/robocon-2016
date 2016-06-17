@@ -28,13 +28,13 @@ void hybridGPIOInit() {
 	
 	// Limit switch GPIO initialization.
 	gpio_init(&PE6, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
-	gpio_init(&PE7, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
-	gpio_init(&PE9, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
-	gpio_init(&PE11, GPIO_Speed_50MHz,GPIO_Mode_IPU, 1);
+	gpio_init(&PE7, GPIO_Speed_50MHz, GPIO_Mode_IPU, 0);
+	gpio_init(&PE9, GPIO_Speed_50MHz, GPIO_Mode_IPU, 0);
+	gpio_init(&PE11, GPIO_Speed_50MHz,GPIO_Mode_IPU, 0);
 	// IR Sensor GPIO initialization.
-	gpio_init(&PE8, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
+	gpio_init(&PE8, GPIO_Speed_50MHz, GPIO_Mode_IPU, 0);
 	//Retry IR
-	gpio_init(&PE0, GPIO_Speed_50MHz, GPIO_Mode_IPU, 1);
+	gpio_init(&PE0, GPIO_Speed_50MHz, GPIO_Mode_IPU, 0);
 }
 
 bool armDir = false, fixingArm = false, climbLimit = false, topHit = false; // False = down, True = up
@@ -85,7 +85,7 @@ void limitSwitchCheck() {
 	}
 	
 	// Move arm to correct position.
-	int armError = get_encoder_value(MOTOR8) - (pneumatics.P3 == false ? 17000 : 79433);
+	int armError = get_encoder_value(MOTOR8) - (pneumatics.P3 == false ? 17000 : 75000);
 	if (prevLimitSwitch[3] == 1 && !climbing) {
 		double angularVelocity = getAngleDifference(robot.position.angle, robotMode == RED_SIDE ? 270 : 90 ) * 50 / 180 * -1;
 		if (Abs(angularVelocity) >= 50) angularVelocity = angularVelocity < 0 ? -50 : 50;
@@ -146,7 +146,7 @@ void limitSwitchCheck() {
 	}
 	
 	if (climbing && climbDelay - get_full_ticks() >= 500) {
-		if(!topHit)sendClimbCommand(1200);
+		if(!topHit)sendClimbCommand(1500);
 		else {
 			sendClimbCommand(0);
 			if(get_full_ticks() - waitDelay >= 500 && get_full_ticks() - waitDelay < 1200) {
@@ -173,10 +173,8 @@ void limitSwitchCheck() {
    */
 
 void armUpdate() {
-	if(prevArmIr != armIr) {
 		sendArmCommand(armIr == 0 ? -40 : 0);
 		prevArmIr = armIr;
-	}
 }
 
 bool getLS(int index) {
@@ -213,6 +211,10 @@ void retryProcedureCheck(void) {
 			retryDelay = get_full_ticks();
 			lastWait = -1;
 			currMode = WAITRETRY;
+			
+			CAN_MESSAGE txMsg;
+			txMsg.id = 0x300;
+			can_tx_enqueue(txMsg);
 		}
 		else if(ctr == 3){
 			if(get_full_ticks() - retryDelay > 5000) {
@@ -222,6 +224,13 @@ void retryProcedureCheck(void) {
 			}
 			else{
 				setBrushlessMagnitude(0);
+				if(get_full_ticks() - retryDelay > 3500) {
+					if(get_full_ticks() - retryDelay % 200 == 0) {
+						CAN_MESSAGE txMsg;
+						txMsg.id = 0x300;
+						can_tx_enqueue(txMsg);
+					}
+				}
 			}
 		}
 	}

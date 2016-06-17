@@ -98,6 +98,10 @@ s16 get_cheap_laser_dis(u8 id){
 bool armPrepped = false;
 bool armReturned = false;
 
+void backupFirstPosition(void) {
+	
+}
+
 void moveToFirstPosition (void) {
 	if(!armPrepped) {
 			int armError = get_encoder_value(MOTOR8) - 70810;
@@ -119,8 +123,8 @@ void moveToFirstPosition (void) {
 		int laserTargVal = robotMode == RED_SIDE ? 900 : 1100; //1000  //TEST FIELD : 900 : 900
 			int horizontalM = 45;
 			double angularVelocity;
-			if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) > (robotMode == RED_SIDE ? 4400 : 2300) && //4600 //TEST FIELD : 4200 : 2300
-				get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) < (robotMode == RED_SIDE ? 4750 : 2300) && // TEST FIELD: 4450 : 2550
+			if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) > (robotMode == RED_SIDE ? 4200 : 2300) && //4400 //TEST FIELD : 4200 : 2300
+				get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) < (robotMode == RED_SIDE ? 4550 : 2300) && //4750 // TEST FIELD: 4450 : 2550
 				robot.position.angle < 185 && robot.position.angle > 175 && !targetReached){
 					targetReached = true;
 			}
@@ -198,9 +202,9 @@ void moveToFirstPosition (void) {
 					}
 				}
 				if(robotMode == RED_SIDE) {
-					if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) < 4750) {
+					if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) < 4550) {
 						setM(horizontalM);
-						setBearing(90 - robot.position.angle); //TEST FIELD : 4450
+						setBearing(90 - robot.position.angle); //4750 //TEST FIELD : 4450
 						
 					}
 					else {
@@ -288,7 +292,7 @@ void laserPID() {
 				if(!semiAuto){
 					if(get_pos()->y > yCoordSystem * 0.35 && get_pos()->y < yCoordSystem * 0.45) setBrushlessMagnitude(18); //TEST FIELD 14
 					if(get_pos()->y > yCoordSystem * 0.45 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(10); //TEST FIELD 12
-					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.85) setBrushlessMagnitude(22); //TEST FIELD 2
+					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.85) setBrushlessMagnitude(15); //TEST FIELD 2
 					if(get_pos()->y > yCoordSystem * 0.95) setBrushlessMagnitude(14);
 				}
 
@@ -355,15 +359,27 @@ void laserPID() {
 	* @brief Calculates motor values for approaching the wall after blowing
 	*/
 		
+		int redWallCap = 70, blueWallCap = 70;
+		
 void moveToWall() {
 	int armError = get_encoder_value(MOTOR8) - 11000;
 	if (!(Abs(armError) <= 1000))
 			sendArmCommand(armError < 0 ? -50 : 50);
 		else if (Abs(armError) <= 1000) {
 			sendArmCommand(0);
-		}
+		}	
 		
-	int targetM = robotMode == RED_SIDE ? 70 : 70;
+	int targetM = robotMode == RED_SIDE ? redWallCap : blueWallCap;
+		if(robotMode == RED_SIDE) {
+			if(get_ls_cal_reading(2) < 2200 && robot.position.angle < 278 && robot.position.angle > 262){
+				targetM = redWallCap * get_ls_cal_reading(2) / 2200;
+			}
+		}
+		else if(robotMode == BLUE_SIDE) {
+			if(get_ls_cal_reading(3) < 2000 && robot.position.angle < 98 && robot.position.angle > 82){
+				targetM = blueWallCap * get_ls_cal_reading(3) / 2000;
+			}
+		}
 	double angularVelocity = getAngleDifference(robot.position.angle, robotMode == RED_SIDE ? 270 : 90 ) * 50 / 180 * -1;
 		if (Abs(angularVelocity) >= 50) angularVelocity = angularVelocity < 0 ? -50 : 50;
 		else{
@@ -488,7 +504,7 @@ void enterPole() {
 }
 
 void retryAutoPath (void) {
-	if(get_ls_cal_reading(0) + get_ls_cal_reading(1) < 1000) {
+	if(get_ls_cal_reading(0) + get_ls_cal_reading(1) < 1200) {
 		currMode = LASERPID;
 	}
 	else{

@@ -15,6 +15,7 @@ extern int ctr;
 extern int moveDelay;
 extern bool retryIr;
 extern bool prevRetryIr;
+extern bool fixingArm;
 extern bool allow4thUpdate;
 
 #endif

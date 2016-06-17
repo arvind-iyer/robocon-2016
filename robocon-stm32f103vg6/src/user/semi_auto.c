@@ -15,6 +15,7 @@ void semi_auto_control() {
 			wheelbaseLock();
 		}
 		if (return_listener()) {
+			wheelbaseLock();
 			return;
 		}
 		dataSampling();
@@ -33,10 +34,6 @@ void semi_auto_control() {
 			break;
 		}
 
-		if (allowArm) {
-			armIr = gpio_read_input(&PE8);
-			armUpdate();
-		}
 		robotUpdate();
 
 		if (get_full_ticks() % 10 == 0) {
@@ -48,6 +45,10 @@ void semi_auto_control() {
 			button_update();
 			semiAutoListener();
 			sendWheelbaseCommand();
+			if (allowArm) {
+				armIr = gpio_read_input(&PE8);
+				armUpdate();
+			}
 		}
 
 	}
@@ -175,7 +176,7 @@ void semiAutoListener() {
 	}
 	if (button_pressed(BUTTON_XBC_Y) && !s_listening) {
 		s_listening = true;
-		sendClimbCommand(1200);
+		sendClimbCommand(1500);
 	} else if (button_released(BUTTON_XBC_Y) && s_listening) {
 		s_listening = false;
 		sendClimbCommand(0);
@@ -190,6 +191,7 @@ void semiAutoListener() {
 		setBrushlessMagnitude(0);
 		if (currMode == MANUAL) {
 			currMode = POLELASER;
+			allowArm = false;
 		} else if (currMode == POLELASER) {
 			currMode = MANUAL;
 		}

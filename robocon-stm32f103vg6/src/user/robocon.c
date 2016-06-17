@@ -16,7 +16,7 @@ bool benMode = false;
 bool START_ZONE_2 = false;
 
 //Variables for certain mode triggers
-bool allowArm = false;
+bool allowArm = false; // false
 bool benUpdate = false;
 bool climbing = false;
 
@@ -80,9 +80,9 @@ void robocon_main(void) {
 			hybridPneumaticControl();
 		}
 		if (get_full_ticks() % 3 == 0) {
-			limitSwitchCheck();
 			button_update();
 			controllerInputUpdate();
+			limitSwitchCheck();
 			sendWheelbaseCommand();
 		}
 	}
