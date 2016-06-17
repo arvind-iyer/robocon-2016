@@ -2,14 +2,14 @@
 
 static s32 lm_start_X = 0, lm_start_Y = 0, lm_start_angle = 0, lm_start_ticks = 0;
 
-static s32 last_angle_error = 0;
+//static s32 last_angle_error = 0;
 static s32 ap_start_X = 0, ap_start_Y = 0;
-static s32 ap_start_angle = 0;
+//static s32 ap_start_angle = 0;
 
 void limit_sa_approach_init(){
 	ap_start_X = get_pos()->x;
 	ap_start_Y = get_pos()->y;
-	ap_start_angle = get_angle();
+//	ap_start_angle = get_angle();
 }
 
 inline static s32 get_ap_new_X(){
@@ -20,9 +20,9 @@ inline static s32 get_ap_new_Y(){
 	return get_pos()->y - ap_start_Y;
 }
 
-inline static s32 get_ap_new_angle(){
-	return get_angle() - ap_start_angle;
-}
+//inline static s32 get_ap_new_angle(){
+//	return get_angle() - ap_start_angle;
+//}
 
 static s32 lm_sa_app_sum_y_error = 0, lm_sa_app_x_spped = 0, lm_sa_app_y_spped = 0;
 static bool gripper_ready = false;
@@ -50,7 +50,7 @@ u8 limit_sa_approach(s16 motor_vel[3]){
 			w = -w;
 		#endif
 		s16_cap(w, LM_SA_ROTATE_MAX, -LM_SA_ROTATE_MAX);
-		last_angle_error = this_angle_error;
+		//last_angle_error = this_angle_error;
 	}
 	
 	if (abs(get_ap_new_X()) > LM_SA_APP_START_ACCEL){

@@ -58,10 +58,10 @@ bool laser_manual_update(s16 motor_vel[3]){
 }
 
 static s32 start_Y = 0;
-static s32 start_ticks = 0;
+//static s32 start_ticks = 0;
 void limit_manual_init(){
 	start_Y = get_pos()->y;
-	start_ticks = this_loop_ticks;
+//	start_ticks = this_loop_ticks;
 }
 
 inline static s32 get_new_Y(){

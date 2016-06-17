@@ -15,7 +15,7 @@
 static u16 ls_adc_reading[ls_number];
 static u16 ls_cal_reading[ls_number];
 
-static u32 avg[ls_number][avg_length] = {	{0} };
+//static u32 avg[ls_number][avg_length] = {	{0} };
 
 /* var for the turning the sensors */
 static const u16 min_adc[2] = {18, 18};

@@ -25,10 +25,14 @@
 #define BRUSHLESS_SERVO_ANGLE 90
 #define BRUSHLESS_SERVO_OFFSET 0
 
-#define GRIPPER_MIN 450
-#define GRIPPER_MED 750
-#define GRIPPER_MAX 1050
+#define GRIPPER_MIN 400
+#define GRIPPER_MED 660//680 //750
+#define GRIPPER_MAX 855 //1100
 #define GRIPPER_COUNT 2
+#define GRIPPER_R_PUSH_PORT PD11
+#define GRIPPER_R_CLAW_PORT PD10
+#define GRIPPER_L_PUSH_PORT PD9
+#define GRIPPER_L_CLAW_PORT PD8
 
 #define MOTOR4_FLIP 1
 #define MOTOR5_FLIP 1
@@ -56,7 +60,12 @@ void emergency_stop(void);
 void brushless_control(u16 value, bool is_percentage_mode);
 void brushless_servo_control(s16 value);
 
-void gripper_control(GRIPPER_ID gripper_id, u16 state);
+//state: 0 = down, 1 = upright
+void gripper_control(GRIPPER_ID gripper_id, u8 state);
+//state: 0 = retract, 1 = extend
+void gripper_push_control(GRIPPER_ID gripper_id, u8 state);
+//state: 0 = open, 1 = close
+void gripper_claw_control(GRIPPER_ID gripper_id, u8 state);
 
 s16 get_arm_pos(void);
 void raise_arm(void);

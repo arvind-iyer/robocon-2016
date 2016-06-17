@@ -1,53 +1,73 @@
-/**
-** This file is to handle the manual control part of the robot
-**
-** Control scheme:
-** Left joy - Base Movement
-** Right joy - Self rotation
-** LB & RB - Unlock the brushless, will re-lock after 5 seconds if not used
-** LT & RT - Control the speed of brushless motors respectively
-** Button B - Set/Reset the pneumatic tube
-** Button A & Y - Control the climbing/desending of the robot
-** Button X - Lock the robot in place using pid
-**/
-
 #include "manual_mode.h"
 
-static s32 curr_vx = 0, curr_vy = 0, curr_angle = 0;
-static s32 curr_heading = 0;
-static s32 actual_speed[2] = {0};
-static s32 encoder_last_vel[2][ENCODER_READING_ARRAY_SIZE] = {0};
-static u16	encoder_reading_pointer[2] = {0};
+/**
+* Control Scheme:
+* Left joy stick for ground wheels movement
+* Right joy stick for moving brushless arm and servo
+* LB and RB for controlling brushless power, press once to inc./dec.
+* LT and RT for rotation
+*
+* X to switch mode 0 <---> 1, rotate by 90, perpare gribber
+* Back to activate auto go into pole mode
+*
+* In mode 0:
+* Y - Activate/Deactivate laser tracking
+* B - Rotating brushless servo by 90
+*
+* In mode 1:
+* A - Claw pneumatic control
+* B - Push pneumatic control
+* Y - Whole gibber servo control
+*
+* The arm should rise automatically using IR at all times.
+* Angel PID is disabled.
+*/
 
-static s32 motor_vel[3] = {0};
-static CLOSE_LOOP_FLAG motor_loop_state[3] = {CLOSE_LOOP};
+static s32 curr_heading = 0;
+
 static bool is_rotating = false;
 
-static LOCK_STATE brushless_lock = UNLOCKED;
 static LOCK_STATE ground_wheels_lock = UNLOCKED;
 static LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
-static LOCK_STATE press_button_B = UNLOCKED;
-static LOCK_STATE press_button_X = UNLOCKED;
-static LOCK_STATE press_button_LB = UNLOCKED;
-static LOCK_STATE press_button_RB = UNLOCKED;
 
-static u16 brushless_pressed_time = 0;
-static u16 brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT+1;
-static XBC_JOY brushless_joy_sticks = XBC_JOY_RY;
-static u16 brushless_stick_max = 1000;
+static u16 brushless_power_percent = 20;
+static u32 brushless_pressed_ticks = 0;
+static u32 brushless_counted_ticks = 0;
+static bool brushless_last_press_inc_flag = true;
 
 static s16 brushless_servo_val = 0;
-static u16 encoder_val = 0;
 
-static BUTTON gripper_buttons[2] = {BUTTON_XBC_LB, BUTTON_XBC_RB};
-static LOCK_STATE press_gripper_buttons[2] = {UNLOCKED};
-static u16 gripper_states[2] = {0};
-static u32 gripper_ticks[8] = {0}; //Left claw, Left push, Right claw, Right push
+static bool using_laser_sensor = true;
+static bool pole_as_front = false;
+static bool facing_pole = false;
+static bool brushless_str = false;
+
+static bool climbing_pneumatic_on = false;
+static s32 climbing_pneumatic_ticks = 0;
+//delay->up->delay->push->delay->unclaw->delay->retract->delay->beep
+static u8 putting_propeller_state = 0;
+static s32 putting_propeller_ticks[5] = {0};
+
+bool gripper_extended = false;
+bool gripper_clawed = true;
+bool gripper_down = false;
 
 static s16 last_angle_pid = 0;
 static s32 sum_of_last_angle_error = 0;
 
-static u16 temp_control = 33;
+static u8 fast_per_long = 0;
+
+/*
+** 0 - Blowing mode
+** 1 - Grabbing mode
+** 2 - Auto go into pole mode
+** 3 - Climb mode
+** 4 - Putting propeller
+** 5 - Semi-auto approach wall
+** 6 - Semi-auto calibrate gyro and xy reading
+** 7 - Semi-auto get propeller
+*/
+static u8 manual_stage = 0;
 
 void manual_init(){
 	xbc_mb_init(XBC_CAN_FIRST);
@@ -55,22 +75,31 @@ void manual_init(){
 }
 
 void manual_reset(){
-	curr_vx = curr_vy = curr_angle = curr_heading = 0;
-	brushless_lock = UNLOCKED;
+	curr_vx = curr_vy = curr_heading = curr_w = 0;
+	manual_stage = 0;
 	ground_wheels_lock = UNLOCKED;
+	brushless_power_percent = 20;
 	climbing_induced_ground_lock = UNLOCKED;
-	press_button_B = press_button_X = UNLOCKED;
-	is_rotating = false;
-	brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT + 1;
+	is_rotating = pole_as_front = facing_pole = brushless_str = false;
+	using_laser_sensor = true;
+	gripper_clawed = climbing_pneumatic_on = false;
+	gripper_extended = gripper_down = true;
 	brushless_control(0, true);
 	brushless_servo_control(0);
-	gripper_control(GRIPPER_1, 0); 
-	gripper_control(GRIPPER_2, 0);
-	pneumatic_off(&PD10);
-	pneumatic_off(&PD11);
+	brushless_servo_val = 0;
+	pneumatic_off(&CLIMB_PNEUMATIC_PORT);
+	for (GRIPPER_ID id=GRIPPER_1;id<=GRIPPER_2;id++){
+		gripper_control(id, gripper_down);
+		gripper_push_control(id, gripper_extended);
+		gripper_claw_control(id, gripper_clawed);
+	}
+	for (MOTOR_ID i=MOTOR1;i<=MOTOR7;i++){
+		motor_set_vel(i, 0, OPEN_LOOP);
+	}
 }
 
 void manual_vel_set_zero(){
+	curr_vx = curr_vy = curr_heading = curr_w = 0;
 	for (u8 i=0;i<3;i++){
 		motor_vel[i] = 0;
 		motor_loop_state[i] = OPEN_LOOP;
@@ -81,20 +110,14 @@ void manual_vel_set_zero(){
 s32 angle_pid(){
 	s16 this_curr_global_angle = get_angle();
 	s16 this_target_global_angle = curr_heading;
-	//Map both angles to same area
-	while(this_curr_global_angle>=1800){
-		this_curr_global_angle -= 3600;
-	}
-	while(this_curr_global_angle<-1800){
-		this_curr_global_angle += 3600;
-	}
-	while(this_target_global_angle>=1800){
-		this_target_global_angle -= 3600;
-	}
-	while(this_target_global_angle<-1800){
-		this_target_global_angle += 3600;
-	}
 	s32 error = this_target_global_angle - this_curr_global_angle;
+	
+	if (error>1800){
+		error = 3600 - error;
+	}else if(error<-1800){
+		error = 3600 + error;
+	}
+	
 	sum_of_last_angle_error = sum_of_last_angle_error*98/99 + error;
 	//This value scaled by 1000(PID constant) and then 10(angle scale)
 	s32 temp = error*ANGLE_PID_P + sum_of_last_angle_error*ANGLE_PID_I + (this_curr_global_angle-last_angle_pid)*ANGLE_PID_D;
@@ -108,124 +131,38 @@ s32 angle_pid(){
 	return temp;
 }
 
-/*
-** This fast update is for controlling things that require a high refresh rate
-** It contains:
-** - Locking itself in place
-** - Recording encoder reading and speed
-*/
-void manual_fast_update(){
-	if (ground_wheels_lock == LOCKED){
-		//_lockInTarget();
-		s32 curr_rotate = -angle_pid()/1500;
-		for (u8 i=0;i<3;i++){
-			motor_vel[i] = curr_rotate/10;
-			motor_loop_state[i] = CLOSE_LOOP;
-			motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
-		}
-	}
-	
-	//Recording encoder velocity, need to connect encoder to mainboard
-	for (u8 counter=0;counter<2;counter++){
-		//s32 encoder_reading = get_encoder_count((ENCODER)counter);
-		//encoder_last_vel[counter][encoder_reading_pointer[counter]] = encoder_reading;
-		//encoder_reading_pointer[counter] = (encoder_reading_pointer[counter]+1) % ENCODER_READING_ARRAY_SIZE;
-		//actual_speed[counter] = encoder_reading - (encoder_reading_pointer[counter]+1) % ENCODER_READING_ARRAY_SIZE;
-	}
-}
 
-//Interval update is called in a timed interval, reducing stress
-void manual_interval_update(){
-	tft_clear();
-	
+//This part deals with moving the robot around
+void manual_update_wheel_base(bool use_laser_avoid){
 	if (ground_wheels_lock == UNLOCKED){
+		
 		if (climbing_induced_ground_lock == UNLOCKED){
-			//Calcuate 3 base wheels movement
-			s32 vx = xbc_get_joy(XBC_JOY_LX);
-			s32 vy = xbc_get_joy(XBC_JOY_LY);
+			s16	vx = xbc_get_joy(XBC_JOY_LX) *BASE_VEL_JOYSTICK_GAIN /1000;
+			s16	vy = xbc_get_joy(XBC_JOY_LY) *BASE_VEL_JOYSTICK_GAIN /1000;
+			s16 w = (xbc_get_joy(XBC_JOY_LT)-xbc_get_joy(XBC_JOY_RT))*8/5;
 			
-			/*
-			** This part calculate acceleration
-			** It caps the max. acceleration for both x and y
-			** By finding the axis with more difference(thus more acceleration), cap it
-			** Then use the same proportion for the another axis to ensure the angle is correct
-			*/
-			u8 acceleration_amount;
-			//If both x and y are at low speed, use low speed mode
-			if (Abs(curr_vx) < LOW_SPEED_THRESHOLD && Abs(curr_vy) < LOW_SPEED_THRESHOLD){
-				acceleration_amount = LOW_SPEED_ACC;
-			}else {
-				acceleration_amount = HIGH_SPEED_ACC;
+			if (use_laser_avoid){
+				u32 avg_dis = (get_ls_cal_reading(FRONT_LASER_ID) + get_ls_cal_reading(BACK_LASER_ID))/2;
+				if (avg_dis < LASER_RETREAT_AVG_DIS){
+					//vy = -(LASER_RETREAT_SPEED + (LASER_RETREAT_AVG_DIS - avg_dis)*LASER_RETRAET_P/1000);
+					vy = -LASER_RETREAT_SPEED;
+					
+				}else if(get_ls_cal_reading(FRONT_LASER_ID) < LASER_RETREAT_ONE_SIDE_DIS){
+					//vy = -(LASER_RETREAT_SPEED + (LASER_RETREAT_ONE_SIDE_DIS - get_ls_cal_reading(FRONT_LASER_ID)*LASER_RETRAET_P/1000));
+					vy = -LASER_RETREAT_SPEED;
+					
+				}else if(get_ls_cal_reading(BACK_LASER_ID) < LASER_RETREAT_ONE_SIDE_DIS){
+					//vy = -(LASER_RETREAT_SPEED + (LASER_RETREAT_ONE_SIDE_DIS - get_ls_cal_reading(BACK_LASER_ID)*LASER_RETRAET_P/1000));
+					vy = -LASER_RETREAT_SPEED;
+				}
 			}
 			
-			//If the difference is not that much, directly assign speed
-			if (Abs(curr_vx - vx) < (acceleration_amount+1) && Abs(curr_vy - vy) < (acceleration_amount+1)){
-				curr_vx = vx;
-				curr_vy = vy;
-			
-			//Else:
-			//Use the axis with larger difference as the major consideration
-			//The other axis simply follow the proportion
-			}else if (Abs(curr_vx - vx) > Abs(curr_vy - vy)){
-				//Use x-axis as major
-				s32 proportion;
-				if (curr_vx > vx){
-					proportion = acceleration_amount *1000 / ((s32)curr_vx - vx);
-					curr_vx -= acceleration_amount;
-				}else{
-					proportion = acceleration_amount *1000 / ((s32)vx - curr_vx);
-					curr_vx += acceleration_amount;
-				}
-				
-				curr_vy += (vy - curr_vy) *proportion /1000;
-				
+			if (pole_as_front){
+				acc_update(-vx, -vy, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, false);
 			}else{
-				//Use y-axis as major
-				s32 proportion;
-				if (curr_vy > vy){
-					proportion = acceleration_amount *1000 / ((s32)curr_vy - vy);
-					curr_vy -= acceleration_amount;
-				}else{
-					proportion = acceleration_amount *1000 / ((s32)vy - curr_vy);
-					curr_vy += acceleration_amount;
-				}
-				
-				curr_vx += (vx - curr_vx) *proportion /1000;
+				acc_update(vx, vy, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, false);
 			}
 			
-			curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
-			s32 curr_rotate = (xbc_get_joy(XBC_JOY_LT)-xbc_get_joy(XBC_JOY_RT))*(1.6);
-			//change heading for angle PID use
-			if (curr_rotate == 0){
-				if (is_rotating){
-					is_rotating = false;
-					curr_heading = get_angle();
-				}
-				curr_rotate = -angle_pid()/1500;
-			}else{
-				is_rotating = true;
-			}
-
-			s32 curr_speed = (curr_vx*curr_vx + curr_vy*curr_vy) / 700;
-			motor_vel[0] = (int_sin(curr_angle)*curr_speed*(-1)/10000 + curr_rotate)/10;
-			motor_vel[1] = (int_sin(curr_angle+1200)*curr_speed*(-1)/10000 + curr_rotate)/10;
-			motor_vel[2] = (int_sin(curr_angle+2400)*curr_speed*(-1)/10000 + curr_rotate)/10;
-			
-			for (u8 i=0;i<3;i++){
-				motor_loop_state[i] = CLOSE_LOOP;
-			}
-			tft_append_line("%d %d", curr_vx, curr_vy);
-			tft_append_line("%d", curr_rotate);
-			tft_append_line("%d %d %d", ((-1)*get_pos()->x), get_pos()->y, get_pos()->angle);
-			//uart_tx(COM2, (uint8_t *)"%d, %d, %d\n", ((-1)*get_pos()->x), get_pos()->y, get_pos()->angle);
-			
-			//tft_append_line("GRIP %d %d", gripper_states[0], gripper_states[1]);
-			//tft_append_line("LS %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
-			tft_append_line("LS %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
-			tft_append_line("DEG %d", brushless_servo_val);
-			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
-			//tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
-			//tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/100 00, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);
 		}else{
 			for (u8 i=0;i<3;i++){
 				motor_vel[i] = 0;
@@ -233,260 +170,339 @@ void manual_interval_update(){
 			}
 		}
 	}
-	
-	tft_append_line("%d", this_loop_ticks);
-	tft_append_line("%d", this_loop_ticks-last_long_loop_ticks);
+}
 
-	/*
-	** This part deals with locking the robot.
-	** When the lock button(X) is pressed, the ground wheels should be locked at least
-	** For further implementation, it should lock itself in place with PID
-	*/
-	//TODO: Add PID locking
-	if (button_pressed(BUTTON_XBC_X)){
-		if (press_button_X == UNLOCKED){
-			press_button_X = LOCKED;
-			buzzer_beep(75);
-			if (ground_wheels_lock == UNLOCKED){
-				curr_heading = get_angle();
-				ground_wheels_lock = LOCKED;
-				_setCurrentAsTarget();
-				manual_vel_set_zero();
-			}else {
-				buzzer_beep(225);
-				ground_wheels_lock = UNLOCKED;
-				manual_vel_set_zero();
+/*
+** This fast update is for controlling things that requires a high refresh rate
+*/
+void manual_fast_update(){
+	fast_per_long++;
+	ir_update();
+	
+	for (u8 i=0;i<3;i++){
+		motor_vel[i] = 0;
+	}
+	 
+	if (manual_stage == 5){
+		manual_stage = limit_sa_approach(motor_vel);	
+		
+	}else if (manual_stage == 2){
+		raise_arm();
+		manual_stage = limit_manual_update(motor_vel);		
+		curr_heading = get_angle();		
+		
+	}else if (manual_stage == 6){
+		raise_arm();
+		manual_stage = limit_sa_update(motor_vel);
+		curr_heading = get_angle();
+		
+	}else if(manual_stage == 7){
+		//manual_stage = sa_str_update(motor_vel, &curr_rotate);
+		manual_stage = 1;
+		curr_heading = get_angle();
+		
+	}else if(manual_stage == 3){
+		raise_arm();
+		if (!climbing_pneumatic_on){
+			pneumatic_on(&CLIMB_PNEUMATIC_PORT);
+			
+			brushless_servo_val = CLIMBING_BRUSHLESS_ANGLE;
+			brushless_power_percent = CLIMBING_BRUSHLESS_POWER;
+			brushless_servo_control(brushless_servo_val);
+			brushless_control(brushless_power_percent, true);
+			
+			climbing_pneumatic_on = true;
+			climbing_pneumatic_ticks = this_loop_ticks;
+			
+			gripper_down = false;
+			gripper_control(THIS_GRIPPER, gripper_down);
+			
+		}else if((this_loop_ticks - climbing_pneumatic_ticks)>CLIMBING_TICKS_LIMIT){
+			climb_continue();
+			if (gpio_read_input(&HIT_BOX_PORT)){
+				manual_stage++;
+				putting_propeller_ticks[0] = this_loop_ticks;
+				putting_propeller_state = 0;
+				stop_climbing();
 			}
 		}
+	}else if(manual_stage == 4){
+		if (putting_propeller_state == 0 && ((this_loop_ticks - putting_propeller_ticks[putting_propeller_state]) > PUTTING_PROPELLER_UP_DELAY)){
+			putting_propeller_state++;
+			gripper_down = false;
+			gripper_control(THIS_GRIPPER, gripper_down);
+			putting_propeller_ticks[1] = this_loop_ticks;
+			
+		}else	if (putting_propeller_state == 1 && ((this_loop_ticks - putting_propeller_ticks[putting_propeller_state]) > PUTTING_PROPELLER_PUSH_DELAY)){
+			putting_propeller_state++;
+			gripper_extended = false;
+			gripper_push_control(THIS_GRIPPER, gripper_extended);
+			putting_propeller_ticks[2] = this_loop_ticks;
+			
+		}else	if (putting_propeller_state == 2 && ((this_loop_ticks - putting_propeller_ticks[putting_propeller_state]) > PUTTING_PROPELLER_UNCLAW_DELAY)){
+			gripper_clawed = false;
+			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+			putting_propeller_state++;
+			putting_propeller_ticks[3] = this_loop_ticks;
+			
+		}else	if (putting_propeller_state == 3 && ((this_loop_ticks - putting_propeller_ticks[putting_propeller_state]) > PUTTING_PROPELLER_RETRACT_DELAY)){
+			gripper_down = true;
+			gripper_control(THIS_GRIPPER, gripper_down);
+			putting_propeller_state++;
+			putting_propeller_ticks[4] = this_loop_ticks;
+			
+		}else	if (putting_propeller_state == 4 && ((this_loop_ticks - putting_propeller_ticks[putting_propeller_state]) > PUTTING_PROPELLER_YEAH_DELAY)){
+			putting_propeller_state++;
+		}
+		
+	}else if(manual_stage == 0 && using_laser_sensor){
+		//using_laser_sensor = laser_manual_update(motor_vel, &curr_rotate);
+		manual_update_wheel_base(true);
+		curr_heading = get_angle();
+		
 	}else{
-			press_button_X = UNLOCKED;
+		manual_update_wheel_base(false);
+		if (!is_rotating){
+			//curr_rotate = -angle_pid()/1000;
+		}
+	}
+}
+
+//Interval update is called in a timed interval, reducing stress
+void manual_interval_update(){
+	tft_clear();
+	
+	tft_append_line("%d", this_loop_ticks);
+	tft_append_line("%d %d", this_loop_ticks-last_long_loop_ticks, fast_per_long);
+	fast_per_long = 0;
+	//sa_print_info();
+	
+	if (button_hitted[BUTTON_XBC_A]){
+		if (manual_stage == 5 || manual_stage == 6){
+			manual_stage = 1;
+			using_laser_sensor = false;
+			pole_as_front = true;
+		}
+	}
+	
+	if (button_hitted[BUTTON_XBC_X]){
+		if (manual_stage == 0){
+			manual_stage = 1;
+			gripper_down = true;
+			gripper_extended = true;
+			gripper_clawed = false;
+			gripper_control(THIS_GRIPPER, gripper_down);
+			gripper_push_control(THIS_GRIPPER, gripper_extended);
+			gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+		}else{
+			manual_stage = 0;
+		}
+		using_laser_sensor = false;
+		pole_as_front = !pole_as_front;
+		facing_pole = !facing_pole;
+	}
+			
+	
+	if (button_hitted[BUTTON_XBC_START]){
+		buzzer_play_song(SUCCESSFUL_SOUND, 100, 0);
+		limit_manual_init();
+		manual_stage = 2;
+		gripper_down = true;
+		gripper_extended = true;
+		gripper_clawed = true;
+		gripper_control(THIS_GRIPPER, gripper_down);
+		gripper_push_control(THIS_GRIPPER, gripper_extended);
+		gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+	}
+	
+	if (button_hitted[BUTTON_XBC_S]){
+		if (!climbing_pneumatic_on){
+			pneumatic_on(&CLIMB_PNEUMATIC_PORT);
+			climbing_pneumatic_on = true;
+		}else{
+			pneumatic_off(&CLIMB_PNEUMATIC_PORT);
+			climbing_pneumatic_on = false;
+		}
+	}
+	
+////	if (button_hitted[BUTTON_XBC_BACK]){
+//	if (button_pressed(BUTTON_XBC_N)){
+////		buzzer_play_song(SUCCESSFUL_SOUND, 75, 0);
+////		if (manual_stage == 0){
+////			pole_as_front = true;
+////			using_laser_sensor = false;
+////			manual_stage = 1;
+////		}else if(manual_stage == 1){
+////			manual_stage = 0;
+////		}
+//		climb_continue();
+//	}else{
+//		stop_climbing();
+//	}
+	
+	if (button_hitted[BUTTON_XBC_E]){
+		brushless_servo_val = CLIMBING_BRUSHLESS_ANGLE;
+		brushless_power_percent = CLIMBING_BRUSHLESS_POWER;
+		brushless_servo_control(brushless_servo_val);
+		brushless_control(brushless_power_percent, true);
+	}
+	
+	
+	if (manual_stage == 0){
+		manual_first_control_update();
+	}else if(manual_stage == 1 || manual_stage == 5 || manual_stage == 6){
+		manual_second_control_update();
 	}
 	
 	//At last apply the motor velocity and display it
-	//Also happends in fast update
-	for (u8 i=0;i<3;i++){
-		motor_set_vel((MOTOR_ID)MOTOR1 + i, motor_vel[i], motor_loop_state[i]);
-	}
+	//Value from fast update should also be displayed here
+	tft_append_line("%d %d %d %d %d", get_pos()->x, get_pos()->y, get_angle(), gpio_read_input(&HIT_BOX_PORT));
+	tft_append_line("%d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str);
+	tft_append_line("LR:%d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(2), get_ir_dis());
+	tft_append_line("%d %d %d", curr_vx, curr_vy, curr_w);
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	tft_update();
 }
 
-void manual_controls_update(void) {
-	u16 ticks_different = (this_loop_ticks - last_long_loop_ticks);
+void manual_first_control_update(){
+	manual_control_brushless_update(); 
 	
-	/* 
-	** This part provide the safety lock and control for the brushless motors
-	**
-	** Control Manual: 
-	** first 30% -> No respond
-	** 30% ~ 50% -> Able to make eco start moving (constant across)
-	** 50% ~ 100% -> grow linearly to 50%
-	** Keep 100% -> Continue grow to max power wih respect to time
-	*/
+	//Pressing the back button to enable laser tracking
+	if (button_hitted[BUTTON_XBC_Y]){
+		buzzer_play_song(SUCCESSFUL_SOUND, 75, 0);
+		using_laser_sensor = !using_laser_sensor;
+	}
 	
-	/*
-	if (brushless_lock == UNLOCKED){
-		//Run the brushless
-		//tft_append_line("B:%d %d", xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
-		//brushless_control(BRUSHLESS_1, xbc_get_joy(XBC_JOY_LT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
-		//brushless_control(BRUSHLESS_2, xbc_get_joy(XBC_JOY_RT)*(BRUSHLESS_MAX-BRUSHLESS_MIN)/255+BRUSHLESS_MIN);
-
-		//If not quite pressed, count time
-		if (xbc_get_joy(brushless_joy_sticks[0]) < (brushless_stick_max/10) && xbc_get_joy(brushless_joy_sticks[1]) < (brushless_stick_max/10)){
-				if ((brushless_lock_timeout + ticks_different) < BRUSHLESS_LOCK_TIMEOUT){
-					brushless_lock_timeout += ticks_different;
-				}else{
-					brushless_lock = LOCKED;
-					brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT + 1;
-				}
-		}else{
-			brushless_lock_timeout = 0;
-		}
-			
-		
-		for (u8 i=0;i<BRUSHLESS_COUNT;i++){
-
-			if (xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max*3/10)){
-				brushless_pressed_time[i] = 0;
-				brushless_control((BRUSHLESS_ID)i, 0, true);
-				tft_append_line("%d%", 0);
-				
-			}else if(xbc_get_joy(brushless_joy_sticks[i]) < (brushless_stick_max/2)){
-				brushless_pressed_time[i] = 0;
-				brushless_control((BRUSHLESS_ID)i, 35, true);
-				tft_append_line("%d%", 35);
-				
-			}else{
-				//Cap the brushless_pressed_time to avoid overflow
-				if ((brushless_pressed_time[i] + ticks_different) < 10000){
-					brushless_pressed_time[i] += ticks_different;
-				}else{
-					brushless_pressed_time[i] = 10000;
-				}
-				
-				//If less than 0.7 seconds, grow linearly to 50%
-				if (brushless_pressed_time[i]<700){
-					u16 Iamjustatempvariable = 35 + (xbc_get_joy(brushless_joy_sticks[i] - brushless_stick_max/2))*15/128;
-					brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
-					tft_append_line("%d%", Iamjustatempvariable);
-				}else{
-					u16 Iamjustatempvariable = 50 + (brushless_pressed_time[i]-700)/20;
-					Iamjustatempvariable = Iamjustatempvariable>100?100:Iamjustatempvariable;
-					brushless_control((BRUSHLESS_ID)i, Iamjustatempvariable, true);
-					tft_append_line("%d%", Iamjustatempvariable);
-				}
-			}
-		}
-	}else if (button_pressed(BUTTON_XBC_LB) && button_pressed(BUTTON_XBC_RB)){
-		brushless_lock = UNLOCKED;
-		brushless_lock_timeout = 0;
-	}else{
-		brushless_control_all(0, true);
-		for (u8 i=0;i<BRUSHLESS_COUNT;i++){
-			brushless_pressed_time[i] = 0;
+	if (button_hitted[BUTTON_XBC_A]){
+		if (manual_stage == 0){
+			manual_stage = 5;
+			limit_sa_approach_init();
+			using_laser_sensor = false;
+			pole_as_front = true;
 		}
 	}
-	*/
-	if (brushless_lock == UNLOCKED){
+}
 
-		//If not quite pressed, count time
-		if (xbc_get_joy(brushless_joy_sticks) < (brushless_stick_max/10)){
-				if ((brushless_lock_timeout + ticks_different) < BRUSHLESS_LOCK_TIMEOUT){
-					brushless_lock_timeout += ticks_different;
-				}else{
-					brushless_lock = LOCKED;
-					brushless_lock_timeout = BRUSHLESS_LOCK_TIMEOUT + 1;
-				}
-		}else{
-			brushless_lock_timeout = 0;
+void manual_second_control_update() {
+	manual_control_brushless_update();
+	
+	//Gripper servo
+	if (button_hitted[BUTTON_XBC_Y]){
+		buzzer_play_song(HIGH_BEEP, 125, 0);
+		gripper_down = !gripper_down;
+		gripper_control(THIS_GRIPPER, gripper_down);
+	}
+	//Gripper push
+	if (button_hitted[BUTTON_XBC_B]){
+		buzzer_play_song(HIGH_BEEP, 125, 0);
+		gripper_extended = !gripper_extended;
+		gripper_push_control(THIS_GRIPPER, gripper_extended);
+	}
+	//Gripper claw
+	if (button_hitted[BUTTON_XBC_A]){
+		buzzer_play_song(HIGH_BEEP, 125, 0);
+		gripper_clawed = !gripper_clawed;
+		gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+	}
+}
+
+void manual_brushless_inc_step(){
+	buzzer_play_song(BEEP, 75, 0);
+	if (brushless_power_percent < 100){
+		brushless_power_percent += BRUSHLESS_POWER_STEP;
+	}
+	if (brushless_power_percent == (20 + BRUSHLESS_POWER_STEP)){
+		brushless_power_percent += BRUSHLESS_POWER_STEP;
+	}
+}
+
+void manual_brushless_dec_step(){
+	buzzer_play_song(BEEP, 75, 0);
+	if (brushless_power_percent > 20){
+		brushless_power_percent -= BRUSHLESS_POWER_STEP;
+	}
+}
+
+void manual_control_brushless_update(){
+	//Brushless power control, one hit
+	if (button_hitted[BUTTON_XBC_RB]){
+		brushless_last_press_inc_flag = true;
+		brushless_pressed_ticks = this_loop_ticks;
+		brushless_counted_ticks = 0;
+		manual_brushless_inc_step();
+	}
+	
+	if (button_hitted[BUTTON_XBC_LB]){
+		brushless_last_press_inc_flag = false;
+		brushless_pressed_ticks = this_loop_ticks;
+		brushless_counted_ticks = 0;
+		manual_brushless_dec_step();
+	}
+	
+	//Brushless continuous control, i.e. holding
+	if (button_pressed(BUTTON_XBC_RB) && brushless_last_press_inc_flag){
+		if ((this_loop_ticks - brushless_pressed_ticks) > BRUSHLESS_START_CONTIN_TICKS && brushless_counted_ticks==0){
+			brushless_counted_ticks += BRUSHLESS_START_CONTIN_TICKS;
+			manual_brushless_inc_step();
 		}
 		
-		s16 brushless_pwm = xbc_get_joy(brushless_joy_sticks)/temp_control+20;
-		if (brushless_pwm < 0)
-			brushless_pwm = 0;
-		brushless_control(brushless_pwm, true);
-		tft_append_line("%d%", brushless_pwm);
+		if ((this_loop_ticks - brushless_pressed_ticks) > (BRUSHLESS_KEEP_CONTIN_TICKS + brushless_counted_ticks)){
+			brushless_counted_ticks += BRUSHLESS_KEEP_CONTIN_TICKS;
+			manual_brushless_inc_step();
+		}
+	}else if(button_pressed(BUTTON_XBC_LB) && !brushless_last_press_inc_flag){
+		if ((this_loop_ticks - brushless_pressed_ticks) > BRUSHLESS_START_CONTIN_TICKS && brushless_counted_ticks==0){
+			brushless_counted_ticks += BRUSHLESS_START_CONTIN_TICKS;
+			manual_brushless_dec_step();
+		}
 		
-	}else if (button_pressed(BUTTON_XBC_R_JOY)){
-		brushless_lock = UNLOCKED;
-		brushless_lock_timeout = 0;
-	}else{
-		brushless_control(0, true);
-		brushless_pressed_time = 0;
+		if ((this_loop_ticks - brushless_pressed_ticks) > (BRUSHLESS_KEEP_CONTIN_TICKS + brushless_counted_ticks)){
+			brushless_counted_ticks += BRUSHLESS_KEEP_CONTIN_TICKS;
+			manual_brushless_dec_step();
+		}
 	}
+	
+	brushless_control(brushless_power_percent, true);
+	tft_append_line("%d", brushless_power_percent);
 	
 	// brushless arm
-	if (button_pressed(BUTTON_XBC_E)){
-		brushless_servo_val += BRUSHLESS_SERVO_STEP;
+	if (xbc_get_joy(XBC_JOY_RX)>450){
+		if (xbc_get_joy(XBC_JOY_RX)>750){
+			brushless_servo_val += BRUSHLESS_SERVO_LARGE_STEP;
+		}else{
+			brushless_servo_val += BRUSHLESS_SERVO_SMALL_STEP;
+		}
 		if (brushless_servo_val > 140)
 			brushless_servo_val = 140;
 		brushless_servo_control(brushless_servo_val);
 	}
-	if (button_pressed(BUTTON_XBC_W)){
-		brushless_servo_val -= BRUSHLESS_SERVO_STEP;
+	if (xbc_get_joy(XBC_JOY_RX)<-450){
+		if (xbc_get_joy(XBC_JOY_RX)<-750){
+			brushless_servo_val -= BRUSHLESS_SERVO_LARGE_STEP;
+		}else{
+			brushless_servo_val -= BRUSHLESS_SERVO_SMALL_STEP;
+		}
 		if (brushless_servo_val < -140)
 			brushless_servo_val = -140;
 		brushless_servo_control(brushless_servo_val);
 	}
 	
-	if (button_pressed(BUTTON_XBC_N)){
+	if ((get_ir_dis() < IR_ORIGINAL_TARGET_DIS) && (xbc_get_joy(XBC_JOY_RY)>-100)){
 		raise_arm();
-		tft_append_line("RAISING ARM");
-	}else if (button_pressed(BUTTON_XBC_S)){
-		lower_arm();
-		tft_append_line("LOWERING ARM");
-	}else {
-		stop_arm();
-	}
-	encoder_val = get_encoder_count(ENCODER2);
-	
-	//gripper controls
-	for (u8 i=0; i < GRIPPER_COUNT; i++) {
-		if (button_pressed(gripper_buttons[i])) {
-			if (press_gripper_buttons[i] == UNLOCKED) {
-				press_gripper_buttons[i] = LOCKED;
-				gripper_states[i] = (gripper_states[i] + 1) % GRIPPER_STATES_NO;
-				
-				switch (gripper_states[i]) {
-					case 0: //Default state
-						gripper_control((GRIPPER_ID)i, 0); //Down
-						gripper_ticks[3+i*4] = get_full_ticks() + 1000; //pneumatic 2 hi; pushed out
-						break;
-					case 1: //Collect propeller
-						gripper_ticks[0+i*4] = get_full_ticks() + 200; //pneumatic 1 lo; close claw
-						gripper_ticks[2+i*4] = get_full_ticks() + 500; //pneumatic 2 lo; retract
-						break;
-					case 2: //Upright
-						gripper_control((GRIPPER_ID)i, 1); //Up
-						gripper_ticks[3+i*4] = get_full_ticks() + 1800; //pneumatic 2 hi; pushed out 
-						break;
-					case 3: //Chaiyo
-						gripper_ticks[2+i*4] = get_full_ticks() + 200; //pneumatic 2 lo; retract
-						gripper_ticks[1+i*4] = get_full_ticks() + 800; //pneumatic 1 hi; claw open 
-						break;
-				}
-			}
-		} else {
-			press_gripper_buttons[i] = UNLOCKED;
-		}
-	}
-	
-	for (u8 i=0; i<8; i++) {
-		if(Abs(get_full_ticks() - gripper_ticks[i]) <= GRIPPER_TICKS_THRESHOLD) {
-			GPIO gripper_ticks_port;
-			switch ((int)(i/2)) {
-				case 0: //left claw
-					gripper_ticks_port = PD10;
-					break;
-				case 1: //left push
-					gripper_ticks_port = PD11;
-					break;
-				case 2: //right claw
-					gripper_ticks_port = PD8;
-					break;
-				case 3: //right push
-					gripper_ticks_port = PD9;
-					break;
-			}
-			if (i%2) {
-				pneumatic_off(&gripper_ticks_port);
-			} else {
-				pneumatic_on(&gripper_ticks_port);
-			}
-		}
-	}
-	
-	/*
-	** This part is related to climbing mechanism
-	** Hold button A to climb up
-	** Hold button Y to descend
-	** While climbing, the ground wheels should be locked
-	*/
-	if (button_pressed(BUTTON_XBC_A) && !gpio_read_input(&PE3)){
-		climb_continue();
-		climbing_induced_ground_lock = LOCKED;
-		tft_append_line("CLIMBING");
-	}else	if (button_pressed(BUTTON_XBC_Y)){
-		/*
-		descend_continue();
-		climbing_induced_ground_lock = LOCKED;
-		tft_append_line("DESCENDING");
-		*/
-		temp_control = 20;
 	}else{
-		stop_climbing();
-		climbing_induced_ground_lock = UNLOCKED;
-	}
-	
-	/*
-	** This part deals with locking the robot onto the pole.
-	*/
-	if (button_pressed(BUTTON_XBC_B)){
-		if (press_button_B == UNLOCKED){
-			press_button_B = LOCKED;
-			pneumatic_climb_toggle();
+		if (xbc_get_joy(XBC_JOY_RY)>700){
+			raise_arm();
+			tft_append_line("RAISING ARM");
+		}else if (xbc_get_joy(XBC_JOY_RY)<-700){
+			lower_arm();
+			tft_append_line("LOWERING ARM");
+		}else {
+			stop_arm();
 		}
-	}else{
-		press_button_B = UNLOCKED;
 	}
+}
+
+
+void manual_controls_update() {
+	manual_control_brushless_update();
 }

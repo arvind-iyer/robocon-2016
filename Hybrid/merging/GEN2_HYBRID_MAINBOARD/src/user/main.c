@@ -50,30 +50,29 @@ int main(void) {
 			continue;
 		}
 		
-		if ((this_loop_ticks - last_short_loop_ticks)>5){
+		CONTROL_STATE control_state = get_control_state();
+		if ((this_loop_ticks - last_short_loop_ticks) > SHORT_LOOP_TICKS){
 			//Update the pressed state of the buttons
 			button_update();
 			//Get state for manual/auto and emergency lock
 			xbc_global_update();
-			last_short_loop_ticks = this_loop_ticks;
-		}
-		
-		//Deal with switching control, reseting the control
-		CONTROL_STATE control_state = get_control_state();
-		if (control_state != last_control_state){
-			if (control_state == MANUAL_MODE){
-				manual_reset();
-			}else{
-				auto_init();
+			//Deal with switching control, reseting the control
+			if (control_state != last_control_state){
+				if (control_state == MANUAL_MODE){
+					manual_reset();
+				}else{
+					auto_init();
+				}
 			}
-		}
-		last_control_state = control_state;
+			last_control_state = control_state;
 
-		if (get_emergency_lock() == UNLOCKED){
-			//Update with short interval here
-			if (control_state == MANUAL_MODE){
-					//manual_fast_update();
+			if (get_emergency_lock() == UNLOCKED){
+				//Update with short interval here
+				if (control_state == MANUAL_MODE){
+						manual_fast_update();
+				}
 			}
+			last_short_loop_ticks = this_loop_ticks;
 		}
 		
 		if ((this_loop_ticks - last_long_loop_ticks)>LONG_LOOP_TICKS){
