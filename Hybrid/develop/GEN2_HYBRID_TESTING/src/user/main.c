@@ -16,10 +16,9 @@ int main(void) {
 	can_init();
 	can_rx_init();
 	can_motor_init();
-	uart_init(COM2, 115200);
-	uart_interrupt(COM2);
-	gyro_init();
-	manual_init();
+	//uart_init(COM2, 115200);
+	//uart_interrupt(COM2);
+	//gyro_init();
 	buzzer_init();
 	encoder_init();
 	pneumatic_init();
@@ -28,13 +27,14 @@ int main(void) {
 	can_xbc_mb_tx_enable(true);
 	gpio_init_all();
 	adc_init();
-	i2c_init();
-	pca9685_init();
+	//i2c_init();
+	//pca9685_init();
 	brushless_counter_init();
+	manual_init();
 	
 	tft_put_logo(85, 120);            
-	pneumatic_off(&PD10); //Targeting Laser
-	pneumatic_off(&PD11); //Targeting Laser
+//	pneumatic_off(&PD10); //Targeting Laser
+//	pneumatic_off(&PD11); //Targeting Laser
 	CONTROL_STATE last_control_state = MANUAL_MODE;
 	
 	while(1){
@@ -43,14 +43,6 @@ int main(void) {
 		//Dont care if same ticks
 		if (this_loop_ticks == last_loop_ticks){
 			continue;
-		}
-		
-		if ((this_loop_ticks - last_short_loop_ticks)>SHORT_LOOP_TICKS){
-			//Update the pressed state of the buttons
-			button_update();
-			//Get state for manual/auto and emergency lock
-			xbc_global_update();
-			last_short_loop_ticks = this_loop_ticks;
 		}
 		
 		//Deal with switching control, reseting the control
@@ -63,12 +55,21 @@ int main(void) {
 			}
 		}
 		last_control_state = control_state;
-
-		if (get_emergency_lock() == UNLOCKED){
-			//Update with short interval here
-			if (control_state == MANUAL_MODE){
-				manual_fast_update();
+		
+		if ((this_loop_ticks - last_short_loop_ticks)>SHORT_LOOP_TICKS){
+			//Update the pressed state of the buttons
+			button_update();
+			//Get state for manual/auto and emergency lock
+			xbc_global_update();
+			
+			if (get_emergency_lock() == UNLOCKED){
+				//Update with short interval here
+				if (control_state == MANUAL_MODE){
+					manual_fast_update();
+				}
 			}
+			
+			last_short_loop_ticks = this_loop_ticks;
 		}
 		
 		if ((this_loop_ticks - last_long_loop_ticks)>LONG_LOOP_TICKS){

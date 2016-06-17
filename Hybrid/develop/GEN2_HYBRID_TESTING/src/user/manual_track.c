@@ -5,8 +5,8 @@ s32 laser_target_range_increment = 0;
 u32 laser_range[2] = {0};
 u32 laser_use_range[2] = {0};
 
-bool laser_manual_update(s32 motor_vel[3]){
-	s32 w;
+bool laser_manual_update(s16 motor_vel[3]){
+	s16 w;
 	
 	//0 is the front one
 	//1 is the back one
@@ -21,14 +21,14 @@ bool laser_manual_update(s32 motor_vel[3]){
 	
 	//Rotation
 	//If laser_diff < 0, *rotate anti-clockwise
-	s32 laser_diff = laser_use_range[1] - laser_use_range[0];
+	s16 laser_diff = laser_use_range[1] - laser_use_range[0];
 	w = -(laser_diff * LASER_ROTATE_P / 1000) + (laser_diff - last_laser_diff) * LASER_ROTATE_D / 1000;
 	w = s32_cap(w, 350, -350);
 	last_laser_diff = laser_diff;
 	
 	//Perpendicular
 	u32 laser_avg = (laser_use_range[0] + laser_use_range[1])/2;
-	s32 perpend_speed = 0;
+	s16 perpend_speed = 0;
 	if (laser_avg>180){
 		//If perpend_diff>0, move further away
 		s32 perpend_diff = (LASER_TARGET_RANGE + laser_target_range_increment) - laser_avg;
@@ -38,7 +38,7 @@ bool laser_manual_update(s32 motor_vel[3]){
 		perpend_speed = 300;
 	}
 	
-	perpend_speed = s32_cap(perpend_speed, LASER_MAX_PARA_SPEED, -LASER_MAX_PARA_SPEED);
+	perpend_speed = s16_cap(perpend_speed, LASER_MAX_PARA_SPEED, -LASER_MAX_PARA_SPEED);
 	
 	//Parallel (manual part)
 	#ifdef RED_FIELD
@@ -48,7 +48,7 @@ bool laser_manual_update(s32 motor_vel[3]){
 	#endif
 	s32 parallel_speed = parallel_input * LASER_PARA_P /1000;
 	
-	acc_update(-perpend_speed, parallel_speed, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT);
+	acc_update(-perpend_speed, parallel_speed, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, false);
 	
 	if ((abs(get_pos()->x) > LASER_OFF_MIN_DISTANCE) && (laser_range[0] >= LASER_OUT_DISTANCE)){
 		return false;
@@ -57,11 +57,10 @@ bool laser_manual_update(s32 motor_vel[3]){
 	return true;
 }
 
-static s32 start_Y = 0;
-static s32 start_ticks = 0;
+static s32 start_Y = 0, start_ticks = 0;
 void limit_manual_init(){
 	start_Y = get_pos()->y;
-	start_ticks = get_full_ticks();
+	start_ticks = this_loop_ticks;
 }
 
 inline static s32 get_new_Y(){
@@ -70,21 +69,13 @@ inline static s32 get_new_Y(){
 
 
 inline static s32 get_passed_ticks(){
-	return get_full_ticks() - start_ticks;
+	return this_loop_ticks - start_ticks;
 }
 
 
 static u32 ls_hit_ticks = 0;
-u8 limit_manual_update(s32 motor_vel[3]){
-	s32 w = 0;
-	
-	if (gpio_read_input(POLE_LIMIT_SWITCH)){
-		if (ls_hit_ticks == 0){
-			ls_hit_ticks = get_full_ticks();
-		}else if(ls_hit_ticks > TICKS_AFTER_HIT_POLE){
-			return 3;
-		}
-	}
+u8 limit_manual_update(s16 motor_vel[3]){
+	s16 w = 0;
 	
 	bool limit_switch_triggered[2] = {false};
 	limit_switch_triggered[0] = gpio_read_input(WALL_1_LIMIT_SWITCH);
@@ -106,7 +97,7 @@ u8 limit_manual_update(s32 motor_vel[3]){
 		}
 	#endif
 	
-	s32 perpend_speed = 0;
+	s16 perpend_speed = 0;
 	//Perpendicular
 	if (limit_switch_triggered[0] || limit_switch_triggered[1]){
 		perpend_speed = LIMIT_PERPEND_NORM;
@@ -115,10 +106,8 @@ u8 limit_manual_update(s32 motor_vel[3]){
 	}
 	
 	//Parallel
-	s32 parallel_speed = 0;
-	if ((get_passed_ticks())<LIMIT_ACCEL_TIME){
-		parallel_speed = (get_passed_ticks())*LIMIT_PARA_CONSTANT/LIMIT_ACCEL_TIME;
-	}else if(abs(get_new_Y())>LIMIT_START_DECEL_Y){
+	s16 parallel_speed = 0;
+	if(abs(get_new_Y())>LIMIT_START_DECEL_Y){
 		if (abs(get_new_Y())>LIMIT_END_DECEL_Y){
 			parallel_speed = LIMIT_PARA_SLOW_CONSTANT + 
 			(abs(get_new_Y()) - LIMIT_START_DECEL_Y)*(LIMIT_PARA_CONSTANT-LIMIT_PARA_SLOW_CONSTANT)/(LIMIT_END_DECEL_Y-LIMIT_START_DECEL_Y);
@@ -137,7 +126,24 @@ u8 limit_manual_update(s32 motor_vel[3]){
 		perpend_speed = -perpend_speed;
 	#endif
 	
-	acc_update(parallel_speed, -perpend_speed, w, TRACK_ACC_CONSTANT, TRACK_ACC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_ACC_CONSTANT);
+	if (gpio_read_input(POLE_LIMIT_SWITCH)){
+		for (MOTOR_ID i=MOTOR1;i<=MOTOR3;i++){
+			motor_vel[i] = 0;
+			motor_loop_state[i] = OPEN_LOOP;
+			motor_set_vel(i, motor_vel[i], motor_loop_state[i]);
+		}
+		if (ls_hit_ticks == 0){
+			ls_hit_ticks = this_loop_ticks;
+		}
+	}
+	
+	if (ls_hit_ticks==0){
+		acc_update(-perpend_speed, parallel_speed, w, TRACK_ACC_CONSTANT, TRACK_ACC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_ACC_CONSTANT, false);
+	}
+	
+	if((this_loop_ticks - ls_hit_ticks) > TICKS_AFTER_HIT_POLE){
+		return 3;
+	}
 	
 	return 2;
 }

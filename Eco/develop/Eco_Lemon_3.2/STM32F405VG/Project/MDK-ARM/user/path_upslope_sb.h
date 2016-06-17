@@ -21,8 +21,8 @@
 #define RIVER_FIRST_SENSOR_BAR_BIAS 2
 
 //use the formula enc=y/(x+vel)
-#define RIVER_90_TURN_ENC_X (800/11)
-#define RIVER_90_TURN_ENC_Y (24000000/11)
+#define RIVER_90_TURN_ENC_X (800/11) //(800/11)
+#define RIVER_90_TURN_ENC_Y (36000000/11) //(24000000/11)
 #define RIVER_90_MAX_TURN_UNTIL 500
 
 void path_up_sb_init(u8 stage);

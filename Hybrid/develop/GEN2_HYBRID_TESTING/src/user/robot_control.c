@@ -74,15 +74,15 @@ void gripper_control(GRIPPER_ID gripper_id, u8 state) {
 void gripper_push_control(GRIPPER_ID gripper_id, u8 state){
 	if (state == 0) {
 		if (gripper_id == GRIPPER_1) {
-			pneumatic_on(&GRIPPER_L_PUSH_PORT);
-		} else if (gripper_id == GRIPPER_2) {
-			pneumatic_on(&GRIPPER_R_PUSH_PORT);
-		}
-	} else if (state == 1) {
-		if (gripper_id == GRIPPER_1) {
 			pneumatic_off(&GRIPPER_L_PUSH_PORT);
 		} else if (gripper_id == GRIPPER_2) {
 			pneumatic_off(&GRIPPER_R_PUSH_PORT);
+		}
+	} else if (state == 1) {
+		if (gripper_id == GRIPPER_1) {
+			pneumatic_on(&GRIPPER_L_PUSH_PORT);
+		} else if (gripper_id == GRIPPER_2) {
+			pneumatic_on(&GRIPPER_R_PUSH_PORT);
 		}
 	}
 }
@@ -91,15 +91,15 @@ void gripper_push_control(GRIPPER_ID gripper_id, u8 state){
 void gripper_claw_control(GRIPPER_ID gripper_id, u8 state){
 	if (state == 1) {
 		if (gripper_id == GRIPPER_1) {
-			pneumatic_on(&GRIPPER_L_CLAW_PORT);
-		} else if (gripper_id == GRIPPER_2) {
-			pneumatic_on(&GRIPPER_R_CLAW_PORT);
-		}
-	} else if (state == 0) {
-		if (gripper_id == GRIPPER_1) {
 			pneumatic_off(&GRIPPER_L_CLAW_PORT);
 		} else if (gripper_id == GRIPPER_2) {
 			pneumatic_off(&GRIPPER_R_CLAW_PORT);
+		}
+	} else if (state == 0) {
+		if (gripper_id == GRIPPER_1) {
+			pneumatic_on(&GRIPPER_L_CLAW_PORT);
+		} else if (gripper_id == GRIPPER_2) {
+			pneumatic_on(&GRIPPER_R_CLAW_PORT);
 		}
 	}
 }
@@ -113,6 +113,10 @@ void climb_continue(){
 	motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
 	motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
 	motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP, OPEN_LOOP);
+	
+	motor_set_vel(MOTOR1, 0, OPEN_LOOP);
+	motor_set_vel(MOTOR2, 0, OPEN_LOOP);
+	motor_set_vel(MOTOR3, 0, OPEN_LOOP);
 }
 
 /*

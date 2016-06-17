@@ -9,7 +9,7 @@
 #include "can_motor.h"
 #include "xbc_control.h"
 
-#define CLIMBING_SPEED 1250
+#define CLIMBING_SPEED 1500
 #define DESCEND_SPEED -500
 #define RAISE_ARM_SPEED 1000
 #define LOWER_ARM_SPEED -1000
@@ -24,7 +24,7 @@
 #define BRUSHLESS_SERVO_RANGE 280
 
 #define GRIPPER_MIN 400
-#define GRIPPER_MED 680 //750
+#define GRIPPER_MED 660//680 //750
 #define GRIPPER_MAX 855 //1100
 #define GRIPPER_COUNT 2
 #define GRIPPER_R_PUSH_PORT PD11
