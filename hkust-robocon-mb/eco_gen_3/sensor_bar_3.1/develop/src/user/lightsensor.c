@@ -286,6 +286,13 @@ int colorDistance(int r1, int g1, int b1, int r2, int g2, int b2)
     return Sqrt((((512 + rmean) * r * r) >> 8) + 4 * g * g + (((767 - rmean) * b * b) >> 8));
 }
 
+int colorDistance2(int r1, int g1, int b1, int r2, int g2, int b2){
+    int r = r1 - r2;
+    int g = g1 - g2;
+    int b = b1 - b2;
+    return Sqrt((r * r) + (g * g) + (b * b));
+}
+
 
 void analysisData(){
     int r = 0, g = 0, b = 0, count = 0;
@@ -312,7 +319,7 @@ void analysisData(){
     
     //Determining which zone it is on
     for(u8 i = 0; i < NUMOFAREAS ; i++){
-        int diff = colorDistance(r, g, b, calibratedRedAverage[i], calibratedGreenAverage[i], calibratedBlueAverage[i]);
+        int diff = colorDistance2(r, g, b, calibratedRedAverage[i], calibratedGreenAverage[i], calibratedBlueAverage[i]);
         if(diff < minDiff){
             currentZone = i;
             minDiff = diff;

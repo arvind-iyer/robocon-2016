@@ -46,49 +46,57 @@ int value1;
 int button_count_red = 0;
 int button_count_white = 0;
 uint32_t encoder_revolution = 0;
+int ENTER_RIVER_ENCODER = 7000;
 char gameZoneString[12]= "UNKNOWN";
 ZONE gameZone;
 ZONE expectedGameZone;
 SLOPEZONE currentSlopeZone;
 char currentSlopeZoneString[16];
 char globalStateString[16] = "UPSLOPE";
+bool retry = false;
+extern float angle_after_ninety;
+extern float angle_enter_river;
+extern bool done_turning;
+const int ANGLE_THRESHOLD = 6800;
 
 
 void initializeValues(void){
     if(button_pressed(BUTTON_RED)){
         while(button_pressed(BUTTON_RED));
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARK_RED,RED); 
-        IMU_ANGLE1 = 35;
+        IMU_ANGLE1 = -25;
         NINETY_IMU = -180;
-        LESSER_TURNING = 0;
+        LESSER_TURNING = -275;
         SLOPE_TURNING_RIGHT = 1700;
         SLOPE_TURNING_LEFT = 1200;
-        DELAY = 1000;
+        DELAY = 2000;
         side = REDSIDE;
         infrared1 = INFRARED_SENSOR_RIGHT;
         infrared2 = INFRARED_SENSOR_LEFT;
         buttonRedCount = 0;
-        NINETY_TURNING = 1750;
+        NINETY_TURNING = 1950;
         currentSlopeZone = STARTZONE;
         strcpy(currentSlopeZoneString,"STARTZONE");
+        ardu_cal_ypr[0] = (float)0;
         systemOn = 1;
     }
     else if(button_pressed(BUTTON_WHITE)){
         while(button_pressed(BUTTON_WHITE));
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARKBLUE,RED);
-        IMU_ANGLE1 = 28;
+        IMU_ANGLE1 = 25;
         NINETY_IMU = 180;
         LESSER_TURNING = 300;
         SLOPE_TURNING_RIGHT = 1700;
         SLOPE_TURNING_LEFT = 1200;
-        DELAY = 1000;
+        DELAY = 1500 ;
         side = BLUESIDE;
         infrared1 = INFRARED_SENSOR_LEFT;
         infrared2 = INFRARED_SENSOR_RIGHT;
         buttonWhiteCount = 0;
-        NINETY_TURNING = 1200;
+        NINETY_TURNING = 1250;
         currentSlopeZone = STARTZONE;
         strcpy(currentSlopeZoneString,"STARTZONE");
+		ardu_cal_ypr[0] = (float)0;
         systemOn = 1;
     }
 }
@@ -140,6 +148,14 @@ void fill_sensorbar_array(){
     }
 }
 
+int getCorrectReq(){
+	int angleDiff = retry ? 90 : angle_enter_river - angle_after_ninety;
+	int req = ANGLE_THRESHOLD * int_sin(angleDiff * 10) / 10000;
+	if (angleDiff > 90) req = ANGLE_THRESHOLD + (ANGLE_THRESHOLD - req);
+    req = req > ANGLE_THRESHOLD + 200 ? ANGLE_THRESHOLD + 200 : req;
+	return req;
+}
+
 void print_data(){
     for(int i = 0; i < 16 ;i++) tft_prints(i,0,"%d",sensorbar_result[i]);
     tft_prints(0,1,"COLOR: %s",gameZoneString);
@@ -148,13 +164,13 @@ void print_data(){
     tft_prints(0,4,"GLOBAL STATE:");
     tft_prints(0,5,"%s",globalStateString);
     tft_prints(0,6,"yaw:%.2f",ardu_cal_ypr[0]);
-    tft_prints(0,7,"velo: %.2f",determine_velocity(ENCODER1));
-    tft_prints(0,8,"encoder: %d",get_minimize_count(ENCODER1));
-    tft_prints(0,9,"delta t:%d",time2 - time1);
+    tft_prints(0,7,"enc up: %d", getCorrectReq());
+    tft_prints(0,8,"encoder: %d", get_count(ENCODER1));
+    tft_prints(0,9,"delta a:%.2f",angle_enter_river - angle_after_ninety);
 }
 void printSystemOff(void){
     tft_prints(0,0,"PRESS RED / WHITE");
-    tft_prints(0,1,"e1:%d e1f:%d",get_minimize_count(ENCODER1),get_full_count(ENCODER1));
+    tft_prints(0,1,"e1:%d e2 :%d",get_minimize_count(ENCODER1),get_minimize_count(ENCODER2));
     tft_prints(0,2,"velo:%.2f",determine_velocity(ENCODER1));
     tft_prints(0,3,"zone: %s",gameZoneString);
     for(int i = 0; i < 16 ;i++) tft_prints(i,4,"%d",sensorbar_result[i]);
@@ -230,16 +246,26 @@ void goNormal(void){
                     lastMovement = (SERVO_MICROS_LEFT ) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                 }
                 else{
-                    float factor = (((begin + end)/ 2)) / (float) 16;
+                    float factor = (((begin + end)/ 2)
+											) / (float) 16;
                     lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                 }
             }
-            else if(passedDownSlope){
+            else if(passedDownSlope && (globalState != FINISH)){
                 if ((((begin + end)/ 2) + 3) > 16) {
                     lastMovement = SERVO_MICROS_RIGHT;
                 }
                 else{
                     float factor = (((begin + end)/ 2) + 3) / (float) 16;
+                    lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
+                }   
+            }
+            else if(passedDownSlope && (globalState == FINISH)){
+                if ((((begin + end)/ 2)) > 16) {
+                    lastMovement = SERVO_MICROS_RIGHT;
+                }
+                else{
+                    float factor = (((begin + end)/ 2)) / (float) 16;
                     lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                 }   
             }
@@ -261,20 +287,25 @@ void goNormal(void){
 void goNinety(void){
     switch(side){
         case REDSIDE:
-            lastMovement = NINETY_TURNING  + ((int)determine_velocity(ENCODER1) * 17);
-            if((int)ardu_cal_ypr[0] > -65){
+            lastMovement = NINETY_TURNING  /*+ ((int)determine_velocity(ENCODER1) * 20)*/;
+            if((int)ardu_cal_ypr[0] > -80){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
                 reset_encoder_1();
+								START_UP_play;
+								angle_after_ninety = ardu_cal_ypr[0];
                 globalState = NORMAL;
             }
         break;
         case BLUESIDE:
-            lastMovement = NINETY_TURNING  - ((int)determine_velocity(ENCODER1) * 17);
-            if((int)ardu_cal_ypr[0] < 65){
+            lastMovement = NINETY_TURNING  - ((int)determine_velocity(ENCODER1) * 20);
+            if((int)ardu_cal_ypr[0] < 80){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
                 reset_encoder_1();
+								START_UP_play;
+							  ardu_cal_ypr[0] = (float)0;
+								angle_after_ninety = ardu_cal_ypr[0];
                 globalState = NORMAL;
             }
         break;
@@ -288,7 +319,7 @@ void goUsingImu(void){
     servo_control(BAJAJ_SERVO,lastMovement);
     
     //Stopping condition
-    if((get_count(ENCODER1) > 15000) && !read_infrared_sensor(infrared1)){
+    if((get_count(ENCODER1) > 20000) && !read_infrared_sensor(infrared2)){
         reset_encoder_1();
         strcpy(globalStateString,"EXIT RIVER");
         START_UP_play;
@@ -296,35 +327,22 @@ void goUsingImu(void){
     }
 }
 
-
-int getLineCenter(void) {
-	int center = 0, num_samples = 0; 
-	for(int i = 0; i < 16; i++){
-		if(sensorbar_result[i]) {
-			center += i;
-			num_samples++;
-		}
-	}
-	center = 0.5+ (center / num_samples);
-	center -= 8;
-	return -center;
-}
-
 void goStraightLittleBit(void){
     switch(side){
         case BLUESIDE:
-            lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING + (int)determine_velocity(ENCODER1) * 0;
+            lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
             break;
         case REDSIDE:
-            lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING - (int)determine_velocity(ENCODER1) * 0;
+            lastMovement = SERVO_MICROS_MID + (int)LESSER_TURNING;
             break;
     } 
     servo_control(BAJAJ_SERVO, lastMovement);
     //Stopping condition
-    if(get_count(ENCODER1) > 6000){
+    if(get_count(ENCODER1) > 2000){
         passedRiver = 1;
         strcpy(globalStateString,"AFTER RIVER");
         reset_encoder_1();
+        START_UP_play;
         globalState = NORMAL;
     }
 }
@@ -422,7 +440,9 @@ void runUserInterface(void){
                     buttonRedCount = 0;    
                 break;
             }
+			START_UP_play;
             button_count_red = 0;
+			ardu_cal_ypr[0] = (float)0;
         }
     }
     
@@ -439,7 +459,7 @@ void runUserInterface(void){
                     reset_encoder_1();
                     IMU_ANGLE1 = -85;
                     strcpy(globalStateString,"BEFORE RIVER");
-                    START_UP_play;
+					START_UP_play;
                     buttonWhiteCount++;
                 break;
                 case 1:
@@ -448,24 +468,41 @@ void runUserInterface(void){
                     passedDownSlope = 0;
                     globalState = NORMAL;
                     strcpy(globalStateString,"AFTER RIVER");
-                    START_UP_play;
+					START_UP_play;
                     buttonWhiteCount++;
                 break;
                 case 2:
                     fullWhite = 1;
                     passedRiver = 0;
-                    passedDownSlope = 0;      
-                    START_UP_play;
+                    passedDownSlope = 0;                
                     buttonWhiteCount = 0;
+					START_UP_play;
                     IMU_ANGLE1 = -50;
                 break;    
             }
             currentSlopeZone = FINISHEDSLOPE;
             strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
             button_count_white = 0;
+			retry = true;
         }
     }
 }
+
+void escapeFirstIsland(void){
+    if(!done_turning && get_minimize_count(ENCODER1) > 5){
+        CLICK_MUSIC;
+        servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 45);
+        reset_encoder_1();
+        done_turning = true;
+    }
+    if(done_turning && get_minimize_count(ENCODER1) > 13) {
+        START_UP_play;
+        servo_control(BAJAJ_SERVO, 1000);
+        reset_encoder_1();
+        globalState = RIVERING;
+    }
+}
+
 
 
 

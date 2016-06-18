@@ -46,7 +46,7 @@
 //STAGE5: FINISH
 
 //Function enumerations(Please do not change these)
-enum{NORMAL = 0, NINETY = 1, RIVERING = 2, EXIT_RIVER = 3, ENTER_RIVER = 4 , DOWN_SLOPE = 5, FINISH = 6};
+enum{NORMAL = 0, NINETY = 1, RIVERING = 2, EXIT_RIVER = 3, ENTER_RIVER = 4 , DOWN_SLOPE = 5, FINISH = 6, ESCAPEFIRSTISLAND = 7};
 
 enum{LEFT_SIDE = 5, RIGHT_SIDE = 6};
 
@@ -177,12 +177,10 @@ void determineZone(void);
 */
 void runUserInterface(void);
 
-/*
-* @desc: Returns the central position of the line as read by the sensor bar
-* @param: void
-* @retval: int, ranges from -8 to +8 where 0 implies line is at the center of the bar -8 is left most and 8 is right
-*/
-int getLineCenter(void);
+//Develop: new functions
+void escapeFirstIsland(void);
+
+int getCorrectReq();
 #endif
 
 

@@ -319,7 +319,7 @@ void analysisData(){
     
     //Determining which zone it is on
     for(u8 i = 0; i < NUMOFAREAS ; i++){
-        int diff = colorDistance2(r, g, b, calibratedRedAverage[i], calibratedGreenAverage[i], calibratedBlueAverage[i]);
+        int diff = colorDistance(r, g, b, calibratedRedAverage[i], calibratedGreenAverage[i], calibratedBlueAverage[i]);
         if(diff < minDiff){
             currentZone = i;
             minDiff = diff;

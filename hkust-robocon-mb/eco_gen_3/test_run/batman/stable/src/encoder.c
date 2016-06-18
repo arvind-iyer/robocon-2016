@@ -124,17 +124,17 @@ void reset_encoder_1(){
 void reset_encoder_2(){
     TIM_SetCounter(ENCODER_TIMER2,10);
 }
-
+ 
 void reset_full_encoder_1(){
     full_count = 0;
 }
 
 float determine_velocity(ENCODER ENCODERx){
     //Get start and end values for every 500ms
-    if(get_full_ticks() % 500 == 0){
+    if(get_full_ticks() % 250 == 0){
         start_enc = get_full_count(ENCODERx);
     }   
-    if(get_full_ticks() % 500 == 250){
+    if(get_full_ticks() % 250 == 125){
         end_enc = get_full_count(ENCODERx);
     }
     //count velo only if end is larger or the same than start

@@ -18,7 +18,7 @@
 #define scalar 1000
 #define NUMOFAREAS 6
 #define NUMCALI 4
-#define SATOFFSET 40
+#define SATOFFSET 30
 #define HUEOFFSET 30
 #define VALUEOFFSET 18
 
