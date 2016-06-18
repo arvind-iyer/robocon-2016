@@ -413,7 +413,7 @@ void laserPID() {
 				if(!semiAuto) {
 					if(get_pos()->y > yCoordSystem * 0.35 && get_pos()->y < yCoordSystem * 0.45) setBrushlessMagnitude(15); //TEST FIELD 18
 					if(get_pos()->y > yCoordSystem * 0.45 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(10); //TEST FIELD 12
-					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.85) setBrushlessMagnitude(26); //TEST FIELD 15
+					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.85) setBrushlessMagnitude(18); //TEST FIELD 15
 					if(get_pos()->y > yCoordSystem * 0.95) setBrushlessMagnitude(14);
 				}
 				parseWheelbaseValues();
