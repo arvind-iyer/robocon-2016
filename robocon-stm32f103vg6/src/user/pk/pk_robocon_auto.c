@@ -19,6 +19,7 @@ int getTimer() {
 }
 
 void auto_PREPARATION() {
+	//auto_state = 0;
 	tick = get_full_ticks();
 	currMode = MANUAL;
 	pneumatics.P1 = PNEUMATIC_POLE_RELEASE;
@@ -96,6 +97,8 @@ void auto_LOWER_ARM() {
 
 void auto_RESTORE() {
 	pneumatics.P2 = PNEUMATIC_SLIDER_OUT;
+	auto_state = PREPARATION;
+	currMode = MANUAL;
 }
 
 void auto_next() {

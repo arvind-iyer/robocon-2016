@@ -47,6 +47,7 @@ int main(void)
 	menu_add("Manual", manual_control);
 	menu_add("Semi Auto", semi_auto_control);
 	menu_add("Auto", auto_control);
+	menu_add("Backup Auto", backup_auto_control);
 	menu_add("Your program", robocon_main);
 	menu_add("Position test", position_test);
 	menu_add("POS Shift", shift_test);

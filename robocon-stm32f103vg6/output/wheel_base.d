@@ -57,6 +57,7 @@
 .\output\wheel_base.o: src\user\pk/control.h
 .\output\wheel_base.o: src\user\pk/pk_manual.h
 .\output\wheel_base.o: src\user\pk/pk_brushless.h
+.\output\wheel_base.o: src\user\pk/pk_robocon_auto.h
 .\output\wheel_base.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\wheel_base.o: src\user\log.h
 .\output\wheel_base.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

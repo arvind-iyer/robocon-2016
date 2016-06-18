@@ -28,6 +28,7 @@
 #include "pk/hybrid_pneumatic.h"
 #include "pk/hybrid_gpio.h"
 #include "pk/control.h"
+#include "pk/pk_robocon_auto.h"
 
 /*** Optional ***/
 #include "can_protocol.h"
@@ -65,7 +66,8 @@ typedef enum {
 	FIRSTPOS,
 	AUTORETRY,
 	WAITRETRY,
-	RETRYCHECK
+	RETRYCHECK,
+	CLIMBING
 } STATEMODES;
 
 typedef enum {
@@ -83,7 +85,5 @@ extern STAGES currStage;
 extern STATEMODES currMode;
 
 extern int timeSinceButtonPressed;
-
-extern bool climbing;
 
 #endif	/* __ROBOCON_H */

@@ -154,6 +154,7 @@ void manual_control () {
 	}
 	if(button_pressed(BUTTON_XBC_S) && !listening){
 		listening = true;
+		allowArm = false;
 		allow4thUpdate = !allow4thUpdate;
 	}
 	else if(button_released(BUTTON_XBC_S) && listening){
@@ -182,13 +183,14 @@ void manual_control () {
 			setBrushlessMagnitude(0);
 			if(currMode == MANUAL) {
 				allowArm = false;
+				climbingState = PREPARATION;
 				currMode = POLELASER;
 			}
 			else if (currMode == POLELASER) {
 				currMode = MANUAL;
 			}
 			listening = true;
-			climbing = false;
+			climbingState = PREPARATION;
 			slowdownDelay = get_full_ticks();
 			if(pneumatics.P1 != true) {
 				pneumatics.P1 = true;
@@ -226,6 +228,8 @@ void manual_control () {
 			setBrushlessMagnitude(0);
 			sendArmCommand(0);
 			currMode = MANUAL;
+			climbingState = PREPARATION;
+			allowArm = false;
 		}
 		else if(button_released(BUTTON_XBC_START) && listening) {
 			listening = false;

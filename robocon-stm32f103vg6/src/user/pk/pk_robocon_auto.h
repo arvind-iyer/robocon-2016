@@ -19,6 +19,7 @@ enum auto_state {
 	MOVE_TO_POLE = 1,
 	RAM_POLE = 2,
 	GRIP_POLE = 3,
+	GRAB_PROPELLER = 999,
 	CLIMB_POLE = 4,
 	RAISE_ARM = 4,
 	INSTALL_PROPELLER = 5,

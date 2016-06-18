@@ -52,6 +52,7 @@
 .\output\manual.o: src\user\pk/control.h
 .\output\manual.o: src\user\pk/pk_manual.h
 .\output\manual.o: src\user\pk/pk_brushless.h
+.\output\manual.o: src\user\pk/pk_robocon_auto.h
 .\output\manual.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\manual.o: .\src\ustrobo_min_system\inc\bluetooth.h
 .\output\manual.o: .\src\ustrobo_min_system\inc\crc.h

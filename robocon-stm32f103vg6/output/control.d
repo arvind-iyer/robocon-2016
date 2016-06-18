@@ -51,6 +51,7 @@
 .\output\control.o: .\src\ustrobo_min_system\inc\encoder.h
 .\output\control.o: .\src\ustrobo_min_system\inc\ultrasonic_mb.h
 .\output\control.o: .\src\user\laser_sensor.h
+.\output\control.o: .\src\user\pk/pk_robocon_auto.h
 .\output\control.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\control.o: .\src\ustrobo_min_system\inc\bluetooth.h
 .\output\control.o: .\src\ustrobo_min_system\inc\crc.h

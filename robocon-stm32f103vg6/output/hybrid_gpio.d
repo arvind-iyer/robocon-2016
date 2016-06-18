@@ -53,6 +53,7 @@
 .\output\hybrid_gpio.o: .\src\user\pk/control.h
 .\output\hybrid_gpio.o: .\src\user\pk/pk_manual.h
 .\output\hybrid_gpio.o: .\src\user\pk/pk_brushless.h
+.\output\hybrid_gpio.o: .\src\user\pk/pk_robocon_auto.h
 .\output\hybrid_gpio.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\hybrid_gpio.o: .\src\ustrobo_min_system\inc\bluetooth.h
 .\output\hybrid_gpio.o: .\src\ustrobo_min_system\inc\crc.h

@@ -58,6 +58,7 @@
 .\output\main.o: .\src\user\pk/control.h
 .\output\main.o: .\src\user\pk/pk_manual.h
 .\output\main.o: .\src\user\pk/pk_brushless.h
+.\output\main.o: .\src\user\pk/pk_robocon_auto.h
 .\output\main.o: .\src\user\wheel_base.h
 .\output\main.o: .\src\user\wheel_base_pid.h
 .\output\main.o: .\src\user\wheel_base.h

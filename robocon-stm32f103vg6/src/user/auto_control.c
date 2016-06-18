@@ -1,6 +1,76 @@
 #include "auto_control.h"
 
 bool au_listening = false, au_holdListening = false, au_brushlessListening = false;
+bool backup = false;
+
+void backup_auto_control() {
+	tft_init(0, BLACK, WHITE, SKY_BLUE);
+	pk_init();
+	pneumatics.P3 = true;
+	pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
+	allow4thUpdate = true;
+	backup = true;
+	//allowArm = true;
+	while (1) {
+		if (can_xbc_get_connection() != CAN_XBC_ALL_CONNECTED) {
+			wheelbaseLock();
+		}
+		if (return_listener()) {
+			wheelbaseLock();
+			return;
+		}
+		dataSampling();
+		reset();
+		switch (currMode) {
+		case MANUAL:
+			manualControl();
+			break;
+		case FIRSTPOS:
+			//moveToFirstPosition();
+			backupFirstPosition();
+			break;
+		case LASERPID:
+			laserPID();
+			break;
+		case POLELASER:
+			enterPole();
+			break;
+		case APPROACHWALL:
+			moveToWall();
+			break;
+		case PIDMODE:
+			updateQueue();
+			break;
+		case AUTORETRY:
+			retryAutoPath();
+			break;
+		case WAITRETRY:
+			retryProcedureCheck();
+			break;
+		case RETRYCHECK:
+			waitingForRetry();
+			break;
+	}
+
+		robotUpdate();
+
+		if (get_full_ticks() % 10 == 0) {
+			autoControlScreenUpdater();
+			hybridPneumaticControl();
+		}
+		if (get_full_ticks() % 3 == 0) {
+			limitSwitchCheck();
+			button_update();
+			autoControlListener();
+			sendWheelbaseCommand();
+			if (allowArm) {
+				armIr = gpio_read_input(&PE8);
+				armUpdate();
+			}
+		}
+
+	}
+}
 
 void auto_control() {
 	tft_init(0, BLACK, WHITE, SKY_BLUE);
@@ -47,8 +117,6 @@ void auto_control() {
 			break;
 		case RETRYCHECK:
 			waitingForRetry();
-			break;
-		default:
 			break;
 	}
 
@@ -188,6 +256,7 @@ void autoControlListener() {
 	}
 	if (button_pressed(BUTTON_XBC_S) && !au_listening) {
 		au_listening = true;
+		allowArm = false;
 		allow4thUpdate = !allow4thUpdate;
 	} else if (button_released(BUTTON_XBC_S) && au_listening) {
 		au_listening = false;
@@ -206,7 +275,7 @@ void autoControlListener() {
 		if (currMode == MANUAL) {
 			//allowArm = true;
 			timeSinceButtonPressed = get_full_ticks();
-			setBrushlessMagnitude(robotMode == RED_SIDE ? 7 : 7);
+			if(!backup) setBrushlessMagnitude(robotMode == RED_SIDE ? 7 : 7);
 			currMode = FIRSTPOS;
 		} else {
 			currMode = MANUAL;
@@ -227,11 +296,12 @@ if (button_pressed(BUTTON_XBC_X) && !au_listening) {
 		if (currMode == MANUAL) {
 			allowArm = false;
 			currMode = POLELASER;
+			climbingState = PREPARATION;
 		} else if (currMode == POLELASER) {
 			currMode = MANUAL;
 		}
 		au_listening = true;
-		climbing = false;
+		climbingState = PREPARATION;
 		slowdownDelay = get_full_ticks();
 		if (pneumatics.P1 != true) {
 			pneumatics.P1 = true;
@@ -267,7 +337,8 @@ if (button_pressed(BUTTON_XBC_X) && !au_listening) {
 		setBrushlessMagnitude(0);
 		sendArmCommand(0);
 		currMode = MANUAL;
-		climbing = false;
+		climbingState = PREPARATION;
+		allowArm = false;
 	} else if (button_released(BUTTON_XBC_START) && au_listening) {
 		au_listening = false;
 	}

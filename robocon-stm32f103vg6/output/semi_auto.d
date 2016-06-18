@@ -52,6 +52,7 @@
 .\output\semi_auto.o: src\user\pk/control.h
 .\output\semi_auto.o: src\user\pk/pk_manual.h
 .\output\semi_auto.o: src\user\pk/pk_brushless.h
+.\output\semi_auto.o: src\user\pk/pk_robocon_auto.h
 .\output\semi_auto.o: .\src\ustrobo_min_system\inc\servo.h
 .\output\semi_auto.o: .\src\ustrobo_min_system\inc\bluetooth.h
 .\output\semi_auto.o: .\src\ustrobo_min_system\inc\crc.h

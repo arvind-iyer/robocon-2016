@@ -161,6 +161,7 @@ void semiAutoListener() {
 	}
 	if (button_pressed(BUTTON_XBC_S) && !s_listening) {
 		s_listening = true;
+		allowArm = false;
 		allow4thUpdate = !allow4thUpdate;
 	} else if (button_released(BUTTON_XBC_S) && s_listening) {
 		s_listening = false;
@@ -191,12 +192,13 @@ void semiAutoListener() {
 		setBrushlessMagnitude(0);
 		if (currMode == MANUAL) {
 			currMode = POLELASER;
+			climbingState = PREPARATION;
 			allowArm = false;
 		} else if (currMode == POLELASER) {
 			currMode = MANUAL;
 		}
 		s_listening = true;
-		climbing = false;
+		climbingState = PREPARATION;
 		slowdownDelay = get_full_ticks();
 		if (pneumatics.P1 != true) {
 			pneumatics.P1 = true;
@@ -232,6 +234,8 @@ void semiAutoListener() {
 		setBrushlessMagnitude(0);
 		sendArmCommand(0);
 		currMode = MANUAL;
+		allowArm = false;
+		climbingState = PREPARATION;
 	} else if (button_released(BUTTON_XBC_START) && s_listening) {
 		s_listening = false;
 	}

@@ -57,6 +57,7 @@
 .\output\system_test.o: .\src\user\pk/control.h
 .\output\system_test.o: .\src\user\pk/pk_manual.h
 .\output\system_test.o: .\src\user\pk/pk_brushless.h
+.\output\system_test.o: .\src\user\pk/pk_robocon_auto.h
 .\output\system_test.o: .\src\user\wheel_base.h
 .\output\system_test.o: .\src\user\wheel_base_pid.h
 .\output\system_test.o: .\src\user\wheel_base.h

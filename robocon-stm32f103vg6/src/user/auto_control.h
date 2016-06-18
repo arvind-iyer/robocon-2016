@@ -7,5 +7,6 @@
 void autoControlScreenUpdater(void);
 void autoControlListener(void);
 void auto_control(void);
+void backup_auto_control(void);
 
 #endif

@@ -259,10 +259,10 @@ void updateQueue () {
 				}
 				else if(currentPath.position.y == savedY) {
 					if(dt >= 0 && dt < time *3 / 4) {
-						setBrushlessMagnitude(8);
+						setBrushlessMagnitude(12); //8
 					}
 					else {
-						setBrushlessMagnitude(23);
+						setBrushlessMagnitude(18); //23
 					}
 				}
 				

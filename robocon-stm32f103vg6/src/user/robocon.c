@@ -18,7 +18,6 @@ bool START_ZONE_2 = false;
 //Variables for certain mode triggers
 bool allowArm = false; // false
 bool benUpdate = false;
-bool climbing = false;
 
 int timeSinceButtonPressed = 0;
 
@@ -42,27 +41,35 @@ void robocon_main(void) {
 		case MANUAL:
 			manualControl();
 			break;
-		case FIRSTPOS:
-			backupFirstPosition();
-			//moveToFirstPosition();
-			break;
-		case LASERPID:
-			laserPID();
-			break;
-		case POLELASER:
-			enterPole();
-			break;
-		case APPROACHWALL:
-			moveToWall();
-			break;
-		case PIDMODE:
-			updateQueue();
-			break;
-		case AUTORETRY:
-			retryAutoPath();
-		break;
-		default:
-			break;
+			case FIRSTPOS:
+				//moveToFirstPosition();
+				backupFirstPosition();
+				break;
+			case LASERPID:
+				laserPID();
+				break;
+			case POLELASER:
+				enterPole();
+				break;
+			case APPROACHWALL:
+				moveToWall();
+				break;
+			case PIDMODE:
+				updateQueue();
+				break;
+			case AUTORETRY:
+				retryAutoPath();
+				break;
+			case WAITRETRY:
+				retryProcedureCheck();
+				break;
+			case RETRYCHECK:
+				waitingForRetry();
+				break;
+			case CLIMBING:
+				auto_execute();
+				break;
+			
 		}
 //		if (manualMode) {
 //			lockBearing(LOCK);
@@ -85,6 +92,12 @@ void robocon_main(void) {
 			controllerInputUpdate();
 			limitSwitchCheck();
 			sendWheelbaseCommand();
+		}
+		if(get_full_ticks() %200 == 0) {
+			CAN_MESSAGE txMsg;
+			txMsg.id = 0x301;
+			txMsg.length = 0;
+			can_tx_enqueue(txMsg);
 		}
 	}
 }
@@ -299,13 +312,14 @@ void controllerInputUpdate() {
 	if (button_pressed(BUTTON_XBC_A) && !m_listener) {
 		setBrushlessMagnitude(0);
 		if (currMode == MANUAL) {
+			climbingState = PREPARATION;
 			currMode = POLELASER;
 		} else if (currMode == POLELASER) {
 			currMode = MANUAL;
 		}
 		slowdownDelay = get_full_ticks();
 		m_listener = true;
-		climbing = false;
+		climbingState = PREPARATION;
 		if (pneumatics.P1 != true) {
 			pneumatics.P1 = true;
 			pneumatic_control(GPIOE, GPIO_Pin_15, pneumatics.P1);
