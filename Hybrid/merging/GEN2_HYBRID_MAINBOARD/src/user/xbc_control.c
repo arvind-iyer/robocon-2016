@@ -31,6 +31,16 @@ void xbc_global_update(){
 		}
 		last_connection_state = this_connection_state;
 	}
+	
+	if (button_hitted[BUTTON_XBC_XBOX]){
+		if (current_control_state == MANUAL_MODE){
+			current_control_state = AUTO_MODE;
+			buzzer_play_song(BEEP, 100, 0);
+		}else{
+			current_control_state = MANUAL_MODE;
+			buzzer_play_song(BEEP, 100, 0);
+		}
+	}
 }
 
 void xbc_input_update(){

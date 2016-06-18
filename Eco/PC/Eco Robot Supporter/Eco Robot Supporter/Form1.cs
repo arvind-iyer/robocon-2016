@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace Eco_Robot_Supporter {
     public partial class Main : Form {
 
-        private SerialPort port;
+        public SerialPort port;
         private Panel[,,] colorBoxes;
         private Label[,] labels;
         public Config config = new Config();
@@ -42,7 +42,7 @@ namespace Eco_Robot_Supporter {
         }
 
         private void but_connect_2_Click(object sender, EventArgs e) {
-            port = new SerialPort("COM18", 115200, Parity.None, 8, StopBits.One);
+            port = new SerialPort("COM21", 115200, Parity.None, 8, StopBits.One);
             openPort();
         }
 
@@ -106,6 +106,10 @@ namespace Eco_Robot_Supporter {
         private void but_load_Click(object sender, EventArgs e) {
             FileHandle fileHandle = new FileHandle(this);
             fileHandle.loadConfig();
+        }
+
+        private void but_pass_Click(object sender, EventArgs e) {
+
         }
     }
 }

@@ -10,6 +10,7 @@
 #include "path.h"
 #include "buzzer.h"
 #include "sensor_bar.h"
+#include "comm.h"
 
 #define NUMBER_OF_COLOR 6
 

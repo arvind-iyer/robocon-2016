@@ -19,7 +19,7 @@ GAME_STAGE sb_cali_update(){
 	
 	tft_println(colors_string[region_index]);
 	tft_println("REG: %d TIME: %d", region_index, cali_in_each_region);
-	tft_println("%d %d", compensated_region_color[0][0], region_color_average[0][0]);
+	tft_println("REPLACED: %d", received_color_count);
 	
 //	while(1){
 //		tft_clear();

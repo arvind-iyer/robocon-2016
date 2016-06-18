@@ -58,9 +58,11 @@ bool laser_manual_update(s16 motor_vel[3]){
 }
 
 static s32 start_Y = 0;
+static u32 ls_hit_ticks = 0;
 //static s32 start_ticks = 0;
 void limit_manual_init(){
 	start_Y = get_pos()->y;
+	ls_hit_ticks = 0;
 //	start_ticks = this_loop_ticks;
 }
 
@@ -74,7 +76,6 @@ inline static s32 get_new_Y(){
 //}
 
 
-static u32 ls_hit_ticks = 0;
 u8 limit_manual_update(s16 motor_vel[3]){
 	s16 w = 0;
 	
@@ -109,12 +110,7 @@ u8 limit_manual_update(s16 motor_vel[3]){
 	//Parallel
 	s16 parallel_speed = 0;
 	if(abs(get_new_Y())>LIMIT_START_DECEL_Y){
-		if (abs(get_new_Y())>LIMIT_END_DECEL_Y){
-			parallel_speed = LIMIT_PARA_SLOW_CONSTANT + 
-			(abs(get_new_Y()) - LIMIT_START_DECEL_Y)*(LIMIT_PARA_CONSTANT-LIMIT_PARA_SLOW_CONSTANT)/(LIMIT_END_DECEL_Y-LIMIT_START_DECEL_Y);
-		}else{
-			parallel_speed = LIMIT_PARA_SLOW_CONSTANT;
-		}
+		parallel_speed = LIMIT_PARA_SLOW_CONSTANT;
 	}else {
 		parallel_speed = LIMIT_PARA_CONSTANT;
 	}
@@ -140,10 +136,10 @@ u8 limit_manual_update(s16 motor_vel[3]){
 	
 	if (ls_hit_ticks==0){
 		acc_update(-perpend_speed, parallel_speed, w, TRACK_ACC_CONSTANT, TRACK_ACC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_ACC_CONSTANT, false);
-	}
-	
-	if((this_loop_ticks - ls_hit_ticks) > TICKS_AFTER_HIT_POLE){
-		return 3;
+	}else{
+		if((this_loop_ticks - ls_hit_ticks) > TICKS_AFTER_HIT_POLE){
+			return 3;
+		}
 	}
 	
 	return 2;

@@ -22,8 +22,8 @@
 #define KI 0.015
 #define RKP 1.8
 #define DEC_COEFF 8.0
-//#define WALL_CAL 4220
-#define WALL_CAL 6700
+#define WALL_CAL 4220
+//#define WALL_CAL 6700
 #define ARM_SPEED 1500
 #define LS_DIFF 400
 #define SHIFT 3.0
@@ -141,7 +141,7 @@ void auto_tar_dequeue() {
 	if (tar_end == 4)
 		cur_vel = 8;
 	if (tar_end == 5)
-		cur_vel = 60;	
+		cur_vel = 85;	
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
 	//tar_deg = tar_queue[tar_end].deg;
@@ -235,7 +235,7 @@ void auto_reset() {
 	
 	deg_ratio = 0;
 	start = 0;
-	cur_vel = 100;
+	cur_vel = 100; //initial vel
 	pid_stopped = false;
 	transform[1][0] = 0;
 	hill_cal = 1;
@@ -243,6 +243,8 @@ void auto_reset() {
 	tar_arm = 0;
 	brushless_time = 0;
 	climbing_time = 0;
+	pneumatic_off(&PB9); //Open wheels
+	pneumatic_on(&PD10); //Open claw
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -444,19 +446,20 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 void auto_pole_climb(){
 	climbing_time = auto_get_ticks() - time;
 	
-	if (climbing_time < 500) { //release motor and clamp
+	if (climbing_time < 500) { //release motor
 		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR3, 0, OPEN_LOOP);
-		pneumatic_off(&PB9);
-	} else if (climbing_time < 1000) { //re-lock motor, grip
+	} else if (climbing_time < 1000) { //clamp
+		pneumatic_on(&PB9);		
+	} else if (climbing_time < 1500) { //re-lock motor, grip
 		motor_lock(MOTOR1);
 		motor_lock(MOTOR2);
 		motor_lock(MOTOR3);
-		pneumatic_off(&PD10);
+		pneumatic_off(&PD10); //claw
 		//set brushless angle
 	} else if (climbing_time < 3000) {
-		//pneumatic_off(&PD11);
+		//pneumatic_off(&PD11); //push
 		//turn on brushless
 		motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
 		motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
@@ -536,15 +539,15 @@ void auto_robot_control(void) {
 		brushless_servo_control(0);
 		brushless_control(40, true);
 		if (auto_get_ticks() - brushless_time > 3000)
-			brushless_control(55, true);
+			brushless_control(50, true);
 		if (auto_get_ticks() - brushless_time > 4000)
-			brushless_control(57, true);
+			brushless_control(52, true);
 		if (auto_get_ticks() - brushless_time > 4500)
-			brushless_control(59, true);
+			brushless_control(55, true);
 		if (auto_get_ticks() - brushless_time > 5000)
-			brushless_control(62, true);
+			brushless_control(58, true);
 		if (auto_get_ticks() - brushless_time > 5500)
-			brushless_control(65, true);	
+			brushless_control(62, true);	
 	} else {
 		brushless_control(0, true);
 	}
@@ -656,7 +659,7 @@ void auto_var_update() {
 	
 	#ifndef DEBUG_MODE
 		reading1 = get_ls_cal_reading(0);
-		reading2 = get_ls_cal_reading(1);
+		reading2 = get_ls_cal_reading(2);
 		if (reading1 == 0)
 			reading1 = 200;
 		if (reading2 == 0)
@@ -750,8 +753,11 @@ void auto_motor_update(){
 		if (auto_tar_queue_len()) {
 			if ((tar_x == 0) || (tar_x == 12900)) {
 				if (side_switch_states) {
-					if (tar_end == 1) {
-						if ((auto_get_ticks() - arrived_time) > 1500) auto_tar_dequeue();
+					if ((tar_end == 1) && arrived) {
+						if ((auto_get_ticks() - arrived_time) > 1500)
+							auto_tar_dequeue();
+						else
+							auto_motor_stop();
 					} else {
 						auto_tar_dequeue();
 					}
@@ -804,7 +810,7 @@ void auto_motor_update(){
 	tft_prints(0,7,"Test %d", (auto_get_ticks() - arrived_time));
 	
 	tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));
-	tft_prints(0,9,"W %d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1), wall_dist);
+	tft_prints(0,9,"W %d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(2), wall_dist);
 	tft_update();
 	
 	temp_deg = (cur_deg < -1800) ? (cur_deg+3600) : ((cur_deg >= 1800) ? (cur_deg-3600) : cur_deg);

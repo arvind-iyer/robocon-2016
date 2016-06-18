@@ -143,6 +143,7 @@
             this.but_connect_2 = new System.Windows.Forms.Button();
             this.but_save = new System.Windows.Forms.Button();
             this.but_load = new System.Windows.Forms.Button();
+            this.but_pass = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -1525,7 +1526,7 @@
             this.but_connect_2.Name = "but_connect_2";
             this.but_connect_2.Size = new System.Drawing.Size(151, 28);
             this.but_connect_2.TabIndex = 5;
-            this.but_connect_2.Text = "Connect to COM18";
+            this.but_connect_2.Text = "Connect to COM21";
             this.but_connect_2.UseVisualStyleBackColor = true;
             this.but_connect_2.Click += new System.EventHandler(this.but_connect_2_Click);
             // 
@@ -1549,12 +1550,23 @@
             this.but_load.UseVisualStyleBackColor = true;
             this.but_load.Click += new System.EventHandler(this.but_load_Click);
             // 
+            // but_pass
+            // 
+            this.but_pass.Location = new System.Drawing.Point(381, 78);
+            this.but_pass.Name = "but_pass";
+            this.but_pass.Size = new System.Drawing.Size(151, 23);
+            this.but_pass.TabIndex = 8;
+            this.but_pass.Text = "Pass Config";
+            this.but_pass.UseVisualStyleBackColor = true;
+            this.but_pass.Click += new System.EventHandler(this.but_pass_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(1507, 881);
+            this.Controls.Add(this.but_pass);
             this.Controls.Add(this.but_load);
             this.Controls.Add(this.but_save);
             this.Controls.Add(this.but_connect_2);
@@ -1769,6 +1781,7 @@
         private System.Windows.Forms.Button but_connect_2;
         private System.Windows.Forms.Button but_save;
         private System.Windows.Forms.Button but_load;
+        private System.Windows.Forms.Button but_pass;
     }
 }
 

@@ -35,7 +35,7 @@ int main(void) {
 	gyro_init();
 	i2c_init();
 	pca9685_init();
-	ls_init();
+	adc_init();
 	
 	//Manual mode
 	manual_init();
@@ -54,8 +54,6 @@ int main(void) {
 		if ((this_loop_ticks - last_short_loop_ticks) > SHORT_LOOP_TICKS){
 			//Update the pressed state of the buttons
 			button_update();
-			//Get state for manual/auto and emergency lock
-			xbc_global_update();
 			//Deal with switching control, reseting the control
 			if (control_state != last_control_state){
 				if (control_state == MANUAL_MODE){
@@ -78,6 +76,10 @@ int main(void) {
 		if ((this_loop_ticks - last_long_loop_ticks)>LONG_LOOP_TICKS){
 			led_blink(LED_D1);
 				
+			xbc_input_update();
+			//Get state for manual/auto and emergency lock
+			xbc_global_update();
+			
 			//Update with longer update interval here
 			if (get_emergency_lock() == UNLOCKED){
 				led_blink(LED_D2);

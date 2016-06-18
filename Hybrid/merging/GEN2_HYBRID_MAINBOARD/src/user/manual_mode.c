@@ -325,20 +325,20 @@ void manual_interval_update(){
 		}
 	}
 	
-////	if (button_hitted[BUTTON_XBC_BACK]){
-//	if (button_pressed(BUTTON_XBC_N)){
-////		buzzer_play_song(SUCCESSFUL_SOUND, 75, 0);
-////		if (manual_stage == 0){
-////			pole_as_front = true;
-////			using_laser_sensor = false;
-////			manual_stage = 1;
-////		}else if(manual_stage == 1){
-////			manual_stage = 0;
-////		}
-//		climb_continue();
-//	}else{
-//		stop_climbing();
-//	}
+//	if (button_hitted[BUTTON_XBC_BACK]){
+	if (button_pressed(BUTTON_XBC_N)){
+//		buzzer_play_song(SUCCESSFUL_SOUND, 75, 0);
+//		if (manual_stage == 0){
+//			pole_as_front = true;
+//			using_laser_sensor = false;
+//			manual_stage = 1;
+//		}else if(manual_stage == 1){
+//			manual_stage = 0;
+//		}
+		climb_continue();
+	}else{
+		stop_climbing();
+	}
 	
 	if (button_hitted[BUTTON_XBC_E]){
 		brushless_servo_val = CLIMBING_BRUSHLESS_ANGLE;
@@ -356,9 +356,9 @@ void manual_interval_update(){
 	
 	//At last apply the motor velocity and display it
 	//Value from fast update should also be displayed here
-	tft_append_line("%d %d %d %d %d", get_pos()->x, get_pos()->y, get_angle(), gpio_read_input(&HIT_BOX_PORT));
+	tft_append_line("%d %d %d %d", get_pos()->x, get_pos()->y, get_angle(), gpio_read_input(&HIT_BOX_PORT));
 	tft_append_line("%d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str);
-	tft_append_line("LR:%d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(2), get_ir_dis());
+	tft_append_line("LR:%d %d %d", get_ls_cal_reading(FRONT_LASER_ID), get_ls_cal_reading(BACK_LASER_ID), get_ir_dis());
 	tft_append_line("%d %d %d", curr_vx, curr_vy, curr_w);
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);
 	tft_update();
@@ -411,9 +411,6 @@ void manual_brushless_inc_step(){
 	if (brushless_power_percent < 100){
 		brushless_power_percent += BRUSHLESS_POWER_STEP;
 	}
-	if (brushless_power_percent == (20 + BRUSHLESS_POWER_STEP)){
-		brushless_power_percent += BRUSHLESS_POWER_STEP;
-	}
 }
 
 void manual_brushless_dec_step(){
@@ -441,7 +438,7 @@ void manual_control_brushless_update(){
 	
 	//Brushless continuous control, i.e. holding
 	if (button_pressed(BUTTON_XBC_RB) && brushless_last_press_inc_flag){
-		if ((this_loop_ticks - brushless_pressed_ticks) > BRUSHLESS_START_CONTIN_TICKS && brushless_counted_ticks==0){
+		if (((this_loop_ticks - brushless_pressed_ticks) > BRUSHLESS_START_CONTIN_TICKS) && brushless_counted_ticks==0){
 			brushless_counted_ticks += BRUSHLESS_START_CONTIN_TICKS;
 			manual_brushless_inc_step();
 		}
@@ -451,7 +448,7 @@ void manual_control_brushless_update(){
 			manual_brushless_inc_step();
 		}
 	}else if(button_pressed(BUTTON_XBC_LB) && !brushless_last_press_inc_flag){
-		if ((this_loop_ticks - brushless_pressed_ticks) > BRUSHLESS_START_CONTIN_TICKS && brushless_counted_ticks==0){
+		if (((this_loop_ticks - brushless_pressed_ticks) > BRUSHLESS_START_CONTIN_TICKS) && brushless_counted_ticks==0){
 			brushless_counted_ticks += BRUSHLESS_START_CONTIN_TICKS;
 			manual_brushless_dec_step();
 		}
