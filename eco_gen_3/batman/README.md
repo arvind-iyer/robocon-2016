@@ -1,4 +1,4 @@
-#_MR. BATMAN
+#MR. BATMAN
 #HKUST Robocon 2016, Team Fiery Dragon
 
 ##CONTRIBUTOR
