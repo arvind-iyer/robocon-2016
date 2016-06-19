@@ -325,27 +325,18 @@ void manual_interval_update(){
 		}
 	}
 	
-//	if (button_hitted[BUTTON_XBC_BACK]){
-	if (button_pressed(BUTTON_XBC_N)){
-//		buzzer_play_song(SUCCESSFUL_SOUND, 75, 0);
-//		if (manual_stage == 0){
-//			pole_as_front = true;
-//			using_laser_sensor = false;
-//			manual_stage = 1;
-//		}else if(manual_stage == 1){
-//			manual_stage = 0;
-//		}
-		climb_continue();
-	}else{
-		stop_climbing();
-	}
+//	if (button_pressed(BUTTON_XBC_N)){
+//		climb_continue();
+//	}else{
+//		stop_climbing();
+//	}
 	
 	if (button_hitted[BUTTON_XBC_E]){
 		brushless_servo_val = CLIMBING_BRUSHLESS_ANGLE;
 		brushless_power_percent = CLIMBING_BRUSHLESS_POWER;
 		brushless_servo_control(brushless_servo_val);
 		brushless_control(brushless_power_percent, true);
-	}
+	} 
 	
 	
 	if (manual_stage == 0){

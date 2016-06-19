@@ -23,20 +23,6 @@ void brushless_control(u16 value, bool is_percentage_mode){
 	}
 }
 
-/*
-void brushless_control_all(u16 value, bool is_percentage_mode){
-	if (get_emergency_lock() == LOCKED) return;
-	if (is_percentage_mode){
-		value = value>100?100:value;
-	}else{
-		value = value>BRUSHLESS_MAX?BRUSHLESS_MAX:(value<BRUSHLESS_MIN?BRUSHLESS_MIN:value);
-	}
-	for (u8 i=0; i<BRUSHLESS_COUNT; i++){
-		brushless_control((BRUSHLESS_ID)i, value, true);
-	}
-}
-*/
-
 void brushless_servo_control(s16 value){
 	if (get_emergency_lock() == LOCKED) return;
 	value = (value > BRUSHLESS_SERVO_ANGLE) ? BRUSHLESS_SERVO_ANGLE : ((value < -BRUSHLESS_SERVO_ANGLE) ? -BRUSHLESS_SERVO_ANGLE : value);
