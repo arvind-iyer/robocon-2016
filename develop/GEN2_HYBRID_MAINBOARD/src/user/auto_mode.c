@@ -22,8 +22,8 @@
 #define KI 0.015
 #define RKP 1.8
 #define DEC_COEFF 8.0
-//#define WALL_CAL 4220
-#define WALL_CAL 6700
+#define WALL_CAL 4220
+//#define WALL_CAL 6700
 #define ARM_SPEED 1500
 #define LS_DIFF 400
 #define SHIFT 3.0
@@ -139,9 +139,9 @@ void auto_tar_dequeue() {
 	if (tar_end == 2)
 		cur_vel = 50;
 	if (tar_end == 4)
-		cur_vel = 8;
+		cur_vel = 6;
 	if (tar_end == 5)
-		cur_vel = 85;	
+		cur_vel = 70;	
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
 	//tar_deg = tar_queue[tar_end].deg;
@@ -246,7 +246,7 @@ void auto_reset() {
 	pneumatic_off(&PB9); //Open wheels
 	pneumatic_on(&PD10); //Open claw
 	pneumatic_on(&PD11); //Push out
-	servo_control(SERVO2, 855);
+	servo_control(SERVO2, 1050);
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -462,7 +462,7 @@ void auto_pole_climb(){
 		pneumatic_off(&PD10); //claw
 		//set brushless angle
 	} else if (climbing_time < 5500) {
-		servo_control(SERVO2, 660);
+		//servo_control(SERVO2, 855);
 		pneumatic_off(&PD11); //collect
 		//turn on brushless
 		//motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
@@ -533,25 +533,29 @@ void auto_robot_control(void) {
 	} else if (tar_end <= 3) {
 		brushless_servo_control(-85 + 85*2*field);
 		if (auto_get_ticks() - brushless_time > 300)
-			brushless_control(47, true);
+			brushless_control(50, true);
 	} else if (tar_end <= 4) {
-		brushless_servo_control(-80 + 80*2*field);
-		brushless_control(43, true);
-		if (auto_get_ticks() - brushless_time > 1500)
-			brushless_control(54, true);
+		//brushless_servo_control(-65 + 65*2*field);
+		brushless_control(46, true);
+		if (auto_get_ticks() - brushless_time > 1000)
+			brushless_servo_control(-65 + 65*2*field);			
+		if (auto_get_ticks() - brushless_time > 1500) {
+			brushless_control(50, true);
+			brushless_servo_control(-75 + 75*2*field);
+		}
 	} else if (tar_end <= 5) {
 		brushless_servo_control(0);
 		brushless_control(40, true);
 		if (auto_get_ticks() - brushless_time > 3000)
 			brushless_control(50, true);
 		if (auto_get_ticks() - brushless_time > 4000)
-			brushless_control(52, true);
+			brushless_control(54, true);
 		if (auto_get_ticks() - brushless_time > 4500)
-			brushless_control(55, true);
-		if (auto_get_ticks() - brushless_time > 5000)
 			brushless_control(58, true);
+		if (auto_get_ticks() - brushless_time > 5000)
+			brushless_control(62, true);
 		if (auto_get_ticks() - brushless_time > 5500)
-			brushless_control(62, true);	
+			brushless_control(65, true);	
 	} else {
 		brushless_control(0, true);
 	}
