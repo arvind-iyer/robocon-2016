@@ -5,26 +5,35 @@
 #include "encoder.h"
 #include "servo.h"
 #include "approx_math.h"
+#include "ticks.h"
 
 
 #define RPMs_Count_TIM	TIM6
 #define RPMs_In_TIM			TIM5
 #define RPMs_PID_TIM		TIM9
+#define RPMs_servo			SERVO3
 
 #define RPMs_UpLim			150
 #define	RPMs_DownLim		20
-
 #define RPMs_TIM_Period	SystemCoreClock / 100000 - 1
+
 #define	CountPerRo			6
 #define diffScale				10000
+#define PIDScale				1000
+
+#define PWM_UpLim				1000
+#define	PWM_DownLim			600
+#define PWM_OFF					450
 
 enum PID_state{
 	PID_OFF = 0,
 	PID_ON};
 
 void RPMs_init(void);
-void RPMs_update(u16, u16, u16);
+void RPMs_update(s32, s32, s32);
 void set_tar_val(u16);
+void set_PID_FLAG(u8);
+
 u32 get_pulse(void);
 u32 get_RPS(void);
 u32 get_diff(void);
