@@ -92,7 +92,7 @@ void initializeValues(void){
         infrared1 = INFRARED_SENSOR_LEFT;
         infrared2 = INFRARED_SENSOR_RIGHT;
         buttonWhiteCount = 0;
-        NINETY_TURNING = SERVO_MICROS_MID - 350;
+        NINETY_TURNING = SERVO_MICROS_MID - 370;
         currentSlopeZone = STARTZONE;
         strcpy(currentSlopeZoneString,"STARTZONE");
 		ardu_cal_ypr[0] = (float)0;
