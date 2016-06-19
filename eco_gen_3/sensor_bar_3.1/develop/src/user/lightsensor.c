@@ -306,8 +306,8 @@ void analysisData(){
     
     //Determining the zeros and ones
     for(u8 i = 0; i < 16 ;i++){
-        sat[i] = 0.2126f * now.red_reading[i] + 0.7152f * now.green_reading[i]
-        + 0.0722f * now.blue_reading[i] >= THRESHOLD ? 1 : 0;
+        sat[i] = 0.2126f * now.red_reading[i] + 0.2f * now.green_reading[i]
+        + 0.2f * now.blue_reading[i] >= THRESHOLD ? 1 : 0;
         if (sat[i] == 0) {
             r += now.red_reading[i];
             g += now.green_reading[i];

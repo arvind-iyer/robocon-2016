@@ -46,7 +46,7 @@
 //STAGE5: FINISH
 
 //Function enumerations(Please do not change these)
-enum{NORMAL = 0, NINETY = 1, RIVERING = 2, EXIT_RIVER = 3, ENTER_RIVER = 4 , DOWN_SLOPE = 5, FINISH = 6, ESCAPEFIRSTISLAND = 7};
+enum{NORMAL = 0, NINETY = 1, RIVERING = 2, EXIT_RIVER = 3, ENTER_RIVER = 4 , DOWN_SLOPE = 5, FINISH = 6, ESCAPEFIRSTISLAND = 7,RIVERING2 = 8};
 
 enum{LEFT_SIDE = 5, RIGHT_SIDE = 6};
 
@@ -179,6 +179,8 @@ void runUserInterface(void);
 
 //Develop: new functions
 void escapeFirstIsland(void);
+
+void scanRiver(void);
 
 int getCorrectReq();
 #endif

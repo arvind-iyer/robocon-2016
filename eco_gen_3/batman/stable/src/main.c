@@ -216,8 +216,11 @@ int main(void) {
                             case RIVERING:
                                 escapeFirstIsland();
                             break;
+                            case RIVERING2:
+                                scanRiver();
+                            break;
                             case DOWN_SLOPE: //End game, make it turn extreme right / left for the hybrid to grip propeller
-                                if(get_minimize_count(ENCODER1) > 12 && (gameZone != LIGHTGREENZONE)){
+                                if(get_minimize_count(ENCODER1) > 10 && (gameZone != LIGHTGREENZONE)){
                                     enter_time_stamp = get_full_ticks();
                                     strcpy(globalStateString,"FINISH GAME");
                                     globalState = FINISH;

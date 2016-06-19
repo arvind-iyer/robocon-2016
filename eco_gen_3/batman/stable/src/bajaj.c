@@ -67,12 +67,12 @@ void initializeValues(void){
         LESSER_TURNING = -330;
         SLOPE_TURNING_RIGHT = SERVO_MICROS_MID + 250;
         SLOPE_TURNING_LEFT = SERVO_MICROS_MID - 250;
-        DELAY = 3000;
+        DELAY = 2000;
         side = REDSIDE;
         infrared1 = INFRARED_SENSOR_RIGHT;
         infrared2 = INFRARED_SENSOR_LEFT;
         buttonRedCount = 0;
-        NINETY_TURNING = SERVO_MICROS_MID + 400;
+        NINETY_TURNING = SERVO_MICROS_MID + 350;
         currentSlopeZone = STARTZONE;
         strcpy(currentSlopeZoneString,"STARTZONE");
         ardu_cal_ypr[0] = (float)0;
@@ -84,19 +84,19 @@ void initializeValues(void){
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARKBLUE,RED);
         IMU_ANGLE1 = 25;
         NINETY_IMU = 180;
-        LESSER_TURNING = 275;
+        LESSER_TURNING = 340;
         SLOPE_TURNING_RIGHT = SERVO_MICROS_MID + 250;
         SLOPE_TURNING_LEFT = SERVO_MICROS_MID - 250;
-        DELAY = 1500 ;
+        DELAY = 2000;
         side = BLUESIDE;
         infrared1 = INFRARED_SENSOR_LEFT;
         infrared2 = INFRARED_SENSOR_RIGHT;
         buttonWhiteCount = 0;
-        NINETY_TURNING = SERVO_MICROS_MID - 450;
+        NINETY_TURNING = SERVO_MICROS_MID - 350;
         currentSlopeZone = STARTZONE;
         strcpy(currentSlopeZoneString,"STARTZONE");
 		ardu_cal_ypr[0] = (float)0;
-        ENTER_RIVER_ENCODER = 5800;
+        ENTER_RIVER_ENCODER = 8200;
         systemOn = 1;
     }
 }
@@ -245,8 +245,7 @@ void goNormal(void){
                     lastMovement = (SERVO_MICROS_LEFT ) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                 }
                 else{
-                    float factor = (((begin + end)/ 2)
-											) / (float) 16;
+                    float factor = (((begin + end)/ 2)) / (float) 16;
                     lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                 }
             }
@@ -257,29 +256,33 @@ void goNormal(void){
             }
             
             else if(passedDownSlope){
-                if ((((begin + end)/ 2) + 2) > 16) {
-                    lastMovement = SERVO_MICROS_RIGHT;
-                }
-                else{
-                    float factor = (((begin + end)/ 2) + 2) / (float) 16;
-                    lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
-                }   
+                switch(side){
+                    case REDSIDE:
+                        if ((((begin + end)/ 2) + 2) > 16) {
+                            lastMovement = SERVO_MICROS_RIGHT;
+                        }
+                        else{
+                            float factor = (((begin + end)/ 2) + 2) / (float) 16;
+                            lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
+                        }
+                    break;
+                    case BLUESIDE:
+                        if ((((begin + end)/ 2) + 1) > 16) {
+                            lastMovement = SERVO_MICROS_RIGHT;
+                        }
+                        else{
+                            float factor = (((begin + end)/ 2) + 1) / (float) 16;
+                            lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
+                        }
+                    break;
+                }                
             }
-//            else if(passedDownSlope && (globalState == FINISH)){
-//                if ((((begin + end)/ 2)) > 16) {
-//                    lastMovement = SERVO_MICROS_RIGHT;
-//                }
-//                else{
-//                    float factor = (((begin + end)/ 2)) / (float) 16;
-//                    lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
-//                }   
-//            }
             else{
                 float factor = ((begin + end)/ 2) / (float) 16;
                 lastMovement = (SLOPE_TURNING_LEFT) - (factor * (SLOPE_TURNING_LEFT - SLOPE_TURNING_RIGHT));
             }
         }
-        if(gameZone == LIGHTGREENZONE && passedRiver){
+        if(gameZone == LIGHTGREENZONE && passedRiver && get_minimize_count(ENCODER1) > 10){
             passedDownSlope = 1;
         }
     servo_control(BAJAJ_SERVO,lastMovement);
@@ -288,7 +291,7 @@ void goNormal(void){
 void goNinety(void){
     switch(side){
         case REDSIDE:
-            lastMovement = NINETY_TURNING  /*+ ((int)determine_velocity(ENCODER1) * 20)*/;
+            lastMovement = NINETY_TURNING;
             if((int)ardu_cal_ypr[0] > -80){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
@@ -299,7 +302,7 @@ void goNinety(void){
             }
         break;
         case BLUESIDE:
-            lastMovement = NINETY_TURNING  - ((int)determine_velocity(ENCODER1) * 20);
+            lastMovement = NINETY_TURNING;
             if((int)ardu_cal_ypr[0] < 80){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
@@ -339,7 +342,7 @@ void goStraightLittleBit(void){
     } 
     servo_control(BAJAJ_SERVO, lastMovement);
     //Stopping condition
-    if(get_count(ENCODER1) > 2000){
+    if(get_count(ENCODER1) > 3000){
         passedRiver = 1;
         strcpy(globalStateString,"AFTER RIVER");
         reset_encoder_1();
@@ -492,32 +495,32 @@ void runUserInterface(void){
 void escapeFirstIsland(void){
     if(!done_turning && get_minimize_count(ENCODER1) > 4){
         CLICK_MUSIC;
-        switch(side){
-            case REDSIDE:
-                servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 50);
-            break;
-            case BLUESIDE:
-                servo_control(BAJAJ_SERVO,SERVO_MICROS_MID - 50);
-            break;
-        }
-        reset_encoder_1();
-        done_turning = true;
-    }
-    if(done_turning && get_minimize_count(ENCODER1) > 13) {
-        START_UP_play;
 //        switch(side){
 //            case REDSIDE:
-//                servo_control(BAJAJ_SERVO,1000);
+//                servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 50);
 //            break;
 //            case BLUESIDE:
-//                servo_control(BAJAJ_SERVO,1800);
+//                servo_control(BAJAJ_SERVO,SERVO_MICROS_MID - 50);
 //            break;
 //        }
         reset_encoder_1();
-        globalState = EXIT_RIVER;
+        done_turning = true;
+        globalState = RIVERING2;
     }
 }
 
+void scanRiver(void){
+    if(done_turning && get_minimize_count(ENCODER1) > 13) {
+        START_UP_play;
+        reset_encoder_1();
+        globalState = EXIT_RIVER;
+    }
+    else{    
+        float factor = ((begin + end)/ 2) / (float) 16;
+        lastMovement = (SLOPE_TURNING_LEFT) - (factor * (SLOPE_TURNING_LEFT - SLOPE_TURNING_RIGHT));
+        servo_control(BAJAJ_SERVO, lastMovement); 
+    }
+}
 
 
 
