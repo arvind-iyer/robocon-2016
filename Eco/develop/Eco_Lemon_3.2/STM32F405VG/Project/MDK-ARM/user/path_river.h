@@ -34,7 +34,7 @@
 
 #define IR_BUFFER_LENGTH 8
 #define IR_ENCODER_DIS 250 //in mm, between end and next start
-#define DIS_AFTER_THIRD_ISLAND 40            //60//in mm
+#define DIS_AFTER_THIRD_ISLAND 200 //60//in mm
 #define RIVER_SB_INC_PWM 5000
 #define RIVER_SB_DEC_PWM 5000
 
