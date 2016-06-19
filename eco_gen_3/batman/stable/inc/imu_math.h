@@ -2,6 +2,7 @@
 #define IMU_MATH_H
 
 #include "stm32f4xx.h"
+#include "ticks.h"
 #include <stdbool.h>
 
 s16 abs_diff(s16 minuend, s16 subtrahend);

@@ -33,9 +33,9 @@
 //Default Defines (Please do not change these)
 
 //These defines control the maximum left / right turning of th servo (in PWM values)
-#define SERVO_MICROS_MID 1450
-#define SERVO_MICROS_RIGHT 1850
-#define SERVO_MICROS_LEFT 1050
+#define SERVO_MICROS_MID 1350
+#define SERVO_MICROS_RIGHT 1750
+#define SERVO_MICROS_LEFT 950
 #define BAJAJ_SERVO SERVO1
 
 

@@ -18,12 +18,11 @@
 #define scalar 1000
 #define NUMOFAREAS 6
 #define NUMCALI 4
-#define SATOFFSET 30
+#define SATOFFSET 25
 #define HUEOFFSET 30
 #define VALUEOFFSET 18
 
 #define RIGHT
-
 #ifdef LEFT
 #define DARKGREENLEFT 180
 #define DARKGREENRIGHT 220

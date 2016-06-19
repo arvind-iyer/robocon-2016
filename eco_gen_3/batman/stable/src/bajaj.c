@@ -45,8 +45,7 @@ int sat1;
 int value1;
 int button_count_red = 0;
 int button_count_white = 0;
-uint32_t encoder_revolution = 0;
-int ENTER_RIVER_ENCODER = 7000;
+int ENTER_RIVER_ENCODER;
 char gameZoneString[12]= "UNKNOWN";
 ZONE gameZone;
 ZONE expectedGameZone;
@@ -57,7 +56,6 @@ bool retry = false;
 extern float angle_after_ninety;
 extern float angle_enter_river;
 extern bool done_turning;
-const int ANGLE_THRESHOLD = 6800;
 
 
 void initializeValues(void){
@@ -66,18 +64,19 @@ void initializeValues(void){
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARK_RED,RED); 
         IMU_ANGLE1 = -25;
         NINETY_IMU = -180;
-        LESSER_TURNING = -275;
-        SLOPE_TURNING_RIGHT = 1700;
-        SLOPE_TURNING_LEFT = 1200;
-        DELAY = 2000;
+        LESSER_TURNING = -330;
+        SLOPE_TURNING_RIGHT = SERVO_MICROS_MID + 250;
+        SLOPE_TURNING_LEFT = SERVO_MICROS_MID - 250;
+        DELAY = 3000;
         side = REDSIDE;
         infrared1 = INFRARED_SENSOR_RIGHT;
         infrared2 = INFRARED_SENSOR_LEFT;
         buttonRedCount = 0;
-        NINETY_TURNING = 1950;
+        NINETY_TURNING = SERVO_MICROS_MID + 400;
         currentSlopeZone = STARTZONE;
         strcpy(currentSlopeZoneString,"STARTZONE");
         ardu_cal_ypr[0] = (float)0;
+        ENTER_RIVER_ENCODER = 6100;
         systemOn = 1;
     }
     else if(button_pressed(BUTTON_WHITE)){
@@ -85,18 +84,19 @@ void initializeValues(void){
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARKBLUE,RED);
         IMU_ANGLE1 = 25;
         NINETY_IMU = 180;
-        LESSER_TURNING = 300;
-        SLOPE_TURNING_RIGHT = 1700;
-        SLOPE_TURNING_LEFT = 1200;
+        LESSER_TURNING = 275;
+        SLOPE_TURNING_RIGHT = SERVO_MICROS_MID + 250;
+        SLOPE_TURNING_LEFT = SERVO_MICROS_MID - 250;
         DELAY = 1500 ;
         side = BLUESIDE;
         infrared1 = INFRARED_SENSOR_LEFT;
         infrared2 = INFRARED_SENSOR_RIGHT;
         buttonWhiteCount = 0;
-        NINETY_TURNING = 1250;
+        NINETY_TURNING = SERVO_MICROS_MID - 450;
         currentSlopeZone = STARTZONE;
         strcpy(currentSlopeZoneString,"STARTZONE");
 		ardu_cal_ypr[0] = (float)0;
+        ENTER_RIVER_ENCODER = 5800;
         systemOn = 1;
     }
 }
@@ -150,9 +150,9 @@ void fill_sensorbar_array(){
 
 int getCorrectReq(){
 	int angleDiff = retry ? 90 : angle_enter_river - angle_after_ninety;
-	int req = ANGLE_THRESHOLD * int_sin(angleDiff * 10) / 10000;
-	if (angleDiff > 90) req = ANGLE_THRESHOLD + (ANGLE_THRESHOLD - req);
-    req = req > ANGLE_THRESHOLD + 200 ? ANGLE_THRESHOLD + 200 : req;
+	int req = ENTER_RIVER_ENCODER * int_sin(angleDiff * 10) / 10000;
+	if (angleDiff > 90) req = ENTER_RIVER_ENCODER + (ENTER_RIVER_ENCODER - req);
+    req = req > ENTER_RIVER_ENCODER + 200 ? ENTER_RIVER_ENCODER + 200 : req;
 	return req;
 }
 
@@ -166,7 +166,6 @@ void print_data(){
     tft_prints(0,6,"yaw:%.2f",ardu_cal_ypr[0]);
     tft_prints(0,7,"enc up: %d", getCorrectReq());
     tft_prints(0,8,"encoder: %d", get_count(ENCODER1));
-    tft_prints(0,9,"delta a:%.2f",angle_enter_river - angle_after_ninety);
 }
 void printSystemOff(void){
     tft_prints(0,0,"PRESS RED / WHITE");
@@ -251,28 +250,30 @@ void goNormal(void){
                     lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
                 }
             }
-            else if(passedDownSlope && (globalState != FINISH)){
-                if ((((begin + end)/ 2) + 3) > 16) {
-                    lastMovement = SERVO_MICROS_RIGHT;
-                }
-                else{
-                    float factor = (((begin + end)/ 2) + 3) / (float) 16;
-                    lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
-                }   
-            }
-            else if(passedDownSlope && (globalState == FINISH)){
-                if ((((begin + end)/ 2)) > 16) {
-                    lastMovement = SERVO_MICROS_RIGHT;
-                }
-                else{
-                    float factor = (((begin + end)/ 2)) / (float) 16;
-                    lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
-                }   
-            }
-            else if(fullWhite && passedRiver){
+            
+            else if(fullWhite && passedRiver && !passedDownSlope){
                 float factor = ((begin + end)/ 2) / (float) 16;
                 lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
             }
+            
+            else if(passedDownSlope){
+                if ((((begin + end)/ 2) + 2) > 16) {
+                    lastMovement = SERVO_MICROS_RIGHT;
+                }
+                else{
+                    float factor = (((begin + end)/ 2) + 2) / (float) 16;
+                    lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
+                }   
+            }
+//            else if(passedDownSlope && (globalState == FINISH)){
+//                if ((((begin + end)/ 2)) > 16) {
+//                    lastMovement = SERVO_MICROS_RIGHT;
+//                }
+//                else{
+//                    float factor = (((begin + end)/ 2)) / (float) 16;
+//                    lastMovement = (SERVO_MICROS_LEFT) - (factor * (SERVO_MICROS_LEFT - SERVO_MICROS_RIGHT));
+//                }   
+//            }
             else{
                 float factor = ((begin + end)/ 2) / (float) 16;
                 lastMovement = (SLOPE_TURNING_LEFT) - (factor * (SLOPE_TURNING_LEFT - SLOPE_TURNING_RIGHT));
@@ -292,8 +293,8 @@ void goNinety(void){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
                 reset_encoder_1();
-								START_UP_play;
-								angle_after_ninety = ardu_cal_ypr[0];
+                START_UP_play;
+                angle_after_ninety = ardu_cal_ypr[0];
                 globalState = NORMAL;
             }
         break;
@@ -303,9 +304,9 @@ void goNinety(void){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
                 reset_encoder_1();
-								START_UP_play;
-							  ardu_cal_ypr[0] = (float)0;
-								angle_after_ninety = ardu_cal_ypr[0];
+                START_UP_play;
+				ardu_cal_ypr[0] = (float)0;
+				angle_after_ninety = ardu_cal_ypr[0];
                 globalState = NORMAL;
             }
         break;
@@ -489,17 +490,31 @@ void runUserInterface(void){
 }
 
 void escapeFirstIsland(void){
-    if(!done_turning && get_minimize_count(ENCODER1) > 5){
+    if(!done_turning && get_minimize_count(ENCODER1) > 4){
         CLICK_MUSIC;
-        servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 45);
+        switch(side){
+            case REDSIDE:
+                servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 50);
+            break;
+            case BLUESIDE:
+                servo_control(BAJAJ_SERVO,SERVO_MICROS_MID - 50);
+            break;
+        }
         reset_encoder_1();
         done_turning = true;
     }
     if(done_turning && get_minimize_count(ENCODER1) > 13) {
         START_UP_play;
-        servo_control(BAJAJ_SERVO, 1000);
+//        switch(side){
+//            case REDSIDE:
+//                servo_control(BAJAJ_SERVO,1000);
+//            break;
+//            case BLUESIDE:
+//                servo_control(BAJAJ_SERVO,1800);
+//            break;
+//        }
         reset_encoder_1();
-        globalState = RIVERING;
+        globalState = EXIT_RIVER;
     }
 }
 

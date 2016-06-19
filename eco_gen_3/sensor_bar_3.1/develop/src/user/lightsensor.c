@@ -298,10 +298,16 @@ void analysisData(){
     int r = 0, g = 0, b = 0, count = 0;
     int minDiff = 10000;
     
+    /*
+    Original formula:
+        sat[i] = 0.2126f * now.red_reading[i] + 0.7152f * now.green_reading[i]
+        + 0.0722f * now.blue_reading[i] >= THRESHOLD ? 1 : 0;
+    */
+    
     //Determining the zeros and ones
     for(u8 i = 0; i < 16 ;i++){
         sat[i] = 0.2126f * now.red_reading[i] + 0.7152f * now.green_reading[i]
-            + 0.0722f * now.blue_reading[i] >= THRESHOLD ? 1 : 0;
+        + 0.0722f * now.blue_reading[i] >= THRESHOLD ? 1 : 0;
         if (sat[i] == 0) {
             r += now.red_reading[i];
             g += now.green_reading[i];

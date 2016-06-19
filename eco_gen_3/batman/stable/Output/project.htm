@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Output\project.hex]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Output\project.hex</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Fri Jun 17 18:19:31 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Sun Jun 19 03:10:54 2016
 <BR><P>
 <H3>Maximum Stack Usage =        352 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -403,7 +403,7 @@ Global Symbols
 <P><STRONG><a name="[104]"></a>__aeabi_memcpy8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memcpya.o(.text), UNUSED)
 
 <P><STRONG><a name="[bb]"></a>strcpy</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, strcpy.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
+<BR><BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initializeValues
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goStraightLittleBit
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goNinety
@@ -413,7 +413,7 @@ Global Symbols
 
 <P><STRONG><a name="[de]"></a>__aeabi_f2d</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, f2d.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_data
-<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
+<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
 </UL>
 
 <P><STRONG><a name="[105]"></a>__aeabi_uidiv</STRONG> (Thumb, 0 bytes, Stack size 12 bytes, uidiv.o(.text), UNUSED)
@@ -963,8 +963,8 @@ Global Symbols
 <P><STRONG><a name="[e9]"></a>vsprintf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printfa.o(i.__0vsprintf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = vsprintf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
+<BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
+<LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx
 </UL>
 
 <P><STRONG><a name="[110]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
@@ -978,8 +978,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;simple_delay1_ms
 </UL>
-<BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_reset
+<BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_reset
 </UL>
 
 <P><STRONG><a name="[92]"></a>ardu_imu_init</STRONG> (Thumb, 46 bytes, Stack size 8 bytes, ardu_imu.o(i.ardu_imu_init))
@@ -1028,7 +1027,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
+<BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initializeValues
 </UL>
 
@@ -1085,7 +1084,7 @@ Global Symbols
 <LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_set_note_period
 <LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_on
 </UL>
-<BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
+<BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goStraightLittleBit
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goNinety
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;escapeFirstIsland
@@ -1169,7 +1168,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_ticks
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_count
 </UL>
-<BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
+<BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goNinety
 </UL>
 
@@ -1192,7 +1191,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systemInit
 </UL>
 
-<P><STRONG><a name="[c4]"></a>escapeFirstIsland</STRONG> (Thumb, 96 bytes, Stack size 8 bytes, bajaj.o(i.escapeFirstIsland))
+<P><STRONG><a name="[c4]"></a>escapeFirstIsland</STRONG> (Thumb, 104 bytes, Stack size 8 bytes, bajaj.o(i.escapeFirstIsland))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = escapeFirstIsland &rArr; buzzer_play_song
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
@@ -1203,8 +1202,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[98]"></a>fabs_diff</STRONG> (Thumb, 58 bytes, Stack size 0 bytes, imu_math.o(i.fabs_diff))
-<BR><BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_value_update
+<P><STRONG><a name="[98]"></a>fabs_diff</STRONG> (Thumb, 124 bytes, Stack size 32 bytes, imu_math.o(i.fabs_diff))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = fabs_diff
+</UL>
+<BR>[Calls]<UL><LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_ticks
+</UL>
+<BR>[Called By]<UL><LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_value_update
 </UL>
 
 <P><STRONG><a name="[c8]"></a>fill_sensorbar_array</STRONG> (Thumb, 76 bytes, Stack size 16 bytes, bajaj.o(i.fill_sensorbar_array))
@@ -1215,8 +1218,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ca]"></a>getCorrectReq</STRONG> (Thumb, 84 bytes, Stack size 8 bytes, bajaj.o(i.getCorrectReq))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = getCorrectReq &rArr; int_sin
+<P><STRONG><a name="[ca]"></a>getCorrectReq</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, bajaj.o(i.getCorrectReq))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = getCorrectReq &rArr; int_sin
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;int_sin
 </UL>
@@ -1245,6 +1248,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goNormal
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;determine_velocity
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fabs_diff
 </UL>
 
 <P><STRONG><a name="[c5]"></a>get_minimize_count</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, encoder.o(i.get_minimize_count))
@@ -1252,7 +1256,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
 </UL>
-<BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
+<BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;escapeFirstIsland
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_count
@@ -1280,8 +1284,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[cf]"></a>goNormal</STRONG> (Thumb, 248 bytes, Stack size 16 bytes, bajaj.o(i.goNormal))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = goNormal
+<P><STRONG><a name="[cf]"></a>goNormal</STRONG> (Thumb, 236 bytes, Stack size 8 bytes, bajaj.o(i.goNormal))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = goNormal
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
 <LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_ticks
@@ -1309,7 +1313,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systemInit
 </UL>
 
-<P><STRONG><a name="[d2]"></a>initializeValues</STRONG> (Thumb, 218 bytes, Stack size 48 bytes, bajaj.o(i.initializeValues))
+<P><STRONG><a name="[d2]"></a>initializeValues</STRONG> (Thumb, 242 bytes, Stack size 48 bytes, bajaj.o(i.initializeValues))
 <BR><BR>[Stack]<UL><LI>Max Depth = 164<LI>Call Chain = initializeValues &rArr; tft_init &rArr; tft_spi_init &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
@@ -1335,19 +1339,20 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systemInit
 </UL>
 
-<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 914 bytes, Stack size 8 bytes, main.o(i.main))
+<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 898 bytes, Stack size 8 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 352<LI>Call Chain = main &rArr; print_data &rArr; tft_prints &rArr; vsprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
+<BR>[Calls]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear
 <LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systemInit
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
+<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
 <LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_encoder_1
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_infrared_sensor
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_array
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_data
-<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
+<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initializeValues
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goStraightLittleBit
 <LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goNormal
@@ -1362,28 +1367,27 @@ Global Symbols
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_check
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_value_update
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_delay_ms
 <LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
-<P><STRONG><a name="[db]"></a>printSystemOff</STRONG> (Thumb, 216 bytes, Stack size 24 bytes, bajaj.o(i.printSystemOff))
+<P><STRONG><a name="[dc]"></a>printSystemOff</STRONG> (Thumb, 216 bytes, Stack size 24 bytes, bajaj.o(i.printSystemOff))
 <BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = printSystemOff &rArr; tft_prints &rArr; vsprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_infrared_sensor
+<BR>[Calls]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
+<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_infrared_sensor
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_minimize_count
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;determine_velocity
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[d9]"></a>print_data</STRONG> (Thumb, 178 bytes, Stack size 24 bytes, bajaj.o(i.print_data))
+<P><STRONG><a name="[d9]"></a>print_data</STRONG> (Thumb, 144 bytes, Stack size 24 bytes, bajaj.o(i.print_data))
 <BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = print_data &rArr; tft_prints &rArr; vsprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
+<BR>[Calls]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
+<LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getCorrectReq
 </UL>
@@ -1399,7 +1403,7 @@ Global Symbols
 <P><STRONG><a name="[d8]"></a>read_infrared_sensor</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, infrared_sensor.o(i.read_infrared_sensor))
 <BR><BR>[Calls]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ReadInputDataBit
 </UL>
-<BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
+<BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
@@ -1419,7 +1423,7 @@ Global Symbols
 <P><STRONG><a name="[c7]"></a>reset_encoder_1</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, encoder.o(i.reset_encoder_1))
 <BR><BR>[Calls]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCounter
 </UL>
-<BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
+<BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;runUserInterface
 <LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goStraightLittleBit
 <LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goNinety
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;escapeFirstIsland
@@ -1427,7 +1431,7 @@ Global Symbols
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_count
 </UL>
 
-<P><STRONG><a name="[da]"></a>runUserInterface</STRONG> (Thumb, 286 bytes, Stack size 16 bytes, bajaj.o(i.runUserInterface))
+<P><STRONG><a name="[db]"></a>runUserInterface</STRONG> (Thumb, 286 bytes, Stack size 16 bytes, bajaj.o(i.runUserInterface))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = runUserInterface &rArr; buzzer_play_song
 </UL>
 <BR>[Calls]<UL><LI><a href="#[c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_encoder_1
@@ -1493,7 +1497,7 @@ Global Symbols
 <P><STRONG><a name="[f1]"></a>tft_char_is_changed</STRONG> (Thumb, 96 bytes, Stack size 20 bytes, tft_display.o(i.tft_char_is_changed))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = tft_char_is_changed
 </UL>
-<BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
+<BR>[Called By]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 </UL>
 
 <P><STRONG><a name="[d6]"></a>tft_clear</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, tft_display.o(i.tft_clear))
@@ -1541,13 +1545,14 @@ Global Symbols
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;initializeValues
 </UL>
 
-<P><STRONG><a name="[dd]"></a>tft_prints</STRONG> (Thumb, 194 bytes, Stack size 296 bytes, tft_display.o(i.tft_prints))
+<P><STRONG><a name="[da]"></a>tft_prints</STRONG> (Thumb, 194 bytes, Stack size 296 bytes, tft_display.o(i.tft_prints))
 <BR><BR>[Stack]<UL><LI>Max Depth = 320<LI>Call Chain = tft_prints &rArr; vsprintf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;print_data
-<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
+<LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;printSystemOff
+<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[e8]"></a>tft_reset</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, tft_display.o(i.tft_reset))
@@ -1566,7 +1571,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 </UL>
-<BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
+<BR>[Called By]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 </UL>
 
 <P><STRONG><a name="[e7]"></a>tft_spi_init</STRONG> (Thumb, 260 bytes, Stack size 56 bytes, tft_display.o(i.tft_spi_init))
@@ -1585,7 +1590,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 
-<P><STRONG><a name="[dc]"></a>tft_update</STRONG> (Thumb, 1088 bytes, Stack size 40 bytes, tft_display.o(i.tft_update))
+<P><STRONG><a name="[dd]"></a>tft_update</STRONG> (Thumb, 1088 bytes, Stack size 40 bytes, tft_display.o(i.tft_update))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = tft_update &rArr; tft_set_char_pos &rArr; tft_write_data
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
@@ -1619,7 +1624,7 @@ Global Symbols
 <LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_ReceiveData
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_GetFlagStatus
 </UL>
-<BR>[Called By]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
+<BR>[Called By]<UL><LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_char_pos
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_fill_color
 <LI><a href="#[e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config

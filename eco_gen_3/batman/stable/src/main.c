@@ -48,6 +48,8 @@ extern char currentSlopeZoneString[10];
 extern char globalStateString[16];
 extern int ENTER_RIVER_ENCODER;
 
+bool imu_fucked_up = false;
+
 
 int main(void) {
     //Initialization of all hardware
@@ -67,7 +69,8 @@ int main(void) {
             fill_sensorbar_array();
             process_array();
             determineZone();
-            if(get_ticks() % 25 == 0)ardu_imu_value_update();
+            if((get_ticks() % 25 == 0) && !imu_fucked_up)
+                ardu_imu_value_update();
             //Play song when IMU is calibrated
             if(ardu_imu_calibrated)
                 cali = true;
@@ -79,10 +82,10 @@ int main(void) {
                 case ON:
                     //Emergency turning system
                     if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT) && passedRiver && (globalState != DOWN_SLOPE)){
-                       servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT - 100);
+                       servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT - 150);
                     }
                     else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT) && passedRiver && (globalState != DOWN_SLOPE)){
-                       servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT + 100);
+                       servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT + 150);
                     }
                     //Normal working state
                     else{
@@ -165,14 +168,6 @@ int main(void) {
                                                 if((river) && !passedRiver)
                                                     {
                                                         START_UP_play;
-//                                                        switch(side){
-//                                                            case REDSIDE:                                                               
-//                                                                servo_control(BAJAJ_SERVO, SERVO_MICROS_MID - 160 /*- (determine_velocity(ENCODER1) * 15)*/);
-//                                                            break;
-//                                                            case BLUESIDE:
-//                                                                servo_control(BAJAJ_SERVO, SERVO_MICROS_MID + 100 + (determine_velocity(ENCODER1) * 15));
-//                                                            break;                                                            
-//                                                        }
                                                         reset_encoder_1();
                                                         strcpy(globalStateString,"ENTER_RIVER");  
                                                         time1 = get_full_ticks();
@@ -200,39 +195,35 @@ int main(void) {
                             break;
                             case ENTER_RIVER: //Right before locking the angle with IMU
                                 //Stopping condition:
-                                if(get_count(ENCODER1) > 6300){
+                                if(get_count(ENCODER1) > ENTER_RIVER_ENCODER){
                                     switch(side){
                                         case REDSIDE:
-											servo_control(BAJAJ_SERVO,1800);
+											servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 350);
                                         break;
                                         case BLUESIDE:
-                                            servo_control(BAJAJ_SERVO,900);
+                                            servo_control(BAJAJ_SERVO,SERVO_MICROS_MID - 350);
                                         break;
                                     }
                                     strcpy(globalStateString,"ESCAPEISLAND");
                                     START_UP_play;
                                     reset_encoder_1();
                                     time2 = get_full_ticks();
-                                    globalState = ESCAPEFIRSTISLAND; 
+                                    globalState = RIVERING; 
                                 }
                                 else
                                     goNormal();
                             break;
-                            case ESCAPEFIRSTISLAND:		
-                                escapeFirstIsland();					
-                            break;
                             case RIVERING:
-                                globalState = EXIT_RIVER;
+                                escapeFirstIsland();
                             break;
                             case DOWN_SLOPE: //End game, make it turn extreme right / left for the hybrid to grip propeller
-                                goNormal();
                                 if(get_minimize_count(ENCODER1) > 12 && (gameZone != LIGHTGREENZONE)){
                                     enter_time_stamp = get_full_ticks();
-									_delay_ms(DELAY);
                                     strcpy(globalStateString,"FINISH GAME");
-                                    START_UP_play;
                                     globalState = FINISH;
                                 }
+                                else
+                                    goNormal();
                             break;
                             case FINISH:
                                 //Lock the servo angle
@@ -243,10 +234,10 @@ int main(void) {
                                     }
                                     switch(side){
                                         case REDSIDE:
-                                            servo_control(BAJAJ_SERVO, 2350);
+                                            servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 700);
                                         break;
                                         case BLUESIDE:
-                                            servo_control(BAJAJ_SERVO,750);
+                                            servo_control(BAJAJ_SERVO, SERVO_MICROS_MID - 700);
                                         break;
                                     }
                                 }
@@ -256,6 +247,7 @@ int main(void) {
                         }
                     }
                     print_data(); //Print every data in the on(servo is active) system
+                    tft_prints(0,9,"imufucked: %d",imu_fucked_up);
                     runUserInterface(); //Button functions
                     break;
                
