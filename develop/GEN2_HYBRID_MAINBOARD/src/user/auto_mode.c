@@ -455,20 +455,20 @@ void auto_pole_climb(){
 		motor_set_vel(MOTOR3, -43, CLOSE_LOOP);
 	} else if (climbing_time < 1000) { //clamp
 		pneumatic_on(&PB9);		
-	} else if (climbing_time < 1500) { //re-lock motor, grip
-		motor_lock(MOTOR1);
-		motor_lock(MOTOR2);
-		motor_lock(MOTOR3);
-		pneumatic_off(&PD10); //claw
+	} else if (climbing_time < 7000) { //re-lock motor, grip
+		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR3, 0, OPEN_LOOP);
 		//set brushless angle
-	} else if (climbing_time < 5500) {
+	} else if (climbing_time < 7500) {
 		//servo_control(SERVO2, 855);
-		pneumatic_off(&PD11); //collect
+		pneumatic_off(&PD10); //claw
 		//turn on brushless
 		//motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
 		//motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
 		//motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP, OPEN_LOOP);
 	} else {
+		pneumatic_off(&PD11); //collect
 		//motor_set_vel(MOTOR4, 0, OPEN_LOOP);
 		//motor_set_vel(MOTOR5, 0, OPEN_LOOP);
 		//motor_set_vel(MOTOR6, 0, OPEN_LOOP);
