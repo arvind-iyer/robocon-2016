@@ -33,7 +33,7 @@
 //#define DEBUG_MODE
 
 //Ground: 0 = Red, 1 = Blue
-u8 field = 0;
+u8 field = 1;
 
 double transform[2][2] = {{1, 0}, {0, 1}};
 u16 wall_dist = 0;
@@ -244,8 +244,8 @@ void auto_reset() {
 	brushless_time = 0;
 	climbing_time = 0;
 	pneumatic_off(&PB9); //Open wheels
-	pneumatic_on(&PD10); //Open claw
-	pneumatic_on(&PD11); //Push out
+	pneumatic_on(&PD8); //Open claw
+	pneumatic_on(&PD9); //Push out
 	servo_control(SERVO2, 1050);
 	
 	//reset local timer
@@ -343,7 +343,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	if (field == 0)
 		side_switch_val = ((cur_x >= 0) || (cur_x <= -12900))*4 + gpio_read_input(&PE11)*2 + gpio_read_input(&PE10);
 	if (field == 1)
-		side_switch_val = ((cur_x <= 0) || (cur_x >= 12900))*4 + gpio_read_input(&PE9)*2 + gpio_read_input(&PE8);
+		side_switch_val = ((cur_x <= 0) || (cur_x >= 12900))*4 + gpio_read_input(&PE1)*2 + gpio_read_input(&PE0);
 	
 	if ((side_switch_val == 3) || (side_switch_val & 4)) {
 		if (Abs(cur_x) < 7000) {
@@ -452,9 +452,8 @@ void auto_pole_climb(){
 		//Push forward at 50
 		motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
 		motor_set_vel(MOTOR2, 43, CLOSE_LOOP);
-		motor_set_vel(MOTOR3, -43, CLOSE_LOOP);
-	} else if (climbing_time < 1000) { //clamp
-		pneumatic_on(&PB9);		
+		motor_set_vel(MOTOR3, -48, CLOSE_LOOP);
+		pneumatic_on(&PB9);
 	} else if (climbing_time < 7000) { //re-lock motor, grip
 		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
@@ -462,13 +461,13 @@ void auto_pole_climb(){
 		//set brushless angle
 	} else if (climbing_time < 7500) {
 		//servo_control(SERVO2, 855);
-		pneumatic_off(&PD10); //claw
+		pneumatic_off(&PD8); //claw
 		//turn on brushless
 		//motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
 		//motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
 		//motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP, OPEN_LOOP);
 	} else {
-		pneumatic_off(&PD11); //collect
+		pneumatic_off(&PD9); //collect
 		//motor_set_vel(MOTOR4, 0, OPEN_LOOP);
 		//motor_set_vel(MOTOR5, 0, OPEN_LOOP);
 		//motor_set_vel(MOTOR6, 0, OPEN_LOOP);
@@ -754,7 +753,7 @@ void auto_motor_update(){
 		if (((tar_x == 0) || (tar_x == -12900)) && (field == 0))
 			side_switch_states = gpio_read_input(&PE11) & gpio_read_input(&PE10);
 		if (((tar_x == 0) || (tar_x == 12900)) && (field == 1))
-			side_switch_states = gpio_read_input(&PE9) & gpio_read_input(&PE8);
+			side_switch_states = gpio_read_input(&PE1) & gpio_read_input(&PE0);
 		if (tar_y == 0)
 			back_switch_states = gpio_read_input(&PE6) & gpio_read_input(&PE7);
 		
