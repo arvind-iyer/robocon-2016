@@ -53,6 +53,7 @@ ZONE expectedGameZone;
 SLOPEZONE currentSlopeZone;
 char currentSlopeZoneString[16];
 char globalStateString[16] = "UPSLOPE";
+bool retry = false;
 extern float angle_after_ninety;
 extern float angle_enter_river;
 
@@ -146,17 +147,11 @@ void fill_sensorbar_array(){
 }
 
 const int ANGLE_THRESHOLD = 7300;
-int getCorrectReq() {
-	int angleDiff = angle_enter_river - angle_after_ninety;
+int getCorrectReq(){
+	int angleDiff = retry ? 90 : angle_enter_river - angle_after_ninety;
 	int req = ANGLE_THRESHOLD * int_sin(angleDiff * 10) / 10000;
 	if (angleDiff > 90) req = ANGLE_THRESHOLD + (ANGLE_THRESHOLD - req);
 	return req;
-//	int dx = (ENTER_RIVER_ENCODER - Abs((ENTER_RIVER_ENCODER * int_sin(angleDiff * 10) / 10000)));
-//	if (angleDiff > 90) {
-//		return ENTER_RIVER_ENCODER - dx; 
-//	} else {
-//		return ENTER_RIVER_ENCODER + dx;
-//	}
 }
 
 void print_data(){
@@ -491,6 +486,7 @@ void runUserInterface(void){
             currentSlopeZone = FINISHEDSLOPE;
             strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
             button_count_white = 0;
+						retry = true;
         }
     }
 }
