@@ -1,0 +1,91 @@
+#ifndef	__ROBOCON_H
+#define	__ROBOCON_H
+
+#include <stdio.h>
+#include "stm32f10x.h"
+#include "stm32f10x_crc.h"
+#include "stm32f10x_gpio.h"	  
+#include "stm32f10x_tim.h"
+
+/*** Essential ***/
+#include "ticks.h"
+#include "delay.h"
+
+#include "gyro.h"
+#include "gpio.h"
+#include "buzzer.h"
+#include "led.h"
+#include "tft.h"
+#include "pneumatic.h"
+#include "interface.h"
+#include "xbc_mb.h"
+#include "button.h"
+#include "encoder.h"
+#include "ultrasonic_mb.h"
+#include "laser_sensor.h"
+#include "pk/pk_wheelbase.h"	//pk
+#include "pk/hybrid_pneumatic.h"
+#include "pk/hybrid_pneumatic.h"
+#include "pk/hybrid_gpio.h"
+#include "pk/control.h"
+#include "pk/pk_robocon_auto.h"
+
+/*** Optional ***/
+#include "can_protocol.h"
+#include "usart.h"
+#include "approx_math.h"
+#include "servo.h"
+#include "gyro.h"
+#include "bluetooth.h"
+#include "wheel_base.h"
+#include "xbc_mb.h"
+#include "log.h"
+#include "nec_mb.h"
+#include "flash.h"
+#include "ultrasonic.h" 
+#include "buzzer.h"
+#include "buzzer_song.h"
+
+void robocon_main(void);
+void _updateScreen(void);
+void controllerInputUpdate(void);
+
+typedef enum {
+	STAGE1,
+	STAGE2,
+	STAGE3,
+	STAGE4,
+	STAGE5,
+	LISTEN
+} STAGES;
+
+typedef enum {
+	MANUAL,
+	LASERPID,
+	POLELASER,
+	APPROACHWALL,
+	PIDMODE, 
+	FIRSTPOS,
+	AUTORETRY,
+	WAITRETRY,
+	RETRYCHECK,
+	CLIMBING
+} STATEMODES;
+
+typedef enum {
+	RED_SIDE,
+	BLUE_SIDE
+} GAMEMODES;
+
+extern Pneumatics pneumatics;
+extern bool prevLimitSwitch[4];
+extern bool robotMode;
+extern bool armIr;
+extern bool benMode;
+extern bool semiAuto;
+extern STAGES currStage;
+extern STATEMODES currMode;
+
+extern int timeSinceButtonPressed;
+
+#endif	/* __ROBOCON_H */

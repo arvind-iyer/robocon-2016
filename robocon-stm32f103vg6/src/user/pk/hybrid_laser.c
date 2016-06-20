@@ -346,7 +346,7 @@ void moveToFirstPosition (void) {
 int offsetDiff = 0;
 
 void laserPID() {
-	int yCoordSystem = robotMode == RED_SIDE ? (semiAuto ? 8200 : 7672) : (semiAuto ? 8200 : 7672);  //Test Field : 7552
+	int yCoordSystem = robotMode == RED_SIDE ? (semiAuto ? 8200 : 7672) : (semiAuto ? 8200 : 7452);  //Test Field : 7552
 	if(fieldDetected) {
 		int diff = get_ls_cal_reading(0) - get_ls_cal_reading(1);
 		
@@ -418,8 +418,8 @@ void laserPID() {
 			else if(robotMode == BLUE_SIDE) {
 				if(!semiAuto) {
 					if(get_pos()->y > yCoordSystem * 0.35 && get_pos()->y < yCoordSystem * 0.45) setBrushlessMagnitude(13); //TEST FIELD 18
-					if(get_pos()->y > yCoordSystem * 0.45 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(10); //TEST FIELD 12
-					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.85) setBrushlessMagnitude(18); //TEST FIELD 15
+					if(get_pos()->y > yCoordSystem * 0.45 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(5); //TEST FIELD 12
+					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.85) setBrushlessMagnitude(22); //TEST FIELD 15
 					if(get_pos()->y > yCoordSystem * 0.95) setBrushlessMagnitude(8);
 				}
 				parseWheelbaseValues();
@@ -431,7 +431,7 @@ void laserPID() {
 						fieldDetected = false;
 						
 						queueTargetPoint(get_pos()->x + 150, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0);
-						queueTargetPoint(get_pos()->x + 50, get_pos()->y, 185, 35, 5, -1, 6000);
+						queueTargetPoint(get_pos()->x + 50, get_pos()->y, 185, 2000, 10, -1, 6000);
 						wagamama = get_pos()->x + 50;
 						wagateki = get_pos()->y;
 					}

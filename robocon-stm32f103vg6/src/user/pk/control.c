@@ -250,7 +250,7 @@ void updateQueue () {
 						setBrushlessMagnitude(robotMode == RED_SIDE ? 11 : 8);
 					}
 					else if (dt > time/3) {
-						setBrushlessMagnitude(robotMode == RED_SIDE ? 14 : 14);
+						setBrushlessMagnitude(robotMode == RED_SIDE ? 14 : 20);
 					}
 				//else if (dt >= time/2 && dt < time*3/4) {
 				//	setBrushlessMagnitude(10); //18 
@@ -318,7 +318,7 @@ void updateQueue () {
 			
 			if(currentPath.position.y == wagateki && currentPath.position.x == wagamama && currentDistance < currentPath.distanceThreshold) {
 				magnitude = 0;
-				//if(Abs(getAngleDifference(robot.position.angle, currentPath.position.angle)) > 10) angularVelocity = 3* angularVelocity;
+				if(Abs(getAngleDifference(robot.position.angle, currentPath.position.angle)) > 10) angularVelocity = 2* angularVelocity;
 			}
 			calculatePIDMotorValues(magnitude, translationBearing, angularVelocity);
 		}
