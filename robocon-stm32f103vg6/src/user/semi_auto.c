@@ -40,6 +40,10 @@ void semi_auto_control() {
 			semiAutoScreenUpdater();
 			hybridPneumaticControl();
 		}
+		if(get_full_ticks()%2 == 0) {
+			buzzer_check();
+		}
+		
 		if (get_full_ticks() % 3 == 0) {
 			limitSwitchCheck();
 			button_update();
@@ -215,6 +219,7 @@ void semiAutoListener() {
 	//XBOX Button
 	if (button_pressed(BUTTON_XBC_XBOX) && !s_listening) {
 		s_listening = true;
+		buzzer_play_song(SUCCESSFUL_SOUND, 120, 0);
 		robotMode = !robotMode;
 	} else if (button_released(BUTTON_XBC_XBOX) && s_listening) {
 		s_listening = false;
@@ -222,6 +227,7 @@ void semiAutoListener() {
 
 	if (button_pressed(BUTTON_XBC_XBOX) > 1000 && !s_holds_listening) {
 		s_holds_listening = true;
+		buzzer_play_song(CLICK, 120, 0);
 		benMode = !benMode;
 	} else if (button_released(BUTTON_XBC_XBOX) && s_holds_listening)
 		s_holds_listening = false;

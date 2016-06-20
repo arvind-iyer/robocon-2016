@@ -19,6 +19,7 @@ extern int savedX;
 extern int savedY;
 extern int slowdownDelay;
 extern int wagamama;
+extern int tobiWan;
 //extern u16 ls_cal_reading[2];
 
 #define RED_SIDE 0

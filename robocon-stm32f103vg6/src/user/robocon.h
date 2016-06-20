@@ -43,6 +43,8 @@
 #include "nec_mb.h"
 #include "flash.h"
 #include "ultrasonic.h" 
+#include "buzzer.h"
+#include "buzzer_song.h"
 
 void robocon_main(void);
 void _updateScreen(void);

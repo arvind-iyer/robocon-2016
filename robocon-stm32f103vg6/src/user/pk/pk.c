@@ -6,4 +6,5 @@ void pk_init() {
 	hybridPneumaticInit();
 	hybridGPIOInit();
 	ls_init();
+	buzzer_set_volume(100);
 }

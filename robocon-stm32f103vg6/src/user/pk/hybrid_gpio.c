@@ -177,7 +177,7 @@ void limitSwitchCheck() {
 			pneumatic_control(GPIOE, GPIO_Pin_13, pneumatics.P2);
 		}
 		if (get_full_ticks() - waitDelay >= 1200) {
-			int armError = get_encoder_value(MOTOR8) - 25890;
+			int armError = get_encoder_value(MOTOR8) - 20970;
 			if (!(Abs(armError) <= 1000))
 				sendArmCommand(armError < 0 ? -60 : 60);
 			else if (Abs(armError) <= 1000) {
@@ -232,6 +232,7 @@ void retryProcedureCheck(void) {
 			lastWait = -1;
 			currMode = WAITRETRY;
 
+			buzzer_play_song(START_UP, 120, 0);
 			CAN_MESSAGE txMsg;
 			txMsg.id = 0x300;
 			txMsg.length = 0;
@@ -244,7 +245,9 @@ void retryProcedureCheck(void) {
 			} else {
 				setBrushlessMagnitude(0);
 				if (get_full_ticks() - retryDelay > 5000) {
-					if (get_full_ticks() - retryDelay % 200 == 0) {
+					if (get_full_ticks() - retryDelay % 50 == 0) {
+						//buzzer_play_song(SUCCESSFUL_SOUND, 120, 0);
+						buzzer_control(5, 100);
 						CAN_MESSAGE txMsg;
 						txMsg.id = 0x301;
 						txMsg.length = 0;

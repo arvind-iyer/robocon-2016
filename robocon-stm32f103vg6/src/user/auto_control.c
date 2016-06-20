@@ -50,6 +50,8 @@ void backup_auto_control() {
 		case RETRYCHECK:
 			waitingForRetry();
 			break;
+		default:
+			break;
 	}
 
 		robotUpdate();
@@ -118,6 +120,8 @@ void auto_control() {
 		case RETRYCHECK:
 			waitingForRetry();
 			break;
+		default:
+			break;
 	}
 
 		robotUpdate();
@@ -126,6 +130,10 @@ void auto_control() {
 			autoControlScreenUpdater();
 			hybridPneumaticControl();
 		}
+		if(get_full_ticks()%2 == 0) {
+			buzzer_check();
+		}
+		
 		if (get_full_ticks() % 3 == 0) {
 			limitSwitchCheck();
 			button_update();
@@ -159,6 +167,7 @@ tft_prints(0, 0, "AUTO |%s", benMode ? "BEN" : "NO");
 			prevLimitSwitch[1], prevLimitSwitch[2], prevLimitSwitch[3], armIr);
 	tft_prints(0, 4, "4th Read? : %d", allow4thUpdate);
 	tft_prints(0, 5, "Ret: %d|%d|%d", retryIr, ctr,gpio_read_input(&PE0));
+	tft_prints(0, 6, "TOBI: %d", tobiWan);
 	tft_prints(0, 7, "Q|ENC: %d|%d", getSize(), get_encoder_value(MOTOR8));
 		tft_prints(0, 8, "CAL: %d|%d", get_ls_cal_reading(0),
 			get_ls_cal_reading(1));
@@ -318,6 +327,7 @@ if (button_pressed(BUTTON_XBC_X) && !au_listening) {
 	//XBOX Button
 	if (button_pressed(BUTTON_XBC_XBOX) && !au_listening) {
 		au_listening = true;
+		buzzer_play_song(SUCCESSFUL_SOUND, 120, 0);
 		robotMode = !robotMode;
 	} else if (button_released(BUTTON_XBC_XBOX) && au_listening) {
 		au_listening = false;

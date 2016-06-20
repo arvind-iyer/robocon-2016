@@ -335,6 +335,7 @@ void controllerInputUpdate() {
 	//XBOX Button
 	if (button_pressed(BUTTON_XBC_XBOX) && !m_listener) {
 		m_listener = true;
+		buzzer_play_song(SUCCESSFUL_SOUND, 200, 0);
 		robotMode = !robotMode;
 	} else if (button_released(BUTTON_XBC_XBOX) && m_listener) {
 		m_listener = false;

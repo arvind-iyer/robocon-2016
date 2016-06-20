@@ -36,6 +36,10 @@ void manual_control () {
 		}
 		robotUpdate();
 		
+		if(get_full_ticks()%2 == 0) {
+			buzzer_check();
+		}
+		
 		if(get_full_ticks()%10 == 0){
 			manualControlScreenUpdater();
 			hybridPneumaticControl();
@@ -208,6 +212,7 @@ void manual_control () {
 	//XBOX Button
 		if(button_pressed(BUTTON_XBC_XBOX) && !listening) {
 			listening = true;
+			buzzer_play_song(SUCCESSFUL_SOUND, 120, 0);
 			robotMode = !robotMode;
 		}
 		else if(button_released(BUTTON_XBC_XBOX) && listening) {
@@ -216,6 +221,7 @@ void manual_control () {
 		
 		if(button_pressed(BUTTON_XBC_XBOX) > 1000 && !holdListening) {
 			holdListening = true;
+			buzzer_play_song(CLICK, 120, 0);
 			benMode = !benMode;
 		}
 		else if(button_released(BUTTON_XBC_XBOX) && holdListening) holdListening = false;

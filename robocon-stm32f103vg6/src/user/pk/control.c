@@ -244,9 +244,14 @@ void updateQueue () {
 				if(currentPath.position.y == wagateki) {
 					//retryProcedureCheck();
 					
-					setBrushlessMagnitude(14); //12
+					//setBrushlessMagnitude(14); //12
 					
-					
+					if(dt <= time /3) {
+						setBrushlessMagnitude(robotMode == RED_SIDE ? 11 : 8);
+					}
+					else if (dt > time/3) {
+						setBrushlessMagnitude(robotMode == RED_SIDE ? 14 : 14);
+					}
 				//else if (dt >= time/2 && dt < time*3/4) {
 				//	setBrushlessMagnitude(10); //18 
 				//} 
