@@ -31,19 +31,24 @@ void brushless_servo_control(s16 value){
 }
 
 //Gripper control
-//state: 1 = down, 0 = upright
-void gripper_control(GRIPPER_ID gripper_id, u8 state) {
-	if (state == 1){
+void gripper_control(GRIPPER_ID gripper_id, GRIPPER_UP_STATE state) {
+	if (state == GRIPPER_FULL_DOWN){
 		if (gripper_id == GRIPPER_1) {
-			servo_control((SERVO_ID)gripper_id, GRIPPER_MIN);
+			servo_control((SERVO_ID)gripper_id, GRIPPER_R_DOWN);
 		} else if (gripper_id == GRIPPER_2) {
-			servo_control((SERVO_ID)gripper_id, GRIPPER_MAX);
+			servo_control((SERVO_ID)gripper_id, GRIPPER_L_DOWN);
 		}
-	} else if (state == 0) {
+	} else if (state == GRIPPER_FULL_UP) {
 		if (gripper_id == GRIPPER_1) {
-			servo_control((SERVO_ID)gripper_id, GRIPPER_MED);
+			servo_control((SERVO_ID)gripper_id, GRIPPER_R_MED);
 		} else if (gripper_id == GRIPPER_2) {
-			servo_control((SERVO_ID)gripper_id, GRIPPER_MED);
+			servo_control((SERVO_ID)gripper_id, GRIPPER_L_MED);
+		}
+	}else if (state == GRIPPER_HALF_UP){
+		if (gripper_id == GRIPPER_1) {
+			servo_control((SERVO_ID)gripper_id, GRIPPER_R_HALF);
+		} else if (gripper_id == GRIPPER_2) {
+			servo_control((SERVO_ID)gripper_id, GRIPPER_L_HALF);
 		}
 	}
 }

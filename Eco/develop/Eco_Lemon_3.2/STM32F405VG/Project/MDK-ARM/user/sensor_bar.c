@@ -61,76 +61,6 @@ u16 sb_pwm_1to1(u16 inc_pwm, u16 dec_pwm, s8 sensor_bar_bias){
 	return SERVO_MED_PWM - dec_pwm + (inc_pwm+dec_pwm)*(sensor_bar_mid+sensor_bar_bias)/16;
 }
 
-//Get correction without sign
-s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp){
-	s8 best_start_index = 0;
-	s8 best_end_index = 0;
-	s8 max_width = 0;
-	s8 start_index = 0;
-	s8 end_index = 0;
-	bool in_line = false;
-	
-	for (u8 index=0; index<16; index++){
-		if (sensor_bar_filtered[index] == 1){
-			if (in_line){
-				end_index = index;
-			}else{
-				start_index = end_index = index;
-				in_line = true;
-			}
-		}else if(in_line){
-			//Can skip a 0 digit
-			if (index==15 || sensor_bar_filtered[index+1]!=1){
-				in_line = false;
-				if (end_index-start_index >= max_width){
-					max_width = end_index-start_index;
-					best_start_index = start_index;
-					best_end_index = end_index;
-				}
-			}else{
-				in_line = false;
-				if (end_index-start_index >= max_width){
-					max_width = end_index-start_index;
-					best_start_index = start_index;
-					best_end_index = end_index;
-				}
-			}
-		}
-	}
-	if (in_line){
-	end_index = 15;
-		if (end_index - start_index >= max_width){
-			max_width = end_index-start_index;
-			best_start_index = start_index;
-			best_end_index = end_index;
-		}
-	}
-	s8 line_mid = (best_start_index + best_end_index) / 2;
-	
-	// Force clear sensor 5 which gives 1 when it should not
-	if (best_start_index == 5 && best_end_index == 5){
-		line_mid = 0;
-	}
-	
-	s16 corr_angle = 0;
-	if (line_mid!=0){
-		sensor_bar_mid = line_mid;
-		//Square the difference while maintaining sign
-		s8 sign_of_error = (line_mid-SENSOR_BAR_MID)>0?1:-1;
-		u16 abs_error = (line_mid-SENSOR_BAR_MID)*sign_of_error;
-		u16 powered_error = 1;
-		for (u8 i=0;i<power;i++){
-			powered_error *= abs_error;
-		}
-		corr_angle = sensor_bar_Kp*powered_error*sign_of_error/100; //Unscale it
-		corr_angle = (corr_angle>180)?180:(corr_angle<-180?-180:corr_angle);
-	}else{
-		sensor_bar_mid = SENSOR_BAR_MID;
-	}
-	//tft_println("SE: %d %d %d %d", best_start_index, best_end_index, line_mid, corr_angle);
-	return corr_angle;
-}
-
 /**Get correction from sensor bar with flag
 	SENSOR_BAR_NORM = 0, //Normal
 	SENSOR_BAR_NTH = 1, //Nothing is sensed
@@ -195,7 +125,8 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 		flag = SENSOR_BAR_EXT;
 	}
 	
-	if (line_mid!=0){
+	//Ignore line with only 1 white, possibly an error
+	if (max_width > 1){
 		sensor_bar_mid = line_mid;
 		//Square the difference while maintaining sign
 		s8 sign_of_error = (line_mid-SENSOR_BAR_MID)>0?1:-1;
@@ -207,6 +138,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 		corr_angle = sensor_bar_Kp*powered_error*sign_of_error / 100; //Unscale it
 		corr_angle = (corr_angle>180)?180:(corr_angle<-180?-180:corr_angle);
 	}else{
+		//No white line is detected
 		sensor_bar_mid = SENSOR_BAR_MID;
 		flag = SENSOR_BAR_NTH;
 	}
@@ -219,7 +151,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 /*Auto tracking and adding bias using sensor bar.
 	Return Flag.
 	SENSOR_BAR_NORM = 0, //Normal
-	SENSOR_BAR_NTH = 1, //Nothing is sensed
+	SENSOR_BAR_NTH = 1, //No white line is detected
 	SENSOR_BAR_EXT = 2 //Extreme condition
 	SENSOR_BAR_ALL = 3 //Read all or mostly white
 */

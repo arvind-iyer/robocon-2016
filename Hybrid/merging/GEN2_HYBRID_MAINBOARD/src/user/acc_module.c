@@ -5,19 +5,18 @@ s16 motor_vel[3] = {0};
 CLOSE_LOOP_FLAG motor_loop_state[3] = {CLOSE_LOOP};
 static s16 accel_remainder = 0;
 static s16 rotate_accel_remainder = 0;
+static s32 last_ticks = 0;
 
 //Update in local coordinate
 //All acceleration scaled by 1000
 void acc_update(s16 vx, s16 vy, s16 w, s16 v_acc, s16 v_dec, s16 w_acc, s16 w_dec, bool global){
 	
-//	if (global){
-//		s32 temp_x = 0;
-//		s32 temp_y = 0;
-//		temp_x = vx*int_cos(get_angle())/10000 - vy*int_sin(get_angle())/10000;
-//		temp_y = vx*int_sin(get_angle())/10000 + vy*int_cos(get_angle())/10000;
-//		vx = temp_x;
-//		vy = temp_y;
-//	}
+	if ((this_loop_ticks - last_ticks) < (SHORT_LOOP_TICKS*10)){
+		v_acc = v_acc * (this_loop_ticks - last_ticks) / (SHORT_LOOP_TICKS + 1);
+		v_dec = v_dec * (this_loop_ticks - last_ticks) / (SHORT_LOOP_TICKS + 1);
+		w_acc = w_acc * (this_loop_ticks - last_ticks) / (SHORT_LOOP_TICKS + 1);
+		w_dec = w_dec * (this_loop_ticks - last_ticks) / (SHORT_LOOP_TICKS + 1);
+	}
 	
 	s16 rotate_accel_amount = 0;
 	if (abs(w) > abs(curr_w)){
@@ -69,23 +68,6 @@ void acc_update(s16 vx, s16 vy, s16 w, s16 v_acc, s16 v_dec, s16 w_acc, s16 w_de
 		}
 	}
 	
-//	
-//	if (abs(curr_vx - vx) < (acceleration_amount+1) && abs(curr_vy - vy) < (acceleration_amount+1)){
-//		curr_vx = vx;
-//		curr_vy = vy;
-//	}else{
-//		if (curr_vx > vx){
-//			curr_vx -= acceleration_amount;
-//		}else{
-//			curr_vx += acceleration_amount;
-//		}
-//		if (curr_vy > vy){
-//			curr_vy -= acceleration_amount;
-//		}else{
-//			curr_vy += acceleration_amount;
-//		}
-//	}
-	
 	s16 curr_angle = int_arc_tan2(curr_vx, curr_vy)*10;
 	u32 curr_speed = u32_sqrt(curr_vy * curr_vy + curr_vx * curr_vx);
 	motor_vel[0] = (int_sin(curr_angle%3600)*(s32)curr_speed*(-1)/10000 + curr_w)/10;
@@ -113,4 +95,6 @@ void acc_update(s16 vx, s16 vy, s16 w, s16 v_acc, s16 v_dec, s16 w_acc, s16 w_de
 	for (u8 i=0;i<3;i++){
 		motor_set_vel((MOTOR_ID)(MOTOR1 + i), motor_vel[i], motor_loop_state[i]);
 	}
+	
+	last_ticks = this_loop_ticks;
 }

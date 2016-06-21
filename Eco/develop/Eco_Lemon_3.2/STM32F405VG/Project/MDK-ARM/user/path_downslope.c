@@ -16,13 +16,13 @@ GAME_STAGE path_down_update(){
 		u16 downslope_servo_pwm = 0;
 		if (sensorbar_region == DOWN_GREEN){
 			si_clear_static();
-			//downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, 0);
-			if (shake_count >= 10){
-				downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, 2);
-			}else{
-				downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, -2);
-			}
-			shake_count = (shake_count+1)%20;
+			downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, 0);
+//			if (shake_count >= 10){
+//				downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, 2);
+//			}else{
+//				downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, -2);
+//			}
+//			shake_count = (shake_count+1)%20;
 		}else{
 			#ifdef BLUE_FIELD
 				downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, SB_SHIFT_AFTER_THIRD);
@@ -34,9 +34,25 @@ GAME_STAGE path_down_update(){
 		si_clear();
 		si_set_pwm(downslope_servo_pwm);
 		si_execute();
+	}else{
+//		//if senses nothing, turn max. so as not to fall off due to high speed
+//		if (sensorbar_region == HIGH_ORANGE){
+//			si_clear();
+//			#ifdef RED_FIELD
+//				si_set_pwm(SERVO_PROPER_MAX_PWM);
+//			#else
+//				si_set_pwm(SERVO_PROPER_MIN_PWM);
+//			#endif
+//			si_execute();
+//		}
 	}
 	
 	tft_println("SE: %d", start_dis);
+	if (senses_4th_island){
+		tft_println("SENSES 4TH ISLAND");
+	}else{
+		tft_println("USED ENCODER");
+	}
 	
 	#ifdef BLUE_FIELD
 		if((get_average_dis() - start_dis > DOWN_SLOPE_MIN_DIS) && (flag == SENSOR_BAR_ALL || sensorbar_region == BLUE_START)){

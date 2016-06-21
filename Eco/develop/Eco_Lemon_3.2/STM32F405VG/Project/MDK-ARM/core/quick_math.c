@@ -107,3 +107,7 @@ __inline uint16_t u32_sqrt(uint32_t in_num){
 	}
 	return (uint16_t) (root>>1);
 }
+
+void s16_quicksort(s16* list, u16 left, u16 right){
+	
+}

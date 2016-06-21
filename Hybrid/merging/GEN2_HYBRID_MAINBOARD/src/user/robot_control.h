@@ -1,6 +1,22 @@
 #ifndef _ROBOT_CONTROL_H
 #define _ROBOT_CONTROL_H
 
+typedef enum{
+	BRUSHLESS_1 = 0,
+	BRUSHLESS_2 = 1
+}BRUSHLESS_ID;
+
+typedef enum{
+	GRIPPER_1 = 0,
+	GRIPPER_2 = 1
+}GRIPPER_ID;
+
+typedef enum{
+	GRIPPER_FULL_DOWN = 0,
+	GRIPPER_HALF_UP = 1,
+	GRIPPER_FULL_UP = 2
+}GRIPPER_UP_STATE;
+
 #include <stdbool.h>
 #include "stm32f10x.h"
 #include "servo.h"
@@ -9,7 +25,7 @@
 #include "can_motor.h"
 #include "xbc_control.h"
 
-#define CLIMBING_SPEED 1799
+#define CLIMBING_SPEED 1400
 #define DESCEND_SPEED -500
 #define RAISE_ARM_SPEED 1350
 #define LOWER_ARM_SPEED -1350
@@ -25,10 +41,13 @@
 #define BRUSHLESS_SERVO_ANGLE 90
 #define BRUSHLESS_SERVO_OFFSET 0
 
-#define GRIPPER_MED 855 //660 //680 //750
+#define GRIPPER_L_MED 880
+#define GRIPPER_R_MED 830
 #define GRIPPER_INC 195
-#define GRIPPER_MIN GRIPPER_MED - GRIPPER_INC //400
-#define GRIPPER_MAX GRIPPER_MED + GRIPPER_INC //855 //1100
+#define GRIPPER_L_DOWN (GRIPPER_L_MED + GRIPPER_INC) //855 //1100
+#define GRIPPER_R_DOWN (GRIPPER_R_MED - GRIPPER_INC) //400
+#define GRIPPER_L_HALF (GRIPPER_L_MED + GRIPPER_INC/2)
+#define GRIPPER_R_HALF (GRIPPER_R_MED - GRIPPER_INC/2)
 
 #define GRIPPER_COUNT 2
 #define GRIPPER_R_PUSH_PORT PD11
@@ -47,23 +66,12 @@
 
 #define CLIMB_PNEUMATIC_PORT PB9
 
-typedef enum{
-	BRUSHLESS_1 = 0,
-	BRUSHLESS_2 = 1
-}BRUSHLESS_ID;
-
-typedef enum{
-	GRIPPER_1 = 0,
-	GRIPPER_2 = 1
-}GRIPPER_ID;
-
 void emergency_stop(void);
 
 void brushless_control(u16 value, bool is_percentage_mode);
 void brushless_servo_control(s16 value);
 
-//state: 0 = down, 1 = upright
-void gripper_control(GRIPPER_ID gripper_id, u8 state);
+void gripper_control(GRIPPER_ID gripper_id, GRIPPER_UP_STATE state);
 //state: 0 = retract, 1 = extend
 void gripper_push_control(GRIPPER_ID gripper_id, u8 state);
 //state: 0 = open, 1 = close

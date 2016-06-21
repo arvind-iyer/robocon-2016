@@ -148,7 +148,7 @@ int main(void){
 		if (cali_stage<REGIONS){
 			if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14)){
 				while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14));
-				sensor_init(cali_stage);
+				sensor_cali(cali_stage);
 				cali_stage++;
 				if (cali_stage>=REGIONS){
 					writeFlash();

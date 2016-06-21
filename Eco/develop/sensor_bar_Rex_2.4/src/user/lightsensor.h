@@ -37,8 +37,9 @@ typedef struct
 extern s16 reading_in_area[REGIONS][2][3];
 extern s16 compensated_region_color[REGIONS][3];
 extern s16 region_color_average[REGIONS][3];
+extern s16 sensor_max[16];
 
-void sensor_init(u8 cali_stage);
+void sensor_cali(u8 cali_stage);
 void dataCollect(void);
 void init_all_zero(void);
 void printInformation(void);

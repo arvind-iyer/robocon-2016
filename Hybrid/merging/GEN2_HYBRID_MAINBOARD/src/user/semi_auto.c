@@ -34,7 +34,7 @@ u8 limit_sa_approach(s16 motor_vel[3]){
 		if (!gripper_ready){
 			gripper_ready = true;
 			
-			gripper_down = true;
+			gripper_down = GRIPPER_FULL_DOWN;
 			gripper_extended = true;
 			gripper_clawed = false;
 			gripper_control(THIS_GRIPPER, gripper_down);

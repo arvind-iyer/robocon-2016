@@ -22,9 +22,10 @@
 #include "acc_module.h"
 #include "quick_math.h"
 #include "adc_ir.h"
+#include "climbing.h"
 
-//#define BLUE_FIELD
-#define RED_FIELD
+#define BLUE_FIELD
+//#define RED_FIELD
 
 #ifdef RED_FIELD
 	#ifdef BLUE_FIELD
@@ -43,7 +44,8 @@
 #define ANGLE_PID_MAX 400000
 
 #define IR_ORIGINAL_TARGET_DIS 45 //in mm
-#define HIT_BOX_PORT PE3
+#define HIT_BOX_L_PORT &PE3
+#define HIT_BOX_R_PORT &PE9
  
 //Laser avoid hitting
 #define LASER_RETREAT_AVG_DIS 200
@@ -67,7 +69,7 @@
 #define ROTATE_ACC_CONSTANT 10400 //3500 //Scaled by 1000 
 #define ROTATE_DEC_CONSTANT 13100 //3500 //Scaled by 1000 
 
-#define BRUSHLESS_POWER_STEP 5
+#define BRUSHLESS_POWER_STEP 3
 #define BRUSHLESS_SERVO_SMALL_STEP 1
 #define BRUSHLESS_SERVO_LARGE_STEP 3
 #define BRUSHLESS_START_CONTIN_TICKS 750
@@ -76,23 +78,16 @@
 #define GRIPPER_STATES_NO 4
 #define GRIPPER_TICKS_THRESHOLD 50
 
-#define CLIMBING_TICKS_LIMIT 1000
-#define CLIMBING_BRUSHLESS_POWER 50
-#define PUTTING_PROPELLER_UP_DELAY 1000
-#define PUTTING_PROPELLER_PUSH_DELAY 1000
-#define PUTTING_PROPELLER_UNCLAW_DELAY 1000
-#define PUTTING_PROPELLER_RETRACT_DELAY 1000
-#define PUTTING_PROPELLER_YEAH_DELAY 1000
-
 #ifdef BLUE_FIELD
 	#define THIS_GRIPPER GRIPPER_1
-	#define CLIMBING_BRUSHLESS_ANGLE -10 //-5
 #else
 	#define THIS_GRIPPER GRIPPER_2
-	#define CLIMBING_BRUSHLESS_ANGLE 10 //5
 #endif
 
-extern bool gripper_extended, gripper_clawed, gripper_down;
+extern bool gripper_extended, gripper_clawed;
+extern GRIPPER_UP_STATE gripper_down;
+extern s16 brushless_servo_val;
+extern u16 brushless_power_percent;
 
 void manual_reset(void);
 void manual_init(void);

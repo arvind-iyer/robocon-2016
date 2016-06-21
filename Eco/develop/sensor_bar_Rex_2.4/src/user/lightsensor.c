@@ -12,6 +12,8 @@ s16 reading_in_area[REGIONS][2][3];
 s16 compensated_region_color[REGIONS][3];
 s16 region_color_average[REGIONS][3];
 
+s16 sensor_max[16] = {0};
+
 void init_all_zero(){
 	for(u8 i = 0 ; i < 16 ; i++){
 		now.off_reading[i] = 0;
@@ -30,52 +32,59 @@ void init_all_zero(){
 	}
 }
 
-Reading this_readings[SAMPELS_TIMES];
-void sensor_init(u8 cali_stage){
-	
-	for (u8 i=0;i<40;i++){
-		
-		//Collect off reading
-		_delay_us(DELAY_US);
-		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-		for(u8 k=0;k<16;k++){
-			this_readings[i].off_reading[k] = ADC_val[k];
-		}
-		DMA_ClearFlag(DMA1_FLAG_TC1);
-		
-		//Collect red reading
-		GPIO_SetBits(GPIOB,GPIO_Pin_11);
-		_delay_us(DELAY_US);
-		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-		for(u8 k=0;k<16;k++){
-			this_readings[i].red_reading[k] = ADC_val[k] - this_readings[i].off_reading[k];
-		}
-		GPIO_ResetBits(GPIOB,GPIO_Pin_11);
-		DMA_ClearFlag(DMA1_FLAG_TC1);
+void sensor_cali_get_reading(Reading *reading){
+	//Collect off reading
+	_delay_us(DELAY_US);
+	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+	while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+	for(u8 k=0;k<16;k++){
+		reading->off_reading[k] = ADC_val[k];
+	}
+	DMA_ClearFlag(DMA1_FLAG_TC1);
 
-		//Collect green reading
-		GPIO_SetBits(GPIOB,GPIO_Pin_12);
-		_delay_us(DELAY_US);
-		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-		for(u8 k=0;k<16;k++){
-			this_readings[i].green_reading[k] = ADC_val[k] - this_readings[i].off_reading[k];
-		}
-		GPIO_ResetBits(GPIOB,GPIO_Pin_12);
-		DMA_ClearFlag(DMA1_FLAG_TC1);
-		
-		//Collect blue reading
-		GPIO_SetBits(GPIOB,GPIO_Pin_10);
-		_delay_us(DELAY_US);
-		ADC_SoftwareStartConvCmd(ADC1, ENABLE);
-		while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
-		for(u8 k=0;k<16;k++){
-			this_readings[i].blue_reading[k] = ADC_val[k] - this_readings[i].off_reading[k];
-		}
-		GPIO_ResetBits(GPIOB,GPIO_Pin_10);
-		DMA_ClearFlag(DMA1_FLAG_TC1);
+	//Collect red reading
+	GPIO_SetBits(GPIOB,GPIO_Pin_11);
+	_delay_us(DELAY_US);
+	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+	while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+	for(u8 k=0;k<16;k++){
+		reading->red_reading[k] = ADC_val[k] - reading->off_reading[k];
+	}
+	GPIO_ResetBits(GPIOB,GPIO_Pin_11);
+	DMA_ClearFlag(DMA1_FLAG_TC1);
+
+	//Collect green reading
+	GPIO_SetBits(GPIOB,GPIO_Pin_12);
+	_delay_us(DELAY_US);
+	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+	while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+	for(u8 k=0;k<16;k++){
+		reading->green_reading[k] = ADC_val[k] - reading->off_reading[k];
+	}
+	GPIO_ResetBits(GPIOB,GPIO_Pin_12);
+	DMA_ClearFlag(DMA1_FLAG_TC1);
+
+	//Collect blue reading
+	GPIO_SetBits(GPIOB,GPIO_Pin_10);
+	_delay_us(DELAY_US);
+	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+	while((DMA_GetFlagStatus(DMA1_FLAG_TC1)==RESET));
+	for(u8 k=0;k<16;k++){
+		reading->blue_reading[k] = ADC_val[k] - reading->off_reading[k];
+	}
+	GPIO_ResetBits(GPIOB,GPIO_Pin_10);
+	DMA_ClearFlag(DMA1_FLAG_TC1);
+}
+
+void sensor_max_cali(){
+}
+
+void sensor_cali(u8 cali_stage){
+	
+	Reading this_readings[SAMPELS_TIMES];
+	
+	for (u8 i=0;i<SAMPELS_TIMES;i++){
+		sensor_cali_get_reading(&this_readings[i]);
 	}
 	
 	//Process the data into background and line reading
@@ -122,7 +131,6 @@ void sensor_init(u8 cali_stage){
 	
 	for (u8 i=0;i<3;i++){
 		compensated_region_color[cali_stage][i] = reading_in_area[cali_stage][1][i] + (reading_in_area[cali_stage][0][i] - reading_in_area[cali_stage][1][i])*4/5;
-		//region_color_average[cali_stage][i] = sum_of_all[i]/SAMPELS_TIMES/16;
 		region_color_average[cali_stage][i] = reading_in_area[cali_stage][1][i];
 	}
 	

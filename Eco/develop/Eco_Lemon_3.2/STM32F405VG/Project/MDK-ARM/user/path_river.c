@@ -7,6 +7,7 @@ static bool last_IR_read[2] = {0};
 static s16 IR_buffer[2] = {0};
 static bool IR_buffered_read[2] = {0};
 static s32 start_dis = 0;
+bool senses_4th_island = false;
 
 void path_river_init(s16 straight_yaw){
 	river_stage = 0;
@@ -119,11 +120,11 @@ GAME_STAGE path_river_update(){
 			
 		//case 3 keep going until encoder buffer ended or senses the last island
 		case 3:
-			#ifdef BLUE_FIELD
-				if ((get_average_dis() - start_dis > DIS_AFTER_THIRD_ISLAND) || islands_end_count[SECOND_IR_ID] >= 2){
-			#else
-				if ((get_average_dis() - start_dis > DIS_AFTER_THIRD_ISLAND) || islands_end_count[SECOND_IR_ID] >= 2){
-			#endif
+			if ((get_average_dis() - start_dis > DIS_AFTER_THIRD_ISLAND)){
+				senses_4th_island = false;
+				river_stage++;
+			}else if(islands_end_count[SECOND_IR_ID] >= 2){
+				senses_4th_island = true;
 				river_stage++;
 			}
 			si_clear();
@@ -135,9 +136,9 @@ GAME_STAGE path_river_update(){
 			buzzer_play_song(HIGH_4, 200, 50);
 			path_down_reset();
 			#ifdef BLUE_FIELD
-				si_set_st_deg_bias(100);
+				si_set_st_deg_bias(150);
 			#else
-				si_set_st_deg_bias(-100);
+				si_set_st_deg_bias(-150);
 			#endif
 			return (GAME_STAGE) (CROSSING_RIVER + 1);
 	}

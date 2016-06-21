@@ -43,7 +43,6 @@ u16 sb_pwm_1to1(u16 inc_pwm, u16 dec_pwm, s8 sensor_bar_bias);
 //Use which shape for the correction, like error^2, error^3
 SENSOR_BAR_FLAG sensor_bar_track(u8 power, u16 sensor_bar_Kp);
 s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag);
-s16 sensor_bar_get_corr_nf(u8 power, u16 sensor_bar_Kp);
 
 extern u8 sensor_bar_mid;
 extern u16 sensor_bar_filtered[16];

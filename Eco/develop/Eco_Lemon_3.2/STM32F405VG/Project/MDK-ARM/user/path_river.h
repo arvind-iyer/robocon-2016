@@ -38,6 +38,8 @@
 #define RIVER_SB_INC_PWM 5000
 #define RIVER_SB_DEC_PWM 5000
 
+extern bool senses_4th_island;
+
 void path_river_init(s16 straight_yaw);
 GAME_STAGE path_river_update(void);
 

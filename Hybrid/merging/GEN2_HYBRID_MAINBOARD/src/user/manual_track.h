@@ -19,8 +19,14 @@
 #include "quick_math.h"
 #include "manual_mode.h"
 
-#define WALL_1_LIMIT_SWITCH &PE9
-#define WALL_2_LIMIT_SWITCH &PE10
+#ifdef RED_FIELD
+	#define WALL_1_LIMIT_SWITCH &PE11
+	#define WALL_2_LIMIT_SWITCH &PE10
+#else
+	#define WALL_1_LIMIT_SWITCH &PE0
+	#define WALL_2_LIMIT_SWITCH &PE1
+#endif
+
 #define POLE_LIMIT_SWITCH &PE2
 #define TICKS_AFTER_HIT_POLE 2000
 
@@ -43,16 +49,18 @@
 #define LASER_PARA_P 880 //Scaled by 1000
 #define LASER_PARA_CONSTANT 880
 
-#define LIMIT_START_DECEL_Y 3500 //4500
+#define LIMIT_START_DECEL_Y 4500 //4500
 
 #define LIMIT_ROTATE_BIGGER 500 //450
-#define LIMIT_ROTATE_SMALLER 200 //100
+#define LIMIT_ROTATE_SMALLER 380 //100
 
 #define LIMIT_PARA_CONSTANT 750
-#define LIMIT_PARA_SLOW_CONSTANT 380
+#define LIMIT_PARA_SLOW_CONSTANT 200 //380
 
 #define LIMIT_PERPEND_NORM 20
 #define LIMIT_PERPEND_FAST 320 //300
+
+#define LIMIT_GYRO_ROTATE_P 150 //Scaled by 1000
 
 #define TRACK_ACC_CONSTANT 11000 //Scaled by 1000
 
@@ -61,5 +69,6 @@ extern u32 laser_range[2];
 bool laser_manual_update(s16 motor_vel[3]);
 void limit_manual_init(void);
 u8 limit_manual_update(s16 motor_vel[3]);
+u8 limit_gyro_update(s16 motor_vel[3]);
 
 #endif
