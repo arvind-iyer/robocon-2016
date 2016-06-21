@@ -78,6 +78,8 @@ s16 brushless_time = 0;
 s16 climbing_time = 0;
 s16 arrived_time = 0;
 s16 top_time = 0;
+s16 climb_dir = 0;
+s16 climb_blow_angle = 0;
 bool arrived = false;
 bool at_top = false;
 
@@ -252,6 +254,8 @@ void auto_reset() {
 	pneumatic_on(&PD9); //Push out
 	//servo_control(SERVO2, 1050);
 	servo_control(SERVO1, 641);
+	climb_dir = 0;
+	climb_blow_angle = 0;
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -460,11 +464,13 @@ void auto_pole_climb(){
 		motor_set_vel(MOTOR3, -48, CLOSE_LOOP);
 		motor_set_vel(MOTOR7, 0, OPEN_LOOP); //Lock biggold
 		pneumatic_on(&PB9); //Clamp pole
+		climb_dir = get_pos()->angle;
+		climb_blow_angle = 0;
+		brushless_servo_control(0);
 	} else if (climbing_time < 1000) {
 		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR3, 0, OPEN_LOOP);
-		brushless_servo_control(25);
 		//pneumatic_off(&PD10); //claw
 		pneumatic_off(&PD8); //claw
 	} else if (climbing_time < 1500) {
@@ -490,7 +496,7 @@ void auto_pole_climb(){
 			motor_set_vel(MOTOR5, 0, OPEN_LOOP);
 			motor_set_vel(MOTOR6, 0, OPEN_LOOP);
 			brushless_control(0, true);
-			if (top_time < 400) {
+			if ((auto_get_ticks() - top_time) < 400) {
 				pneumatic_off(&PD9);				
 			} else {
 				pneumatic_on(&PD8);				
@@ -499,6 +505,9 @@ void auto_pole_climb(){
 			motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
 			motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
 			motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP, OPEN_LOOP);
+			brushless_servo_control(climb_blow_angle);
+			climb_blow_angle = ((get_pos()->angle - climb_dir) * 0.4);
+			
 		}
 	}
 	
@@ -506,6 +515,7 @@ void auto_pole_climb(){
 	tft_prints(0,0,"[AUTO-CLIMB]");
 	tft_prints(0,5,"REC %3d",time/1000);
 	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
+	tft_prints(0,6,"ANGLE %3d",climb_blow_angle);
 	tft_update();
 }
 
