@@ -4,10 +4,11 @@
 
 #include "RPM_sensor.h"
 
+
 static volatile u16 past_val = 0;
 static volatile u16 now_val = 0;
-static volatile u16 diff = 0;
-static u16 tar_val = 50;
+static volatile u32 diff = 0;
+static u16 tar_val = 300;
 static u8 PID_FLAG = PID_OFF;
 s32 PID;
 u16 cur_pwm;
@@ -43,7 +44,7 @@ void RPMs_init(void){
 	
 	//Init for RPMs_Count_TIM
 	TIM_DeInit(RPMs_Count_TIM);
-	TIM_TimeBaseStructure.TIM_Period = 450;	                 		     				// Timer period, 450ms to trigger the event
+	TIM_TimeBaseStructure.TIM_Period = 0xFFFF;	                 		     				// Timer period, 4.5ms to trigger the event
 	TIM_TimeBaseStructure.TIM_Prescaler = RPMs_TIM_Period;     							// 72M/1e5 - 1 = 710
 	TIM_TimeBaseInit(RPMs_Count_TIM, &TIM_TimeBaseStructure);      					// this part feeds the parameter we set above
 	
@@ -77,13 +78,18 @@ u32 get_diff(void){
 	return diff;
 }
 
+u8 get_PID_FLAG(void){
+	return PID_FLAG;
+}
+
 /**
 	*	@Breif 	For setting the target RPS. Note that the initial value must be 50 for stablize the system.
 	*	@Param	Target RPS value
 	*	@Retval	None
  **/
 void set_tar_val(u16 tar){
-	tar_val = tar;
+	tar_val = tar <= (RPMs_DownLim + 10) ? 0 : tar;
+	tar_val = tar >= RPMs_UpLim ? RPMs_UpLim : tar;
 }
 
 /**
@@ -96,8 +102,8 @@ void set_PID_FLAG(u8 state){
 }
 
 /**
-	* @Breif 	PID for burshless, to be called in ticks handler with 5 ticks (5ms)
-	*	@Param 	P I D constant. For RED BRUSHLESS, use (50,10, 20) and stable around 2 sec, (30, 16, 20) for most stable but needs ~3s to stable
+	* @Breif 	PID for burshless, to be called in ticks handler with 4 ticks (4ms)
+	*	@Param 	P I D constant. For RED BRUSHLESS, use (50,10, 20) and target value 80 for initialization. For Silver use (40, 2, 30)
 	*	@Retval None
  **/
 void RPMs_update(s32 P, s32 I, s32 D){
@@ -108,12 +114,12 @@ void RPMs_update(s32 P, s32 I, s32 D){
 	
 	
 	if(PID_FLAG == PID_OFF){
-		servo_control_all(PWM_OFF);
+		return;
 	}
 	else{
 		now_error = tar_val - diff;
 	    
-		PID = (P* now_error+ I*(past_error + now_error + last_past_error) + D*(past_error + now_error + last_past_error) /3) / PIDScale;
+		PID = (P* now_error+ I*(past_error + now_error + last_past_error) + D*(now_error - past_error) /2) / PIDScale;
 	
 		now_pwm += PID;
 		
@@ -132,8 +138,7 @@ void RPMs_update(s32 P, s32 I, s32 D){
 void TIM5_IRQHandler(void){
 	if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET){
     TIM_ClearFlag(TIM5, TIM_FLAG_Update);
-		diff = 1 * diffScale/TIM_GetCounter(RPMs_Count_TIM);
-		//PID_FLAG = diff >= RPMs_UpLim ? PID_OFF : PID_ON;
+		diff = 1 * diffScale * RoMulti/TIM_GetCounter(RPMs_Count_TIM);
 		
 		diff = diff <= RPMs_DownLim ? 0 : diff;
 		diff = diff > RPMs_UpLim ? 0 : diff;
@@ -145,7 +150,6 @@ void TIM5_IRQHandler(void){
 void TIM6_IRQHandler(void){
 	if(TIM_GetITStatus(RPMs_Count_TIM, TIM_IT_Update) != RESET){
 		TIM_ClearFlag(RPMs_Count_TIM, TIM_FLAG_Update);
-		//PID_FLAG = PID_OFF;
 		diff = 0;
 	}
 }
