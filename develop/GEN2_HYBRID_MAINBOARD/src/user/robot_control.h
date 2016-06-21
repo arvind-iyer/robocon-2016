@@ -9,7 +9,7 @@
 #include "can_motor.h"
 #include "xbc_control.h"
 
-#define CLIMBING_SPEED 1250
+#define CLIMBING_SPEED 1500
 #define DESCEND_SPEED -500
 #define RAISE_ARM_SPEED 1350
 #define LOWER_ARM_SPEED -1350
