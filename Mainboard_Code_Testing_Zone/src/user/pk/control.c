@@ -218,6 +218,11 @@ void updateQueue () {
 					if(currentPath.brushlessSpeed != -1) {
 						setBrushlessMagnitude(currentPath.brushlessSpeed);
 					}
+					if(currentPath.position.y == wagateki) {
+						setBrushlessMagnitude(0);
+						currMode = APPROACHWALL;
+						expectRetry = get_full_ticks();
+					}
 					dequeue(size);
 					lastWait = -1;
 				}

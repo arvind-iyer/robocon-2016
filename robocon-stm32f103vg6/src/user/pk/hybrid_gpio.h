@@ -18,5 +18,6 @@ extern bool prevRetryIr;
 extern bool fixingArm;
 extern bool allow4thUpdate;
 extern int climbingState;
+extern bool retrySpeed;
 
 #endif

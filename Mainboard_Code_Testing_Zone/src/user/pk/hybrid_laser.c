@@ -110,7 +110,7 @@ void backupFirstPosition(void) {
 		parseWheelbaseValues();
 	}
 	else {
-		double angularSpd = calculateAngularVelocity(robotMode == RED_SIDE ? 90 : 270, 60, 30, 60);
+		double angularSpd = calculateAngularVelocity(robotMode == RED_SIDE ? 90 : 270, 60, 30, 45);
 		if(robotMode == RED_SIDE) {
 			//Horizontal Vector
 			if(get_ls_cal_reading(1) < 1000) {
@@ -420,7 +420,9 @@ void laserPID() {
 						fieldDetected = false;
 						queueTargetPoint(get_pos()->x - xShift - 100, get_pos()->y + 500, get_pos()->angle/10, 400, 240, -1, -1);
 						queueTargetPoint(get_pos()->x - xShift - 100, get_pos()->y + yShift + 50, 175, 100, 10, -1, -1);
-						queueTargetPoint(get_pos()->x - xShift, get_pos()->y + yShift, 175, 1500, 10, -1, 6000);
+						queueTargetPoint(get_pos()->x - xShift, get_pos()->y + yShift, 175, 1500, 10, -1, (skipBlowingRiver ? 0 : 6000));
+					
+						if(skipBlowingRiver) skipBlowingRiver = false;
 						
 						//queueTargetPoint(get_pos()->x + 150, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0);
 						//queueTargetPoint(get_pos()->x + 50, get_pos()->y, 185, 2000, 10, -1, 6000);
@@ -448,7 +450,9 @@ void laserPID() {
 						fieldDetected = false;
 						queueTargetPoint(get_pos()->x + xShift + 100, get_pos()->y + 500, get_pos()->angle/10, 400, 240, -1, -1);
 						queueTargetPoint(get_pos()->x + xShift + 100, get_pos()->y + yShift + 50, 185, 100, 10, -1, -1);
-						queueTargetPoint(get_pos()->x + xShift, get_pos()->y + yShift, 185, 1500, 10, -1, 6000);
+						queueTargetPoint(get_pos()->x + xShift, get_pos()->y + yShift, 185, 1500, 10, -1, (skipBlowingRiver ? 0 : 6000));
+						
+						if(skipBlowingRiver) skipBlowingRiver = false;
 						
 						//queueTargetPoint(get_pos()->x + 150, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0);
 						//queueTargetPoint(get_pos()->x + 50, get_pos()->y, 185, 2000, 10, -1, 6000);

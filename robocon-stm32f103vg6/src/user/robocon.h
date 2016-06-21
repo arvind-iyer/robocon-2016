@@ -69,7 +69,8 @@ typedef enum {
 	AUTORETRY,
 	WAITRETRY,
 	RETRYCHECK,
-	CLIMBING
+	CLIMBING,
+	FREEMOVEMENT
 } STATEMODES;
 
 typedef enum {
@@ -77,6 +78,8 @@ typedef enum {
 	BLUE_SIDE
 } GAMEMODES;
 
+
+extern bool skipBlowingRiver;
 extern Pneumatics pneumatics;
 extern bool prevLimitSwitch[4];
 extern bool robotMode;

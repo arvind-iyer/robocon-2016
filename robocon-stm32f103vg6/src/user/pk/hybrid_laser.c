@@ -110,7 +110,7 @@ void backupFirstPosition(void) {
 		parseWheelbaseValues();
 	}
 	else {
-		double angularSpd = calculateAngularVelocity(robotMode == RED_SIDE ? 90 : 270, 60, 30, 60);
+		double angularSpd = calculateAngularVelocity(robotMode == RED_SIDE ? 90 : 270, 60, 30, 45);
 		if(robotMode == RED_SIDE) {
 			//Horizontal Vector
 			if(get_ls_cal_reading(1) < 1000) {
@@ -397,43 +397,67 @@ void laserPID() {
 				if(!semiAuto){
 					if(get_pos()->y > yCoordSystem * 0.35 && get_pos()->y < yCoordSystem * 0.45) setBrushlessMagnitude(15); //TEST FIELD 18
 					if(get_pos()->y > yCoordSystem * 0.45 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(10); //TEST FIELD 12
-					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.85) setBrushlessMagnitude(18); //TEST FIELD 15
-					if(get_pos()->y > yCoordSystem * 0.95) setBrushlessMagnitude(11);
+					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(18); //TEST FIELD 15
+					if(get_pos()->y > yCoordSystem * 0.75) setBrushlessMagnitude(11);
 				}
 
 				parseWheelbaseValues();
 				
 					//Finish Conditions
-				if(get_pos()->y > yCoordSystem /* && get_ls_cal_reading(1) > 775*/ && !semiAuto) {
+				if(get_pos()->y > yCoordSystem * 0.76 /* && get_ls_cal_reading(1) > 775*/ && !semiAuto) {
 						currMode = PIDMODE;
 						wheelbaseLock();
-						fieldDetected = false;
+						//fieldDetected = false;
 						
-						queueTargetPoint(get_pos()->x - 150, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0); //-300 // TEST FIELD -150 0
-						queueTargetPoint(get_pos()->x - 50, get_pos()->y, 175, 2000, 10, -1, 6500); //-200 //TEST FIELD -50 0
-						wagamama = get_pos()->x - 50; //-200
-						wagateki = get_pos()->y; 
+						//queueTargetPoint(get_pos()->x - 150, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0); //-300 // TEST FIELD -150 0
+						//queueTargetPoint(get_pos()->x - 50, get_pos()->y, 175, 2000, 10, -1, 6500); //-200 //TEST FIELD -50 0
+						//wagamama = get_pos()->x - 50; //-200
+						//wagateki = get_pos()->y; 
+					
+						int xShift = 350;
+						int yShift = 2050;
+					
+						fieldDetected = false;
+						queueTargetPoint(get_pos()->x - xShift - 100, get_pos()->y + 500, get_pos()->angle/10, 400, 240, -1, -1);
+						queueTargetPoint(get_pos()->x - xShift - 100, get_pos()->y + yShift + 50, 175, 100, 10, -1, -1);
+						queueTargetPoint(get_pos()->x - xShift, get_pos()->y + yShift, 175, 1500, 10, -1, (skipBlowingRiver ? 0 : 6000));
+					
+						if(skipBlowingRiver) skipBlowingRiver = false;
+						
+						//queueTargetPoint(get_pos()->x + 150, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0);
+						//queueTargetPoint(get_pos()->x + 50, get_pos()->y, 185, 2000, 10, -1, 6000);
+						wagamama = get_pos()->x + xShift;
+						wagateki = get_pos()->y + yShift;
 					}
 			}
 			else if(robotMode == BLUE_SIDE) {
 				if(!semiAuto) {
 					if(get_pos()->y > yCoordSystem * 0.35 && get_pos()->y < yCoordSystem * 0.45) setBrushlessMagnitude(13); //TEST FIELD 18
 					if(get_pos()->y > yCoordSystem * 0.45 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(5); //TEST FIELD 12
-					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.85) setBrushlessMagnitude(22); //TEST FIELD 15
-					if(get_pos()->y > yCoordSystem * 0.95) setBrushlessMagnitude(8);
+					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(22); //TEST FIELD 15
+					if(get_pos()->y > yCoordSystem * 0.75) setBrushlessMagnitude(8);
 				}
 				parseWheelbaseValues();
 				
 					//Finish Conditions
-					if(get_pos()->y > yCoordSystem /*&& get_ls_cal_reading(0) >800*/ && !semiAuto) {
+					if(get_pos()->y > yCoordSystem * 0.76 /*&& get_ls_cal_reading(0) >800*/ && !semiAuto) {
 						currMode = PIDMODE;
 						wheelbaseLock();
-						fieldDetected = false;
 						
-						queueTargetPoint(get_pos()->x + 150, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0);
-						queueTargetPoint(get_pos()->x + 50, get_pos()->y, 185, 2000, 10, -1, 6000);
-						wagamama = get_pos()->x + 50;
-						wagateki = get_pos()->y;
+						int xShift = 350;
+						int yShift = 2050;
+						
+						fieldDetected = false;
+						queueTargetPoint(get_pos()->x + xShift + 100, get_pos()->y + 500, get_pos()->angle/10, 400, 240, -1, -1);
+						queueTargetPoint(get_pos()->x + xShift + 100, get_pos()->y + yShift + 50, 185, 100, 10, -1, -1);
+						queueTargetPoint(get_pos()->x + xShift, get_pos()->y + yShift, 185, 1500, 10, -1, (skipBlowingRiver ? 0 : 6000));
+						
+						if(skipBlowingRiver) skipBlowingRiver = false;
+						
+						//queueTargetPoint(get_pos()->x + 150, get_pos()->y, get_pos()->angle/10, 100, 50, -1, 0);
+						//queueTargetPoint(get_pos()->x + 50, get_pos()->y, 185, 2000, 10, -1, 6000);
+						wagamama = get_pos()->x + xShift;
+						wagateki = get_pos()->y + yShift;
 					}
 				}
 			}

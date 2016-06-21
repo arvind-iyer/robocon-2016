@@ -8,6 +8,7 @@ extern int timediff;
 extern bool laserAuto;
 
 bool m_listener = false, m_holdListener = false, m_brushlessListener = false;
+bool skipBlowingRiver = false;
 
 bool robotMode = RED_SIDE;
 bool rightJoyInUse = false;
@@ -68,6 +69,8 @@ void robocon_main(void) {
 				break;
 			case CLIMBING:
 				auto_execute();
+				break;
+			default:
 				break;
 			
 		}

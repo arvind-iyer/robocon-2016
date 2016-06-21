@@ -230,6 +230,8 @@ bool retryIrChecking(void) {
 	}
 }
 
+bool retrySpeed = false;
+
 void retryProcedureCheck(void) {
 	if (retryIrChecking()) {
 		if (ctr == 2) {
@@ -250,6 +252,7 @@ void retryProcedureCheck(void) {
 				queueTargetPoint(wagamama, wagateki, 175, 2000, 10, -1, 6500); //-200 //TEST FIELD -50 0
 				ctr = 1;
 				currMode = PIDMODE;
+				retrySpeed = true;
 			} else {
 				setBrushlessMagnitude(0);
 				if (get_full_ticks() - retryDelay > 5000) {

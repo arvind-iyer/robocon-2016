@@ -1,0 +1,15 @@
+HYBRID LASER.C:
+START POSITION:
+   - Distance from wall : laserTargVal
+   - Distance to eco : Stopping Threshold
+LASER PID:
+   - Final Y Position
+   - Distance from wall : laserTargVal (may or may not be required)
+   - Blowing Speeds (may be difficult)
+MOVETOWALL:
+   - Transition distance,may or may not be required
+ENTERPOLE: 
+   - Distance to wall such that the hybrid always enters the pole
+RETRYAUTOPATH:
+   - RETRY RANGE BEFORE ACTIVATING!!! VERY IMPORTANT OR ELSE IT MIGHT ALWAYS VIOLATE
+

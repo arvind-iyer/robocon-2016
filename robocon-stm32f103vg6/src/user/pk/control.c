@@ -218,6 +218,11 @@ void updateQueue () {
 					if(currentPath.brushlessSpeed != -1) {
 						setBrushlessMagnitude(currentPath.brushlessSpeed);
 					}
+					if(currentPath.position.y == wagateki) {
+						setBrushlessMagnitude(0);
+						currMode = APPROACHWALL;
+						expectRetry = get_full_ticks();
+					}
 					dequeue(size);
 					lastWait = -1;
 				}
@@ -246,11 +251,21 @@ void updateQueue () {
 					
 					//setBrushlessMagnitude(14); //12
 					
-					if(dt <= time /3) {
-						setBrushlessMagnitude(robotMode == RED_SIDE ? 11 : 8);
+					if(dt <= time /4) {
+						if(!retrySpeed) {
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 11 : 12);
+						}
+						else{
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 9 : 10);
+						}
 					}
-					else if (dt > time/3) {
-						setBrushlessMagnitude(robotMode == RED_SIDE ? 14 : 20);
+					else if (dt > time/4) {
+						if(!retrySpeed) {
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 14 : 22);
+						}
+						else {
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 12 : 20);
+						}
 					}
 				//else if (dt >= time/2 && dt < time*3/4) {
 				//	setBrushlessMagnitude(10); //18 
@@ -289,6 +304,7 @@ void updateQueue () {
 					//TODO: ADD CONDITION FOR RED_SIDE
 					if(currentPath.position.y == wagateki) {
 						setBrushlessMagnitude(0);
+						retrySpeed = false;
 						currMode = RETRYCHECK;
 						expectRetry = get_full_ticks();
 					}
@@ -317,8 +333,8 @@ void updateQueue () {
 			int angularVelocity = calculatePathAngularVelocity(currentPath, robot);
 			
 			if(currentPath.position.y == wagateki && currentPath.position.x == wagamama && currentDistance < currentPath.distanceThreshold) {
-				magnitude = 0;
-				if(Abs(getAngleDifference(robot.position.angle, currentPath.position.angle)) > 10) angularVelocity = 2* angularVelocity;
+				//magnitude = 0;
+				//if(Abs(getAngleDifference(robot.position.angle, currentPath.position.angle)) > 10) angularVelocity = 2* angularVelocity;
 			}
 			calculatePIDMotorValues(magnitude, translationBearing, angularVelocity);
 		}
