@@ -42,7 +42,7 @@ u8 hill_cal = 1;
 //mode variables
 PID_MODE pid_state;
 bool pid_stopped;
-bool start_pressed, back_pressed;
+bool start_pressed, back_pressed, y_pressed;
 int path_id;
 
 //path target queue
@@ -82,6 +82,7 @@ s16 climb_dir = 0;
 s16 climb_blow_angle = 0;
 bool arrived = false;
 bool at_top = false;
+u8 climb_temp = 0;
 
 //UART receiver
 u8 rx_state = 0;
@@ -128,7 +129,6 @@ void auto_tar_dequeue() {
 		start = auto_get_ticks();
 	brushless_time = auto_get_ticks();
 	arrived = false;
-	at_top = false;
 	
 	if (tar_end) {
 		ori_x = tar_queue[tar_end-1].x;
@@ -209,6 +209,7 @@ void auto_init() {
 
 	start_pressed = false;
 	back_pressed = false;
+	y_pressed = false;
 	
 	tar_head = 0;
 	tar_end = 0;
@@ -256,6 +257,7 @@ void auto_reset() {
 	servo_control(SERVO1, 641);
 	climb_dir = 0;
 	climb_blow_angle = 0;
+	at_top = false;
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -466,6 +468,7 @@ void auto_pole_climb(){
 		pneumatic_on(&PB9); //Clamp pole
 		climb_dir = get_pos()->angle;
 		climb_blow_angle = 0;
+		climb_temp = 0;
 		brushless_servo_control(0);
 	} else if (climbing_time < 1000) {
 		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
@@ -497,7 +500,8 @@ void auto_pole_climb(){
 			motor_set_vel(MOTOR6, 0, OPEN_LOOP);
 			brushless_control(0, true);
 			if ((auto_get_ticks() - top_time) < 400) {
-				pneumatic_off(&PD9);				
+				pneumatic_off(&PD9);
+				climb_temp = 1;
 			} else {
 				pneumatic_on(&PD8);				
 			}
@@ -515,7 +519,8 @@ void auto_pole_climb(){
 	tft_prints(0,0,"[AUTO-CLIMB]");
 	tft_prints(0,5,"REC %3d",time/1000);
 	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
-	tft_prints(0,6,"ANGLE %3d",climb_blow_angle);
+	tft_prints(0,7,"ANGLE %3d",climb_blow_angle);
+	tft_prints(0,9,"%d %d", climb_temp, top_time);
 	tft_update();
 }
 
@@ -633,6 +638,8 @@ void auto_calibrate(){
 void auto_menu_update() {
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
+	tft_prints(0,6,"STATE %d%d%d%d%d%d", gpio_read_input(&PE10), gpio_read_input(&PE11), gpio_read_input(&PE0), gpio_read_input(&PE1), gpio_read_input(&PE6), gpio_read_input(&PE7));
+	tft_prints(0,7,"(Y) retry climb");
 	
 	if (auto_get_flash(0,0) == PATH_ID) {
 		tft_prints(0,1,"Path found!");
@@ -671,6 +678,17 @@ void auto_menu_update() {
 		}
 	} else {
 		start_pressed = false;
+	}
+	
+	if (button_pressed(BUTTON_XBC_Y)){
+		if (!y_pressed) {
+			y_pressed = true;
+			
+			auto_reset();
+			pid_state = CLIMBING_MODE;
+		}
+	} else {
+		y_pressed = false;
 	}
 	
 	if (to_be_saved) {
