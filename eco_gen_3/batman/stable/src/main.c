@@ -1,6 +1,30 @@
 #include "main.h"
 
-//Extern variables, sorry if it is a mess,yolo global variables
+u8 data1[8];
+u8 data2[8];
+u8 sensorbar_result[16];
+u8 river;
+u8 border;
+u8 global_state = NORMAL;
+int hue_avg;
+int begin = -1;
+int eco_finish_timestamp = 0;
+int end = 0;
+int length = 0;
+int last_turn = 0;
+int full_white = 0;
+int system_on = 0;
+int last_movement = SERVO_MICROS_MID;
+int time1 = 0;
+int time2 = 0;
+int ninety_time_stamp;
+float angle_after_ninety = 0.0;
+float angle_enter_river = 0.0;
+float factor = 0;
+bool imu_fucked_up = false;
+bool done_turning = false;
+bool sensor_is_flipped = true;
+
 extern int MAX_NINETY_TURNING;
 extern int IMU_ANGLE1;
 extern float NINETY_IMU;
@@ -11,50 +35,17 @@ extern int DELAY;
 extern GAMESIDE side;
 extern INFRARED_SENSOR infrared1;
 extern INFRARED_SENSOR infrared2;
-extern SLOPEZONE currentSlopeZone;
-extern ZONE gameZone;
-
-
-bool sensorIsFlipped = true;
-bool ecoFinish = false;
-u8 data1[8];
-u8 data2[8];
-u8 sensorbar_result[16];
-u8 river;
-int hueAvg;
-u8 border;
-u8 globalState = NORMAL;
-int begin = -1;
-int eco_finish_timestamp = 0;
-int end = 0;
-int length = 0;
-int lastTurn = 0;
-float factor = 0;
-int fullWhite = 0;
-int systemOn = 0;
-int yaw_of_imu = 0;
-int pitch_of_imu = 0;
-int lastMovement = SERVO_MICROS_MID;
-int time1 = 0;
-int time2 = 0;
-float angle_after_ninety = 0.0;
-float angle_enter_river = 0.0;
-bool done_turning = false;
-
-extern int passedRiver;
-extern int passedDownSlope;
-extern int passedOrangeBeforeDownSlope;
-extern char currentSlopeZoneString[10];
-extern char globalStateString[16];
+extern SLOPEZONE current_slope_zone;
+extern ZONE game_zone;
+extern int passed_river;
+extern int passed_down_slope;
+extern char current_slope_zone_string[10];
+extern char global_state_string[16];
 extern int ENTER_RIVER_ENCODER;
-
-bool imu_fucked_up = false;
-int ninety_time_stamp;
-
 
 int main(void) {
     //Initialization of all hardware
-    systemInit();
+    system_init();
     u32 ticks_ms_img = 0;
     bool songIsPlayed = false;
     bool startSong = false;
@@ -69,7 +60,7 @@ int main(void) {
             tft_clear();
             fill_sensorbar_array();
             process_array();
-            determineZone();
+            determine_zone();
             if((get_ticks() % 25 == 0) && !imu_fucked_up)
                 ardu_imu_value_update();
             //Play song when IMU is calibrated
@@ -79,122 +70,122 @@ int main(void) {
                 MARIO_START;
                 songIsPlayed = true;
             }
-            switch(systemOn){
+            switch(system_on){
                 case ON:
                     //Emergency turning system
-                    if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT) && passedRiver && (globalState != DOWN_SLOPE)){
+                    if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT) && passed_river && (global_state != DOWN_SLOPE)){
                        servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT - 100);
                     }
-                    else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT) && passedRiver && (globalState != DOWN_SLOPE)){
+                    else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT) && passed_river && (global_state != DOWN_SLOPE)){
                        servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT + 100);
                     }
                     //Normal working state
                     else{
-                        switch(globalState){
+                        switch(global_state){
                             case NORMAL:
-                                switch(currentSlopeZone){
+                                switch(current_slope_zone){
                                     case STARTZONE:
                                         if(!startSong){
                                             START_UP_play;
                                             startSong = true;
                                         }                                       
-                                        if(gameZone == DARKGREENZONE && (get_minimize_count(ENCODER1) > 10)){
+                                        if(game_zone == DARKGREENZONE && (get_minimize_count(ENCODER1) > 10)){
                                             reset_encoder_1();
 											START_UP_play;
-                                            currentSlopeZone = GREENSLOPE1;
-                                            strcpy(currentSlopeZoneString,"GREENSLOPE1");
+                                            current_slope_zone = GREENSLOPE1;
+                                            strcpy(current_slope_zone_string,"GREENSLOPE1");
                                         } 
                                         else
-                                            goNormal();
+                                            go_normal();
                                     break;
                                     case GREENSLOPE1:
-                                        if((gameZone == ORANGEZONE || gameZone == PINKZONE) && (get_minimize_count(ENCODER1) > 4)){
+                                        if((game_zone == ORANGEZONE || game_zone == PINKZONE) && (get_minimize_count(ENCODER1) > 4)){
                                             reset_encoder_1();
                                             START_UP_play;
-                                            currentSlopeZone = ORANGE1;
-                                            strcpy(currentSlopeZoneString,"ORANGE1");
+                                            current_slope_zone = ORANGE1;
+                                            strcpy(current_slope_zone_string,"ORANGE1");
                                         }  
                                         else
-                                            goNormal();
+                                            go_normal();
                                             
                                     break;
                                     case ORANGE1:
-                                        if(gameZone == DARKGREENZONE && (get_minimize_count(ENCODER1) > 4)){
+                                        if(game_zone == DARKGREENZONE && (get_minimize_count(ENCODER1) > 4)){
                                             reset_encoder_1();
                                             START_UP_play;
-                                            currentSlopeZone = GREENSLOPE2;
-                                            strcpy(currentSlopeZoneString,"GREENSLOPE2");
+                                            current_slope_zone = GREENSLOPE2;
+                                            strcpy(current_slope_zone_string,"GREENSLOPE2");
                                         } 
                                         else
-                                            goNormal();
+                                            go_normal();
                                     break;
                                     case GREENSLOPE2: 
-                                        if((gameZone == ORANGEZONE || gameZone == PINKZONE) && (get_minimize_count(ENCODER1) > 4)){
+                                        if((game_zone == ORANGEZONE || game_zone == PINKZONE) && (get_minimize_count(ENCODER1) > 4)){
                                             reset_encoder_1();
                                             START_UP_play;
-                                            currentSlopeZone = ORANGE2;
-                                            strcpy(currentSlopeZoneString,"ORANGE2");
+                                            current_slope_zone = ORANGE2;
+                                            strcpy(current_slope_zone_string,"ORANGE2");
                                         }
                                         else 
-                                            goNormal();                                        
+                                            go_normal();                                        
                                     break;
                                     case ORANGE2:
-                                        if(gameZone == DARKGREENZONE && (get_minimize_count(ENCODER1) > 4)){
+                                        if(game_zone == DARKGREENZONE && (get_minimize_count(ENCODER1) > 4)){
                                             reset_encoder_1();
 											START_UP_play;
-                                            currentSlopeZone = GREENSLOPE3;
-                                            strcpy(currentSlopeZoneString,"GREENSLOPE3");
+                                            current_slope_zone = GREENSLOPE3;
+                                            strcpy(current_slope_zone_string,"GREENSLOPE3");
                                         }
                                         else
-                                            goNormal();                                            
+                                            go_normal();                                            
                                             
                                     break;
                                     case GREENSLOPE3:
-                                        if((gameZone == ORANGEZONE || gameZone == PINKZONE) && (get_minimize_count(ENCODER1) > 4)){
-                                            currentSlopeZone = FINISHEDSLOPE;
+                                        if((game_zone == ORANGEZONE || game_zone == PINKZONE) && (get_minimize_count(ENCODER1) > 4)){
+                                            current_slope_zone = FINISHEDSLOPE;
 											START_UP_play;
-                                            strcpy(currentSlopeZoneString,"FINISHEDSLOPE");
+                                            strcpy(current_slope_zone_string,"FINISHEDSLOPE");
                                         }   
                                         else
-                                            goNormal();
+                                            go_normal();
                                     break;
                                     case FINISHEDSLOPE:
-                                        switch(fullWhite){
+                                        switch(full_white){
                                             case 0:
                                                 ninety_time_stamp = get_full_ticks();
                                                 ardu_cal_ypr[0] = (float)NINETY_IMU;
-                                                strcpy(globalStateString,"NINETY DEGREE");
-                                                globalState = NINETY;
+                                                strcpy(global_state_string,"NINETY DEGREE");
+                                                global_state = NINETY;
                                                 
                                             break;
                                             case 1:
-                                                if((river) && !passedRiver)
+                                                if((river) && !passed_river)
                                                     {
                                                         START_UP_play;
                                                         reset_encoder_1();
-                                                        strcpy(globalStateString,"ENTER_RIVER");  
+                                                        strcpy(global_state_string,"ENTER_RIVER");  
                                                         time1 = get_full_ticks();
                                                         angle_enter_river = ardu_cal_ypr[0];
-                                                        globalState = ENTER_RIVER;
+                                                        global_state = ENTER_RIVER;
                                                     } 
-                                                else if(passedDownSlope && (get_minimize_count(ENCODER1)> 10)){
+                                                else if(passed_down_slope && (get_minimize_count(ENCODER1)> 10)){
                                                     START_UP_play;
-                                                    strcpy(globalStateString,"DOWN SLOPE");
+                                                    strcpy(global_state_string,"DOWN SLOPE");
                                                     reset_encoder_1();
-                                                    globalState = DOWN_SLOPE;
+                                                    global_state = DOWN_SLOPE;
                                                 }
                                                 else
-                                                    goNormal();
+                                                    go_normal();
                                             break;
                                         }
                                     break;                                           
                                 }
                             break;
                             case NINETY:
-                                goNinety();
+                                go_ninety();
                             break;
                             case EXIT_RIVER:
-                                goStraightLittleBit(); //Prevent it from falling down
+                                go_straight_little_bit(); //Prevent it from falling down
                             break;
                             case ENTER_RIVER: //Right before locking the angle with IMU
                                 //Stopping condition:
@@ -207,29 +198,31 @@ int main(void) {
                                             servo_control(BAJAJ_SERVO,SERVO_MICROS_MID - 350);
                                         break;
                                     }
-                                    strcpy(globalStateString,"ESCAPEISLAND");
+                                    strcpy(global_state_string,"ESCAPEISLAND");
                                     START_UP_play;
                                     reset_encoder_1();
                                     time2 = get_full_ticks();
-                                    globalState = RIVERING; 
+                                    global_state = RIVERING; 
                                 }
                                 else
-                                    goNormal();
+                                    go_normal();
                             break;
                             case RIVERING:
-                                escapeFirstIsland();
+                                escape_first_island();
                             break;
                             case RIVERING2:
-                                scanRiver();
+                                scan_river();
                             break;
                             case DOWN_SLOPE: //End game, make it turn extreme right / left for the hybrid to grip propeller
-                                if(get_minimize_count(ENCODER1) > 10 && (gameZone != LIGHTGREENZONE)){
+                                if(get_minimize_count(ENCODER1) > 10 && (game_zone != LIGHTGREENZONE)){
                                     enter_time_stamp = get_full_ticks();
-                                    strcpy(globalStateString,"FINISH GAME");
-                                    globalState = FINISH;
+                                    strcpy(global_state_string,"FINISH GAME");
+                                    //Align servo to middle first before start turning max
+                                    last_movement = SERVO_MICROS_MID;
+                                    global_state = FINISH;
                                 }
                                 else
-                                    goNormal();
+                                    go_normal();
                             break;
                             case FINISH:
                                 //Lock the servo angle
@@ -238,29 +231,30 @@ int main(void) {
                                         final_music = true;
                                         START_UP_play;
                                     }
-                                    switch(side){
-                                        case REDSIDE:
-                                            servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 700);
-                                        break;
-                                        case BLUESIDE:
-                                            servo_control(BAJAJ_SERVO, SERVO_MICROS_MID - 700);
-                                        break;
-                                    }
+//                                    switch(side){
+//                                        case REDSIDE:
+//                                            servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 700);
+//                                        break;
+//                                        case BLUESIDE:
+//                                            servo_control(BAJAJ_SERVO, SERVO_MICROS_MID - 700);
+//                                        break;
+//                                    }
+                                    finish_ninety();
                                 }
                                 else
-                                    goNormal();
+                                    go_normal();
                             break;          
                         }
                     }
                     print_data(); //Print every data in the on(servo is active) system
                     tft_prints(0,9,"imufucked: %d",imu_fucked_up);
-                    runUserInterface(); //Button functions
+                    run_user_interface(); //Button functions
                     break;
                
                 case OFF:
                     servo_control(BAJAJ_SERVO,SERVO_MICROS_MID);
-                    initializeValues();
-                    printSystemOff(); //Print every data in off(servo locked in 90 degrees) system
+                    initalize_values();
+                    print_system_off(); //Print every data in off(servo locked in 90 degrees) system
                     break;
               }
               length = 0;

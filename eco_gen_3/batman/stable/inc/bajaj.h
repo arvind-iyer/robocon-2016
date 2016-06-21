@@ -29,24 +29,14 @@
 #include "adc.h"
 #include "adc_ir.h"
 
-
-//Default Defines (Please do not change these)
-
 //These defines control the maximum left / right turning of th servo (in PWM values)
 #define SERVO_MICROS_MID 1350
 #define SERVO_MICROS_RIGHT 1750
 #define SERVO_MICROS_LEFT 950
 #define BAJAJ_SERVO SERVO1
 
-
-//STAGE1: RIVERING
-//STAGE2: EXIT RIVER
-//STAGE3: ENTERING RIVER
-//STAGE4: DOWN SLOPE
-//STAGE5: FINISH
-
 //Function enumerations(Please do not change these)
-enum{NORMAL = 0, NINETY = 1, RIVERING = 2, EXIT_RIVER = 3, ENTER_RIVER = 4 , DOWN_SLOPE = 5, FINISH = 6, ESCAPEFIRSTISLAND = 7,RIVERING2 = 8};
+enum{NORMAL = 0, NINETY = 1, RIVERING = 2, EXIT_RIVER = 3, ENTER_RIVER = 4 , DOWN_SLOPE = 5, FINISH = 6, RIVERING2 = 7};
 
 enum{LEFT_SIDE = 5, RIGHT_SIDE = 6};
 
@@ -76,7 +66,7 @@ enum{OFF = 0 , ON = 1};
 * param: void
 * retval: void
 */
-void initializeValues(void);
+void initalize_values(void);
 
 /*
 * desc: Receives 8 bytes sensorbar array from the sensorbar program
@@ -119,7 +109,7 @@ void print_data(void);
 * param: void
 * retval: void
 */
-void printSystemOff(void);
+void print_system_off(void);
 
 /*
 * desc: fill the array used in the main program from the array which imports the array from sensorbar program
@@ -133,56 +123,72 @@ void fill_sensorbar_array(void);
 * param: void
 * retval: void
 */
-void systemInit(void);
+void system_init(void);
 
 /*
 * desc: Use sensorbar to track the white line using adaptive angle
 * param: void
 * retval: void
 */
-void goNormal(void);
+void go_normal(void);
 
 /*
 * desc: turn ninety degree using IMU
 * param: void
 * retval: void
 */
-void goNinety(void);
+void go_ninety(void);
 
 /*
 * desc: go the river portion using angle locking of IMU
 * param: void
 * retval: void
 */
-void goUsingImu(void);
+void go_using_imu(void);
 
 /*
 * desc: Adjust the position of the robot right before leaving the river part and go using normal method again
 * param: void
 * retval: void
 */
-void goStraightLittleBit(void);
+void go_straight_little_bit(void);
 
 /*
 * desc: Gives the color which the sensorbar is on right now
 * param: void
 * retval: void
 */
-void determineZone(void);
+void determine_zone(void);
 
 /*
 * desc: function that handles button pressing handling
 * param: void
 * retval: void
 */
-void runUserInterface(void);
+void run_user_interface(void);
 
-//Develop: new functions
-void escapeFirstIsland(void);
+/*
+* desc: An intermediate function before using sensorbar for the river
+* param: void
+* retval: void
+*/
+void escape_first_island(void);
 
-void scanRiver(void);
+/*
+* desc: Use sensorbar to cross the river
+* param: void
+* retval: void
+*/
+void scan_river(void);
 
-int getCorrectReq();
+/*
+* desc: Turn slowly until maximum ninety angle after hitting the pole
+* param: void
+* retval: void
+*/
+void finish_ninety(void);
+
+int get_correct_req(void);
 #endif
 
 
