@@ -49,6 +49,7 @@ extern char globalStateString[16];
 extern int ENTER_RIVER_ENCODER;
 
 bool imu_fucked_up = false;
+int ninety_time_stamp;
 
 
 int main(void) {
@@ -82,10 +83,10 @@ int main(void) {
                 case ON:
                     //Emergency turning system
                     if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT) && passedRiver && (globalState != DOWN_SLOPE)){
-                       servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT - 150);
+                       servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT - 100);
                     }
                     else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT) && passedRiver && (globalState != DOWN_SLOPE)){
-                       servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT + 150);
+                       servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT + 100);
                     }
                     //Normal working state
                     else{
@@ -160,9 +161,11 @@ int main(void) {
                                     case FINISHEDSLOPE:
                                         switch(fullWhite){
                                             case 0:
+                                                ninety_time_stamp = get_full_ticks();
                                                 ardu_cal_ypr[0] = (float)NINETY_IMU;
                                                 strcpy(globalStateString,"NINETY DEGREE");
                                                 globalState = NINETY;
+                                                
                                             break;
                                             case 1:
                                                 if((river) && !passedRiver)

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Output\project.hex]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Output\project.hex</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Mon Jun 20 00:18:26 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Mon Jun 20 23:46:44 2016
 <BR><P>
 <H3>Maximum Stack Usage =        352 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -610,38 +610,38 @@ Global Symbols
 <P><STRONG><a name="[9a]"></a>GPIO_Init</STRONG> (Thumb, 162 bytes, Stack size 20 bytes, stm32f4xx_gpio.o(i.GPIO_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = GPIO_Init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_init
+<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;infrared_sensor_init
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_init
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 </UL>
 
 <P><STRONG><a name="[a4]"></a>GPIO_PinAFConfig</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, stm32f4xx_gpio.o(i.GPIO_PinAFConfig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = GPIO_PinAFConfig
 </UL>
-<BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 </UL>
 
 <P><STRONG><a name="[9c]"></a>GPIO_ReadInputDataBit</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_ReadInputDataBit))
-<BR><BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_infrared_sensor
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
+<BR><BR>[Called By]<UL><LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
+<LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_infrared_sensor
 </UL>
 
 <P><STRONG><a name="[7e]"></a>GPIO_ResetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_ResetBits))
-<BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_OFF
-<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
+<BR><BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_data
 <LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_write_command
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_reset
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_OFF
 </UL>
 
 <P><STRONG><a name="[eb]"></a>GPIO_SetBits</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, stm32f4xx_gpio.o(i.GPIO_SetBits))
@@ -694,21 +694,21 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f40_41xxx.o(RESET)
 </UL>
 <P><STRONG><a name="[a3]"></a>RCC_AHB1PeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd))
-<BR><BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<BR><BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 </UL>
 
 <P><STRONG><a name="[ae]"></a>RCC_APB1PeriphClockCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_APB1PeriphClockCmd))
-<BR><BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
+<BR><BR>[Called By]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
+<LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ticks_init
 <LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_init
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
-<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_spi_init
 </UL>
 
 <P><STRONG><a name="[ed]"></a>RCC_APB1PeriphClockLPModeCmd</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, stm32f4xx_rcc.o(i.RCC_APB1PeriphClockLPModeCmd))
@@ -1142,10 +1142,10 @@ Global Symbols
 <LI>Call Chain = can_tx_dequeue &rArr;  can_tx_dequeue (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN_Transmit
+<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 <LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_queue_empty
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_dequeue
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_empty_mailbox
-<LI><a href="#[b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_tx_dequeue
 <LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CAN1_TX_IRQHandler
@@ -1244,10 +1244,11 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[bd]"></a>get_full_ticks</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, ticks.o(i.get_full_ticks))
-<BR><BR>[Called By]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goNormal
+<BR><BR>[Called By]<UL><LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fabs_diff
+<LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goNormal
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;goNinety
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;determine_velocity
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fabs_diff
 </UL>
 
 <P><STRONG><a name="[c5]"></a>get_minimize_count</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, encoder.o(i.get_minimize_count))
@@ -1273,13 +1274,14 @@ Global Symbols
 <LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[cd]"></a>goNinety</STRONG> (Thumb, 160 bytes, Stack size 24 bytes, bajaj.o(i.goNinety))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = goNinety &rArr; buzzer_play_song
+<P><STRONG><a name="[cd]"></a>goNinety</STRONG> (Thumb, 194 bytes, Stack size 40 bytes, bajaj.o(i.goNinety))
+<BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = goNinety &rArr; buzzer_play_song
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
+<BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
+<LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_encoder_1
+<LI><a href="#[bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_full_ticks
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1297,11 +1299,11 @@ Global Symbols
 <P><STRONG><a name="[d0]"></a>goStraightLittleBit</STRONG> (Thumb, 84 bytes, Stack size 8 bytes, bajaj.o(i.goStraightLittleBit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = goStraightLittleBit &rArr; buzzer_play_song
 </UL>
-<BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
+<BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
+<LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
 <LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_encoder_1
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1340,10 +1342,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systemInit
 </UL>
 
-<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 910 bytes, Stack size 8 bytes, main.o(i.main))
+<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 920 bytes, Stack size 8 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 352<LI>Call Chain = main &rArr; print_data &rArr; tft_prints &rArr; vsprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
+<BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
 <LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_clear
 <LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;systemInit
@@ -1369,18 +1372,17 @@ Global Symbols
 <LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_check
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_value_update
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
 <P><STRONG><a name="[dd]"></a>printSystemOff</STRONG> (Thumb, 216 bytes, Stack size 24 bytes, bajaj.o(i.printSystemOff))
 <BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = printSystemOff &rArr; tft_prints &rArr; vsprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
 <LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_infrared_sensor
 <LI><a href="#[c5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_minimize_count
 <LI><a href="#[bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;determine_velocity
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1388,10 +1390,10 @@ Global Symbols
 <P><STRONG><a name="[da]"></a>print_data</STRONG> (Thumb, 144 bytes, Stack size 24 bytes, bajaj.o(i.print_data))
 <BR><BR>[Stack]<UL><LI>Max Depth = 344<LI>Call Chain = print_data &rArr; tft_prints &rArr; vsprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
-<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
+<BR>[Calls]<UL><LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;getCorrectReq
+<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_prints
+<LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_count
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1437,15 +1439,15 @@ Global Symbols
 <P><STRONG><a name="[dc]"></a>runUserInterface</STRONG> (Thumb, 286 bytes, Stack size 16 bytes, bajaj.o(i.runUserInterface))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = runUserInterface &rArr; buzzer_play_song
 </UL>
-<BR>[Calls]<UL><LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_encoder_1
-<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
-<LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
+<BR>[Calls]<UL><LI><a href="#[bb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcpy
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_pressed
+<LI><a href="#[c6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;reset_encoder_1
+<LI><a href="#[ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[d9]"></a>scanRiver</STRONG> (Thumb, 124 bytes, Stack size 8 bytes, bajaj.o(i.scanRiver))
+<P><STRONG><a name="[d9]"></a>scanRiver</STRONG> (Thumb, 108 bytes, Stack size 8 bytes, bajaj.o(i.scanRiver))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = scanRiver &rArr; buzzer_play_song
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_control
@@ -1492,7 +1494,10 @@ Global Symbols
 <P><STRONG><a name="[d5]"></a>systemInit</STRONG> (Thumb, 96 bytes, Stack size 8 bytes, bajaj.o(i.systemInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 124<LI>Call Chain = systemInit &rArr; tft_init &rArr; tft_spi_init &rArr; GPIO_Init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ticks_init
+<BR>[Calls]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_init
+<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_init
+<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
+<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ticks_init
 <LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;servo_init
 <LI><a href="#[d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_init
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;infrared_sensor_init
@@ -1501,9 +1506,6 @@ Global Symbols
 <LI><a href="#[ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_init
 <LI><a href="#[b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;can_rx_add_filter
 <LI><a href="#[a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_init
-<LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;button_init
-<LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_init
-<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -1638,10 +1640,10 @@ Global Symbols
 <LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_ReceiveData
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI_I2S_GetFlagStatus
 </UL>
-<BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
-<LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_char_pos
+<BR>[Called By]<UL><LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_set_char_pos
 <LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_fill_color
 <LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_config
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tft_update
 </UL>
 
 <P><STRONG><a name="[e2]"></a>ticks_init</STRONG> (Thumb, 94 bytes, Stack size 24 bytes, ticks.o(i.ticks_init))
@@ -1692,8 +1694,8 @@ Global Symbols
 <P><STRONG><a name="[95]"></a>uart_tx</STRONG> (Thumb, 44 bytes, Stack size 288 bytes, usart.o(i.uart_tx))
 <BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = uart_tx &rArr; vsprintf
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx_byte
-<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
+<BR>[Calls]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsprintf
+<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx_byte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_try_sync
 <LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ardu_imu_receiver

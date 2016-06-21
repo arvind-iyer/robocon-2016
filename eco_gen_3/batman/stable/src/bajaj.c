@@ -56,6 +56,7 @@ bool retry = false;
 extern float angle_after_ninety;
 extern float angle_enter_river;
 extern bool done_turning;
+extern int ninety_time_stamp;
 
 
 void initializeValues(void){
@@ -65,8 +66,8 @@ void initializeValues(void){
         IMU_ANGLE1 = -25;
         NINETY_IMU = -180;
         LESSER_TURNING = -330;
-        SLOPE_TURNING_RIGHT = SERVO_MICROS_MID + 250;
-        SLOPE_TURNING_LEFT = SERVO_MICROS_MID - 250;
+        SLOPE_TURNING_RIGHT = SERVO_MICROS_MID + 300;
+        SLOPE_TURNING_LEFT = SERVO_MICROS_MID - 300;
         DELAY = 2000;
         side = REDSIDE;
         infrared1 = INFRARED_SENSOR_RIGHT;
@@ -84,9 +85,9 @@ void initializeValues(void){
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARKBLUE,RED);
         IMU_ANGLE1 = 25;
         NINETY_IMU = 180;
-        LESSER_TURNING = 340;
-        SLOPE_TURNING_RIGHT = SERVO_MICROS_MID + 250;
-        SLOPE_TURNING_LEFT = SERVO_MICROS_MID - 250;
+        LESSER_TURNING = 280;
+        SLOPE_TURNING_RIGHT = SERVO_MICROS_MID + 300;
+        SLOPE_TURNING_LEFT = SERVO_MICROS_MID - 300;
         DELAY = 2000;
         side = BLUESIDE;
         infrared1 = INFRARED_SENSOR_LEFT;
@@ -96,7 +97,7 @@ void initializeValues(void){
         currentSlopeZone = STARTZONE;
         strcpy(currentSlopeZoneString,"STARTZONE");
 		ardu_cal_ypr[0] = (float)0;
-        ENTER_RIVER_ENCODER = 8200;
+        ENTER_RIVER_ENCODER = 8000;
         systemOn = 1;
     }
 }
@@ -292,7 +293,7 @@ void goNinety(void){
     switch(side){
         case REDSIDE:
             lastMovement = NINETY_TURNING;
-            if((int)ardu_cal_ypr[0] > -80){
+            if(((int)ardu_cal_ypr[0] > -80) || ((get_full_ticks() - ninety_time_stamp) > 3000)){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
                 reset_encoder_1();
@@ -303,7 +304,7 @@ void goNinety(void){
         break;
         case BLUESIDE:
             lastMovement = NINETY_TURNING;
-            if((int)ardu_cal_ypr[0] < 80){
+            if(((int)ardu_cal_ypr[0] < 80) || ((get_full_ticks() - ninety_time_stamp) > 3000)){
                 fullWhite = 1;
                 strcpy(globalStateString,"BEFORE RIVER");
                 reset_encoder_1();
@@ -495,14 +496,6 @@ void runUserInterface(void){
 void escapeFirstIsland(void){
     if(!done_turning && get_minimize_count(ENCODER1) > 4){
         CLICK_MUSIC;
-//        switch(side){
-//            case REDSIDE:
-//                servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 50);
-//            break;
-//            case BLUESIDE:
-//                servo_control(BAJAJ_SERVO,SERVO_MICROS_MID - 50);
-//            break;
-//        }
         reset_encoder_1();
         done_turning = true;
         globalState = RIVERING2;
@@ -510,6 +503,8 @@ void escapeFirstIsland(void){
 }
 
 void scanRiver(void){
+    const int RIVER_TURNING_LEFT = SERVO_MICROS_MID - 200;
+    const int RIVER_TURNING_RIGHT = SERVO_MICROS_MID + 200;
     if(done_turning && get_minimize_count(ENCODER1) > 13) {
         START_UP_play;
         reset_encoder_1();
@@ -517,7 +512,7 @@ void scanRiver(void){
     }
     else{    
         float factor = ((begin + end)/ 2) / (float) 16;
-        lastMovement = (SLOPE_TURNING_LEFT) - (factor * (SLOPE_TURNING_LEFT - SLOPE_TURNING_RIGHT));
+        lastMovement = (RIVER_TURNING_LEFT) - (factor * (RIVER_TURNING_LEFT - RIVER_TURNING_RIGHT));
         servo_control(BAJAJ_SERVO, lastMovement); 
     }
 }

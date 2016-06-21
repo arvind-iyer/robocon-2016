@@ -171,7 +171,7 @@ int main(void)
             //Collect each value for Red,green,blue and normalize to RGB values
             dataCollect();
             analysisData();
-            printInformation();
+            //printInformation();
             sendData();
         }
     }
