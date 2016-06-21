@@ -68,7 +68,6 @@ int auto_ticks = 0;
 s16 cur_vel = 0;
 
 u8 side_switch_val = 0;
-u8 back_switch_val = 0;
 
 //Robot control
 bool arm_init = false;
@@ -77,7 +76,7 @@ s16 tar_arm = 0;
 s16 brushless_time = 0;
 s16 climbing_time = 0;
 s16 arrived_time = 0;
-s16 top_time = 0;
+s32 top_time = 0;
 s16 climb_dir = 0;
 s16 climb_blow_angle = 0;
 bool arrived = false;
@@ -264,6 +263,9 @@ void auto_reset() {
 	
 	//reset gyro location
 	gyro_pos_set(0,0,0);
+	
+	//testing...
+	auto_tar_dequeue();
 }
 
 /**
@@ -350,7 +352,6 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	s8 reset_rot = 0;
 	s8 reset_vel[3] = {0, 0, 0};
 	
-	back_switch_val = (cur_y <= 0)*4 + gpio_read_input(&PE6)*2 + gpio_read_input(&PE7);
 	if (field == 0)
 		side_switch_val = ((cur_x >= 0) || (cur_x <= -12900))*4 + gpio_read_input(&PE11)*2 + gpio_read_input(&PE10);
 	if (field == 1)
@@ -375,23 +376,12 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 			}
 			err_sum = 0;
 		}
-	}	
-	if ((back_switch_val == 3) || (back_switch_val & 4)) {
-		off_y = raw_y;
-		if ((back_switch_val == 3) || (back_switch_val == 7))
-			off_deg = get_angle();
 	}
 	
 	if ((side_switch_val & 2) && !(side_switch_val & 1)) {
 		reset_rot = cur_vel/25;
 	}
 	if (!(side_switch_val & 2) && (side_switch_val & 1)) {
-		reset_rot = cur_vel/(-25);		
-	}
-	if ((back_switch_val & 2) && !(back_switch_val & 1)) {
-		reset_rot = cur_vel/25;
-	}
-	if (!(back_switch_val & 2) && (back_switch_val & 1)) {
 		reset_rot = cur_vel/(-25);		
 	}
 	
@@ -406,11 +396,6 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		reset_vel[1] = cur_vel/(-10);
 		reset_vel[2] = cur_vel/(-10);
 		}
-	}
-	if (back_switch_val == 4) {
-		reset_vel[0] = 0;
-		reset_vel[1] = cur_vel/5;
-		reset_vel[2] = cur_vel/(-5);
 	}
 	
 	//ls cal straight section
@@ -638,7 +623,7 @@ void auto_calibrate(){
 void auto_menu_update() {
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
-	tft_prints(0,6,"STATE %d%d%d%d%d%d", gpio_read_input(&PE10), gpio_read_input(&PE11), gpio_read_input(&PE0), gpio_read_input(&PE1), gpio_read_input(&PE6), gpio_read_input(&PE7));
+	tft_prints(0,6,"STATE %d%d%d%d", gpio_read_input(&PE10), gpio_read_input(&PE11), gpio_read_input(&PE0), gpio_read_input(&PE1));
 	tft_prints(0,7,"(Y) retry climb");
 	
 	if (auto_get_flash(0,0) == PATH_ID) {
@@ -811,8 +796,6 @@ void auto_motor_update(){
 			side_switch_states = gpio_read_input(&PE11) & gpio_read_input(&PE10);
 		if (((tar_x == 0) || (tar_x == 12900)) && (field == 1))
 			side_switch_states = gpio_read_input(&PE1) & gpio_read_input(&PE0);
-		if (tar_y == 0)
-			back_switch_states = gpio_read_input(&PE6) & gpio_read_input(&PE7);
 		
 		if (auto_tar_queue_len()) {
 			if ((tar_x == 0) || (tar_x == 12900)) {
@@ -826,8 +809,6 @@ void auto_motor_update(){
 						auto_tar_dequeue();
 					}
 				}
-			} else if (tar_y == 0) {
-				if (back_switch_states) auto_tar_dequeue();
 			} else {
 				if (tar_end == 2) {
 					if ((auto_get_ticks() - arrived_time) > 700) auto_tar_dequeue();
