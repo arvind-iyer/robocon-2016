@@ -231,14 +231,6 @@ int main(void) {
                                         final_music = true;
                                         START_UP_play;
                                     }
-//                                    switch(side){
-//                                        case REDSIDE:
-//                                            servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 700);
-//                                        break;
-//                                        case BLUESIDE:
-//                                            servo_control(BAJAJ_SERVO, SERVO_MICROS_MID - 700);
-//                                        break;
-//                                    }
                                     finish_ninety();
                                 }
                                 else

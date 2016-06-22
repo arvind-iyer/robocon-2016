@@ -70,11 +70,11 @@ void initalize_values(void){
         infrared1 = INFRARED_SENSOR_RIGHT;
         infrared2 = INFRARED_SENSOR_LEFT;
         button_red_count = 0;
-        NINETY_TURNING = SERVO_MICROS_MID + 350;
+        NINETY_TURNING = SERVO_MICROS_MID + 370;
         current_slope_zone = STARTZONE;
         strcpy(current_slope_zone_string,"STARTZONE");
         ardu_cal_ypr[0] = (float)0;
-        ENTER_RIVER_ENCODER = 6100;
+        ENTER_RIVER_ENCODER = 5900;
         system_on = 1;
     }
     else if(button_pressed(BUTTON_WHITE)){
@@ -82,7 +82,7 @@ void initalize_values(void){
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARKBLUE,RED);
         IMU_ANGLE1 = 25;
         NINETY_IMU = 180;
-        LESSER_TURNING = 280;
+        LESSER_TURNING = 330;
         SLOPE_TURNING_RIGHT = SERVO_MICROS_MID + 300;
         SLOPE_TURNING_LEFT = SERVO_MICROS_MID - 300;
         DELAY = 2000;
@@ -90,11 +90,11 @@ void initalize_values(void){
         infrared1 = INFRARED_SENSOR_LEFT;
         infrared2 = INFRARED_SENSOR_RIGHT;
         button_white_count = 0;
-        NINETY_TURNING = SERVO_MICROS_MID - 420;
+        NINETY_TURNING = SERVO_MICROS_MID - 380;
         current_slope_zone = STARTZONE;
         strcpy(current_slope_zone_string,"STARTZONE");
 		ardu_cal_ypr[0] = (float)0;
-        ENTER_RIVER_ENCODER = 8000;
+        ENTER_RIVER_ENCODER = 7000;
         system_on = 1;
     }
 }
@@ -330,15 +330,6 @@ void go_using_imu(void){
 }
 
 void go_straight_little_bit(void){
-    switch(side){
-        case BLUESIDE:
-            last_movement = SERVO_MICROS_MID + (int)LESSER_TURNING;
-            break;
-        case REDSIDE:
-            last_movement = SERVO_MICROS_MID + (int)LESSER_TURNING;
-            break;
-    } 
-    servo_control(BAJAJ_SERVO, last_movement);
     //Stopping condition
     if(get_count(ENCODER1) > 3000){
         passed_river = 1;
@@ -346,6 +337,17 @@ void go_straight_little_bit(void){
         reset_encoder_1();
         START_UP_play;
         global_state = NORMAL;
+    }
+    else{
+        switch(side){
+            case BLUESIDE:
+                last_movement = SERVO_MICROS_MID + (int)LESSER_TURNING;
+            break;
+            case REDSIDE:
+                last_movement = SERVO_MICROS_MID + (int)LESSER_TURNING;
+            break;
+        }        
+        servo_control(BAJAJ_SERVO, last_movement);
     }
 }
 
@@ -491,7 +493,7 @@ void run_user_interface(void){
 }
 
 void escape_first_island(void){
-    if(!done_turning && get_minimize_count(ENCODER1) > 4){
+    if(!done_turning && get_count(ENCODER1) > 4500){
         CLICK_MUSIC;
         reset_encoder_1();
         done_turning = true;
