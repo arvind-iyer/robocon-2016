@@ -7,6 +7,7 @@ u32 last_loop_ticks = 0;
 u32 last_long_loop_ticks = 0;
 u32 this_loop_ticks = 0;
 u32 last_short_loop_ticks = 0;
+u32 last_rpms_loop_ticks = 0;
 
 int main(void) {
 	//Mainboard
@@ -36,6 +37,7 @@ int main(void) {
 	i2c_init();
 	pca9685_init();
 	ls_init();
+	RPMs_init();
 	
 	//Manual mode
 	manual_init();
@@ -74,6 +76,11 @@ int main(void) {
 			if (control_state == MANUAL_MODE){
 					//manual_fast_update();
 			}
+		}
+		
+		if ((this_loop_ticks - last_rpms_loop_ticks)>4) {
+			RPMs_update(40, 2, 30);			
+			last_rpms_loop_ticks = this_loop_ticks;
 		}
 		
 		if ((this_loop_ticks - last_long_loop_ticks)>LONG_LOOP_TICKS){

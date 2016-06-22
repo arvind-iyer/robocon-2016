@@ -68,6 +68,9 @@ void manual_reset(){
 	//gripper_control(GRIPPER_2, 0);
 	pneumatic_off(&PD10);
 	pneumatic_off(&PD11);
+	set_tar_val(0);
+	set_PID_FLAG(PID_OFF);
+	servo_control(SERVO3, 450);
 }
 
 void manual_vel_set_zero(){
@@ -223,6 +226,7 @@ void manual_interval_update(){
 			//tft_append_line("LS %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
 			tft_append_line("LS %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
 			tft_append_line("DEG %d", brushless_servo_val);
+			tft_append_line("RPM %d", get_diff());
 			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/100 00, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);

@@ -553,18 +553,21 @@ void auto_robot_control(void) {
 	if (tar_end <= 1) {
 		brushless_servo_control(-85 + 85*2*field);
 		brushless_control(0, true);
-		if (dist < 100)
+		if (dist < 100) {
 			brushless_control(45, true);
+			//set_tar_val(651);
+		}
 	} else if (tar_end <= 2) {
-		brushless_control(59, true);
+		set_tar_val(949);
+		set_PID_FLAG(PID_ON);
 		brushless_servo_control(-90 + 90*2*field);
 	} else if (tar_end <= 3) {
 		brushless_servo_control(-85 + 85*2*field);
 		if (auto_get_ticks() - brushless_time > 300)
-			brushless_control(54, true);
+			set_tar_val(843);
 	} else if (tar_end <= 4) {
 		//brushless_servo_control(-65 + 65*2*field);
-		brushless_control(50, true);
+		set_tar_val(758);
 		if (auto_get_ticks() - brushless_time > 1000)
 			brushless_servo_control(-65 + 65*2*field);			
 		if (auto_get_ticks() - brushless_time > 1500) {
@@ -573,19 +576,20 @@ void auto_robot_control(void) {
 		}
 	} else if (tar_end <= 5) {
 		brushless_servo_control(0);
-		brushless_control(44, true);
+		set_tar_val(700);
 		if (auto_get_ticks() - brushless_time > 3000)
-			brushless_control(48, true);
+			set_tar_val(780);
 		if (auto_get_ticks() - brushless_time > 4000)
-			brushless_control(52, true);
+			set_tar_val(890);
 		if (auto_get_ticks() - brushless_time > 4500)
-			brushless_control(56, true);
+			set_tar_val(960);
 		if (auto_get_ticks() - brushless_time > 5000)
-			brushless_control(60, true);
+			set_tar_val(1040);
 		if (auto_get_ticks() - brushless_time > 5500)
-			brushless_control(64, true);	
+			set_tar_val(1100);
 	} else {
-		brushless_control(0, true);
+		set_PID_FLAG(PID_OFF);
+		servo_control(SERVO3, 450);
 	}
 }
 
@@ -791,7 +795,6 @@ void auto_motor_update(){
 		
 		//ensure touches both switches before next path
 		u8 side_switch_states = 0;
-		u8 back_switch_states = 0;
 		if (((tar_x == 0) || (tar_x == -12900)) && (field == 0))
 			side_switch_states = gpio_read_input(&PE11) & gpio_read_input(&PE10);
 		if (((tar_x == 0) || (tar_x == 12900)) && (field == 1))
@@ -799,23 +802,33 @@ void auto_motor_update(){
 		
 		if (auto_tar_queue_len()) {
 			if ((tar_x == 0) || (tar_x == 12900)) {
-				if (side_switch_states) {
-					if ((tar_end == 1) && arrived) {
-						if ((auto_get_ticks() - arrived_time) > 1500)
-							auto_tar_dequeue();
-						else
-							auto_motor_stop();
-					} else {
-						auto_tar_dequeue();
-					}
+				if (side_switch_states && !arrived) {
+					arrived = true;
+					arrived_time = auto_get_ticks();
 				}
 			} else {
-				if (tar_end == 2) {
-					if ((auto_get_ticks() - arrived_time) > 700) auto_tar_dequeue();
+				if (!arrived) {
+					arrived = true;
+					arrived_time = auto_get_ticks();
+				}
+			}
+			
+			if (arrived) {
+				if (tar_end == 1) {
+					if ((auto_get_ticks() - arrived_time) > 1500)
+						auto_tar_dequeue();
+					else
+						auto_motor_stop();
+				} else if (tar_end == 2) {
+					if ((auto_get_ticks() - arrived_time) > 700)
+						auto_tar_dequeue();
+					else
+						auto_motor_stop();
 				} else {
 					auto_tar_dequeue();
 				}
 			}
+			
 		} else {
 			pid_stopped = true;
 			auto_motor_stop();
