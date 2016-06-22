@@ -78,7 +78,7 @@ s16 climbing_time = 0;
 s16 arrived_time = 0;
 s32 top_time = 0;
 s16 climb_dir = 0;
-s16 climb_blow_angle = 0;
+s16 climb_blow_pwm = 0;
 bool arrived = false;
 bool at_top = false;
 u8 climb_temp = 0;
@@ -146,6 +146,8 @@ void auto_tar_dequeue() {
 		cur_vel = 6;
 	if (tar_end == 5)
 		cur_vel = 70;	
+	if (tar_end == 9)
+		cur_vel = 40;	
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
 	//tar_deg = tar_queue[tar_end].deg;
@@ -255,7 +257,7 @@ void auto_reset() {
 	//servo_control(SERVO2, 1050);
 	servo_control(SERVO1, 641);
 	climb_dir = 0;
-	climb_blow_angle = 0;
+	climb_blow_pwm = 0;
 	at_top = false;
 	
 	//reset local timer
@@ -452,9 +454,8 @@ void auto_pole_climb(){
 		motor_set_vel(MOTOR7, 0, OPEN_LOOP); //Lock biggold
 		pneumatic_on(&PB9); //Clamp pole
 		climb_dir = get_pos()->angle;
-		climb_blow_angle = 0;
-		climb_temp = 0;
-		brushless_servo_control(0);
+		climb_blow_pwm = 0;
+		brushless_servo_control(35);
 	} else if (climbing_time < 1000) {
 		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
@@ -486,17 +487,17 @@ void auto_pole_climb(){
 			brushless_control(0, true);
 			if ((auto_get_ticks() - top_time) < 400) {
 				pneumatic_off(&PD9);
-				climb_temp = 1;
+			} else if ((auto_get_ticks() - top_time) < 500) {
+				pneumatic_on(&PD8);	
 			} else {
-				pneumatic_on(&PD8);				
+				servo_control(SERVO1, 641);	
 			}
 		} else {			
 			motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
 			motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
 			motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP, OPEN_LOOP);
-			brushless_servo_control(climb_blow_angle);
-			climb_blow_angle = ((get_pos()->angle - climb_dir) * 0.4);
-			
+			climb_blow_pwm = 20 + (get_pos()->angle)<1800?0:(get_pos()->angle - 1800);
+			brushless_control(climb_blow_pwm, true);
 		}
 	}
 	
@@ -504,8 +505,8 @@ void auto_pole_climb(){
 	tft_prints(0,0,"[AUTO-CLIMB]");
 	tft_prints(0,5,"REC %3d",time/1000);
 	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
-	tft_prints(0,7,"ANGLE %3d",climb_blow_angle);
-	tft_prints(0,9,"%d %d", climb_temp, top_time);
+	tft_prints(0,7,"ANGLE %3d",climb_blow_pwm);
+	tft_prints(0,9,"%d", top_time);
 	tft_update();
 }
 
@@ -536,11 +537,11 @@ void auto_robot_control(void) {
 		if ((tar_end == 1) && (!arrived || (arrived && ((auto_get_ticks() - arrived_time) < 1000)))) {
 			tar_arm = 0;
 		} else if (Abs(cur_x) < 3000) {
-			tar_arm = 3900;
+			tar_arm = 2650;
 		} else if (Abs(cur_x) < 4600) {
-			tar_arm = 7800;
+			tar_arm = 6550;
 		} else {
-			tar_arm = 12100;
+			tar_arm = 10850;
 		}
 		
 		motor_set_vel(MOTOR7, arm_vel*MOTOR7_FLIP, OPEN_LOOP);
@@ -864,8 +865,8 @@ void auto_motor_update(){
 	//tft_prints(0,7,"Test %d", err_sum);
 	//tft_prints(0,7,"Test %d %d", get_X(), get_Y());
 	tft_prints(0,7,"Test %d %d", side_switch_val, back_switch_val);
-	*/
 	tft_prints(0,7,"Test %d", (auto_get_ticks() - arrived_time));
+	*/
 	
 	tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));
 	tft_prints(0,9,"W %d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1), wall_dist);

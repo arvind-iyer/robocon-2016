@@ -227,6 +227,7 @@ void manual_interval_update(){
 			tft_append_line("LS %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1));
 			tft_append_line("DEG %d", brushless_servo_val);
 			tft_append_line("RPM %d", get_diff());
+			//tft_append_line("ENC %d", get_encoder_count(ENCODER1));
 			//tft_append_line("%d %d %d", get_target_vel(MOTOR1), get_target_vel(MOTOR2), get_target_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_curr_vel(MOTOR1), get_curr_vel(MOTOR2), get_curr_vel(MOTOR3));
 			//tft_append_line("%d %d %d", get_pwm_value(MOTOR1)/100 00, get_pwm_value(MOTOR2)/10000, get_pwm_value(MOTOR3)/10000);
