@@ -30,10 +30,17 @@
 #define INNER_DIST 280
 #define OUTER_DIST 310
 
+const SERVO_ID gripper_servo[2] = {SERVO2, SERVO1};
+const GPIO * gripper_push[2] = {&PD11, &PD9};
+const GPIO * gripper_claw[2] = {&PD10, &PD8};
+const GPIO * pole_clamp = &PB9;
+const u16 servo_up_val[2] = {892, 807};
+const u16 servo_dn_val[2] = {1078, 641};
+
 //#define DEBUG_MODE
 
 //Ground: 0 = Red, 1 = Blue
-u8 field = 1;
+u8 field = 0;
 
 double transform[2][2] = {{1, 0}, {0, 1}};
 u16 wall_dist = 0;
@@ -251,11 +258,10 @@ void auto_reset() {
 	brushless_time = 0;
 	climbing_time = 0;
 	top_time = 0;
-	pneumatic_off(&PB9); //Open wheels
-	pneumatic_on(&PD8); //Open claw
-	pneumatic_on(&PD9); //Push out
-	//servo_control(SERVO2, 1050);
-	servo_control(SERVO1, 641);
+	pneumatic_off(pole_clamp); //Open wheels
+	pneumatic_on(gripper_claw[field]); //Open claw
+	pneumatic_on(gripper_push[field]); //Push out
+	servo_control(gripper_servo[field], servo_dn_val[field]);
 	climb_dir = 0;
 	climb_blow_pwm = 0;
 	at_top = false;
@@ -452,7 +458,7 @@ void auto_pole_climb(){
 		motor_set_vel(MOTOR2, 43, CLOSE_LOOP);
 		motor_set_vel(MOTOR3, -48, CLOSE_LOOP);
 		motor_set_vel(MOTOR7, 0, OPEN_LOOP); //Lock biggold
-		pneumatic_on(&PB9); //Clamp pole
+		pneumatic_on(pole_clamp); //Clamp pole
 		climb_dir = get_pos()->angle;
 		climb_blow_pwm = 0;
 		brushless_servo_control(35);
@@ -460,15 +466,12 @@ void auto_pole_climb(){
 		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR3, 0, OPEN_LOOP);
-		//pneumatic_off(&PD10); //claw
-		pneumatic_off(&PD8); //claw
+		pneumatic_off(gripper_claw[field]); //claw
 	} else if (climbing_time < 1500) {
-		//pneumatic_off(&PD11); //collect
-		pneumatic_off(&PD9); //collect
+		pneumatic_off(gripper_push[field]); //collect
 		brushless_control(50, true);
 	} else if (climbing_time < 2000) {
-		//servo_control(SERVO2, 855);
-		servo_control(SERVO1, 807);
+		servo_control(gripper_servo[field], servo_up_val[field]);
 	} else {
 		if ((gpio_read_input(&PE3) || gpio_read_input(&PE9)) && !at_top) {
 			at_top = true;
@@ -476,8 +479,7 @@ void auto_pole_climb(){
 		}
 		
 		if ((climbing_time > 2500) && !at_top) {
-			//pneumatic_on(&PD11); //push out
-			pneumatic_on(&PD9); //push out
+			pneumatic_on(gripper_push[field]); //push out
 		}
 		
 		if (at_top) {
@@ -486,11 +488,13 @@ void auto_pole_climb(){
 			motor_set_vel(MOTOR6, 0, OPEN_LOOP);
 			brushless_control(0, true);
 			if ((auto_get_ticks() - top_time) < 400) {
-				pneumatic_off(&PD9);
-			} else if ((auto_get_ticks() - top_time) < 500) {
-				pneumatic_on(&PD8);	
-			} else {
-				servo_control(SERVO1, 641);	
+				pneumatic_on(gripper_push[field]); //placeholder
+			} else if ((auto_get_ticks() - top_time) < 800) {
+				pneumatic_off(gripper_push[field]);
+			} else if ((auto_get_ticks() - top_time) < 1000) {
+				pneumatic_on(gripper_claw[field]);	
+			} else {	
+				servo_control(gripper_servo[field], servo_dn_val[field]);
 			}
 		} else {			
 			motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
