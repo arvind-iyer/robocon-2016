@@ -99,8 +99,10 @@ bool armPrepped = false;
 bool armReturned = false;
 
 int tobiWan = -1;
+int prevEcoLaserRead = -1;
+
 void backupFirstPosition(void) {
-	int targM = 50, laserTargVal = (robotMode == RED_SIDE ? 470 :330); //470 480
+	int targM = 50, laserTargVal = (robotMode == RED_SIDE ? 340 :330); //470 480
 	
 	if(get_full_ticks() - timeSinceButtonPressed < 1000) {
 		setM(30);
@@ -110,14 +112,17 @@ void backupFirstPosition(void) {
 		parseWheelbaseValues();
 	}
 	else {
-		double angularSpd = calculateAngularVelocity(robotMode == RED_SIDE ? 90 : 270, 60, 30, 45);
+		double angularSpd = calculateAngularVelocity(robotMode == RED_SIDE ? 90 : 270, 60, 33, 50);
+		int delta = 0;
+		if(prevEcoLaserRead != -1) delta = get_ls_cal_reading(robotMode == RED_SIDE ? 1 : 0) - prevEcoLaserRead;
+		else prevEcoLaserRead = get_ls_cal_reading(robotMode == RED_SIDE ? 1 : 0);
 		if(robotMode == RED_SIDE) {
 			//Horizontal Vector
 			if(get_ls_cal_reading(1) < 1000) {
-				targM = targM * (get_ls_cal_reading(0) - 400) / 1000;
+				targM = targM * (get_ls_cal_reading(1) - 400) / 1000;
 				targM = max(2, targM, 10);
 			}
-			if((get_ls_cal_reading(1) < 650 && robot.position.angle <= 92 && robot.position.angle >= 88)  ) {//||
+			if((get_ls_cal_reading(1) < 650 && robot.position.angle <= 92 && robot.position.angle >= 88 && delta < 400)  ) {//||
 				//gpio_read_input(&PE0) == 0) {
 				wheelbaseLock();
 				//currMode = MANUAL;
@@ -135,7 +140,7 @@ void backupFirstPosition(void) {
 			
 			//Vertical Vector			
 			
-			int verticalM = Abs((get_ls_cal_reading(2) - laserTargVal) / (laserTargVal - 200) * targM / 2);
+			int verticalM = Abs((get_ls_cal_reading(2) - laserTargVal) * targM  / (laserTargVal - 200) / 2);
 			verticalM = verticalM > (targM / 2) ? targM / 2 : verticalM;
 			//verticalM = Abs(verticalM) > 40 ? (verticalM < 0 ? -40 : 40) : verticalM;
 			if(robot.position.angle <= 100 && robot.position.angle >= 80) { 
@@ -160,7 +165,8 @@ void backupFirstPosition(void) {
 				targM = targM * (get_ls_cal_reading(0) - 400) / 1000;
 				targM = max(2, targM, 10);
 			}
-			if((get_ls_cal_reading(0) < 500 && robot.position.angle <= 272 && robot.position.angle >= 268)  ) {//||
+			
+			if((get_ls_cal_reading(0) < 500 && robot.position.angle <= 272 && robot.position.angle >= 268 && delta < 400)  ) {//||
 				//gpio_read_input(&PE0) == 0) {
 				wheelbaseLock();
 				//currMode = MANUAL;
@@ -178,7 +184,7 @@ void backupFirstPosition(void) {
 			addComponent();
 			
 			//Vertical Vector
-			int verticalM = Abs((get_ls_cal_reading(3) - laserTargVal) / (laserTargVal - 200) * targM / 2);
+			int verticalM = Abs((get_ls_cal_reading(3) - laserTargVal) * targM  / (laserTargVal - 200) / 2);
 			verticalM = verticalM > (targM / 2) ? targM / 2 : verticalM;
 			//verticalM = Abs(verticalM) > 40 ? (verticalM < 0 ? -40 : 40) : verticalM;
 			if(robot.position.angle <= 280 && robot.position.angle >= 260) { 
@@ -197,6 +203,7 @@ void backupFirstPosition(void) {
 			}
 		}
 		parseWheelbaseValues();
+		prevEcoLaserRead = get_ls_cal_reading(robotMode == RED_SIDE ? 1 : 0);
 	}
 }
 
@@ -414,7 +421,7 @@ void laserPID() {
 						//wagamama = get_pos()->x - 50; //-200
 						//wagateki = get_pos()->y; 
 					
-						int xShift = 350;
+						int xShift = 240;
 						int yShift = 2050;
 					
 						fieldDetected = false;
@@ -434,7 +441,7 @@ void laserPID() {
 				if(!semiAuto) {
 					if(get_pos()->y > yCoordSystem * 0.35 && get_pos()->y < yCoordSystem * 0.45) setBrushlessMagnitude(13); //TEST FIELD 18
 					if(get_pos()->y > yCoordSystem * 0.45 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(5); //TEST FIELD 12
-					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(22); //TEST FIELD 15
+					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(19); //TEST FIELD 15
 					if(get_pos()->y > yCoordSystem * 0.75) setBrushlessMagnitude(8);
 				}
 				parseWheelbaseValues();

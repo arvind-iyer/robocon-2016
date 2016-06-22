@@ -40,7 +40,7 @@ void hybridGPIOInit() {
 
 bool armDir = false, fixingArm = false, climbLimit = false; // False = down, True = up
 long lastLimitCheck = 0;
-int waitDelay = 0;
+int waitDelay = 0, safetyPropellorInstallDelay = 0;
 
 /**
  * @brief Checks all the limit switches on the hybrid
@@ -167,8 +167,9 @@ void limitSwitchCheck() {
 	if (climbingState == CLIMB_POLE && get_full_ticks() - climbDelay >= 500) {
 		sendArmCommand(-60);
 		climbingState = INSTALL_PROPELLER;
+		safetyPropellorInstallDelay = get_full_ticks();
 	}
-	if (!limitSwitch[2] && climbingState == INSTALL_PROPELLER) {
+	if ((!limitSwitch[2] || get_full_ticks() - safetyPropellorInstallDelay >= 9000) && climbingState == INSTALL_PROPELLER) {
 		/* PKPKPKPKPKPKPPK */
 		int PK_time_since_climb_execute = get_full_ticks() - climbDelay - 500;
 		if (PK_time_since_climb_execute < 1000) {
@@ -230,6 +231,8 @@ bool retryIrChecking(void) {
 	}
 }
 
+bool retrySpeed = false;
+
 void retryProcedureCheck(void) {
 	if (retryIrChecking()) {
 		if (ctr == 2) {
@@ -250,6 +253,7 @@ void retryProcedureCheck(void) {
 				queueTargetPoint(wagamama, wagateki, 175, 2000, 10, -1, 6500); //-200 //TEST FIELD -50 0
 				ctr = 1;
 				currMode = PIDMODE;
+				retrySpeed = true;
 			} else {
 				setBrushlessMagnitude(0);
 				if (get_full_ticks() - retryDelay > 5000) {

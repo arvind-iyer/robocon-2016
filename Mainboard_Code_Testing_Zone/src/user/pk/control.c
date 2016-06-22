@@ -251,11 +251,21 @@ void updateQueue () {
 					
 					//setBrushlessMagnitude(14); //12
 					
-					if(dt <= time /4) {
-						setBrushlessMagnitude(robotMode == RED_SIDE ? 11 : 12);
+						if(dt <= time /4) {
+						if(!retrySpeed) {
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 11 : 12);
+						}
+						else{
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 9 : 10);
+						}
 					}
 					else if (dt > time/4) {
-						setBrushlessMagnitude(robotMode == RED_SIDE ? 14 : 22);
+						if(!retrySpeed) {
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 14 : 22);
+						}
+						else {
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 12 : 20);
+						}
 					}
 				//else if (dt >= time/2 && dt < time*3/4) {
 				//	setBrushlessMagnitude(10); //18 
@@ -296,6 +306,7 @@ void updateQueue () {
 						setBrushlessMagnitude(0);
 						currMode = RETRYCHECK;
 						expectRetry = get_full_ticks();
+						retrySpeed = false;
 					}
 					wheelbaseLock();
 					//finishing = false;
