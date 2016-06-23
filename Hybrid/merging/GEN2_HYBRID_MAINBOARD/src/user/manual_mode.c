@@ -25,8 +25,6 @@
 
 static s32 curr_heading = 0;
 
-static bool is_rotating = false;
-
 static LOCK_STATE ground_wheels_lock = UNLOCKED;
 static LOCK_STATE climbing_induced_ground_lock = UNLOCKED;
 
@@ -74,7 +72,7 @@ void manual_reset(){
 	ground_wheels_lock = UNLOCKED;
 	brushless_power_percent = 20;
 	climbing_induced_ground_lock = UNLOCKED;
-	is_rotating = pole_as_front = facing_pole = brushless_str = wheels_free = false;
+	pole_as_front = facing_pole = brushless_str = wheels_free = false;
 	using_laser_sensor = true;
 	gripper_clawed = false;
 	gripper_extended = true;
@@ -153,9 +151,9 @@ void manual_update_wheel_base(bool use_laser_avoid){
 			}
 			
 			if (pole_as_front){
-				acc_update(-vx, -vy, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, false);
+				acc_update(-vx, -vy, w, BASE_X_ACC_CONSTANT, BASE_X_DEC_CONSTANT, BASE_Y_ACC_CONSTANT, BASE_Y_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, false);
 			}else{
-				acc_update(vx, vy, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, false);
+				acc_update(vx, vy, w, BASE_X_ACC_CONSTANT, BASE_X_DEC_CONSTANT, BASE_Y_ACC_CONSTANT, BASE_Y_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, false);
 			}
 			
 		}else{
@@ -274,7 +272,7 @@ void manual_interval_update(){
 	//At last apply the motor velocity and display it
 	//Value from fast update should also be displayed here
 	tft_append_line("%d %d %d %d", get_pos()->x, get_pos()->y, get_angle());
-	tft_append_line("%d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str);
+	tft_append_line("%d %d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str, wheels_free);
 	tft_append_line("LR:%d %d %d", get_ls_cal_reading(FRONT_LASER_ID), get_ls_cal_reading(BACK_LASER_ID), get_ir_dis());
 	tft_append_line("%d %d %d", curr_vx, curr_vy, curr_w);
 	tft_append_line("%d %d %d", motor_vel[0], motor_vel[1], motor_vel[2]);

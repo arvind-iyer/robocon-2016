@@ -75,7 +75,7 @@ u8 limit_sa_approach(s16 motor_vel[3]){
 	lm_sa_app_y_spped = (y_error * LM_SA_APP_Y_P + lm_sa_app_sum_y_error * LM_SA_APP_Y_I) /1000;
 	lm_sa_app_sum_y_error += y_error;
 
-	acc_update(-lm_sa_app_x_spped, -lm_sa_app_y_spped, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, true);
+	acc_update(-lm_sa_app_x_spped, -lm_sa_app_y_spped, w, BASE_X_ACC_CONSTANT, BASE_X_DEC_CONSTANT, BASE_Y_ACC_CONSTANT, BASE_Y_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, true);
 	
 	//If reached limit switch
 	if (gpio_read_input(&PE8) || gpio_read_input(&PE9)){
@@ -134,7 +134,7 @@ u8 limit_sa_update(s16 motor_vel[3]){
 	//Parallel
 	s16 parallel_speed = 0;
 	
-	acc_update(parallel_speed, -perpend_speed, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, false);
+	acc_update(parallel_speed, -perpend_speed, w, BASE_X_ACC_CONSTANT, BASE_X_DEC_CONSTANT, BASE_Y_ACC_CONSTANT, BASE_Y_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, false);
 	
 	if (limit_switch_triggered[0] && limit_switch_triggered[1]){
 		if (buffer_start_ticks == 0){

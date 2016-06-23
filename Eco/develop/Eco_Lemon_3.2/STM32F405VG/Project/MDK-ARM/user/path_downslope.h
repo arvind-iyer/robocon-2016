@@ -18,7 +18,10 @@
 #define DOWN_SB_INC_PWM 4800
 #define DOWN_SB_DEC_PWM 4800
 #define DOWN_SLOPE_MIN_DIS 2000
-#define SB_SHIFT_AFTER_THIRD 1
+
+#define DOWN_SB_INC_PWM_AFTER_THIRD 7000
+#define DOWN_SB_DEC_PWM_AFTER_THIRD 7000
+#define SB_SHIFT_AFTER_THIRD 2
 
 void path_down_reset(void);
 GAME_STAGE path_down_update(void);

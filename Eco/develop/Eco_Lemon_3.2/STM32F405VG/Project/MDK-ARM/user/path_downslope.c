@@ -17,9 +17,9 @@ GAME_STAGE path_down_update(){
 			downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, 0);
 		}else{
 			#ifdef BLUE_FIELD
-				downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, SB_SHIFT_AFTER_THIRD);
+				downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM_AFTER_THIRD, DOWN_SB_DEC_PWM_AFTER_THIRD, SB_SHIFT_AFTER_THIRD);
 			#else
-				downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, -SB_SHIFT_AFTER_THIRD);
+				downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM_AFTER_THIRD, DOWN_SB_DEC_PWM_AFTER_THIRD, -SB_SHIFT_AFTER_THIRD);
 			#endif
 		}
 		

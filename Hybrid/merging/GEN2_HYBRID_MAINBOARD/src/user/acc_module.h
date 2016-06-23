@@ -19,6 +19,6 @@ extern s16 curr_vx, curr_vy, curr_w;
 extern s16 motor_vel[3];
 extern CLOSE_LOOP_FLAG motor_loop_state[3];
 
-void acc_update(s16 vx, s16 vy, s16 w, s16 v_acc, s16 v_dec, s16 w_acc, s16 w_dec, bool global);
+void acc_update(s16 vx, s16 vy, s16 w, s16 vx_acc, s16 vx_dec, s16 vy_acc, s16 vy_dec, s16 w_acc, s16 w_dec, bool global);
 
 #endif

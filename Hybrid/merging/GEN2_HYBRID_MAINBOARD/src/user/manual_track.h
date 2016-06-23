@@ -62,7 +62,7 @@
 
 #define LIMIT_GYRO_ROTATE_P 150 //Scaled by 1000
 
-#define TRACK_ACC_CONSTANT 9000 //Scaled by 1000
+#define TRACK_ACC_CONSTANT 18
 
 extern u32 laser_range[2];
 

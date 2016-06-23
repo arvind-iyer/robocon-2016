@@ -48,7 +48,7 @@ bool laser_manual_update(s16 motor_vel[3]){
 	#endif
 	s32 parallel_speed = parallel_input * LASER_PARA_P /1000;
 	
-	acc_update(-perpend_speed, parallel_speed, w, BASE_ACC_CONSTANT, BASE_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, false);
+	acc_update(-perpend_speed, parallel_speed, w, BASE_X_ACC_CONSTANT, BASE_X_DEC_CONSTANT, BASE_Y_ACC_CONSTANT, BASE_Y_DEC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_DEC_CONSTANT, false);
 	
 	if ((abs(get_pos()->x) > LASER_OFF_MIN_DISTANCE) && (laser_range[0] >= LASER_OUT_DISTANCE)){
 		return false;
@@ -172,16 +172,14 @@ u8 limit_gyro_update(s16 motor_vel[3]){
 		pole_limit_hitted = true;
 		if (ls_hit_ticks == 0){
 			ls_hit_ticks = this_loop_ticks;
+		}else	if ((this_loop_ticks - ls_hit_ticks) > TICKS_AFTER_HIT_POLE){
+			return 3;
 		}
 	}else{
 		ls_hit_ticks = 0;
 	}
 	
-	if (this_loop_ticks - ls_hit_ticks > TICKS_AFTER_HIT_POLE){
-		return 3;
-	}
-	
-	acc_update(-perpend_speed, parallel_speed, w, TRACK_ACC_CONSTANT, TRACK_ACC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_ACC_CONSTANT, true);
+	acc_update(-perpend_speed, parallel_speed, w, TRACK_ACC_CONSTANT, TRACK_ACC_CONSTANT, TRACK_ACC_CONSTANT, TRACK_ACC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_ACC_CONSTANT, true);
 	
 	return 2;
 }
