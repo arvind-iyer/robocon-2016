@@ -38,6 +38,7 @@ extern s16 reading_in_area[REGIONS][2][3];
 extern s16 compensated_region_color[REGIONS][3];
 extern s16 region_color_average[REGIONS][3];
 extern s16 sensor_max[16];
+extern Reading full_white_reading;
 
 void sensor_cali(u8 cali_stage);
 void dataCollect(void);

@@ -2,6 +2,7 @@
 
 volatile extern u16 ADC_val[16];
 Reading now;
+Reading full_white_reading;
 u8 sat[16] = {0};
 
 //First index is areas
@@ -20,6 +21,11 @@ void init_all_zero(){
 		now.red_reading[i] = 0;
 		now.green_reading[i] = 0;
 		now.blue_reading[i] = 0;
+		
+		full_white_reading.off_reading[i] = 0;
+		full_white_reading.red_reading[i] = 0;
+		full_white_reading.green_reading[i] = 0;
+		full_white_reading.blue_reading[i] = 0;
 	}
 	
 	for (u8 i=0;i<REGIONS;i++){
@@ -77,6 +83,37 @@ void sensor_cali_get_reading(Reading *reading){
 }
 
 void sensor_max_cali(){
+	Reading this_readings[SAMPELS_TIMES];
+	
+	for (u8 i=0;i<SAMPELS_TIMES;i++){
+		sensor_cali_get_reading(&this_readings[i]);
+		for (u8 k=0; k<16; k++){
+			if (this_readings[i].red_reading[k] > full_white_reading.red_reading[k]){
+				full_white_reading.red_reading[k] = this_readings[i].red_reading[k];
+			}
+			
+			if (this_readings[i].blue_reading[k] > full_white_reading.blue_reading[k]){
+				full_white_reading.blue_reading[k] = this_readings[i].blue_reading[k];
+			}
+			
+			if (this_readings[i].green_reading[k] > full_white_reading.green_reading[k]){
+				full_white_reading.green_reading[k] = this_readings[i].green_reading[k];
+			}
+		}
+	}
+}
+
+s16 get_norm_rgb(Reading *reading, u8 i, u8 rgb){
+	switch (rgb){
+		case 0:
+			return (reading->red_reading[i])*255 / full_white_reading.red_reading[i];
+		case 1:
+			return (reading->green_reading[i])*255 / full_white_reading.green_reading[i];
+		case 2:
+			return (reading->blue_reading[i])*255 / full_white_reading.blue_reading[i];
+		default:
+			return 0;
+	}
 }
 
 void sensor_cali(u8 cali_stage){
@@ -94,34 +131,16 @@ void sensor_cali(u8 cali_stage){
 	s32 sum_of_bg[3] = {0};
 	s32 sum_of_mid[3] = {0};
 	
-	//Do red
-	for (u8 i=0;i<SAMPELS_TIMES;i++){
-		for (u8 k=0;k<16;k++){
-			sum_of_all[0] += this_readings[i].red_reading[k];
-			if (k==7 || k==8) continue;
-			sum_of_bg[0] += this_readings[i].red_reading[k];
+	for (u8 color=0; color<3; color++){
+		for (u8 i=0;i<SAMPELS_TIMES;i++){
+			for (u8 k=0;k<16;k++){
+				sum_of_all[color] += get_norm_rgb(&this_readings[i], k, color);
+				if (k==7 || k==8) continue;
+				sum_of_bg[color] += get_norm_rgb(&this_readings[i], k, color);
+			}
+			sum_of_mid[color] += (get_norm_rgb(&this_readings[i], 6, color) + get_norm_rgb(&this_readings[i], 7, color)*3 
+												+ get_norm_rgb(&this_readings[i], 8, color)*3 + get_norm_rgb(&this_readings[i], 9, color));
 		}
-		sum_of_mid[0] += (this_readings[i].red_reading[6] + this_readings[i].red_reading[7]*2 + this_readings[i].red_reading[8]*2 + this_readings[i].red_reading[9]);
-	}
-	
-	//Do green
-	for (u8 i=0;i<SAMPELS_TIMES;i++){
-		for (u8 k=0;k<16;k++){
-			sum_of_all[1] += this_readings[i].green_reading[k];
-			if (k==7 || k==8) continue;
-			sum_of_bg[1] += this_readings[i].green_reading[k];
-		}
-		sum_of_mid[1] += (this_readings[i].green_reading[6] + this_readings[i].green_reading[7]*2 + this_readings[i].green_reading[8]*2 + this_readings[i].green_reading[9]);
-	}
-	
-	//Do blue
-	for (u8 i=0;i<SAMPELS_TIMES;i++){
-		for (u8 k=0;k<16;k++){
-			sum_of_all[2] += this_readings[i].blue_reading[k];
-			if (k==7 || k==8) continue;
-			sum_of_bg[2] += this_readings[i].blue_reading[k];
-		}
-		sum_of_mid[2] += (this_readings[i].blue_reading[6] + this_readings[i].blue_reading[7]*3 + this_readings[i].blue_reading[8]*3 + this_readings[i].blue_reading[9]);
 	}
 	
 	for (u8 i=0;i<3;i++){
@@ -189,9 +208,9 @@ void sendData(){
 	for (u8 i=0;i<REGIONS;i++){
 		u32 curr_diff = 0;
 		for (u8 k=0;k<16;k++){
-			sensor_diff[k] = abs(region_color_average[i][0] - now.red_reading[k]) + 
-												abs(region_color_average[i][1] - now.green_reading[k]) +
-												abs(region_color_average[i][2] - now.blue_reading[k]);
+			for (u8 color=0; color<3; color++){
+				sensor_diff[k] += abs(region_color_average[i][color] - get_norm_rgb(&now, k, color));
+			}
 		}
 		u16 first_max_diff = sensor_diff[0];
 		u16 second_max_diff = 0;
@@ -217,7 +236,7 @@ void sendData(){
 	}
 	
 	for(u8 i = 0; i < 16; i++){
-		if((now.red_reading[i] + now.blue_reading[i] + now.green_reading[i]) >
+		if(((get_norm_rgb(&now, i, 0)) + (get_norm_rgb(&now, i, 1)) + (get_norm_rgb(&now, i, 2))) >
 				(compensated_region_color[current_region][0]
 					+ compensated_region_color[current_region][1]
 					+ compensated_region_color[current_region][2])){

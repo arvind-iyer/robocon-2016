@@ -11,6 +11,15 @@ void writeFlash(void){
 
 	u32 current_address = startAddress;
 	
+	for (u8 i=0; i<16; i++){
+		FLASH_ProgramHalfWord(current_address, full_white_reading.red_reading[i]);
+		current_address += 4;
+		FLASH_ProgramHalfWord(current_address, full_white_reading.green_reading[i]);
+		current_address += 4;
+		FLASH_ProgramHalfWord(current_address, full_white_reading.blue_reading[i]);
+		current_address += 4;
+	}
+	
 	for(u8 i=0; i<REGIONS; i++){
 		for (u8 j=0; j<3; j++){
 			FLASH_ProgramHalfWord(current_address, compensated_region_color[i][j]);
@@ -31,6 +40,15 @@ void writeFlash(void){
 void readFlash(void){
 	
 	u32 current_address = startAddress;
+	
+	for (u8 i=0; i<16; i++){
+		full_white_reading.red_reading[i] = *(uint16_t *)(current_address);
+		current_address += 4;
+		full_white_reading.green_reading[i] = *(uint16_t *)(current_address);
+		current_address += 4;
+		full_white_reading.blue_reading[i] = *(uint16_t *)(current_address);
+		current_address += 4;
+	}
 	
 	for(u8 i=0; i<REGIONS; i++){
 		for (u8 j=0; j<3; j++){

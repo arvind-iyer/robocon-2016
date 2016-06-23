@@ -145,12 +145,12 @@ int main(void){
 	_delay_ms(200);
 	while (1){
 		comm_update();
-		if (cali_stage<REGIONS){
+		if (cali_stage<(REGIONS+1)){
 			if(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14)){
 				while(!GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_14));
 				sensor_cali(cali_stage);
 				cali_stage++;
-				if (cali_stage>=REGIONS){
+				if (cali_stage>=(REGIONS+1)){
 					writeFlash();
 					_delay_ms(1000);
 				}
