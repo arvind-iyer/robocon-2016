@@ -55,6 +55,7 @@ extern bool done_turning;
 extern int ninety_time_stamp;
 extern bool system_on;
 
+ENCODER USED_ENCODER = ENCODER1;
 
 void initalize_values(void){
     if(button_pressed(BUTTON_RED)){
@@ -163,12 +164,12 @@ void print_data(){
     tft_prints(0,5,"%s",global_state_string);
     tft_prints(0,6,"yaw:%.2f",ardu_cal_ypr[0]);
     tft_prints(0,7,"enc up: %d", get_correct_req());
-    tft_prints(0,8,"encoder: %d", get_count(ENCODER1));
+    tft_prints(0,8,"e1:%d", get_count(ENCODER1));
+    tft_prints(0,9,"e2:%d",get_count(ENCODER2));
 }
 void print_system_off(void){
     tft_prints(0,0,"PRESS RED / WHITE");
-    tft_prints(0,1,"e1:%d e2 :%d",get_minimize_count(ENCODER1),get_minimize_count(ENCODER2));
-    tft_prints(0,2,"velo:%.2f",determine_velocity(ENCODER1));
+    tft_prints(0,1,"e1:%d e2:%d",get_minimize_count(ENCODER1),get_minimize_count(ENCODER2));
     tft_prints(0,3,"zone: %s",game_zone_string);
     for(int i = 0; i < 16 ;i++) tft_prints(i,4,"%d",sensorbar_result[i]);
     tft_prints(0,5,"calibrated:%d",ardu_imu_calibrated);
@@ -280,7 +281,7 @@ void go_normal(void){
                 last_movement = (SLOPE_TURNING_LEFT) - (factor * (SLOPE_TURNING_LEFT - SLOPE_TURNING_RIGHT));
             }
         }
-        if(game_zone == LIGHTGREENZONE && passed_river && get_minimize_count(ENCODER1) > 10){
+        if(game_zone == LIGHTGREENZONE && passed_river && get_minimize_count(USED_ENCODER) > 10){
             passed_down_slope = 1;
         }
     servo_control(BAJAJ_SERVO,last_movement);
@@ -293,7 +294,7 @@ void go_ninety(void){
             if(((int)ardu_cal_ypr[0] > -80) || ((get_full_ticks() - ninety_time_stamp) > 3000)){
                 full_white = 1;
                 strcpy(global_state_string,"BEFORE RIVER");
-                reset_encoder_1();
+                reset_all_encoder();
                 START_UP_play;
                 angle_after_ninety = ardu_cal_ypr[0];
                 global_state = NORMAL;
@@ -304,7 +305,7 @@ void go_ninety(void){
             if(((int)ardu_cal_ypr[0] < 80) || ((get_full_ticks() - ninety_time_stamp) > 3000)){
                 full_white = 1;
                 strcpy(global_state_string,"BEFORE RIVER");
-                reset_encoder_1();
+                reset_all_encoder();
                 START_UP_play;
 				ardu_cal_ypr[0] = (float)0;
 				angle_after_ninety = ardu_cal_ypr[0];
@@ -322,7 +323,7 @@ void go_using_imu(void){
     
     //Stopping condition
     if((get_count(ENCODER1) > 20000) && !read_infrared_sensor(infrared2)){
-        reset_encoder_1();
+        reset_all_encoder();
         strcpy(global_state_string,"EXIT RIVER");
         START_UP_play;
         global_state = EXIT_RIVER;
@@ -331,10 +332,10 @@ void go_using_imu(void){
 
 void go_straight_little_bit(void){
     //Stopping condition
-    if(get_count(ENCODER1) > 3000){
+    if(get_count(USED_ENCODER) > 3000){
         passed_river = 1;
         strcpy(global_state_string,"AFTER RIVER");
-        reset_encoder_1();
+        reset_all_encoder();
         START_UP_play;
         global_state = NORMAL;
     }
@@ -460,7 +461,7 @@ void run_user_interface(void){
                     passed_river = 0;
                     passed_down_slope = 0;
                     global_state = NORMAL;
-                    reset_encoder_1();
+                    reset_all_encoder();
                     IMU_ANGLE1 = -85;
                     strcpy(global_state_string,"BEFORE RIVER");
 					START_UP_play;
@@ -493,9 +494,9 @@ void run_user_interface(void){
 }
 
 void escape_first_island(void){
-    if(!done_turning && get_count(ENCODER1) > 4500){
+    if(!done_turning && get_count(USED_ENCODER) > 4500){
         CLICK_MUSIC;
-        reset_encoder_1();
+        reset_all_encoder();
         done_turning = true;
         global_state = RIVERING2;
     }
@@ -504,9 +505,9 @@ void escape_first_island(void){
 void scan_river(void){
     const int RIVER_TURNING_LEFT = SERVO_MICROS_MID - 200;
     const int RIVER_TURNING_RIGHT = SERVO_MICROS_MID + 200;
-    if(done_turning && get_minimize_count(ENCODER1) > 13) {
+    if(done_turning && get_minimize_count(USED_ENCODER) > 13) {
         START_UP_play;
-        reset_encoder_1();
+        reset_all_encoder();
         global_state = EXIT_RIVER;
     }
     else{    

@@ -122,7 +122,7 @@ void reset_encoder_1(){
 }
 
 void reset_encoder_2(){
-    TIM_SetCounter(ENCODER_TIMER2,10);
+    TIM_SetCounter(ENCODER_TIMER2,0);
 }
  
 void reset_full_encoder_1(){

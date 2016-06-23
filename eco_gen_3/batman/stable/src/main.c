@@ -42,6 +42,7 @@ extern int passed_down_slope;
 extern char current_slope_zone_string[10];
 extern char global_state_string[16];
 extern int ENTER_RIVER_ENCODER;
+extern ENCODER USED_ENCODER;
 
 int main(void) {
     //Initialization of all hardware
@@ -52,7 +53,7 @@ int main(void) {
     bool final_music = false;
     bool cali = false;
     int enter_time_stamp;
-    reset_encoder_1();
+    reset_all_encoder();
 	while (1) {
         if(ticks_ms_img != get_ticks()){
             buzzer_check();
@@ -73,10 +74,10 @@ int main(void) {
             switch(system_on){
                 case ON:
                     //Emergency turning system
-                    if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT) && passed_river && (global_state != DOWN_SLOPE)){
+                    if(read_infrared_sensor(INFRARED_SENSOR_UPPER_LEFT) && passed_river){
                        servo_control(BAJAJ_SERVO,SERVO_MICROS_RIGHT - 100);
                     }
-                    else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT) && passed_river && (global_state != DOWN_SLOPE)){
+                    else if(read_infrared_sensor(INFRARED_SENSOR_UPPER_RIGHT) && passed_river){
                        servo_control(BAJAJ_SERVO, SERVO_MICROS_LEFT + 100);
                     }
                     //Normal working state
@@ -89,8 +90,8 @@ int main(void) {
                                             START_UP_play;
                                             startSong = true;
                                         }                                       
-                                        if(game_zone == DARKGREENZONE && (get_minimize_count(ENCODER1) > 10)){
-                                            reset_encoder_1();
+                                        if(game_zone == DARKGREENZONE && (get_minimize_count(USED_ENCODER) > 10)){
+                                            reset_all_encoder();
 											START_UP_play;
                                             current_slope_zone = GREENSLOPE1;
                                             strcpy(current_slope_zone_string,"GREENSLOPE1");
@@ -99,8 +100,8 @@ int main(void) {
                                             go_normal();
                                     break;
                                     case GREENSLOPE1:
-                                        if((game_zone == ORANGEZONE || game_zone == PINKZONE) && (get_minimize_count(ENCODER1) > 4)){
-                                            reset_encoder_1();
+                                        if((game_zone == ORANGEZONE || game_zone == PINKZONE) && (get_minimize_count(USED_ENCODER) > 4)){
+                                            reset_all_encoder();
                                             START_UP_play;
                                             current_slope_zone = ORANGE1;
                                             strcpy(current_slope_zone_string,"ORANGE1");
@@ -110,8 +111,8 @@ int main(void) {
                                             
                                     break;
                                     case ORANGE1:
-                                        if(game_zone == DARKGREENZONE && (get_minimize_count(ENCODER1) > 4)){
-                                            reset_encoder_1();
+                                        if(game_zone == DARKGREENZONE && (get_minimize_count(USED_ENCODER) > 4)){
+                                            reset_all_encoder();
                                             START_UP_play;
                                             current_slope_zone = GREENSLOPE2;
                                             strcpy(current_slope_zone_string,"GREENSLOPE2");
@@ -120,8 +121,8 @@ int main(void) {
                                             go_normal();
                                     break;
                                     case GREENSLOPE2: 
-                                        if((game_zone == ORANGEZONE || game_zone == PINKZONE) && (get_minimize_count(ENCODER1) > 4)){
-                                            reset_encoder_1();
+                                        if((game_zone == ORANGEZONE || game_zone == PINKZONE) && (get_minimize_count(USED_ENCODER) > 4)){
+                                            reset_all_encoder();
                                             START_UP_play;
                                             current_slope_zone = ORANGE2;
                                             strcpy(current_slope_zone_string,"ORANGE2");
@@ -130,8 +131,8 @@ int main(void) {
                                             go_normal();                                        
                                     break;
                                     case ORANGE2:
-                                        if(game_zone == DARKGREENZONE && (get_minimize_count(ENCODER1) > 4)){
-                                            reset_encoder_1();
+                                        if(game_zone == DARKGREENZONE && (get_minimize_count(USED_ENCODER) > 4)){
+                                            reset_all_encoder();
 											START_UP_play;
                                             current_slope_zone = GREENSLOPE3;
                                             strcpy(current_slope_zone_string,"GREENSLOPE3");
@@ -141,7 +142,7 @@ int main(void) {
                                             
                                     break;
                                     case GREENSLOPE3:
-                                        if((game_zone == ORANGEZONE || game_zone == PINKZONE) && (get_minimize_count(ENCODER1) > 4)){
+                                        if((game_zone == ORANGEZONE || game_zone == PINKZONE) && (get_minimize_count(USED_ENCODER) > 4)){
                                             current_slope_zone = FINISHEDSLOPE;
 											START_UP_play;
                                             strcpy(current_slope_zone_string,"FINISHEDSLOPE");
@@ -162,16 +163,16 @@ int main(void) {
                                                 if((river) && !passed_river)
                                                     {
                                                         START_UP_play;
-                                                        reset_encoder_1();
+                                                        reset_all_encoder();
                                                         strcpy(global_state_string,"ENTER_RIVER");  
                                                         time1 = get_full_ticks();
                                                         angle_enter_river = ardu_cal_ypr[0];
                                                         global_state = ENTER_RIVER;
                                                     } 
-                                                else if(passed_down_slope && (get_minimize_count(ENCODER1)> 10)){
+                                                else if(passed_down_slope && (get_minimize_count(USED_ENCODER)> 10)){
                                                     START_UP_play;
                                                     strcpy(global_state_string,"DOWN SLOPE");
-                                                    reset_encoder_1();
+                                                    reset_all_encoder();
                                                     global_state = DOWN_SLOPE;
                                                 }
                                                 else
@@ -189,7 +190,7 @@ int main(void) {
                             break;
                             case ENTER_RIVER: //Right before locking the angle with IMU
                                 //Stopping condition:
-                                if(get_count(ENCODER1) > ENTER_RIVER_ENCODER){
+                                if(get_count(USED_ENCODER) > ENTER_RIVER_ENCODER){
                                     switch(side){
                                         case REDSIDE:
 											servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 350);
@@ -200,7 +201,7 @@ int main(void) {
                                     }
                                     strcpy(global_state_string,"ESCAPEISLAND");
                                     START_UP_play;
-                                    reset_encoder_1();
+                                    reset_all_encoder();
                                     time2 = get_full_ticks();
                                     global_state = RIVERING; 
                                 }
@@ -214,7 +215,7 @@ int main(void) {
                                 scan_river();
                             break;
                             case DOWN_SLOPE: //End game, make it turn extreme right / left for the hybrid to grip propeller
-                                if(get_minimize_count(ENCODER1) > 10 && (game_zone != LIGHTGREENZONE)){
+                                if(get_minimize_count(USED_ENCODER) > 10 && (game_zone != LIGHTGREENZONE)){
                                     enter_time_stamp = get_full_ticks();
                                     strcpy(global_state_string,"FINISH GAME");
                                     //Align servo to middle first before start turning max
@@ -231,7 +232,14 @@ int main(void) {
                                         final_music = true;
                                         START_UP_play;
                                     }
-                                    finish_ninety();
+                                    switch(side){
+                                        case REDSIDE:
+                                            servo_control(BAJAJ_SERVO,SERVO_MICROS_MID + 700);
+                                        break;
+                                        case BLUESIDE:
+                                            servo_control(BAJAJ_SERVO,SERVO_MICROS_MID - 700);
+                                        break;  
+                                    }
                                 }
                                 else
                                     go_normal();
@@ -239,7 +247,6 @@ int main(void) {
                         }
                     }
                     print_data(); //Print every data in the on(servo is active) system
-                    tft_prints(0,9,"imufucked: %d",imu_fucked_up);
                     run_user_interface(); //Button functions
                     break;
                
