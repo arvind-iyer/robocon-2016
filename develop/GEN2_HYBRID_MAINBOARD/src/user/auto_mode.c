@@ -545,7 +545,7 @@ void auto_robot_control(void) {
 		} else if (Abs(cur_x) < 4600) {
 			tar_arm = 6550;
 		} else {
-			tar_arm = 10850;
+			tar_arm = 11350;
 		}
 		
 		motor_set_vel(MOTOR7, arm_vel*MOTOR7_FLIP, OPEN_LOOP);
@@ -580,17 +580,19 @@ void auto_robot_control(void) {
 			brushless_servo_control(-75 + 75*2*field);
 		}
 	} else if (tar_end <= 5) {
-		brushless_servo_control(0);
+		brushless_servo_control(-5);
 		set_tar_val(700);
-		if (auto_get_ticks() - brushless_time > 3000)
+		if (auto_get_ticks() - brushless_time > 2000) {
+			brushless_servo_control(0);
 			set_tar_val(780);
-		if (auto_get_ticks() - brushless_time > 4000)
+		}
+		if (auto_get_ticks() - brushless_time > 3000)
 			set_tar_val(890);
-		if (auto_get_ticks() - brushless_time > 4500)
+		if (auto_get_ticks() - brushless_time > 3500)
 			set_tar_val(960);
-		if (auto_get_ticks() - brushless_time > 5000)
+		if (auto_get_ticks() - brushless_time > 4000)
 			set_tar_val(1040);
-		if (auto_get_ticks() - brushless_time > 5500)
+		if (auto_get_ticks() - brushless_time > 4500)
 			set_tar_val(1100);
 	} else {
 		set_PID_FLAG(PID_OFF);
@@ -881,6 +883,7 @@ void auto_motor_update(){
 	//uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, dist);
 	
 	//handle input
+	/*
 	if (button_pressed(BUTTON_XBC_BACK)) {
 		if (!back_pressed) {
 			back_pressed = true;
@@ -891,6 +894,7 @@ void auto_motor_update(){
 	} else {
 		back_pressed = false;
 	}
+	*/
 }
 
 void USART2_IRQHandler(void) {
