@@ -69,9 +69,9 @@ namespace Eco_Robot_Supporter {
                 for (int cali = 0; cali < Config.CALI; cali++) {
                     for (int part = 0; part < 2; part++) {
                         colorBoxes[section, cali, part].BackColor = Color.FromArgb(
-                            (config.colors[part, section * Config.CALI + cali, 0] /2)>255?255: (config.colors[part, section * Config.CALI + cali, 0] / 2),
-                             (config.colors[part, section * Config.CALI + cali, 1] / 2) > 255 ? 255 : (config.colors[part, section * Config.CALI + cali, 1] / 2),
-                             (config.colors[part, section * Config.CALI + cali, 2] / 2) > 255 ? 255 : (config.colors[part, section * Config.CALI + cali, 2] / 2));
+                            (config.colors[part, section * Config.CALI + cali, 0])>255?255: (config.colors[part, section * Config.CALI + cali, 0]),
+                             (config.colors[part, section * Config.CALI + cali, 1]) > 255 ? 255 : (config.colors[part, section * Config.CALI + cali, 1]),
+                             (config.colors[part, section * Config.CALI + cali, 2]) > 255 ? 255 : (config.colors[part, section * Config.CALI + cali, 2]));
                     }
                     labels[section, cali].Text = String.Format("R{0} G{1} B{2}\nR{3} G{4} B{5}",
                         config.colors[1, section * Config.CALI + cali, 0], config.colors[1, section * Config.CALI + cali, 1],

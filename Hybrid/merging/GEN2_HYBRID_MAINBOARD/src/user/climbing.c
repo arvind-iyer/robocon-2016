@@ -36,6 +36,8 @@ u8 climbing_update(){
 					putting_propeller_ticks[0] = this_loop_ticks;
 					putting_propeller_state = 0;
 					stop_climbing();
+					brushless_power_percent = 0;
+					brushless_control(brushless_power_percent, true);
 				}
 			}
 			break;

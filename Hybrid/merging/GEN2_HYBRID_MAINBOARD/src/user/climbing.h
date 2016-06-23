@@ -20,7 +20,7 @@
 #include "manual_mode.h"
 
 #define CLIMBING_TICKS_LIMIT 1000
-#define CLIMBING_BRUSHLESS_P 1000 //Scaled by 1000
+#define CLIMBING_BRUSHLESS_P 2000 //Scaled by 1000
 #define CLIMBING_BRUSHLESS_ANGLE 35 //5
 
 #define PUTTING_PROPELLER_UP_DELAY 800

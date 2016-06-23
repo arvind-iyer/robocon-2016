@@ -2335,64 +2335,64 @@ Image Symbol Table
     i.request_color_msg                      0x08004140   Section        0  comm.o(i.request_color_msg)
     i.s16_cap                                0x0800414e   Section        0  quick_math.o(i.s16_cap)
     i.sb_cali_update                         0x08004160   Section        0  sb_cali.o(i.sb_cali_update)
-    i.sb_pwm_1to1                            0x0800420c   Section        0  sensor_bar.o(i.sb_pwm_1to1)
-    i.send_MTi_1_UART_msg                    0x08004230   Section        0  mti-1_uart.o(i.send_MTi_1_UART_msg)
-    i.sensor_bar_cali_color_receiver         0x080042c0   Section        0  comm.o(i.sensor_bar_cali_color_receiver)
-    sensor_bar_cali_color_receiver           0x080042c1   Thumb Code   230  comm.o(i.sensor_bar_cali_color_receiver)
-    i.sensor_bar_get_corr                    0x080043b0   Section        0  sensor_bar.o(i.sensor_bar_get_corr)
-    i.sensor_bar_receiver_a                  0x080044d8   Section        0  sensor_bar.o(i.sensor_bar_receiver_a)
-    sensor_bar_receiver_a                    0x080044d9   Thumb Code    58  sensor_bar.o(i.sensor_bar_receiver_a)
-    i.sensor_bar_receiver_b                  0x08004520   Section        0  sensor_bar.o(i.sensor_bar_receiver_b)
-    sensor_bar_receiver_b                    0x08004521   Thumb Code    48  sensor_bar.o(i.sensor_bar_receiver_b)
-    i.sensor_bar_receiver_c                  0x08004554   Section        0  sensor_bar.o(i.sensor_bar_receiver_c)
-    sensor_bar_receiver_c                    0x08004555   Thumb Code    64  sensor_bar.o(i.sensor_bar_receiver_c)
-    i.sensor_bar_receiver_d                  0x0800459c   Section        0  sensor_bar.o(i.sensor_bar_receiver_d)
-    sensor_bar_receiver_d                    0x0800459d   Thumb Code     8  sensor_bar.o(i.sensor_bar_receiver_d)
-    i.sensor_bar_replaced_receiver           0x080045a8   Section        0  comm.o(i.sensor_bar_replaced_receiver)
-    sensor_bar_replaced_receiver             0x080045a9   Thumb Code     8  comm.o(i.sensor_bar_replaced_receiver)
-    i.sensorbar_init                         0x080045b4   Section        0  sensor_bar.o(i.sensorbar_init)
-    i.servo_control                          0x08004604   Section        0  servo.o(i.servo_control)
-    i.servo_init                             0x0800461c   Section        0  servo.o(i.servo_init)
-    i.set_target                             0x080046ec   Section        0  imu_targeting.o(i.set_target)
-    i.si_add_deg_bias                        0x080046f8   Section        0  servo_interface.o(i.si_add_deg_bias)
-    i.si_clear                               0x08004718   Section        0  servo_interface.o(i.si_clear)
-    i.si_clear_static                        0x0800472c   Section        0  servo_interface.o(i.si_clear_static)
-    i.si_execute                             0x08004738   Section        0  servo_interface.o(i.si_execute)
-    i.si_init                                0x08004774   Section        0  servo_interface.o(i.si_init)
-    i.si_set_pwm                             0x080047b8   Section        0  servo_interface.o(i.si_set_pwm)
-    i.si_set_st_deg_bias                     0x080047c4   Section        0  servo_interface.o(i.si_set_st_deg_bias)
-    i.targeting_pid                          0x080047e0   Section        0  imu_targeting.o(i.targeting_pid)
-    i.targeting_update                       0x08004804   Section        0  imu_targeting.o(i.targeting_update)
-    i.tft_char_is_changed                    0x08004840   Section        0  lcd_main.o(i.tft_char_is_changed)
-    i.tft_clear                              0x080048dc   Section        0  lcd_main.o(i.tft_clear)
-    i.tft_config                             0x08004950   Section        0  lcd_main.o(i.tft_config)
-    i.tft_fill_color                         0x08004b66   Section        0  lcd_main.o(i.tft_fill_color)
-    i.tft_init                               0x08004bc8   Section        0  lcd_main.o(i.tft_init)
-    i.tft_println                            0x08004cc4   Section        0  lcd_main.o(i.tft_println)
-    i.tft_prints                             0x08004da0   Section        0  lcd_main.o(i.tft_prints)
-    i.tft_put_logo                           0x08004e6c   Section        0  lcd_main.o(i.tft_put_logo)
-    i.tft_put_pixel                          0x08006144   Section        0  lcd_main.o(i.tft_put_pixel)
-    i.tft_set_pixel_pos                      0x080061a0   Section        0  lcd_main.o(i.tft_set_pixel_pos)
-    i.tft_spi_init                           0x080061f0   Section        0  lcd_main.o(i.tft_spi_init)
-    i.tft_update                             0x08006304   Section        0  lcd_main.o(i.tft_update)
-    i.tft_write_command                      0x080068f8   Section        0  lcd_main.o(i.tft_write_command)
-    i.tft_write_data                         0x08006954   Section        0  lcd_main.o(i.tft_write_data)
-    i.ticks_init                             0x080069b0   Section        0  ticks.o(i.ticks_init)
-    i.uart_init                              0x08006a1c   Section        0  usart.o(i.uart_init)
-    i.uart_interrupt_init                    0x08006b28   Section        0  usart.o(i.uart_interrupt_init)
-    i.uart_tx_byte                           0x08006b98   Section        0  usart.o(i.uart_tx_byte)
-    i.vector_len                             0x08006bc0   Section        0  vector_math.o(i.vector_len)
-    i.vel_update                             0x08006bf0   Section        0  velocity.o(i.vel_update)
-    .constdata                               0x08006c78   Section       12  buzzer_song.o(.constdata)
-    .constdata                               0x08006c84   Section        8  buzzer_song.o(.constdata)
-    .constdata                               0x08006c8c   Section        4  buzzer_song.o(.constdata)
-    .constdata                               0x08006c90   Section        6  buzzer_song.o(.constdata)
-    .constdata                               0x08006c96   Section        8  buzzer_song.o(.constdata)
-    .constdata                               0x08006c9e   Section       10  buzzer_song.o(.constdata)
+    i.sb_pwm_1to1                            0x08004200   Section        0  sensor_bar.o(i.sb_pwm_1to1)
+    i.send_MTi_1_UART_msg                    0x08004224   Section        0  mti-1_uart.o(i.send_MTi_1_UART_msg)
+    i.sensor_bar_cali_color_receiver         0x080042b4   Section        0  comm.o(i.sensor_bar_cali_color_receiver)
+    sensor_bar_cali_color_receiver           0x080042b5   Thumb Code   230  comm.o(i.sensor_bar_cali_color_receiver)
+    i.sensor_bar_get_corr                    0x080043a4   Section        0  sensor_bar.o(i.sensor_bar_get_corr)
+    i.sensor_bar_receiver_a                  0x080044cc   Section        0  sensor_bar.o(i.sensor_bar_receiver_a)
+    sensor_bar_receiver_a                    0x080044cd   Thumb Code    58  sensor_bar.o(i.sensor_bar_receiver_a)
+    i.sensor_bar_receiver_b                  0x08004514   Section        0  sensor_bar.o(i.sensor_bar_receiver_b)
+    sensor_bar_receiver_b                    0x08004515   Thumb Code    48  sensor_bar.o(i.sensor_bar_receiver_b)
+    i.sensor_bar_receiver_c                  0x08004548   Section        0  sensor_bar.o(i.sensor_bar_receiver_c)
+    sensor_bar_receiver_c                    0x08004549   Thumb Code    64  sensor_bar.o(i.sensor_bar_receiver_c)
+    i.sensor_bar_receiver_d                  0x08004590   Section        0  sensor_bar.o(i.sensor_bar_receiver_d)
+    sensor_bar_receiver_d                    0x08004591   Thumb Code     8  sensor_bar.o(i.sensor_bar_receiver_d)
+    i.sensor_bar_replaced_receiver           0x0800459c   Section        0  comm.o(i.sensor_bar_replaced_receiver)
+    sensor_bar_replaced_receiver             0x0800459d   Thumb Code     8  comm.o(i.sensor_bar_replaced_receiver)
+    i.sensorbar_init                         0x080045a8   Section        0  sensor_bar.o(i.sensorbar_init)
+    i.servo_control                          0x080045f8   Section        0  servo.o(i.servo_control)
+    i.servo_init                             0x08004610   Section        0  servo.o(i.servo_init)
+    i.set_target                             0x080046e0   Section        0  imu_targeting.o(i.set_target)
+    i.si_add_deg_bias                        0x080046ec   Section        0  servo_interface.o(i.si_add_deg_bias)
+    i.si_clear                               0x0800470c   Section        0  servo_interface.o(i.si_clear)
+    i.si_clear_static                        0x08004720   Section        0  servo_interface.o(i.si_clear_static)
+    i.si_execute                             0x0800472c   Section        0  servo_interface.o(i.si_execute)
+    i.si_init                                0x08004768   Section        0  servo_interface.o(i.si_init)
+    i.si_set_pwm                             0x080047ac   Section        0  servo_interface.o(i.si_set_pwm)
+    i.si_set_st_deg_bias                     0x080047b8   Section        0  servo_interface.o(i.si_set_st_deg_bias)
+    i.targeting_pid                          0x080047d4   Section        0  imu_targeting.o(i.targeting_pid)
+    i.targeting_update                       0x080047f8   Section        0  imu_targeting.o(i.targeting_update)
+    i.tft_char_is_changed                    0x08004834   Section        0  lcd_main.o(i.tft_char_is_changed)
+    i.tft_clear                              0x080048d0   Section        0  lcd_main.o(i.tft_clear)
+    i.tft_config                             0x08004944   Section        0  lcd_main.o(i.tft_config)
+    i.tft_fill_color                         0x08004b5a   Section        0  lcd_main.o(i.tft_fill_color)
+    i.tft_init                               0x08004bbc   Section        0  lcd_main.o(i.tft_init)
+    i.tft_println                            0x08004cb8   Section        0  lcd_main.o(i.tft_println)
+    i.tft_prints                             0x08004d94   Section        0  lcd_main.o(i.tft_prints)
+    i.tft_put_logo                           0x08004e60   Section        0  lcd_main.o(i.tft_put_logo)
+    i.tft_put_pixel                          0x08006138   Section        0  lcd_main.o(i.tft_put_pixel)
+    i.tft_set_pixel_pos                      0x08006194   Section        0  lcd_main.o(i.tft_set_pixel_pos)
+    i.tft_spi_init                           0x080061e4   Section        0  lcd_main.o(i.tft_spi_init)
+    i.tft_update                             0x080062f8   Section        0  lcd_main.o(i.tft_update)
+    i.tft_write_command                      0x080068ec   Section        0  lcd_main.o(i.tft_write_command)
+    i.tft_write_data                         0x08006948   Section        0  lcd_main.o(i.tft_write_data)
+    i.ticks_init                             0x080069a4   Section        0  ticks.o(i.ticks_init)
+    i.uart_init                              0x08006a10   Section        0  usart.o(i.uart_init)
+    i.uart_interrupt_init                    0x08006b1c   Section        0  usart.o(i.uart_interrupt_init)
+    i.uart_tx_byte                           0x08006b8c   Section        0  usart.o(i.uart_tx_byte)
+    i.vector_len                             0x08006bb4   Section        0  vector_math.o(i.vector_len)
+    i.vel_update                             0x08006be4   Section        0  velocity.o(i.vel_update)
+    .constdata                               0x08006c6c   Section       12  buzzer_song.o(.constdata)
+    .constdata                               0x08006c78   Section        8  buzzer_song.o(.constdata)
+    .constdata                               0x08006c80   Section        4  buzzer_song.o(.constdata)
+    .constdata                               0x08006c84   Section        6  buzzer_song.o(.constdata)
+    .constdata                               0x08006c8a   Section        8  buzzer_song.o(.constdata)
+    .constdata                               0x08006c92   Section       10  buzzer_song.o(.constdata)
+    .constdata                               0x08006c9c   Section       12  buzzer_song.o(.constdata)
     .constdata                               0x08006ca8   Section       12  buzzer_song.o(.constdata)
-    .constdata                               0x08006cb4   Section       12  buzzer_song.o(.constdata)
-    .constdata                               0x08006cc0   Section       72  usart.o(.constdata)
-    .conststring                             0x08006d08   Section       71  sb_cali.o(.conststring)
+    .constdata                               0x08006cb4   Section       72  usart.o(.constdata)
+    .conststring                             0x08006cfc   Section       71  sb_cali.o(.conststring)
     .data                                    0x20000000   Section       16  stm32f4xx_rcc.o(.data)
     APBAHBPrescTable                         0x20000000   Data          16  stm32f4xx_rcc.o(.data)
     .data                                    0x20000010   Section       20  system_stm32f4xx.o(.data)
@@ -2771,59 +2771,59 @@ Image Symbol Table
     readIR                                   0x08004119   Thumb Code    34  adc_ir.o(i.readIR)
     request_color_msg                        0x08004141   Thumb Code    14  comm.o(i.request_color_msg)
     s16_cap                                  0x0800414f   Thumb Code    16  quick_math.o(i.s16_cap)
-    sb_cali_update                           0x08004161   Thumb Code   104  sb_cali.o(i.sb_cali_update)
-    sb_pwm_1to1                              0x0800420d   Thumb Code    30  sensor_bar.o(i.sb_pwm_1to1)
-    send_MTi_1_UART_msg                      0x08004231   Thumb Code   138  mti-1_uart.o(i.send_MTi_1_UART_msg)
-    sensor_bar_get_corr                      0x080043b1   Thumb Code   282  sensor_bar.o(i.sensor_bar_get_corr)
-    sensorbar_init                           0x080045b5   Thumb Code    62  sensor_bar.o(i.sensorbar_init)
-    servo_control                            0x08004605   Thumb Code    14  servo.o(i.servo_control)
-    servo_init                               0x0800461d   Thumb Code   200  servo.o(i.servo_init)
-    set_target                               0x080046ed   Thumb Code     6  imu_targeting.o(i.set_target)
-    si_add_deg_bias                          0x080046f9   Thumb Code    26  servo_interface.o(i.si_add_deg_bias)
-    si_clear                                 0x08004719   Thumb Code    14  servo_interface.o(i.si_clear)
-    si_clear_static                          0x0800472d   Thumb Code     8  servo_interface.o(i.si_clear_static)
-    si_execute                               0x08004739   Thumb Code    56  servo_interface.o(i.si_execute)
-    si_init                                  0x08004775   Thumb Code    62  servo_interface.o(i.si_init)
-    si_set_pwm                               0x080047b9   Thumb Code     6  servo_interface.o(i.si_set_pwm)
-    si_set_st_deg_bias                       0x080047c5   Thumb Code    22  servo_interface.o(i.si_set_st_deg_bias)
-    targeting_pid                            0x080047e1   Thumb Code    22  imu_targeting.o(i.targeting_pid)
-    targeting_update                         0x08004805   Thumb Code    48  imu_targeting.o(i.targeting_update)
-    tft_char_is_changed                      0x08004841   Thumb Code   138  lcd_main.o(i.tft_char_is_changed)
-    tft_clear                                0x080048dd   Thumb Code   106  lcd_main.o(i.tft_clear)
-    tft_config                               0x08004951   Thumb Code   534  lcd_main.o(i.tft_config)
-    tft_fill_color                           0x08004b67   Thumb Code    98  lcd_main.o(i.tft_fill_color)
-    tft_init                                 0x08004bc9   Thumb Code   234  lcd_main.o(i.tft_init)
-    tft_println                              0x08004cc5   Thumb Code   210  lcd_main.o(i.tft_println)
-    tft_prints                               0x08004da1   Thumb Code   194  lcd_main.o(i.tft_prints)
-    tft_put_logo                             0x08004e6d   Thumb Code  4824  lcd_main.o(i.tft_put_logo)
-    tft_put_pixel                            0x08006145   Thumb Code    86  lcd_main.o(i.tft_put_pixel)
-    tft_set_pixel_pos                        0x080061a1   Thumb Code    80  lcd_main.o(i.tft_set_pixel_pos)
-    tft_spi_init                             0x080061f1   Thumb Code   262  lcd_main.o(i.tft_spi_init)
-    tft_update                               0x08006305   Thumb Code  1502  lcd_main.o(i.tft_update)
-    tft_write_command                        0x080068f9   Thumb Code    78  lcd_main.o(i.tft_write_command)
-    tft_write_data                           0x08006955   Thumb Code    78  lcd_main.o(i.tft_write_data)
-    ticks_init                               0x080069b1   Thumb Code    98  ticks.o(i.ticks_init)
-    uart_init                                0x08006a1d   Thumb Code   232  usart.o(i.uart_init)
-    uart_interrupt_init                      0x08006b29   Thumb Code   100  usart.o(i.uart_interrupt_init)
-    uart_tx_byte                             0x08006b99   Thumb Code    36  usart.o(i.uart_tx_byte)
-    vector_len                               0x08006bc1   Thumb Code    48  vector_math.o(i.vector_len)
-    vel_update                               0x08006bf1   Thumb Code   112  velocity.o(i.vel_update)
-    START_UP                                 0x08006c78   Data          12  buzzer_song.o(.constdata)
-    SUCCESSFUL_SOUND                         0x08006c84   Data           8  buzzer_song.o(.constdata)
-    HIGH_1                                   0x08006c8c   Data           4  buzzer_song.o(.constdata)
-    HIGH_2                                   0x08006c90   Data           6  buzzer_song.o(.constdata)
-    HIGH_3                                   0x08006c96   Data           8  buzzer_song.o(.constdata)
-    HIGH_4                                   0x08006c9e   Data          10  buzzer_song.o(.constdata)
-    RIVER_1                                  0x08006ca8   Data          12  buzzer_song.o(.constdata)
-    RIVER_2                                  0x08006cb4   Data          12  buzzer_song.o(.constdata)
-    COM_TX_PIN                               0x08006cc0   Data           8  usart.o(.constdata)
-    COM_RX_PIN                               0x08006cc8   Data           8  usart.o(.constdata)
-    COM_IRQ                                  0x08006cd0   Data           8  usart.o(.constdata)
-    COM_USART_CLK                            0x08006cd8   Data          16  usart.o(.constdata)
-    COM_TX_PORT_CLK                          0x08006ce8   Data          16  usart.o(.constdata)
-    COM_RX_PORT_CLK                          0x08006cf8   Data          16  usart.o(.constdata)
-    Region$$Table$$Base                      0x08006d50   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08006d70   Number         0  anon$$obj.o(Region$$Table)
+    sb_cali_update                           0x08004161   Thumb Code    90  sb_cali.o(i.sb_cali_update)
+    sb_pwm_1to1                              0x08004201   Thumb Code    30  sensor_bar.o(i.sb_pwm_1to1)
+    send_MTi_1_UART_msg                      0x08004225   Thumb Code   138  mti-1_uart.o(i.send_MTi_1_UART_msg)
+    sensor_bar_get_corr                      0x080043a5   Thumb Code   282  sensor_bar.o(i.sensor_bar_get_corr)
+    sensorbar_init                           0x080045a9   Thumb Code    62  sensor_bar.o(i.sensorbar_init)
+    servo_control                            0x080045f9   Thumb Code    14  servo.o(i.servo_control)
+    servo_init                               0x08004611   Thumb Code   200  servo.o(i.servo_init)
+    set_target                               0x080046e1   Thumb Code     6  imu_targeting.o(i.set_target)
+    si_add_deg_bias                          0x080046ed   Thumb Code    26  servo_interface.o(i.si_add_deg_bias)
+    si_clear                                 0x0800470d   Thumb Code    14  servo_interface.o(i.si_clear)
+    si_clear_static                          0x08004721   Thumb Code     8  servo_interface.o(i.si_clear_static)
+    si_execute                               0x0800472d   Thumb Code    56  servo_interface.o(i.si_execute)
+    si_init                                  0x08004769   Thumb Code    62  servo_interface.o(i.si_init)
+    si_set_pwm                               0x080047ad   Thumb Code     6  servo_interface.o(i.si_set_pwm)
+    si_set_st_deg_bias                       0x080047b9   Thumb Code    22  servo_interface.o(i.si_set_st_deg_bias)
+    targeting_pid                            0x080047d5   Thumb Code    22  imu_targeting.o(i.targeting_pid)
+    targeting_update                         0x080047f9   Thumb Code    48  imu_targeting.o(i.targeting_update)
+    tft_char_is_changed                      0x08004835   Thumb Code   138  lcd_main.o(i.tft_char_is_changed)
+    tft_clear                                0x080048d1   Thumb Code   106  lcd_main.o(i.tft_clear)
+    tft_config                               0x08004945   Thumb Code   534  lcd_main.o(i.tft_config)
+    tft_fill_color                           0x08004b5b   Thumb Code    98  lcd_main.o(i.tft_fill_color)
+    tft_init                                 0x08004bbd   Thumb Code   234  lcd_main.o(i.tft_init)
+    tft_println                              0x08004cb9   Thumb Code   210  lcd_main.o(i.tft_println)
+    tft_prints                               0x08004d95   Thumb Code   194  lcd_main.o(i.tft_prints)
+    tft_put_logo                             0x08004e61   Thumb Code  4824  lcd_main.o(i.tft_put_logo)
+    tft_put_pixel                            0x08006139   Thumb Code    86  lcd_main.o(i.tft_put_pixel)
+    tft_set_pixel_pos                        0x08006195   Thumb Code    80  lcd_main.o(i.tft_set_pixel_pos)
+    tft_spi_init                             0x080061e5   Thumb Code   262  lcd_main.o(i.tft_spi_init)
+    tft_update                               0x080062f9   Thumb Code  1502  lcd_main.o(i.tft_update)
+    tft_write_command                        0x080068ed   Thumb Code    78  lcd_main.o(i.tft_write_command)
+    tft_write_data                           0x08006949   Thumb Code    78  lcd_main.o(i.tft_write_data)
+    ticks_init                               0x080069a5   Thumb Code    98  ticks.o(i.ticks_init)
+    uart_init                                0x08006a11   Thumb Code   232  usart.o(i.uart_init)
+    uart_interrupt_init                      0x08006b1d   Thumb Code   100  usart.o(i.uart_interrupt_init)
+    uart_tx_byte                             0x08006b8d   Thumb Code    36  usart.o(i.uart_tx_byte)
+    vector_len                               0x08006bb5   Thumb Code    48  vector_math.o(i.vector_len)
+    vel_update                               0x08006be5   Thumb Code   112  velocity.o(i.vel_update)
+    START_UP                                 0x08006c6c   Data          12  buzzer_song.o(.constdata)
+    SUCCESSFUL_SOUND                         0x08006c78   Data           8  buzzer_song.o(.constdata)
+    HIGH_1                                   0x08006c80   Data           4  buzzer_song.o(.constdata)
+    HIGH_2                                   0x08006c84   Data           6  buzzer_song.o(.constdata)
+    HIGH_3                                   0x08006c8a   Data           8  buzzer_song.o(.constdata)
+    HIGH_4                                   0x08006c92   Data          10  buzzer_song.o(.constdata)
+    RIVER_1                                  0x08006c9c   Data          12  buzzer_song.o(.constdata)
+    RIVER_2                                  0x08006ca8   Data          12  buzzer_song.o(.constdata)
+    COM_TX_PIN                               0x08006cb4   Data           8  usart.o(.constdata)
+    COM_RX_PIN                               0x08006cbc   Data           8  usart.o(.constdata)
+    COM_IRQ                                  0x08006cc4   Data           8  usart.o(.constdata)
+    COM_USART_CLK                            0x08006ccc   Data          16  usart.o(.constdata)
+    COM_TX_PORT_CLK                          0x08006cdc   Data          16  usart.o(.constdata)
+    COM_RX_PORT_CLK                          0x08006cec   Data          16  usart.o(.constdata)
+    Region$$Table$$Base                      0x08006d44   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08006d64   Number         0  anon$$obj.o(Region$$Table)
     SystemCoreClock                          0x20000010   Data           4  system_stm32f4xx.o(.data)
     AHBPrescTable                            0x20000014   Data          16  system_stm32f4xx.o(.data)
     short_loop_per_long_loop                 0x20000024   Data           1  main.o(.data)
@@ -2916,9 +2916,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000189
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000076c4, Max: 0x00100000, ABSOLUTE, COMPRESSED[0x0000722c])
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000076b8, Max: 0x00100000, ABSOLUTE, COMPRESSED[0x00007220])
 
-    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00006d70, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00006d64, Max: 0x00100000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -3116,61 +3116,61 @@ Memory Map of the image
     0x08004140   0x0000000e   Code   RO          932    i.request_color_msg  comm.o
     0x0800414e   0x00000010   Code   RO         1152    i.s16_cap           quick_math.o
     0x0800415e   0x00000002   PAD
-    0x08004160   0x000000ac   Code   RO          901    i.sb_cali_update    sb_cali.o
-    0x0800420c   0x00000024   Code   RO          840    i.sb_pwm_1to1       sensor_bar.o
-    0x08004230   0x00000090   Code   RO          958    i.send_MTi_1_UART_msg  mti-1_uart.o
-    0x080042c0   0x000000f0   Code   RO          933    i.sensor_bar_cali_color_receiver  comm.o
-    0x080043b0   0x00000128   Code   RO          841    i.sensor_bar_get_corr  sensor_bar.o
-    0x080044d8   0x00000048   Code   RO          842    i.sensor_bar_receiver_a  sensor_bar.o
-    0x08004520   0x00000034   Code   RO          843    i.sensor_bar_receiver_b  sensor_bar.o
-    0x08004554   0x00000048   Code   RO          844    i.sensor_bar_receiver_c  sensor_bar.o
-    0x0800459c   0x0000000c   Code   RO          845    i.sensor_bar_receiver_d  sensor_bar.o
-    0x080045a8   0x0000000c   Code   RO          934    i.sensor_bar_replaced_receiver  comm.o
-    0x080045b4   0x00000050   Code   RO          847    i.sensorbar_init    sensor_bar.o
-    0x08004604   0x00000018   Code   RO         1159    i.servo_control     servo.o
-    0x0800461c   0x000000d0   Code   RO         1160    i.servo_init        servo.o
-    0x080046ec   0x0000000c   Code   RO          855    i.set_target        imu_targeting.o
-    0x080046f8   0x00000020   Code   RO          886    i.si_add_deg_bias   servo_interface.o
-    0x08004718   0x00000014   Code   RO          888    i.si_clear          servo_interface.o
-    0x0800472c   0x0000000c   Code   RO          889    i.si_clear_static   servo_interface.o
-    0x08004738   0x0000003c   Code   RO          890    i.si_execute        servo_interface.o
-    0x08004774   0x00000044   Code   RO          891    i.si_init           servo_interface.o
-    0x080047b8   0x0000000c   Code   RO          893    i.si_set_pwm        servo_interface.o
-    0x080047c4   0x0000001c   Code   RO          894    i.si_set_st_deg_bias  servo_interface.o
-    0x080047e0   0x00000024   Code   RO          856    i.targeting_pid     imu_targeting.o
-    0x08004804   0x0000003c   Code   RO          857    i.targeting_update  imu_targeting.o
-    0x08004840   0x0000009c   Code   RO         1017    i.tft_char_is_changed  lcd_main.o
-    0x080048dc   0x00000074   Code   RO         1018    i.tft_clear         lcd_main.o
-    0x08004950   0x00000216   Code   RO         1020    i.tft_config        lcd_main.o
-    0x08004b66   0x00000062   Code   RO         1023    i.tft_fill_color    lcd_main.o
-    0x08004bc8   0x000000fc   Code   RO         1026    i.tft_init          lcd_main.o
-    0x08004cc4   0x000000dc   Code   RO         1027    i.tft_println       lcd_main.o
-    0x08004da0   0x000000cc   Code   RO         1028    i.tft_prints        lcd_main.o
-    0x08004e6c   0x000012d8   Code   RO         1029    i.tft_put_logo      lcd_main.o
-    0x08006144   0x0000005c   Code   RO         1030    i.tft_put_pixel     lcd_main.o
-    0x080061a0   0x00000050   Code   RO         1034    i.tft_set_pixel_pos  lcd_main.o
-    0x080061f0   0x00000114   Code   RO         1037    i.tft_spi_init      lcd_main.o
-    0x08006304   0x000005f4   Code   RO         1039    i.tft_update        lcd_main.o
-    0x080068f8   0x0000005c   Code   RO         1040    i.tft_write_command  lcd_main.o
-    0x08006954   0x0000005c   Code   RO         1041    i.tft_write_data    lcd_main.o
-    0x080069b0   0x0000006c   Code   RO         1180    i.ticks_init        ticks.o
-    0x08006a1c   0x0000010c   Code   RO         1112    i.uart_init         usart.o
-    0x08006b28   0x00000070   Code   RO         1114    i.uart_interrupt_init  usart.o
-    0x08006b98   0x00000028   Code   RO         1119    i.uart_tx_byte      usart.o
-    0x08006bc0   0x00000030   Code   RO         1195    i.vector_len        vector_math.o
-    0x08006bf0   0x00000088   Code   RO          925    i.vel_update        velocity.o
-    0x08006c78   0x0000000c   Data   RO          862    .constdata          buzzer_song.o
-    0x08006c84   0x00000008   Data   RO          864    .constdata          buzzer_song.o
-    0x08006c8c   0x00000004   Data   RO          867    .constdata          buzzer_song.o
-    0x08006c90   0x00000006   Data   RO          868    .constdata          buzzer_song.o
-    0x08006c96   0x00000008   Data   RO          869    .constdata          buzzer_song.o
-    0x08006c9e   0x0000000a   Data   RO          870    .constdata          buzzer_song.o
-    0x08006ca8   0x0000000c   Data   RO          871    .constdata          buzzer_song.o
-    0x08006cb4   0x0000000c   Data   RO          872    .constdata          buzzer_song.o
-    0x08006cc0   0x00000048   Data   RO         1121    .constdata          usart.o
-    0x08006d08   0x00000047   Data   RO          902    .conststring        sb_cali.o
-    0x08006d4f   0x00000001   PAD
-    0x08006d50   0x00000020   Data   RO         1317    Region$$Table       anon$$obj.o
+    0x08004160   0x000000a0   Code   RO          901    i.sb_cali_update    sb_cali.o
+    0x08004200   0x00000024   Code   RO          840    i.sb_pwm_1to1       sensor_bar.o
+    0x08004224   0x00000090   Code   RO          958    i.send_MTi_1_UART_msg  mti-1_uart.o
+    0x080042b4   0x000000f0   Code   RO          933    i.sensor_bar_cali_color_receiver  comm.o
+    0x080043a4   0x00000128   Code   RO          841    i.sensor_bar_get_corr  sensor_bar.o
+    0x080044cc   0x00000048   Code   RO          842    i.sensor_bar_receiver_a  sensor_bar.o
+    0x08004514   0x00000034   Code   RO          843    i.sensor_bar_receiver_b  sensor_bar.o
+    0x08004548   0x00000048   Code   RO          844    i.sensor_bar_receiver_c  sensor_bar.o
+    0x08004590   0x0000000c   Code   RO          845    i.sensor_bar_receiver_d  sensor_bar.o
+    0x0800459c   0x0000000c   Code   RO          934    i.sensor_bar_replaced_receiver  comm.o
+    0x080045a8   0x00000050   Code   RO          847    i.sensorbar_init    sensor_bar.o
+    0x080045f8   0x00000018   Code   RO         1159    i.servo_control     servo.o
+    0x08004610   0x000000d0   Code   RO         1160    i.servo_init        servo.o
+    0x080046e0   0x0000000c   Code   RO          855    i.set_target        imu_targeting.o
+    0x080046ec   0x00000020   Code   RO          886    i.si_add_deg_bias   servo_interface.o
+    0x0800470c   0x00000014   Code   RO          888    i.si_clear          servo_interface.o
+    0x08004720   0x0000000c   Code   RO          889    i.si_clear_static   servo_interface.o
+    0x0800472c   0x0000003c   Code   RO          890    i.si_execute        servo_interface.o
+    0x08004768   0x00000044   Code   RO          891    i.si_init           servo_interface.o
+    0x080047ac   0x0000000c   Code   RO          893    i.si_set_pwm        servo_interface.o
+    0x080047b8   0x0000001c   Code   RO          894    i.si_set_st_deg_bias  servo_interface.o
+    0x080047d4   0x00000024   Code   RO          856    i.targeting_pid     imu_targeting.o
+    0x080047f8   0x0000003c   Code   RO          857    i.targeting_update  imu_targeting.o
+    0x08004834   0x0000009c   Code   RO         1017    i.tft_char_is_changed  lcd_main.o
+    0x080048d0   0x00000074   Code   RO         1018    i.tft_clear         lcd_main.o
+    0x08004944   0x00000216   Code   RO         1020    i.tft_config        lcd_main.o
+    0x08004b5a   0x00000062   Code   RO         1023    i.tft_fill_color    lcd_main.o
+    0x08004bbc   0x000000fc   Code   RO         1026    i.tft_init          lcd_main.o
+    0x08004cb8   0x000000dc   Code   RO         1027    i.tft_println       lcd_main.o
+    0x08004d94   0x000000cc   Code   RO         1028    i.tft_prints        lcd_main.o
+    0x08004e60   0x000012d8   Code   RO         1029    i.tft_put_logo      lcd_main.o
+    0x08006138   0x0000005c   Code   RO         1030    i.tft_put_pixel     lcd_main.o
+    0x08006194   0x00000050   Code   RO         1034    i.tft_set_pixel_pos  lcd_main.o
+    0x080061e4   0x00000114   Code   RO         1037    i.tft_spi_init      lcd_main.o
+    0x080062f8   0x000005f4   Code   RO         1039    i.tft_update        lcd_main.o
+    0x080068ec   0x0000005c   Code   RO         1040    i.tft_write_command  lcd_main.o
+    0x08006948   0x0000005c   Code   RO         1041    i.tft_write_data    lcd_main.o
+    0x080069a4   0x0000006c   Code   RO         1180    i.ticks_init        ticks.o
+    0x08006a10   0x0000010c   Code   RO         1112    i.uart_init         usart.o
+    0x08006b1c   0x00000070   Code   RO         1114    i.uart_interrupt_init  usart.o
+    0x08006b8c   0x00000028   Code   RO         1119    i.uart_tx_byte      usart.o
+    0x08006bb4   0x00000030   Code   RO         1195    i.vector_len        vector_math.o
+    0x08006be4   0x00000088   Code   RO          925    i.vel_update        velocity.o
+    0x08006c6c   0x0000000c   Data   RO          862    .constdata          buzzer_song.o
+    0x08006c78   0x00000008   Data   RO          864    .constdata          buzzer_song.o
+    0x08006c80   0x00000004   Data   RO          867    .constdata          buzzer_song.o
+    0x08006c84   0x00000006   Data   RO          868    .constdata          buzzer_song.o
+    0x08006c8a   0x00000008   Data   RO          869    .constdata          buzzer_song.o
+    0x08006c92   0x0000000a   Data   RO          870    .constdata          buzzer_song.o
+    0x08006c9c   0x0000000c   Data   RO          871    .constdata          buzzer_song.o
+    0x08006ca8   0x0000000c   Data   RO          872    .constdata          buzzer_song.o
+    0x08006cb4   0x00000048   Data   RO         1121    .constdata          usart.o
+    0x08006cfc   0x00000047   Data   RO          902    .conststring        sb_cali.o
+    0x08006d43   0x00000001   PAD
+    0x08006d44   0x00000020   Data   RO         1317    Region$$Table       anon$$obj.o
 
 
     Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x00009628, Max: 0x00020000, ABSOLUTE, COMPRESSED[0x000004bc])
@@ -3255,7 +3255,7 @@ Image component sizes
        132         22          0          8          0          0   path_station.o
        340         48          0         16          0          0   path_upslope_sb.o
         16          0          0          0          0          0   quick_math.o
-       172         68         71         28          0          0   sb_cali.o
+       160         70         71         28          0          0   sb_cali.o
        620         68          0         22        280          0   sensor_bar.o
        232         18          0         24          0          0   servo.o
        232         38          0          6          0          0   servo_interface.o
@@ -3277,7 +3277,7 @@ Image component sizes
        164         30          0          8          0          0   velocity.o
 
     ----------------------------------------------------------------------
-     23046       1578        640       2376      36052          0   Object Totals
+     23034       1580        640       2376      36052          0   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         22          0          1          8          0          0   (incl. Padding)
 
@@ -3340,15 +3340,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     27376       1706        640       2388      36052          0   Grand Totals
-     27376       1706        640       1212      36052          0   ELF Image Totals (compressed)
-     27376       1706        640       1212          0          0   ROM Totals
+     27364       1708        640       2388      36052          0   Grand Totals
+     27364       1708        640       1212      36052          0   ELF Image Totals (compressed)
+     27364       1708        640       1212          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                28016 (  27.36kB)
+    Total RO  Size (Code + RO Data)                28004 (  27.35kB)
     Total RW  Size (RW Data + ZI Data)             38440 (  37.54kB)
-    Total ROM Size (Code + RO Data + RW Data)      29228 (  28.54kB)
+    Total ROM Size (Code + RO Data + RW Data)      29216 (  28.53kB)
 
 ==============================================================================
 

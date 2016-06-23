@@ -15,8 +15,8 @@ GAME_STAGE sb_cali_update(){
 	si_clear();
 	
 	if (sensorbar_cali > 0){
-		region_index = (sensorbar_cali-1) / 10;
-		cali_in_each_region = (sensorbar_cali-1) % 10;
+		region_index = (sensorbar_cali) / 10;
+		cali_in_each_region = (sensorbar_cali) % 10;
 		
 		tft_println(colors_string[region_index]);
 		tft_println("REG: %d TIME: %d", region_index, cali_in_each_region);
