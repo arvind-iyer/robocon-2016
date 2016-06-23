@@ -130,7 +130,7 @@ s16 sensor_bar_get_corr(u8 power, u16 sensor_bar_Kp, SENSOR_BAR_FLAG* in_flag){
 	}
 	
 	//Ignore line with only 1 white, possibly an error
-	if (max_width > 1){
+	if (max_width > 0){
 		sensor_bar_mid = line_mid;
 		//Square the difference while maintaining sign
 		s8 sign_of_error = (line_mid-SENSOR_BAR_MID)>0?1:-1;

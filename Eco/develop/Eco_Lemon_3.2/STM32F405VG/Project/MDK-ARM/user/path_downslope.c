@@ -1,8 +1,11 @@
 #include "path_downslope.h"
 
 static s32 start_dis = 0;
+static u16 last_pwm = SERVO_MED_PWM;
+
 void path_down_reset(){
 	start_dis = get_average_dis();
+	last_pwm = SERVO_MED_PWM;
 }
 
 GAME_STAGE path_down_update(){
@@ -12,7 +15,7 @@ GAME_STAGE path_down_update(){
 	
 	if (flag != SENSOR_BAR_NTH){
 		u16 downslope_servo_pwm = 0;
-		if (sensorbar_region == DOWN_GREEN){
+		if (sensorbar_region != HIGH_ORANGE){
 			si_clear_static();
 			downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, 0);
 		}else{
@@ -23,9 +26,12 @@ GAME_STAGE path_down_update(){
 			#endif
 		}
 		
-		si_clear();
-		si_set_pwm(downslope_servo_pwm);
-		si_execute();
+		if (abs((s32)downslope_servo_pwm-(s32)last_pwm)>500){
+			last_pwm = downslope_servo_pwm;
+			si_clear();
+			si_set_pwm(downslope_servo_pwm);
+			si_execute();
+		}
 	}
 	
 	tft_println("SE: %d", start_dis);

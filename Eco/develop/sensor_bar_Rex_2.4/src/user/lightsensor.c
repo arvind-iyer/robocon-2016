@@ -130,7 +130,7 @@ void sensor_cali(u8 cali_stage){
 	}
 	
 	for (u8 i=0;i<3;i++){
-		compensated_region_color[cali_stage][i] = reading_in_area[cali_stage][1][i] + (reading_in_area[cali_stage][0][i] - reading_in_area[cali_stage][1][i])*4/5;
+		compensated_region_color[cali_stage][i] = reading_in_area[cali_stage][1][i] + (reading_in_area[cali_stage][0][i] - reading_in_area[cali_stage][1][i]);
 		region_color_average[cali_stage][i] = reading_in_area[cali_stage][1][i];
 	}
 	
