@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include "usart.h"
 #include "servo_interface.h"
+#include "main.h"
 
 #define SENSOR_BAR_FILTER_1 0x0C5
 #define SENSOR_BAR_FILTER_2 0x0C6
@@ -50,6 +51,6 @@ extern u8 sensorbar_region;
 extern u8 sensorbar_cali;
 extern s16 compensated_region_color[REGIONS][3];
 extern s16 region_color_average[REGIONS][3];
-extern s16 raw[11];
+extern u16 sensorbar_receive_diff;
 
 #endif

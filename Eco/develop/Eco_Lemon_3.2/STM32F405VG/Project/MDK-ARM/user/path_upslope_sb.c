@@ -39,7 +39,7 @@ GAME_STAGE path_up_sb_update(){
 			right_angle_ing = 1;
 		}
 		
-		if (sensorbar_region == HIGH_ORANGE && current_state == 1 && (get_average_dis() - last_encoder_dis) > SLOPE_SECTION_DIS){
+		if (sensorbar_region == HIGH_ORANGE && current_state == 1 && (get_average_dis() - last_encoder_dis) >= SLOPE_SECTION_DIS){
 			highland_count++;
 			switch (highland_count){
 				case 1:
@@ -65,7 +65,8 @@ GAME_STAGE path_up_sb_update(){
 			last_encoder_dis = get_average_dis();
 		}
 		
-		u32 dynamic_river_dis = RIVER_90_TURN_ENC_Y/(RIVER_90_TURN_ENC_X+get_vel());
+		//u32 dynamic_river_dis = RIVER_90_TURN_ENC_Y/(RIVER_90_TURN_ENC_X+get_vel());
+		u32 dynamic_river_dis = RIVER_90_TURN_ENC_CONSTANT;
 		
 		if (counting_encoder && (get_average_encoder() - start_counting_encoder)>dynamic_river_dis){
 			right_angle_ing = 1;

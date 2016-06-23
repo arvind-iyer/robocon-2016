@@ -40,6 +40,7 @@ static bool using_laser_sensor = true;
 static bool pole_as_front = false;
 static bool facing_pole = false;
 static bool brushless_str = false;
+static bool wheels_free = false;
 
 bool gripper_extended = false;
 bool gripper_clawed = true;
@@ -73,7 +74,7 @@ void manual_reset(){
 	ground_wheels_lock = UNLOCKED;
 	brushless_power_percent = 20;
 	climbing_induced_ground_lock = UNLOCKED;
-	is_rotating = pole_as_front = facing_pole = brushless_str = false;
+	is_rotating = pole_as_front = facing_pole = brushless_str = wheels_free = false;
 	using_laser_sensor = true;
 	gripper_clawed = false;
 	gripper_extended = true;
@@ -203,11 +204,12 @@ void manual_fast_update(){
 		manual_update_wheel_base(true);
 		curr_heading = get_angle();
 		
+	}else if(wheels_free){
+		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
+		motor_set_vel(MOTOR3, 0, OPEN_LOOP);
 	}else{
 		manual_update_wheel_base(false);
-		if (!is_rotating){
-			//curr_rotate = -angle_pid()/1000;
-		}
 	}
 }
 
@@ -258,11 +260,10 @@ void manual_interval_update(){
 		gripper_claw_control(THIS_GRIPPER, gripper_clawed);
 	}
 	
-//	if (button_pressed(BUTTON_XBC_N)){
-//		climb_continue();
-//	}else{
-//		stop_climbing();
-//	}
+	if (button_pressed(BUTTON_XBC_BACK)){
+		wheels_free = !wheels_free;
+		curr_vx = curr_vy = curr_w = 0;
+	}
 	
 	if (manual_stage == 0){
 		manual_first_control_update();

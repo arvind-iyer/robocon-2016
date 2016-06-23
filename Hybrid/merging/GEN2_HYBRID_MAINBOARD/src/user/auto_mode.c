@@ -30,6 +30,13 @@
 #define INNER_DIST 280
 #define OUTER_DIST 310
 
+const SERVO_ID gripper_servo[2] = {SERVO2, SERVO1};
+const GPIO * gripper_push[2] = {&PD11, &PD9};
+const GPIO * gripper_claw[2] = {&PD10, &PD8};
+const GPIO * pole_clamp = &PB9;
+const u16 servo_up_val[2] = {892, 807};
+const u16 servo_dn_val[2] = {1078, 641};
+
 //#define DEBUG_MODE
 
 //Ground: 0 = Red, 1 = Blue
@@ -42,7 +49,7 @@ u8 hill_cal = 1;
 //mode variables
 PID_MODE pid_state;
 bool pid_stopped;
-bool start_pressed, back_pressed;
+bool start_pressed, back_pressed, y_pressed;
 int path_id;
 
 //path target queue
@@ -68,7 +75,6 @@ int auto_ticks = 0;
 s16 cur_vel = 0;
 
 u8 side_switch_val = 0;
-u8 back_switch_val = 0;
 
 //Robot control
 bool arm_init = false;
@@ -77,7 +83,12 @@ s16 tar_arm = 0;
 s16 brushless_time = 0;
 s16 climbing_time = 0;
 s16 arrived_time = 0;
+s32 top_time = 0;
+s16 climb_dir = 0;
+s16 climb_blow_pwm = 0;
 bool arrived = false;
+bool at_top = false;
+u8 climb_temp = 0;
 
 //UART receiver
 u8 rx_state = 0;
@@ -142,6 +153,8 @@ void auto_tar_dequeue() {
 		cur_vel = 6;
 	if (tar_end == 5)
 		cur_vel = 70;	
+	if (tar_end == 9)
+		cur_vel = 40;	
 	tar_x = tar_queue[tar_end].x;
 	tar_y = tar_queue[tar_end].y;
 	//tar_deg = tar_queue[tar_end].deg;
@@ -204,6 +217,7 @@ void auto_init() {
 
 	start_pressed = false;
 	back_pressed = false;
+	y_pressed = false;
 	
 	tar_head = 0;
 	tar_end = 0;
@@ -243,16 +257,23 @@ void auto_reset() {
 	tar_arm = 0;
 	brushless_time = 0;
 	climbing_time = 0;
-	pneumatic_off(&PB9); //Open wheels
-	pneumatic_on(&PD10); //Open claw
-	pneumatic_on(&PD11); //Push out
-	servo_control(SERVO2, 1050);
+	top_time = 0;
+	pneumatic_off(pole_clamp); //Open wheels
+	pneumatic_on(gripper_claw[field]); //Open claw
+	pneumatic_on(gripper_push[field]); //Push out
+	servo_control(gripper_servo[field], servo_dn_val[field]);
+	climb_dir = 0;
+	climb_blow_pwm = 0;
+	at_top = false;
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
 	
 	//reset gyro location
 	gyro_pos_set(0,0,0);
+	
+	//testing...
+	auto_tar_dequeue();
 }
 
 /**
@@ -339,11 +360,10 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	s8 reset_rot = 0;
 	s8 reset_vel[3] = {0, 0, 0};
 	
-	back_switch_val = (cur_y <= 0)*4 + gpio_read_input(&PE6)*2 + gpio_read_input(&PE7);
 	if (field == 0)
 		side_switch_val = ((cur_x >= 0) || (cur_x <= -12900))*4 + gpio_read_input(&PE11)*2 + gpio_read_input(&PE10);
 	if (field == 1)
-		side_switch_val = ((cur_x <= 0) || (cur_x >= 12900))*4 + gpio_read_input(&PE9)*2 + gpio_read_input(&PE8);
+		side_switch_val = ((cur_x <= 0) || (cur_x >= 12900))*4 + gpio_read_input(&PE1)*2 + gpio_read_input(&PE0);
 	
 	if ((side_switch_val == 3) || (side_switch_val & 4)) {
 		if (Abs(cur_x) < 7000) {
@@ -364,23 +384,12 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 			}
 			err_sum = 0;
 		}
-	}	
-	if ((back_switch_val == 3) || (back_switch_val & 4)) {
-		off_y = raw_y;
-		if ((back_switch_val == 3) || (back_switch_val == 7))
-			off_deg = get_angle();
 	}
 	
 	if ((side_switch_val & 2) && !(side_switch_val & 1)) {
 		reset_rot = cur_vel/25;
 	}
 	if (!(side_switch_val & 2) && (side_switch_val & 1)) {
-		reset_rot = cur_vel/(-25);		
-	}
-	if ((back_switch_val & 2) && !(back_switch_val & 1)) {
-		reset_rot = cur_vel/25;
-	}
-	if (!(back_switch_val & 2) && (back_switch_val & 1)) {
 		reset_rot = cur_vel/(-25);		
 	}
 	
@@ -395,11 +404,6 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		reset_vel[1] = cur_vel/(-10);
 		reset_vel[2] = cur_vel/(-10);
 		}
-	}
-	if (back_switch_val == 4) {
-		reset_vel[0] = 0;
-		reset_vel[1] = cur_vel/5;
-		reset_vel[2] = cur_vel/(-5);
 	}
 	
 	//ls cal straight section
@@ -452,32 +456,61 @@ void auto_pole_climb(){
 		//Push forward at 50
 		motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
 		motor_set_vel(MOTOR2, 43, CLOSE_LOOP);
-		motor_set_vel(MOTOR3, -43, CLOSE_LOOP);
-	} else if (climbing_time < 1000) { //clamp
-		pneumatic_on(&PB9);		
-	} else if (climbing_time < 7000) { //re-lock motor, grip
+		motor_set_vel(MOTOR3, -48, CLOSE_LOOP);
+		motor_set_vel(MOTOR7, 0, OPEN_LOOP); //Lock biggold
+		pneumatic_on(pole_clamp); //Clamp pole
+		climb_dir = get_pos()->angle;
+		climb_blow_pwm = 0;
+		brushless_servo_control(35);
+	} else if (climbing_time < 1000) {
 		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
 		motor_set_vel(MOTOR3, 0, OPEN_LOOP);
-		//set brushless angle
-	} else if (climbing_time < 7500) {
-		//servo_control(SERVO2, 855);
-		pneumatic_off(&PD10); //claw
-		//turn on brushless
-		//motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
-		//motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
-		//motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP, OPEN_LOOP);
+		pneumatic_off(gripper_claw[field]); //claw
+	} else if (climbing_time < 1500) {
+		pneumatic_off(gripper_push[field]); //collect
+		brushless_control(50, true);
+	} else if (climbing_time < 2000) {
+		servo_control(gripper_servo[field], servo_up_val[field]);
 	} else {
-		pneumatic_off(&PD11); //collect
-		//motor_set_vel(MOTOR4, 0, OPEN_LOOP);
-		//motor_set_vel(MOTOR5, 0, OPEN_LOOP);
-		//motor_set_vel(MOTOR6, 0, OPEN_LOOP);
+		if ((gpio_read_input(&PE3) || gpio_read_input(&PE9)) && !at_top) {
+			at_top = true;
+			top_time = auto_get_ticks();
+		}
+		
+		if ((climbing_time > 2500) && !at_top) {
+			pneumatic_on(gripper_push[field]); //push out
+		}
+		
+		if (at_top) {
+			motor_set_vel(MOTOR4, 0, OPEN_LOOP);
+			motor_set_vel(MOTOR5, 0, OPEN_LOOP);
+			motor_set_vel(MOTOR6, 0, OPEN_LOOP);
+			brushless_control(0, true);
+			if ((auto_get_ticks() - top_time) < 400) {
+				pneumatic_on(gripper_push[field]); //placeholder
+			} else if ((auto_get_ticks() - top_time) < 800) {
+				pneumatic_off(gripper_push[field]);
+			} else if ((auto_get_ticks() - top_time) < 1000) {
+				pneumatic_on(gripper_claw[field]);	
+			} else {	
+				servo_control(gripper_servo[field], servo_dn_val[field]);
+			}
+		} else {			
+			motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
+			motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
+			motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP, OPEN_LOOP);
+			climb_blow_pwm = 20 + (get_pos()->angle)<1800?0:(get_pos()->angle - 1800);
+			brushless_control(climb_blow_pwm, true);
+		}
 	}
 	
 	tft_clear();
 	tft_prints(0,0,"[AUTO-CLIMB]");
 	tft_prints(0,5,"REC %3d",time/1000);
 	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
+	tft_prints(0,7,"ANGLE %3d",climb_blow_pwm);
+	tft_prints(0,9,"%d", top_time);
 	tft_update();
 }
 
@@ -508,11 +541,11 @@ void auto_robot_control(void) {
 		if ((tar_end == 1) && (!arrived || (arrived && ((auto_get_ticks() - arrived_time) < 1000)))) {
 			tar_arm = 0;
 		} else if (Abs(cur_x) < 3000) {
-			tar_arm = 3900;
+			tar_arm = 2650;
 		} else if (Abs(cur_x) < 4600) {
-			tar_arm = 7800;
+			tar_arm = 6550;
 		} else {
-			tar_arm = 12100;
+			tar_arm = 11350;
 		}
 		
 		motor_set_vel(MOTOR7, arm_vel*MOTOR7_FLIP, OPEN_LOOP);
@@ -525,39 +558,45 @@ void auto_robot_control(void) {
 	if (tar_end <= 1) {
 		brushless_servo_control(-85 + 85*2*field);
 		brushless_control(0, true);
-		if (dist < 100)
+		if (dist < 100) {
 			brushless_control(45, true);
+			//set_tar_val(651);
+		}
 	} else if (tar_end <= 2) {
-		brushless_control(55, true);
+		set_tar_val(949);
+		set_PID_FLAG(PID_ON);
 		brushless_servo_control(-90 + 90*2*field);
 	} else if (tar_end <= 3) {
 		brushless_servo_control(-85 + 85*2*field);
 		if (auto_get_ticks() - brushless_time > 300)
-			brushless_control(50, true);
+			set_tar_val(843);
 	} else if (tar_end <= 4) {
 		//brushless_servo_control(-65 + 65*2*field);
-		brushless_control(46, true);
+		set_tar_val(758);
 		if (auto_get_ticks() - brushless_time > 1000)
 			brushless_servo_control(-65 + 65*2*field);			
 		if (auto_get_ticks() - brushless_time > 1500) {
-			brushless_control(50, true);
+			//brushless_control(52, true);
 			brushless_servo_control(-75 + 75*2*field);
 		}
 	} else if (tar_end <= 5) {
-		brushless_servo_control(0);
-		brushless_control(40, true);
+		brushless_servo_control(-5);
+		set_tar_val(700);
+		if (auto_get_ticks() - brushless_time > 2000) {
+			brushless_servo_control(0);
+			set_tar_val(780);
+		}
 		if (auto_get_ticks() - brushless_time > 3000)
-			brushless_control(50, true);
+			set_tar_val(890);
+		if (auto_get_ticks() - brushless_time > 3500)
+			set_tar_val(960);
 		if (auto_get_ticks() - brushless_time > 4000)
-			brushless_control(54, true);
+			set_tar_val(1040);
 		if (auto_get_ticks() - brushless_time > 4500)
-			brushless_control(58, true);
-		if (auto_get_ticks() - brushless_time > 5000)
-			brushless_control(62, true);
-		if (auto_get_ticks() - brushless_time > 5500)
-			brushless_control(65, true);	
+			set_tar_val(1100);
 	} else {
-		brushless_control(0, true);
+		set_PID_FLAG(PID_OFF);
+		servo_control(SERVO3, 450);
 	}
 }
 
@@ -595,6 +634,8 @@ void auto_calibrate(){
 void auto_menu_update() {
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
+	tft_prints(0,6,"STATE %d%d%d%d", gpio_read_input(&PE10), gpio_read_input(&PE11), gpio_read_input(&PE0), gpio_read_input(&PE1));
+	tft_prints(0,7,"(Y) retry climb");
 	
 	if (auto_get_flash(0,0) == PATH_ID) {
 		tft_prints(0,1,"Path found!");
@@ -633,6 +674,17 @@ void auto_menu_update() {
 		}
 	} else {
 		start_pressed = false;
+	}
+	
+	if (button_pressed(BUTTON_XBC_Y)){
+		if (!y_pressed) {
+			y_pressed = true;
+			
+			auto_reset();
+			pid_state = CLIMBING_MODE;
+		}
+	} else {
+		y_pressed = false;
 	}
 	
 	if (to_be_saved) {
@@ -750,35 +802,40 @@ void auto_motor_update(){
 		
 		//ensure touches both switches before next path
 		u8 side_switch_states = 0;
-		u8 back_switch_states = 0;
 		if (((tar_x == 0) || (tar_x == -12900)) && (field == 0))
 			side_switch_states = gpio_read_input(&PE11) & gpio_read_input(&PE10);
 		if (((tar_x == 0) || (tar_x == 12900)) && (field == 1))
-			side_switch_states = gpio_read_input(&PE9) & gpio_read_input(&PE8);
-		if (tar_y == 0)
-			back_switch_states = gpio_read_input(&PE6) & gpio_read_input(&PE7);
+			side_switch_states = gpio_read_input(&PE1) & gpio_read_input(&PE0);
 		
 		if (auto_tar_queue_len()) {
 			if ((tar_x == 0) || (tar_x == 12900)) {
-				if (side_switch_states) {
-					if ((tar_end == 1) && arrived) {
-						if ((auto_get_ticks() - arrived_time) > 1500)
-							auto_tar_dequeue();
-						else
-							auto_motor_stop();
-					} else {
-						auto_tar_dequeue();
-					}
+				if (side_switch_states && !arrived) {
+					arrived = true;
+					arrived_time = auto_get_ticks();
 				}
-			} else if (tar_y == 0) {
-				if (back_switch_states) auto_tar_dequeue();
 			} else {
-				if (tar_end == 2) {
-					if ((auto_get_ticks() - arrived_time) > 700) auto_tar_dequeue();
+				if (!arrived) {
+					arrived = true;
+					arrived_time = auto_get_ticks();
+				}
+			}
+			
+			if (arrived) {
+				if (tar_end == 1) {
+					if ((auto_get_ticks() - arrived_time) > 1500)
+						auto_tar_dequeue();
+					else
+						auto_motor_stop();
+				} else if (tar_end == 2) {
+					if ((auto_get_ticks() - arrived_time) > 700)
+						auto_tar_dequeue();
+					else
+						auto_motor_stop();
 				} else {
 					auto_tar_dequeue();
 				}
 			}
+			
 		} else {
 			pid_stopped = true;
 			auto_motor_stop();
@@ -814,8 +871,8 @@ void auto_motor_update(){
 	//tft_prints(0,7,"Test %d", err_sum);
 	//tft_prints(0,7,"Test %d %d", get_X(), get_Y());
 	tft_prints(0,7,"Test %d %d", side_switch_val, back_switch_val);
-	*/
 	tft_prints(0,7,"Test %d", (auto_get_ticks() - arrived_time));
+	*/
 	
 	tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));
 	tft_prints(0,9,"W %d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(2), wall_dist);
@@ -826,6 +883,7 @@ void auto_motor_update(){
 	//uart_tx(COM2, (uint8_t *)"%d, %d, %d, %d, %d\n", time, cur_x, cur_y, temp_deg, dist);
 	
 	//handle input
+	/*
 	if (button_pressed(BUTTON_XBC_BACK)) {
 		if (!back_pressed) {
 			back_pressed = true;
@@ -836,6 +894,7 @@ void auto_motor_update(){
 	} else {
 		back_pressed = false;
 	}
+	*/
 }
 
 void USART2_IRQHandler(void) {

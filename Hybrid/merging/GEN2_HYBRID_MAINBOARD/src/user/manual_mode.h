@@ -63,11 +63,11 @@
 #endif
 
 //Make deceleration faster than acceleration
-#define BASE_ACC_CONSTANT 7000 //4000 //3200 //Scaled by 1000
-#define BASE_DEC_CONSTANT 8400 //5600 //3400 //Scaled by 1000
+#define BASE_ACC_CONSTANT 8000 //3500 //4000 //3200 //Scaled by 1000
+#define BASE_DEC_CONSTANT 9600 //4200 //5600 //3400 //Scaled by 1000
 #define BASE_VEL_JOYSTICK_GAIN 2900 //Scaled by 1000
-#define ROTATE_ACC_CONSTANT 10400 //3500 //Scaled by 1000 
-#define ROTATE_DEC_CONSTANT 13100 //3500 //Scaled by 1000 
+#define ROTATE_ACC_CONSTANT 11000 //5020 //3500 //Scaled by 1000 
+#define ROTATE_DEC_CONSTANT 13000 //6100 //3500 //Scaled by 1000 
 
 #define BRUSHLESS_POWER_STEP 3
 #define BRUSHLESS_SERVO_SMALL_STEP 1

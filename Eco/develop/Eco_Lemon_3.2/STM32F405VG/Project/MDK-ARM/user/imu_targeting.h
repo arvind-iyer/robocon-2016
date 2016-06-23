@@ -12,7 +12,7 @@
 #include "servo_interface.h"
 #include "quick_math.h"
 
-#define IMU_PID_P 450 //Scaled by 100
+#define IMU_PID_P 380 //Scaled by 100
 
 extern s16 target_yaw;
 

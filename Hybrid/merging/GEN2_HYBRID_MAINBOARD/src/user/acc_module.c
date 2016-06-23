@@ -3,20 +3,41 @@
 s16 curr_vx = 0, curr_vy = 0, curr_w = 0;
 s16 motor_vel[3] = {0};
 CLOSE_LOOP_FLAG motor_loop_state[3] = {CLOSE_LOOP};
-static s16 accel_remainder = 0;
-static s16 rotate_accel_remainder = 0;
+static s16 accel_remain[3] = {0}; //vx, vy, w
 static s32 last_ticks = 0;
+
+//Factor scaled by 1000
+static s16 get_new_v(s16 curr_v, s16 target_v, s16 accel_factor, s16 decel_factor, s16 *remainder){
+	s32 accel_amount = *remainder;
+	s16 v_diff = target_v - curr_v;
+	if (v_diff > 0){
+		accel_amount += accel_factor*v_diff;
+	}else{
+		accel_amount += decel_factor*v_diff;
+	}
+	
+	if (abs(v_diff) <= abs(accel_amount/1000)){
+		*remainder = 0;
+		return target_v;
+	}else{
+		*remainder = accel_amount%1000;
+		return curr_v + accel_amount/1000;
+	}
+}
 
 //Update in local coordinate
 //All acceleration scaled by 1000
 void acc_update(s16 vx, s16 vy, s16 w, s16 v_acc, s16 v_dec, s16 w_acc, s16 w_dec, bool global){
 	
-	if ((this_loop_ticks - last_ticks) < (SHORT_LOOP_TICKS*10)){
-		v_acc = v_acc * (this_loop_ticks - last_ticks) / (SHORT_LOOP_TICKS + 1);
-		v_dec = v_dec * (this_loop_ticks - last_ticks) / (SHORT_LOOP_TICKS + 1);
-		w_acc = w_acc * (this_loop_ticks - last_ticks) / (SHORT_LOOP_TICKS + 1);
-		w_dec = w_dec * (this_loop_ticks - last_ticks) / (SHORT_LOOP_TICKS + 1);
-	}
+	u16 ticks_diff = this_loop_ticks - last_ticks;
+	ticks_diff = 3;
+	
+//	if (ticks_diff < SHORT_LOOP_TICKS*10){
+//		v_acc *= ticks_diff;
+//		v_dec *= ticks_diff;
+//		w_acc *= ticks_diff;
+//		w_dec *= ticks_diff;
+//	}
 	
 	s16 rotate_accel_amount = 0;
 	if (abs(w) > abs(curr_w)){
@@ -38,7 +59,7 @@ void acc_update(s16 vx, s16 vy, s16 w, s16 v_acc, s16 v_dec, s16 w_acc, s16 w_de
 	}
 	
 	s16 acceleration_amount;
-	if ((vx*vx+vy*vy) > (curr_vx*curr_vx + curr_vy*curr_vy)){
+	if ((abs(vx + vy)) > (abs(curr_vx + curr_vy))){
 		acceleration_amount = v_acc + accel_remainder; //Scaled by 1000
 	}else{
 		acceleration_amount = v_dec + accel_remainder; //Scaled by 1000

@@ -106,7 +106,7 @@
 //				river_stage++;
 //				encoder_start_reading = get_average_encoder();
 //				buzzer_play_song(RIVER_2, 200, 30);
-//				set_target(RIVER_STRAIGHT_YAW + TURNING_AFTER_SECOND_ISLAND);
+//				set_target(RIVER_STRAIGHT_YAW + TURNING_AFTER_THIRD_ISLAND);
 //			}
 //			si_clear();
 //			targeting_update(mti_int_ypr[0]);

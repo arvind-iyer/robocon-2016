@@ -57,94 +57,82 @@ bool laser_manual_update(s16 motor_vel[3]){
 	return true;
 }
 
-static s32 start_Y = 0;
 static u32 ls_hit_ticks = 0;
-//static s32 start_ticks = 0;
+static bool pole_limit_hitted = false;
 void limit_manual_init(){
 	gyro_pos_set(0, 0, 0);
-//	start_Y = get_pos()->y;
 	ls_hit_ticks = 0;
-//	start_ticks = this_loop_ticks;
+	pole_limit_hitted = false;
 }
 
-inline static s32 get_new_Y(){
-	return get_pos()->y - start_Y;
-}
-
-
-//inline static s32 get_passed_ticks(){
-//	return this_loop_ticks - start_ticks;
+//u8 limit_manual_update(s16 motor_vel[3]){
+//	s16 w = 0;
+//	
+//	bool limit_switch_triggered[2] = {false};
+//	limit_switch_triggered[0] = gpio_read_input(WALL_1_LIMIT_SWITCH);
+//	limit_switch_triggered[1] = gpio_read_input(WALL_2_LIMIT_SWITCH);
+//	
+//	#ifdef BLUE_FIELD
+//		//Rotation
+//		if (!limit_switch_triggered[0] && limit_switch_triggered[1]){
+//			w = LIMIT_ROTATE_BIGGER;
+//		}else if(limit_switch_triggered[0] && !limit_switch_triggered[1]){
+//			w = -LIMIT_ROTATE_SMALLER;
+//		}
+//	#else
+//		//Rotation
+//		if (!limit_switch_triggered[0] && limit_switch_triggered[1]){
+//			w = -LIMIT_ROTATE_BIGGER;
+//		}else if(limit_switch_triggered[0] && !limit_switch_triggered[1]){
+//			w = LIMIT_ROTATE_SMALLER;
+//		}
+//	#endif
+//	
+//	s16 perpend_speed = 0;
+//	//Perpendicular
+//	if (limit_switch_triggered[0] || limit_switch_triggered[1]){
+//		perpend_speed = LIMIT_PERPEND_NORM;
+//	}else{
+//		perpend_speed = LIMIT_PERPEND_FAST;
+//	}
+//	
+//	//Parallel
+//	s16 parallel_speed = 0;
+//	if(abs(get_pos()->y)>LIMIT_START_DECEL_Y || pole_limit_hitted){
+//		parallel_speed = LIMIT_PARA_SLOW_CONSTANT;
+//	}else {
+//		parallel_speed = LIMIT_PARA_CONSTANT;
+//	}
+//		
+//	#ifdef BLUE_FIELD
+//		parallel_speed = -parallel_speed;
+//		perpend_speed = perpend_speed;
+//	#else
+//		parallel_speed = -parallel_speed;
+//		perpend_speed = -perpend_speed;
+//	#endif
+//	
+//	if (gpio_read_input(POLE_LIMIT_SWITCH)){
+//		for (MOTOR_ID i=MOTOR1;i<=MOTOR3;i++){
+//			motor_vel[i] = 0;
+//			motor_loop_state[i] = OPEN_LOOP;
+//			motor_set_vel(i, motor_vel[i], motor_loop_state[i]);
+//		}
+//		if (ls_hit_ticks == 0){
+//			ls_hit_ticks = this_loop_ticks;
+//		}
+//	}
+//	
+//	if (ls_hit_ticks==0){
+//		acc_update(-perpend_speed, parallel_speed, w, TRACK_ACC_CONSTANT, TRACK_ACC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_ACC_CONSTANT, false);
+//	}else{
+//		if((this_loop_ticks - ls_hit_ticks) > TICKS_AFTER_HIT_POLE){
+//			return 3;
+//		}
+//	}
+//	
+//	return 2;
 //}
-
-
-u8 limit_manual_update(s16 motor_vel[3]){
-	s16 w = 0;
-	
-	bool limit_switch_triggered[2] = {false};
-	limit_switch_triggered[0] = gpio_read_input(WALL_1_LIMIT_SWITCH);
-	limit_switch_triggered[1] = gpio_read_input(WALL_2_LIMIT_SWITCH);
-	
-	#ifdef BLUE_FIELD
-		//Rotation
-		if (!limit_switch_triggered[0] && limit_switch_triggered[1]){
-			w = LIMIT_ROTATE_BIGGER;
-		}else if(limit_switch_triggered[0] && !limit_switch_triggered[1]){
-			w = -LIMIT_ROTATE_SMALLER;
-		}
-	#else
-		//Rotation
-		if (!limit_switch_triggered[0] && limit_switch_triggered[1]){
-			w = -LIMIT_ROTATE_BIGGER;
-		}else if(limit_switch_triggered[0] && !limit_switch_triggered[1]){
-			w = LIMIT_ROTATE_SMALLER;
-		}
-	#endif
-	
-	s16 perpend_speed = 0;
-	//Perpendicular
-	if (limit_switch_triggered[0] || limit_switch_triggered[1]){
-		perpend_speed = LIMIT_PERPEND_NORM;
-	}else{
-		perpend_speed = LIMIT_PERPEND_FAST;
-	}
-	
-	//Parallel
-	s16 parallel_speed = 0;
-	if(abs(get_new_Y())>LIMIT_START_DECEL_Y){
-		parallel_speed = LIMIT_PARA_SLOW_CONSTANT;
-	}else {
-		parallel_speed = LIMIT_PARA_CONSTANT;
-	}
-		
-	#ifdef BLUE_FIELD
-		parallel_speed = -parallel_speed;
-		perpend_speed = perpend_speed;
-	#else
-		parallel_speed = -parallel_speed;
-		perpend_speed = -perpend_speed;
-	#endif
-	
-	if (gpio_read_input(POLE_LIMIT_SWITCH)){
-		for (MOTOR_ID i=MOTOR1;i<=MOTOR3;i++){
-			motor_vel[i] = 0;
-			motor_loop_state[i] = OPEN_LOOP;
-			motor_set_vel(i, motor_vel[i], motor_loop_state[i]);
-		}
-		if (ls_hit_ticks == 0){
-			ls_hit_ticks = this_loop_ticks;
-		}
-	}
-	
-	if (ls_hit_ticks==0){
-		acc_update(-perpend_speed, parallel_speed, w, TRACK_ACC_CONSTANT, TRACK_ACC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_ACC_CONSTANT, false);
-	}else{
-		if((this_loop_ticks - ls_hit_ticks) > TICKS_AFTER_HIT_POLE){
-			return 3;
-		}
-	}
-	
-	return 2;
-}
 
 
 u8 limit_gyro_update(s16 motor_vel[3]){
@@ -166,7 +154,7 @@ u8 limit_gyro_update(s16 motor_vel[3]){
 	
 	//Parallel
 	s16 parallel_speed = 0;
-	if(abs(get_new_Y())>LIMIT_START_DECEL_Y){
+	if(abs(get_pos()->y)>LIMIT_START_DECEL_Y || pole_limit_hitted){
 		parallel_speed = LIMIT_PARA_SLOW_CONSTANT;
 	}else {
 		parallel_speed = LIMIT_PARA_CONSTANT;
@@ -181,23 +169,19 @@ u8 limit_gyro_update(s16 motor_vel[3]){
 	#endif
 	
 	if (gpio_read_input(POLE_LIMIT_SWITCH)){
-		for (MOTOR_ID i=MOTOR1;i<=MOTOR3;i++){
-			motor_vel[i] = 0;
-			motor_loop_state[i] = OPEN_LOOP;
-			motor_set_vel(i, motor_vel[i], motor_loop_state[i]);
-		}
+		pole_limit_hitted = true;
 		if (ls_hit_ticks == 0){
 			ls_hit_ticks = this_loop_ticks;
 		}
+	}else{
+		ls_hit_ticks = 0;
 	}
 	
-	if (ls_hit_ticks==0){
-		acc_update(-perpend_speed, parallel_speed, w, TRACK_ACC_CONSTANT, TRACK_ACC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_ACC_CONSTANT, true);
-	}else{
-		if((this_loop_ticks - ls_hit_ticks) > TICKS_AFTER_HIT_POLE){
-			return 3;
-		}
+	if (this_loop_ticks - ls_hit_ticks > TICKS_AFTER_HIT_POLE){
+		return 3;
 	}
+	
+	acc_update(-perpend_speed, parallel_speed, w, TRACK_ACC_CONSTANT, TRACK_ACC_CONSTANT, ROTATE_ACC_CONSTANT, ROTATE_ACC_CONSTANT, true);
 	
 	return 2;
 }

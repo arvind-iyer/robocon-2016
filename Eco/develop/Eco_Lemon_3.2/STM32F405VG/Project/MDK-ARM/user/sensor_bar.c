@@ -10,7 +10,9 @@ u8 region_buffer_pointer = 0;
 
 s16 compensated_region_color[REGIONS][3];
 s16 region_color_average[REGIONS][3];
-s16 raw[11] = {0};
+
+static u32 last_receive_ticks = 0;
+u16 sensorbar_receive_diff = 0;
 
 //Receive the first half of the receiver sensor data
 static void sensor_bar_receiver_a(CanRxMsg msg){
@@ -19,6 +21,8 @@ static void sensor_bar_receiver_a(CanRxMsg msg){
 		//sensor_bar_filtered[i] = msg.Data[i];
 		sensor_bar_raw[i] = msg.Data[i];
 	}
+	sensorbar_receive_diff = this_loop_ticks - last_receive_ticks;
+	last_receive_ticks = this_loop_ticks;
 }
 
 //Receive the second half of the receiver sensor data

@@ -107,11 +107,11 @@ GAME_STAGE path_river_update(){
 			IR_island_update(0);
 			IR_island_update(1);
 			//When it reaches the last island
-			if (islands_end_count[FIRST_IR_ID] >= 2){
+			if (islands_start_count[FIRST_IR_ID] >= 2){
 				river_stage++;
 				start_dis = get_average_dis();
 				buzzer_play_song(RIVER_2, 200, 30);
-				set_target(RIVER_STRAIGHT_YAW + TURNING_AFTER_SECOND_ISLAND);
+				set_target(RIVER_STRAIGHT_YAW + TURNING_AFTER_THIRD_ISLAND);
 			}
 			si_clear();
 			targeting_update(mti_int_ypr[0]);

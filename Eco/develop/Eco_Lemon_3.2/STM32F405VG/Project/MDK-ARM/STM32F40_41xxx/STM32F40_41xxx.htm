@@ -3,7 +3,7 @@
 <title>Static Call Graph - [STM32F40_41xxx\STM32F40_41xxx.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image STM32F40_41xxx\STM32F40_41xxx.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Tue Jun 21 11:35:38 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060020: Last Updated: Thu Jun 23 09:46:15 2016
 <BR><P>
 <H3>Maximum Stack Usage =          0 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -656,7 +656,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IR_island_update
 </UL>
 
-<P><STRONG><a name="[86]"></a>IR_island_update</STRONG> (Thumb, 86 bytes, Stack size 0 bytes, path_river.o(i.IR_island_update))
+<P><STRONG><a name="[86]"></a>IR_island_update</STRONG> (Thumb, 88 bytes, Stack size 0 bytes, path_river.o(i.IR_island_update))
 <BR><BR>[Calls]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_dis
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IR_buffer_update
 </UL>
@@ -1241,8 +1241,7 @@ Global Symbols
 <P><STRONG><a name="[de]"></a>get_vel</STRONG> (Thumb, 22 bytes, Stack size 0 bytes, velocity.o(i.get_vel))
 <BR><BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_roundf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
-<LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[d2]"></a>int_cos</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, approx_math.o(i.int_cos))
@@ -1266,7 +1265,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 438 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[5f]"></a>main</STRONG> (Thumb, 444 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Calls]<UL><LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_up_sb_update
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_station_update
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_river_update
@@ -1351,7 +1350,7 @@ Global Symbols
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
-<P><STRONG><a name="[f2]"></a>path_down_update</STRONG> (Thumb, 158 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_update))
+<P><STRONG><a name="[f2]"></a>path_down_update</STRONG> (Thumb, 122 bytes, Stack size 0 bytes, path_downslope.o(i.path_down_update))
 <BR><BR>[Calls]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_dis
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
 <LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_execute
@@ -1368,7 +1367,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
-<P><STRONG><a name="[f1]"></a>path_river_update</STRONG> (Thumb, 330 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
+<P><STRONG><a name="[f1]"></a>path_river_update</STRONG> (Thumb, 324 bytes, Stack size 0 bytes, path_river.o(i.path_river_update))
 <BR><BR>[Calls]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readIR
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_ir_dis
@@ -1404,9 +1403,8 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_update
 </UL>
 
-<P><STRONG><a name="[f0]"></a>path_up_sb_update</STRONG> (Thumb, 284 bytes, Stack size 0 bytes, path_upslope_sb.o(i.path_up_sb_update))
-<BR><BR>[Calls]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_vel
-<LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
+<P><STRONG><a name="[f0]"></a>path_up_sb_update</STRONG> (Thumb, 272 bytes, Stack size 0 bytes, path_upslope_sb.o(i.path_up_sb_update))
+<BR><BR>[Calls]<UL><LI><a href="#[c3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;buzzer_play_song
 <LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_dis
 <LI><a href="#[d1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;get_average_encoder
 <LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;si_set_pwm
@@ -1738,7 +1736,7 @@ Global Symbols
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[67]"></a>sensor_bar_receiver_a</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_receiver_a))
+<P><STRONG><a name="[67]"></a>sensor_bar_receiver_a</STRONG> (Thumb, 58 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_receiver_a))
 <BR>[Address Reference Count : 1]<UL><LI> sensor_bar.o(i.sensorbar_init)
 </UL>
 <P><STRONG><a name="[68]"></a>sensor_bar_receiver_b</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, sensor_bar.o(i.sensor_bar_receiver_b))
@@ -1757,7 +1755,7 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> comm.o(i.comm_init)
 </UL>
-<P><STRONG><a name="[65]"></a>sensor_bar_cali_color_receiver</STRONG> (Thumb, 280 bytes, Stack size 0 bytes, comm.o(i.sensor_bar_cali_color_receiver))
+<P><STRONG><a name="[65]"></a>sensor_bar_cali_color_receiver</STRONG> (Thumb, 230 bytes, Stack size 0 bytes, comm.o(i.sensor_bar_cali_color_receiver))
 <BR><BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_tx_byte
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> comm.o(i.comm_init)

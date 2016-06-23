@@ -97,7 +97,7 @@ int main(void) {
 					tft_println("[LEMON WTF]");
 			}
 			
-			tft_println("LP: %d %d", this_loop_ticks, any_loop_diff, short_loop_per_long_loop);
+			tft_println("LP:%d %d %d %d", this_loop_ticks, any_loop_diff, short_loop_per_long_loop, sensorbar_receive_diff);
 			tft_println("ANG:%d %d %d", mti_int_ypr[0], mti_int_ypr[1], mti_int_ypr[2]);
 			tft_println("EN:%d %d %d", get_dis(ENCODER1), get_dis(ENCODER2), get_vel());
 			//tft_println("CS:%d %d %d", get_x(), get_y(), get_z());

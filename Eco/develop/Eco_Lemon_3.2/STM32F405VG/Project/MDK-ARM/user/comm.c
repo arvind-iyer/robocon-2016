@@ -36,14 +36,6 @@ static void sensor_bar_cali_color_receiver(CanRxMsg msg){
 		for (u8 i=0;i<3;i++){
 			compensated_region_color[msg.Data[0]][i] = data[i];
 		}
-				if (msg.Data[0] == 0){
-			for (u8 i=0;i<8;i++){
-				raw[i] = msg.Data[i];
-			}
-			raw[8] = data[0];
-			raw[9] = data[1];
-			raw[10] = data[2];
-		}
 	}
 	
 	flag |= msg.Data[0]; //0~18
