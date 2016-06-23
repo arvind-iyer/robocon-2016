@@ -20,8 +20,8 @@
 #define BRUSHLESS_PORT SERVO3
 
 #define BRUSHLESS_SERVO_PORT SERVO4
-#define BRUSHLESS_SERVO_MED 750
-#define BRUSHLESS_SERVO_RANGE 170
+#define BRUSHLESS_SERVO_MED 740
+#define BRUSHLESS_SERVO_RANGE 165
 #define BRUSHLESS_SERVO_ANGLE 90
 #define BRUSHLESS_SERVO_OFFSET 0
 
@@ -54,6 +54,7 @@ typedef enum{
 void emergency_stop(void);
 
 void brushless_control(u16 value, bool is_percentage_mode);
+void brushless_control_pid(u16 pid_val);
 void brushless_servo_control(s16 value);
 
 void gripper_control(GRIPPER_ID gripper_id, u16 state);

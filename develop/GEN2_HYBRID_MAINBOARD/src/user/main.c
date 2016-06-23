@@ -14,8 +14,8 @@ int main(void) {
 	ticks_init();
 	led_init();
 	buzzer_init();
-	uart_init(COM2, 115200);
-	uart_interrupt(COM2);
+	uart_init(COM3, 115200);
+	uart_interrupt(COM3);
 	
 	//CAN
 	can_init();
@@ -100,7 +100,9 @@ int main(void) {
 						//manual_controls_update();
 						//auto_calibrate();
 					} else if (auto_get_state() == CLIMBING_MODE) {
-						auto_pole_climb();
+						auto_pole_climb(true);
+					} else if (auto_get_state() == RETRY_MODE) {
+						auto_pole_climb(false);
 					} else if (auto_get_state() == MENU_MODE) {
 						auto_menu_update();
 					}
