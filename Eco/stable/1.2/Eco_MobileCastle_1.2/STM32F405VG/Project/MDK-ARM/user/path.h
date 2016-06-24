@@ -1,0 +1,15 @@
+#ifndef _PATH_H
+#define _PATH_H
+
+typedef enum{
+	SYSTEM_WAITING = 0,
+	CLIMBING_SLOPE = 1,
+	CROSSING_RIVER = 2,
+	GOING_DOWN_HILL = 3,
+	WINNING_THE_GAME = 4,
+	PURE_SENSOR_BAR = 5,
+	IN_MENU = 6,
+	SENSOR_BAR_CALI = 7
+}GAME_STAGE;
+
+#endif

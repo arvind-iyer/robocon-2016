@@ -1,12 +1,13 @@
-#HKUST Robocon 2016 Code Repository
-## Team A+ - Hybrid Robot
-This is for anything related to the hybrid robot, including mainboard program/motor driver/controller program
+# HKUST Robocon 2016 Code Repository
 
-###develop
-For developing code, that may not even work at all
+## WAR Dragon
 
-###stable
-Fully functional, develop version with no apparent bugs and through testing can be placed here
+Rex branch
 
-###release
-Fully functional and tested, absolutely working, must be through complete testing, try not to amend code directly here
+Contains
+- ECO Robot Program
+	- Stable & develop version
+	- Sensor bar program (senses white line and background color)
+	- <del>IMU (Razor ArduIMU)</del> Now using MTi-3 IMU
+- R&D work
+- Random stuff
