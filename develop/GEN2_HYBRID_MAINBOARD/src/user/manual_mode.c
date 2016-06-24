@@ -66,8 +66,12 @@ void manual_reset(){
 	brushless_servo_control(0);
 	//gripper_control(GRIPPER_1, 0); 
 	//gripper_control(GRIPPER_2, 0);
+	pneumatic_off(&PD8);
+	pneumatic_off(&PD9);
 	pneumatic_off(&PD10);
 	pneumatic_off(&PD11);
+	servo_control(SERVO1, 641);
+	servo_control(SERVO2, 1078);
 	set_tar_val(0);
 	set_PID_FLAG(PID_OFF);
 	servo_control(SERVO3, 450);
