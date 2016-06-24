@@ -21,7 +21,7 @@
 #define SATOFFSET 30
 #define HUEOFFSET 30
 #define VALUEOFFSET 18
-#define THRESHOLD 80
+#define THRESHOLD 70
 
 #define RIGHT
 
