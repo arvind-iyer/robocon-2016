@@ -29,6 +29,7 @@
 #define SHIFT 3.0
 #define INNER_DIST 280
 #define OUTER_DIST 310
+#define RETRY_STATES_NO 3
 
 const SERVO_ID gripper_servo[2] = {SERVO2, SERVO1};
 const GPIO * gripper_push[2] = {&PD11, &PD9};
@@ -661,8 +662,9 @@ void auto_menu_update() {
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
 	tft_prints(0,6,"STATE %d%d%d%d", gpio_read_input(&PE10), gpio_read_input(&PE11), gpio_read_input(&PE0), gpio_read_input(&PE1));
-	tft_prints(0,7,"(Y) retry climb");
+	tft_prints(0,7,"(Y)> STATE: %d", retry_state);
 	
+	/*
 	if (auto_get_flash(0,0) == PATH_ID) {
 		tft_prints(0,1,"Path found!");
 		tft_prints(0,2,"Length: %d",auto_get_flash(0,1));
@@ -670,6 +672,8 @@ void auto_menu_update() {
 	} else {
 		tft_prints(0,1,"No path stored");	
 	}
+	*/
+	tft_prints(0,1,"PRESS START");	
 	
 	if (rx_state == 0) {
 		tft_prints(0,9,"Idle");
@@ -683,106 +687,112 @@ void auto_menu_update() {
 		if (!start_pressed) {
 			start_pressed = true;
 			
-			TARGET node_buffer;
-			/*
-			for (u8 i=0; i < auto_get_flash(0,1); i++) {
-				if (auto_get_flash(1,i*NODE_SIZE) == 0)
-					node_buffer.type = NODE_PASS;
-				if (auto_get_flash(1,i*NODE_SIZE) == 1)
-					node_buffer.type = NODE_STOP;
-				node_buffer.x = auto_get_flash(1,i*NODE_SIZE+1);
-				node_buffer.y = auto_get_flash(1,i*NODE_SIZE+2);
-				node_buffer.deg = auto_get_flash(1,i*NODE_SIZE+3);
-				node_buffer.curve = auto_get_flash(1,i*NODE_SIZE+4);	
-				auto_tar_enqueue(node_buffer);			
-			}
-			*/
-			
-			if (retry_state == 1) {
-				node_buffer.type = NODE_PASS;
-				node_buffer.x = 0;
-				node_buffer.y = 1000;
-				node_buffer.deg = 0;
-				node_buffer.curve = 0;
-				auto_tar_enqueue(node_buffer);
-				node_buffer.type = NODE_STOP;
-				node_buffer.x = 0;
-				node_buffer.y = 2064;
-				node_buffer.deg = 0;
-				node_buffer.curve = 0;
-				auto_tar_enqueue(node_buffer);
-				node_buffer.type = NODE_STOP;
-				node_buffer.x = -3315;
-				node_buffer.y = 2064;
-				node_buffer.deg = 315;
-				node_buffer.curve = 0;
+			if (retry_state == RETRY_POLE) {
+				auto_ticks = get_full_ticks();
+				at_top = false;
+				gyro_pos_set(0, 0, 1800);
+				pid_state = RETRY_MODE;
 			} else {
+				TARGET node_buffer;
+				/*
+				for (u8 i=0; i < auto_get_flash(0,1); i++) {
+					if (auto_get_flash(1,i*NODE_SIZE) == 0)
+						node_buffer.type = NODE_PASS;
+					if (auto_get_flash(1,i*NODE_SIZE) == 1)
+						node_buffer.type = NODE_STOP;
+					node_buffer.x = auto_get_flash(1,i*NODE_SIZE+1);
+					node_buffer.y = auto_get_flash(1,i*NODE_SIZE+2);
+					node_buffer.deg = auto_get_flash(1,i*NODE_SIZE+3);
+					node_buffer.curve = auto_get_flash(1,i*NODE_SIZE+4);	
+					auto_tar_enqueue(node_buffer);			
+				}
+				*/
+				
+				if (retry_state == RETRY_HILL) {
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = 0;
+					node_buffer.y = 1000;
+					node_buffer.deg = 0;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_STOP;
+					node_buffer.x = 0;
+					node_buffer.y = 2064;
+					node_buffer.deg = 0;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_STOP;
+					node_buffer.x = -3315;
+					node_buffer.y = 2064;
+					node_buffer.deg = 315;
+					node_buffer.curve = 0;
+				} else {
+					node_buffer.type = NODE_STOP;
+					node_buffer.x = 0;
+					node_buffer.y = 3250;
+					node_buffer.deg = 0;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = -875;
+					node_buffer.y = 3250;
+					node_buffer.deg = 0;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = -3315;
+					node_buffer.y = 2064;
+					node_buffer.deg = 315;
+					node_buffer.curve = -267;
+				}
+				
+				auto_tar_enqueue(node_buffer);
 				node_buffer.type = NODE_STOP;
-				node_buffer.x = 0;
-				node_buffer.y = 3250;
+				node_buffer.x = -6750;
+				node_buffer.y = 570;
+				node_buffer.deg = 0;
+				node_buffer.curve = 192;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_STOP;
+				node_buffer.x = -7460;
+				node_buffer.y = 350;
 				node_buffer.deg = 0;
 				node_buffer.curve = 0;
 				auto_tar_enqueue(node_buffer);
 				node_buffer.type = NODE_PASS;
-				node_buffer.x = -875;
-				node_buffer.y = 3250;
-				node_buffer.deg = 0;
+				node_buffer.x = -9831;
+				node_buffer.y = 690;
+				node_buffer.deg = 90;
 				node_buffer.curve = 0;
 				auto_tar_enqueue(node_buffer);
 				node_buffer.type = NODE_PASS;
-				node_buffer.x = -3315;
-				node_buffer.y = 2064;
-				node_buffer.deg = 315;
-				node_buffer.curve = -267;
+				node_buffer.x = -12409;
+				node_buffer.y = 2570;
+				node_buffer.deg = -175;
+				node_buffer.curve = 281;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_PASS;
+				node_buffer.x = -12900;
+				node_buffer.y = 4075;
+				node_buffer.deg = 180;
+				node_buffer.curve = 281;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_PASS;
+				node_buffer.x = -12900;
+				node_buffer.y = 5000;
+				node_buffer.deg = 180;
+				node_buffer.curve = 0;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_STOP;
+				node_buffer.x = -12900;
+				node_buffer.y = 6500;
+				node_buffer.deg = 180;
+				node_buffer.curve = 0;
+				auto_tar_enqueue(node_buffer);
+				
+				auto_reset();
+				pid_state = RUNNING_MODE;
 			}
-			
-			auto_tar_enqueue(node_buffer);
-			node_buffer.type = NODE_STOP;
-			node_buffer.x = -6750;
-			node_buffer.y = 570;
-			node_buffer.deg = 0;
-			node_buffer.curve = 192;
-			auto_tar_enqueue(node_buffer);
-			node_buffer.type = NODE_STOP;
-			node_buffer.x = -7460;
-			node_buffer.y = 350;
-			node_buffer.deg = 0;
-			node_buffer.curve = 0;
-			auto_tar_enqueue(node_buffer);
-			node_buffer.type = NODE_PASS;
-			node_buffer.x = -9831;
-			node_buffer.y = 690;
-			node_buffer.deg = 90;
-			node_buffer.curve = 0;
-			auto_tar_enqueue(node_buffer);
-			node_buffer.type = NODE_PASS;
-			node_buffer.x = -12409;
-			node_buffer.y = 2570;
-			node_buffer.deg = -175;
-			node_buffer.curve = 281;
-			auto_tar_enqueue(node_buffer);
-			node_buffer.type = NODE_PASS;
-			node_buffer.x = -12900;
-			node_buffer.y = 4075;
-			node_buffer.deg = 180;
-			node_buffer.curve = 281;
-			auto_tar_enqueue(node_buffer);
-			node_buffer.type = NODE_PASS;
-			node_buffer.x = -12900;
-			node_buffer.y = 5000;
-			node_buffer.deg = 180;
-			node_buffer.curve = 0;
-			auto_tar_enqueue(node_buffer);
-			node_buffer.type = NODE_STOP;
-			node_buffer.x = -12900;
-			node_buffer.y = 6500;
-			node_buffer.deg = 180;
-			node_buffer.curve = 0;
-			auto_tar_enqueue(node_buffer);
-			
-			auto_reset();
-			//if (retry_state == 1) tar_end = 2;
-			pid_state = RUNNING_MODE;
 		}
 	} else {
 		start_pressed = false;
@@ -791,11 +801,9 @@ void auto_menu_update() {
 	if (button_pressed(BUTTON_XBC_Y)){
 		if (!y_pressed) {
 			y_pressed = true;
-			
-			auto_ticks = get_full_ticks();
-			at_top = false;
-			gyro_pos_set(0, 0, 1800);
-			pid_state = RETRY_MODE;
+					
+			retry_state++;
+			retry_state %= RETRY_STATES_NO;
 		}
 	} else {
 		y_pressed = false;

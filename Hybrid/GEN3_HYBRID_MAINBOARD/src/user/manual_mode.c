@@ -79,7 +79,6 @@ void manual_reset(){
 	gripper_down = GRIPPER_FULL_DOWN;
 	set_PID_FLAG(PID_OFF);
 	brushless_control(0, true);
-	brushless_servo_control(0);
 	brushless_servo_val = 0;
 	for (GRIPPER_ID id=GRIPPER_1;id<=GRIPPER_2;id++){
 		gripper_control(id, gripper_down);
@@ -89,6 +88,12 @@ void manual_reset(){
 	for (MOTOR_ID i=MOTOR1;i<=MOTOR7;i++){
 		motor_set_vel(i, 0, OPEN_LOOP);
 	}
+	
+	#ifdef BLUE_FIELD
+		brushless_servo_control(90);
+	#else
+		brushless_servo_control(-90);
+	#endif
 }
 
 void manual_vel_set_zero(){

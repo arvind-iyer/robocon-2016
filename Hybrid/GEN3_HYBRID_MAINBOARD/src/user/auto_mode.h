@@ -32,7 +32,7 @@ typedef enum {
 enum RETRY_STATE{
 	NO_RETRY = 0,
 	RETRY_HILL,
-	RETRY_RIVER
+	RETRY_POLE
 };
 
 typedef	struct {
