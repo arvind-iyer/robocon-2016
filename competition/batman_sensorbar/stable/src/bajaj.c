@@ -21,6 +21,7 @@ int value1;
 int button_count_red = 0;
 int button_count_white = 0;
 int ENTER_RIVER_ENCODER;
+int SECOND_RIVER_ENCODER;
 int time_delta;
 int servo_delta;
 int button_white_count = 0;
@@ -60,6 +61,11 @@ ENCODER USED_ENCODER = ENCODER1;
 void initalize_values(void){
     if(button_pressed(BUTTON_RED)){
         while(button_pressed(BUTTON_RED));
+        //Tune for competition
+        ENTER_RIVER_ENCODER = 6300;
+        SECOND_RIVER_ENCODER = 4500;
+        
+        
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARK_RED,RED); 
         IMU_ANGLE1 = -25;
         NINETY_IMU = -180;
@@ -75,11 +81,15 @@ void initalize_values(void){
         current_slope_zone = STARTZONE;
         strcpy(current_slope_zone_string,"STARTZONE");
         ardu_cal_ypr[0] = (float)0;
-        ENTER_RIVER_ENCODER = 6300;
         system_on = 1;
     }
     else if(button_pressed(BUTTON_WHITE)){
         while(button_pressed(BUTTON_WHITE));
+        //Tune for competition
+        ENTER_RIVER_ENCODER = 7500;
+        SECOND_RIVER_ENCODER = 5500;
+        
+        
         tft_init(PIN_ON_BOTTOM,DARKWHITE,DARKBLUE,RED);
         IMU_ANGLE1 = 25;
         NINETY_IMU = 180;
@@ -95,7 +105,6 @@ void initalize_values(void){
         current_slope_zone = STARTZONE;
         strcpy(current_slope_zone_string,"STARTZONE");
 		ardu_cal_ypr[0] = (float)0;
-        ENTER_RIVER_ENCODER = 7500;
         system_on = 1;
     }
 }
@@ -297,7 +306,7 @@ void go_ninety(void){
                 reset_all_encoder();
                 START_UP_play;
                 angle_after_ninety = ardu_cal_ypr[0];
-                global_state = NORMAL;
+                global_state = CHECK_NINETY;
             }
         break;
         case BLUESIDE:
@@ -309,7 +318,7 @@ void go_ninety(void){
                 START_UP_play;
 				ardu_cal_ypr[0] = (float)0;
 				angle_after_ninety = ardu_cal_ypr[0];
-                global_state = NORMAL;
+                global_state = CHECK_NINETY;
             }
         break;
     }
@@ -494,11 +503,23 @@ void run_user_interface(void){
 }
 
 void escape_first_island(void){
-    if(!done_turning && get_count(USED_ENCODER) > 5000){
-        CLICK_MUSIC;
-        reset_all_encoder();
-        done_turning = true;
-        global_state = RIVERING2;
+    switch(side){
+        case REDSIDE:
+            if(!done_turning && get_count(USED_ENCODER) > SECOND_RIVER_ENCODER){
+                CLICK_MUSIC;
+                reset_all_encoder();
+                done_turning = true;
+                global_state = RIVERING2;
+            }
+        break;
+        case BLUESIDE:
+            if(!done_turning && get_count(USED_ENCODER) > SECOND_RIVER_ENCODER){
+                CLICK_MUSIC;
+                reset_all_encoder();
+                done_turning = true;
+                global_state = RIVERING2;
+            } 
+        break;
     }
 }
 
@@ -520,23 +541,26 @@ void scan_river(void){
 
 
 void finish_ninety(void){
-    time_delta = 100;
-     //for every time_delta ms, depending on which side of gamefield, turn slowly until reaching the target angle
-    switch(side){
-        case REDSIDE:
-            servo_delta = 40;
-            if((get_full_ticks() % time_delta == 0) && (last_movement < (SERVO_MICROS_MID + 700))){
-                last_movement += servo_delta;
-                servo_control(BAJAJ_SERVO, last_movement);
-            }
-            break;
-        case BLUESIDE:
-            servo_delta = -40;
-            if((get_full_ticks() % time_delta == 0) && (last_movement > (SERVO_MICROS_MID - 700))){
-                last_movement += servo_delta;
-                servo_control(BAJAJ_SERVO, last_movement);
-            }
-            break;
+    if(length != 0)
+        global_state = NORMAL;
+    else{
+        time_delta = 100;
+        switch(side){
+            case REDSIDE:
+                servo_delta = -40;
+                if((get_full_ticks() % time_delta == 0) && (last_movement < (SERVO_MICROS_MID + 700))){
+                    last_movement += servo_delta;
+                    servo_control(BAJAJ_SERVO, last_movement);
+                }
+                break;
+            case BLUESIDE:
+                servo_delta = 40;
+                if((get_full_ticks() % time_delta == 0) && (last_movement > (SERVO_MICROS_MID - 700))){
+                    last_movement += servo_delta;
+                    servo_control(BAJAJ_SERVO, last_movement);
+                }
+                break;
+        }
     }
 
 }

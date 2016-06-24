@@ -185,6 +185,9 @@ int main(void) {
                             case NINETY:
                                 go_ninety();
                             break;
+                            case CHECK_NINETY:
+                                finish_ninety();
+                            break;
                             case EXIT_RIVER:
                                 go_straight_little_bit(); //Prevent it from falling down
                             break;

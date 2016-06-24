@@ -14,6 +14,18 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+
+/*
+The old cupboard:
+THRES: 70
+R G B : 0.2126 0.2 0.2
+
+The new shit:
+THRES: 
+R G B : 
+
+*/
+
 #define DELAY_US 1000 //800
 #define scalar 1000
 #define NUMOFAREAS 6
@@ -21,7 +33,7 @@
 #define SATOFFSET 30
 #define HUEOFFSET 30
 #define VALUEOFFSET 18
-#define THRESHOLD 70
+#define THRESHOLD 67    
 
 #define RIGHT
 
