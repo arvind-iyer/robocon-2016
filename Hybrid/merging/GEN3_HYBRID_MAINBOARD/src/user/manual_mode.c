@@ -201,6 +201,13 @@ void manual_fast_update(){
 	}else if(manual_stage == 3){
 		ground_wheels_lock = LOCKED;
 		climbing_update();
+		for (u8 i=0;i<3;i++){
+			motor_vel[i] = 0;
+			motor_loop_state[i] = OPEN_LOOP;
+		}
+		for (MOTOR_ID i=MOTOR1;i<=MOTOR3;i++){
+			motor_set_vel(i, 0, OPEN_LOOP);
+		}
 		
 	}else if(manual_stage == 0 && using_laser_sensor){
 		//using_laser_sensor = laser_manual_update(motor_vel, &curr_rotate);

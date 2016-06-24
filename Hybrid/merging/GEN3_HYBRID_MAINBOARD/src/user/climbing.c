@@ -5,29 +5,37 @@ static s32 climbing_pneumatic_ticks = 0;
 //delay->up->delay->push->delay->unclaw->delay->retract->delay->beep
 static u8 putting_propeller_state = 0;
 static s32 putting_propeller_ticks[5] = {0};
+static u32 climbing_start_ticks = 0;
 
 void climbing_init(){
 	climbing_stage = 0;
+	climbing_start_ticks = this_loop_ticks;
 }
 
 u8 climbing_update(){
 	raise_arm();
-	
-	if (climbing_stage <= 1){
-		brushless_power_percent = 20 + get_angle()>1800?0:get_angle()*CLIMBING_BRUSHLESS_P/1000;
+
+	if ((this_loop_ticks - climbing_start_ticks) < 2000){
+		brushless_servo_val = 0;
+		brushless_servo_control(brushless_servo_val);
+		brushless_power_percent = 80;
 		brushless_control(brushless_power_percent, true);
+		
 	}else{
-		brushless_power_percent = 0;
-		brushless_control(brushless_power_percent, true);
+		brushless_servo_val = CLIMBING_BRUSHLESS_ANGLE;
+		brushless_servo_control(brushless_servo_val);
+		if (climbing_stage <= 1){
+			brushless_power_percent = 35 + get_angle()>1800?0:get_angle()*CLIMBING_BRUSHLESS_P/1000;
+			brushless_control(brushless_power_percent, true);
+		}else{
+			brushless_power_percent = 0;
+			brushless_control(brushless_power_percent, true);
+		}
 	}
 	
 	switch (climbing_stage){
 		case 0:
 			pneumatic_on(&CLIMB_PNEUMATIC_PORT);
-			
-			brushless_servo_val = CLIMBING_BRUSHLESS_ANGLE;
-			brushless_servo_control(brushless_servo_val);
-			brushless_control(brushless_power_percent, true);
 			
 			climbing_stage++;
 			climbing_pneumatic_ticks = this_loop_ticks;

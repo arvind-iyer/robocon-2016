@@ -25,7 +25,7 @@ typedef enum{
 #include "can_motor.h"
 #include "xbc_control.h"
 
-#define CLIMBING_SPEED 1400
+#define CLIMBING_SPEED 1500
 #define DESCEND_SPEED -500
 #define RAISE_ARM_SPEED 1350
 #define LOWER_ARM_SPEED -1350
@@ -41,9 +41,9 @@ typedef enum{
 #define BRUSHLESS_SERVO_ANGLE 90
 #define BRUSHLESS_SERVO_OFFSET 0
 
-#define GRIPPER_L_MED 880
+#define GRIPPER_L_MED 900
 #define GRIPPER_R_MED 830
-#define GRIPPER_INC 195
+#define GRIPPER_INC 225
 #define GRIPPER_L_DOWN (GRIPPER_L_MED + GRIPPER_INC) //855 //1100
 #define GRIPPER_R_DOWN (GRIPPER_R_MED - GRIPPER_INC) //400
 #define GRIPPER_L_HALF (GRIPPER_L_MED + GRIPPER_INC/2)

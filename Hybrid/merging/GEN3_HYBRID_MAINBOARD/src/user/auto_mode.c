@@ -824,7 +824,7 @@ void auto_var_update() {
 	
 	#ifndef DEBUG_MODE
 		reading1 = get_ls_cal_reading(0);
-		reading2 = get_ls_cal_reading(1);
+		reading2 = get_ls_cal_reading(2);
 		if (reading1 == 0)
 			reading1 = 200;
 		if (reading2 == 0)
@@ -982,7 +982,7 @@ void auto_motor_update(){
 	*/
 	
 	//tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));
-	//tft_prints(0,9,"W %d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1), wall_dist);
+	//tft_prints(0,9,"W %d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(2), wall_dist);
 	tft_prints(0,9,(get_PID_FLAG()?"PID ON":"PID OFF"));
 	tft_update();
 	
