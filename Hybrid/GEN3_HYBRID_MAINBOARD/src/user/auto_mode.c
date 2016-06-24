@@ -553,10 +553,10 @@ void auto_robot_control(void) {
 			tar_arm = 0;
 		} else if (Abs(cur_x) < 3000) {
 			tar_arm = 3150;
-		} else if (Abs(cur_x) < 4600) {
-			tar_arm = 7050;
+		} else if (Abs(cur_x) < 4100) {
+			tar_arm = 7500;
 		} else {
-			tar_arm = 11850;
+			tar_arm = 12250;
 		}
 		
 		motor_set_vel(MOTOR7, arm_vel*MOTOR7_FLIP, OPEN_LOOP);
@@ -589,7 +589,7 @@ void auto_robot_control(void) {
 	} else if (tar_end <= 4) {
 		//brushless_servo_control(-65 + 65*2*field);
 		set_PID_FLAG(PID_ON);
-		brushless_control_pid(710);
+		brushless_control_pid(720);
 		if (auto_get_ticks() - brushless_time > 1000)
 			brushless_servo_control(-65 + 65*2*field);			
 		if (auto_get_ticks() - brushless_time > 1500) {
@@ -597,7 +597,7 @@ void auto_robot_control(void) {
 			brushless_servo_control(-75 + 75*2*field);
 		}
 	} else if (tar_end <= 5) {
-		brushless_servo_control(-10 + 10*2*field);
+		brushless_servo_control(-7 + 7*2*field);
 		brushless_control_pid(700);
 		if (auto_get_ticks() - brushless_time > 2000) {
 			//brushless_servo_control(0);
@@ -934,7 +934,7 @@ void auto_motor_update(){
 					else
 						auto_motor_stop();
 				} else if (tar_end == 2) {
-					if ((auto_get_ticks() - arrived_time) > 700)
+					if ((auto_get_ticks() - arrived_time) > 100)
 						auto_tar_dequeue();
 					else
 						auto_motor_stop();

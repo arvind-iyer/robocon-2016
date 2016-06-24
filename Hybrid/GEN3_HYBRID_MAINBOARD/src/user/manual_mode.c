@@ -77,10 +77,10 @@ void manual_reset(){
 	gripper_clawed = false;
 	gripper_extended = true;
 	gripper_down = GRIPPER_FULL_DOWN;
+	set_PID_FLAG(PID_OFF);
 	brushless_control(0, true);
 	brushless_servo_control(0);
 	brushless_servo_val = 0;
-	pneumatic_off(&CLIMB_PNEUMATIC_PORT);
 	for (GRIPPER_ID id=GRIPPER_1;id<=GRIPPER_2;id++){
 		gripper_control(id, gripper_down);
 		gripper_push_control(id, gripper_extended);
