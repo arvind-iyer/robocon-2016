@@ -13,8 +13,13 @@ void climbing_init(){
 u8 climbing_update(){
 	raise_arm();
 	
-	brushless_power_percent = 20 + get_angle()>1800?0:get_angle()*CLIMBING_BRUSHLESS_P/1000;
-	brushless_control(brushless_power_percent, true);
+	if (climbing_stage <= 1){
+		brushless_power_percent = 20 + get_angle()>1800?0:get_angle()*CLIMBING_BRUSHLESS_P/1000;
+		brushless_control(brushless_power_percent, true);
+	}else{
+		brushless_power_percent = 0;
+		brushless_control(brushless_power_percent, true);
+	}
 	
 	switch (climbing_stage){
 		case 0:
@@ -36,8 +41,6 @@ u8 climbing_update(){
 					putting_propeller_ticks[0] = this_loop_ticks;
 					putting_propeller_state = 0;
 					stop_climbing();
-					brushless_power_percent = 0;
-					brushless_control(brushless_power_percent, true);
 				}
 			}
 			break;

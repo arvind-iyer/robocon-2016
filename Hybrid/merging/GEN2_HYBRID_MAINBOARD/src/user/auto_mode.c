@@ -89,6 +89,7 @@ s16 climb_blow_pwm = 0;
 bool arrived = false;
 bool at_top = false;
 u8 climb_temp = 0;
+double climb_speed = 1;
 
 //UART receiver
 u8 rx_state = 0;
@@ -449,24 +450,29 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	err_sum += err;
 }
 
-void auto_pole_climb(){
+void auto_pole_climb(bool state){
 	climbing_time = auto_get_ticks() - time;
 	
 	if (climbing_time < 500) { //release motor
 		//Push forward at 50
-		motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
-		motor_set_vel(MOTOR2, 43, CLOSE_LOOP);
-		motor_set_vel(MOTOR3, -48, CLOSE_LOOP);
+		if (state) {
+			motor_set_vel(MOTOR1, 0, CLOSE_LOOP);
+			motor_set_vel(MOTOR2, 43, CLOSE_LOOP);
+			motor_set_vel(MOTOR3, -48, CLOSE_LOOP);
+			pneumatic_on(pole_clamp); //Clamp pole
+		}
 		motor_set_vel(MOTOR7, 0, OPEN_LOOP); //Lock biggold
-		pneumatic_on(pole_clamp); //Clamp pole
 		climb_dir = get_pos()->angle;
 		climb_blow_pwm = 0;
+		climb_speed = 1;
 		brushless_servo_control(35);
 	} else if (climbing_time < 1000) {
-		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
-		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
-		motor_set_vel(MOTOR3, 0, OPEN_LOOP);
-		pneumatic_off(gripper_claw[field]); //claw
+		if (state) {
+			motor_set_vel(MOTOR1, 0, OPEN_LOOP);
+			motor_set_vel(MOTOR2, 0, OPEN_LOOP);
+			motor_set_vel(MOTOR3, 0, OPEN_LOOP);
+			pneumatic_off(gripper_claw[field]); //claw
+		}
 	} else if (climbing_time < 1500) {
 		pneumatic_off(gripper_push[field]); //collect
 		brushless_control(50, true);
@@ -482,24 +488,28 @@ void auto_pole_climb(){
 			pneumatic_on(gripper_push[field]); //push out
 		}
 		
+		if ((climbing_time > 3800) && !at_top) {
+			climb_speed = 0.8;
+		}
+		
 		if (at_top) {
 			motor_set_vel(MOTOR4, 0, OPEN_LOOP);
 			motor_set_vel(MOTOR5, 0, OPEN_LOOP);
 			motor_set_vel(MOTOR6, 0, OPEN_LOOP);
 			brushless_control(0, true);
-			if ((auto_get_ticks() - top_time) < 400) {
+			if ((auto_get_ticks() - top_time) < 500) {
 				pneumatic_on(gripper_push[field]); //placeholder
-			} else if ((auto_get_ticks() - top_time) < 800) {
+			} else if ((auto_get_ticks() - top_time) < 1800) {
 				pneumatic_off(gripper_push[field]);
-			} else if ((auto_get_ticks() - top_time) < 1000) {
+			} else if ((auto_get_ticks() - top_time) < 2000) {
 				pneumatic_on(gripper_claw[field]);	
 			} else {	
 				servo_control(gripper_servo[field], servo_dn_val[field]);
 			}
 		} else {			
-			motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP, OPEN_LOOP);
-			motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP, OPEN_LOOP);
-			motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP, OPEN_LOOP);
+			motor_set_vel(MOTOR4, CLIMBING_SPEED*MOTOR4_FLIP*climb_speed, OPEN_LOOP);
+			motor_set_vel(MOTOR5, CLIMBING_SPEED*MOTOR5_FLIP*climb_speed, OPEN_LOOP);
+			motor_set_vel(MOTOR6, CLIMBING_SPEED*MOTOR6_FLIP*climb_speed, OPEN_LOOP);
 			climb_blow_pwm = 20 + (get_pos()->angle)<1800?0:(get_pos()->angle - 1800);
 			brushless_control(climb_blow_pwm, true);
 		}
@@ -507,9 +517,10 @@ void auto_pole_climb(){
 	
 	tft_clear();
 	tft_prints(0,0,"[AUTO-CLIMB]");
-	tft_prints(0,5,"REC %3d",time/1000);
-	tft_prints(0,6,"TIM %3d",auto_get_ticks()/1000);
-	tft_prints(0,7,"ANGLE %3d",climb_blow_pwm);
+	tft_prints(0,5,"POLE %3d",time/1000);
+	tft_prints(0,6,"TIME %3d",auto_get_ticks()/1000);
+	tft_prints(0,7,"REC  %3d",time/1000);
+	//tft_prints(0,7,"ANGLE %3d",climb_blow_pwm);
 	tft_prints(0,9,"%d", top_time);
 	tft_update();
 }
@@ -541,11 +552,11 @@ void auto_robot_control(void) {
 		if ((tar_end == 1) && (!arrived || (arrived && ((auto_get_ticks() - arrived_time) < 1000)))) {
 			tar_arm = 0;
 		} else if (Abs(cur_x) < 3000) {
-			tar_arm = 2650;
+			tar_arm = 3150;
 		} else if (Abs(cur_x) < 4600) {
-			tar_arm = 6550;
+			tar_arm = 7050;
 		} else {
-			tar_arm = 11350;
+			tar_arm = 11850;
 		}
 		
 		motor_set_vel(MOTOR7, arm_vel*MOTOR7_FLIP, OPEN_LOOP);
@@ -560,19 +571,18 @@ void auto_robot_control(void) {
 		brushless_control(0, true);
 		if (dist < 100) {
 			brushless_control(45, true);
-			//set_tar_val(651);
 		}
 	} else if (tar_end <= 2) {
-		set_tar_val(949);
 		set_PID_FLAG(PID_ON);
+		brushless_control_pid(949);
 		brushless_servo_control(-90 + 90*2*field);
 	} else if (tar_end <= 3) {
 		brushless_servo_control(-85 + 85*2*field);
 		if (auto_get_ticks() - brushless_time > 300)
-			set_tar_val(843);
+			brushless_control_pid(843);
 	} else if (tar_end <= 4) {
 		//brushless_servo_control(-65 + 65*2*field);
-		set_tar_val(758);
+		brushless_control_pid(758);
 		if (auto_get_ticks() - brushless_time > 1000)
 			brushless_servo_control(-65 + 65*2*field);			
 		if (auto_get_ticks() - brushless_time > 1500) {
@@ -580,20 +590,20 @@ void auto_robot_control(void) {
 			brushless_servo_control(-75 + 75*2*field);
 		}
 	} else if (tar_end <= 5) {
-		brushless_servo_control(-5);
-		set_tar_val(700);
+		brushless_servo_control(-10 + 10*2*field);
+		brushless_control_pid(700);
 		if (auto_get_ticks() - brushless_time > 2000) {
 			brushless_servo_control(0);
-			set_tar_val(780);
+			brushless_control_pid(780);
 		}
 		if (auto_get_ticks() - brushless_time > 3000)
-			set_tar_val(890);
+			brushless_control_pid(890);
 		if (auto_get_ticks() - brushless_time > 3500)
-			set_tar_val(960);
+			brushless_control_pid(960);
 		if (auto_get_ticks() - brushless_time > 4000)
-			set_tar_val(1040);
+			brushless_control_pid(1040);
 		if (auto_get_ticks() - brushless_time > 4500)
-			set_tar_val(1100);
+			brushless_control_pid(1100);
 	} else {
 		set_PID_FLAG(PID_OFF);
 		servo_control(SERVO3, 450);
@@ -652,11 +662,13 @@ void auto_menu_update() {
 	}
 	tft_update();
 	
-	if (button_pressed(BUTTON_XBC_START) && (auto_get_flash(0,0) == PATH_ID)){
+	//if (button_pressed(BUTTON_XBC_START) && (auto_get_flash(0,0) == PATH_ID)){
+	if (button_pressed(BUTTON_XBC_START)){
 		if (!start_pressed) {
 			start_pressed = true;
 			
 			TARGET node_buffer;
+			/*
 			for (u8 i=0; i < auto_get_flash(0,1); i++) {
 				if (auto_get_flash(1,i*NODE_SIZE) == 0)
 					node_buffer.type = NODE_PASS;
@@ -668,6 +680,67 @@ void auto_menu_update() {
 				node_buffer.curve = auto_get_flash(1,i*NODE_SIZE+4);	
 				auto_tar_enqueue(node_buffer);			
 			}
+			*/
+			node_buffer.type = NODE_STOP;
+			node_buffer.x = 0;
+			node_buffer.y = 3250;
+			node_buffer.deg = 0;
+			node_buffer.curve = 0;
+			auto_tar_enqueue(node_buffer);
+			node_buffer.type = NODE_STOP;
+			node_buffer.x = -875;
+			node_buffer.y = 3250;
+			node_buffer.deg = 0;
+			node_buffer.curve = 0;
+			auto_tar_enqueue(node_buffer);
+			node_buffer.type = NODE_PASS;
+			node_buffer.x = -3315;
+			node_buffer.y = 2064;
+			node_buffer.deg = 315;
+			node_buffer.curve = -267;
+			auto_tar_enqueue(node_buffer);
+			node_buffer.type = NODE_STOP;
+			node_buffer.x = -6750;
+			node_buffer.y = 570;
+			node_buffer.deg = 0;
+			node_buffer.curve = 192;
+			auto_tar_enqueue(node_buffer);
+			node_buffer.type = NODE_STOP;
+			node_buffer.x = -7460;
+			node_buffer.y = 350;
+			node_buffer.deg = 0;
+			node_buffer.curve = 0;
+			auto_tar_enqueue(node_buffer);
+			node_buffer.type = NODE_PASS;
+			node_buffer.x = -9831;
+			node_buffer.y = 784;
+			node_buffer.deg = 90;
+			node_buffer.curve = 0;
+			auto_tar_enqueue(node_buffer);
+			node_buffer.type = NODE_PASS;
+			node_buffer.x = -12409;
+			node_buffer.y = 2570;
+			node_buffer.deg = -175;
+			node_buffer.curve = 281;
+			auto_tar_enqueue(node_buffer);
+			node_buffer.type = NODE_PASS;
+			node_buffer.x = -12900;
+			node_buffer.y = 4075;
+			node_buffer.deg = 180;
+			node_buffer.curve = 281;
+			auto_tar_enqueue(node_buffer);
+			node_buffer.type = NODE_PASS;
+			node_buffer.x = -12900;
+			node_buffer.y = 5000;
+			node_buffer.deg = 180;
+			node_buffer.curve = 0;
+			auto_tar_enqueue(node_buffer);
+			node_buffer.type = NODE_STOP;
+			node_buffer.x = -12900;
+			node_buffer.y = 6500;
+			node_buffer.deg = 180;
+			node_buffer.curve = 0;
+			auto_tar_enqueue(node_buffer);
 			
 			auto_reset();
 			pid_state = RUNNING_MODE;
@@ -680,8 +753,10 @@ void auto_menu_update() {
 		if (!y_pressed) {
 			y_pressed = true;
 			
-			auto_reset();
-			pid_state = CLIMBING_MODE;
+			auto_ticks = get_full_ticks();
+			at_top = false;
+			gyro_pos_set(0, 0, 1800);
+			pid_state = RETRY_MODE;
 		}
 	} else {
 		y_pressed = false;
@@ -719,7 +794,7 @@ void auto_var_update() {
 	
 	#ifndef DEBUG_MODE
 		reading1 = get_ls_cal_reading(0);
-		reading2 = get_ls_cal_reading(2);
+		reading2 = get_ls_cal_reading(1);
 		if (reading1 == 0)
 			reading1 = 200;
 		if (reading2 == 0)
@@ -874,8 +949,9 @@ void auto_motor_update(){
 	tft_prints(0,7,"Test %d", (auto_get_ticks() - arrived_time));
 	*/
 	
-	tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));
-	tft_prints(0,9,"W %d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(2), wall_dist);
+	//tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));
+	//tft_prints(0,9,"W %d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(1), wall_dist);
+	tft_prints(0,9,(get_PID_FLAG()?"PID ON":"PID OFF"));
 	tft_update();
 	
 	temp_deg = (cur_deg < -1800) ? (cur_deg+3600) : ((cur_deg >= 1800) ? (cur_deg-3600) : cur_deg);
@@ -897,9 +973,9 @@ void auto_motor_update(){
 	*/
 }
 
-void USART2_IRQHandler(void) {
-	if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET){
-		const uint8_t byte = USART_ReceiveData(USART2);
+void USART3_IRQHandler(void) {
+	if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET){
+		const uint8_t byte = USART_ReceiveData(USART3);
 		if (rx_state == 0) { //idle
 			if (byte == 147)
 				rx_state = 1;
@@ -927,6 +1003,6 @@ void USART2_IRQHandler(void) {
 				rx_state = 0;
 			}
 		}
-		USART_ClearITPendingBit(USART2, USART_IT_RXNE);
+		USART_ClearITPendingBit(USART3, USART_IT_RXNE);
 	}
 }

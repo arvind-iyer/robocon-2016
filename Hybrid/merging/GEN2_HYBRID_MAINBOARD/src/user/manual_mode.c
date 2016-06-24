@@ -129,7 +129,7 @@ s32 angle_pid(){
 void manual_update_wheel_base(bool use_laser_avoid){
 	if (ground_wheels_lock == UNLOCKED){
 		
-		if (climbing_induced_ground_lock == UNLOCKED){
+		if (climbing_induced_ground_lock == UNLOCKED && !wheels_free){
 			s16	vx = xbc_get_joy(XBC_JOY_LX) *BASE_VEL_JOYSTICK_GAIN /1000;
 			s16	vy = xbc_get_joy(XBC_JOY_LY) *BASE_VEL_JOYSTICK_GAIN /1000;
 			s16 w = (xbc_get_joy(XBC_JOY_LT)-xbc_get_joy(XBC_JOY_RT))*8/5;
@@ -160,6 +160,9 @@ void manual_update_wheel_base(bool use_laser_avoid){
 			for (u8 i=0;i<3;i++){
 				motor_vel[i] = 0;
 				motor_loop_state[i] = OPEN_LOOP;
+			}
+			for (MOTOR_ID i=MOTOR1;i<=MOTOR3;i++){
+				motor_set_vel(i, 0, OPEN_LOOP);
 			}
 		}
 	}
@@ -196,16 +199,14 @@ void manual_fast_update(){
 		curr_heading = get_angle();
 		
 	}else if(manual_stage == 3){
+		ground_wheels_lock = true;
 		climbing_update();
+		
 	}else if(manual_stage == 0 && using_laser_sensor){
 		//using_laser_sensor = laser_manual_update(motor_vel, &curr_rotate);
 		manual_update_wheel_base(true);
 		curr_heading = get_angle();
 		
-	}else if(wheels_free){
-		motor_set_vel(MOTOR1, 0, OPEN_LOOP);
-		motor_set_vel(MOTOR2, 0, OPEN_LOOP);
-		motor_set_vel(MOTOR3, 0, OPEN_LOOP);
 	}else{
 		manual_update_wheel_base(false);
 	}
@@ -258,7 +259,7 @@ void manual_interval_update(){
 		gripper_claw_control(THIS_GRIPPER, gripper_clawed);
 	}
 	
-	if (button_pressed(BUTTON_XBC_BACK)){
+	if (button_hitted[BUTTON_XBC_BACK]){
 		wheels_free = !wheels_free;
 		curr_vx = curr_vy = curr_w = 0;
 	}
@@ -322,6 +323,10 @@ void manual_second_control_update() {
 		buzzer_play_song(HIGH_BEEP, 125, 0);
 		gripper_clawed = !gripper_clawed;
 		gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+	}
+	
+	if (button_hitted[BUTTON_XBC_N]){
+		pneumatic_climb_toggle();
 	}
 }
 

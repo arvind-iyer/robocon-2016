@@ -23,6 +23,14 @@ void brushless_control(u16 value, bool is_percentage_mode){
 	}
 }
 
+void brushless_control_pid(u16 pid_val) {
+	if (get_PID_FLAG() == PID_ON) {
+		set_tar_val(pid_val);
+	} else {
+		brushless_control((pid_val + 233.9f)/21.557f, true);
+	}
+}
+
 void brushless_servo_control(s16 value){
 	if (get_emergency_lock() == LOCKED) return;
 	value = (value > BRUSHLESS_SERVO_ANGLE) ? BRUSHLESS_SERVO_ANGLE : ((value < -BRUSHLESS_SERVO_ANGLE) ? -BRUSHLESS_SERVO_ANGLE : value);

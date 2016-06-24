@@ -10,6 +10,7 @@ static volatile u16 now_val = 0;
 static volatile u32 diff = 0;
 static u16 tar_val = 650;
 static u8 PID_FLAG = PID_OFF;
+static u16 fail_time = 0;
 s32 PID;
 u16 cur_pwm;
 
@@ -150,6 +151,9 @@ void TIM5_IRQHandler(void){
 void TIM6_IRQHandler(void){
 	if(TIM_GetITStatus(RPMs_Count_TIM, TIM_IT_Update) != RESET){
 		TIM_ClearFlag(RPMs_Count_TIM, TIM_FLAG_Update);
-		diff = 0;
+		fail_time++;
+		
+		if(fail_time >= 500)		//please test more to find the optimal value
+			PID_FLAG = PID_OFF;
 	}
 }
