@@ -199,7 +199,7 @@ void manual_fast_update(){
 		curr_heading = get_angle();
 		
 	}else if(manual_stage == 3){
-		ground_wheels_lock = true;
+		ground_wheels_lock = LOCKED;
 		climbing_update();
 		
 	}else if(manual_stage == 0 && using_laser_sensor){
@@ -272,6 +272,11 @@ void manual_interval_update(){
 	
 	//At last apply the motor velocity and display it
 	//Value from fast update should also be displayed here
+	#ifdef BLUE_FIELD
+		tft_append_line("[BLUE FIELD]");
+	#else
+		tft_append_line("[RED FIELD]");
+	#endif
 	tft_append_line("%d %d %d %d", get_pos()->x, get_pos()->y, get_angle());
 	tft_append_line("%d %d %d %d %d", using_laser_sensor, manual_stage, facing_pole, brushless_str, wheels_free);
 	tft_append_line("LR:%d %d %d", get_ls_cal_reading(FRONT_LASER_ID), get_ls_cal_reading(BACK_LASER_ID), get_ir_dis());
