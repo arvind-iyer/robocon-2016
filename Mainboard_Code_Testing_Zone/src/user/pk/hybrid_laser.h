@@ -46,5 +46,6 @@ void laserCallbacks(STAGES stage);
 void moveToFirstPosition(void);
 void retryAutoPath (void);
 void backupFirstPosition(void);
+void retryToRiverPos(void);
 
 #endif

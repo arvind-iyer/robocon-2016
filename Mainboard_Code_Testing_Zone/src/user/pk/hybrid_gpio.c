@@ -130,8 +130,11 @@ void limitSwitchCheck() {
 				motor_set_vel(MOTOR1, 0, OPEN_LOOP);
 				motor_set_vel(MOTOR2, 0, OPEN_LOOP);
 				motor_set_vel(MOTOR3, 0, OPEN_LOOP);
-				if (pneumatics.P3 == false)
+				if (pneumatics.P3 == false){
 					climbingState = GRAB_PROPELLER;
+					allowArm = false;
+				}
+				
 				else {
 					climbDelay = get_full_ticks();
 					climbingState = CLIMB_POLE;
@@ -142,8 +145,9 @@ void limitSwitchCheck() {
 
 	// Move arm to correct position.
 	if (climbingState == GRAB_PROPELLER) {
+		allowArm = false;
 		int armError = get_encoder_value(MOTOR8)
-				- (pneumatics.P3 == false ? 17000 : 75000);
+				- (pneumatics.P3 == false ? 17000 : 78000);
 		//if (prevLimitSwitch[3] == 1 && !limitSwitch[2]) {
 
 		//		setM(0);
@@ -179,7 +183,7 @@ void limitSwitchCheck() {
 		climbingState = INSTALL_PROPELLER;
 		safetyPropellorInstallDelay = get_full_ticks();
 	}
-	if ((!limitSwitch[2] || get_full_ticks() - safetyPropellorInstallDelay >= 9000) && climbingState == INSTALL_PROPELLER) {
+	if (!limitSwitch[2] && climbingState == INSTALL_PROPELLER) {
 		/* PKPKPKPKPKPKPPK */
 		int PK_time_since_climb_execute = get_full_ticks() - climbDelay - 500;
 		if (PK_time_since_climb_execute < 1000) {
@@ -188,7 +192,7 @@ void limitSwitchCheck() {
 			sendClimbCommand(1200);
 		}
 	}
-	if (limitSwitch[2] && climbingState == INSTALL_PROPELLER) {
+	if ((limitSwitch[2] || get_full_ticks() - safetyPropellorInstallDelay >= 9000) && climbingState == INSTALL_PROPELLER) {
 		sendClimbCommand(0);
 		if (get_full_ticks() - waitDelay >= 500
 				&& get_full_ticks() - waitDelay < 1200) {

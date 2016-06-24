@@ -251,20 +251,28 @@ void updateQueue () {
 					
 					//setBrushlessMagnitude(14); //12
 					
-						if(dt <= time /4) {
+					if(dt <= time /4) {
 						if(!retrySpeed) {
-							setBrushlessMagnitude(robotMode == RED_SIDE ? 11 : 12);
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 11 : 11); //12
 						}
 						else{
-							setBrushlessMagnitude(robotMode == RED_SIDE ? 9 : 10);
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 9 : 9); //10
 						}
 					}
-					else if (dt > time/4) {
+					else if (dt > time/4 && dt < time * 7 / 8) {
 						if(!retrySpeed) {
-							setBrushlessMagnitude(robotMode == RED_SIDE ? 14 : 22);
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 14 : 14); //22
 						}
 						else {
-							setBrushlessMagnitude(robotMode == RED_SIDE ? 12 : 20);
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 12 : 12); //20
+						}
+					}
+					else{
+						if(!retrySpeed) {
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 35 : 35);
+						}
+						else{
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 33 : 33);
 						}
 					}
 				//else if (dt >= time/2 && dt < time*3/4) {
@@ -305,6 +313,7 @@ void updateQueue () {
 					if(currentPath.position.y == wagateki) {
 						setBrushlessMagnitude(0);
 						currMode = RETRYCHECK;
+						allowArm = false;
 						expectRetry = get_full_ticks();
 						retrySpeed = false;
 					}

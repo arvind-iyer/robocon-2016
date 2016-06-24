@@ -131,7 +131,7 @@ void backupFirstPosition(void) {
 				currMode = PIDMODE;
 				savedX = get_pos()->x;
 				savedY = get_pos()->y;
-				queueTargetPoint(savedX, savedY, get_pos()->angle/10, 35, 15, 17, 1500);
+				queueTargetPoint(savedX, savedY, get_pos()->angle/10, 35, 15, 26, 1500);
 				allowArm = true;
 				tobiWan = get_ls_cal_reading(1);
 			}
@@ -429,7 +429,7 @@ void laserPID() {
 						fieldDetected = false;
 						queueTargetPoint(get_pos()->x - xShift - 100, get_pos()->y + 500, get_pos()->angle/10, 400, 240, -1, -1);
 						queueTargetPoint(get_pos()->x - xShift - 100, get_pos()->y + yShift + 50, 175, 100, 10, -1, -1);
-						queueTargetPoint(get_pos()->x - xShift, get_pos()->y + yShift, 175, 1500, 10, -1, (skipBlowingRiver ? 0 : 4000));
+						queueTargetPoint(get_pos()->x - xShift, get_pos()->y + yShift, 175, 1500, 10, -1, (skipBlowingRiver ? 0 : 5000));
 					
 						if(skipBlowingRiver) skipBlowingRiver = false;
 						
@@ -444,7 +444,7 @@ void laserPID() {
 					if(get_pos()->y > yCoordSystem * 0.35 && get_pos()->y < yCoordSystem * 0.45) setBrushlessMagnitude(13); //TEST FIELD 18
 					if(get_pos()->y > yCoordSystem * 0.45 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(5); //TEST FIELD 12
 					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(19); //TEST FIELD 15
-					if(get_pos()->y > yCoordSystem * 0.75) setBrushlessMagnitude(8);
+					if(get_pos()->y > yCoordSystem * 0.75) setBrushlessMagnitude(0);
 				}
 				parseWheelbaseValues();
 				
@@ -459,7 +459,7 @@ void laserPID() {
 						fieldDetected = false;
 						queueTargetPoint(get_pos()->x + xShift + 100, get_pos()->y + 500, get_pos()->angle/10, 400, 240, -1, -1);
 						queueTargetPoint(get_pos()->x + xShift + 100, get_pos()->y + yShift + 50, 185, 100, 10, -1, -1);
-						queueTargetPoint(get_pos()->x + xShift, get_pos()->y + yShift, 185, 1500, 10, -1, (skipBlowingRiver ? 0 : 6000));
+						queueTargetPoint(get_pos()->x + xShift, get_pos()->y + yShift, 185, 1500, 10, -1, (skipBlowingRiver ? 0 : 5000));
 						
 						if(skipBlowingRiver) skipBlowingRiver = false;
 						
@@ -532,7 +532,7 @@ void moveToWall() {
 			else setW(angularVelocity * 2);
 		}
 		else if(robotMode == BLUE_SIDE) {
-			setBearing(355 - robot.position.angle);
+			setBearing(352 - robot.position.angle);
 			if(robot.position.angle < 98 && robot.position.angle > 82) setW(angularVelocity);
 			else setW(angularVelocity * 2);
 		}
