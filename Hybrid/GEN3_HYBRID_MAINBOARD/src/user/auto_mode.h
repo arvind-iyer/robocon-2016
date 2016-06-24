@@ -29,11 +29,11 @@ typedef enum {
 	RETRY_MODE
 } PID_MODE;
 
-typedef struct {
-	u16 x;
-	u16 y;
-	u16 deg;
-} COORD3;
+enum RETRY_STATE{
+	NO_RETRY = 0,
+	RETRY_HILL,
+	RETRY_RIVER
+};
 
 typedef	struct {
 	PATH_NODE_TYPE type;

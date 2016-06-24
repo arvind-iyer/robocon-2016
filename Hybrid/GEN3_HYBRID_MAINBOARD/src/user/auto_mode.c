@@ -34,8 +34,8 @@ const SERVO_ID gripper_servo[2] = {SERVO2, SERVO1};
 const GPIO * gripper_push[2] = {&PD11, &PD9};
 const GPIO * gripper_claw[2] = {&PD10, &PD8};
 const GPIO * pole_clamp = &PB9;
-const u16 servo_up_val[2] = {892, 807};
-const u16 servo_dn_val[2] = {1078, 641};
+const u16 servo_up_val[2] = {870, 1035};
+const u16 servo_dn_val[2] = {1078, 645};
 
 //#define DEBUG_MODE
 
@@ -90,7 +90,7 @@ bool arrived = false;
 bool at_top = false;
 u8 climb_temp = 0;
 double climb_speed = 1;
-u8 retry_state = 0;
+u8 retry_state = NO_RETRY;
 
 //UART receiver
 u8 rx_state = 0;
@@ -147,10 +147,17 @@ void auto_tar_dequeue() {
 	}
 	
 	//speed control - notice tar_end needs to minus one
-	if (tar_end == 1)
-		cur_vel = 65;
-	if (tar_end == 2)
-		cur_vel = 50;
+	if (!retry_state) {
+		if (tar_end == 1)
+			cur_vel = 65;
+		if (tar_end == 2)
+			cur_vel = 50;
+	} else if (retry_state == RETRY_HILL) {
+		if (tar_end == 2)
+			cur_vel = 80;
+		if (tar_end == 3)
+			cur_vel = 50;
+	}
 	if (tar_end == 4)
 		cur_vel = 6;
 	if (tar_end == 5)
@@ -551,6 +558,8 @@ void auto_robot_control(void) {
 		
 		if ((tar_end == 1) && (!arrived || (arrived && ((auto_get_ticks() - arrived_time) < 1000)))) {
 			tar_arm = 0;
+		} else if ((Abs(cur_x) < 3000) && (retry_state == RETRY_HILL)) {
+			tar_arm = 7500;
 		} else if (Abs(cur_x) < 3000) {
 			tar_arm = 3150;
 		} else if (Abs(cur_x) < 4100) {
@@ -714,7 +723,7 @@ void auto_menu_update() {
 				node_buffer.deg = 0;
 				node_buffer.curve = 0;
 				auto_tar_enqueue(node_buffer);
-				node_buffer.type = NODE_STOP;
+				node_buffer.type = NODE_PASS;
 				node_buffer.x = -875;
 				node_buffer.y = 3250;
 				node_buffer.deg = 0;
