@@ -26,7 +26,8 @@ typedef enum {
 	MENU_MODE,
 	RUNNING_MODE,
 	CLIMBING_MODE,
-	RETRY_MODE
+	RETRY_MODE,
+	PAUSE_MODE
 } PID_MODE;
 
 enum RETRY_STATE{
@@ -58,6 +59,7 @@ u32 auto_get_flash(u8 page, u8 offset);
 void auto_track_path(int angle, int rotate, int maxvel, bool curved);
 void auto_robot_control(void);
 void auto_pole_climb(bool state);
+void auto_river_pause(void);
 void auto_motor_stop(void);
 void auto_calibrate(void);
 void auto_menu_update(void);

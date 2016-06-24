@@ -106,6 +106,8 @@ int main(void) {
 						auto_pole_climb(true);
 					} else if (auto_get_state() == RETRY_MODE) {
 						auto_pole_climb(false);
+					} else if (auto_get_state() == PAUSE_MODE) {
+						auto_river_pause();
 					} else if (auto_get_state() == MENU_MODE) {
 						auto_menu_update();
 					}

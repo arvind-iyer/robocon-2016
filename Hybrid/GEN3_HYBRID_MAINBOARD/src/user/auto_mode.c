@@ -41,7 +41,11 @@ const u16 servo_dn_val[2] = {1078, 645};
 //#define DEBUG_MODE
 
 //Ground: 0 = Red, 1 = Blue
-u8 field = 0;
+#ifdef RED_FIELD
+	u8 field = 0;
+#else
+	u8 field = 1;
+#endif
 
 double transform[2][2] = {{1, 0}, {0, 1}};
 u16 wall_dist = 0;
@@ -92,6 +96,7 @@ bool at_top = false;
 u8 climb_temp = 0;
 double climb_speed = 1;
 u8 retry_state = NO_RETRY;
+s32 pause_time = 0;
 
 //UART receiver
 u8 rx_state = 0;
@@ -275,6 +280,7 @@ void auto_reset() {
 	climb_dir = 0;
 	climb_blow_pwm = 0;
 	at_top = false;
+	pause_time = 0;
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -533,6 +539,24 @@ void auto_pole_climb(bool state){
 	tft_update();
 }
 
+void auto_river_pause(void) {
+	auto_motor_stop();
+	set_PID_FLAG(PID_OFF);
+	brushless_control(0, true);
+	
+	if (auto_get_ticks() - pause_time >= 7000) {
+		set_PID_FLAG(PID_ON);
+		brushless_time = auto_get_ticks();
+		pid_state = RUNNING_MODE;
+	}
+	
+	tft_clear();	
+	tft_prints(0,0,"[PAUSED]");
+	tft_prints(0,1,"TIME %3d",auto_get_ticks()/1000);
+	tft_prints(0,2,"Start in %4d",(7000 - auto_get_ticks() - pause_time));
+	tft_update();
+}
+
 /**
   * @brief  Locks hybrid in current location
   * @param  None
@@ -559,11 +583,11 @@ void auto_robot_control(void) {
 		
 		if ((tar_end == 1) && (!arrived || (arrived && ((auto_get_ticks() - arrived_time) < 1000)))) {
 			tar_arm = 0;
-		} else if ((Abs(cur_x) < 3000) && (retry_state == RETRY_HILL)) {
+		} else if ((Abs(cur_x) < 2000) && (retry_state == RETRY_HILL)) {
 			tar_arm = 7500;
-		} else if (Abs(cur_x) < 3000) {
+		} else if (Abs(cur_x) < 2000) {
 			tar_arm = 3150;
-		} else if (Abs(cur_x) < 4100) {
+		} else if (Abs(cur_x) < 4400) {
 			tar_arm = 7500;
 		} else {
 			tar_arm = 12250;
@@ -594,17 +618,20 @@ void auto_robot_control(void) {
 		if (!retry_state) {
 			brushless_servo_control(-85 + 85*2*field);
 			if (auto_get_ticks() - brushless_time > 300)
-				brushless_control_pid(800);
+				brushless_control_pid(770);
 		}
 	} else if (tar_end <= 4) {
-		//brushless_servo_control(-65 + 65*2*field);
+		brushless_servo_control(-75 + 75*2*field);
 		set_PID_FLAG(PID_ON);
 		brushless_control_pid(720);
-		if (auto_get_ticks() - brushless_time > 1000)
-			brushless_servo_control(-65 + 65*2*field);			
-		if (auto_get_ticks() - brushless_time > 1500) {
+		if (auto_get_ticks() - brushless_time > 500)
+			brushless_control_pid(680);	
+		//if (auto_get_ticks() - brushless_time > 1200)				
+			//brushless_servo_control(-65 + 65*2*field);
+		if (auto_get_ticks() - brushless_time > 1800) {
+			brushless_control_pid(920);
 			//brushless_control(52, true);
-			brushless_servo_control(-75 + 75*2*field);
+			//brushless_servo_control(-75 + 75*2*field);
 		}
 	} else if (tar_end <= 5) {
 		brushless_servo_control(-7 + 7*2*field);
@@ -625,6 +652,14 @@ void auto_robot_control(void) {
 		set_PID_FLAG(PID_OFF);
 		servo_control(SERVO3, 450);
 	}
+	
+	/*
+	if (!gpio_read_input(&PE6) && (brushless_time > 0) && (tar_end < 6)) {
+		auto_motor_stop();
+		pause_time = auto_get_ticks();
+		pid_state = PAUSE_MODE;
+	}
+	*/
 }
 
 /**
@@ -708,6 +743,8 @@ void auto_menu_update() {
 				}
 				*/
 				
+				#ifdef RED_FIELD
+				//Red
 				if (retry_state == RETRY_HILL) {
 					node_buffer.type = NODE_PASS;
 					node_buffer.x = 0;
@@ -789,7 +826,91 @@ void auto_menu_update() {
 				node_buffer.deg = 180;
 				node_buffer.curve = 0;
 				auto_tar_enqueue(node_buffer);
+				#else
+				//Blue
+				if (retry_state == RETRY_HILL) {
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = 0;
+					node_buffer.y = 1000;
+					node_buffer.deg = 0;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_STOP;
+					node_buffer.x = 0;
+					node_buffer.y = 2064;
+					node_buffer.deg = 0;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_STOP;
+					node_buffer.x = 3315;
+					node_buffer.y = 2064;
+					node_buffer.deg = 45;
+					node_buffer.curve = 0;
+				} else {
+					node_buffer.type = NODE_STOP;
+					node_buffer.x = 0;
+					node_buffer.y = 3300;
+					node_buffer.deg = 0;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = 875;
+					node_buffer.y = 3300;
+					node_buffer.deg = 0;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = 3315;
+					node_buffer.y = 2064;
+					node_buffer.deg = 45;
+					node_buffer.curve = 267;
+				}
 				
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_STOP;
+				node_buffer.x = 6750;
+				node_buffer.y = 570;
+				node_buffer.deg = 0;
+				node_buffer.curve = -192;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_STOP;
+				node_buffer.x = 7460;
+				node_buffer.y = 350;
+				node_buffer.deg = 0;
+				node_buffer.curve = 0;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_PASS;
+				node_buffer.x = 9831;
+				node_buffer.y = 690;
+				node_buffer.deg = -90;
+				node_buffer.curve = 0;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_PASS;
+				node_buffer.x = 12409;
+				node_buffer.y = 2570;
+				node_buffer.deg = 175;
+				node_buffer.curve = -281;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_PASS;
+				node_buffer.x = 12900;
+				node_buffer.y = 4075;
+				node_buffer.deg = 180;
+				node_buffer.curve = -281;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_PASS;
+				node_buffer.x = 12900;
+				node_buffer.y = 5000;
+				node_buffer.deg = 180;
+				node_buffer.curve = 0;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_STOP;
+				node_buffer.x = 12900;
+				node_buffer.y = 6500;
+				node_buffer.deg = 180;
+				node_buffer.curve = 0;
+				auto_tar_enqueue(node_buffer);
+				#endif
+
 				auto_reset();
 				pid_state = RUNNING_MODE;
 			}

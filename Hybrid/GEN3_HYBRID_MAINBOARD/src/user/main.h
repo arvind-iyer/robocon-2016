@@ -52,6 +52,19 @@
 #include "laser_sensor.h"
 #include "RPM_sensor.h"
 
+#define BLUE_FIELD
+//#define RED_FIELD
+
+#ifdef RED_FIELD
+	#ifdef BLUE_FIELD
+		#error FIELD COLOR BOTH DEFINED
+	#endif
+#else
+	#ifndef BLUE_FIELD
+		#error FIELD COLOR NOT YET DEFINED
+	#endif
+#endif
+
 /**
 ** The following ticks is to avoid ticks passed in execution in order to give consistent result
 **
