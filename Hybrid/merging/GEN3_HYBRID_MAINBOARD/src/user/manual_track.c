@@ -173,6 +173,7 @@ u8 limit_gyro_update(s16 motor_vel[3]){
 		if (ls_hit_ticks == 0){
 			ls_hit_ticks = this_loop_ticks;
 		}else	if ((this_loop_ticks - ls_hit_ticks) > TICKS_AFTER_HIT_POLE){
+			climbing_init();
 			return 3;
 		}
 	}else{

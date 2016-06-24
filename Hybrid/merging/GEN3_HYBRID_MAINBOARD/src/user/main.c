@@ -60,6 +60,7 @@ int main(void) {
 			if (control_state != last_control_state){
 				if (control_state == MANUAL_MODE){
 					manual_reset();
+					set_PID_FLAG(PID_OFF);
 				}else{
 					auto_init();
 				}
