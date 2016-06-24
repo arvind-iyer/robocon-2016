@@ -239,6 +239,7 @@ void semiAutoListener() {
 		wheelbaseLock();
 		setBrushlessMagnitude(0);
 		sendArmCommand(0);
+		sendClimbCommand(0);
 		currMode = MANUAL;
 		allowArm = false;
 		climbingState = PREPARATION;

@@ -389,6 +389,7 @@ if (button_pressed(BUTTON_XBC_X) && !au_listening) {
 		sendArmCommand(0);
 		currMode = MANUAL;
 		climbingState = PREPARATION;
+		sendClimbCommand(0);
 		allowArm = false;
 	} else if (button_released(BUTTON_XBC_START) && au_listening) {
 		au_listening = false;

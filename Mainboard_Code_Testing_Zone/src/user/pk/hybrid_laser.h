@@ -25,6 +25,13 @@ extern int tobiWan;
 #define RED_SIDE 0
 #define BLUE_SIDE 1
 
+typedef enum {
+	INITIAL,
+	MOVE_FORWARD,
+	FIND_GAMEFIELD,
+	CHECK_FOR_END,
+	STANDBY
+}RETRYSTAGES;
 
 void dual_laser_init(void);
 s16 get_cheap_laser_dis(u8 id);

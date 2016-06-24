@@ -27,7 +27,14 @@ Project File Date:  06/16/2016
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'stm32_template'
-".\output\stm32_template.axf" - 0 Error(s), 0 Warning(s).
+compiling hybrid_laser.c...
+src\user\pk\hybrid_laser.c(14): warning:  #550-D: variable "last_ticks_laser" was set but never used
+  static u32 last_ticks_laser[2] = {0};
+src\user\pk\hybrid_laser.c: 1 warning, 0 errors
+linking...
+Program Size: Code=57354 RO-data=1538 RW-data=5680 ZI-data=44576  
+FromELF: creating hex file...
+".\output\stm32_template.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   D:\Data\Documents\GitHub\robocon-2016\Mainboard_Code_Testing_Zone\RTE

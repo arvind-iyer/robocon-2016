@@ -7,6 +7,8 @@ int y = 0, x = 0, increment = 0, haha = 0, wagateki = 0, wagamama = 0, savedX=0,
 int laserM = 45, laserW = 0, laserB = 0, verticalM = 0, targAngle = 270;
 bool fieldDetected = false, targetReached = false, onReach = false;
 
+RETRYSTAGES currRetryStage = INITIAL;
+
 static u8 laser_byte_array[2][100] = {65};
 static u8 laser_byte_pointer[2] = {0};
 static u32 last_ticks_laser[2] = {0};
@@ -405,7 +407,7 @@ void laserPID() {
 					if(get_pos()->y > yCoordSystem * 0.35 && get_pos()->y < yCoordSystem * 0.45) setBrushlessMagnitude(15); //TEST FIELD 18
 					if(get_pos()->y > yCoordSystem * 0.45 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(10); //TEST FIELD 12
 					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(18); //TEST FIELD 15
-					if(get_pos()->y > yCoordSystem * 0.75) setBrushlessMagnitude(11);
+					if(get_pos()->y > yCoordSystem * 0.75) setBrushlessMagnitude(0); //11
 				}
 
 				parseWheelbaseValues();
@@ -427,7 +429,7 @@ void laserPID() {
 						fieldDetected = false;
 						queueTargetPoint(get_pos()->x - xShift - 100, get_pos()->y + 500, get_pos()->angle/10, 400, 240, -1, -1);
 						queueTargetPoint(get_pos()->x - xShift - 100, get_pos()->y + yShift + 50, 175, 100, 10, -1, -1);
-						queueTargetPoint(get_pos()->x - xShift, get_pos()->y + yShift, 175, 1500, 10, -1, (skipBlowingRiver ? 0 : 6000));
+						queueTargetPoint(get_pos()->x - xShift, get_pos()->y + yShift, 175, 1500, 10, -1, (skipBlowingRiver ? 0 : 4000));
 					
 						if(skipBlowingRiver) skipBlowingRiver = false;
 						
@@ -525,7 +527,7 @@ void moveToWall() {
 		}
 		setM(targetM);
 		if(robotMode == RED_SIDE){
-			setBearing(5 - robot.position.angle);
+			setBearing(8 - robot.position.angle);
 			if(robot.position.angle < 278 && robot.position.angle > 262) setW(angularVelocity);
 			else setW(angularVelocity * 2);
 		}
@@ -647,6 +649,70 @@ void enterPole() {
 			parseWheelbaseValues();
 			//sendWheelbaseCommand();
 		}
+	}
+}
+
+int timeSinceFunctionStarted = 0;
+
+void retryToRiverPos (void) {
+	int currTime = get_full_ticks();
+	int angVel;
+	switch (currRetryStage) {
+		case INITIAL:
+			timeSinceFunctionStarted = currTime;
+			currRetryStage = MOVE_FORWARD;
+			break;
+		case MOVE_FORWARD:
+			if(currTime - timeSinceFunctionStarted > 1000) {
+				currRetryStage = FIND_GAMEFIELD;
+			}
+			else{
+				setM(40);
+				setBearing(0);
+				setW(0);
+			}
+			break;
+		case FIND_GAMEFIELD:
+			angVel = calculateAngularVelocity(180, 60, 30, 50);
+				//Vertical Vectorz
+				setM(40);
+				setBearing(0 - robot.position.angle);
+				if(Abs(getAngleDifference(robot.position.angle, 180)) > 20){
+					angVel = 2*angVel;
+				}
+				setW(angVel);
+				addComponent();
+			if(robot.position.angle < 180 && robot.position.angle > 170) {
+				//HorizontalVectorz
+				int horM = 40 * Abs((get_ls_cal_reading(robotMode == RED_SIDE ? 3: 2) - 350)  / (350 - 200) / 2);
+				horM = min(2, horM, 50);
+				setM(horM);
+				if(get_ls_cal_reading(robotMode == RED_SIDE ? 3 : 2) > 350 + 15) setBearing(90);
+				else if (get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) < 350 - 15) setBearing(270);
+				else setBearing(180);
+				setW(0);
+				addComponent();
+				
+				if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) < 400) {
+					currRetryStage = CHECK_FOR_END;
+				}
+			}
+			break;
+		case CHECK_FOR_END:
+			setM(30);
+			setBearing(0 - robot.position.angle);
+			setW(calculateAngularVelocity(180, 40, 20, 40));
+			addComponent();
+		if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) > 900) {
+				currMode = PIDMODE;
+				queueTargetPoint(get_pos()->x, get_pos()->y, (robotMode == RED_SIDE ? 175 : 185), 1500, 10, -1, 4000);
+				wagamama = get_pos()->x;
+				wagateki = get_pos()->y;
+				currRetryStage = STANDBY;
+			}
+			break;
+		case STANDBY:
+			break;
 	}
 }
 

@@ -20,6 +20,8 @@ int moveDelay = 0;
 int climbingState = PREPARATION;
 bool allow4thUpdate = false;
 
+bool grabOnly = false;
+
 /**
  * @brief Initializes the Hybrid's GPIO ports and some required variables
  */
@@ -158,8 +160,16 @@ void limitSwitchCheck() {
 				pneumatics.P3 = true;
 				pneumatic_control(GPIOE, GPIO_Pin_14, pneumatics.P3);
 			} else {
-				climbingState = CLIMB_POLE;
-				climbDelay = get_full_ticks();
+				if(grabOnly) {
+					climbingState = RESTORE;
+					allow4thUpdate = true;
+					currMode = MANUAL;
+					grabOnly = false;
+				}
+				else{
+					climbingState = CLIMB_POLE;
+					climbDelay = get_full_ticks();
+				}
 			}
 		}
 	}
@@ -242,31 +252,37 @@ void retryProcedureCheck(void) {
 			retryDelay = get_full_ticks();
 			lastWait = -1;
 			currMode = WAITRETRY;
+			tft_set_bg_color(RED);
+			tft_set_text_color(RED);
 
-			buzzer_play_song(START_UP, 120, 0);
-			CAN_MESSAGE txMsg;
-			txMsg.id = 0x300;
-			txMsg.length = 0;
-			can_tx_enqueue(txMsg);
+//			buzzer_play_song(START_UP, 120, 0);
+//			CAN_MESSAGE txMsg;
+//			txMsg.id = 0x300;
+//			txMsg.length = 0;
+//			can_tx_enqueue(txMsg);
 		} else if (ctr == 3) {
 			if (get_full_ticks() - retryDelay > 7000) {
 				queueTargetPoint(wagamama, wagateki, 175, 2000, 10, -1, 6500); //-200 //TEST FIELD -50 0
 				ctr = 1;
+				tft_set_bg_color(BLACK);
+				tft_set_text_color(WHITE);
 				currMode = PIDMODE;
 				retrySpeed = true;
 			} else {
 				setBrushlessMagnitude(0);
 				if (get_full_ticks() - retryDelay > 5000) {
-					if (get_full_ticks() - retryDelay % 50 == 0) {
-						//buzzer_play_song(SUCCESSFUL_SOUND, 120, 0);
-						buzzer_control(5, 100);
-						CAN_MESSAGE txMsg;
-						txMsg.id = 0x301;
-						txMsg.length = 0;
-						can_tx_enqueue(txMsg);
-					}
+					tft_set_bg_color(BLUE);
+					tft_set_text_color(BLUE);
 				}
 			}
 		}
 	}
+}
+
+void grabPropeller () {
+	climbingState = PREPARATION;
+	allow4thUpdate = true;
+	grabOnly = true;
+	currMode = POLELASER;
+	slowdownDelay = get_full_ticks();
 }

@@ -8,6 +8,7 @@ void limitSwitchCheck(void);
 void armUpdate(void);
 bool retryIrChecking(void);
 void retryProcedureCheck(void);
+void grabPropeller(void);
 
 bool getLS(int index);
 

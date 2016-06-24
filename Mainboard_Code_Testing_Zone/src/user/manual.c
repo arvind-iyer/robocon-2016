@@ -67,9 +67,11 @@ void manual_control () {
 	tft_prints(0, 3, "P: %d|%d|%d|%d", getPneumaticState().P1, getPneumaticState().P2, getPneumaticState().P3, getPneumaticState().P4);
 	tft_prints(0, 4, (robotMode == RED_SIDE) ? "MODE:RED SIDE" : "MODE:BLUE SIDE");
 	tft_prints(0, 5, "LS: %d|%d|%d|%d|%d", prevLimitSwitch[0], prevLimitSwitch[1],  prevLimitSwitch[2], prevLimitSwitch[3], armIr); 
-	tft_prints(0, 6, "CAL: %d|%d", get_ls_cal_reading(0), get_ls_cal_reading(1));
-	tft_prints(0, 7, "CAL: %d|%d", get_ls_cal_reading(2), get_ls_cal_reading(3));
-		tft_prints(0, 8, "4th Read? : %d", allow4thUpdate);
+	tft_prints(0, 6, "A: CLIMB POLE");
+	tft_prints(0, 7, "B: GRAB PROP");
+//	tft_prints(0, 6, "CAL: %d|%d", get_ls_cal_reading(0), get_ls_cal_reading(1));
+//	tft_prints(0, 7, "CAL: %d|%d", get_ls_cal_reading(2), get_ls_cal_reading(3));
+		tft_prints(0, 8, "CAN CLIMB: %s", (allow4thUpdate ? "YES" : "NO"));
 	tft_update();
 	}
 
@@ -169,12 +171,13 @@ void manual_control () {
 		if(button_pressed(BUTTON_XBC_B) && !listening)
 			{
 				listening = true;
-				sendClimbCommand(1200);
+				grabPropeller();
+				//sendClimbCommand(1200);
 			}
 		else if(button_released(BUTTON_XBC_B) && listening)
 		{
 			listening = false;
-			sendClimbCommand(0);
+		//	sendClimbCommand(0);
 		}
 		if(button_pressed(BUTTON_XBC_X) && !listening) {
 			listening = true;
@@ -186,6 +189,7 @@ void manual_control () {
 		if(button_pressed(BUTTON_XBC_A) && !listening) {
 			setBrushlessMagnitude(0);
 			if(currMode == MANUAL) {
+				allow4thUpdate = true;
 				allowArm = false;
 				climbingState = PREPARATION;
 				currMode = POLELASER;
@@ -233,6 +237,7 @@ void manual_control () {
 			wheelbaseLock();
 			setBrushlessMagnitude(0);
 			sendArmCommand(0);
+			sendClimbCommand(0);
 			currMode = MANUAL;
 			climbingState = PREPARATION;
 			allowArm = false;
