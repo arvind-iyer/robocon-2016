@@ -33,6 +33,8 @@ typedef enum {
 	STANDBY
 }RETRYSTAGES;
 
+extern RETRYSTAGES currRetryStage;
+
 void dual_laser_init(void);
 s16 get_cheap_laser_dis(u8 id);
 void dual_laser_init_update(void);

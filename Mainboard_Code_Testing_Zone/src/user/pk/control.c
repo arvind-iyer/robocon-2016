@@ -8,7 +8,7 @@
 
 Robot robot;
 Path queue [40];
-int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0, dispW = 0, dispM =0, timediff = 0, time = 0, blowTime = 0;
+int size= 0, dispCurrentDistance = 0, dispCurrentBearing = 0, dispW = 0, dispM =0, timediff = 0, time = 0;
 int expectRetry = 0;
 bool finishing = false;
 
@@ -204,7 +204,7 @@ void updateQueue () {
 		}
 		
 		if(robot.pathLength == -1) {
-			robot.pathLength = calculateDistance(robot.start, currentPath.position);
+			robot.pathLength = calculateDistance(robot.position, currentPath.position);
 		}
 		
 		if((currentDistance <= (currentPath.distanceThreshold == -1 ? 400 : currentPath.distanceThreshold)
@@ -245,7 +245,6 @@ void updateQueue () {
 				//}
 				int dt = get_full_ticks() - lastWait;
 				
-				blowTime = dt;
 				if(currentPath.position.y == wagateki) {
 					//retryProcedureCheck();
 					
@@ -331,10 +330,10 @@ void updateQueue () {
 				
 			}
 			
-			robot.pathLength = -1;
-			robot.start.x = get_pos()->x;
-			robot.start.y = get_pos()->y;
-			robot.start.angle = get_pos()->angle;
+//			robot.pathLength = -1;
+//			robot.start.x = get_pos()->x;
+//			robot.start.y = get_pos()->y;
+//			robot.start.angle = get_pos()->angle;
 		}
 		else {
 			int magnitude = calculatePathVelocity(currentPath, robot);

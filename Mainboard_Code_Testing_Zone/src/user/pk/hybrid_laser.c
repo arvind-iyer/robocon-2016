@@ -104,7 +104,7 @@ int tobiWan = -1;
 int prevEcoLaserRead = -1;
 
 void backupFirstPosition(void) {
-	int targM = 50, laserTargVal = (robotMode == RED_SIDE ? 340 :330); //470 480
+	int targM = 50, laserTargVal = (robotMode == RED_SIDE ? 405 :370); //340 330
 	
 	if(get_full_ticks() - timeSinceButtonPressed < 1000) {
 		setM(30);
@@ -124,14 +124,14 @@ void backupFirstPosition(void) {
 				targM = targM * (get_ls_cal_reading(1) - 400) / 1000;
 				targM = max(2, targM, 10);
 			}
-			if((get_ls_cal_reading(1) < 650 && robot.position.angle <= 92 && robot.position.angle >= 88 && delta < 400)  ) {//||
+			if((get_ls_cal_reading(1) < 550 && robot.position.angle <= 92 && robot.position.angle >= 88 && delta < 400)  ) {//||
 				//gpio_read_input(&PE0) == 0) {
 				wheelbaseLock();
 				//currMode = MANUAL;
 				currMode = PIDMODE;
 				savedX = get_pos()->x;
 				savedY = get_pos()->y;
-				queueTargetPoint(savedX, savedY, get_pos()->angle/10, 35, 15, 26, 1500);
+				queueTargetPoint(savedX, savedY, get_pos()->angle/10, 35, 15, 18, 1500);
 				allowArm = true;
 				tobiWan = get_ls_cal_reading(1);
 			}
@@ -168,7 +168,7 @@ void backupFirstPosition(void) {
 				targM = max(2, targM, 10);
 			}
 			
-			if((get_ls_cal_reading(0) < 500 && robot.position.angle <= 272 && robot.position.angle >= 268 && delta < 400)  ) {//||
+			if((get_ls_cal_reading(0) < 550 && robot.position.angle <= 272 && robot.position.angle >= 268 && delta < 400)  ) {//||
 				//gpio_read_input(&PE0) == 0) {
 				wheelbaseLock();
 				//currMode = MANUAL;
@@ -227,11 +227,11 @@ void moveToFirstPosition (void) {
 		parseWheelbaseValues();
 	}
 	else{
-		int laserTargVal = robotMode == RED_SIDE ? 900 : 900; //1000  //TEST FIELD : 900 : 900
+		int laserTargVal = robotMode == RED_SIDE ? 800 : 800; //1000  //TEST FIELD : 900 : 900
 			int horizontalM = 45;
 			double angularVelocity;
-			if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) > (robotMode == RED_SIDE ? 4400 : 2300) && //4400 //TEST FIELD : 4200 : 2300
-				get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) < (robotMode == RED_SIDE ? 4750 : 2550) && //4750 // TEST FIELD: 4550 : 2550
+			if(get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) > (robotMode == RED_SIDE ? 2350 : 2350) && //4400 //TEST FIELD : 4200 : 2300
+				get_ls_cal_reading(robotMode == RED_SIDE ? 2 : 3) < (robotMode == RED_SIDE ? 2700 : 2700) && //4750 // TEST FIELD: 4550 : 2550
 				robot.position.angle < 185 && robot.position.angle > 175 && !targetReached){
 					targetReached = true;
 			}
@@ -309,7 +309,7 @@ void moveToFirstPosition (void) {
 					}
 				}
 				if(robotMode == RED_SIDE) {
-					if(get_ls_cal_reading(2) < 4550) {
+					if(get_ls_cal_reading(2) < 2750) {
 						setM(horizontalM);
 						setBearing(90 - robot.position.angle); //4750 //TEST FIELD : 4450
 					}
@@ -319,7 +319,7 @@ void moveToFirstPosition (void) {
 					}
 				}
 				else if(robotMode == BLUE_SIDE) {
-					if(get_ls_cal_reading(2) < 4550) {
+					if(get_ls_cal_reading(3) < 2750) {
 						setM(horizontalM);
 						setBearing(270 - robot.position.angle); //4750 //TEST FIELD : 4450
 					}
@@ -404,9 +404,9 @@ void laserPID() {
 		//Blowing speeds
 			if(robotMode == RED_SIDE) {
 				if(!semiAuto){
-					if(get_pos()->y > yCoordSystem * 0.35 && get_pos()->y < yCoordSystem * 0.45) setBrushlessMagnitude(15); //TEST FIELD 18
-					if(get_pos()->y > yCoordSystem * 0.45 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(10); //TEST FIELD 12
-					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(18); //TEST FIELD 15
+					if(get_pos()->y > yCoordSystem * 0.35 && get_pos()->y < yCoordSystem * 0.45) setBrushlessMagnitude(13); //TEST FIELD 18 15
+					if(get_pos()->y > yCoordSystem * 0.45 && get_pos()->y < yCoordSystem * 0.55) setBrushlessMagnitude(5); //TEST FIELD 12 10
+					if(get_pos()->y > yCoordSystem * 0.55 && get_pos()->y < yCoordSystem * 0.7) setBrushlessMagnitude(19); //TEST FIELD 15 18
 					if(get_pos()->y > yCoordSystem * 0.75) setBrushlessMagnitude(0); //11
 				}
 
@@ -580,9 +580,9 @@ void moveToWall() {
 void enterPole() {
 	int angleDiff = getAngleDifference(robot.position.angle, (robotMode == RED_SIDE) ? 270 : 90);
 	haha = int_cos(angleDiff * 10) * get_ls_cal_reading((robotMode == RED_SIDE) ? 2 : 3)/10000;
-	x = Abs(((robotMode == RED_SIDE) ? 295: 270) - haha);  //RED : 230 BLUE : 210 //TEST FIELD 295 
-	if(robotMode == RED_SIDE) y = 300; // 230 //TEST FIELD 295
-	else if(robotMode == BLUE_SIDE) y = 270; //210
+	x = Abs(((robotMode == RED_SIDE) ? 265: 245) - haha);  //RED : 230 BLUE : 210 //TEST FIELD 295 
+	if(robotMode == RED_SIDE) y = 265; // 230 //TEST FIELD 295
+	else if(robotMode == BLUE_SIDE) y = 245; //210
 	increment = 90 - MIN(90, int_arc_tan2(y,x));
 	int mag = 50;
 	if(get_full_ticks() - slowdownDelay >= 3500) {

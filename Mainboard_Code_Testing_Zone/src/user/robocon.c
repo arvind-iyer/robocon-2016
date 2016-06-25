@@ -50,7 +50,8 @@ void robocon_main(void) {
 				laserPID();
 				break;
 			case POLELASER:
-				enterPole();
+				retryToRiverPos();
+				//enterPole();
 				break;
 			case APPROACHWALL:
 				moveToWall();
@@ -59,7 +60,8 @@ void robocon_main(void) {
 				updateQueue();
 				break;
 			case AUTORETRY:
-				retryAutoPath();
+				//retryAutoPath();
+			retryToRiverPos();
 				break;
 			case WAITRETRY:
 				retryProcedureCheck();
@@ -315,7 +317,8 @@ void controllerInputUpdate() {
 	if (button_pressed(BUTTON_XBC_A) && !m_listener) {
 		setBrushlessMagnitude(0);
 		if (currMode == MANUAL) {
-			climbingState = PREPARATION;
+			currRetryStage = INITIAL;
+			//climbingState = PREPARATION;
 			currMode = POLELASER;
 		} else if (currMode == POLELASER) {
 			currMode = MANUAL;

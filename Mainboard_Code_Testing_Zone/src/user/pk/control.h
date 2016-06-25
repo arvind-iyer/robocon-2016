@@ -50,7 +50,6 @@ typedef struct {
 	extern Robot robot;
 	extern bool allowArm;
 	extern int dispM;
-	extern int blowTime;
 	extern long lastWait;
 
 #endif

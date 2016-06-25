@@ -21,6 +21,7 @@ int climbingState = PREPARATION;
 bool allow4thUpdate = false;
 
 bool grabOnly = false;
+bool timeObtained = false;
 
 /**
  * @brief Initializes the Hybrid's GPIO ports and some required variables
@@ -68,7 +69,7 @@ void limitSwitchCheck() {
 					limitSwitch[1] : prevLimitSwitch[1]);
 	if (limitSwitch[0] || limitSwitch[1]) {
 		armDir = limitSwitch[1] ? 1 : 0;
-		motor_set_vel(MOTOR8, armDir ? -10 : 10, CLOSE_LOOP);
+		motor_set_vel(MOTOR8, armDir ? -5 : 5, CLOSE_LOOP);
 		fixingArm = true;
 		lastLimitCheck = get_full_ticks();
 		// If fixing arm, always make sure IR never gets triggered until fixingArm is false.
@@ -183,7 +184,7 @@ void limitSwitchCheck() {
 		climbingState = INSTALL_PROPELLER;
 		safetyPropellorInstallDelay = get_full_ticks();
 	}
-	if (!limitSwitch[2] && climbingState == INSTALL_PROPELLER) {
+	if (!limitSwitch[2] && get_full_ticks() - safetyPropellorInstallDelay < 8000 && climbingState == INSTALL_PROPELLER) {
 		/* PKPKPKPKPKPKPPK */
 		int PK_time_since_climb_execute = get_full_ticks() - climbDelay - 500;
 		if (PK_time_since_climb_execute < 1000) {
@@ -192,7 +193,12 @@ void limitSwitchCheck() {
 			sendClimbCommand(1200);
 		}
 	}
-	if ((limitSwitch[2] || get_full_ticks() - safetyPropellorInstallDelay >= 9000) && climbingState == INSTALL_PROPELLER) {
+	if ((limitSwitch[2] || get_full_ticks() - safetyPropellorInstallDelay >= 8000) && climbingState == INSTALL_PROPELLER) {
+		if(get_full_ticks() - safetyPropellorInstallDelay >= 8000 && !limitSwitch[2] && !timeObtained){
+			timeObtained = true;
+			waitDelay = get_full_ticks();
+			sendClimbCommand(0);
+		}
 		sendClimbCommand(0);
 		if (get_full_ticks() - waitDelay >= 500
 				&& get_full_ticks() - waitDelay < 1200) {
@@ -205,6 +211,7 @@ void limitSwitchCheck() {
 				sendArmCommand(armError < 0 ? -60 : 60);
 			else if (Abs(armError) <= 1000) {
 				sendArmCommand(0);
+				timeObtained = false;
 				pneumatics.P2 = false;
 				pneumatic_control(GPIOE, GPIO_Pin_13, pneumatics.P2);
 				climbingState = RESTORE;

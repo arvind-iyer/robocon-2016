@@ -31,6 +31,18 @@ void manual_control () {
 			case POLELASER:
 				enterPole();
 				break;
+			case PIDMODE:
+				updateQueue();
+				break;
+			case APPROACHWALL:
+				moveToWall();
+				break;
+			case WAITRETRY:
+				retryProcedureCheck();
+				break;
+			case RETRYCHECK:
+				waitingForRetry();
+				break;
 			default:
 				break;
 		}
@@ -184,6 +196,27 @@ void manual_control () {
 			allowArm = !allowArm;
 		}
 		else if(button_released(BUTTON_XBC_X) && listening) {
+			listening = false;
+		}
+		if(button_pressed(BUTTON_XBC_Y) && !listening) {
+			robotUpdate();
+			listening = true;
+			reset();
+			setM(0);
+			setBearing(0);
+			setW(0);
+			addComponent();
+			parseWheelbaseValues();
+			sendWheelbaseCommand();
+			
+			queueTargetPoint(get_pos()->x, get_pos()->y, get_pos()->angle / 10, 1500, 10, -1, 5000);
+			wagamama = get_pos()->x;
+			wagateki = get_pos()->y;
+			if(currMode == MANUAL) currMode = PIDMODE;
+			else if(currMode == PIDMODE)currMode = MANUAL;
+			//allowArm = !allowArm;
+		}
+		else if(button_released(BUTTON_XBC_Y) && listening) {
 			listening = false;
 		}
 		if(button_pressed(BUTTON_XBC_A) && !listening) {
