@@ -22,8 +22,8 @@
 #define KI 0.015
 #define RKP 1.8
 #define DEC_COEFF 8.0
-//#define WALL_CAL 4220
-#define WALL_CAL 6600
+#define WALL_CAL 4400
+//#define WALL_CAL 6600
 #define ARM_SPEED 1500
 #define LS_DIFF 400
 #define SHIFT 3.0
@@ -96,6 +96,7 @@ bool at_top = false;
 u8 climb_temp = 0;
 double climb_speed = 1;
 u8 retry_state = NO_RETRY;
+u8 semi_auto_state = 0;
 
 //UART receiver
 u8 rx_state = 0;
@@ -285,8 +286,12 @@ void auto_reset() {
 	
 	//reset gyro location
 	gyro_pos_set(0,0,0);
+	if (semi_auto_state) {
+		off_x = raw_x + 7460;
+		off_y = raw_y - 350;
+	}
 	
-	//testing...
+	//dequeue first target
 	auto_tar_dequeue();
 }
 
@@ -421,7 +426,8 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//ls cal straight section
-	if ((tar_end == 1) && (raw_y > 1500) && (raw_y < (WALL_CAL - wall_dist)) && wall_dist) //encoder dist less than actual dist
+	//if ((tar_end == 1) && (raw_y > 1500) && (raw_y < (WALL_CAL - wall_dist)) && wall_dist) //encoder dist less than actual dist
+	if ((tar_end == 1) && (raw_y < (WALL_CAL - wall_dist)) && wall_dist) //encoder dist less than actual dist
 		off_y = raw_y - WALL_CAL + wall_dist; //negative
 		
 	//disable kI during blowing eco
@@ -492,7 +498,7 @@ void auto_pole_climb(bool state){
 	} else if (climbing_time < 2000) {
 		servo_control(gripper_servo[field], servo_up_val[field]);
 	} else {
-		if (gpio_read_input(&PE3) && gpio_read_input(&PE9) && !at_top) {
+		if ((gpio_read_input(&PE3) || gpio_read_input(&PE9)) && !at_top) {
 			at_top = true;
 			top_time = auto_get_ticks();
 		}
@@ -666,7 +672,8 @@ void auto_menu_update() {
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
 	tft_prints(0,6,"STATE %d%d%d%d", gpio_read_input(&PE10), gpio_read_input(&PE11), gpio_read_input(&PE0), gpio_read_input(&PE1));
-	tft_prints(0,7,"(Y)> STATE: %d", retry_state);
+	//tft_prints(0,7,"(Y)> STATE: %d", retry_state);
+	tft_prints(0,7,"(Y)> %d", semi_auto_state);
 	
 	/*
 	if (auto_get_flash(0,0) == PATH_ID) {
@@ -763,37 +770,45 @@ void auto_menu_update() {
 				node_buffer.y = 350;
 				node_buffer.deg = 0;
 				node_buffer.curve = 0;
-				auto_tar_enqueue(node_buffer);
-				node_buffer.type = NODE_PASS;
-				node_buffer.x = -9831;
-				node_buffer.y = 690;
-				node_buffer.deg = 90;
-				node_buffer.curve = 0;
-				auto_tar_enqueue(node_buffer);
-				node_buffer.type = NODE_PASS;
-				node_buffer.x = -12409;
-				node_buffer.y = 2570;
-				node_buffer.deg = -175;
-				node_buffer.curve = 281;
-				auto_tar_enqueue(node_buffer);
-				node_buffer.type = NODE_PASS;
-				node_buffer.x = -12900;
-				node_buffer.y = 4075;
-				node_buffer.deg = 180;
-				node_buffer.curve = 281;
-				auto_tar_enqueue(node_buffer);
-				node_buffer.type = NODE_PASS;
-				node_buffer.x = -12900;
-				node_buffer.y = 5000;
-				node_buffer.deg = 180;
-				node_buffer.curve = 0;
-				auto_tar_enqueue(node_buffer);
+				
+				if (semi_auto_state) {
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = -9831;
+					node_buffer.y = 690;
+					node_buffer.deg = 90;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = -12409;
+					node_buffer.y = 2570;
+					node_buffer.deg = -175;
+					node_buffer.curve = 281;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = -12900;
+					node_buffer.y = 4075;
+					node_buffer.deg = 180;
+					node_buffer.curve = 281;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = -12900;
+					node_buffer.y = 5000;
+					node_buffer.deg = 180;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					
+					tar_end = 5;
+				}
+				
+				/*
 				node_buffer.type = NODE_STOP;
 				node_buffer.x = -12900;
 				node_buffer.y = 6500;
 				node_buffer.deg = 180;
 				node_buffer.curve = 0;
 				auto_tar_enqueue(node_buffer);
+				*/
 				
 				#else
 				
@@ -892,9 +907,14 @@ void auto_menu_update() {
 	if (button_pressed(BUTTON_XBC_Y)){
 		if (!y_pressed) {
 			y_pressed = true;
-					
+			
+			/*			
 			retry_state++;
 			retry_state %= RETRY_STATES_NO;
+			*/
+			
+			semi_auto_state++;
+			semi_auto_state %= 2;
 		}
 	} else {
 		y_pressed = false;
