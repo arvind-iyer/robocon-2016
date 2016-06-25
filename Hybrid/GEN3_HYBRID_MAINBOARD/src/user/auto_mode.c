@@ -80,6 +80,7 @@ int auto_ticks = 0;
 s16 cur_vel = 0;
 
 u8 side_switch_val = 0;
+s32 temp = 0;
 
 //Robot control
 bool arm_init = false;
@@ -247,6 +248,7 @@ void auto_reset() {
 	//reset variables
 	err_d = 0;
 	err_sum = 0;
+	temp = 0;
 	
 	dist = 0;
 	dist_last = 0;
@@ -266,8 +268,10 @@ void auto_reset() {
 	start = 0;
 	cur_vel = 100; //initial vel
 	pid_stopped = false;
-	transform[1][0] = 0;
 	hill_cal = 1;
+	
+	if (!semi_auto_state)
+		transform[1][0] = 0;
 	
 	tar_arm = 0;
 	brushless_time = 0;
@@ -285,11 +289,17 @@ void auto_reset() {
 	auto_ticks = get_full_ticks();
 	
 	//reset gyro location
-	gyro_pos_set(0,0,0);
+	if (!semi_auto_state)
+		gyro_pos_set(0,0,0);
+	/*
 	if (semi_auto_state) {
 		off_x = raw_x + 7460;
 		off_y = raw_y - 350;
+	} else {
+		off_x = raw_x;
+		off_x = raw_y;
 	}
+	*/
 	
 	//dequeue first target
 	auto_tar_dequeue();
@@ -431,7 +441,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		off_y = raw_y - WALL_CAL + wall_dist; //negative
 		
 	//disable kI during blowing eco
-	if ((tar_end >= 2) && (tar_end <= 4)) {
+	if (((tar_end >= 2) && (tar_end <= 4)) || (tar_end >= 6)) {
 		ki = 0;
 	} else {
 		ki = KI;
@@ -467,6 +477,8 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	
 	err_d = err;
 	err_sum += err;
+	
+	temp = err_pid;
 }
 
 void auto_pole_climb(bool state){
@@ -770,9 +782,9 @@ void auto_menu_update() {
 				node_buffer.y = 350;
 				node_buffer.deg = 0;
 				node_buffer.curve = 0;
+				auto_tar_enqueue(node_buffer);
 				
 				if (semi_auto_state) {
-					auto_tar_enqueue(node_buffer);
 					node_buffer.type = NODE_PASS;
 					node_buffer.x = -9831;
 					node_buffer.y = 690;
@@ -791,7 +803,7 @@ void auto_menu_update() {
 					node_buffer.deg = 180;
 					node_buffer.curve = 281;
 					auto_tar_enqueue(node_buffer);
-					node_buffer.type = NODE_PASS;
+					node_buffer.type = NODE_STOP;
 					node_buffer.x = -12900;
 					node_buffer.y = 5000;
 					node_buffer.deg = 180;
@@ -1088,14 +1100,16 @@ void auto_motor_update(){
 	//print debug info
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
-	/*
+	
 	tft_prints(0,1,"X %5d -> %5d",cur_x,tar_x);
 	tft_prints(0,2,"Y %5d -> %5d",cur_y,tar_y);
 	tft_prints(0,3,"D %5d -> %5d",cur_deg,tar_deg);
-	*/
+	
+	/*
 	tft_prints(0,1,"X %5d",cur_x);
 	tft_prints(0,2,"Y %5d",cur_y);
 	tft_prints(0,3,"D %5d",cur_deg);
+	*/
 	tft_prints(0,4,">> %2d / %2d",tar_end,tar_head);
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",time/1000);
@@ -1109,7 +1123,8 @@ void auto_motor_update(){
 	tft_prints(0,7,"Test %d", (auto_get_ticks() - arrived_time));
 	*/
 	
-	//tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));
+	//tft_prints(0,7,"Test %d", transform[1][0]);
+	tft_prints(0,8,"Trans: %d", (int)(transform[1][0]*700));
 	//tft_prints(0,9,"W %d %d %d", get_ls_cal_reading(0), get_ls_cal_reading(2), wall_dist);
 	tft_prints(0,9,(get_PID_FLAG()?"PID ON":"PID OFF"));
 	tft_update();
