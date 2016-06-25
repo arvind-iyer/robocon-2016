@@ -68,12 +68,6 @@
 #define GRIPPER_STATES_NO 4
 #define GRIPPER_TICKS_THRESHOLD 50
 
-#ifdef BLUE_FIELD
-	#define THIS_GRIPPER GRIPPER_1
-#else
-	#define THIS_GRIPPER GRIPPER_2
-#endif
-
 extern bool gripper_extended, gripper_clawed;
 extern GRIPPER_UP_STATE gripper_down;
 extern s16 brushless_servo_val;
