@@ -5,8 +5,8 @@
 #include "stm32f4xx.h"
 #include "led.h"
 
-#define BLUE_FIELD
-//#define RED_FIELD
+//#define BLUE_FIELD
+#define RED_FIELD
 
 #ifdef RED_FIELD
 	#ifdef BLUE_FIELD
