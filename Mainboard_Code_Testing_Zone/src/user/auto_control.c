@@ -126,6 +126,11 @@ void auto_control() {
 		case RETRYCHECK:
 			waitingForRetry();
 			break;
+		case FREEMOVEMENT:
+			motor_set_vel(MOTOR1 ,0, OPEN_LOOP);
+			motor_set_vel(MOTOR2, 0, OPEN_LOOP);
+			motor_set_vel(MOTOR3, 0 ,OPEN_LOOP);
+			break;
 		default:
 			break;
 	}
@@ -187,81 +192,41 @@ void autoControlScreenUpdater() {
 }
 
 void autoControlListener() {
-//	if (!benMode) {
-//		//Button LB, RB
-//		if (button_pressed (BUTTON_XBC_RB)) {
-//			sendArmCommand(40);
-//		} else if (button_released(BUTTON_XBC_RB)) {
-//			sendArmCommand(0);
-//		}
-//		if (button_pressed (BUTTON_XBC_LB)) {
-//			sendArmCommand(-40);
-//		} else if (button_released(BUTTON_XBC_LB)) {
-//			sendArmCommand(0);
-//		}
 
-//		//Button LT, RT
+		//Button LT, RT
 //		if (can_xbc_get_joy(XBC_JOY_LT) == 255 && !au_brushlessListening) {
 //			au_brushlessListening = true;
-//			setBrushlessMagnitude(
-//					(getBrushlessMagnitude() <= 96) ?
-//							getBrushlessMagnitude() + 4 : 100);
-//		}
-//		if (can_xbc_get_joy(XBC_JOY_RT) == 255 && !au_brushlessListening) {
-//			au = true;
-//			setBrushlessMagnitude(
-//					(getBrushlessMagnitude() >= 4) ?
-//							getBrushlessMagnitude() - 4 : 0);
-//		}
-//		if (can_xbc_get_joy(XBC_JOY_LT) == 0 && can_xbc_get_joy(XBC_JOY_RT) == 0
-//				&& s_brushless_listening) {
-//			s_brushless_listening = false;
-//		}
-//	} else {
-//		//Button LB, RB
-//		if (can_xbc_get_joy(XBC_JOY_RT) == 255) {
-//			sendArmCommand(40);
-//		} else if (button_released (BUTTON_XBC_RB)) {
-//			sendArmCommand(0);
-//		}
-//		if (button_pressed(BUTTON_XBC_LB) && !s_listening) {
-//			s_listening = true;
-//			setBrushlessMagnitude(
-//					(getBrushlessMagnitude() <= 96) ?
-//							getBrushlessMagnitude() + 4 : 100);
-//		} else if (button_released(BUTTON_XBC_LB) && s_listening) {
-//			s_listening = false;
-//		}
 
-//		//Button LT, RT
-//		if (can_xbc_get_joy(XBC_JOY_LT) == 255 && !s_brushless_listening) {
-//			s_brushless_listening = true;
-//			setBrushlessMagnitude(
-//					(getBrushlessMagnitude() >= 4) ?
-//							getBrushlessMagnitude() - 4 : 0);
 //		}
-//		if (button_pressed (BUTTON_XBC_RB)) {
-//			sendArmCommand(-40);
+		if (can_xbc_get_joy(XBC_JOY_RT) == 255 && !au_brushlessListening) {
+			au_brushlessListening = true;
+			if(freeStateCounter == 0) {
+				currMode = FREEMOVEMENT;
+				freeStateCounter = 1;
+			}
+			else if(freeStateCounter == 1) {
+				gyro_pos_set(0, 0, 0);
+				freeStateCounter = 0;
+				currMode = MANUAL;
+			}
+		}
+		if (can_xbc_get_joy(XBC_JOY_LT) == 0 && can_xbc_get_joy(XBC_JOY_RT) == 0
+				&& au_brushlessListening) {
+			au_brushlessListening = false;
+		}
+
+//	if(button_pressed(BUTTON_XBC_RB) && !au_listening) {
+//		au_listening = true;
+//		if(freeStateCounter == 0) {
+//			currMode = FREEMOVEMENT;
+//			freeStateCounter = 1;
 //		}
-//		if (can_xbc_get_joy(XBC_JOY_LT) == 0 && can_xbc_get_joy(XBC_JOY_RT) == 0
-//				&& s_brushless_listening) {
-//			sendArmCommand(0);
-//			s_brushless_listening = false;
+//		else if(freeStateCounter == 1) {
+//			gyro_pos_set(0, 0, 0);
+//			freeStateCounter = 0;
+//			currMode = MANUAL;
 //		}
 //	}
-
-	if(button_pressed(BUTTON_XBC_RB) && !au_listening) {
-		au_listening = true;
-		if(freeStateCounter == 0) {
-			currMode = FREEMOVEMENT;
-			freeStateCounter = 1;
-		}
-		else if(freeStateCounter == 1) {
-			gyro_pos_set(0, 0, 0);
-			freeStateCounter = 0;
-			currMode = MANUAL;
-		}
-	}
 	else if(button_released(BUTTON_XBC_RB) && au_listening) {
 		au_listening = false;
 	}
@@ -391,6 +356,7 @@ if (button_pressed(BUTTON_XBC_X) && !au_listening) {
 		climbingState = PREPARATION;
 		sendClimbCommand(0);
 		allowArm = false;
+		retryNeedShift = false;
 	} else if (button_released(BUTTON_XBC_START) && au_listening) {
 		au_listening = false;
 	}

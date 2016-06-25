@@ -255,7 +255,7 @@ void updateQueue () {
 							setBrushlessMagnitude(robotMode == RED_SIDE ? 11 : 11); //12
 						}
 						else{
-							setBrushlessMagnitude(robotMode == RED_SIDE ? 9 : 9); //10
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 11 : 11); //10
 						}
 					}
 					else if (dt > time/4 && dt < time * 7 / 8) {
@@ -263,7 +263,7 @@ void updateQueue () {
 							setBrushlessMagnitude(robotMode == RED_SIDE ? 14 : 14); //22
 						}
 						else {
-							setBrushlessMagnitude(robotMode == RED_SIDE ? 12 : 12); //20
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 14 : 14); //20
 						}
 					}
 					else{
@@ -271,7 +271,7 @@ void updateQueue () {
 							setBrushlessMagnitude(robotMode == RED_SIDE ? 35 : 35);
 						}
 						else{
-							setBrushlessMagnitude(robotMode == RED_SIDE ? 33 : 33);
+							setBrushlessMagnitude(robotMode == RED_SIDE ? 35 : 35);
 						}
 					}
 				//else if (dt >= time/2 && dt < time*3/4) {
@@ -411,7 +411,7 @@ double calculateAngularVelocity(int targAngle, int max, int min, int scale) {
 }
 
 void waitingForRetry (void) {
-	if(get_full_ticks() - expectRetry >= 3000) {
+	if(get_full_ticks() - expectRetry >= 3500) {
 		currMode = APPROACHWALL;
 		allowArm = false;
 	}

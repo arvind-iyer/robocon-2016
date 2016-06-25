@@ -34,15 +34,15 @@ void manual_control () {
 			case PIDMODE:
 				updateQueue();
 				break;
-			case APPROACHWALL:
-				moveToWall();
-				break;
-			case WAITRETRY:
-				retryProcedureCheck();
-				break;
-			case RETRYCHECK:
-				waitingForRetry();
-				break;
+//			case APPROACHWALL:
+//				moveToWall();
+//				break;
+//			case WAITRETRY:
+//				retryProcedureCheck();
+//				break;
+//			case RETRYCHECK:
+//				waitingForRetry();
+//				break;
 			default:
 				break;
 		}

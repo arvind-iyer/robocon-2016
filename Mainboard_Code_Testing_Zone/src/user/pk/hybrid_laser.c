@@ -6,6 +6,7 @@
 int y = 0, x = 0, increment = 0, haha = 0, wagateki = 0, wagamama = 0, savedX=0, savedY=0;
 int laserM = 45, laserW = 0, laserB = 0, verticalM = 0, targAngle = 270;
 bool fieldDetected = false, targetReached = false, onReach = false;
+bool retryNeedShift = false;
 
 RETRYSTAGES currRetryStage = INITIAL;
 
@@ -355,7 +356,8 @@ void moveToFirstPosition (void) {
 int offsetDiff = 0;
 
 void laserPID() {
-	int yCoordSystem = robotMode == RED_SIDE ? (semiAuto ? 8200 : 7672) : (semiAuto ? 8200 : 7452);  //Test Field : 7552
+	int yCoordSystem = robotMode == RED_SIDE ? (semiAuto ? 8200 : (retryNeedShift ? 7572 : 7672)) : 
+		(semiAuto ? 8200 : (retryNeedShift ? 7352 : 7452));  //Test Field : 7552
 	if(fieldDetected) {
 		int diff = get_ls_cal_reading(0) - get_ls_cal_reading(1);
 		
@@ -437,6 +439,8 @@ void laserPID() {
 						//queueTargetPoint(get_pos()->x + 50, get_pos()->y, 185, 2000, 10, -1, 6000);
 						wagamama = get_pos()->x + xShift;
 						wagateki = get_pos()->y + yShift;
+						
+						retryNeedShift = false;
 					}
 			}
 			else if(robotMode == BLUE_SIDE) {
@@ -467,6 +471,8 @@ void laserPID() {
 						//queueTargetPoint(get_pos()->x + 50, get_pos()->y, 185, 2000, 10, -1, 6000);
 						wagamama = get_pos()->x + xShift;
 						wagateki = get_pos()->y + yShift;
+						
+						retryNeedShift = false;
 					}
 				}
 			}
@@ -717,11 +723,12 @@ void retryToRiverPos (void) {
 }
 
 void retryAutoPath (void) {
-	if(get_ls_cal_reading(0) + get_ls_cal_reading(1) < 1200) {
+	if(get_ls_cal_reading(0) + get_ls_cal_reading(1) < 1600) {
 		currMode = LASERPID;
+		retryNeedShift = true;
 	}
 	else{
-		setM(40);
+		setM(60);
 		setBearing(0);
 		setW(0);
 		addComponent();
