@@ -44,7 +44,7 @@ u8 climbing_update(){
 		case 1:
 			if((this_loop_ticks - climbing_pneumatic_ticks)>CLIMBING_TICKS_LIMIT){
 				climb_continue();
-				if (gpio_read_input(HIT_BOX_R_PORT) && gpio_read_input(HIT_BOX_L_PORT)){
+				if (gpio_read_input(HIT_BOX_R_PORT) || gpio_read_input(HIT_BOX_L_PORT)){
 					climbing_stage++;
 					putting_propeller_ticks[0] = this_loop_ticks;
 					putting_propeller_state = 0;

@@ -494,7 +494,7 @@ void auto_pole_climb(bool state){
 	} else if (climbing_time < 2000) {
 		servo_control(gripper_servo[field], servo_up_val[field]);
 	} else {
-		if (gpio_read_input(&PE3) && gpio_read_input(&PE9) && !at_top) {
+		if ((gpio_read_input(&PE3) || gpio_read_input(&PE9)) && !at_top) {
 			at_top = true;
 			top_time = auto_get_ticks();
 		}
