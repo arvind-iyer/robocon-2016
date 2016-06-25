@@ -13,24 +13,47 @@ GAME_STAGE path_down_update(){
 	
 	sensor_bar_get_corr(1, 100, &flag);
 	
-	if (flag != SENSOR_BAR_NTH){
 		u16 downslope_servo_pwm = 0;
-		if (sensorbar_region != HIGH_ORANGE){
-			si_clear_static();
+		
+	//If really is going down
+	if (sensorbar_region == DOWN_GREEN){
+		si_clear_static();
+		if (flag != SENSOR_BAR_NTH){
 			downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, 0);
-		}else{
+			if (abs((s32)downslope_servo_pwm-(s32)last_pwm)>500){
+				last_pwm = downslope_servo_pwm;
+				si_clear();
+				si_set_pwm(downslope_servo_pwm);
+				si_execute();
+			}
+		}
+	}else{
+		if (sensorbar_region == RIVER_BLUE){
+			//if still at river region
+			if (flag != SENSOR_BAR_NTH){
+				downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM, DOWN_SB_DEC_PWM, 0);
+				#ifdef BLUE_FIELD
+					downslope_servo_pwm = downslope_servo_pwm > SERVO_MED_PWM ? SERVO_MED_PWM : downslope_servo_pwm;
+				#else
+					downslope_servo_pwm = downslope_servo_pwm < SERVO_MED_PWM ? SERVO_MED_PWM : downslope_servo_pwm;
+				#endif
+				si_clear();
+				si_set_pwm(downslope_servo_pwm);
+				si_execute();
+			}
+			
+		}else if(sensorbar_region == HIGH_ORANGE){
+			//If still at high orange
 			#ifdef BLUE_FIELD
 				downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM_AFTER_THIRD, DOWN_SB_DEC_PWM_AFTER_THIRD, SB_SHIFT_AFTER_THIRD);
 			#else
 				downslope_servo_pwm = sb_pwm_1to1(DOWN_SB_INC_PWM_AFTER_THIRD, DOWN_SB_DEC_PWM_AFTER_THIRD, -SB_SHIFT_AFTER_THIRD);
 			#endif
-		}
-		
-		if (abs((s32)downslope_servo_pwm-(s32)last_pwm)>500){
-			last_pwm = downslope_servo_pwm;
-			si_clear();
-			si_set_pwm(downslope_servo_pwm);
-			si_execute();
+			if (flag != SENSOR_BAR_NTH){
+				si_clear();
+				si_set_pwm(downslope_servo_pwm);
+				si_execute();
+			}
 		}
 	}
 	

@@ -25,9 +25,9 @@ GAME_STAGE path_station_update(){
 	}else{
 		si_clear();
 		#ifdef BLUE_FIELD
-			si_set_pwm(SERVO_PROPER_MIN_PWM);
+			//si_set_pwm(SERVO_PROPER_MIN_PWM);
 		#else
-			si_set_pwm(SERVO_PROPER_MAX_PWM);
+			//si_set_pwm(SERVO_PROPER_MAX_PWM);
 		#endif
 		si_execute();
 		tft_println("STOPPED");

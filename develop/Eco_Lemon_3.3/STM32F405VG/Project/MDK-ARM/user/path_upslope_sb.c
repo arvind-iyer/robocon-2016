@@ -6,7 +6,7 @@ static u8 current_state = 1; // 0 = highland; 1 = slope
 static s32 last_encoder_dis = SLOPE_SECTION_DIS;
 static u16 upslope_servo_pwm = SERVO_MED_PWM;
 static bool counting_encoder = false;
-static u32 start_counting_encoder = 0;
+static s32 start_counting_dis = 0;
 
 void path_up_sb_init(u8 stage){
 	right_angle_ing = 0;
@@ -24,11 +24,7 @@ GAME_STAGE path_up_sb_update(){
 	if (right_angle_ing == 1){
 		if (abs(RIVER_STRAIGHT_YAW - mti_int_ypr[0]) > RIVER_90_MAX_TURN_UNTIL){
 			si_clear();
-			#ifdef BLUE_FIELD
-				si_set_pwm(SERVO_PROPER_MAX_PWM);
-			#else
-				si_set_pwm(SERVO_PROPER_MIN_PWM);
-			#endif
+			si_set_pwm(SERVO_RIVER_PWM);
 			si_execute();
 		}else{
 			return (GAME_STAGE)(CLIMBING_SLOPE + 1);
@@ -56,7 +52,7 @@ GAME_STAGE path_up_sb_update(){
 			if (highland_count == 3){
 				if (!counting_encoder){
 					counting_encoder = true;
-					start_counting_encoder = get_average_encoder();
+					start_counting_dis = get_average_dis();
 				}
 			}
 		}else if(sensorbar_region == SLOPE_GREEN && current_state == 0){
@@ -65,12 +61,12 @@ GAME_STAGE path_up_sb_update(){
 			last_encoder_dis = get_average_dis();
 		}
 		
-		//u32 dynamic_river_dis = RIVER_90_TURN_ENC_Y/(RIVER_90_TURN_ENC_X+get_vel());
-		u32 dynamic_river_dis = RIVER_90_TURN_ENC_CONSTANT;
-		
-		if (counting_encoder && (get_average_encoder() - start_counting_encoder)>dynamic_river_dis){
+		//#ifdef RED_FIELD
+		u32 dynamic_river_dis = RIVER_90_TURN_DIS;
+		if (counting_encoder && (get_average_dis() - start_counting_dis)>dynamic_river_dis){
 			right_angle_ing = 1;
 		}
+		//#endif
 		
 		if (flag != SENSOR_BAR_NTH){
 			upslope_servo_pwm = sb_pwm_1to1(SLOPE_SB_INC_PWM, SLOPE_SB_DEC_PWM, 0);

@@ -88,7 +88,11 @@ GAME_STAGE path_river_update(){
 				si_clear();
 				si_set_pwm(river_servo_pwm);
 				si_execute();
-			}
+			}//else{
+//				si_clear();
+//				targeting_update(mti_int_ypr[0]);
+//				si_execute();
+//			}
 		
 			//When it reaches the first island
 			if (islands_start_count[FIRST_IR_ID] >= 1){
@@ -135,11 +139,7 @@ GAME_STAGE path_river_update(){
 		case 4:
 			buzzer_play_song(HIGH_4, 200, 50);
 			path_down_reset();
-			#ifdef BLUE_FIELD
-				si_set_st_deg_bias(150);
-			#else
-				si_set_st_deg_bias(-150);
-			#endif
+			si_set_st_deg_bias(DEGREE_AFTER_THRID_ISLAND);
 			return (GAME_STAGE) (CROSSING_RIVER + 1);
 	}
 	tft_println("IR:%d %d %d %d", readIR(FIRST_IR_ID), readIR(SECOND_IR_ID), get_ir_dis(FIRST_IR_ID), get_ir_dis(SECOND_IR_ID));

@@ -62,7 +62,7 @@ void sensorbar_init(){
 }
 
 u16 sb_pwm_1to1(u16 inc_pwm, u16 dec_pwm, s8 sensor_bar_bias){
-	return SERVO_MED_PWM - dec_pwm + (inc_pwm+dec_pwm)*(sensor_bar_mid+sensor_bar_bias)/16;
+	return SERVO_MED_PWM - dec_pwm + (inc_pwm+dec_pwm)*((s8)sensor_bar_mid+sensor_bar_bias)/16;
 }
 
 /**Get correction from sensor bar with flag
