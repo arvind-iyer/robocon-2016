@@ -657,18 +657,18 @@ void auto_robot_control(void) {
 		servo_control(SERVO3, 450);
 	}
 	
-	/*
 	if (((tar_end == 4) && arrived) || (tar_end == 5)) {
 		ir_now = gpio_read_input(&PE6);
 		
 		if (!ir_now && ir_last) {
-			auto_motor_stop();
+			tar_x = -6750;
+			tar_y = 570;
+			
 			pause_time = auto_get_ticks();
 			pid_state = PAUSE_MODE;
 		}
 	}
 	ir_last = ir_now;
-	*/
 }
 
 /**
