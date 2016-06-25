@@ -19,7 +19,8 @@
 #include "quick_math.h"
 #include "manual_mode.h"
 
-#define CLIMBING_TICKS_LIMIT 800
+#define CLIMBING_TICKS_LIMIT 1200
+#define CLIMBING_SLOW_LIMIT (CLIMBING_TICKS_LIMIT+900)
 #define CLIMBING_BRUSHLESS_P 2000 //Scaled by 1000
 #define CLIMBING_BRUSHLESS_ANGLE 20 //5
 
@@ -28,6 +29,18 @@
 #define PUTTING_PROPELLER_UNCLAW_DELAY 1000
 #define PUTTING_PROPELLER_RETRACT_DELAY 50
 #define PUTTING_PROPELLER_YEAH_DELAY 600
+
+#define BRUSHLESS_PUTTING_POWER 50
+
+#ifdef BLUE_FIELD
+	#define HIT_PORT_CLOSE HIT_BOX_R_PORT
+	#define HIT_PORT_FAR HIT_BOX_L_PORT
+	#define BRUSHLESS_SERVO_DEGREE 30
+#else
+	#define HIT_PORT_CLOSE HIT_BOX_L_PORT
+	#define HIT_PORT_FAR HIT_BOX_R_PORT
+	#define BRUSHLESS_SERVO_DEGREE -30
+#endif
 
 u8 climbing_update(void);
 void climbing_init(void);

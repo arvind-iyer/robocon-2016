@@ -26,6 +26,7 @@ typedef enum{
 #include "xbc_control.h"
 
 #define CLIMBING_SPEED 1799
+#define CLIMBING_SLOW_SPEED 1200
 #define DESCEND_SPEED -500
 #define RAISE_ARM_SPEED 1350
 #define LOWER_ARM_SPEED -1350
@@ -84,6 +85,7 @@ void lower_arm(void);
 void stop_arm(void);
 
 void climb_continue(void);
+void slow_climb_continue(void);
 void descend_continue(void);
 void stop_climbing(void);
 

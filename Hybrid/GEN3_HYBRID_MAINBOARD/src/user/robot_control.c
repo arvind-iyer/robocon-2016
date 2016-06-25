@@ -149,6 +149,13 @@ void stop_climbing(){
 ** This part is for pneumatic control
 **/
 
+void slow_climb_continue(){
+	if (get_emergency_lock() == LOCKED) return;
+	motor_set_vel(MOTOR4, CLIMBING_SLOW_SPEED*MOTOR4_FLIP, OPEN_LOOP);
+	motor_set_vel(MOTOR5, CLIMBING_SLOW_SPEED*MOTOR5_FLIP, OPEN_LOOP);
+	motor_set_vel(MOTOR6, CLIMBING_SLOW_SPEED*MOTOR6_FLIP, OPEN_LOOP);
+}
+
 void pneumatic_climb_toggle(){
 	if (get_emergency_lock() == LOCKED) return;
 	pneumatic_state = (LOCK_STATE)!pneumatic_state;
