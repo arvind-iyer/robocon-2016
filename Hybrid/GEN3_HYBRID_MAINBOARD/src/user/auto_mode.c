@@ -22,8 +22,8 @@
 #define KI 0.015
 #define RKP 1.8
 #define DEC_COEFF 8.0
-//#define WALL_CAL 4220
-#define WALL_CAL 6600
+#define WALL_CAL 4400
+//#define WALL_CAL 6600
 #define ARM_SPEED 1500
 #define LS_DIFF 400
 #define SHIFT 3.0
@@ -427,7 +427,8 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 	}
 	
 	//ls cal straight section
-	if ((tar_end == 1) && (raw_y > 1500) && (raw_y < (WALL_CAL - wall_dist)) && wall_dist) //encoder dist less than actual dist
+	//if ((tar_end == 1) && (raw_y > 1500) && (raw_y < (WALL_CAL - wall_dist)) && wall_dist) //encoder dist less than actual dist
+	if ((tar_end == 1) && (raw_y < (WALL_CAL - wall_dist)) && wall_dist) //encoder dist less than actual dist
 		off_y = raw_y - WALL_CAL + wall_dist; //negative
 		
 	//disable kI during blowing eco
@@ -544,20 +545,28 @@ void auto_pole_climb(bool state){
 }
 
 void auto_river_pause(void) {
-	auto_motor_stop();
 	set_PID_FLAG(PID_OFF);
 	brushless_control(0, true);
+	
+	if ((dist < THRESHOLD) && (Abs(degree_diff) < 2)) {
+		auto_motor_stop();
+	} else {
+		auto_track_path(degree, degree_diff, cur_vel, false);
+	}
+	
 	
 	if (auto_get_ticks() - pause_time >= 7000) {
 		set_PID_FLAG(PID_ON);
 		brushless_time = auto_get_ticks();
+		tar_end = 4;
 		pid_state = RUNNING_MODE;
 	}
 	
 	tft_clear();	
 	tft_prints(0,0,"[PAUSED]");
 	tft_prints(0,1,"TIME %3d",auto_get_ticks()/1000);
-	tft_prints(0,2,"Start in %4d",(7000 - auto_get_ticks() - pause_time));
+	tft_prints(0,2,"Start in %4d",(7000 - auto_get_ticks() + pause_time));
+	tft_prints(0,4,"%d %d %d",cur_x, cur_y, cur_deg);
 	tft_update();
 }
 
@@ -657,11 +666,12 @@ void auto_robot_control(void) {
 		servo_control(SERVO3, 450);
 	}
 	
+	/*
 	if (((tar_end == 4) && arrived) || (tar_end == 5)) {
 		ir_now = gpio_read_input(&PE6);
 		
 		if (!ir_now && ir_last) {
-			tar_x = -6750;
+			tar_x = 6750;
 			tar_y = 570;
 			
 			pause_time = auto_get_ticks();
@@ -669,6 +679,7 @@ void auto_robot_control(void) {
 		}
 	}
 	ir_last = ir_now;
+	*/
 }
 
 /**
@@ -1107,14 +1118,17 @@ void auto_motor_update(){
 	//print debug info
 	tft_clear();
 	tft_prints(0,0,"[AUTO MODE]");
-	/*
+	
 	tft_prints(0,1,"X %5d -> %5d",cur_x,tar_x);
 	tft_prints(0,2,"Y %5d -> %5d",cur_y,tar_y);
 	tft_prints(0,3,"D %5d -> %5d",cur_deg,tar_deg);
-	*/
+	
+	
+	/*
 	tft_prints(0,1,"X %5d",cur_x);
 	tft_prints(0,2,"Y %5d",cur_y);
 	tft_prints(0,3,"D %5d",cur_deg);
+	*/
 	tft_prints(0,4,">> %2d / %2d",tar_end,tar_head);
 	tft_prints(0,5,"VEL %3d %3d %3d",vel[0],vel[1],vel[2]);
 	tft_prints(0,6,"TIM %3d",time/1000);

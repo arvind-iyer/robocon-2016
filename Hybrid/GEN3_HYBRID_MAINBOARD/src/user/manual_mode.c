@@ -269,6 +269,7 @@ void manual_interval_update(){
 		gripper_control(THIS_GRIPPER, gripper_down);
 		gripper_push_control(THIS_GRIPPER, gripper_extended);
 		gripper_claw_control(THIS_GRIPPER, gripper_clawed);
+		pneumatic_off(&CLIMB_PNEUMATIC_PORT);
 	}
 	
 	if (button_hitted[BUTTON_XBC_BACK]){
