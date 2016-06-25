@@ -24,8 +24,8 @@
 #include "adc_ir.h"
 #include "climbing.h"
 
-//#define BLUE_FIELD
-#define RED_FIELD
+#define BLUE_FIELD
+//#define RED_FIELD
 
 #ifdef RED_FIELD
 	#ifdef BLUE_FIELD

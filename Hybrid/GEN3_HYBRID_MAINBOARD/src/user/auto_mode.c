@@ -22,8 +22,8 @@
 #define KI 0.015
 #define RKP 1.8
 #define DEC_COEFF 8.0
-#define WALL_CAL 4220
-//#define WALL_CAL 6700
+//#define WALL_CAL 4220
+#define WALL_CAL 6700
 #define ARM_SPEED 1500
 #define LS_DIFF 400
 #define SHIFT 3.0
@@ -41,7 +41,7 @@ const u16 servo_dn_val[2] = {1078, 645};
 //#define DEBUG_MODE
 
 //Ground: 0 = Red, 1 = Blue
-u8 field = 0;
+u8 field = 1;
 
 double transform[2][2] = {{1, 0}, {0, 1}};
 u16 wall_dist = 0;
@@ -708,6 +708,7 @@ void auto_menu_update() {
 				}
 				*/
 				
+				/*
 				if (retry_state == RETRY_HILL) {
 					node_buffer.type = NODE_PASS;
 					node_buffer.x = 0;
@@ -785,6 +786,90 @@ void auto_menu_update() {
 				auto_tar_enqueue(node_buffer);
 				node_buffer.type = NODE_STOP;
 				node_buffer.x = -12900;
+				node_buffer.y = 6500;
+				node_buffer.deg = 180;
+				node_buffer.curve = 0;
+				auto_tar_enqueue(node_buffer);
+				*/
+				
+				//Blue
+				if (retry_state == RETRY_HILL) {
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = 0;
+					node_buffer.y = 1000;
+					node_buffer.deg = 0;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_STOP;
+					node_buffer.x = 0;
+					node_buffer.y = 2064;
+					node_buffer.deg = 0;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_STOP;
+					node_buffer.x = 3315;
+					node_buffer.y = 2064;
+					node_buffer.deg = 45;
+					node_buffer.curve = 0;
+				} else {
+					node_buffer.type = NODE_STOP;
+					node_buffer.x = 0;
+					node_buffer.y = 3160;
+					node_buffer.deg = 0;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = 875;
+					node_buffer.y = 3160;
+					node_buffer.deg = 0;
+					node_buffer.curve = 0;
+					auto_tar_enqueue(node_buffer);
+					node_buffer.type = NODE_PASS;
+					node_buffer.x = 3315;
+					node_buffer.y = 2064;
+					node_buffer.deg = 45;
+					node_buffer.curve = 267;
+				}
+				
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_STOP;
+				node_buffer.x = 6750;
+				node_buffer.y = 570;
+				node_buffer.deg = 0;
+				node_buffer.curve = -192;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_STOP;
+				node_buffer.x = 7460;
+				node_buffer.y = 350;
+				node_buffer.deg = 0;
+				node_buffer.curve = 0;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_PASS;
+				node_buffer.x = 9831;
+				node_buffer.y = 690;
+				node_buffer.deg = -90;
+				node_buffer.curve = 0;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_PASS;
+				node_buffer.x = 12409;
+				node_buffer.y = 2570;
+				node_buffer.deg = 175;
+				node_buffer.curve = -281;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_PASS;
+				node_buffer.x = 12900;
+				node_buffer.y = 4075;
+				node_buffer.deg = 180;
+				node_buffer.curve = -281;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_PASS;
+				node_buffer.x = 12900;
+				node_buffer.y = 5000;
+				node_buffer.deg = 180;
+				node_buffer.curve = 0;
+				auto_tar_enqueue(node_buffer);
+				node_buffer.type = NODE_STOP;
+				node_buffer.x = 12900;
 				node_buffer.y = 6500;
 				node_buffer.deg = 180;
 				node_buffer.curve = 0;
