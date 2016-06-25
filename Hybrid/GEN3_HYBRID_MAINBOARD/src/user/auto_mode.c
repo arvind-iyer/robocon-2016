@@ -97,6 +97,8 @@ u8 climb_temp = 0;
 double climb_speed = 1;
 u8 retry_state = NO_RETRY;
 s32 pause_time = 0;
+u8 ir_last = 0;
+u8 ir_now = 0;
 
 //UART receiver
 u8 rx_state = 0;
@@ -281,6 +283,8 @@ void auto_reset() {
 	climb_blow_pwm = 0;
 	at_top = false;
 	pause_time = 0;
+	ir_last = 1;
+	ir_now = 1;
 	
 	//reset local timer
 	auto_ticks = get_full_ticks();
@@ -654,11 +658,16 @@ void auto_robot_control(void) {
 	}
 	
 	/*
-	if (!gpio_read_input(&PE6) && (brushless_time > 0) && (tar_end < 6)) {
-		auto_motor_stop();
-		pause_time = auto_get_ticks();
-		pid_state = PAUSE_MODE;
+	if (((tar_end == 4) && arrived) || (tar_end == 5)) {
+		ir_now = gpio_read_input(&PE6);
+		
+		if (!ir_now && ir_last) {
+			auto_motor_stop();
+			pause_time = auto_get_ticks();
+			pid_state = PAUSE_MODE;
+		}
 	}
+	ir_last = ir_now;
 	*/
 }
 
