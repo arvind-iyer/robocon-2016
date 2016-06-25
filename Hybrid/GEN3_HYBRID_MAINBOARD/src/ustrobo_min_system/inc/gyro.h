@@ -37,9 +37,13 @@ typedef struct {
 /** Varies along robots (depends on the encoder position) **/
 
 //Scaling factors - depends on ground (decrease to lengthen actual dist)
-//#define X_SCALING			-0.97 //3211 Red field
-#define X_SCALING			-0.98 //3211 Blue field
-#define Y_SCALING			1
+#ifdef RED_FIELD
+	#define X_SCALING			-0.97 //3211 Red field
+	#define Y_SCALING			1
+#else	
+	#define X_SCALING			-0.98 //3211 Blue field
+	#define Y_SCALING			1
+#endif
 
 extern volatile u8 gyro_available;
 

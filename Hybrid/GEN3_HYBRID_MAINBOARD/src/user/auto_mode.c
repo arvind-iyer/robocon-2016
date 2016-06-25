@@ -23,7 +23,7 @@
 #define RKP 1.8
 #define DEC_COEFF 8.0
 //#define WALL_CAL 4220
-#define WALL_CAL 6700
+#define WALL_CAL 6600
 #define ARM_SPEED 1500
 #define LS_DIFF 400
 #define SHIFT 3.0
@@ -41,7 +41,11 @@ const u16 servo_dn_val[2] = {1078, 645};
 //#define DEBUG_MODE
 
 //Ground: 0 = Red, 1 = Blue
-u8 field = 1;
+#ifdef RED_FIELD
+	u8 field = 0;
+#else
+	u8 field = 1;
+#endif
 
 double transform[2][2] = {{1, 0}, {0, 1}};
 u16 wall_dist = 0;
@@ -708,7 +712,7 @@ void auto_menu_update() {
 				}
 				*/
 				
-				/*
+				#ifdef RED_FIELD
 				if (retry_state == RETRY_HILL) {
 					node_buffer.type = NODE_PASS;
 					node_buffer.x = 0;
@@ -730,13 +734,13 @@ void auto_menu_update() {
 				} else {
 					node_buffer.type = NODE_STOP;
 					node_buffer.x = 0;
-					node_buffer.y = 3250;
+					node_buffer.y = 3260;
 					node_buffer.deg = 0;
 					node_buffer.curve = 0;
 					auto_tar_enqueue(node_buffer);
 					node_buffer.type = NODE_PASS;
 					node_buffer.x = -875;
-					node_buffer.y = 3250;
+					node_buffer.y = 3260;
 					node_buffer.deg = 0;
 					node_buffer.curve = 0;
 					auto_tar_enqueue(node_buffer);
@@ -790,7 +794,8 @@ void auto_menu_update() {
 				node_buffer.deg = 180;
 				node_buffer.curve = 0;
 				auto_tar_enqueue(node_buffer);
-				*/
+				
+				#else
 				
 				//Blue
 				if (retry_state == RETRY_HILL) {
@@ -814,13 +819,13 @@ void auto_menu_update() {
 				} else {
 					node_buffer.type = NODE_STOP;
 					node_buffer.x = 0;
-					node_buffer.y = 3160;
+					node_buffer.y = 3260;
 					node_buffer.deg = 0;
 					node_buffer.curve = 0;
 					auto_tar_enqueue(node_buffer);
 					node_buffer.type = NODE_PASS;
 					node_buffer.x = 875;
-					node_buffer.y = 3160;
+					node_buffer.y = 3260;
 					node_buffer.deg = 0;
 					node_buffer.curve = 0;
 					auto_tar_enqueue(node_buffer);
@@ -874,6 +879,7 @@ void auto_menu_update() {
 				node_buffer.deg = 180;
 				node_buffer.curve = 0;
 				auto_tar_enqueue(node_buffer);
+				#endif
 				
 				auto_reset();
 				pid_state = RUNNING_MODE;

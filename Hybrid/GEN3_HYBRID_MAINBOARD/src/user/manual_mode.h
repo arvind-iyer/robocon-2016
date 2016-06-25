@@ -24,19 +24,6 @@
 #include "adc_ir.h"
 #include "climbing.h"
 
-#define BLUE_FIELD
-//#define RED_FIELD
-
-#ifdef RED_FIELD
-	#ifdef BLUE_FIELD
-		#error FIELD COLOR BOTH DEFINED
-	#endif
-#else
-	#ifndef BLUE_FIELD
-		#error FIELD COLOR NOT YET DEFINED
-	#endif
-#endif
-
 //Scaled by 1000
 #define ANGLE_PID_P 300
 #define ANGLE_PID_I 10
