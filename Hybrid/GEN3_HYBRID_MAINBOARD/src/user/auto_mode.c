@@ -22,8 +22,8 @@
 #define KI 0.015
 #define RKP 1.8
 #define DEC_COEFF 8.0
-#define WALL_CAL 4220
-//#define WALL_CAL 6700
+//#define WALL_CAL 4220
+#define WALL_CAL 6700
 #define ARM_SPEED 1500
 #define LS_DIFF 400
 #define SHIFT 3.0
@@ -849,13 +849,13 @@ void auto_menu_update() {
 				} else {
 					node_buffer.type = NODE_STOP;
 					node_buffer.x = 0;
-					node_buffer.y = 3300;
+					node_buffer.y = 3160;
 					node_buffer.deg = 0;
 					node_buffer.curve = 0;
 					auto_tar_enqueue(node_buffer);
 					node_buffer.type = NODE_PASS;
 					node_buffer.x = 875;
-					node_buffer.y = 3300;
+					node_buffer.y = 3160;
 					node_buffer.deg = 0;
 					node_buffer.curve = 0;
 					auto_tar_enqueue(node_buffer);
