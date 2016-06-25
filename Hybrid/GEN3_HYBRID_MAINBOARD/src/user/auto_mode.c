@@ -269,8 +269,10 @@ void auto_reset() {
 	start = 0;
 	cur_vel = 100; //initial vel
 	pid_stopped = false;
-	transform[1][0] = 0;
 	hill_cal = 1;
+	
+	if (!semi_auto_state)
+		transform[1][0] = 0;
 	
 	tar_arm = 0;
 	brushless_time = 0;
@@ -291,11 +293,8 @@ void auto_reset() {
 	auto_ticks = get_full_ticks();
 	
 	//reset gyro location
-	gyro_pos_set(0,0,0);
-	if (semi_auto_state) {
-		off_x = raw_x - 7460;
-		off_y = raw_y - 350;
-	}
+	if (!semi_auto_state)
+		gyro_pos_set(0,0,0);
 	
 	//dequeue first target
 	auto_tar_dequeue();
@@ -437,7 +436,7 @@ void auto_track_path(int angle, int rotate, int maxvel, bool curved) {
 		off_y = raw_y - WALL_CAL + wall_dist; //negative
 		
 	//disable kI during blowing eco
-	if ((tar_end >= 2) && (tar_end <= 4)) {
+	if (((tar_end >= 2) && (tar_end <= 4)) || (tar_end >= 6)) {
 		ki = 0;
 	} else {
 		ki = KI;
