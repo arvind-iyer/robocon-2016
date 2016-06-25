@@ -52,8 +52,8 @@
 #include "laser_sensor.h"
 #include "RPM_sensor.h"
 
-#define BLUE_FIELD
-//#define RED_FIELD
+//#define BLUE_FIELD
+#define RED_FIELD
 
 #ifdef RED_FIELD
 	#ifdef BLUE_FIELD
