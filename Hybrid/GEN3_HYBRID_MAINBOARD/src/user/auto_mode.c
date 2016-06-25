@@ -924,7 +924,7 @@ void auto_menu_update() {
 					node_buffer.deg = 180;
 					node_buffer.curve = -281;
 					auto_tar_enqueue(node_buffer);
-					node_buffer.type = NODE_PASS;
+					node_buffer.type = NODE_STOP;
 					node_buffer.x = 12900;
 					node_buffer.y = 5000;
 					node_buffer.deg = 180;
@@ -1124,6 +1124,7 @@ void auto_motor_update(){
 		} else {
 			pid_stopped = true;
 			auto_motor_stop();
+			pid_state = MENU_MODE;
 		}
 	} else if (gpio_read_input(&PE2)) {
 		auto_motor_stop();
