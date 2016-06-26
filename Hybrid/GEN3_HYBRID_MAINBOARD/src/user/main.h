@@ -65,6 +65,12 @@
 	#endif
 #endif
 
+#ifdef BLUE_FIELD
+	#define THIS_GRIPPER GRIPPER_1
+#else
+	#define THIS_GRIPPER GRIPPER_2
+#endif
+
 /**
 ** The following ticks is to avoid ticks passed in execution in order to give consistent result
 **

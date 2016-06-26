@@ -1086,6 +1086,7 @@ void auto_motor_update(){
 		} else {
 			pid_stopped = true;
 			auto_motor_stop();
+			pid_state = MENU_MODE;
 		}
 	} else if (gpio_read_input(&PE2)) {
 		auto_motor_stop();
