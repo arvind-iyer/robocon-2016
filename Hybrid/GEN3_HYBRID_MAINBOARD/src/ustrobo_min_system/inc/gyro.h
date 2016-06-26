@@ -41,8 +41,8 @@ typedef struct {
 	#define X_SCALING			-0.97 //3211 Red field
 	#define Y_SCALING			1
 #else
-	//#define X_SCALING			-0.965 // HKSP Blue field
-	#define X_SCALING			-0.98 //3211 Blue field
+	#define X_SCALING			-0.965 // HKSP Blue field
+	//#define X_SCALING			-0.98 //3211 Blue field
 	#define Y_SCALING			1
 #endif
 
