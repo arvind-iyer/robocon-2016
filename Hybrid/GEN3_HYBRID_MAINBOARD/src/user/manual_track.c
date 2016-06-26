@@ -59,10 +59,12 @@ bool laser_manual_update(s16 motor_vel[3]){
 
 static u32 ls_hit_ticks = 0;
 static bool pole_limit_hitted = false;
+static s32 lm_start_y = 0;
 void limit_manual_init(){
 	gyro_pos_set(0, 0, 0);
 	ls_hit_ticks = 0;
 	pole_limit_hitted = false;
+	lm_start_y = get_pos()->y;
 }
 
 //u8 limit_manual_update(s16 motor_vel[3]){
@@ -154,7 +156,7 @@ u8 limit_gyro_update(s16 motor_vel[3]){
 	
 	//Parallel
 	s16 parallel_speed = 0;
-	if(abs(get_pos()->y)>LIMIT_START_DECEL_Y || pole_limit_hitted){
+	if(abs(get_pos()->y - lm_start_y)>LIMIT_START_DECEL_Y || pole_limit_hitted){
 		parallel_speed = LIMIT_PARA_SLOW_CONSTANT;
 	}else {
 		parallel_speed = LIMIT_PARA_CONSTANT;

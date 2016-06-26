@@ -22,8 +22,8 @@
 #define KI 0.015
 #define RKP 1.8
 #define DEC_COEFF 8.0
-#define WALL_CAL 4400
-//#define WALL_CAL 6600
+//#define WALL_CAL 4400
+#define WALL_CAL 6600
 #define ARM_SPEED 1500
 #define LS_DIFF 400
 #define SHIFT 3.0

@@ -22,9 +22,9 @@ u8 climbing_update(){
 		brushless_control(brushless_power_percent, true);
 		
 	}else{
-		brushless_servo_val = CLIMBING_BRUSHLESS_ANGLE;
-		brushless_servo_control(brushless_servo_val);
 		if (climbing_stage <= 1){
+			brushless_servo_val = CLIMBING_BRUSHLESS_ANGLE;
+			brushless_servo_control(brushless_servo_val);
 			brushless_power_percent = 35 + get_angle()>1800?0:get_angle()*CLIMBING_BRUSHLESS_P/1000;
 			brushless_control(brushless_power_percent, true);
 		}else{
@@ -43,24 +43,35 @@ u8 climbing_update(){
 		
 		case 1:
 			if((this_loop_ticks - climbing_pneumatic_ticks)>CLIMBING_TICKS_LIMIT){
-				climb_continue();
+				if (this_loop_ticks - climbing_pneumatic_ticks > CLIMBING_SLOW_LIMIT){
+					slow_climb_continue();
+				}else{
+					climb_continue();
+				}
 				if (gpio_read_input(HIT_BOX_R_PORT) || gpio_read_input(HIT_BOX_L_PORT)){
 					climbing_stage++;
 					putting_propeller_ticks[0] = this_loop_ticks;
 					putting_propeller_state = 0;
-					stop_climbing();
+					//stop_climbing();
 				}
 			}
 			break;
 			
 		case 2:
+			//brushless_power_percent = BRUSHLESS_PUTTING_POWER;
+			//brushless_control(brushless_power_percent, true);
+			//brushless_servo_val = BRUSHLESS_SERVO_DEGREE;
+			//brushless_servo_control(brushless_servo_val);
+		
 			if (putting_propeller_state == 0 && ((this_loop_ticks - putting_propeller_ticks[putting_propeller_state]) > PUTTING_PROPELLER_UP_DELAY)){
+				slow_climb_continue();
 				putting_propeller_state++;
 				gripper_down = GRIPPER_FULL_UP;
 				gripper_control(THIS_GRIPPER, gripper_down);
 				putting_propeller_ticks[1] = this_loop_ticks;
 				
 			}else	if (putting_propeller_state == 1 && ((this_loop_ticks - putting_propeller_ticks[putting_propeller_state]) > PUTTING_PROPELLER_PUSH_DELAY)){
+				stop_climbing();
 				putting_propeller_state++;
 				gripper_extended = false;
 				gripper_push_control(THIS_GRIPPER, gripper_extended);

@@ -38,8 +38,8 @@ typedef struct {
 
 //Scaling factors - depends on ground (decrease to lengthen actual dist)
 #ifdef RED_FIELD
-	//#define X_SCALING			-0.955 //-0.97 //HKSP Red field
-	#define X_SCALING			-0.97 //3211 Red field
+	#define X_SCALING			-0.94 //-0.97 //HKSP Red field
+	//#define X_SCALING			-0.97 //3211 Red field
 	#define Y_SCALING			1
 #else	
 	#define X_SCALING			-0.98 //3211 Blue field
