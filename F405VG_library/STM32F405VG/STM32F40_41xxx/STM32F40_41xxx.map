@@ -508,6 +508,47 @@ Section Cross References
     gpio.o(i.gpio_toggle) refers to stm32f4xx_gpio_1.o(i.GPIO_ReadOutputDataBit) for GPIO_ReadOutputDataBit
     gpio.o(i.gpio_toggle) refers to stm32f4xx_gpio_1.o(i.GPIO_WriteBit) for GPIO_WriteBit
     gpio.o(i.gpio_write) refers to stm32f4xx_gpio_1.o(i.GPIO_WriteBit) for GPIO_WriteBit
+    can_motor.o(i.can_motor_feedback) refers to can_protocol.o(i.n_bytes_to_one) for n_bytes_to_one
+    can_motor.o(i.can_motor_feedback) refers to can_motor.o(.bss) for .bss
+    can_motor.o(i.can_motor_feedback_encoder) refers to can_protocol.o(i.n_bytes_to_one) for n_bytes_to_one
+    can_motor.o(i.can_motor_feedback_encoder) refers to can_motor.o(.bss) for .bss
+    can_motor.o(i.can_motor_init) refers to can_protocol.o(i.can_rx_add_filter) for can_rx_add_filter
+    can_motor.o(i.can_motor_init) refers to can_motor.o(i.can_motor_feedback) for can_motor_feedback
+    can_motor.o(i.get_encoder_value) refers to can_motor.o(.bss) for .bss
+    can_motor.o(i.get_pwm_value) refers to can_motor.o(.bss) for .bss
+    can_motor.o(i.motor_lock) refers to can_protocol.o(i.can_tx_enqueue) for can_tx_enqueue
+    can_motor.o(i.motor_set_acceleration) refers to can_protocol.o(i.one_to_n_bytes) for one_to_n_bytes
+    can_motor.o(i.motor_set_acceleration) refers to can_protocol.o(i.can_tx_enqueue) for can_tx_enqueue
+    can_motor.o(i.motor_set_pos) refers to can_protocol.o(i.one_to_n_bytes) for one_to_n_bytes
+    can_motor.o(i.motor_set_pos) refers to can_protocol.o(i.can_tx_enqueue) for can_tx_enqueue
+    can_motor.o(i.motor_set_vel) refers to can_protocol.o(i.one_to_n_bytes) for one_to_n_bytes
+    can_motor.o(i.motor_set_vel) refers to can_protocol.o(i.can_tx_enqueue) for can_tx_enqueue
+    can_motor.o(i.send_encoder) refers to can_protocol.o(i.one_to_n_bytes) for one_to_n_bytes
+    can_motor.o(i.send_encoder) refers to can_protocol.o(i.can_tx_enqueue) for can_tx_enqueue
+    mti-1_uart.o(i.MTi_1_UART_Rx) refers to mti-1_uart.o(i.flt_cal) for flt_cal
+    mti-1_uart.o(i.MTi_1_UART_Rx) refers to mti-1_uart.o(i.clear_buffer) for clear_buffer
+    mti-1_uart.o(i.MTi_1_UART_Rx) refers to mti-1_uart.o(.data) for .data
+    mti-1_uart.o(i.MTi_1_UART_Rx) refers to mti-1_uart.o(.bss) for .bss
+    mti-1_uart.o(i.MTi_1_UART_init) refers to usart.o(i.uart_init) for uart_init
+    mti-1_uart.o(i.MTi_1_UART_init) refers to usart.o(i.uart_interrupt_init) for uart_interrupt_init
+    mti-1_uart.o(i.MTi_1_UART_init) refers to stm32f4xx_rcc.o(i.RCC_AHB2PeriphClockCmd) for RCC_AHB2PeriphClockCmd
+    mti-1_uart.o(i.MTi_1_UART_init) refers to stm32f4xx_rcc.o(i.RCC_AHB1PeriphClockCmd) for RCC_AHB1PeriphClockCmd
+    mti-1_uart.o(i.MTi_1_UART_init) refers to mti-1_uart.o(i.clear_buffer) for clear_buffer
+    mti-1_uart.o(i.MTi_1_UART_init) refers to mti-1_uart.o(i.send_MTi_1_UART_msg) for send_MTi_1_UART_msg
+    mti-1_uart.o(i.MTi_1_UART_init) refers to mti-1_uart.o(i.MTi_1_UART_Rx) for MTi_1_UART_Rx
+    mti-1_uart.o(i.MTi_1_UART_init) refers to mti-1_uart.o(.data) for .data
+    mti-1_uart.o(i.MTi_1_reset) refers to mti-1_uart.o(i.clear_buffer) for clear_buffer
+    mti-1_uart.o(i.MTi_1_reset) refers to mti-1_uart.o(i.send_MTi_1_UART_msg) for send_MTi_1_UART_msg
+    mti-1_uart.o(i.MTi_1_reset) refers to mti-1_uart.o(.data) for .data
+    mti-1_uart.o(i.clear_buffer) refers to mti-1_uart.o(.data) for .data
+    mti-1_uart.o(i.get_MTi_acc) refers to mti-1_uart.o(.bss) for .bss
+    mti-1_uart.o(i.get_MTi_ang) refers to mti-1_uart.o(.bss) for .bss
+    mti-1_uart.o(i.send_MTi_1_UART_msg) refers to stm32f4xx_gpio_1.o(i.GPIO_ReadInputDataBit) for GPIO_ReadInputDataBit
+    mti-1_uart.o(i.send_MTi_1_UART_msg) refers to malloc.o(i.malloc) for malloc
+    mti-1_uart.o(i.send_MTi_1_UART_msg) refers to usart.o(i.uart_tx_byte) for uart_tx_byte
+    mti-1_uart.o(i.send_MTi_1_UART_msg) refers to malloc.o(i.free) for free
+    adc_ir.o(i.get_ir_dis) refers to adc.o(i.adc_get) for adc_get
+    adc_ir.o(i.get_ir_dis) refers to roundf.o(i.__hardfp_roundf) for __hardfp_roundf
     sqrtf.o(i.__hardfp_sqrtf) refers (Special) to iusefp.o(.text) for __I$use$fp
     sqrtf.o(i.__hardfp_sqrtf) refers to errno.o(i.__set_errno) for __set_errno
     sqrtf.o(i.__softfp_sqrtf) refers (Special) to iusefp.o(.text) for __I$use$fp
@@ -520,6 +561,10 @@ Section Cross References
     sqrtf_x.o(i.____softfp_sqrtf$lsc) refers to errno.o(i.__set_errno) for __set_errno
     sqrtf_x.o(i.__sqrtf$lsc) refers (Special) to iusefp.o(.text) for __I$use$fp
     sqrtf_x.o(i.__sqrtf$lsc) refers to errno.o(i.__set_errno) for __set_errno
+    roundf.o(i.__hardfp_roundf) refers (Special) to iusefp.o(.text) for __I$use$fp
+    roundf.o(i.__hardfp_roundf) refers to frnd.o(.text) for _frnd
+    roundf.o(i.roundf) refers (Special) to iusefp.o(.text) for __I$use$fp
+    roundf.o(i.roundf) refers to roundf.o(i.__hardfp_roundf) for __hardfp_roundf
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry10a.o(.ARM.Collect$$$$0000000D) for __rt_final_cpp
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry11a.o(.ARM.Collect$$$$0000000F) for __rt_final_exit
     entry.o(.ARM.Collect$$$$00000000) refers (Special) to entry7b.o(.ARM.Collect$$$$00000008) for _main_clock
@@ -570,6 +615,38 @@ Section Cross References
     printfa.o(i._printf_pre_padding) refers (Special) to iusefp.o(.text) for __I$use$fp
     printfa.o(i._snputc) refers (Special) to iusefp.o(.text) for __I$use$fp
     printfa.o(i._sputc) refers (Special) to iusefp.o(.text) for __I$use$fp
+    malloc.o(i.free) refers to mvars.o(.data) for __microlib_freelist
+    malloc.o(i.malloc) refers to mvars.o(.data) for __microlib_freelist_initialised
+    malloc.o(i.malloc) refers to mvars.o(.data) for __microlib_freelist
+    malloc.o(i.malloc) refers to startup_stm32f40_41xxx.o(HEAP) for __heap_base
+    mallocr.o(i.__free$realloc) refers to mvars.o(.data) for __microlib_freelist
+    mallocr.o(i.__malloc$realloc) refers to mallocr.o(i.internal_alloc) for internal_alloc
+    mallocr.o(i.__malloc$realloc) refers to mvars.o(.data) for __microlib_freelist_initialised
+    mallocr.o(i.__malloc$realloc) refers to startup_stm32f40_41xxx.o(HEAP) for __heap_base
+    mallocr.o(i.__malloc$realloc) refers to mvars.o(.data) for __microlib_freelist
+    mallocr.o(i.internal_alloc) refers to memcpya.o(.text) for __aeabi_memcpy
+    mallocr.o(i.internal_alloc) refers to mvars.o(.data) for __microlib_freelist
+    mallocr.o(i.realloc) refers to mallocr.o(i.__free$realloc) for __free$realloc
+    mallocr.o(i.realloc) refers to mallocr.o(i.internal_alloc) for internal_alloc
+    mallocr.o(i.realloc) refers to mallocr.o(i.__malloc$realloc) for __malloc$realloc
+    mallocr.o(i.realloc) refers to mvars.o(.data) for __microlib_freelist
+    malloca.o(i.__aligned_malloc) refers to mvars.o(.data) for __microlib_freelist_initialised
+    malloca.o(i.__aligned_malloc) refers to mvars.o(.data) for __microlib_freelist
+    malloca.o(i.__aligned_malloc) refers to startup_stm32f40_41xxx.o(HEAP) for __heap_base
+    malloca.o(i.__free$memalign) refers to mvars.o(.data) for __microlib_freelist
+    malloca.o(i.__malloc$memalign) refers to malloca.o(i.__aligned_malloc) for __aligned_malloc
+    mallocra.o(i.__aligned_malloc$realloc) refers to mallocra.o(i.internal_alloc) for internal_alloc
+    mallocra.o(i.__aligned_malloc$realloc) refers to mvars.o(.data) for __microlib_freelist_initialised
+    mallocra.o(i.__aligned_malloc$realloc) refers to startup_stm32f40_41xxx.o(HEAP) for __heap_base
+    mallocra.o(i.__aligned_malloc$realloc) refers to mvars.o(.data) for __microlib_freelist
+    mallocra.o(i.__free$realloc$memalign) refers to mvars.o(.data) for __microlib_freelist
+    mallocra.o(i.__malloc$realloc$memalign) refers to mallocra.o(i.__aligned_malloc$realloc) for __aligned_malloc$realloc
+    mallocra.o(i.__realloc$memalign) refers to mallocra.o(i.__free$realloc$memalign) for __free$realloc$memalign
+    mallocra.o(i.__realloc$memalign) refers to mallocra.o(i.internal_alloc) for internal_alloc
+    mallocra.o(i.__realloc$memalign) refers to mallocra.o(i.__malloc$realloc$memalign) for __malloc$realloc$memalign
+    mallocra.o(i.__realloc$memalign) refers to mvars.o(.data) for __microlib_freelist
+    mallocra.o(i.internal_alloc) refers to memcpya.o(.text) for __aeabi_memcpy
+    mallocra.o(i.internal_alloc) refers to mvars.o(.data) for __microlib_freelist
     entry2.o(.ARM.Collect$$$$00000001) refers to entry2.o(.ARM.Collect$$$$00002712) for __lit__00000000
     entry2.o(.ARM.Collect$$$$00002712) refers to startup_stm32f40_41xxx.o(STACK) for __initial_sp
     entry2.o(__vectab_stack_and_reset_area) refers to startup_stm32f40_41xxx.o(STACK) for __initial_sp
@@ -584,6 +661,7 @@ Section Cross References
     errno.o(i.__aeabi_errno_addr) refers to errno.o(.data) for .data
     errno.o(i.__read_errno) refers to errno.o(.data) for .data
     errno.o(i.__set_errno) refers to errno.o(.data) for .data
+    frnd.o(.text) refers to fepilogue.o(.text) for _float_round
     dadd.o(.text) refers to llshl.o(.text) for __aeabi_llsl
     dadd.o(.text) refers to llsshr.o(.text) for __aeabi_lasr
     dadd.o(.text) refers to depilogue.o(.text) for _double_epilogue
@@ -1398,25 +1476,6 @@ Removing Unused input sections from the image.
     Removing main.o(.rev16_text), (4 bytes).
     Removing main.o(.revsh_text), (4 bytes).
     Removing main.o(.rrx_text), (6 bytes).
-    Removing buzzer_song.o(.rev16_text), (4 bytes).
-    Removing buzzer_song.o(.revsh_text), (4 bytes).
-    Removing buzzer_song.o(.rrx_text), (6 bytes).
-    Removing buzzer_song.o(.constdata), (12 bytes).
-    Removing buzzer_song.o(.constdata), (12 bytes).
-    Removing buzzer_song.o(.constdata), (8 bytes).
-    Removing buzzer_song.o(.constdata), (6 bytes).
-    Removing buzzer_song.o(.constdata), (4 bytes).
-    Removing buzzer_song.o(.constdata), (4 bytes).
-    Removing buzzer_song.o(.constdata), (6 bytes).
-    Removing buzzer_song.o(.constdata), (8 bytes).
-    Removing buzzer_song.o(.constdata), (10 bytes).
-    Removing buzzer_song.o(.constdata), (12 bytes).
-    Removing buzzer_song.o(.constdata), (12 bytes).
-    Removing buzzer_song.o(.constdata), (56 bytes).
-    Removing buzzer_song.o(.constdata), (258 bytes).
-    Removing buzzer_song.o(.constdata), (258 bytes).
-    Removing buzzer_song.o(.constdata), (54 bytes).
-    Removing buzzer_song.o(.constdata), (144 bytes).
     Removing adc.o(.rev16_text), (4 bytes).
     Removing adc.o(.revsh_text), (4 bytes).
     Removing adc.o(.rrx_text), (6 bytes).
@@ -1712,18 +1771,71 @@ Removing Unused input sections from the image.
     Removing gpio.o(.constdata), (8 bytes).
     Removing gpio.o(.constdata), (8 bytes).
     Removing gpio.o(.constdata), (8 bytes).
+    Removing buzzer_song.o(.rev16_text), (4 bytes).
+    Removing buzzer_song.o(.revsh_text), (4 bytes).
+    Removing buzzer_song.o(.rrx_text), (6 bytes).
+    Removing buzzer_song.o(.constdata), (12 bytes).
+    Removing buzzer_song.o(.constdata), (12 bytes).
+    Removing buzzer_song.o(.constdata), (8 bytes).
+    Removing buzzer_song.o(.constdata), (6 bytes).
+    Removing buzzer_song.o(.constdata), (4 bytes).
+    Removing buzzer_song.o(.constdata), (4 bytes).
+    Removing buzzer_song.o(.constdata), (6 bytes).
+    Removing buzzer_song.o(.constdata), (8 bytes).
+    Removing buzzer_song.o(.constdata), (10 bytes).
+    Removing buzzer_song.o(.constdata), (12 bytes).
+    Removing buzzer_song.o(.constdata), (12 bytes).
+    Removing buzzer_song.o(.constdata), (56 bytes).
+    Removing buzzer_song.o(.constdata), (258 bytes).
+    Removing buzzer_song.o(.constdata), (258 bytes).
+    Removing buzzer_song.o(.constdata), (54 bytes).
+    Removing buzzer_song.o(.constdata), (144 bytes).
+    Removing can_motor.o(.rev16_text), (4 bytes).
+    Removing can_motor.o(.revsh_text), (4 bytes).
+    Removing can_motor.o(.rrx_text), (6 bytes).
+    Removing can_motor.o(i.can_motor_feedback), (256 bytes).
+    Removing can_motor.o(i.can_motor_feedback_encoder), (72 bytes).
+    Removing can_motor.o(i.can_motor_init), (16 bytes).
+    Removing can_motor.o(i.get_can_motor_id), (4 bytes).
+    Removing can_motor.o(i.get_encoder_value), (12 bytes).
+    Removing can_motor.o(i.get_pwm_value), (12 bytes).
+    Removing can_motor.o(i.motor_lock), (22 bytes).
+    Removing can_motor.o(i.motor_set_acceleration), (60 bytes).
+    Removing can_motor.o(i.motor_set_pos), (112 bytes).
+    Removing can_motor.o(i.motor_set_vel), (92 bytes).
+    Removing can_motor.o(i.send_encoder), (86 bytes).
+    Removing can_motor.o(.bss), (128 bytes).
+    Removing mti-1_uart.o(.rev16_text), (4 bytes).
+    Removing mti-1_uart.o(.revsh_text), (4 bytes).
+    Removing mti-1_uart.o(.rrx_text), (6 bytes).
+    Removing mti-1_uart.o(i.MTi_1_UART_Rx), (428 bytes).
+    Removing mti-1_uart.o(i.MTi_1_UART_init), (96 bytes).
+    Removing mti-1_uart.o(i.MTi_1_reset), (56 bytes).
+    Removing mti-1_uart.o(i.clear_buffer), (20 bytes).
+    Removing mti-1_uart.o(i.flt_cal), (102 bytes).
+    Removing mti-1_uart.o(i.get_MTi_acc), (16 bytes).
+    Removing mti-1_uart.o(i.get_MTi_ang), (16 bytes).
+    Removing mti-1_uart.o(i.send_MTi_1_UART_msg), (144 bytes).
+    Removing mti-1_uart.o(.bss), (24 bytes).
+    Removing mti-1_uart.o(.data), (22 bytes).
+    Removing adc_ir.o(.rev16_text), (4 bytes).
+    Removing adc_ir.o(.revsh_text), (4 bytes).
+    Removing adc_ir.o(.rrx_text), (6 bytes).
+    Removing adc_ir.o(i.get_ir_dis), (84 bytes).
+    Removing frnd.o(.text), (60 bytes).
     Removing dadd.o(.text), (334 bytes).
     Removing dmul.o(.text), (228 bytes).
     Removing ddiv.o(.text), (222 bytes).
     Removing dfixul.o(.text), (48 bytes).
     Removing cdrcmple.o(.text), (48 bytes).
+    Removing fepilogue.o(.text), (110 bytes).
     Removing depilogue.o(.text), (186 bytes).
     Removing quick_math.o(i.s16_cap), (16 bytes).
     Removing quick_math.o(i.u16_cap), (16 bytes).
     Removing quick_math.o(i.u16_sqrt), (62 bytes).
     Removing quick_math.o(i.u32_sqrt), (42 bytes).
 
-1122 unused section(s) (total 42215 bytes) removed from the image.
+1156 unused section(s) (total 44307 bytes) removed from the image.
 
 ==============================================================================
 
@@ -1734,37 +1846,47 @@ Image Symbol Table
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
     ../clib/../cmprslib/zerorunl2.c          0x00000000   Number         0  __dczerorl2.o ABSOLUTE
-    ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
     ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
+    ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
     ../clib/microlib/errno.c                 0x00000000   Number         0  errno.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
+    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  mallocra.o ABSOLUTE
+    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  malloca.o ABSOLUTE
+    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  mallocr.o ABSOLUTE
+    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  malloc.o ABSOLUTE
+    ../clib/microlib/malloc/mvars.c          0x00000000   Number         0  mvars.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfa.o ABSOLUTE
     ../clib/microlib/stdio/fputc.c           0x00000000   Number         0  fputc.o ABSOLUTE
     ../clib/microlib/stdio/semi.s            0x00000000   Number         0  semi.o ABSOLUTE
     ../clib/microlib/stdio/streams.c         0x00000000   Number         0  stdout.o ABSOLUTE
     ../clib/microlib/stdlib/abort.c          0x00000000   Number         0  abort.o ABSOLUTE
+    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpya.o ABSOLUTE
+    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpyb.o ABSOLUTE
     ../clib/microlib/stubs.s                 0x00000000   Number         0  iusefp.o ABSOLUTE
     ../clib/microlib/stubs.s                 0x00000000   Number         0  iusesemip.o ABSOLUTE
     ../fplib/microlib/fpadd.c                0x00000000   Number         0  dadd.o ABSOLUTE
     ../fplib/microlib/fpdiv.c                0x00000000   Number         0  ddiv.o ABSOLUTE
+    ../fplib/microlib/fpepilogue.c           0x00000000   Number         0  fepilogue.o ABSOLUTE
     ../fplib/microlib/fpepilogue.c           0x00000000   Number         0  depilogue.o ABSOLUTE
     ../fplib/microlib/fpfix.c                0x00000000   Number         0  dfixul.o ABSOLUTE
     ../fplib/microlib/fpmul.c                0x00000000   Number         0  dmul.o ABSOLUTE
+    ../fplib/microlib/fprnd.c                0x00000000   Number         0  frnd.o ABSOLUTE
+    ../mathlib/round.c                       0x00000000   Number         0  roundf.o ABSOLUTE
     ../mathlib/sqrtf.c                       0x00000000   Number         0  sqrtf_x.o ABSOLUTE
     ../mathlib/sqrtf.c                       0x00000000   Number         0  sqrtf.o ABSOLUTE
     cdrcmple.s                               0x00000000   Number         0  cdrcmple.o ABSOLUTE
@@ -1797,6 +1919,14 @@ Image Symbol Table
     core\usart.c                             0x00000000   Number         0  usart.o ABSOLUTE
     core\vector_math.c                       0x00000000   Number         0  vector_math.o ABSOLUTE
     dc.s                                     0x00000000   Number         0  dc.o ABSOLUTE
+    ext\MTi-1_UART.c                         0x00000000   Number         0  mti-1_uart.o ABSOLUTE
+    ext\\MTi-1_UART.c                        0x00000000   Number         0  mti-1_uart.o ABSOLUTE
+    ext\\adc_ir.c                            0x00000000   Number         0  adc_ir.o ABSOLUTE
+    ext\\buzzer_song.c                       0x00000000   Number         0  buzzer_song.o ABSOLUTE
+    ext\\can_motor.c                         0x00000000   Number         0  can_motor.o ABSOLUTE
+    ext\adc_ir.c                             0x00000000   Number         0  adc_ir.o ABSOLUTE
+    ext\buzzer_song.c                        0x00000000   Number         0  buzzer_song.o ABSOLUTE
+    ext\can_motor.c                          0x00000000   Number         0  can_motor.o ABSOLUTE
     handlers.s                               0x00000000   Number         0  handlers.o ABSOLUTE
     init.s                                   0x00000000   Number         0  init.o ABSOLUTE
     sys\Device\ST\STM32F4xx\Source\Templates\arm\startup_stm32f40_41xxx.s 0x00000000   Number         0  startup_stm32f40_41xxx.o ABSOLUTE
@@ -1886,9 +2016,7 @@ Image Symbol Table
     sys\\system_stm32f4xx.c                  0x00000000   Number         0  system_stm32f4xx.o ABSOLUTE
     sys\stm32f4xx_it.c                       0x00000000   Number         0  stm32f4xx_it_1.o ABSOLUTE
     sys\system_stm32f4xx.c                   0x00000000   Number         0  system_stm32f4xx.o ABSOLUTE
-    user\\buzzer_song.c                      0x00000000   Number         0  buzzer_song.o ABSOLUTE
     user\\main.c                             0x00000000   Number         0  main.o ABSOLUTE
-    user\buzzer_song.c                       0x00000000   Number         0  buzzer_song.o ABSOLUTE
     user\main.c                              0x00000000   Number         0  main.o ABSOLUTE
     RESET                                    0x08000000   Section      392  startup_stm32f40_41xxx.o(RESET)
     .ARM.Collect$$$$00000000                 0x08000188   Section        0  entry.o(.ARM.Collect$$$$00000000)
@@ -2262,23 +2390,23 @@ Memory Map of the image
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x08000000   0x00000188   Data   RO          844    RESET               startup_stm32f40_41xxx.o
-    0x08000188   0x00000000   Code   RO         1220  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
-    0x08000188   0x00000004   Code   RO         1238    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
-    0x0800018c   0x00000004   Code   RO         1241    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
-    0x08000190   0x00000000   Code   RO         1243    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
-    0x08000190   0x00000000   Code   RO         1245    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
-    0x08000190   0x00000008   Code   RO         1246    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
-    0x08000198   0x00000000   Code   RO         1248    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
-    0x08000198   0x00000000   Code   RO         1250    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
-    0x08000198   0x00000004   Code   RO         1239    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
-    0x0800019c   0x0000000e   Code   RO         1038    .emb_text           ticks.o
+    0x08000188   0x00000000   Code   RO         1254  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
+    0x08000188   0x00000004   Code   RO         1286    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
+    0x0800018c   0x00000004   Code   RO         1289    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
+    0x08000190   0x00000000   Code   RO         1291    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
+    0x08000190   0x00000000   Code   RO         1293    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
+    0x08000190   0x00000008   Code   RO         1294    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
+    0x08000198   0x00000000   Code   RO         1296    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
+    0x08000198   0x00000000   Code   RO         1298    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
+    0x08000198   0x00000004   Code   RO         1287    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
+    0x0800019c   0x0000000e   Code   RO         1019    .emb_text           ticks.o
     0x080001aa   0x00000002   PAD
     0x080001ac   0x00000024   Code   RO          845    .text               startup_stm32f40_41xxx.o
-    0x080001d0   0x00000024   Code   RO         1266    .text               mc_w.l(init.o)
-    0x080001f4   0x00000056   Code   RO         1278    .text               mc_w.l(__dczerorl2.o)
+    0x080001d0   0x00000024   Code   RO         1319    .text               mc_w.l(init.o)
+    0x080001f4   0x00000056   Code   RO         1332    .text               mc_w.l(__dczerorl2.o)
     0x0800024a   0x00000002   Code   RO          827    i.BusFault_Handler  stm32f4xx_it_1.o
-    0x0800024c   0x000000a4   Code   RO          893    i.CAN1_RX0_IRQHandler  can_protocol.o
-    0x080002f0   0x00000028   Code   RO          894    i.CAN1_TX_IRQHandler  can_protocol.o
+    0x0800024c   0x000000a4   Code   RO          874    i.CAN1_RX0_IRQHandler  can_protocol.o
+    0x080002f0   0x00000028   Code   RO          875    i.CAN1_TX_IRQHandler  can_protocol.o
     0x08000318   0x0000009c   Code   RO           55    i.CAN_ClearITPendingBit  stm32f4xx_can_1.o
     0x080003b4   0x0000010c   Code   RO           61    i.CAN_GetITStatus   stm32f4xx_can_1.o
     0x080004c0   0x000000b4   Code   RO           69    i.CAN_Receive       stm32f4xx_can_1.o
@@ -2311,7 +2439,7 @@ Memory Map of the image
     0x08000882   0x00000002   Code   RO          834    i.SysTick_Handler   stm32f4xx_it_1.o
     0x08000884   0x00000084   Code   RO          839    i.SystemCoreClockUpdate  system_stm32f4xx.o
     0x08000908   0x0000011c   Code   RO          840    i.SystemInit        system_stm32f4xx.o
-    0x08000a24   0x00000044   Code   RO         1039    i.TIM5_IRQHandler   ticks.o
+    0x08000a24   0x00000044   Code   RO         1020    i.TIM5_IRQHandler   ticks.o
     0x08000a68   0x00000012   Code   RO          693    i.TIM_ARRPreloadConfig  stm32f4xx_tim_1.o
     0x08000a7a   0x00000006   Code   RO          699    i.TIM_ClearFlag     stm32f4xx_tim_1.o
     0x08000a80   0x00000006   Code   RO          700    i.TIM_ClearITPendingBit  stm32f4xx_tim_1.o
@@ -2323,46 +2451,46 @@ Memory Map of the image
     0x08000b3c   0x0000000c   Code   RO          737    i.TIM_OC1PreloadConfig  stm32f4xx_tim_1.o
     0x08000b48   0x00000004   Code   RO          767    i.TIM_SetCompare1   stm32f4xx_tim_1.o
     0x08000b4c   0x00000080   Code   RO          777    i.TIM_TimeBaseInit  stm32f4xx_tim_1.o
-    0x08000bcc   0x0000003c   Code   RO          971    i.USART1_IRQHandler  usart.o
-    0x08000c08   0x0000003c   Code   RO          972    i.USART2_IRQHandler  usart.o
-    0x08000c44   0x0000003c   Code   RO          973    i.USART3_IRQHandler  usart.o
+    0x08000bcc   0x0000003c   Code   RO          952    i.USART1_IRQHandler  usart.o
+    0x08000c08   0x0000003c   Code   RO          953    i.USART2_IRQHandler  usart.o
+    0x08000c44   0x0000003c   Code   RO          954    i.USART3_IRQHandler  usart.o
     0x08000c80   0x0000000e   Code   RO          785    i.USART_ClearITPendingBit  stm32f4xx_usart_1.o
     0x08000c8e   0x00000042   Code   RO          792    i.USART_GetITStatus  stm32f4xx_usart_1.o
     0x08000cd0   0x00000008   Code   RO          802    i.USART_ReceiveData  stm32f4xx_usart_1.o
     0x08000cd8   0x00000002   Code   RO          835    i.UsageFault_Handler  stm32f4xx_it_1.o
-    0x08000cda   0x0000000e   Code   RO         1275    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x08000ce8   0x00000002   Code   RO         1276    i.__scatterload_null  mc_w.l(handlers.o)
-    0x08000cea   0x0000000e   Code   RO         1277    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x08000cf8   0x00000074   Code   RO         1040    i._delay_ms         ticks.o
-    0x08000d6c   0x0000004c   Code   RO          926    i.button_init       button.o
-    0x08000db8   0x0000010c   Code   RO          995    i.buzzer_init       buzzer.o
-    0x08000ec4   0x000000cc   Code   RO          901    i.can_tx_dequeue    can_protocol.o
-    0x08000f90   0x0000003e   Code   RO         1051    i.gpio_init         gpio.o
-    0x08000fce   0x0000007a   Code   RO         1052    i.gpio_rcc_init     gpio.o
-    0x08001048   0x0000000a   Code   RO         1056    i.gpio_write        gpio.o
+    0x08000cda   0x0000000e   Code   RO         1329    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x08000ce8   0x00000002   Code   RO         1330    i.__scatterload_null  mc_w.l(handlers.o)
+    0x08000cea   0x0000000e   Code   RO         1331    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x08000cf8   0x00000074   Code   RO         1021    i._delay_ms         ticks.o
+    0x08000d6c   0x0000004c   Code   RO          907    i.button_init       button.o
+    0x08000db8   0x0000010c   Code   RO          976    i.buzzer_init       buzzer.o
+    0x08000ec4   0x000000cc   Code   RO          882    i.can_tx_dequeue    can_protocol.o
+    0x08000f90   0x0000003e   Code   RO         1032    i.gpio_init         gpio.o
+    0x08000fce   0x0000007a   Code   RO         1033    i.gpio_rcc_init     gpio.o
+    0x08001048   0x0000000a   Code   RO         1037    i.gpio_write        gpio.o
     0x08001052   0x00000002   PAD
-    0x08001054   0x00000028   Code   RO          966    i.led_init          led.o
+    0x08001054   0x00000028   Code   RO          947    i.led_init          led.o
     0x0800107c   0x00000030   Code   RO          849    i.main              main.o
-    0x080010ac   0x00000216   Code   RO          935    i.tft_config        lcd_main.o
-    0x080012c2   0x00000062   Code   RO          938    i.tft_fill_color    lcd_main.o
-    0x08001324   0x000000fc   Code   RO          941    i.tft_init          lcd_main.o
-    0x08001420   0x000012d8   Code   RO          944    i.tft_put_logo      lcd_main.o
-    0x080026f8   0x0000005c   Code   RO          945    i.tft_put_pixel     lcd_main.o
-    0x08002754   0x00000050   Code   RO          949    i.tft_set_pixel_pos  lcd_main.o
-    0x080027a4   0x00000114   Code   RO          952    i.tft_spi_init      lcd_main.o
-    0x080028b8   0x0000005c   Code   RO          955    i.tft_write_command  lcd_main.o
-    0x08002914   0x0000005c   Code   RO          956    i.tft_write_data    lcd_main.o
-    0x08002970   0x0000006c   Code   RO         1046    i.ticks_init        ticks.o
-    0x080029dc   0x00000008   Data   RO         1061    .constdata          gpio.o
-    0x080029e4   0x00000008   Data   RO         1062    .constdata          gpio.o
-    0x080029ec   0x00000008   Data   RO         1063    .constdata          gpio.o
-    0x080029f4   0x00000008   Data   RO         1064    .constdata          gpio.o
-    0x080029fc   0x00000008   Data   RO         1090    .constdata          gpio.o
-    0x08002a04   0x00000008   Data   RO         1096    .constdata          gpio.o
-    0x08002a0c   0x00000008   Data   RO         1097    .constdata          gpio.o
-    0x08002a14   0x00000008   Data   RO         1098    .constdata          gpio.o
-    0x08002a1c   0x00000008   Data   RO         1104    .constdata          gpio.o
-    0x08002a24   0x00000020   Data   RO         1273    Region$$Table       anon$$obj.o
+    0x080010ac   0x00000216   Code   RO          916    i.tft_config        lcd_main.o
+    0x080012c2   0x00000062   Code   RO          919    i.tft_fill_color    lcd_main.o
+    0x08001324   0x000000fc   Code   RO          922    i.tft_init          lcd_main.o
+    0x08001420   0x000012d8   Code   RO          925    i.tft_put_logo      lcd_main.o
+    0x080026f8   0x0000005c   Code   RO          926    i.tft_put_pixel     lcd_main.o
+    0x08002754   0x00000050   Code   RO          930    i.tft_set_pixel_pos  lcd_main.o
+    0x080027a4   0x00000114   Code   RO          933    i.tft_spi_init      lcd_main.o
+    0x080028b8   0x0000005c   Code   RO          936    i.tft_write_command  lcd_main.o
+    0x08002914   0x0000005c   Code   RO          937    i.tft_write_data    lcd_main.o
+    0x08002970   0x0000006c   Code   RO         1027    i.ticks_init        ticks.o
+    0x080029dc   0x00000008   Data   RO         1042    .constdata          gpio.o
+    0x080029e4   0x00000008   Data   RO         1043    .constdata          gpio.o
+    0x080029ec   0x00000008   Data   RO         1044    .constdata          gpio.o
+    0x080029f4   0x00000008   Data   RO         1045    .constdata          gpio.o
+    0x080029fc   0x00000008   Data   RO         1071    .constdata          gpio.o
+    0x08002a04   0x00000008   Data   RO         1077    .constdata          gpio.o
+    0x08002a0c   0x00000008   Data   RO         1078    .constdata          gpio.o
+    0x08002a14   0x00000008   Data   RO         1079    .constdata          gpio.o
+    0x08002a1c   0x00000008   Data   RO         1085    .constdata          gpio.o
+    0x08002a24   0x00000020   Data   RO         1327    Region$$Table       anon$$obj.o
 
 
     Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x00009038, Max: 0x00020000, ABSOLUTE, COMPRESSED[0x0000030c])
@@ -2370,19 +2498,19 @@ Memory Map of the image
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x20000000   0x00000014   Data   RW          841    .data               system_stm32f4xx.o
-    0x20000014   0x00000014   Data   RW          912    .data               can_protocol.o
-    0x20000028   0x00000020   Data   RW          928    .data               button.o
-    0x20000048   0x0000060e   Data   RW          958    .data               lcd_main.o
+    0x20000014   0x00000014   Data   RW          893    .data               can_protocol.o
+    0x20000028   0x00000020   Data   RW          909    .data               button.o
+    0x20000048   0x0000060e   Data   RW          939    .data               lcd_main.o
     0x20000656   0x00000002   PAD
-    0x20000658   0x00000030   Data   RW          985    .data               usart.o
-    0x20000688   0x00000024   Data   RW         1007    .data               buzzer.o
-    0x200006ac   0x00000006   Data   RW         1047    .data               ticks.o
+    0x20000658   0x00000030   Data   RW          966    .data               usart.o
+    0x20000688   0x00000024   Data   RW          988    .data               buzzer.o
+    0x200006ac   0x00000006   Data   RW         1028    .data               ticks.o
     0x200006b2   0x00000002   PAD
-    0x200006b4   0x00007d00   Zero   RW          910    .bss                can_protocol.o
-    0x200083b4   0x00000080   Zero   RW          911    .bss                can_protocol.o
-    0x20008434   0x000007d0   Zero   RW          957    .bss                lcd_main.o
-    0x20008c04   0x0000001a   Zero   RW         1004    .bss                buzzer.o
-    0x20008c1e   0x00000018   Zero   RW         1005    .bss                buzzer.o
+    0x200006b4   0x00007d00   Zero   RW          891    .bss                can_protocol.o
+    0x200083b4   0x00000080   Zero   RW          892    .bss                can_protocol.o
+    0x20008434   0x000007d0   Zero   RW          938    .bss                lcd_main.o
+    0x20008c04   0x0000001a   Zero   RW          985    .bss                buzzer.o
+    0x20008c1e   0x00000018   Zero   RW          986    .bss                buzzer.o
     0x20008c36   0x00000002   PAD
     0x20008c38   0x00000400   Zero   RW          842    STACK               startup_stm32f40_41xxx.o
 

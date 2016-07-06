@@ -655,11 +655,6 @@
               <FileType>1</FileType>
               <FilePath>.\user\main.c</FilePath>
             </File>
-            <File>
-              <FileName>buzzer_song.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\buzzer_song.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -734,6 +729,31 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\gpio.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ext</GroupName>
+          <Files>
+            <File>
+              <FileName>buzzer_song.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\buzzer_song.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\can_motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>MTi-1_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\MTi-1_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc_ir.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\adc_ir.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1391,11 +1411,6 @@
               <FileType>1</FileType>
               <FilePath>.\user\main.c</FilePath>
             </File>
-            <File>
-              <FileName>buzzer_song.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\buzzer_song.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -1470,6 +1485,31 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\gpio.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ext</GroupName>
+          <Files>
+            <File>
+              <FileName>buzzer_song.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\buzzer_song.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\can_motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>MTi-1_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\MTi-1_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc_ir.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\adc_ir.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1845,7 +1885,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F40_41xxx</Define>
               <Undefine></Undefine>
-              <IncludePath>.\sys;.\core;.\user;.\sys\Libraries\CMSIS\Device\ST\STM32F4xx\Include;.\sys\Libraries\STM32F4xx_StdPeriph_Driver\inc</IncludePath>
+              <IncludePath>.\ext;.\sys;.\core;.\user;.\sys\Libraries\CMSIS\Device\ST\STM32F4xx\Include;.\sys\Libraries\STM32F4xx_StdPeriph_Driver\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2128,11 +2168,6 @@
               <FileType>1</FileType>
               <FilePath>.\user\main.c</FilePath>
             </File>
-            <File>
-              <FileName>buzzer_song.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\buzzer_song.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2207,6 +2242,31 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\gpio.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ext</GroupName>
+          <Files>
+            <File>
+              <FileName>buzzer_song.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\buzzer_song.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\can_motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>MTi-1_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\MTi-1_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc_ir.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\adc_ir.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2864,11 +2924,6 @@
               <FileType>1</FileType>
               <FilePath>.\user\main.c</FilePath>
             </File>
-            <File>
-              <FileName>buzzer_song.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\buzzer_song.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2943,6 +2998,31 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\gpio.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ext</GroupName>
+          <Files>
+            <File>
+              <FileName>buzzer_song.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\buzzer_song.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\can_motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>MTi-1_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\MTi-1_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc_ir.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\adc_ir.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3600,11 +3680,6 @@
               <FileType>1</FileType>
               <FilePath>.\user\main.c</FilePath>
             </File>
-            <File>
-              <FileName>buzzer_song.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\buzzer_song.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -3679,6 +3754,31 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\gpio.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ext</GroupName>
+          <Files>
+            <File>
+              <FileName>buzzer_song.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\buzzer_song.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\can_motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>MTi-1_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\MTi-1_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc_ir.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\adc_ir.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -4336,11 +4436,6 @@
               <FileType>1</FileType>
               <FilePath>.\user\main.c</FilePath>
             </File>
-            <File>
-              <FileName>buzzer_song.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\buzzer_song.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -4415,6 +4510,31 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\gpio.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ext</GroupName>
+          <Files>
+            <File>
+              <FileName>buzzer_song.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\buzzer_song.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\can_motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>MTi-1_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\MTi-1_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc_ir.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\adc_ir.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5072,11 +5192,6 @@
               <FileType>1</FileType>
               <FilePath>.\user\main.c</FilePath>
             </File>
-            <File>
-              <FileName>buzzer_song.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\buzzer_song.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -5151,6 +5266,31 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\gpio.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ext</GroupName>
+          <Files>
+            <File>
+              <FileName>buzzer_song.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\buzzer_song.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\can_motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>MTi-1_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\MTi-1_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc_ir.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\adc_ir.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5808,11 +5948,6 @@
               <FileType>1</FileType>
               <FilePath>.\user\main.c</FilePath>
             </File>
-            <File>
-              <FileName>buzzer_song.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\user\buzzer_song.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -5887,6 +6022,31 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\core\gpio.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>ext</GroupName>
+          <Files>
+            <File>
+              <FileName>buzzer_song.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\buzzer_song.c</FilePath>
+            </File>
+            <File>
+              <FileName>can_motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\can_motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>MTi-1_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\MTi-1_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>adc_ir.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\ext\adc_ir.c</FilePath>
             </File>
           </Files>
         </Group>
