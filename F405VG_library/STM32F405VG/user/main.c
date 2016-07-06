@@ -15,11 +15,7 @@ int main(void) {
 	SystemCoreClockUpdate();
 	ticks_init();
 	led_init();
-	#ifdef BLUE_FIELD
-		tft_init((TFT_ORIENTATION)ORIENTATION_SETTING, BLACK, WHITE, BLUE); //Init LCD
-	#else
-		tft_init((TFT_ORIENTATION)ORIENTATION_SETTING, BLACK, WHITE, RED); //Init LCD
-	#endif
+	tft_init((TFT_ORIENTATION)ORIENTATION_SETTING, BLACK, WHITE, RED);
 	buzzer_init();
 	button_init();
 	tft_put_logo(85, 120);
